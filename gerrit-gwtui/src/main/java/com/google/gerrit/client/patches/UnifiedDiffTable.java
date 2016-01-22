@@ -20,6 +20,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -52,10 +53,16 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       };
 
+  private final DiffType diffType;
+
   protected boolean isFileCommentBorderRowExist;
   // Cursors.
   protected int rowOfTableHeaderB;
   protected int borderRowOfFileComment;
+
+  UnifiedDiffTable(DiffType diffType) {
+    this.diffType = diffType;
+  }
 
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
@@ -64,10 +71,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       switch (pl.getType()) {
         case DELETE:
         case CONTEXT:
-          createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
+          createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0, diffType);
           break;
         case INSERT:
-          createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+          createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1, diffType);
           break;
         case REPLACE:
           break;
@@ -149,10 +156,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     switch (pl.getType()) {
       case DELETE:
       case CONTEXT:
-        createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
+        createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0, diffType);
         break;
       case INSERT:
-        createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+        createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1, diffType);
         break;
       case REPLACE:
         break;
@@ -167,12 +174,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void createFileCommentEditorOnSideA() {
-    createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A);
+    createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A, diffType);
   }
 
   @Override
   protected void createFileCommentEditorOnSideB() {
-    createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B);
+    createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B,
+        diffType);
     createFileCommentBorderRow();
   }
 

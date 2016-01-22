@@ -209,7 +209,7 @@ public class UnifiedPatchScreen extends Screen implements
     topPanel = new FlowPanel();
     add(topPanel);
 
-    contentTable = new UnifiedDiffTable();
+    contentTable = new UnifiedDiffTable(diffType);
     contentTable.fileList = fileList;
 
     topNav = new NavLinks(keysNavigation, patchKey.getParentKey());

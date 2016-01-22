@@ -97,10 +97,8 @@ limitations under the License.
                 on-mouseenter="_handleMouseEnterItem"
                 on-tap="_handleItemTap"
                 selected$="[[_computeSelected(index, _selectedIndex)]]">
-              <span>[[account.name]]</span>
-              <span hidden$="[[!account.email]]">
-                ([[account.email]])
-              </span>
+              <gr-account-label
+                  account="[[account]]" show-email></gr-account-label>
             </div>
           </template>
         </div>
@@ -307,8 +305,9 @@ limitations under the License.
         var accountEl;
         var eventPath = Polymer.dom(e).path;
         for (var i = 0; i < eventPath.length; i++) {
-          if (eventPath[i].classList.contains('account')) {
-            accountEl = eventPath[i];
+          var el = eventPath[i];
+          if (el.classList && el.classList.contains('account')) {
+            accountEl = el;
             break;
           }
         }

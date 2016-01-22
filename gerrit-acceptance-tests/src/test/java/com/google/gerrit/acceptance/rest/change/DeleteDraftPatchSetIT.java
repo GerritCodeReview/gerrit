@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -35,7 +36,7 @@ import java.io.IOException;
 public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
   @Test
-  public void deletePatchSet() throws Exception {
+  public void deletePatchSetNotDraft() throws Exception {
     String changeId = createChange().getChangeId();
     PatchSet ps = getCurrentPatchSet(changeId);
     String triplet = project.get() + "~master~" + changeId;
@@ -64,12 +65,17 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   public void deleteDraftPatchSetAndChange() throws Exception {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
-    String triplet = project.get() + "~master~" + changeId;
-    ChangeInfo c = get(triplet);
-    assertThat(c.id).isEqualTo(triplet);
-    assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
+
+    ChangeData cd = getChange(changeId);
+    assertThat(cd.patchSets()).hasSize(2);
+    assertThat(cd.change().currentPatchSetId().get()).isEqualTo(2);
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.DRAFT);
     deletePatchSet(changeId, ps, adminSession).assertNoContent();
-    assertThat(getChange(changeId).patchSets()).hasSize(1);
+
+    cd = getChange(changeId);
+    assertThat(cd.patchSets()).hasSize(1);
+    assertThat(cd.change().currentPatchSetId().get()).isEqualTo(1);
+
     ps = getCurrentPatchSet(changeId);
     deletePatchSet(changeId, ps, adminSession).assertNoContent();
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();

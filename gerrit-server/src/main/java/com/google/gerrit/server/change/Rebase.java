@@ -195,9 +195,13 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
-      return Base.create(
-          controlFor(rsrc, basePatchSetId.getParentKey()),
-          psUtil.get(db, rsrc.getNotes(), basePatchSetId));
+      Change.Id baseChangeId = basePatchSetId.getParentKey();
+      ChangeControl baseCtl = controlFor(rsrc, baseChangeId);
+      if (baseCtl != null) {
+        return Base.create(
+            controlFor(rsrc, basePatchSetId.getParentKey()),
+            psUtil.get(db, baseCtl.getNotes(), basePatchSetId));
+      }
     }
 
     // Try parsing base as a change number (assume current patch set).
@@ -229,6 +233,9 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
   private ChangeControl controlFor(RevisionResource rsrc, Change.Id id)
       throws OrmException {
+    if (rsrc.getChange().getId().equals(id)) {
+      return rsrc.getControl();
+    }
     Change c = dbProvider.get().changes().get(id);
     if (c == null) {
       return null;

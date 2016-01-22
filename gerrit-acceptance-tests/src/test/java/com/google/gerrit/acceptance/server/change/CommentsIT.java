@@ -242,14 +242,14 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(c1.author).isNull();
     assertThat(c1.patchSet).isEqualTo(1);
     assertThat(c1.message).isEqualTo("nit: trailing whitespace");
-    assertThat(c1.side).isNull();
+    assertThat(c1.side).isEqualTo(Side.REVISION);
     assertThat(c1.line).isEqualTo(1);
 
     CommentInfo c2 = comments.get(1);
     assertThat(c2.author).isNull();
     assertThat(c2.patchSet).isEqualTo(2);
     assertThat(c2.message).isEqualTo("typo: content");
-    assertThat(c2.side).isNull();
+    assertThat(c2.side).isEqualTo(Side.REVISION);
     assertThat(c2.line).isEqualTo(1);
   }
 
@@ -277,14 +277,14 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(c1.author._accountId).isEqualTo(user.getId().get());
     assertThat(c1.patchSet).isEqualTo(1);
     assertThat(c1.message).isEqualTo("nit: trailing whitespace");
-    assertThat(c1.side).isNull();
+    assertThat(c1.side).isEqualTo(Side.REVISION);
     assertThat(c1.line).isEqualTo(1);
 
     CommentInfo c2 = comments.get(1);
     assertThat(c2.author._accountId).isEqualTo(user.getId().get());
     assertThat(c2.patchSet).isEqualTo(2);
     assertThat(c2.message).isEqualTo("typo: content");
-    assertThat(c2.side).isNull();
+    assertThat(c2.side).isEqualTo(Side.REVISION);
     assertThat(c2.line).isEqualTo(1);
   }
 
@@ -456,9 +456,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
     assertCommentRange(expected.range, actual.range);
-    if (actual.side == null) {
-      assertThat(Side.REVISION).isEqualTo(expected.side);
-    }
+    assertThat(Side.REVISION).isEqualTo(expected.side);
   }
 
   private static void assertCommentRange(Comment.Range expected,

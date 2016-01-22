@@ -29,7 +29,7 @@ limitations under the License.
       font-weight: bold;
     }
     .message {
-      margin-left: 135px;
+      margin-left: 155px;
     }
   </ui:style>
 

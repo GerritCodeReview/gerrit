@@ -845,6 +845,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadConfigInfo(final ChangeInfo info, final String base) {
+    diffType = getDiffType(base);
     info.revisions().copyKeysIntoChildren("name");
     if (edit != null) {
       edit.setName(edit.commit().commit());
@@ -882,7 +883,6 @@ public class ChangeScreen extends Screen {
     }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
-    DiffType difftype = getDiffType(base);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -892,9 +892,9 @@ public class ChangeScreen extends Screen {
       RevisionInfo p = RevisionInfo.findEditParentRevision(
           info.revisions().values());
       List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(p, group);
-      loadFileList(b, rev, lastReply, group, comments, null, difftype);
+      loadFileList(b, rev, lastReply, group, comments, null, diffType);
     } else {
-      loadDiff(b, rev, lastReply, group, difftype);
+      loadDiff(b, rev, lastReply, group, diffType);
     }
     loadCommit(rev, group);
 
@@ -996,7 +996,7 @@ public class ChangeScreen extends Screen {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     // TODO(dborowitz): Could eliminate this call by adding an option to include
     // inline comments in the change detail.
-    ChangeApi.comments(changeId.get())
+    ChangeApi.comments(changeId.get(), diffType)
       .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
         @Override
         public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
@@ -1035,8 +1035,7 @@ public class ChangeScreen extends Screen {
       RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     if (Gerrit.isSignedIn()) {
-      ChangeApi.revision(changeId.get(), rev.name())
-        .view("drafts")
+      ChangeApi.revisionDrafts(changeId.get(), rev.name(), diffType)
         .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
           @Override
           public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {

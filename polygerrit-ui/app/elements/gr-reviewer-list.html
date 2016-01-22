@@ -97,10 +97,8 @@ limitations under the License.
                 on-mouseenter="_handleMouseEnterItem"
                 on-tap="_handleItemTap"
                 selected$="[[_computeSelected(index, _selectedIndex)]]">
-              <span>[[account.name]]</span>
-              <span hidden$="[[!account.email]]">
-                ([[account.email]])
-              </span>
+              <gr-account-label
+                  account="[[account]]" show-email></gr-account-label>
             </div>
           </template>
         </div>

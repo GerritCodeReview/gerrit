@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2016 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,23 +16,23 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-account-link</title>
+<title>gr-account-label</title>
 
 <script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../scripts/fake-app.js"></script>
 <script src="../scripts/util.js"></script>
 
-<link rel="import" href="../elements/gr-account-link.html">
+<link rel="import" href="../elements/gr-account-label.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-account-link></gr-account-link>
+    <gr-account-label></gr-account-label>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-account-link tests', function() {
+  suite('gr-account-label tests', function() {
     var element;
 
     setup(function() {
@@ -40,15 +40,34 @@ limitations under the License.
     });
 
     test('computed fields', function() {
-      assert.equal(element._computeOwnerLink(
+      assert.equal(element._computeAccountTitle(
           {
-            _account_id: 123,
+            name: 'Andrew Bonventre',
             email: 'andybons+gerrit@gmail.com'
           }),
-          '/q/owner:andybons%2Bgerrit%40gmail.com+status:open');
+          'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
-      assert.equal(element._computeOwnerLink({ _account_id: 42 }),
-          '/q/owner:42+status:open');
+      assert.equal(element._computeAccountTitle(
+          { name: 'Andrew Bonventre' }),
+          'Andrew Bonventre');
+
+      assert.equal(element._computeShowEmail(true,
+          {
+            name: 'Andrew Bonventre',
+            email: 'andybons+gerrit@gmail.com'
+          }), true);
+
+      assert.equal(element._computeShowEmail(true,
+          { name: 'Andrew Bonventre' }), false);
+
+      assert.equal(element._computeShowEmail(false,
+          { name: 'Andrew Bonventre' }), false);
+
+      assert.equal(element._computeShowEmail(
+          true, undefined), false);
+
+      assert.equal(element._computeShowEmail(
+          false, undefined), false);
     });
 
   });

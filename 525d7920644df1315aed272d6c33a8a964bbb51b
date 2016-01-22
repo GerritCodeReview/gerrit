@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453485018 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVoW3IT8PniQeVucoXCLsRgpOC+q6tE9znUV8cxK5eKcL0SRzJjMHRjTy61y6/mFWc5vYK8\n\n0000000000000000000000000000000000000000 525d7920644df1315aed272d6c33a8a964bbb51b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWomvaAAoJEF/XxZqaEoiMwE8P/002Bu3AW3KnVG5RHifzIlWs\nn/uG6IVGCpZ0695opqx5tAYGJkMEvRsHH/xIMW/SNEjzPoIlQ2QoIYnws4LJarnB\nrg2wwrwIOviYQsu1eo0sTiJpUzMI0Yqkcu6xqdH1RNlswmYsXGTIPHVbJGpZ81Lp\n0K3MCJMLeAJMi+PwZ0YAjT4xY4rNqDWbEHGT19UldRmb3NAgJgHFnw0cBLbd3OiP\nDrqS7C5uUbQr1Y1PYE4B470xToYzKYbQH/xFYkOUDOY73n7aln+R0LEuPpwR8AxQ\nYZtapmVRMvqUlizh2NHZnsA11gmgGpIb5UQQHNletUSnkhxVToPbopf7fVxEOMME\nFAuIcu5+wK1lL8zVBTGh952uaud2zFTkynph9i9b8uyaV6bcOWqidVPBwEVeqqwK\nQC0lLbfblsFeC87rKewSkSfZVQs50JndxBjFvQGiL3fskZkM1F2q6nouH7bhhCUN\nb+zcJheAgc8ry0Qr5WIIBfYnkTc139FKAP4gzj57GKhPQL5Q17ZJu2D40MqI4dd5\nLcaHL276+4GQRjZTEPrPBUk/YXEgf+L9YhyrGgLD4W8NJdYCnTnZCtMNA9cqKwW/\nPs+OLotZg6tGmJcjDXqQEzt7wTNKncsWPohqCKywvO69gvKABNYW9wjoFzFOU11d\nAGUMZJrnG1zecFHCxNNJ\n\u003dqMa4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a92e60_649eea7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-01-22T20:29:01Z",
+      "side": 1,
+      "message": "Is this true for FileRepository, too, or only for the DfsRepository subclass used for gerrit-review?\n\nIs this a relatively cheap change when it is not needed? Should Repository gain an isThreadSafe() method in JGit to allow detecting whether this is needed for a particular implementation?",
+      "revId": "525d7920644df1315aed272d6c33a8a964bbb51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94df3af2_6f9ed17c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-01-22T20:29:01Z",
+      "side": 1,
+      "message": "(nit) this constructor can be package-private instead of private to avoid a synthetic accessor\n\n(optional) I think I\u0027d prefer if there were two separate constructors:\n\n RequestState(ReviewDb db, Repository repo, RevWalk rw) {\n   this.db \u003d db;\n   this.repo \u003d repo;\n   this.rw \u003d rw;\n   close \u003d false;\n   ins \u003d repo.newObjectInserter();\n }\n\n RequestState(String projectName) throws IOException {\n   repo \u003d repoManager.openRepository(projectName);\n   try {\n     db \u003d schemaFactory.open();\n   } catch (OrmException e) {\n     this.repo.close();\n     throw e;\n   }\n   rw \u003d new RevWalk(this.repo);\n   close \u003d true;\n   ins \u003d repo.newObjectInserter();\n }\n\nThat would follow the convention that whoever creates the object is usually responsible for releasing it.\n\nThe downside is throwing an exception from a constructor, so perhaps not worth it.",
+      "revId": "525d7920644df1315aed272d6c33a8a964bbb51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

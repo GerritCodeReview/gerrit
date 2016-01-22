@@ -96,6 +96,10 @@ limitations under the License.
         auto
         url="[[_computeFilesPath(_changeNum, _patchRange.patchNum)]]"
         on-response="_handleFilesResponse"></gr-ajax>
+    <gr-ajax id="configXHR"
+        auto
+        url="[[_computeProjectConfigPath(_change.project)]]"
+        last-response="{{_projectConfig}}"></gr-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> —
@@ -121,6 +125,7 @@ limitations under the License.
         prefs="{{prefs}}"
         patch-range="[[_patchRange]]"
         path="[[_path]]"
+        project-config="[[_projectConfig]]"
         available-patches="[[_computeAvailablePatches(_change.revisions)]]"
         on-render="_handleDiffRender">
     </gr-diff>
@@ -270,6 +275,10 @@ limitations under the License.
 
       _computeFilesPath: function(changeNum, patchNum) {
         return Changes.baseURL(changeNum, patchNum) + '/files';
+      },
+
+      _computeProjectConfigPath: function(project) {
+        return '/projects/' + encodeURIComponent(project) + '/config';
       },
 
       _computeFileSelected: function(path, currentPath) {

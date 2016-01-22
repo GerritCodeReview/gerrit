@@ -97,6 +97,7 @@ limitations under the License.
             width="[[sideWidth]]"
             tab-width="[[prefs.tab_width]]"
             can-comment="[[_loggedIn]]"
+            project-config="[[projectConfig]]"
             on-expand-context="_handleExpandContext"
             on-thread-height-change="_handleThreadHeightChange"
             on-add-draft="_handleAddDraft"
@@ -109,6 +110,7 @@ limitations under the License.
             width="[[sideWidth]]"
             tab-width="[[prefs.tab_width]]"
             can-comment="[[_loggedIn]]"
+            project-config="[[projectConfig]]"
             on-expand-context="_handleExpandContext"
             on-thread-height-change="_handleThreadHeightChange"
             on-add-draft="_handleAddDraft"
@@ -147,6 +149,8 @@ limitations under the License.
           type: Object,
           notify: true,
         },
+        projectConfig: Object,
+
         _prefsReady: {
           type: Object,
           readOnly: true,

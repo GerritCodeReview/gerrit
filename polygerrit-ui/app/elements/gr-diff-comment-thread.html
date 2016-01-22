@@ -44,6 +44,7 @@ limitations under the License.
             draft="[[comment.__draft]]"
             editing="[[!comment.message]]"
             show-actions="[[showActions]]"
+            project-config="[[projectConfig]]"
             on-height-change="_handleCommentHeightChange"
             on-reply="_handleCommentReply"
             on-discard="_handleCommentDiscard"
@@ -80,6 +81,7 @@ limitations under the License.
         patchNum: String,
         path: String,
         showActions: Boolean,
+        projectConfig: Object,
 
         _boundWindowResizeHandler: {
           type: Function,

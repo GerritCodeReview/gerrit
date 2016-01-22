@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="gr-date-formatter.html">
+<link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-diff-comment">
@@ -63,10 +64,6 @@ limitations under the License.
       a.date:link,
       a.date:visited {
         color: #666;
-      }
-      .message {
-        white-space: pre-wrap;
-        word-wrap: break-word;
       }
       .actions {
         display: flex;
@@ -133,7 +130,10 @@ limitations under the License.
           bind-value="{{_editDraft}}"
           on-keyup="_handleTextareaKeyup"
           on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
-      <div class="message">[[comment.message]]</div>
+      <gr-linked-text class="message"
+          pre
+          content="[[comment.message]]"
+          config="[[projectConfig.commentlinks]]"></gr-linked-text>
       <div class="actions" hidden$="[[!showActions]]">
         <button class="action reply" on-tap="_handleReply">Reply</button>
         <button class="action done" on-tap="_handleDone">Done</button>
@@ -201,6 +201,7 @@ limitations under the License.
         },
         patchNum: String,
         showActions: Boolean,
+        projectConfig: Object,
 
         _xhrPromise: Object,  // Used for testing.
         _editDraft: String,

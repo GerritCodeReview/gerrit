@@ -111,6 +111,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
+  private PatchSetState psState;
 
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private ChangeDraftUpdate draftUpdate;
@@ -385,6 +386,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
   }
 
+  public void setPatchSetState(PatchSetState psState) {
+    this.psState = psState;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeCommentsInNotes() throws OrmException, IOException {
     ChangeNotes notes = ctl.getNotes().load();
@@ -468,8 +473,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       msg.append("\n\n");
     }
 
-
-    addFooter(msg, FOOTER_PATCH_SET, ps);
+    addPatchSetFooter(msg, ps);
 
     if (subject != null) {
       addFooter(msg, FOOTER_SUBJECT, subject);
@@ -549,6 +553,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return true;
   }
 
+  private void addPatchSetFooter(StringBuilder sb, int ps) {
+    addFooter(sb, FOOTER_PATCH_SET).append(ps);
+    if (psState != null) {
+      sb.append(" (").append(psState.name().toLowerCase()).append(')');
+    }
+    sb.append('\n');
+  }
+
   @Override
   protected Project.NameKey getProjectName() {
     return getProjectName(ctl);
@@ -566,7 +578,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && submitRecords == null
         && hashtags == null
         && topic == null
-        && commit == null;
+        && commit == null
+        && psState == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

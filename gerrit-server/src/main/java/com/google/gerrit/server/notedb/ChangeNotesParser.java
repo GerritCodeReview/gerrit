@@ -81,13 +81,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 class ChangeNotesParser implements AutoCloseable {
   final Map<Account.Id, ReviewerStateInternal> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
   final Multimap<RevId, PatchLineComment> comments;
-  final Map<PatchSet.Id, PatchSet> patchSets;
+  final TreeMap<PatchSet.Id, PatchSet> patchSets;
+  final Map<PatchSet.Id, PatchSetState> patchSetStates;
   NoteMap commentNoteMap;
   String branch;
   Change.Status status;
@@ -125,6 +127,7 @@ class ChangeNotesParser implements AutoCloseable {
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
     patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
+    patchSetStates = Maps.newHashMap();
   }
 
   @Override
@@ -140,6 +143,7 @@ class ChangeNotesParser implements AutoCloseable {
     parseComments();
     allPastReviewers.addAll(reviewers.keySet());
     pruneReviewers();
+    updatePatchSetStates();
     checkMandatoryFooters();
   }
 
@@ -190,6 +194,11 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSet.Id psId = parsePatchSetId(commit);
     if (currentPatchSetId == null) {
       currentPatchSetId = psId;
+    }
+
+    PatchSetState psState = parsePatchSetState(commit);
+    if (psState != null && !patchSetStates.containsKey(psId)) {
+      patchSetStates.put(psId, psState);
     }
 
     Account.Id accountId = parseIdent(commit);
@@ -264,6 +273,15 @@ class ChangeNotesParser implements AutoCloseable {
     return footerLines.get(0);
   }
 
+  private String parseExactlyOneFooter(RevCommit commit, FooterKey footerKey)
+      throws ConfigInvalidException {
+    String line = parseOneFooter(commit, footerKey);
+    if (line == null) {
+      throw expectedOneFooter(footerKey, Collections.<String> emptyList());
+    }
+    return line;
+  }
+
   private ObjectId parseRevision(RevCommit commit)
       throws ConfigInvalidException {
     String sha = parseOneFooter(commit, FOOTER_COMMIT);
@@ -330,15 +348,32 @@ class ChangeNotesParser implements AutoCloseable {
 
   private PatchSet.Id parsePatchSetId(RevCommit commit)
       throws ConfigInvalidException {
-    List<String> psIdLines = commit.getFooterLines(FOOTER_PATCH_SET);
-    if (psIdLines.size() != 1) {
-      throw expectedOneFooter(FOOTER_PATCH_SET, psIdLines);
-    }
-    Integer psId = Ints.tryParse(psIdLines.get(0));
+    String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
+    int s = psIdLine.indexOf(' ');
+    String psIdStr = s < 0 ? psIdLine : psIdLine.substring(0, s);
+    Integer psId = Ints.tryParse(psIdStr);
     if (psId == null) {
-      throw invalidFooter(FOOTER_PATCH_SET, psIdLines.get(0));
+      throw invalidFooter(FOOTER_PATCH_SET, psIdStr);
     }
     return new PatchSet.Id(changeId, psId);
+  }
+
+  private PatchSetState parsePatchSetState(RevCommit commit)
+      throws ConfigInvalidException {
+    String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
+    int s = psIdLine.indexOf(' ');
+    if (s < 0) {
+      return null;
+    }
+    String withParens = psIdLine.substring(s + 1);
+    if (withParens.startsWith("(") && withParens.endsWith(")")) {
+      Optional<PatchSetState> state = Enums.getIfPresent(PatchSetState.class,
+          withParens.substring(1, withParens.length() - 1).toUpperCase());
+      if (state.isPresent()) {
+        return state.get();
+      }
+    }
+    throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
   }
 
   private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
@@ -595,6 +630,58 @@ class ChangeNotesParser implements AutoCloseable {
         for (Table<Account.Id, ?, ?> curr : approvals.values()) {
           curr.rowKeySet().remove(e.getKey());
         }
+      }
+    }
+  }
+
+  private void updatePatchSetStates() {
+    Set<PatchSet.Id> deleted =
+        Sets.newHashSetWithExpectedSize(patchSetStates.size());
+    for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {
+      switch (e.getValue()) {
+        case PUBLISHED:
+        default:
+          break;
+
+        case DELETED:
+          deleted.add(e.getKey());
+          break;
+
+        case DRAFT:
+          PatchSet ps = patchSets.get(e.getKey());
+          if (ps != null) {
+            ps.setDraft(true);
+          }
+          break;
+      }
+    }
+    if (deleted.isEmpty()) {
+      return;
+    }
+
+    // Post-process other collections to remove items corresponding to deleted
+    // patch sets. This is safer than trying to prevent insertion, as it will
+    // also filter out items racily added after the patch set was deleted.
+    patchSets.keySet().removeAll(deleted);
+    if (!patchSets.keySet().isEmpty()) {
+      currentPatchSetId = patchSets.navigableKeySet().last();
+    } else {
+      currentPatchSetId = null;
+    }
+    approvals.keySet().removeAll(deleted);
+    changeMessagesByPatchSet.keys().removeAll(deleted);
+
+    for (Iterator<ChangeMessage> it = allChangeMessages.iterator();
+        it.hasNext();) {
+      if (deleted.contains(it.next().getPatchSetId())) {
+        it.remove();
+      }
+    }
+    for (Iterator<PatchLineComment> it = comments.values().iterator();
+        it.hasNext();) {
+      PatchSet.Id psId = it.next().getKey().getParentKey().getParentKey();
+      if (deleted.contains(psId)) {
+        it.remove();
       }
     }
   }

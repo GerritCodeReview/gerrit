@@ -46,7 +46,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Singleton
 public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
@@ -138,10 +137,11 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       ReviewDb db = ctx.getDb();
       db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(psId));
       db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
-      // No need to delete from notedb; draft patch sets will be filtered out.
+      // No need to delete from notedb; deleted patch sets are filtered out.
       db.patchComments().delete(db.patchComments().byPatchSet(psId));
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
-      db.patchSets().delete(Collections.singleton(patchSet));
+
+      psUtil.delete(db, ctx.getUpdate(patchSet.getId()), patchSet);
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)

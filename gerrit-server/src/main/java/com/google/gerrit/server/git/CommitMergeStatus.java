@@ -39,7 +39,7 @@ public enum CommitMergeStatus {
           + "Please rebase the change locally and upload the rebased commit for review."),
 
   /** */
-  MISSING_DEPENDENCY(""),
+  MISSING_DEPENDENCY("Missing dependency"),
 
   /** */
   NO_PATCH_SET(""),

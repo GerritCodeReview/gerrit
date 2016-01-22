@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "149d0a26_3bf79779",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/AccountGeneralPreferencesInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T18:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a20e64_fce129bb",
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a20e64_bc89610f",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AccountPreferencesInfo.java",
         "patchSetId": 9

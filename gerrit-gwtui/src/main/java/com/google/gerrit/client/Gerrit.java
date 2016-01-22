@@ -31,8 +31,8 @@ import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.documentation.DocInfo;
 import com.google.gerrit.client.info.AccountInfo;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.client.info.AuthInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.client.info.TopMenu;
 import com.google.gerrit.client.info.TopMenuItem;
@@ -115,7 +115,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static ServerInfo myServerInfo;
   private static AccountInfo myAccount;
-  private static AccountPreferencesInfo myPrefs;
+  private static GeneralPreferences myPrefs;
   private static UrlAliasMatcher urlAliasMatcher;
   private static boolean hasDocumentation;
   private static boolean docSearch;
@@ -323,7 +323,7 @@ public class Gerrit implements EntryPoint {
   }
 
   /** @return the preferences of the currently signed in user, the default preferences if not signed in */
-  public static AccountPreferencesInfo getUserPreferences() {
+  public static GeneralPreferences getUserPreferences() {
     return myPrefs;
   }
 
@@ -409,7 +409,7 @@ public class Gerrit implements EntryPoint {
     myAccount = AccountInfo.create(0, null, null, null);
     myAccountDiffPref = null;
     editPrefs = null;
-    myPrefs = AccountPreferencesInfo.createDefault();
+    myPrefs = GeneralPreferences.createDefault();
     urlAliasMatcher.clearUserAliases();
     xGerritAuth = null;
     refreshMenuBar();
@@ -514,9 +514,9 @@ public class Gerrit implements EntryPoint {
                 }
           }));
           AccountApi.self().view("preferences")
-              .get(cbg.add(new GerritCallback<AccountPreferencesInfo>() {
+              .get(cbg.add(new GerritCallback<GeneralPreferences>() {
             @Override
-            public void onSuccess(AccountPreferencesInfo prefs) {
+            public void onSuccess(GeneralPreferences prefs) {
               myPrefs = prefs;
               onModuleLoad2(result);
             }
@@ -532,7 +532,7 @@ public class Gerrit implements EntryPoint {
           }));
         } else {
           myAccount = AccountInfo.create(0, null, null, null);
-          myPrefs = AccountPreferencesInfo.createDefault();
+          myPrefs = GeneralPreferences.createDefault();
           editPrefs = null;
           onModuleLoad2(result);
         }
@@ -891,18 +891,18 @@ public class Gerrit implements EntryPoint {
   public static void refreshUserPreferences() {
     if (isSignedIn()) {
       AccountApi.self().view("preferences")
-          .get(new GerritCallback<AccountPreferencesInfo>() {
+          .get(new GerritCallback<GeneralPreferences>() {
             @Override
-            public void onSuccess(AccountPreferencesInfo prefs) {
+            public void onSuccess(GeneralPreferences prefs) {
               setUserPreferences(prefs);
             }
           });
     } else {
-      setUserPreferences(AccountPreferencesInfo.createDefault());
+      setUserPreferences(GeneralPreferences.createDefault());
     }
   }
 
-  public static void setUserPreferences(AccountPreferencesInfo prefs) {
+  public static void setUserPreferences(GeneralPreferences prefs) {
     myPrefs = prefs;
     applyUserPreferences();
     refreshMenuBar();

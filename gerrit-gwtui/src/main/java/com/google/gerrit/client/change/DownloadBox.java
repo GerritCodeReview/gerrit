@@ -18,10 +18,10 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.client.info.ChangeInfo.FetchInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -236,10 +236,10 @@ class DownloadBox extends VerticalPanel {
 
   private void saveScheme() {
     String schemeStr = scheme.getValue(scheme.getSelectedIndex());
-    AccountPreferencesInfo prefs = Gerrit.getUserPreferences();
+    GeneralPreferences prefs = Gerrit.getUserPreferences();
     if (Gerrit.isSignedIn() && !schemeStr.equals(prefs.downloadScheme())) {
       prefs.downloadScheme(schemeStr);
-      AccountPreferencesInfo in = AccountPreferencesInfo.create();
+      GeneralPreferences in = GeneralPreferences.create();
       in.downloadScheme(schemeStr);
       AccountApi.self().view("preferences")
           .put(in, new AsyncCallback<JavaScriptObject>() {

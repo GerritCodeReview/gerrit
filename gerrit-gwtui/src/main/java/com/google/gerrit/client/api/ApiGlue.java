@@ -17,7 +17,7 @@ package com.google.gerrit.client.api;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -265,7 +265,7 @@ public class ApiGlue {
     return Gerrit.getUserAccount();
   }
 
-  private static final AccountPreferencesInfo getUserPreferences() {
+  private static final GeneralPreferences getUserPreferences() {
     return Gerrit.getUserPreferences();
   }
 

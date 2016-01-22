@@ -118,4 +118,11 @@ public class PatchSetUtil {
       update.setPatchSetId(psId);
     }
   }
+
+  public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps,
+      Iterable<String> groups) throws OrmException {
+    ps.setGroups(groups);
+    update.setGroups(groups);
+    db.patchSets().update(Collections.singleton(ps));
+  }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -112,6 +113,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String changeMessage;
   private ChangeNotes notes;
   private PatchSetState psState;
+  private Iterable<String> groups;
 
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private ChangeDraftUpdate draftUpdate;
@@ -390,6 +392,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psState = psState;
   }
 
+  public void setGroups(Iterable<String> groups) {
+    this.groups = groups;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeCommentsInNotes() throws OrmException, IOException {
     ChangeNotes notes = ctl.getNotes().load();
@@ -495,8 +501,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit.name());
     }
 
+    Joiner comma = Joiner.on(',');
     if (hashtags != null) {
-      addFooter(msg, FOOTER_HASHTAGS, Joiner.on(",").join(hashtags));
+      addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
+    }
+
+    if (groups != null) {
+      addFooter(msg, FOOTER_GROUPS, comma.join(groups));
     }
 
     for (Map.Entry<Account.Id, ReviewerStateInternal> e : reviewers.entrySet()) {
@@ -579,7 +590,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && hashtags == null
         && topic == null
         && commit == null
-        && psState == null;
+        && psState == null
+        && groups == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

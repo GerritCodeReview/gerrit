@@ -1,6 +1,7 @@
 {
   "ignore_dirs": [
-    "buck-out"
+    "buck-out",
+    "eclipse-out"
   ],
   "ignore_vcs": [
     ".git"

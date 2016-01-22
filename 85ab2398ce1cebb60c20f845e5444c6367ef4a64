@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f46dd6ed_3abfa1ca",
+        "filename": "polygerrit-ui/app/elements/gr-message.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T14:05:24Z",
+      "side": 1,
+      "message": "I would expect it to still scroll to the message in this case.",
+      "revId": "85ab2398ce1cebb60c20f845e5444c6367ef4a64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f46dd6ed_dad3052d",
+        "filename": "polygerrit-ui/app/elements/gr-messages-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T14:05:24Z",
+      "side": 1,
+      "message": "I might be missing something but where is this assigned? It\u0027s not passed at the invocation site in gr-change-view",
+      "revId": "85ab2398ce1cebb60c20f845e5444c6367ef4a64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

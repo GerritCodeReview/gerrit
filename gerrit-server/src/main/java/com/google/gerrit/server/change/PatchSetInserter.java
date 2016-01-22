@@ -222,9 +222,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
       PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
       newGroups = prevPs != null ? prevPs.getGroups() : null;
     }
-    ctx.getRevWalk().parseBody(commit);
-    patchSet = psUtil.insert(ctx.getDb(), ctx.getUpdate(psId), psId, commit,
-        draft, newGroups, null);
+    patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), ctx.getUpdate(psId),
+        psId, commit, draft, newGroups, null);
 
     if (sendMail) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());

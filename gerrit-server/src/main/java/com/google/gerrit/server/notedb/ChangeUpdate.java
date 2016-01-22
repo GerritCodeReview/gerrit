@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -227,8 +228,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.commitSubject = commitSubject;
   }
 
-  public void setSubject(String subject) {
+  void setSubject(String subject) {
     this.subject = subject;
+  }
+
+  @VisibleForTesting
+  ObjectId getCommit() {
+    return commit;
   }
 
   public void setChangeMessage(String changeMessage) {
@@ -359,9 +365,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.topic = Strings.nullToEmpty(topic);
   }
 
-  public void setCommit(ObjectId commit) {
-    checkArgument(commit != null);
+  public void setCommit(RevWalk rw, ObjectId id) throws IOException {
+    RevCommit commit = rw.parseCommit(id);
+    rw.parseBody(commit);
     this.commit = commit;
+    subject = commit.getShortMessage();
   }
 
   public void setHashtags(Set<String> hashtags) {
@@ -554,7 +562,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && branch == null
         && status == null
-        && subject == null
         && submissionId == null
         && submitRecords == null
         && hashtags == null

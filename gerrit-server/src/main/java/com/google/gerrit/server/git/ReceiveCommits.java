@@ -2273,7 +2273,7 @@ public class ReceiveCommits {
 
         boolean draft = magicBranch != null && magicBranch.draft;
         newPatchSet = psUtil.insert(
-            db, update, psId, newCommit, draft, newGroups,
+            db, state.rw, update, psId, newCommit, draft, newGroups,
             rp.getPushCertificate() != null
               ? rp.getPushCertificate().toTextWithSignature()
               : null);

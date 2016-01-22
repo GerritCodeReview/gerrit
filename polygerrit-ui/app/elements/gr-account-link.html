@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="gr-avatar.html">
+<link rel="import" href="gr-account-label.html">
 
 <dom-module id="gr-account-link">
   <template>
@@ -27,24 +27,17 @@ limitations under the License.
         color: var(--default-text-color);
         text-decoration: none;
       }
-      a:hover span {
-        text-decoration: underline;
-      }
-      gr-avatar {
-        height: 1.3em;
-        width: 1.3em;
-        vertical-align: -.3em;
+      gr-account-label {
+        --gr-account-label-text-hover-style: {
+          text-decoration: underline;
+        };
       }
     </style>
     <span>
-      <a href$="[[_computeOwnerLink(account)]]"
-         title$="[[_computeAccountTitle(account)]]">
-        <gr-avatar account="[[account]]"
-            image-size="[[avatarImageSize]]"></gr-avatar>
-        <span>[[account.name]]</span>
-        <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
-          (<span>[[account.email]]</span>)
-        </span>
+      <a href$="[[_computeOwnerLink(account)]]">
+        <gr-account-label account="[[account]]"
+            avatar-image-size="[[avatarImageSize]]"
+            show-email="[[showEmail]]"></gr-account-label>
       </a>
     </span>
   </template>
@@ -68,22 +61,9 @@ limitations under the License.
       },
 
       _computeOwnerLink: function(account) {
-        if (!account) { return ''; }
+        if (!account) { return; }
         var accountID = account.email || account._account_id;
         return '/q/owner:' + encodeURIComponent(accountID) + '+status:open';
-      },
-
-      _computeAccountTitle: function(account) {
-        if (!account || !account.name) { return ''; }
-        var result = util.escapeHTML(account.name);
-        if (account.email) {
-          result += ' <' + util.escapeHTML(account.email) + '>';
-        }
-        return result;
-      },
-
-      _computeShowEmail: function(showEmail, account) {
-        return showEmail && account && account.email;
       },
 
     });

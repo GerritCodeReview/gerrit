@@ -46,11 +46,11 @@ limitations under the License.
       left: 0;
       top: 100%;
     }
-    .account {
+    .dropdown .reviewer {
       cursor: pointer;
       padding: .5em .75em;
     }
-    .account[selected] {
+    .dropdown .reviewer[selected] {
       background-color: #ccc;
     }
     .remove,
@@ -86,21 +86,24 @@ limitations under the License.
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <div class="autocompleteContainer" hidden$="[[!_showInput]]">
         <div class="inputContainer">
-          <input is="iron-input" type="email" id="input"
+          <input is="iron-input" id="input"
               bind-value="{{_inputVal}}" disabled$="[[disabled]]">
           <a href="#" class="cancel" on-tap="_handleCancelTap">×</a>
         </div>
         <div class="dropdown" hidden$="[[_hideAutocomplete]]">
-          <template is="dom-repeat" items="[[_autocompleteData]]" as="account">
-            <div class="account"
+          <template is="dom-repeat" items="[[_autocompleteData]]" as="reviewer">
+            <div class="reviewer"
                 data-index$="[[index]]"
                 on-mouseenter="_handleMouseEnterItem"
                 on-tap="_handleItemTap"
                 selected$="[[_computeSelected(index, _selectedIndex)]]">
-              <span>[[account.name]]</span>
-              <span hidden$="[[!account.email]]">
-                ([[account.email]])
-              </span>
+              <template is="dom-if" if="[[reviewer.account]]">
+                <gr-account-label
+                    account="[[reviewer.account]]" show-email></gr-account-label>
+              </template>
+              <template is="dom-if" if="[[reviewer.group]]">
+                <span>[[reviewer.group.name]] (group)</span>
+              </template>
             </div>
           </template>
         </div>
@@ -241,9 +244,9 @@ limitations under the License.
       },
 
       _handleResponse: function(e) {
-        this._autocompleteData = e.detail.response.map(function(result) {
-          return result.account;
-        }).filter(function(account) {
+        this._autocompleteData = e.detail.response.filter(function(reviewer) {
+          var account = reviewer.account;
+          if (!account) return true;
           for (var i = 0; i < this._reviewers.length; i++) {
             if (account._account_id == this.change.owner._account_id ||
                 account._account_id == this._reviewers[i]._account_id) {
@@ -304,16 +307,17 @@ limitations under the License.
       },
 
       _handleItemTap: function(e) {
-        var accountEl;
+        var reviewerEl;
         var eventPath = Polymer.dom(e).path;
         for (var i = 0; i < eventPath.length; i++) {
-          if (eventPath[i].classList.contains('account')) {
-            accountEl = eventPath[i];
+          var el = eventPath[i];
+          if (el.classList && el.classList.contains('reviewer')) {
+            reviewerEl = el;
             break;
           }
         }
         this._selectedIndex =
-            parseInt(accountEl.getAttribute('data-index'), 10);
+            parseInt(reviewerEl.getAttribute('data-index'), 10);
         this._sendAddRequest();
       },
 
@@ -337,7 +341,7 @@ limitations under the License.
           if (this.disabled || val == null || val.trim().length == 0) {
             return;
           }
-          if (val.length <= this.suggestFrom) {
+          if (val.length < this.suggestFrom) {
             this._clearInputRequestHandle();
             this._hideAutocomplete = true;
             this._selectedIndex = -1;
@@ -397,13 +401,15 @@ limitations under the License.
       _sendAddRequest: function() {
         this._clearInputRequestHandle();
 
-        // TODO(andybons): Support groups and non-email types.
-        var account = this._autocompleteData[this._selectedIndex];
-        if (account) {
-          this._inputVal = account.email;
+        var reviewerID;
+        var reviewer = this._autocompleteData[this._selectedIndex];
+        if (reviewer.account) {
+          reviewerID = reviewer.account._account_id;
+        } else if (reviewer.group) {
+          reviewerID = reviewer.group.id;
         }
         this._autocompleteData = [];
-        this._send('POST', this._restEndpoint()).then(function(req) {
+        this._send('POST', this._restEndpoint(), reviewerID).then(function(req) {
           this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
           req.response.reviewers.forEach(function(r) {
             this.push('change.removable_reviewers', r);
@@ -413,21 +419,20 @@ limitations under the License.
           this.$.input.focus();
         }.bind(this)).catch(function(err) {
           // TODO(andybons): Use the message returned by the server.
-          alert('Unable to add ' + this._inputVal + ' as a reviewer. ' +
-              'Are you sure the email is right?');
+          alert('Unable to add ' + reviewerID + ' as a reviewer.');
           throw err;
         }.bind(this));
       },
 
-      _send: function(method, url) {
+      _send: function(method, url, reviewerID) {
         this.disabled = true;
         var request = document.createElement('gr-request');
         var opts = {
           method: method,
           url: url,
         };
-        if (method == 'PUT' || method == 'POST') {
-          opts.body = {reviewer: this._inputVal};
+        if (reviewerID) {
+          opts.body = {reviewer: reviewerID};
         }
         this._xhrPromise = request.send(opts);
         var enableEl = function() { this.disabled = false; }.bind(this);

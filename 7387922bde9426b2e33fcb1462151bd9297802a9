@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453450905 +0100\nnonce ALmjDBWm9blAUAt6OGrFQWR6gQv9At+2hw14O1cAoR0RBSZGIXuawkQ7dd8AuWrDNfoJJKHIgWEF\n\n0000000000000000000000000000000000000000 30815ce08492ee1438d0080e9d2edcc84367e796 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWoeaZAAoJEFG1/Zeg0O9RLU0H/0VhRvTdTMDbNScl3613khT1\neCXSHzKhpbB5DqnlCdjXYt1DU7LosgeDAXJv4FzNEUGJTJcbNEFJm9neNa29GgKL\nvAqIPvdi+q3dYrAfnGo84dzxUTXIK8HW2JsALQJk7MVl1/FgYfaBCBRcFToTt9zA\nkRFHtxkP1RNPe52l5yp/TbR4vONXF7L2cVq1+XSJgtadmaSEKIF7MJb1WKdGiudD\nVd2snqRjFZhTlfzXsS46XHNLzMNaQghTAspFzJToAwBK5Y9hjnblwydEx5k3SKLS\nfMQSzEE+THWcUb+l2kObobpaONXzOjQ136TIPxr0d2KHKZLErJP5G51dbZA6reo\u003d\n\u003dcrLG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f46dd6ed_daac65af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T13:45:01Z",
+      "side": 1,
+      "message": "I think we would want to throw ConfigInvalidException here as we do from the parser. I also wonder whether we should push this validation into the bottom of parseAll(). That probably doesn\u0027t need to be decided now though.",
+      "revId": "7387922bde9426b2e33fcb1462151bd9297802a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -176,9 +176,12 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parse(RevCommit commit) throws ConfigInvalidException {
-    createdOn = getCommitTime(commit);
+    Timestamp ts =
+        new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+
+    createdOn = ts;
     if (lastUpdatedOn == null) {
-      lastUpdatedOn = getCommitTime(commit);
+      lastUpdatedOn = ts;
     }
     if (branch == null) {
       branch = parseBranch(commit);
@@ -198,7 +201,7 @@ class ChangeNotesParser implements AutoCloseable {
       subject = parseSubject(commit);
     }
     originalSubject = parseSubject(commit);
-    parseChangeMessage(psId, accountId, commit);
+    parseChangeMessage(psId, accountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
     }
@@ -209,7 +212,7 @@ class ChangeNotesParser implements AutoCloseable {
 
     ObjectId currRev = parseRevision(commit);
     if (currRev != null) {
-      parsePatchSet(psId, currRev);
+      parsePatchSet(psId, currRev, accountId, ts);
     }
 
     if (submitRecords.isEmpty()) {
@@ -219,7 +222,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     for (String line : commit.getFooterLines(FOOTER_LABEL)) {
-      parseApproval(psId, accountId, commit, line);
+      parseApproval(psId, accountId, ts, line);
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
@@ -273,8 +276,8 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private void parsePatchSet(PatchSet.Id psId, ObjectId rev)
-      throws ConfigInvalidException {
+  private void parsePatchSet(PatchSet.Id psId, ObjectId rev,
+      Account.Id accountId, Timestamp ts) throws ConfigInvalidException {
     if (patchSets.containsKey(psId)) {
       throw new ConfigInvalidException(
           String.format(
@@ -283,6 +286,8 @@ class ChangeNotesParser implements AutoCloseable {
     } else {
       PatchSet ps = new PatchSet(psId);
       ps.setRevision(new RevId(rev.name()));
+      ps.setUploader(accountId);
+      ps.setCreatedOn(ts);
       patchSets.put(psId, ps);
     }
   }
@@ -334,7 +339,7 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
-      RevCommit commit) {
+      RevCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
     Charset enc = RawParseUtils.parseEncoding(raw);
@@ -384,7 +389,7 @@ class ChangeNotesParser implements AutoCloseable {
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(psId.getParentKey(), commit.name()),
         accountId,
-        getCommitTime(commit),
+        ts,
         psId);
     changeMessage.setMessage(changeMsgString);
     changeMessagesByPatchSet.put(psId, changeMessage);
@@ -399,16 +404,16 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,
-      RevCommit commit, String line) throws ConfigInvalidException {
+      Timestamp ts, String line) throws ConfigInvalidException {
     if (line.startsWith("-")) {
       parseRemoveApproval(psId, accountId, line);
     } else {
-      parseAddApproval(psId, accountId, commit, line);
+      parseAddApproval(psId, accountId, ts, line);
     }
   }
 
   private void parseAddApproval(PatchSet.Id psId, Account.Id committerId,
-      RevCommit commit, String line) throws ConfigInvalidException {
+      Timestamp ts, String line) throws ConfigInvalidException {
     Account.Id accountId;
     String labelVoteStr;
     int s = line.indexOf(' ');
@@ -441,7 +446,7 @@ class ChangeNotesParser implements AutoCloseable {
               accountId,
               new LabelId(l.label())),
           l.value(),
-          getCommitTime(commit))));
+          ts)));
     }
   }
 
@@ -626,10 +631,6 @@ class ChangeNotesParser implements AutoCloseable {
     if (!expr) {
       throw invalidFooter(footer, actual);
     }
-  }
-
-  private static Timestamp getCommitTime(RevCommit commit) {
-    return new Timestamp(commit.getCommitterIdent().getWhen().getTime());
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {

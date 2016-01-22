@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testutil.TestChanges.newChange;
 import static com.google.gerrit.testutil.TestChanges.newPatchSet;
 import static java.util.Collections.singleton;
@@ -69,6 +70,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
     // Ignore client clone of project; repurpose as server-side TestRepository.
     testRepo = new TestRepository<>(
         (InMemoryRepository) repoManager.openRepository(project));

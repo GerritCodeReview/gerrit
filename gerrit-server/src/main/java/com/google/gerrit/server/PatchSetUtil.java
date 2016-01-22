@@ -29,8 +29,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 
@@ -62,9 +63,10 @@ public class PatchSetUtil {
         db.patchSets().byChange(notes.getChangeId()));
   }
 
-  public PatchSet insert(ReviewDb db, ChangeUpdate update, PatchSet.Id psId,
-      RevCommit commit, boolean draft, Iterable<String> groups,
-      String pushCertificate) throws OrmException {
+  public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,
+      PatchSet.Id psId, ObjectId commit, boolean draft,
+      Iterable<String> groups, String pushCertificate)
+      throws OrmException, IOException {
     Change.Id changeId = update.getChange().getId();
     checkArgument(psId.getParentKey().equals(changeId),
         "cannot insert patch set %s on change %s", psId, changeId);
@@ -85,10 +87,7 @@ public class PatchSetUtil {
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
 
-    update.setCommit(ObjectId.fromString(ps.getRevision().get()));
-    if (!update.getChange().getSubject().equals(commit.getShortMessage())) {
-      update.setSubject(commit.getShortMessage());
-    }
+    update.setCommit(rw, commit);
 
     return ps;
   }

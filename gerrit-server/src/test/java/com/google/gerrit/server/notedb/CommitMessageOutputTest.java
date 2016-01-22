@@ -93,8 +93,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage("Foo");
-    update.setCommit(
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    RevCommit commit = tr.commit().message("Subject").create();
+    update.setCommit(rw, commit);
     update.commit();
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
@@ -103,7 +103,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Foo\n"
         + "\n"
         + "Patch-set: 1\n"
-        + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n",
+        + "Subject: Subject\n"
+        + "Commit: " + commit.name() + "\n",
         update.getRevision());
   }
 

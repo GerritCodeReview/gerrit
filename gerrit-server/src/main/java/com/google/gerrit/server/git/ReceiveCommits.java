@@ -109,7 +109,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -2075,7 +2074,7 @@ public class ReceiveCommits {
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
-        public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
+        public PatchSet.Id call() throws OrmException, IOException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();

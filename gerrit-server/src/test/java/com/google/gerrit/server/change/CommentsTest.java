@@ -322,7 +322,6 @@ public class CommentsTest extends GerritServerTests {
   private Change newChange() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdate(c, changeOwner);
-    u.setSubject(c.getSubject());
     u.setBranch(c.getDest().get());
     u.commit();
     return c;

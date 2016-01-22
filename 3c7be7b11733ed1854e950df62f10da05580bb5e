@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34a20e64_1c7095de",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/AccountGeneralPreferencesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T11:01:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a20e64_9c8ca520",
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74980634_7efd1159",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/AccountGeneralPreferencesInfo.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-22T10:23:56Z",
       "side": 1,
       "message": "[optional] Should we just name this class GeneralPreferencesInfo? This would be more consistent with DiffPreferencesInfo and EditPreferencesInfo.\n\nAlso at the moment the server side name (AccountGeneralPreferencesInfo) is inconsistent with the client side name (AccountPreferencesInfo).",
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74980634_9e057d2c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/AccountGeneralPreferencesInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T11:01:41Z",
+      "side": 1,
+      "message": "SGTM. Should we rename then both?\n\n* Server: GeneralPreferencesInfo\n* Client: GeneralPreferencesInfo",
+      "parentUuid": "74980634_7efd1159",
       "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "74980634_be02b91f",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AccountPreferencesInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T11:01:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a20e64_bc89610f",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 89
+      },
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74980634_3ef78979",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 9
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "34a20e64_bc60810d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T11:01:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74980634_3ef78979",
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a20e64_7c7bd9c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 9
@@ -87,6 +165,24 @@
       "writtenOn": "2016-01-22T10:23:56Z",
       "side": 1,
       "message": "VersionedAccountPreferences versionedPrefs \u003d VersionedAccountPreferences.forUser(id);\n\nand then remove line 143 above.",
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74980634_5ea37570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T11:01:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a20e64_7c7bd9c6",
       "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

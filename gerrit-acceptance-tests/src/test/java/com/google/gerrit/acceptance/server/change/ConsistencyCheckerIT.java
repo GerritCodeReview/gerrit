@@ -31,7 +31,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ConsistencyChecker;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -49,7 +52,16 @@ import java.util.List;
 @NoHttpd
 public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Inject
+  private ChangeControl.GenericFactory changeControlFactory;
+
+  @Inject
+  private ChangeUpdate.Factory changeUpdateFactory;
+
+  @Inject
   private Provider<ConsistencyChecker> checkerProvider;
+
+  @Inject
+  private IdentifiedUser.GenericFactory userFactory;
 
   private RevCommit tip;
   private Account.Id adminId;
@@ -570,6 +582,13 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private Change insertChange() throws Exception {
     Change c = newChange(project, adminId);
     db.changes().insert(singleton(c));
+
+    ChangeUpdate u = changeUpdateFactory.create(
+        changeControlFactory.controlFor(c, userFactory.create(adminId)));
+    u.setSubject(c.getSubject());
+    u.setBranch(c.getDest().get());
+    u.commit();
+
     return c;
   }
 

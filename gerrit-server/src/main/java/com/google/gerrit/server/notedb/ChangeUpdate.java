@@ -15,10 +15,12 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
@@ -92,10 +94,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
+  private String commitSubject;
+  private String subject;
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
+  private String branch;
   private Change.Status status;
-  private String subject;
   private List<SubmitRecord> submitRecords;
   private String submissionId;
   private final CommentsInNotesUtil commentsUtil;
@@ -179,6 +183,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.comments = Lists.newArrayList();
   }
 
+  public void setBranch(String branch) {
+    this.branch = branch;
+  }
+
   public void setStatus(Change.Status status) {
     checkArgument(status != Change.Status.MERGED,
         "use merge(Iterable<SubmitRecord>)");
@@ -211,6 +219,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(),
         "no submit records specified at submit time");
+  }
+
+  public void setSubjectForCommit(String commitSubject) {
+    this.commitSubject = commitSubject;
   }
 
   public void setSubject(String subject) {
@@ -429,8 +441,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
-    if (subject != null) {
-      msg.append(subject);
+    if (commitSubject != null) {
+      msg.append(commitSubject);
     } else {
       msg.append("Update patch set ").append(ps);
     }
@@ -443,6 +455,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
 
     addFooter(msg, FOOTER_PATCH_SET, ps);
+
+    if (subject != null) {
+      addFooter(msg, FOOTER_SUBJECT, subject);
+    }
+
+    if (branch != null) {
+      addFooter(msg, FOOTER_BRANCH, branch);
+    }
+
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
     }
@@ -515,10 +536,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private boolean isEmpty() {
-    return approvals.isEmpty()
+    return commitSubject == null
+        && approvals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
+        && branch == null
         && status == null
         && subject == null
         && submissionId == null

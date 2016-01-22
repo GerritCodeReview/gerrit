@@ -319,8 +319,13 @@ public class CommentsTest extends GerritServerTests {
         repoManager, migration, c, allUsers, changeOwner);
   }
 
-  private Change newChange() {
-    return TestChanges.newChange(project, changeOwner.getAccountId());
+  private Change newChange() throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+    ChangeUpdate u = newUpdate(c, changeOwner);
+    u.setSubject(c.getSubject());
+    u.setBranch(c.getDest().get());
+    u.commit();
+    return c;
   }
 
   private ChangeUpdate newUpdate(Change c, final IdentifiedUser user) throws Exception {

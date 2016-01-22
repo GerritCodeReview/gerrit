@@ -28,10 +28,12 @@ import java.util.Date;
 public class ChangeNoteUtil {
   static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
 
+  static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
   static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
   static final FooterKey FOOTER_SUBMITTED_WITH =
       new FooterKey("Submitted-with");

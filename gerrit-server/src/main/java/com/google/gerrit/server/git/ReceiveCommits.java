@@ -2241,7 +2241,7 @@ public class ReceiveCommits {
 
       Map<String, Short> approvals = new HashMap<>();
       ChangeUpdate update = updateFactory.create(changeCtl, createdOn);
-      update.setSubject("Create patch set " + psId.get());
+      update.setSubjectForCommit("Create patch set " + psId.get());
       update.setPatchSetId(psId);
 
       if (magicBranch != null) {

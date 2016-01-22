@@ -551,6 +551,10 @@ public final class Change {
     return dest;
   }
 
+  public void setDest(Branch.NameKey dest) {
+    this.dest = dest;
+  }
+
   public Project.NameKey getProject() {
     return dest.getParentKey();
   }
@@ -559,8 +563,16 @@ public final class Change {
     return subject;
   }
 
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+
   public String getOriginalSubject() {
     return originalSubject != null ? originalSubject : subject;
+  }
+
+  public void setOriginalSubject(String originalSubject) {
+    this.originalSubject = originalSubject;
   }
 
   /** Get the id of the most current {@link PatchSet} in this change. */

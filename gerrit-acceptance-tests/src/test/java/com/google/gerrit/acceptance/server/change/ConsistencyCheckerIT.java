@@ -587,7 +587,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     ChangeUpdate u = changeUpdateFactory.create(
         changeControlFactory.controlFor(c, userFactory.create(adminId)));
-    u.setSubject(c.getSubject());
     u.setBranch(c.getDest().get());
     u.commit();
 

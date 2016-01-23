@@ -49,11 +49,19 @@ limitations under the License.
       }
     </style>
     <gr-ajax id="actionsXHR"
-        url="[[_computeActionsPath(changeNum, patchNum)]]"
-        last-response="{{_actions}}"
+        url="[[_computeRevisionActionsPath(changeNum, patchNum)]]"
+        last-response="{{_revisionActions}}"
         loading="{{_loading}}"></gr-ajax>
     <div>
-      <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
+      <template is="dom-repeat" items="[[_computeChangeActionValues(changeActions)]]" as="action">
+        <button title$="[[action.title]]"
+                hidden$="[[!action.enabled]]"
+                data-action-key$="[[action.__key]]"
+                data-label$="[[action.label]]"
+                data-action-key$="[[action.__key]]"
+                on-tap="_handleActionTap"></button>
+      </template>
+      <template is="dom-repeat" items="[[_computeRevisionActionValues(_revisionActions)]]" as="action">
         <button title$="[[action.title]]"
             disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
@@ -77,9 +85,12 @@ limitations under the License.
        */
 
       properties: {
+        changeActions: {
+          type: Object,
+        },
         changeNum: String,
         patchNum: String,
-        _actions: {
+        _revisionActions: {
           type: Object,
           observer: '_actionsChanged',
         },
@@ -97,17 +108,31 @@ limitations under the License.
       },
 
       _actionsChanged: function(actions) {
-        this.hidden = actions.submit == null;
+        this.hidden = actions.submit == null
+          && this.changeActions.abandon == null
+          && this.changeActions.restore == null;
       },
 
-      _computeActionsPath: function(changeNum, patchNum) {
+      _computeRevisionActionsPath: function(changeNum, patchNum) {
         return Changes.baseURL(changeNum, patchNum) + '/actions';
       },
 
-      _computeActionValues: function(actions) {
+      _computeChangeActionValues: function(actions) {
         var result = [];
         for (var a in actions) {
-          // TODO(andybons): Add the rest of the actions.
+          // TODO(davido): Add the rest of the change actions.
+          // Some of them need a popup dialog
+          if (a != 'abandon' && a != 'restore') { continue; }
+          actions[a].__key = a;
+          result.push(actions[a]);
+        }
+        return result;
+      },
+
+      _computeRevisionActionValues: function(actions) {
+        var result = [];
+        for (var a in actions) {
+          // TODO(andybons): Add the rest of the revision actions.
           if (a != 'submit') { continue; }
           actions[a].__key = a;
           result.push(actions[a]);
@@ -126,8 +151,21 @@ limitations under the License.
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
         if (key == 'submit') {
-          this._submitChange('/' + key, this._actions[key]);
+          this._submitChange('/' + key, this._revisionActions[key]);
+        } else {
+          this._fireChangeAction('/' + key, this.changeActions[key]);
         }
+      },
+
+      _fireChangeAction: function(endpoint, action) {
+        this._send(action.method, {}, endpoint).then(
+          function() {
+            this.fire('reload-change', null, {bubbles: false});
+          }.bind(this)).catch(function(err) {
+          alert('Oops. Something went wrong. Check the console and bug the ' +
+                  'PolyGerrit team for assistance.');
+          throw err;
+        });
       },
 
       _submitChange: function(endpoint, action) {
@@ -135,7 +173,7 @@ limitations under the License.
         buttonEl.setAttribute('loading', true);
         buttonEl.disabled = true;
 
-        this._send(action.method, {}, endpoint).then(
+        this._send(action.method, {}, endpoint, true).then(
           function() {
             this.fire('reload-change', null, {bubbles: false});
             buttonEl.setAttribute('loading', false);
@@ -149,11 +187,12 @@ limitations under the License.
         });
       },
 
-      _send: function(method, payload, actionEndpoint) {
+      _send: function(method, payload, actionEndpoint, revisionAction) {
         var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: method,
-          url: Changes.baseURL(this.changeNum, this.patchNum) + actionEndpoint,
+          url: Changes.baseURL(this.changeNum,
+                  revisionAction ? this.patchNum: null) + actionEndpoint,
           body: payload,
         });
 

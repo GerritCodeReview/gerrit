@@ -24,14 +24,17 @@ limitations under the License.
       :host {
         display: block;
       }
+      .emphasized {
+        background-color: #448aff;
+        color: #fff;
+      }
       button:before {
         content: attr(data-label);
       }
       button {
-        background-color: #448aff;
-        border: none;
+        background-color: #f1f2f3;
+        border: 1px solid #aaa;
         border-radius: 2px;
-        color: #fff;
         cursor: pointer;
         font: inherit;
         padding: .5em .75em;
@@ -49,12 +52,21 @@ limitations under the License.
       }
     </style>
     <gr-ajax id="actionsXHR"
-        url="[[_computeActionsPath(changeNum, patchNum)]]"
-        last-response="{{_actions}}"
+        url="[[_computeRevisionActionsPath(changeNum, patchNum)]]"
+        last-response="{{_revisionActions}}"
         loading="{{_loading}}"></gr-ajax>
     <div>
-      <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
+      <template is="dom-repeat" items="[[_computeActionValues(changeActions, 'change')]]" as="action">
         <button title$="[[action.title]]"
+            class$="[[_computeButtonClass(action.__key)]]"
+            hidden$="[[!action.enabled]]"
+            data-action-key$="[[action.__key]]"
+            data-label$="[[action.label]]"
+            on-tap="_handleActionTap"></button>
+      </template>
+      <template is="dom-repeat" items="[[_computeActionValues(_revisionActions, 'revision')]]" as="action">
+        <button title$="[[action.title]]"
+            class$="[[_computeButtonClass(action.__key)]]"
             disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
             data-label$="[[action.label]]"
@@ -67,6 +79,17 @@ limitations under the License.
   (function() {
     'use strict';
 
+    // TODO(davido): Add the rest of the change actions.
+    var ChangeActions = [
+      'abandon',
+      'restore',
+    ];
+
+    // TODO(andybons): Add the rest of the revision actions.
+    var RevisionActions = [
+      'submit',
+    ];
+
     Polymer({
       is: 'gr-change-actions',
 
@@ -77,15 +100,20 @@ limitations under the License.
        */
 
       properties: {
+        changeActions: {
+          type: Object,
+        },
         changeNum: String,
         patchNum: String,
-        _actions: {
-          type: Object,
-          observer: '_actionsChanged',
-        },
         _loading: {
           type: Boolean,
           value: true,
+        },
+        _revisionActions: {
+          type: Object,
+          observers: [
+            '_actionsChanged(changeActions, _revisionActions)',
+          ],
         },
       },
 
@@ -96,19 +124,27 @@ limitations under the License.
         return this.$.actionsXHR.generateRequest().completes;
       },
 
-      _actionsChanged: function(actions) {
-        this.hidden = actions.submit == null;
+      _actionsChanged: function(changeActions, revisionActions) {
+        this.hidden = revisionActions.submit == null &&
+            changeActions.abandon == null &&
+            changeActions.restore == null;
       },
 
-      _computeActionsPath: function(changeNum, patchNum) {
+      _computeRevisionActionsPath: function(changeNum, patchNum) {
         return Changes.baseURL(changeNum, patchNum) + '/actions';
       },
 
-      _computeActionValues: function(actions) {
+      _computeActionValues: function(actions, kind) {
         var result = [];
         for (var a in actions) {
-          // TODO(andybons): Add the rest of the actions.
-          if (a != 'submit') { continue; }
+          switch (kind) {
+            case 'change':
+              if (ChangeActions.indexOf(a) < 0) { continue; }
+              break;
+            case 'revision':
+              if (RevisionActions.indexOf(a) < 0) { continue; }
+              break;
+          }
           actions[a].__key = a;
           result.push(actions[a]);
         }
@@ -121,21 +157,38 @@ limitations under the License.
         }[action];
       },
 
+      _computeButtonClass: function(action) {
+        return action == 'submit' ? 'emphasized' : '';
+      },
+
       _handleActionTap: function(e) {
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
-        if (key == 'submit') {
-          this._submitChange('/' + key, this._actions[key]);
+        if (RevisionActions.indexOf(key) > -1) {
+          this._fireRevisionAction('/' + key, this._revisionActions[key]);
+        } else {
+          this._fireChangeAction('/' + key, this.changeActions[key]);
         }
       },
 
-      _submitChange: function(endpoint, action) {
+      _fireChangeAction: function(endpoint, action) {
+        this._send(action.method, {}, endpoint).then(
+          function() {
+            this.fire('reload-change', null, {bubbles: false});
+          }.bind(this)).catch(function(err) {
+            alert('Oops. Something went wrong. Check the console and bug the ' +
+                'PolyGerrit team for assistance.');
+          throw err;
+        });
+      },
+
+      _fireRevisionAction: function(endpoint, action) {
         var buttonEl = this.$$('[data-action-key="' + action.__key + '"]');
         buttonEl.setAttribute('loading', true);
         buttonEl.disabled = true;
 
-        this._send(action.method, {}, endpoint).then(
+        this._send(action.method, {}, endpoint, true).then(
           function() {
             this.fire('reload-change', null, {bubbles: false});
             buttonEl.setAttribute('loading', false);
@@ -149,11 +202,12 @@ limitations under the License.
         });
       },
 
-      _send: function(method, payload, actionEndpoint) {
+      _send: function(method, payload, actionEndpoint, revisionAction) {
         var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: method,
-          url: Changes.baseURL(this.changeNum, this.patchNum) + actionEndpoint,
+          url: Changes.baseURL(this.changeNum,
+              revisionAction ? this.patchNum : null) + actionEndpoint,
           body: payload,
         });
 

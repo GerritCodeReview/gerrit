@@ -24,14 +24,17 @@ limitations under the License.
       :host {
         display: block;
       }
+      .primary {
+        background-color: #448aff;
+        color: #fff;
+      }
       button:before {
         content: attr(data-label);
       }
       button {
-        background-color: #448aff;
-        border: none;
+        background-color: #f1f2f3;
+        border: 1px solid #aaa;
         border-radius: 2px;
-        color: #fff;
         cursor: pointer;
         font: inherit;
         padding: .5em .75em;
@@ -49,12 +52,21 @@ limitations under the License.
       }
     </style>
     <gr-ajax id="actionsXHR"
-        url="[[_computeActionsPath(changeNum, patchNum)]]"
-        last-response="{{_actions}}"
+        url="[[_computeRevisionActionsPath(changeNum, patchNum)]]"
+        last-response="{{_revisionActions}}"
         loading="{{_loading}}"></gr-ajax>
     <div>
-      <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
+      <template is="dom-repeat" items="[[_computeActionValues(actions, 'change')]]" as="action">
         <button title$="[[action.title]]"
+            class$="[[_computeButtonClass(action.__key)]]"
+            hidden$="[[!action.enabled]]"
+            data-action-key$="[[action.__key]]"
+            data-label$="[[action.label]]"
+            on-tap="_handleActionTap"></button>
+      </template>
+      <template is="dom-repeat" items="[[_computeActionValues(_revisionActions, 'revision')]]" as="action">
+        <button title$="[[action.title]]"
+            class$="[[_computeButtonClass(action.__key)]]"
             disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
             data-label$="[[action.label]]"
@@ -67,6 +79,17 @@ limitations under the License.
   (function() {
     'use strict';
 
+    // TODO(davido): Add the rest of the change actions.
+    var ChangeActions = {
+      ABANDON: 'abandon',
+      RESTORE: 'restore',
+    };
+
+    // TODO(andybons): Add the rest of the revision actions.
+    var RevisionActions = {
+      SUBMIT: 'submit',
+    };
+
     Polymer({
       is: 'gr-change-actions',
 
@@ -77,17 +100,23 @@ limitations under the License.
        */
 
       properties: {
+        actions: {
+          type: Object,
+        },
         changeNum: String,
         patchNum: String,
-        _actions: {
-          type: Object,
-          observer: '_actionsChanged',
-        },
         _loading: {
           type: Boolean,
           value: true,
         },
+        _revisionActions: {
+          type: Object,
+        },
       },
+
+      observers: [
+        '_actionsChanged(actions, _revisionActions)',
+      ],
 
       reload: function() {
         if (!this.changeNum || !this.patchNum) {
@@ -96,19 +125,28 @@ limitations under the License.
         return this.$.actionsXHR.generateRequest().completes;
       },
 
-      _actionsChanged: function(actions) {
-        this.hidden = actions.submit == null;
+      _actionsChanged: function(actions, revisionActions) {
+        this.hidden = revisionActions.submit == null &&
+            actions.abandon == null &&
+            actions.restore == null;
       },
 
-      _computeActionsPath: function(changeNum, patchNum) {
+      _computeRevisionActionsPath: function(changeNum, patchNum) {
         return Changes.baseURL(changeNum, patchNum) + '/actions';
       },
 
-      _computeActionValues: function(actions) {
+      _getValuesFor: function(obj) {
+        return Object.keys(obj).map(function (key) {
+          return obj[key];
+        });
+      },
+
+      _computeActionValues: function(actions, k) {
         var result = [];
+        var values = this._getValuesFor(
+            k == 'change' ? ChangeActions : RevisionActions);
         for (var a in actions) {
-          // TODO(andybons): Add the rest of the actions.
-          if (a != 'submit') { continue; }
+          if (values.indexOf(a) == -1) { continue; }
           actions[a].__key = a;
           result.push(actions[a]);
         }
@@ -121,21 +159,38 @@ limitations under the License.
         }[action];
       },
 
+      _computeButtonClass: function(action) {
+        return action == 'submit' ? 'primary' : '';
+      },
+
       _handleActionTap: function(e) {
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
-        if (key == 'submit') {
-          this._submitChange('/' + key, this._actions[key]);
+        if (this._getValuesFor(RevisionActions).indexOf(key) > -1) {
+          this._fireRevisionAction('/' + key, this._revisionActions[key]);
+        } else {
+          this._fireChangeAction('/' + key, this.actions[key]);
         }
       },
 
-      _submitChange: function(endpoint, action) {
+      _fireChangeAction: function(endpoint, action) {
+        this._send(action.method, {}, endpoint).then(
+          function() {
+            this.fire('reload-change', null, {bubbles: false});
+          }.bind(this)).catch(function(err) {
+            alert('Oops. Something went wrong. Check the console and bug the ' +
+                'PolyGerrit team for assistance.');
+          throw err;
+        });
+      },
+
+      _fireRevisionAction: function(endpoint, action) {
         var buttonEl = this.$$('[data-action-key="' + action.__key + '"]');
         buttonEl.setAttribute('loading', true);
         buttonEl.disabled = true;
 
-        this._send(action.method, {}, endpoint).then(
+        this._send(action.method, {}, endpoint, true).then(
           function() {
             this.fire('reload-change', null, {bubbles: false});
             buttonEl.setAttribute('loading', false);
@@ -149,11 +204,12 @@ limitations under the License.
         });
       },
 
-      _send: function(method, payload, actionEndpoint) {
+      _send: function(method, payload, actionEndpoint, revisionAction) {
         var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: method,
-          url: Changes.baseURL(this.changeNum, this.patchNum) + actionEndpoint,
+          url: Changes.baseURL(this.changeNum,
+              revisionAction ? this.patchNum : null) + actionEndpoint,
           body: payload,
         });
 

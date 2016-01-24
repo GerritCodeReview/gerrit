@@ -35,7 +35,9 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -53,6 +55,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -68,11 +71,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeEditIT extends AbstractDaemonTest {
 
@@ -713,6 +716,41 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(queryEdits()).hasSize(0);
   }
 
+  @Test
+  public void files() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    ChangeEdit edit = editUtil.byChange(change).get();
+    assertThat(modifier.modifyFile(edit, FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+        .isEqualTo(RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change).get();
+
+    RestResponse r = adminSession.getJsonAccept(urlRevisionFiles(edit));
+    Map<String, FileInfo> files = readContentFromJson(
+        r, new TypeToken<Map<String, FileInfo>>() {});
+    assertThat(files).containsKey(FILE_NAME);
+
+    r = adminSession.getJsonAccept(urlRevisionFiles());
+    files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
+    assertThat(files).containsKey(FILE_NAME);
+  }
+
+  @Test
+  public void diff() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    ChangeEdit edit = editUtil.byChange(change).get();
+    assertThat(modifier.modifyFile(edit, FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+        .isEqualTo(RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change).get();
+
+    RestResponse r = adminSession.getJsonAccept(urlDiff(edit));
+    DiffInfo diff = readContentFromJson(r, DiffInfo.class);
+    assertThat(diff.diffHeader.get(0)).contains(FILE_NAME);
+
+    r = adminSession.getJsonAccept(urlDiff());
+    diff = readContentFromJson(r, DiffInfo.class);
+    assertThat(diff.diffHeader.get(0)).contains(FILE_NAME);
+  }
+
   private List<ChangeInfo> queryEdits() throws Exception {
     return query("project:{" + project.get() + "} has:edit");
   }
@@ -783,6 +821,20 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "?list";
   }
 
+  private String urlRevisionFiles(ChangeEdit edit) {
+    return "/changes/"
+      + change.getChangeId()
+      + "/revisions/"
+      + edit.getRevision().get()
+      + "/files";
+  }
+
+  private String urlRevisionFiles() {
+    return "/changes/"
+      + change.getChangeId()
+      + "/revisions/0/files";
+  }
+
   private String urlPublish() {
     return "/changes/"
         + change.getChangeId()
@@ -795,16 +847,47 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/edit:rebase";
   }
 
-  private EditInfo toEditInfo(boolean files) throws Exception {
-    RestResponse r = adminSession.get(files ? urlGetFiles() : urlEdit());
-    r.assertOK();
-    return newGson().fromJson(r.getReader(), EditInfo.class);
+  private String urlDiff() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/revisions/0/files/"
+        + FILE_NAME
+        + "/diff?context=ALL&intraline";
   }
 
-  private String readContentFromJson(RestResponse r) throws IOException {
+  private String urlDiff(ChangeEdit edit) {
+    return "/changes/"
+        + change.getChangeId()
+        + "/revisions/"
+        + edit.getRevision().get()
+        + "/files/"
+        + FILE_NAME
+        + "/diff?context=ALL&intraline";
+  }
+
+  private EditInfo toEditInfo(boolean files) throws Exception {
+    RestResponse r = adminSession.get(files ? urlGetFiles() : urlEdit());
+    return readContentFromJson(r, EditInfo.class);
+  }
+
+  private <T> T readContentFromJson(RestResponse r, Class<T> clazz)
+      throws Exception {
+    r.assertOK();
     JsonReader jsonReader = new JsonReader(r.getReader());
     jsonReader.setLenient(true);
-    return newGson().fromJson(jsonReader, String.class);
+    return newGson().fromJson(jsonReader, clazz);
+  }
+
+  private <T> T readContentFromJson(RestResponse r, TypeToken<T> typeToken)
+      throws Exception {
+    r.assertOK();
+    JsonReader jsonReader = new JsonReader(r.getReader());
+    jsonReader.setLenient(true);
+    return newGson().fromJson(jsonReader, typeToken.getType());
+  }
+
+  private String readContentFromJson(RestResponse r) throws Exception {
+    return readContentFromJson(r, String.class);
   }
 
   private void assertChangeMessages(Change c, List<String> expectedMessages)

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
@@ -161,8 +162,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         ? psUtil.get(db, control.getNotes(), psa) : null;
     PatchSet psEntityB = psUtil.get(db, control.getNotes(), psb);
 
-    aId = psEntityA != null ? toObjectId(psEntityA) : null;
-    bId = toObjectId(psEntityB);
+    aId = psEntityA != null ? toObjectId(psa, psEntityA) : null;
+    bId = toObjectId(psb, psEntityB);
 
     if ((psEntityA != null && !control.isPatchVisible(psEntityA, db)) ||
         (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
@@ -216,14 +217,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     return b;
   }
 
-  private ObjectId toObjectId(PatchSet ps) throws NoSuchChangeException,
+  private ObjectId toObjectId(PatchSet.Id psId, PatchSet ps)
+    throws NoSuchChangeException,
       AuthException, NoSuchChangeException, IOException {
-    if (ps == null || ps.getRevision() == null
-        || ps.getRevision().get() == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-    if (ps.getId().get() == 0) {
+    if (psId.get() == 0) {
       return getEditRev();
+    }
+    checkNotNull(ps);
+    if (ps.getRevision() == null || ps.getRevision().get() == null) {
+      throw new NoSuchChangeException(changeId);
     }
 
     try {

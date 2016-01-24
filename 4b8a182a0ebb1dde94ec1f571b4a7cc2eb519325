@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94565a44_579e8c49",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T17:42:21Z",
+      "side": 1,
+      "message": "You could put the type (change / revision) also into a data attribute so checking for hardcoded \u0027submit\u0027 would not be necessary anymore.",
+      "revId": "4b8a182a0ebb1dde94ec1f571b4a7cc2eb519325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

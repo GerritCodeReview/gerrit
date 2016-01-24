@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453312817 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVw7hy+oxBmmWXSFcefU7L44sN6fusgT+eJWcatMjv10s/QPNJVKjyiFgNrB2ykmoRuxNOA\n\n0000000000000000000000000000000000000000 94ed8fd25832443b9c13710b0fdb29b1275a64d3 refs/for/master%topic\u003dps-util,r\u003dekempin,r\u003dsbeller@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWn8sxAAoJEF/XxZqaEoiMfLAP/19iS1nOho2JJ6BsFFS3vP87\nwb7gSjqWTH1Dn4RzEz+CroW53GJjiUf2YBaYblhXRnNJSTjRNP08sklIORLvcoYZ\nydzCorysslGYJwLv91l2xFLOSlsXgDLzfyQ2gDbOvsw324GrWMJdO1zmUHdQQHBb\n4ZI+EwzyoL6ZuV9zHoOY/z1DUaUzqUVdw90KwyBoo32/gFZCVpCZQX9ep6Oabsn2\njaIVGHNQDuHzNvjvaoD9WnHrVx5MQPWifUDzIMfiVr4R7O7rsBkb9f4P2MrfDEeQ\n865vQ93OyO4YUrM7VjN0YbtT6mw2pb9hxZ2NU6Imr7jar4E+dgKjxeqe/x+vj83t\n4p93NBGF5wmB5R/6zQ0PalkKNtDhpSLb5YFoNpx7cseuDwC7v4391/LrU97T62zt\n+rXF45FTcxJ+Ivd3KwRX0ijUumjNRmtZIRGxl3QkgSv1INf9miyB88AkXfc2FPsy\nB4FWg/PUzfV/CkKaiGQCA1/PS8LgJB+WPRgSzUC9RtbyFthoDyP47BpDIel5eiXL\ndD9tX1SKz4d25iJ5WM2iEX7PX7fLk7v7i0WP20wgYJjJaZS8P0cWOGTbyHKV+xkC\nCekNc6GQprnqlIIncMwPZlCkFpCvmXPokhE6lTd5Vvk/BIk2P9Hrlqvt4OgZhSFl\nUfD8p4e7BMZqT1fkZ3Hg\n\u003dbXTi\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "94565a44_771e30a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T16:09:17Z",
+      "side": 1,
+      "message": "The oder of this condition was erroneously swapped with the condition on line 221, compared to the base patch set. This broke REST handler for change edit revision-id:\n\n  GET /changes/\u003cchange-id\u003e/revisions/\u003crevision-id\u003e/files/\u003cname\u003e/diff?context\u003dALL\u0026intraline\n\nNoe, that previously, this method had PatchSet.Id parameter and it was of the form changeId,0. This is similar to my comment on another inline edit feature breakage in: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/73923/6/gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 5
+      },
+      "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

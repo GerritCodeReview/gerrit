@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "543f82e8_bddedf2d",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-24T02:25:49Z",
+      "side": 1,
+      "message": "return result;\n\nsince it will be an empty array anyway.",
+      "revId": "c5b0002c876823f1050dda85db8c76413b9cfbba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "543f82e8_9ddb233e",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-24T02:25:49Z",
+      "side": 1,
+      "message": "I’d prefer to be explicit with return values, so let’s return null here.",
+      "revId": "c5b0002c876823f1050dda85db8c76413b9cfbba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

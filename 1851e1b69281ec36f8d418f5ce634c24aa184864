@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94565a44_774750a7",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T09:48:30Z",
+      "side": 1,
+      "message": "This does not work anymore since you depend on both \u0027_revisionActions\u0027 and \u0027changeActions\u0027 in #_actionsChanged. When debugging the observer method, I sometimes see reference errors and buttons are not visible, but errors are never visible in console. Should work this way:\n\n  observers: [\n    \u0027_actionsChanged(changeActions, _revisionActions)\u0027,\n  ],",
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4535e54_984df5c6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T09:48:30Z",
+      "side": 1,
+      "message": "If you would pass currently supported actions from the template, you could merge this and the following method.",
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_574cccc9",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T09:48:30Z",
+      "side": 1,
+      "message": "Name this #_fireRevision action? Or even better merge this and #_fireChangeAction?",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 28
+      },
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4535e54_f85a3178",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T09:48:30Z",
+      "side": 1,
+      "message": "indent 2 spaces",
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_b750c85a",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T09:48:30Z",
+      "side": 1,
+      "message": "Are these not also required in #fireChangeAction?",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 33
+      },
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4535e54_d8576d4e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-24T09:48:30Z",
+      "side": 1,
+      "message": "indent 4 spaces",
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

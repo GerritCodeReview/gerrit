@@ -120,6 +120,10 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
           out.add(new RevisionResource(change, ps));
         }
       }
+      // Not an existing patch set on a change, but might be an edit.
+      if (out.isEmpty() && id.length() == RevId.LEN) {
+        return loadEdit(change, new RevId(id));
+      }
       return out;
     }
   }

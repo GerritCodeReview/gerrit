@@ -76,10 +76,10 @@ limitations under the License.
       <span class="u-green"><span>+</span>[[change.insertions]]</span>,
       <span class="u-red"><span>-</span>[[change.deletions]]</span>
     </span>
-    <span title$="[[_computeLabelTitle(change.labels.Code_Review, 'Code-Review')]]"
-        class$="[[_computeLabelClass(change.labels.Code_Review)]]">[[_computeLabelValue(change.labels.Code_Review)]]</span>
-    <span title$="[[_computeLabelTitle(change.labels.Verified, 'Verified')]]"
-        class$="[[_computeLabelClass(change.labels.Verified)]]">[[_computeLabelValue(change.labels.Verified)]]</span>
+    <template is="dom-repeat" items="[[labelNames]]" as="labelName">
+      <span title$="[[_computeLabelTitle(change, labelName)]]"
+          class$="[[_computeLabelClass(change, labelName)]]">[[_computeLabelValue(change, labelName)]]</span>
+    </template>
   </template>
   <script>
   (function() {
@@ -92,6 +92,9 @@ limitations under the License.
         selected: {
           type: Boolean,
           reflectToAttribute: true,
+        },
+        labelNames: {
+          type: Array,
         },
         change: Object,
         changeURL: {
@@ -125,7 +128,8 @@ limitations under the License.
         return '';
       },
 
-      _computeLabelTitle: function(label, labelName) {
+      _computeLabelTitle: function(change, labelName) {
+        var label = change.labels[labelName];
         if (!label) { return labelName; }
         var significantLabel = label.rejected || label.approved
             || label.disliked || label.recommended;
@@ -135,7 +139,8 @@ limitations under the License.
         return labelName;
       },
 
-      _computeLabelClass: function(label) {
+      _computeLabelClass: function(change, labelName) {
+        var label = change.labels[labelName];
         // Mimic a Set.
         var classes = {
           'cell': true,
@@ -159,7 +164,8 @@ limitations under the License.
         return Object.keys(classes).sort().join(' ');
       },
 
-      _computeLabelValue: function(label) {
+      _computeLabelValue: function(change, labelName) {
+        var label = change.labels[labelName];
         if (!label) { return ''; }
         if (label.approved) {
           return '✓';

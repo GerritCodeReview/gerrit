@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "94565a44_57116c9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543f82e8_3debefd2",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "149d0a26_bbb40798",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-24T02:21:55Z",
       "side": 1,
       "message": "four-space indent to remain consistent.",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_b705685e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149d0a26_bbb40798",
       "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b4535e54_98db353e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149d0a26_5b75c3a8",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "543f82e8_1df0b3b7",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-01-24T02:21:55Z",
       "side": 1,
       "message": "four-space indent on continuing lines and \u0026\u0026 should go on the previous line.",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4535e54_f8e871d0",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543f82e8_1df0b3b7",
       "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "94565a44_9702e451",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543f82e8_7df577a7",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "543f82e8_5dfa3b99",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "b4535e54_d8e5adf6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543f82e8_5dfa3b99",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "149d0a26_7b7aff9b",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2016-01-24T02:21:55Z",
       "side": 1,
       "message": "space after this.patchNum",
+      "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4535e54_3812e9a6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149d0a26_7b7aff9b",
       "revId": "585e5a965ca618721c98ea556d6e62683c6ff2b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

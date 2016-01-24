@@ -47,6 +47,30 @@
       "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d0a26_5b5ce332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-24T21:40:15Z",
+      "side": 1,
+      "message": "Ah, I guess /revisions/0 is a different codepath. Still not sure how you would reproduce this in the UI but I have a failing test now.",
+      "parentUuid": "149d0a26_bb8f27e2",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 5
+      },
+      "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

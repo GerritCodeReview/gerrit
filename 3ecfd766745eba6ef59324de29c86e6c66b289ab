@@ -119,6 +119,30 @@
       "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d0a26_7b619fe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-24T21:53:41Z",
+      "side": 1,
+      "message": "Right, I know the change screen is broken, I can reproduce that one. But the diff screen was not.",
+      "parentUuid": "94565a44_d789fc0e",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 5
+      },
+      "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

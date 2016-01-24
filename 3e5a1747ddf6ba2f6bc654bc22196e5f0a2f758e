@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94565a44_f7ffe07b",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T07:55:33Z",
+      "side": 1,
+      "message": "Why not keep this list lexicographically sorted?",
+      "revId": "3e5a1747ddf6ba2f6bc654bc22196e5f0a2f758e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,30 @@
       "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d0a26_bb8f27e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-24T21:08:55Z",
+      "side": 1,
+      "message": "Hm, I see what you\u0027re saying, but I can\u0027t reproduce this on gerrit-review, which is at 966955f. This URL works fine for me (after having created an edit of course):\n\nhttps://gerrit-review.googlesource.com/#/c/74230/edit/polygerrit-ui/app/elements/gr-change-list.html\n\nWhich Chrome tells me resulted in:\n\n Request URL:https://gerrit-review.googlesource.com/changes/74230/revisions/0/files/polygerrit-ui%2Fapp%2Ftest%2Fgr-change-list-item-test.html/diff?context\u003dALL\u0026intraline\n Request Method:GET\n Status Code:200 OK",
+      "parentUuid": "94565a44_771e30a3",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 5
+      },
+      "revId": "3ecfd766745eba6ef59324de29c86e6c66b289ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

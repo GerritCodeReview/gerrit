@@ -50,15 +50,19 @@ limitations under the License.
       <span class="topHeader branch">Branch</span>
       <span class="topHeader updated">Updated</span>
       <span class="topHeader size">Size</span>
-      <span class="topHeader label" title="Code-Review">CR</span>
-      <span class="topHeader label" title="Verified">V</span>
+      <template is="dom-repeat" items="[[labelNames]]" as="labelName">
+        <span class="topHeader label" title$="[[labelName]]">
+          [[_computeLabelShortcut(labelName)]]
+        </span>
+      </template>
     </div>
     <template is="dom-repeat" items="{{groups}}" as="changeGroup" index-as="groupIndex">
       <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
         <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
       </template>
       <template is="dom-repeat" items="[[changeGroup]]" as="change">
-        <gr-change-list-item change="[[change]]" show-star="[[showStar]]"></gr-change-list-item>
+        <gr-change-list-item change="[[change]]" show-star="[[showStar]]"
+            label-names="[[labelNames]]"></gr-change-list-item>
       </template>
     </template>
   </template>
@@ -96,6 +100,10 @@ limitations under the License.
           type: Array,
           value: function() { return []; },
         },
+        labelNames: {
+          type: Array,
+          computed: '_computeLabelNames(groups)',
+        },
         selectedIndex: {
           type: Number,
           value: 0,
@@ -119,24 +127,32 @@ limitations under the License.
         document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
+      _computeLabelNames: function(groups) {
+        var labels = [];
+        var nonExistingLabel = function(item) {
+          return labels.indexOf(item) < 0;
+        };
+        for (var i = 0; i < groups.length; i++) {
+          var group = groups[i];
+          for (var j = 0; j < group.length; j++) {
+            var change = group[j];
+            if (!change.labels) { continue; }
+            var currentLabels = Object.keys(change.labels);
+            labels = labels.concat(currentLabels.filter(nonExistingLabel));
+          }
+        }
+        return labels.sort();
+      },
+
+      _computeLabelShortcut: function(labelName) {
+        return labelName.replace(/[a-z-]/g, '');
+      },
+
       _changesChanged: function(changes) {
         this.groups = [changes];
       },
 
       _groupsChanged: function(groups) {
-        for (var i = 0; i < groups.length; i++) {
-          for (var j = 0; j < groups[i].length; j++) {
-            var change = groups[i][j];
-            if (change.labels && change.labels.hasOwnProperty('Code-Review')) {
-              // Transform Code-Review to Code_Review so it is a JS identifier
-              // that can be used in computed properties. This is a hack, but
-              // it'll all have to change to support dynamic label sets anyway.
-              change.labels['Code_Review'] = change.labels['Code-Review'];
-              delete change.labels['Code-Review'];
-            }
-          }
-        }
-
         // Allow for the elements to render before resetting the selectedIndex.
         this.async(function() {
           // Setting the property would have no effect if the index is 0 (e.g.

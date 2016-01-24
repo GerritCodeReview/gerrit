@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94565a44_1729b4c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-24T16:06:50Z",
+      "side": 0,
+      "message": "This was erroneously removed and broke inline edit feature. Now REST handler for change edit revision-id returns 404:\n\n  GET /changes/\u003cchange-id\u003e/revisions/\u003crevision-id\u003e/files\n\nAs the consequence, change screen cannot be opened any more, once change edit was created.\n\nArguably, the client could try harder to detect in all code paths that change edit and not regular patch set is loaded and not pass SHA-1, but 0. But this is not how it\u0027s currently done on the client side.",
+      "range": {
+        "startLine": 125,
+        "startChar": 29,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "f85bd49cfcceb1260405ab180cbe88250a269fee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

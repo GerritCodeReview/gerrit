@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "543f82e8_fde867d0",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-24T17:00:08Z",
+      "side": 1,
+      "message": "If you want a single observer method to fire when either changeActions or _revisionActions is changed, then Urs is correct. Keep in mind that both need to be !\u003d\u003d undefined at least once in order for the observer to fire at all. After that they can be any value and the observer will fire.",
+      "parentUuid": "b4535e54_b837191e",
+      "revId": "1851e1b69281ec36f8d418f5ce634c24aa184864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4535e54_984df5c6",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 4

@@ -120,7 +120,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
           out.add(new RevisionResource(change, ps));
         }
       }
-      return out;
+      return out.isEmpty() ? loadEdit(change, new RevId(id)) : out;
     }
   }
 

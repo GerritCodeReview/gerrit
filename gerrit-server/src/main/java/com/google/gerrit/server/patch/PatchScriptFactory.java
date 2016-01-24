@@ -159,7 +159,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     PatchSet psEntityA = psa != null
         ? psUtil.get(db, control.getNotes(), psa) : null;
-    PatchSet psEntityB = psUtil.get(db, control.getNotes(), psb);
+    PatchSet psEntityB = psb.get() == 0
+        ? new PatchSet(psb)
+        : psUtil.get(db, control.getNotes(), psb);
 
     aId = psEntityA != null ? toObjectId(psEntityA) : null;
     bId = toObjectId(psEntityB);
@@ -218,12 +220,11 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private ObjectId toObjectId(PatchSet ps) throws NoSuchChangeException,
       AuthException, NoSuchChangeException, IOException {
-    if (ps == null || ps.getRevision() == null
-        || ps.getRevision().get() == null) {
-      throw new NoSuchChangeException(changeId);
-    }
     if (ps.getId().get() == 0) {
       return getEditRev();
+    }
+    if (ps.getRevision() == null || ps.getRevision().get() == null) {
+      throw new NoSuchChangeException(changeId);
     }
 
     try {

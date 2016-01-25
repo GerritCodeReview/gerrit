@@ -159,6 +159,13 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
             }
           }
           break;
+        case CUSTOM_EXTENSION:
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+        case HTTP:
+        case LDAP_BIND:
+        case OAUTH:
+        case OPENID:
+        case OPENID_SSO:
         default:
       }
       throw e;

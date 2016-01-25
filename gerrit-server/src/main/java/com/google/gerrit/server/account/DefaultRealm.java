@@ -57,6 +57,8 @@ public class DefaultRealm extends AbstractRealm {
       switch (field) {
         case REGISTER_NEW_EMAIL:
           return authConfig.isAllowRegisterNewEmail();
+        case FULL_NAME:
+        case USER_NAME:
         default:
           return true;
       }

@@ -151,6 +151,7 @@ public class PageLinks {
         return "status:abandoned";
       case MERGED:
         return "status:merged";
+      case DRAFT:
       case NEW:
       default:
         return "status:open";

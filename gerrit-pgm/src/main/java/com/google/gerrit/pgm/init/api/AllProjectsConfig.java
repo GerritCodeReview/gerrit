@@ -185,6 +185,13 @@ public class AllProjectsConfig extends VersionedMetaData {
       case NEW:
       case NO_CHANGE:
         break;
+      case FORCED:
+      case IO_FAILURE:
+      case LOCK_FAILURE:
+      case NOT_ATTEMPTED:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case RENAMED:
       default:
         throw new IOException("Failed to update " + getRefName() + " of "
             + project + ": " + r.name());

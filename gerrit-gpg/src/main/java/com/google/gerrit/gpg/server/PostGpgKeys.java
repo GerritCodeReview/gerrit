@@ -232,6 +232,12 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
           break;
         case NO_CHANGE:
           break;
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           // TODO(dborowitz): Backoff and retry on LOCK_FAILURE.
           throw new ResourceConflictException(

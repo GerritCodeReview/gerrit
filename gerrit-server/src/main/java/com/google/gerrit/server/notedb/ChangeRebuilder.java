@@ -217,6 +217,13 @@ public class ChangeRebuilder {
       case NEW:
       case NO_CHANGE:
         break;
+      case FAST_FORWARD:
+      case IO_FAILURE:
+      case LOCK_FAILURE:
+      case NOT_ATTEMPTED:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case RENAMED:
       default:
         throw new IOException(
             String.format("Failed to delete ref %s: %s", refName, result));

@@ -327,6 +327,7 @@ public class ProjectConfigEntry {
                 break;
               case LIST:
               case STRING:
+              case ARRAY:
               default:
                 configEntry.onUpdate(p, oldValue, newValue);
             }

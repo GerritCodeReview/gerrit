@@ -558,6 +558,12 @@ public class ConsistencyChecker {
           p.status = Status.FIXED;
           p.outcome = "Repaired patch set ref";
           return;
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           p.status = Status.FIX_FAILED;
           p.outcome = "Failed to update patch set ref: " + result;

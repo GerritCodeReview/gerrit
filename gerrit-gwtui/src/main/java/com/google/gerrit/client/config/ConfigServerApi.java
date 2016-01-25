@@ -15,7 +15,7 @@
 package com.google.gerrit.client.config;
 
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.client.info.TopMenuList;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -37,7 +37,7 @@ public class ConfigServerApi {
     new RestApi("/config/server/top-menus").get(cb);
   }
 
-  public static void defaultPreferences(AsyncCallback<AccountPreferencesInfo> cb) {
+  public static void defaultPreferences(AsyncCallback<GeneralPreferences> cb) {
     new RestApi("/config/server/preferences").get(cb);
   }
 

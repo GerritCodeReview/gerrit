@@ -31,15 +31,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AccountPreferencesInfo extends JavaScriptObject {
-  public static AccountPreferencesInfo create() {
+public class GeneralPreferences extends JavaScriptObject {
+  public static GeneralPreferences create() {
     return createObject().cast();
   }
 
-  public static AccountPreferencesInfo createDefault() {
+  public static GeneralPreferences createDefault() {
     AccountGeneralPreferences defaultPrefs =
         AccountGeneralPreferences.createDefault();
-    AccountPreferencesInfo p = createObject().cast();
+    GeneralPreferences p = createObject().cast();
     p.changesPerPage(defaultPrefs.getMaximumPageSize());
     p.showSiteHeader(defaultPrefs.isShowSiteHeader());
     p.useFlashClipboard(defaultPrefs.isUseFlashClipboard());
@@ -223,6 +223,6 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   private final native void putUrlAlias(String m, String t) /*-{ this.url_aliases[m] = t; }-*/;
   private final native void initUrlAliases() /*-{ this.url_aliases = {}; }-*/;
 
-  protected AccountPreferencesInfo() {
+  protected GeneralPreferences() {
   }
 }

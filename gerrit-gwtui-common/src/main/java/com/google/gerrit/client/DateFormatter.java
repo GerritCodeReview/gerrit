@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;
@@ -28,7 +28,7 @@ public class DateFormatter {
   private final DateTimeFormat mDate;
   private final DateTimeFormat dtfmt;
 
-  public DateFormatter(AccountPreferencesInfo prefs) {
+  public DateFormatter(GeneralPreferences prefs) {
     String fmt_sTime = prefs.timeFormat().getFormat();
     String fmt_sDate = prefs.dateFormat().getShortFormat();
     String fmt_mDate = prefs.dateFormat().getLongFormat();

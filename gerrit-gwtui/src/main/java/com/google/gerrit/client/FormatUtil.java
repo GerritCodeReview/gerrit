@@ -16,7 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.info.AccountInfo;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.i18n.client.NumberFormat;
 
@@ -26,7 +26,7 @@ import java.util.Date;
 public class FormatUtil {
   private static DateFormatter dateFormatter;
 
-  public static void setPreferences(AccountPreferencesInfo prefs) {
+  public static void setPreferences(GeneralPreferences prefs) {
     dateFormatter = new DateFormatter(prefs);
   }
 

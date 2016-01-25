@@ -790,7 +790,7 @@ public class ReceiveCommits {
           if (replace.insertPatchSet().checkedGet() != null) {
             replace.inputCommand.setResult(OK);
           }
-        } catch (IOException | RestApiException err) {
+        } catch (RestApiException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to %d of %s",
@@ -870,9 +870,6 @@ public class ReceiveCommits {
         rejection += ": " + err.getCause().getMessage();
       }
       reject(magicBranch.cmd, rejection);
-    } catch (IOException err) {
-      log.error("Can't read commits for " + project.getName(), err);
-      reject(magicBranch.cmd, "internal server error");
     }
   }
 
@@ -1685,10 +1682,10 @@ public class ReceiveCommits {
       Multimap<ObjectId, String> groups = groupCollector.getGroups();
       for (CreateRequest create : newChanges) {
         batch.addCommand(create.cmd);
-        create.groups = groups.get(create.commit);
+        create.groups = groups.get(create.commitId);
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
-        replace.groups = groups.get(replace.newCommit);
+        replace.groups = groups.get(replace.newCommitId);
       }
       for (UpdateGroupsRequest update : updateGroups) {
         update.groups = Sets.newHashSet(groups.get(update.commit));
@@ -1731,7 +1728,7 @@ public class ReceiveCommits {
   }
 
   private class CreateRequest {
-    final RevCommit commit;
+    final ObjectId commitId;
     final ReceiveCommand cmd;
     final ChangeInserter ins;
     Change.Id changeId;
@@ -1740,7 +1737,7 @@ public class ReceiveCommits {
 
     CreateRequest(RevCommit c, String refName)
         throws OrmException {
-      commit = c;
+      commitId = c.copy();
       changeId = new Change.Id(seq.nextChangeId());
       ins = changeInserterFactory.create(changeId, c, refName)
           .setDraft(magicBranch.draft)
@@ -1751,9 +1748,7 @@ public class ReceiveCommits {
           ins.getPatchSetId().toRefName());
     }
 
-    CheckedFuture<Void, RestApiException> insertChange() throws IOException {
-      rp.getRevWalk().parseBody(commit);
-
+    CheckedFuture<Void, RestApiException> insertChange() {
       final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
@@ -1771,7 +1766,9 @@ public class ReceiveCommits {
     }
 
     private void insertChange(RequestState state)
-        throws OrmException, RestApiException, UpdateException {
+        throws OrmException, IOException, RestApiException, UpdateException {
+      RevCommit commit = state.rw.parseCommit(commitId);
+      state.rw.parseBody(commit);
       final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
       final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -1948,7 +1945,7 @@ public class ReceiveCommits {
 
   private class ReplaceRequest {
     final Change.Id ontoChange;
-    final RevCommit newCommit;
+    final ObjectId newCommitId;
     final ReceiveCommand inputCommand;
     final boolean checkMergedInto;
     final Timestamp createdOn;
@@ -1968,7 +1965,7 @@ public class ReceiveCommits {
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
         final ReceiveCommand cmd, final boolean checkMergedInto) {
       this.ontoChange = toChange;
-      this.newCommit = newCommit;
+      this.newCommitId = newCommit.copy();
       this.inputCommand = cmd;
       this.checkMergedInto = checkMergedInto;
       createdOn = TimeUtil.nowTs();
@@ -2001,8 +1998,9 @@ public class ReceiveCommits {
         return false;
       }
 
+      RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
-      if (newCommit == priorCommit) {
+      if (newCommit.equals(priorCommit)) {
         // Ignore requests to make the change its current state.
         skip = true;
         reject(inputCommand, "commit already exists (as current patchset)");
@@ -2109,7 +2107,7 @@ public class ReceiveCommits {
           // replace edit
           cmd = new ReceiveCommand(
               edit.get().getRef().getObjectId(),
-              newCommit,
+              newCommitId,
               edit.get().getRefName());
         } else {
           // delete old edit ref on rebase
@@ -2130,7 +2128,7 @@ public class ReceiveCommits {
       // create new edit
       cmd = new ReceiveCommand(
           ObjectId.zeroId(),
-          newCommit,
+          newCommitId,
           RefNames.refsEdit(
               user.getAccountId(),
               change.getId(),
@@ -2138,19 +2136,17 @@ public class ReceiveCommits {
     }
 
     private void newPatchSet() throws IOException {
+      RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       psId = ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       info = patchSetInfoFactory.get(
           rp.getRevWalk(), newCommit, psId);
       cmd = new ReceiveCommand(
           ObjectId.zeroId(),
-          newCommit,
+          newCommitId,
           psId.toRefName());
     }
 
-    CheckedFuture<PatchSet.Id, RestApiException> insertPatchSet()
-        throws IOException {
-      rp.getRevWalk().parseBody(newCommit);
-
+    CheckedFuture<PatchSet.Id, RestApiException> insertPatchSet() {
       final Thread caller = Thread.currentThread();
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
@@ -2230,6 +2226,8 @@ public class ReceiveCommits {
         throws OrmException, IOException, RestApiException {
       ReviewDb db = state.db;
       Repository repo = state.repo;
+      final RevCommit newCommit = state.rw.parseCommit(newCommitId);
+      state.rw.parseBody(newCommit);
       final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -2694,7 +2692,7 @@ public class ReceiveCommits {
             ? req.insertPatchSet().checkedGet()
             : null;
         if (psi != null) {
-          closeChange(req.inputCommand, psi, req.newCommit);
+          closeChange(req.inputCommand, psi, req.newCommitId);
           closeProgress.update(1);
         }
       }
@@ -2706,7 +2704,7 @@ public class ReceiveCommits {
   }
 
   private Change.Key closeChange(ReceiveCommand cmd, PatchSet.Id psi,
-      RevCommit commit) throws OrmException, IOException {
+      ObjectId commitId) throws OrmException, IOException {
     String refName = cmd.getRefName();
     Change.Id cid = psi.getParentKey();
 
@@ -2727,6 +2725,8 @@ public class ReceiveCommits {
       return null;
     }
 
+    RevCommit commit = rp.getRevWalk().parseCommit(commitId);
+    rp.getRevWalk().parseBody(commit);
     PatchSetInfo info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     markChangeMergedByPush(db, info, refName, ctl);
     hooks.doChangeMergedHook(

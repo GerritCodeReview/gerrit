@@ -54,6 +54,7 @@ public class Hashtags extends Composite {
   private static final String REMOVE;
   private static final String DATA_ID = "data-id";
 
+  private PatchSet.Id psId;
   private boolean canEdit;
 
   static {
@@ -135,7 +136,11 @@ public class Hashtags extends Composite {
     this.style = style;
   }
 
-  void set(ChangeInfo info) {
+  void set(ChangeInfo info, String revision) {
+    psId = new PatchSet.Id(
+        info.legacyId(),
+        info.revisions().get(revision)._number());
+
     canEdit = info.hasActions() && info.actions().containsKey("hashtags");
     this.changeId = info.legacyId();
     display(info);
@@ -219,14 +224,9 @@ public class Hashtags extends Composite {
         new GerritCallback<JsArrayString>() {
           @Override
           public void onSuccess(JsArrayString result) {
-            hashtagTextBox.setEnabled(true);
-            UIObject.setVisible(error, false);
-            error.setInnerText("");
-            hashtagTextBox.setText("");
-
-            if (result != null && result.length() > 0) {
-              updateHashtagList(result);
-            }
+            Gerrit.display(PageLinks.toChange(
+                psId.getParentKey(),
+                String.valueOf(psId.get())));
           }
 
           @Override
@@ -238,20 +238,6 @@ public class Hashtags extends Composite {
             hashtagTextBox.setEnabled(true);
           }
         });
-  }
-
-  protected void updateHashtagList() {
-    ChangeApi.detail(changeId.get(),
-        new GerritCallback<ChangeInfo>() {
-          @Override
-          public void onSuccess(ChangeInfo result) {
-            display(result);
-          }
-        });
-  }
-
-  protected void updateHashtagList(JsArrayString hashtags){
-    display(hashtags);
   }
 
   public static class PostInput extends JavaScriptObject {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.change.HashtagsUtil.extractTags;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
@@ -25,6 +26,9 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -40,12 +44,14 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class SetHashtagsOp extends BatchUpdate.Op {
   public interface Factory {
     SetHashtagsOp create(HashtagsInput input);
   }
 
+  private final ChangeMessagesUtil cmUtil;
   private final ChangeHooks hooks;
   private final DynamicSet<HashtagValidationListener> validationListeners;
   private final HashtagsInput input;
@@ -59,9 +65,11 @@ public class SetHashtagsOp extends BatchUpdate.Op {
 
   @AssistedInject
   SetHashtagsOp(
+      ChangeMessagesUtil cmUtil,
       ChangeHooks hooks,
       DynamicSet<HashtagValidationListener> validationListeners,
       @Assisted @Nullable HashtagsInput input) {
+    this.cmUtil = cmUtil;
     this.hooks = hooks;
     this.validationListeners = validationListeners;
     this.input = input;
@@ -109,10 +117,45 @@ public class SetHashtagsOp extends BatchUpdate.Op {
       updated.addAll(toAdd);
       updated.removeAll(toRemove);
       update.setHashtags(updated);
+      addMessage(ctx, update);
     }
 
     updatedHashtags = ImmutableSortedSet.copyOf(updated);
     return true;
+  }
+
+  private void addMessage(Context ctx, ChangeUpdate update)
+      throws OrmException {
+    StringBuilder msg = new StringBuilder();
+    appendHashtagMessage(msg, "Add", toAdd);
+    appendHashtagMessage(msg, "Remove", toRemove);
+    ChangeMessage cmsg = new ChangeMessage(
+        new ChangeMessage.Key(
+            change.getId(),
+            ChangeUtil.messageUUID(ctx.getDb())),
+        ctx.getUser().getAccountId(), ctx.getWhen(),
+        change.currentPatchSetId());
+    cmsg.setMessage(msg.toString());
+    cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+  }
+
+  private void appendHashtagMessage(StringBuilder b, String action,
+      Set<String> hashtags) {
+    if (isNullOrEmpty(hashtags)) {
+      return;
+    }
+    hashtags = new TreeSet<>(hashtags);
+
+    if (b.length() > 0) {
+      b.append("\n");
+    }
+    b.append(action);
+    b.append(" hashtag");
+    if (hashtags.size() > 1) {
+      b.append("s");
+    }
+    b.append(": ");
+    b.append(Joiner.on(", ").join(hashtags));
   }
 
   @Override

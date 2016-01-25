@@ -16,6 +16,24 @@
       "revId": "d8ab63fa21c8263f3bfc4fb1238eebb2d94859c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b88e3e_50590c84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-25T01:23:03Z",
+      "side": 1,
+      "message": "Done.  Had to rework this anyway because of the newly added FORCE case.",
+      "parentUuid": "67f4d602_3e0fe94b",
+      "revId": "d8ab63fa21c8263f3bfc4fb1238eebb2d94859c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

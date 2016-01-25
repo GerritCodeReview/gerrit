@@ -337,7 +337,7 @@ public class ReceiveCommits {
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<>();
   private final List<UpdateGroupsRequest> updateGroups = new ArrayList<>();
-  private final Set<RevCommit> validCommits = new HashSet<>();
+  private final Set<ObjectId> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
   private SetMultimap<ObjectId, Ref> refsById;
@@ -1576,7 +1576,8 @@ public class ReceiveCommits {
           continue;
         }
 
-        if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
+        if (!validCommit(
+            rp.getRevWalk(), magicBranch.ctl, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
           newChanges = Collections.emptyList();
           return;
@@ -2044,8 +2045,8 @@ public class ReceiveCommits {
         }
       }
 
-      rp.getRevWalk().parseBody(newCommit);
-      if (!validCommit(changeCtl.getRefControl(), inputCommand, newCommit)) {
+      if (!validCommit(rp.getRevWalk(), changeCtl.getRefControl(), inputCommand,
+            newCommit)) {
         return false;
       }
       rp.getRevWalk().parseBody(priorCommit);
@@ -2590,7 +2591,7 @@ public class ReceiveCommits {
       for (RevCommit c; (c = walk.next()) != null;) {
         if (existing.contains(c)) {
           continue;
-        } else if (!validCommit(ctl, cmd, c)) {
+        } else if (!validCommit(walk, ctl, cmd, c)) {
           break;
         }
 
@@ -2617,13 +2618,15 @@ public class ReceiveCommits {
     }
   }
 
-  private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
-      final RevCommit c) {
+  private boolean validCommit(RevWalk rw, RefControl ctl, ReceiveCommand cmd,
+      ObjectId id) throws IOException {
 
-    if (validCommits.contains(c)) {
+    if (validCommits.contains(id)) {
       return true;
     }
 
+    RevCommit c = rw.parseCommit(id);
+    rw.parseBody(c);
     CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
     CommitValidators commitValidators =
@@ -2637,7 +2640,7 @@ public class ReceiveCommits {
       reject(cmd, e.getMessage());
       return false;
     }
-    validCommits.add(c);
+    validCommits.add(c.copy());
     return true;
   }
 

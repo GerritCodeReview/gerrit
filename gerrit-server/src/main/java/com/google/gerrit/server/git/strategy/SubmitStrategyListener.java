@@ -77,7 +77,12 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
   private void checkCommitStatus() throws ResourceConflictException {
     for (Change.Id id : commits.getChangeIds()) {
       CodeReviewCommit commit = commits.get(id);
-      CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
+      if (commit == null) {
+        commits.problem(id,
+            "internal error: change not picked up for merge strategy");
+        return;
+      }
+      CommitMergeStatus s = commit.getStatusCode();
       if (s == null) {
         commits.problem(id,
             "internal error: change not processed by merge strategy");

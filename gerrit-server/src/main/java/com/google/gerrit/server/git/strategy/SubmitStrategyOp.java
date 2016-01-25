@@ -160,7 +160,9 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     Change.Id id = c.getId();
     try {
       CodeReviewCommit commit = args.commits.get(id);
-      CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
+      checkState(commit != null,
+          "commit for id {} not present; unexpected error", id);
+      CommitMergeStatus s = commit.getStatusCode();
       logDebug("Status of change {} ({}) on {}: {}", id, commit.name(),
           c.getDest(), s);
       checkState(s != null,

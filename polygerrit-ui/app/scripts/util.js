@@ -41,7 +41,11 @@ util.escapeHTML = function(str) {
 
 util.shouldSupressKeyboardShortcut = function(e) {
   var target = e.detail ? e.detail.keyboardEvent : e.target;
-  return target.tagName == 'INPUT' ||
+  return e.getModifierState('Control') ||
+         e.getModifierState('Alt') ||
+         e.getModifierState('Meta') ||
+         e.getModifierState('Fn') ||
+         target.tagName == 'INPUT' ||
          target.tagName == 'TEXTAREA' ||
          target.tagName == 'SELECT' ||
          target.tagName == 'BUTTON' ||

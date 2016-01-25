@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "94565a44_b7bd6881",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-25T11:47:08Z",
+      "side": 1,
+      "message": "fixed in patchset 10",
+      "parentUuid": "b4535e54_d8ebed98",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 593,
+        "endChar": 20
+      },
+      "revId": "efb90133228b9093fa3ddc9fc960cc5ce248d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94565a44_37f8386a",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 9
@@ -37,6 +61,30 @@
       "writtenOn": "2016-01-25T08:05:56Z",
       "side": 1,
       "message": "Not needed. It\u0027s already done by the newChange() method.",
+      "range": {
+        "startLine": 621,
+        "startChar": 3,
+        "endLine": 622,
+        "endChar": 20
+      },
+      "revId": "efb90133228b9093fa3ddc9fc960cc5ce248d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_97bae484",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-25T11:47:08Z",
+      "side": 1,
+      "message": "fixed in patchset 10",
+      "parentUuid": "94565a44_37f8386a",
       "range": {
         "startLine": 621,
         "startChar": 3,

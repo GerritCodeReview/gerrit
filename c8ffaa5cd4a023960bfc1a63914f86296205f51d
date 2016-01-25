@@ -45,6 +45,30 @@
       "revId": "c8ffaa5cd4a023960bfc1a63914f86296205f51d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_d7b45c99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T11:49:42Z",
+      "side": 1,
+      "message": "Yes, MetaDataUpdate must be created inside the loop.",
+      "parentUuid": "94565a44_77c4701a",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 152,
+        "endChar": 7
+      },
+      "revId": "c8ffaa5cd4a023960bfc1a63914f86296205f51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

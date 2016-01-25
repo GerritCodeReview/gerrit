@@ -60,6 +60,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChangeRebuilder {
   private static final long TS_WINDOW_MS =
@@ -132,15 +134,17 @@ public class ChangeRebuilder {
       events.add(new ApprovalEvent(psa));
     }
 
+    Change notedbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : db.changeMessages().byChange(changeId)) {
-      events.add(new ChangeMessageEvent(msg));
+      events.add(new ChangeMessageEvent(msg, notedbChange));
     }
 
     Collections.sort(events);
+    events.add(new FixChangeEvent(change, notedbChange));
     BatchMetaDataUpdate batch = null;
     ChangeUpdate update = null;
     for (Event e : events) {
-      if (!sameUpdate(e, update)) {
+      if (!sameUpdate(e, update) || e instanceof FixChangeEvent) {
         if (update != null) {
           writeToBatch(batch, update, changeRepo);
         }
@@ -155,7 +159,7 @@ public class ChangeRebuilder {
       e.apply(update);
     }
     if (batch != null) {
-      if (update != null) {
+      if (update != null && !update.isEmpty()) {
         writeToBatch(batch, update, changeRepo);
       }
 
@@ -372,18 +376,74 @@ public class ChangeRebuilder {
   }
 
   private static class ChangeMessageEvent extends Event {
-    private final ChangeMessage message;
+    private static final Pattern TOPIC_SET_REGEXP =
+        Pattern.compile("^Topic set to (.+)$");
+    private static final Pattern TOPIC_CHANGED_REGEXP =
+        Pattern.compile("^Topic changed from (.+) to (.+)$");
+    private static final Pattern TOPIC_REMOVED_REGEXP =
+        Pattern.compile("^Topic (.+) removed$");
 
-    ChangeMessageEvent(ChangeMessage message) {
+    private final ChangeMessage message;
+    private final Change notedbChange;
+
+    ChangeMessageEvent(ChangeMessage message, Change notedbChange) {
       super(message.getPatchSetId(), message.getAuthor(),
           message.getWrittenOn());
       this.message = message;
+      this.notedbChange = notedbChange;
     }
 
     @Override
     void apply(ChangeUpdate update) throws OrmException {
       checkUpdate(update);
       update.setChangeMessage(message.getMessage());
+      setTopic(update);
+    }
+
+    private void setTopic(ChangeUpdate update) {
+      String msg = message.getMessage();
+      Matcher m = TOPIC_SET_REGEXP.matcher(msg);
+      if (m.matches()) {
+        String topic = m.group(1);
+        update.setTopic(topic);
+        notedbChange.setTopic(topic);
+        return;
+      }
+
+      m = TOPIC_CHANGED_REGEXP.matcher(msg);
+      if (m.matches()) {
+        String topic = m.group(2);
+        update.setTopic(topic);
+        notedbChange.setTopic(topic);
+        return;
+      }
+
+      if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
+        update.setTopic(null);
+        notedbChange.setTopic(null);
+      }
+    }
+  }
+
+  private static class FixChangeEvent extends Event {
+    private final Change change;
+    private final Change notedbChange;
+
+    FixChangeEvent(Change change, Change notedbChange) {
+      super(change.currentPatchSetId(), change.getOwner(),
+          change.getLastUpdatedOn());
+      this.change = change;
+      this.notedbChange = notedbChange;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws OrmException {
+      if (!Objects.equals(change.getTopic(), notedbChange.getTopic())) {
+        update.setTopic(change.getTopic());
+      }
+      if (!update.isEmpty()) {
+        update.setSubjectForCommit("Fix change");
+      }
     }
   }
 }

@@ -535,7 +535,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return getProjectName(ctl);
   }
 
-  private boolean isEmpty() {
+  boolean isEmpty() {
     return commitSubject == null
         && approvals.isEmpty()
         && changeMessage == null

@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -70,12 +71,15 @@ public class Hashtags extends Composite {
     String hashtags = getDataId(event);
     if (hashtags != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
-      ChangeApi.hashtags(screen.getChangeId().get()).post(
+      final PatchSet.Id psId = screen.getPatchSetId();
+      ChangeApi.hashtags(psId.getParentKey().get()).post(
           PostInput.create(null, hashtags), new GerritCallback<JavaScriptObject>() {
             @Override
             public void onSuccess(JavaScriptObject result) {
               if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(screen.getChangeId()));
+                Gerrit.display(PageLinks.toChange(
+                    psId.getParentKey(),
+                    String.valueOf(psId.get())));
               }
             }
           });

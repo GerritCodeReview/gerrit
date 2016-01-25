@@ -719,6 +719,9 @@ class ChangeNotesParser implements AutoCloseable {
     if (branch == null) {
       missing.add(FOOTER_BRANCH);
     }
+    if (originalSubject == null || subject == null) {
+      missing.add(FOOTER_SUBJECT);
+    }
     if (!missing.isEmpty()) {
       throw parseException("Missing footers: " + Joiner.on(", ")
           .join(Lists.transform(missing, new Function<FooterKey, String>() {

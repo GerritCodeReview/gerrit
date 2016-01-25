@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "d4cff270_81a8fa9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-25T04:59:36Z",
+      "side": 1,
+      "message": "Hm. Good points. Let’s keep them the same style as the reply button leaving Submit blue as a special case for now. I’ll take a stab at styling once I can dive deeper into context but I don’t want to block this change on that.",
+      "parentUuid": "94565a44_d7ca9c71",
+      "revId": "7ee9f2865bffe1890856136605d229bdb7184431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47db5239_bd019f4f",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 1

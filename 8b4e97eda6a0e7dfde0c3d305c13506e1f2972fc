@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4535e54_f86991cb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-25T20:30:28Z",
+      "side": 1,
+      "message": "Hm. But this is not the problem of this change? It was named like this before.",
+      "parentUuid": "94565a44_5784ccc8",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 31
+      },
+      "revId": "8b4e97eda6a0e7dfde0c3d305c13506e1f2972fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94565a44_f7924007",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 13
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-25T13:22:12Z",
       "side": 1,
       "message": "Nullify for sizeBarInChangeTable is missing.",
+      "revId": "8b4e97eda6a0e7dfde0c3d305c13506e1f2972fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34ea0ec5_fcb32905",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-25T20:30:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94565a44_f7924007",
       "revId": "8b4e97eda6a0e7dfde0c3d305c13506e1f2972fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,30 @@
       "revId": "084025a646b2b0d25c4a21deeb16976ee7039d41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4d6fe0a_2099ea92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-25T18:27:44Z",
+      "side": 0,
+      "message": "Similar to the other TODO but more of a pain. Callers use TestChanges#newUpdate to create updates, where it\u0027s hard to create a new commit for the first patch set.\n\nActually this should probably just be fixed but it\u0027s a little more work.",
+      "parentUuid": "b4535e54_b80b9940",
+      "range": {
+        "startLine": 604,
+        "startChar": 4,
+        "endLine": 606,
+        "endChar": 5
+      },
+      "revId": "084025a646b2b0d25c4a21deeb16976ee7039d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

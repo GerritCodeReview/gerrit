@@ -60,6 +60,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChangeRebuilder {
   private static final long TS_WINDOW_MS =
@@ -365,6 +367,13 @@ public class ChangeRebuilder {
   }
 
   private static class ChangeMessageEvent extends Event {
+    private static final Pattern TOPIC_SET_REGEXP =
+        Pattern.compile("^Topic set to (.+)$");
+    private static final Pattern TOPIC_CHANGED_REGEXP =
+        Pattern.compile("^Topic changed from (.+) to (.+)$");
+    private static final Pattern TOPIC_REMOVED_REGEXP =
+        Pattern.compile("^Topic (.+) removed$");
+
     private final ChangeMessage message;
 
     ChangeMessageEvent(ChangeMessage message) {
@@ -377,6 +386,26 @@ public class ChangeRebuilder {
     void apply(ChangeUpdate update) throws OrmException {
       checkUpdate(update);
       update.setChangeMessage(message.getMessage());
+      setTopic(update);
+    }
+
+    private void setTopic(ChangeUpdate update) {
+      String msg = message.getMessage();
+      Matcher m = TOPIC_SET_REGEXP.matcher(msg);
+      if (m.matches()) {
+        update.setTopic(m.group(1));
+        return;
+      }
+
+      m = TOPIC_CHANGED_REGEXP.matcher(msg);
+      if (m.matches()) {
+        update.setTopic(m.group(2));
+        return;
+      }
+
+      if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
+        update.setTopic(null);
+      }
     }
   }
 }

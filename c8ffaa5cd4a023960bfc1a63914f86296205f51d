@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4535e54_1861e5e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-25T11:44:43Z",
+      "side": 1,
+      "message": "Mention in the commit message that this change also converts legacy names to modern names as well?",
+      "range": {
+        "startLine": 116,
+        "startChar": 29,
+        "endLine": 116,
+        "endChar": 65
+      },
+      "revId": "c8ffaa5cd4a023960bfc1a63914f86296205f51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_77c4701a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-25T11:44:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t MetaDataUpdate be created inside of this loop to avoid octopus merges problem we hit earlier?",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 152,
+        "endChar": 7
+      },
+      "revId": "c8ffaa5cd4a023960bfc1a63914f86296205f51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

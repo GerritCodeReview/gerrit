@@ -22,6 +22,23 @@
       "revId": "8b4e97eda6a0e7dfde0c3d305c13506e1f2972fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_f7924007",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T13:22:12Z",
+      "side": 1,
+      "message": "Nullify for sizeBarInChangeTable is missing.",
+      "revId": "8b4e97eda6a0e7dfde0c3d305c13506e1f2972fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

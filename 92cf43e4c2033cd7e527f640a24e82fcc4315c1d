@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "543f82e8_ddfc8b8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-25T14:36:46Z",
+      "side": 1,
+      "message": "Added a quick short-circuit here when len \u003c 40, which was present in the old code.",
+      "revId": "92cf43e4c2033cd7e527f640a24e82fcc4315c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4535e54_d802cd20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T09:26:16Z",
+      "side": 1,
+      "message": "Call this \u0027publish\u0027?\n\nSetting a published patch set back to draft is now allowed, is it?",
+      "range": {
+        "startLine": 92,
+        "startChar": 14,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "3fa55e3c84bcc16c38e8bc4a3ff072e8b4c7cf4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_97082445",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T09:26:16Z",
+      "side": 1,
+      "message": "I think we also need to update currentPatchSetId to the last non-deleted patch set.",
+      "revId": "3fa55e3c84bcc16c38e8bc4a3ff072e8b4c7cf4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

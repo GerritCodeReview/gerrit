@@ -1179,7 +1179,7 @@ public class ChangeScreen extends Screen {
     related.set(info, revision);
     reviewers.set(info);
     if (Gerrit.isNoteDbEnabled()) {
-      hashtags.set(info);
+      hashtags.set(info, revision);
     } else {
       setVisible(hashtagTableRow, false);
     }

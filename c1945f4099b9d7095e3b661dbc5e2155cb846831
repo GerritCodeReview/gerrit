@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94565a44_d7029c20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T09:40:51Z",
+      "side": 1,
+      "message": "Should this method be responsible for updating the db?\n\n  db.patchSets().update(ImmutableList.of(ps));\n\nSimilar to how the delete and setDraft methods do update the db as well.",
+      "revId": "c1945f4099b9d7095e3b661dbc5e2155cb846831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

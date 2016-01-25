@@ -660,6 +660,10 @@ public class MergeUtil {
       rw.markStart(mergeTip);
       for (RevCommit c : alreadyAccepted) {
         rw.markUninteresting(c);
+        if (c instanceof CodeReviewCommit) {
+          CodeReviewCommit r = (CodeReviewCommit) c;
+          r.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+        }
       }
 
       CodeReviewCommit c;

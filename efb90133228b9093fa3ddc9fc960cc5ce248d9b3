@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453498775 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBUB4wrCvL9Ye348zoffIXnm0Zu1N9mkB7RiNP6O2aiRpqbrHuXq+/0BDszdytEyr2dmF9wq\n\n0000000000000000000000000000000000000000 3fa55e3c84bcc16c38e8bc4a3ff072e8b4c7cf4b refs/for/master%r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWoqGXAAoJEF/XxZqaEoiMTxsP/RbitfbIqFrEWwZizBhX66IX\n0FBYvjXqkSZ4aezi8gykoLOFHBFh/qFMEgerwtZAcDUPeu81IHMDP2SrhX0PfxDW\n9Dmjb63vaO3O/Qh3mpZ/S8XfW/0DkxkQQGHcK0fd3PYxl3+WC1JUk+GGUBuMsFJY\nm2tCqVjZRuIDinTw8oRUEnqTiWK2qLVBBXn/HiNojfZhAMSVrJB8NrYoYGLZYygs\nZm5aNogzX5hrIl0HBgpnTbqdJZ7xieG6USZuv6/CxYZXwooD5eqbKFyrfGNCL+XK\n4tMPULJhsZB0ypGqk8dN+wj5ZXnrIRVAunL/QKYwFgYCKC3MzcFR622gRPKo1CQy\n4J34Ir8Qd3ueqXXUS4iWFyHfEuNsyg7YpHnra5+Ih3HHzW0M6JyPAyBYVuE0dcbN\nQkpIQtH/s4QYY7rsy+oo591a8s2V7vbJgekAA8p44NXhezezT//mhVh/cJfWhee8\npZ/e3qM/RiNhBkB3cbjI6acHvQgUkEIBiQQkCEAkP6fnFw7RgRN7ehXC+qrXAB1a\nX9oMouNOklicv/CCD2mEUkYprh04hVhZ+CJIpuuBa0amb2dwkTFjafKvde7RRjgr\nHviS7nBvyRTucYm0swiPfJc8foJfg+zp6i6mHMOWgBh5wyhr1GRJUps5gkhlTm8k\ngYzqPJ5DEPh2RQJM90IY\n\u003dZNbF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4535e54_d8ebed98",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T08:05:56Z",
+      "side": 1,
+      "message": "Not needed. It\u0027s already done by the newChange() method.",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 593,
+        "endChar": 20
+      },
+      "revId": "efb90133228b9093fa3ddc9fc960cc5ce248d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94565a44_37f8386a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-25T08:05:56Z",
+      "side": 1,
+      "message": "Not needed. It\u0027s already done by the newChange() method.",
+      "range": {
+        "startLine": 621,
+        "startChar": 3,
+        "endLine": 622,
+        "endChar": 20
+      },
+      "revId": "efb90133228b9093fa3ddc9fc960cc5ce248d9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

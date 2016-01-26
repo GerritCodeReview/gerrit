@@ -23,6 +23,30 @@
       "revId": "4dc1549a42b9dc49b8a5476a038e326f862a17c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94801a15_a7026a51",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T09:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7403a691_e6ea3ecd",
+      "range": {
+        "startLine": 57,
+        "startChar": 22,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "4dc1549a42b9dc49b8a5476a038e326f862a17c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

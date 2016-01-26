@@ -54,10 +54,13 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -134,8 +137,9 @@ public class ChangeRebuilder {
       events.add(new ApprovalEvent(psa));
     }
 
+    Set<String> hashsets = new TreeSet<>();
     for (ChangeMessage msg : db.changeMessages().byChange(changeId)) {
-      events.add(new ChangeMessageEvent(msg));
+      events.add(new ChangeMessageEvent(msg, hashsets));
     }
 
     Collections.sort(events);
@@ -374,6 +378,11 @@ public class ChangeRebuilder {
   }
 
   private static class ChangeMessageEvent extends Event {
+    private static final Pattern HASHTAGS_ADDED_REGEXP =
+        Pattern.compile("^Hashtag[(]s[)] added: (.+)$");
+    private static final Pattern HASHTAGS_REMOVED_REGEXP =
+        Pattern.compile("^Hashtag[(]s[)] removed: (.+)$");
+
     private static final Pattern TOPIC_SET_REGEXP =
         Pattern.compile("^Topic set to (.+)$");
     private static final Pattern TOPIC_CHANGED_REGEXP =
@@ -382,18 +391,49 @@ public class ChangeRebuilder {
         Pattern.compile("^Topic (.+) removed$");
 
     private final ChangeMessage message;
+    private final Set<String> hashsets;
 
-    ChangeMessageEvent(ChangeMessage message) {
+    ChangeMessageEvent(ChangeMessage message, Set<String> hashsets) {
       super(message.getPatchSetId(), message.getAuthor(),
           message.getWrittenOn());
       this.message = message;
+      this.hashsets = hashsets;
     }
 
     @Override
     void apply(ChangeUpdate update) throws OrmException {
       checkUpdate(update);
       update.setChangeMessage(message.getMessage());
+      setHashtags(update);
       setTopic(update);
+    }
+
+    private void setHashtags(ChangeUpdate update) {
+      String msg = message.getMessage();
+      Matcher m = HASHTAGS_ADDED_REGEXP.matcher(msg);
+      if (m.matches()) {
+        hashsets.addAll(Arrays.asList(m.group(1).split(", ")));
+        update.setHashtags(hashsets);
+        return;
+      }
+
+      m = HASHTAGS_REMOVED_REGEXP.matcher(msg);
+      if (m.matches()) {
+        hashsets.removeAll(Arrays.asList(m.group(1).split(", ")));
+        update.setHashtags(hashsets);
+        return;
+      }
+
+      String[] lines = msg.split("\n");
+      if (lines.length == 2) {
+        Matcher m1 = HASHTAGS_ADDED_REGEXP.matcher(lines[0]);
+        Matcher m2 = HASHTAGS_REMOVED_REGEXP.matcher(lines[1]);
+        if (m1.matches() && m2.matches()) {
+          hashsets.addAll(Arrays.asList(m1.group(1).split(", ")));
+          hashsets.removeAll(Arrays.asList(m2.group(1).split(", ")));
+          update.setHashtags(hashsets);
+        }
+      }
     }
 
     private void setTopic(ChangeUpdate update) {

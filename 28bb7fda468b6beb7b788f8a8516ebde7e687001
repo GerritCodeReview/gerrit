@@ -23,6 +23,30 @@
       "revId": "28bb7fda468b6beb7b788f8a8516ebde7e687001",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7477260f_c6e842d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T08:52:07Z",
+      "side": 1,
+      "message": "You are right, fixed in:\n\n  https://gerrit-review.googlesource.com/74340",
+      "parentUuid": "94801a15_27175a97",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "28bb7fda468b6beb7b788f8a8516ebde7e687001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

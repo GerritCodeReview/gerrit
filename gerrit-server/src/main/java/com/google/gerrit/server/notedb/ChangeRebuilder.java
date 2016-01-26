@@ -390,6 +390,11 @@ public class ChangeRebuilder {
     private static final Pattern TOPIC_REMOVED_REGEXP =
         Pattern.compile("^Topic (.+) removed$");
 
+    private static final Pattern STATUS_ABANDONED_REGEXP =
+        Pattern.compile("^Abandoned(\n.*)*$");
+    private static final Pattern STATUS_RESTORED_REGEXP =
+        Pattern.compile("^Restored(\n.*)*$");
+
     private final ChangeMessage message;
     private final Set<String> hashsets;
 
@@ -406,6 +411,7 @@ public class ChangeRebuilder {
       update.setChangeMessage(message.getMessage());
       setHashtags(update);
       setTopic(update);
+      setStatus(update);
     }
 
     private void setHashtags(ChangeUpdate update) {
@@ -452,6 +458,18 @@ public class ChangeRebuilder {
 
       if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
         update.setTopic(null);
+      }
+    }
+
+    private void setStatus(ChangeUpdate update) {
+      String msg = message.getMessage();
+      if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
+        update.setStatus(Change.Status.ABANDONED);
+        return;
+      }
+
+      if (STATUS_RESTORED_REGEXP.matcher(msg).matches()) {
+        update.setStatus(Change.Status.NEW);
       }
     }
   }

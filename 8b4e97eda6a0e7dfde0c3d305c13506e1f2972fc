@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "7477260f_a634261a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-26T10:22:00Z",
+      "side": 1,
+      "message": "Waiting with implementation until your OK, then.",
+      "parentUuid": "94801a15_471e0ea3",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 31
+      },
+      "revId": "8b4e97eda6a0e7dfde0c3d305c13506e1f2972fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94565a44_f7924007",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 13

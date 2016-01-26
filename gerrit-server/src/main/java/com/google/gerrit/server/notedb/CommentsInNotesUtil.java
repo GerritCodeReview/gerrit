@@ -63,7 +63,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -119,25 +118,23 @@ public class CommentsInNotesUtil {
       Change.Id changeId, Status status) throws ConfigInvalidException {
     List<PatchLineComment> result = Lists.newArrayList();
     int sizeOfNote = note.length;
-    Charset enc = RawParseUtils.parseEncoding(note);
     MutableInteger curr = new MutableInteger();
     curr.value = 0;
 
     boolean isForBase =
         (RawParseUtils.match(note, curr.value, PATCH_SET.getBytes(UTF_8))) < 0;
 
-    PatchSet.Id psId = parsePsId(note, curr, changeId, enc,
-        isForBase ? BASE_PATCH_SET : PATCH_SET);
+    PatchSet.Id psId = parsePsId(note, curr, changeId, isForBase ? BASE_PATCH_SET : PATCH_SET);
 
     RevId revId =
-        new RevId(parseStringField(note, curr, changeId, enc, REVISION));
+        new RevId(parseStringField(note, curr, changeId, REVISION));
 
     PatchLineComment c = null;
     while (curr.value < sizeOfNote) {
       String previousFileName = c == null ?
           null : c.getKey().getParentKey().getFileName();
       c = parseComment(note, curr, previousFileName, psId, revId,
-          isForBase, enc, status);
+          isForBase, status);
       result.add(c);
     }
     return result;
@@ -152,8 +149,7 @@ public class CommentsInNotesUtil {
 
   private static PatchLineComment parseComment(byte[] note, MutableInteger curr,
       String currentFileName, PatchSet.Id psId, RevId revId, boolean isForBase,
-      Charset enc, Status status)
-          throws ConfigInvalidException {
+      Status status) throws ConfigInvalidException {
     Change.Id changeId = psId.getParentKey();
 
     // Check if there is a new file.
@@ -161,7 +157,7 @@ public class CommentsInNotesUtil {
         (RawParseUtils.match(note, curr.value, FILE.getBytes(UTF_8))) != -1;
     if (newFile) {
       // If so, parse the new file name.
-      currentFileName = parseFilename(note, curr, changeId, enc);
+      currentFileName = parseFilename(note, curr, changeId);
     } else if (currentFileName == null) {
       throw parseException(changeId, "could not parse %s", FILE);
     }
@@ -171,21 +167,21 @@ public class CommentsInNotesUtil {
       throw parseException(changeId, "could not parse %s", COMMENT_RANGE);
     }
 
-    Timestamp commentTime = parseTimestamp(note, curr, changeId, enc);
-    Account.Id aId = parseAuthor(note, curr, changeId, enc);
+    Timestamp commentTime = parseTimestamp(note, curr, changeId);
+    Account.Id aId = parseAuthor(note, curr, changeId);
 
     boolean hasParent =
-        (RawParseUtils.match(note, curr.value, PARENT.getBytes(enc))) != -1;
+        (RawParseUtils.match(note, curr.value, PARENT.getBytes(UTF_8))) != -1;
     String parentUUID = null;
     if (hasParent) {
-      parentUUID = parseStringField(note, curr, changeId, enc, PARENT);
+      parentUUID = parseStringField(note, curr, changeId, PARENT);
     }
 
-    String uuid = parseStringField(note, curr, changeId, enc, UUID);
-    int commentLength = parseCommentLength(note, curr, changeId, enc);
+    String uuid = parseStringField(note, curr, changeId, UUID);
+    int commentLength = parseCommentLength(note, curr, changeId);
 
     String message = RawParseUtils.decode(
-        enc, note, curr.value, curr.value + commentLength);
+        UTF_8, note, curr.value, curr.value + commentLength);
     checkResult(message, "message contents", changeId);
 
     PatchLineComment plc = new PatchLineComment(
@@ -205,13 +201,12 @@ public class CommentsInNotesUtil {
   }
 
   private static String parseStringField(byte[] note, MutableInteger curr,
-      Change.Id changeId, Charset enc, String fieldName)
-      throws ConfigInvalidException {
+      Change.Id changeId, String fieldName) throws ConfigInvalidException {
     int endOfLine = RawParseUtils.nextLF(note, curr.value);
-    checkHeaderLineFormat(note, curr, fieldName, enc, changeId);
+    checkHeaderLineFormat(note, curr, fieldName, changeId);
     int startOfField = RawParseUtils.endOfFooterLineKey(note, curr.value) + 2;
     curr.value = endOfLine;
-    return RawParseUtils.decode(enc, note, startOfField, endOfLine - 1);
+    return RawParseUtils.decode(UTF_8, note, startOfField, endOfLine - 1);
   }
 
   /**
@@ -275,9 +270,8 @@ public class CommentsInNotesUtil {
   }
 
   private static PatchSet.Id parsePsId(byte[] note, MutableInteger curr,
-      Change.Id changeId, Charset enc, String fieldName)
-      throws ConfigInvalidException {
-    checkHeaderLineFormat(note, curr, fieldName, enc, changeId);
+      Change.Id changeId, String fieldName) throws ConfigInvalidException {
+    checkHeaderLineFormat(note, curr, fieldName, changeId);
     int startOfPsId =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 1;
     MutableInteger i = new MutableInteger();
@@ -293,24 +287,23 @@ public class CommentsInNotesUtil {
   }
 
   private static String parseFilename(byte[] note, MutableInteger curr,
-      Change.Id changeId, Charset enc) throws ConfigInvalidException {
-    checkHeaderLineFormat(note, curr, FILE, enc, changeId);
+      Change.Id changeId) throws ConfigInvalidException {
+    checkHeaderLineFormat(note, curr, FILE, changeId);
     int startOfFileName =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 2;
     int endOfLine = RawParseUtils.nextLF(note, curr.value);
     curr.value = endOfLine;
     curr.value = RawParseUtils.nextLF(note, curr.value);
     return QuotedString.GIT_PATH.dequote(
-        RawParseUtils.decode(enc, note, startOfFileName, endOfLine - 1));
+        RawParseUtils.decode(UTF_8, note, startOfFileName, endOfLine - 1));
   }
 
   private static Timestamp parseTimestamp(byte[] note, MutableInteger curr,
-      Change.Id changeId, Charset enc)
-      throws ConfigInvalidException {
+      Change.Id changeId) throws ConfigInvalidException {
     int endOfLine = RawParseUtils.nextLF(note, curr.value);
     Timestamp commentTime;
     String dateString =
-        RawParseUtils.decode(enc, note, curr.value, endOfLine - 1);
+        RawParseUtils.decode(UTF_8, note, curr.value, endOfLine - 1);
     try {
       commentTime = new Timestamp(
           GitDateParser.parse(dateString, null, Locale.US).getTime());
@@ -322,8 +315,8 @@ public class CommentsInNotesUtil {
   }
 
   private static Account.Id parseAuthor(byte[] note, MutableInteger curr,
-      Change.Id changeId, Charset enc) throws ConfigInvalidException {
-    checkHeaderLineFormat(note, curr, AUTHOR, enc, changeId);
+      Change.Id changeId) throws ConfigInvalidException {
+    checkHeaderLineFormat(note, curr, AUTHOR, changeId);
     int startOfAccountId =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 2;
     PersonIdent ident =
@@ -334,8 +327,8 @@ public class CommentsInNotesUtil {
   }
 
   private static int parseCommentLength(byte[] note, MutableInteger curr,
-      Change.Id changeId, Charset enc) throws ConfigInvalidException {
-    checkHeaderLineFormat(note, curr, LENGTH, enc, changeId);
+      Change.Id changeId) throws ConfigInvalidException {
+    checkHeaderLineFormat(note, curr, LENGTH, changeId);
     int startOfLength =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 1;
     MutableInteger i = new MutableInteger();
@@ -396,10 +389,9 @@ public class CommentsInNotesUtil {
   }
 
   private static void checkHeaderLineFormat(byte[] note, MutableInteger curr,
-      String fieldName, Charset enc, Change.Id changeId)
-      throws ConfigInvalidException {
+      String fieldName, Change.Id changeId) throws ConfigInvalidException {
     boolean correct =
-        RawParseUtils.match(note, curr.value, fieldName.getBytes(enc)) != -1;
+        RawParseUtils.match(note, curr.value, fieldName.getBytes(UTF_8)) != -1;
     correct &= (note[curr.value + fieldName.length()] == ':');
     correct &= (note[curr.value + fieldName.length() + 1] == ' ');
     if (!correct) {

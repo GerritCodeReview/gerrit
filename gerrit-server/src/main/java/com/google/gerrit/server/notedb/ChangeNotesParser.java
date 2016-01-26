@@ -64,8 +64,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -96,7 +98,8 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<RevId, PatchLineComment> comments;
   final TreeMap<PatchSet.Id, PatchSet> patchSets;
   final Map<PatchSet.Id, PatchSetState> patchSetStates;
-  NoteMap commentNoteMap;
+  final Map<RevId, RevisionNote> revisionNotes;
+
   String branch;
   Change.Status status;
   String topic;
@@ -108,6 +111,7 @@ class ChangeNotesParser implements AutoCloseable {
   String originalSubject;
   String submissionId;
   PatchSet.Id currentPatchSetId;
+  NoteMap noteMap;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -119,8 +123,8 @@ class ChangeNotesParser implements AutoCloseable {
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
-      GitRepositoryManager repoManager) throws RepositoryNotFoundException,
-      IOException {
+      GitRepositoryManager repoManager)
+      throws RepositoryNotFoundException, IOException {
     this.changeId = change.getId();
     this.tip = tip;
     this.walk = walk;
@@ -134,6 +138,7 @@ class ChangeNotesParser implements AutoCloseable {
     comments = ArrayListMultimap.create();
     patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
     patchSetStates = Maps.newHashMap();
+    revisionNotes = Maps.newHashMap();
   }
 
   @Override
@@ -146,7 +151,7 @@ class ChangeNotesParser implements AutoCloseable {
     for (RevCommit commit : walk) {
       parse(commit);
     }
-    parseComments();
+    parseNotes();
     allPastReviewers.addAll(reviewers.keySet());
     pruneReviewers();
     updatePatchSetStates();
@@ -459,11 +464,20 @@ class ChangeNotesParser implements AutoCloseable {
     allChangeMessages.add(changeMessage);
   }
 
-  private void parseComments()
+  private void parseNotes()
       throws IOException, ConfigInvalidException {
-    commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
-        ChangeNoteUtil.changeRefName(changeId), walk, changeId,
-        comments, PatchLineComment.Status.PUBLISHED);
+    ObjectReader reader = walk.getObjectReader();
+    RevCommit tipCommit = walk.parseCommit(tip);
+    noteMap = NoteMap.read(reader, tipCommit);
+
+    for (Note note : noteMap) {
+      RevisionNote rn = new RevisionNote(changeId, reader, note.getData());
+      RevId revId = new RevId(note.name());
+      revisionNotes.put(revId, rn);
+      for (PatchLineComment plc : rn.comments) {
+        comments.put(revId, plc);
+      }
+    }
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,

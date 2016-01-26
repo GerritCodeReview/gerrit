@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
+import static com.google.gerrit.server.notedb.RevisionNote.MAX_NOTE_SZ;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -87,7 +88,6 @@ public class CommentsInNotesUtil {
   private static final String PATCH_SET = "Patch-set";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
-  private static final int MAX_NOTE_SZ = 25 << 20;
 
   public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
       RevWalk walk, Change.Id changeId,

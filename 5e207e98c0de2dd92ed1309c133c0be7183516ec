@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "744806fe_fe168198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-26T19:35:32Z",
+      "side": 1,
+      "message": "Separate this refactoring from new feature and do it different changes?",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9441fad9_3ffdc783",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-26T19:35:32Z",
+      "side": 1,
+      "message": "Thanks for preserving the selection in the file list. But now, while the selection index is preserved in the file list on the change view, it\u0027s still lost on change list view. Can both selection be fixed in this (or previous) change or follow-up change?\n\nFWIW I consider this as most important missing feature in PolyGerrit: keyboard navigation with preserving the state:\n\n* 1. open change list view\n* 2. type \u0027j\u0027 (change on second line on change list view is selected)\n* 3. type \u0027enter\u0027 (change view is opened)\n* 4. type \u0027j\u0027 (second file in file table is slected)\n* 5. type \u0027enter\u0027 (diff view is opened)\n* 6. type \u0027u\u0027 (change view is re-opened, note that second file selection is presevred)\n* 7. type \u0027u\u0027 (change list is opened, second change selection is lost, first change is selected)\n* 8. type \u0027j\u0027 (second change is selected)\n* 9. type \u0027enter\u0027 (change on second line on change list view is selected)\n* Notice, that second file selectin is preserved.\n\nIn step 7 above, the selection on change liste view should be preserved.",
+      "range": {
+        "startLine": 256,
+        "startChar": 10,
+        "endLine": 256,
+        "endChar": 24
+      },
+      "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_de1145a3",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-26T19:35:32Z",
+      "side": 1,
+      "message": "Styling of selected row in file table and in change table is inconsistent. I would expect the whole row to be styled with:\n\n  background-color: #ebf5fb;\n\nCompare it to GWT UI: both change list and file list have the same background color.",
+      "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

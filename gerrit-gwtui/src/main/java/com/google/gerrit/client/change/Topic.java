@@ -130,9 +130,7 @@ class Topic extends Composite {
         new GerritCallback<String>() {
           @Override
           public void onSuccess(String result) {
-            Gerrit.display(PageLinks.toChange(
-                psId.getParentKey(),
-                String.valueOf(psId.get())));
+            Gerrit.display(PageLinks.toChange(psId));
           }
         });
     onCancel(null);

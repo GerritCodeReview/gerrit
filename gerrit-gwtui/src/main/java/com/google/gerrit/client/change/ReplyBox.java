@@ -204,9 +204,7 @@ public class ReplyBox extends Composite {
       .post(in, new GerritCallback<ReviewInput>() {
         @Override
         public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange(
-              psId.getParentKey(),
-              String.valueOf(psId.get())));
+          Gerrit.display(PageLinks.toChange(psId));
         }
         @Override
         public void onFailure(final Throwable caught) {

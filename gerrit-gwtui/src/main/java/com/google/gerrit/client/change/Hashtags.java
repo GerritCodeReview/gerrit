@@ -77,9 +77,7 @@ public class Hashtags extends Composite {
             @Override
             public void onSuccess(JavaScriptObject result) {
               if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(
-                    psId.getParentKey(),
-                    String.valueOf(psId.get())));
+                Gerrit.display(PageLinks.toChange(psId));
               }
             }
           });

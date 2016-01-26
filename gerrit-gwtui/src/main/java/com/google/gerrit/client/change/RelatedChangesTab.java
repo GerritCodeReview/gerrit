@@ -21,7 +21,6 @@ import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -339,10 +338,7 @@ class RelatedChangesTab implements IsWidget {
 
     private String url() {
       if (info.hasChangeNumber() && info.hasRevisionNumber()) {
-        PatchSet.Id id = info.patchSetId();
-        return "#" + PageLinks.toChange(
-            id.getParentKey(),
-            id.getId());
+        return "#" + PageLinks.toChange(info.patchSetId());
       }
 
       GitwebInfo gw = Gerrit.info().gitweb();

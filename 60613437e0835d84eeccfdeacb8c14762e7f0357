@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d437f269_21b7eef5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-01-26T13:54:10Z",
+      "side": 1,
+      "message": "Would add a blank line here.",
+      "revId": "60613437e0835d84eeccfdeacb8c14762e7f0357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b43efe47_009e667a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-01-26T13:54:10Z",
+      "side": 1,
+      "message": ", the",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "60613437e0835d84eeccfdeacb8c14762e7f0357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d437f269_61adf6a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-01-26T13:54:10Z",
+      "side": 1,
+      "message": "Premature line wraps above.",
+      "revId": "60613437e0835d84eeccfdeacb8c14762e7f0357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d437f269_a1a21eb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-01-26T13:54:10Z",
+      "side": 1,
+      "message": "Premature line wraps above too. Our commit message lines usually fill up to 72 chars (max.)",
+      "revId": "60613437e0835d84eeccfdeacb8c14762e7f0357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b43efe47_a0a21ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-01-26T13:54:10Z",
+      "side": 1,
+      "message": "Same comment applies to this paragraph as well.",
+      "revId": "60613437e0835d84eeccfdeacb8c14762e7f0357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b43efe47_c0a71ec8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1790,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-01-26T13:54:10Z",
+      "side": 1,
+      "message": "Commit message says that doing this is not wanted. If it is, then would need to clarify that message further.",
+      "range": {
+        "startLine": 1790,
+        "startChar": 26,
+        "endLine": 1790,
+        "endChar": 30
+      },
+      "revId": "60613437e0835d84eeccfdeacb8c14762e7f0357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

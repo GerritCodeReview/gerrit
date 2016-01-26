@@ -22,6 +22,30 @@
       "revId": "d2e1625de4ca153de0201bb1a160ebc1dd20560b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d437f269_c110829d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-01-26T20:14:52Z",
+      "side": 1,
+      "message": "Here I\u0027m trying to keep the previously generated error message instead of drowning it. Unless you have another suggestion, I will use the other constructor which accepts a string instead of both a string and a throwable.",
+      "parentUuid": "9441fad9_bf4b17b2",
+      "range": {
+        "startLine": 382,
+        "startChar": 17,
+        "endLine": 382,
+        "endChar": 33
+      },
+      "revId": "d2e1625de4ca153de0201bb1a160ebc1dd20560b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

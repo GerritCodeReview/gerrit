@@ -46,6 +46,30 @@
       "revId": "d2e1625de4ca153de0201bb1a160ebc1dd20560b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_fe28c1c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-01-26T21:33:44Z",
+      "side": 1,
+      "message": "I referred to the logError, not the ctor. Shouldn\u0027t it match the message in the exception below?",
+      "parentUuid": "d437f269_c110829d",
+      "range": {
+        "startLine": 382,
+        "startChar": 17,
+        "endLine": 382,
+        "endChar": 33
+      },
+      "revId": "d2e1625de4ca153de0201bb1a160ebc1dd20560b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

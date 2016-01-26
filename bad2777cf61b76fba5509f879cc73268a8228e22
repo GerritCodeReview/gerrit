@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d49d3271_b1a9c09d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-26T13:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7403a691_46dc7235",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "bad2777cf61b76fba5509f879cc73268a8228e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f483161b_8ad3ab2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-26T01:46:35Z",
       "side": 1,
       "message": "Should this be changed to \u0027equals\u0027 too?",
+      "range": {
+        "startLine": 2053,
+        "startChar": 30,
+        "endLine": 2053,
+        "endChar": 32
+      },
+      "revId": "bad2777cf61b76fba5509f879cc73268a8228e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a73abf_4fa38dbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-26T13:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f483161b_8ad3ab2d",
       "range": {
         "startLine": 2053,
         "startChar": 30,

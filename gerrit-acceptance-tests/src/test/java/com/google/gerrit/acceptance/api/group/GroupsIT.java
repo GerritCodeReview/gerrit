@@ -140,6 +140,21 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCreateDuplicateInternalGroup() throws Exception {
+    String dupGroupName = name("dupGroup");
+    gApi.groups().create(dupGroupName);
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(dupGroupName);
+  }
+
+  @Test
+  public void testCreateDuplicateSystemGroup() throws Exception {
+    String newGroupName = "Registered Users";
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(newGroupName);
+  }
+
+  @Test
   public void testCreateGroupWithProperties() throws Exception {
     GroupInput in = new GroupInput();
     in.name = name("newGroup");

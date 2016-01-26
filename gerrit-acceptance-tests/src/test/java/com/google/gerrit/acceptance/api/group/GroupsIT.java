@@ -140,6 +140,41 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCreateDuplicateInternalGroupCaseSensitiveName_Conflict()
+      throws Exception {
+    String dupGroupName = name("dupGroup");
+    gApi.groups().create(dupGroupName);
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(dupGroupName);
+  }
+
+  @Test
+  public void testCreateDuplicateInternalGroupCaseInsensitiveName_Conflict()
+      throws Exception {
+    String dupGroupName = name("dupGroupA");
+    String dupGroupNameLowerCase = name("dupGroupA").toLowerCase();
+    gApi.groups().create(dupGroupName);
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(dupGroupNameLowerCase);
+  }
+
+  @Test
+  public void testCreateDuplicateSystemGroupCaseSensitiveName_Conflict()
+      throws Exception {
+    String newGroupName = "Registered Users";
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(newGroupName);
+  }
+
+  @Test
+  public void testCreateDuplicateSystemGroupCaseInsensitiveName_Conflict()
+      throws Exception {
+    String newGroupName = "Registered Users";
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(newGroupName.toLowerCase());
+  }
+
+  @Test
   public void testCreateGroupWithProperties() throws Exception {
     GroupInput in = new GroupInput();
     in.name = name("newGroup");
@@ -157,13 +192,6 @@ public class GroupsIT extends AbstractDaemonTest {
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.groups().create(name("newGroup"));
-  }
-
-  @Test
-  public void testCreateGroupWhenGroupAlreadyExists_Conflict()
-      throws Exception {
-    exception.expect(ResourceConflictException.class);
-    gApi.groups().create("Administrators");
   }
 
   @Test

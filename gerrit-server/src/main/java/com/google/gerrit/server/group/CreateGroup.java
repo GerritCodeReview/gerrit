@@ -41,7 +41,6 @@ import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,6 +50,9 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
@@ -137,6 +139,20 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
       throws OrmException, ResourceConflictException {
+    // Do not allow creating groups with the same name as existing groups
+    Set<String> allGroupNames = new HashSet<>(
+        SystemGroupBackend.getGroupNames());
+    for (AccountGroup group : groupCache.all()) {
+      allGroupNames.add(group.getName());
+    }
+    for (String name : allGroupNames) {
+      if (name.toLowerCase().equals(
+          createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+        throw new ResourceConflictException("group '"
+            + createGroupArgs.getGroupName() + "' already exists");
+      }
+    }
+
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(
@@ -156,14 +172,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       group.setDescription(createGroupArgs.groupDescription);
     }
     AccountGroupName gn = new AccountGroupName(group);
-    // first insert the group name to validate that the group name hasn't
-    // already been used to create another group
-    try {
-      db.accountGroupNames().insert(Collections.singleton(gn));
-    } catch (OrmDuplicateKeyException e) {
-      throw new ResourceConflictException("group '"
-          + createGroupArgs.getGroupName() + "' already exists");
-    }
+    db.accountGroupNames().insert(Collections.singleton(gn));
     db.accountGroups().insert(Collections.singleton(group));
 
     addMembers.addMembers(groupId, createGroupArgs.initialMembers);

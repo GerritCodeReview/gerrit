@@ -130,7 +130,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
+
+  // Mutable note map state, only used by ChangeUpdate to make in-place editing
+  // of notes easier.
   NoteMap noteMap;
+  Map<RevId, RevisionNote> revisionNotes;
 
   private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
@@ -250,6 +254,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return noteMap;
   }
 
+  Map<RevId, RevisionNote> getRevisionNotes() {
+    return revisionNotes;
+  }
+
   @Override
   protected String getRefName() {
     return ChangeNoteUtil.changeRefName(getChangeId());
@@ -280,7 +288,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
-      noteMap = parser.commentNoteMap;
+      noteMap = parser.noteMap;
+      revisionNotes = parser.revisionNotes;
       change.setDest(new Branch.NameKey(getProjectName(), parser.branch));
       change.setTopic(Strings.emptyToNull(parser.topic));
       change.setCreatedOn(parser.createdOn);

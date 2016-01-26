@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d437f269_41e6b202",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-26T19:45:17Z",
+      "side": 1,
+      "message": "The refactoring is necessary for this change to work and not separate. This change is dependent on the refactor, but I was unaware of it until after I started testing. Otherwise I would have made this dependent on the refactor.",
+      "parentUuid": "744806fe_fe168198",
+      "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9441fad9_3ffdc783",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d437f269_e11106a3",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-26T19:45:17Z",
+      "side": 1,
+      "message": "There is a follow-up change already out for review that covers your use case.",
+      "parentUuid": "9441fad9_3ffdc783",
+      "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "744806fe_de1145a3",
         "filename": "polygerrit-ui/app/elements/gr-file-list.html",
         "patchSetId": 1
@@ -59,6 +95,24 @@
       "writtenOn": "2016-01-26T19:35:32Z",
       "side": 1,
       "message": "Styling of selected row in file table and in change table is inconsistent. I would expect the whole row to be styled with:\n\n  background-color: #ebf5fb;\n\nCompare it to GWT UI: both change list and file list have the same background color.",
+      "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b43efe47_20004a49",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-26T19:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "744806fe_de1145a3",
       "revId": "5e207e98c0de2dd92ed1309c133c0be7183516ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

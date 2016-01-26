@@ -16,7 +16,9 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-diff-preferences.html">
 <link rel="import" href="gr-diff-side.html">
+<link rel="import" href="gr-overlay.html">
 <link rel="import" href="gr-patch-range-select.html">
 <link rel="import" href="gr-request.html">
 
@@ -31,7 +33,7 @@ limitations under the License.
         display: flex;
         margin: 0 var(--default-horizontal-margin) .75em;
       }
-      .contextControl {
+      .prefsButton {
         flex: 1;
         text-align: right;
       }
@@ -74,19 +76,18 @@ limitations under the License.
             change-num="[[changeNum]]"
             patch-range="[[patchRange]]"
             available-patches="[[availablePatches]]"></gr-patch-range-select>
-        <div class="contextControl" hidden$="[[!prefs.context]]" hidden>
-          Context:
-            <select id="contextSelect" on-change="_handleContextSelectChange">
-              <option value="3">3 lines</option>
-              <option value="10">10 lines</option>
-              <option value="25">25 lines</option>
-              <option value="50">50 lines</option>
-              <option value="75">75 lines</option>
-              <option value="100">100 lines</option>
-              <option value="-1">Whole file</option>
-            </select>
-        </div>
+        <a class="prefsButton"
+           href="#"
+           on-tap="_handlePrefsTap"
+           hidden$="[[!prefs]]"
+           hidden>Diff View Preferences</a>
       </div>
+      <gr-overlay id="prefsOverlay" with-backdrop>
+        <gr-diff-preferences
+            prefs="{{prefs}}"
+            on-save="_handlePrefsSave"
+            on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+      </gr-overlay>
 
       <div class="diffContainer">
         <gr-diff-side id="leftDiff"
@@ -94,8 +95,7 @@ limitations under the License.
             patch-num="[[patchRange.basePatchNum]]"
             path="[[path]]"
             content="{{_diff.leftSide}}"
-            width="[[sideWidth]]"
-            tab-width="[[prefs.tab_size]]"
+            prefs="[[prefs]]"
             can-comment="[[_loggedIn]]"
             project-config="[[projectConfig]]"
             on-expand-context="_handleExpandContext"
@@ -107,8 +107,7 @@ limitations under the License.
             patch-num="[[patchRange.patchNum]]"
             path="[[path]]"
             content="{{_diff.rightSide}}"
-            width="[[sideWidth]]"
-            tab-width="[[prefs.tab_size]]"
+            prefs="[[prefs]]"
             can-comment="[[_loggedIn]]"
             project-config="[[projectConfig]]"
             on-expand-context="_handleExpandContext"
@@ -141,10 +140,6 @@ limitations under the License.
          */
         patchRange: Object,
         path: String,
-        sideWidth: {
-          type: Number,
-          value: 80,
-        },
         prefs: {
           type: Object,
           notify: true,
@@ -195,6 +190,8 @@ limitations under the License.
           type: Boolean,
           value: true,
         },
+        _savedPrefs: Object,
+
         _diffRequestsPromise: Object,  // Used for testing.
         _diffPreferencesPromise: Object,  // Used for testing.
       },
@@ -235,16 +232,15 @@ limitations under the License.
         }.bind(this));
       },
 
+      showDiffPreferences: function() {
+        this.$.prefsOverlay.open();
+      },
+
       _prefsChanged: function(changeRecord) {
-        var prefs = changeRecord.base;
-
-        this.$.contextSelect.value = prefs.context;
-
         if (this._initialRenderComplete) {
           this._render();
         }
-
-        this._resolvePrefsReady(prefs);
+        this._resolvePrefsReady(changeRecord.base);
       },
 
       _render: function() {
@@ -333,15 +329,31 @@ limitations under the License.
         return params;
       },
 
-      _handleContextSelectChange: function(e) {
-        var selectEl = Polymer.dom(e).rootTarget;
-        this.set('prefs.context', parseInt(selectEl.value, 10));
+      _handlePrefsTap: function(e) {
+        e.preventDefault();
 
+        // TODO(andybons): This is not supported in IE. Implement a polyfill.
+        // NOTE: Object.assign is NOT automatically a deep copy. If prefs adds
+        // an object as a value, it must be marked enumerable.
+        this._savedPrefs = Object.assign({}, this.prefs);
+        this.$.prefsOverlay.open();
+      },
+
+      _handlePrefsSave: function(e) {
+        e.stopPropagation();
+        var el = Polymer.dom(e).rootTarget;
+        el.disabled = true;
         app.accountReady.then(function() {
-          if (!this._loggedIn) { return; }
-
-          this._diffPreferencesPromise =
-              this._saveDiffPreferences().catch(function(err) {
+          if (!this._loggedIn) {
+            el.disabled = false;
+            this.$.prefsOverlay.close();
+            return;
+          }
+          this._saveDiffPreferences().then(function() {
+            this.$.prefsOverlay.close();
+            el.disabled = false;
+          }.bind(this)).catch(function(err) {
+            el.disabled = false;
             alert('Oops. Something went wrong. Check the console and bug the ' +
                   'PolyGerrit team for assistance.');
             throw err;
@@ -357,6 +369,12 @@ limitations under the License.
           body: this.prefs,
         });
         return this._diffPreferencesPromise;
+      },
+
+      _handlePrefsCancel: function(e) {
+        e.stopPropagation();
+        this.prefs = this._savedPrefs;
+        this.$.prefsOverlay.close();
       },
 
       _handleExpandContext: function(e) {
@@ -606,7 +624,7 @@ limitations under the License.
       _addCommonDiffChunk: function(ctx, chunk, leftSide, rightSide) {
         for (var i = 0; i < chunk.ab.length; i++) {
           var numLines = Math.ceil(
-              this._visibleLineLength(chunk.ab[i]) / this.sideWidth);
+              this._visibleLineLength(chunk.ab[i]) / this.prefs.line_length);
           var hidden = i >= ctx.skipRange[0] &&
               i < chunk.ab.length - ctx.skipRange[1];
           if (ctx.hidingLines && hidden == false) {
@@ -802,8 +820,8 @@ limitations under the License.
 
       _maxLinesSpanned: function(left, right) {
         return Math.max(
-            Math.ceil(this._visibleLineLength(left) / this.sideWidth),
-            Math.ceil(this._visibleLineLength(right) / this.sideWidth));
+            Math.ceil(this._visibleLineLength(left) / this.prefs.line_length),
+            Math.ceil(this._visibleLineLength(right) / this.prefs.line_length));
       },
 
     });

@@ -23,6 +23,30 @@
       "revId": "65b0e7cdbc768f7947b7de21c04484f4d3f93385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a73abf_6fa8519a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-26T13:01:52Z",
+      "side": 1,
+      "message": "I don\u0027t disagree, but that sounds like a separate cleanup. Those callers call TestChanges#newChange which doesn\u0027t call newUpdate, and would need a substantial signature change to do so.\n\nI did put update.setBranch in this method for now though.",
+      "parentUuid": "7477260f_a6026651",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 38
+      },
+      "revId": "65b0e7cdbc768f7947b7de21c04484f4d3f93385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

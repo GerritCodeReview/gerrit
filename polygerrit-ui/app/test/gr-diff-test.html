@@ -481,18 +481,18 @@ limitations under the License.
       assert.equal(leftContext.end, 19);
     });
 
-    test('save context', function(done) {
+    test('save prefs', function(done) {
       element._loggedIn = false;
 
-      var contextSelectEl = element.$.contextSelect;
-      assert.ok(contextSelectEl);
-      contextSelectEl.value = '50';
-      element.fire('change', {}, {node: contextSelectEl});
+      element.prefs = {
+        tab_size: 4,
+        context: 50,
+      };
+      element.fire('save', {}, {node: element.$$('gr-diff-preferences')});
       assert.isTrue(element._diffPreferencesPromise == null);
 
       element._loggedIn = true;
-      contextSelectEl.value = '25';
-      element.fire('change', {}, {node: contextSelectEl});
+      element.fire('save', {}, {node: element.$$('gr-diff-preferences')});
       server.respond();
 
       element._diffPreferencesPromise.then(function(req) {

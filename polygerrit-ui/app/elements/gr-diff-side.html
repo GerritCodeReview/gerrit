@@ -24,9 +24,6 @@ limitations under the License.
       .container {
         display: flex;
       }
-      .content {
-        width: 80ch;
-      }
       .lineNum:before,
       .code:before {
         /* To ensure the height is non-zero in these elements, a
@@ -62,7 +59,10 @@ limitations under the License.
         /* Line feed */
         content: '\A';
       }
-      .tab:before {
+      .tab {
+        display: inline-block;
+      }
+      .tab.withIndicator:before {
         color: #C62828;
         /* >> character */
         content: '\00BB';
@@ -141,11 +141,10 @@ limitations under the License.
           notify: true,
           observer: '_contentChanged',
         },
-        width: {
-          type: Number,
-          observer: '_widthChanged',
+        prefs: {
+          type: Object,
+          value: function() { return {}; },
         },
-        tabWidth: Number,
         changeNum: String,
         patchNum: String,
         path: String,
@@ -174,6 +173,8 @@ limitations under the License.
       listeners: {
         'tap': '_tapHandler',
       },
+
+      observers: [ '_prefsChanged(prefs.*)' ],
 
       rowInserted: function(index) {
         this.renderLineIndexRange(index, index);
@@ -295,8 +296,9 @@ limitations under the License.
         }
       },
 
-      _widthChanged: function(width) {
-        this.$.content.style.width = width + 'ch';
+      _prefsChanged: function(changeRecord) {
+        var prefs = changeRecord.base;
+        this.$.content.style.width = prefs.line_length + 'ch';
       },
 
       _projectConfigChanged: function(projectConfig) {
@@ -481,7 +483,7 @@ limitations under the License.
         if (numLines > 1) {
           html = this._addNewLines(code.content, html, numLines);
         }
-        html = this._addTabIndicators(code.content, html);
+        html = this._addTabWrappers(code.content, html);
 
         // If the html is equivalent to the text then it didn't get highlighted
         // or escaped. Use textContent which is faster than innerHTML.
@@ -559,12 +561,12 @@ limitations under the License.
         var indices = [];
         var numChars = 0;
         for (var i = 0; i < content.length; i++) {
-          if (numChars > 0 && numChars % this.width == 0) {
+          if (numChars > 0 && numChars % this.prefs.line_length == 0) {
             indices.push(htmlIndex);
           }
           htmlIndex = this._advanceChar(html, htmlIndex)
           if (content[i] == '\t') {
-            numChars += this.tabWidth;
+            numChars += this.prefs.tab_size;
           } else {
             numChars++;
           }
@@ -587,9 +589,15 @@ limitations under the License.
         return result;
       },
 
-      _addTabIndicators: function(content, html) {
-        return html.replace(TAB_REGEX,
-            '<span class="style-scope gr-diff-side tab">\t</span>');
+      _addTabWrappers: function(content, html) {
+        // TODO(andybons): CSS tab-size is not supported in IE.
+        // Force this to be a number to prevent arbitrary injection.
+        var tabSize = +this.prefs.tab_size;
+        var htmlStr = '<span class="style-scope gr-diff-side tab ' +
+            (this.prefs.show_tabs ? 'withIndicator" ' : '" ') +
+            'style="tab-size:' + tabSize + ';' +
+            '-moz-tab-size:' + tabSize + ';">\t</span>';
+        return html.replace(TAB_REGEX, htmlStr);
       },
 
       _createElement: function(tagName, className) {

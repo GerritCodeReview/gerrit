@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9441fad9_5fdf6b2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-01-26T16:39:54Z",
+      "side": 1,
+      "message": "This breaks migration from 2.11 to 2.13.\n\nThe rename column assumes existence of the push_certficate column (wrong spelling) but it will not exist in 2.11 and the rename column statement fails.\n\nEither this migration code has to handle the case of non-existing push_certficate column or we have to document that upgrading to 2.13 is only possible from 2.12.",
+      "revId": "547886f39671ff54150f7198d22559a0d0894896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -78,6 +78,11 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly('/c/42'),
           'Should navigate to /c/42');
 
+      var showPrefsStub = sinon.stub(element.$.diff, 'showDiffPreferences');
+      MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
+      assert(showPrefsStub.calledOnce);
+
+      showPrefsStub.restore();
       showStub.restore();
     });
 

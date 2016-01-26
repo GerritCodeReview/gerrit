@@ -15,15 +15,18 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 class RevisionNoteBuilder {
   private final Map<PatchLineComment.Key, PatchLineComment> comments;
+  private String pushCert;
 
   RevisionNoteBuilder(RevisionNote base) {
     if (base != null) {
@@ -31,8 +34,10 @@ class RevisionNoteBuilder {
       for (PatchLineComment c : base.comments) {
         addComment(c);
       }
+      pushCert = base.pushCert;
     } else {
       comments = new HashMap<>();
+      pushCert = null;
     }
   }
 
@@ -40,7 +45,26 @@ class RevisionNoteBuilder {
     comments.put(comment.getKey(), comment);
   }
 
+  void setPushCertificate(String pushCert) {
+    this.pushCert = pushCert;
+  }
+
   byte[] build(CommentsInNotesUtil commentsUtil) {
-    return commentsUtil.buildNote(PLC_ORDER.sortedCopy(comments.values()));
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    if (pushCert != null) {
+      byte[] certBytes = pushCert.getBytes(UTF_8);
+      out.write(certBytes, 0, trimTrailingNewlines(certBytes));
+      out.write('\n');
+    }
+    commentsUtil.buildNote(PLC_ORDER.sortedCopy(comments.values()), out);
+    return out.toByteArray();
+  }
+
+  private static int trimTrailingNewlines(byte[] bytes) {
+    int p = bytes.length;
+    while (p > 1 && bytes[p - 1] == '\n') {
+      p--;
+    }
+    return p;
   }
 }

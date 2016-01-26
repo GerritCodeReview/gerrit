@@ -19,7 +19,9 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -59,6 +61,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
@@ -686,6 +689,66 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       .containsExactly("d");
     assertThat(notes.getPatchSets().get(psId1).getGroups())
       .containsExactly("a", "b").inOrder();
+  }
+
+  @Test
+  public void pushCertificate() throws Exception {
+    String pushCert = "certificate version 0.1\n"
+      + "pusher This is not a real push cert\n"
+      + "-----BEGIN PGP SIGNATURE-----\n"
+      + "Version: GnuPG v1\n"
+      + "\n"
+      + "Nor is this a real signature.\n"
+      + "-----END PGP SIGNATURE-----\n";
+    String trimmedCert = CharMatcher.is('\n').trimTrailingFrom(pushCert);
+
+    // ps2 with push cert
+    Change c = newChange();
+    PatchSet.Id psId1 = c.currentPatchSetId();
+    incrementPatchSet(c);
+    PatchSet.Id psId2 = c.currentPatchSetId();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setPatchSetId(psId2);
+    RevCommit commit = tr.commit().message("PS2").create();
+    update.setCommit(rw, commit, pushCert);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(readNote(notes, commit)).isEqualTo(pushCert);
+    Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
+    assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
+    assertThat(patchSets.get(psId2).getPushCertificate())
+        .isEqualTo(trimmedCert);
+    assertThat(notes.getComments()).isEmpty();
+
+    // comment on ps2
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetId(psId2);
+    Timestamp ts = TimeUtil.nowTs();
+    update.insertComment(newPublishedComment(psId2, "a.txt",
+        "uuid1", new CommentRange(1, 2, 3, 4), 1, changeOwner, null, ts,
+        "Comment", (short) 1, commit.name()));
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(readNote(notes, commit)).isEqualTo(
+        pushCert
+        + "Patch-set: 2\n"
+        + "Revision: " + commit.name() + "\n"
+        + "File: a.txt\n"
+        + "\n"
+        + "1:2-3:4\n"
+        + CommentsInNotesUtil.formatTime(serverIdent, ts) + "\n"
+        + "Author: Change Owner <1@gerrit>\n"
+        + "UUID: uuid1\n"
+        + "Bytes: 7\n"
+        + "Comment\n"
+        + "\n");
+    patchSets = notes.getPatchSets();
+    assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
+    assertThat(patchSets.get(psId2).getPushCertificate())
+        .isEqualTo(trimmedCert);
+    assertThat(notes.getComments()).isNotEmpty();
   }
 
   @Test
@@ -1579,5 +1642,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
     assertThat(notes.getComments()).hasSize(2);
+  }
+
+  private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
+    ObjectId dataId = notes.getNoteMap().getNote(noteId).getData();
+    return new String(
+        rw.getObjectReader().open(dataId, OBJ_BLOB).getCachedBytes(), UTF_8);
   }
 }

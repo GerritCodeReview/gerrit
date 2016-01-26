@@ -81,7 +81,7 @@ public class PatchSetUtil {
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
 
-    update.setCommit(rw, commit);
+    update.setCommit(rw, commit, pushCertificate);
     if (draft) {
       update.setPatchSetState(DRAFT);
     }

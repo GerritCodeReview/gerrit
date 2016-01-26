@@ -478,6 +478,13 @@ class ChangeNotesParser implements AutoCloseable {
         comments.put(revId, plc);
       }
     }
+
+    for (PatchSet ps : patchSets.values()) {
+      RevisionNote rn = revisionNotes.get(ps.getRevision());
+      if (rn != null && rn.pushCert != null) {
+        ps.setPushCertificate(rn.pushCert);
+      }
+    }
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,

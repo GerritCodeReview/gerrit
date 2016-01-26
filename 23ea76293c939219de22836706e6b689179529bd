@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d49d3271_f1b34805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-26T13:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f483161b_6a11179e",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "23ea76293c939219de22836706e6b689179529bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94801a15_672312e6",
         "filename": "plugins/replication",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2016-01-26T12:56:36Z",
       "side": 1,
       "message": "unintended submodule update?",
+      "revId": "23ea76293c939219de22836706e6b689179529bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a73abf_efb36105",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-26T13:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94801a15_672312e6",
       "revId": "23ea76293c939219de22836706e6b689179529bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

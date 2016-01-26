@@ -465,6 +465,11 @@ public class ChangeRebuilder {
     private static final Pattern TOPIC_REMOVED_REGEXP =
         Pattern.compile("^Topic (.+) removed$");
 
+    private static final Pattern STATUS_ABANDONED_REGEXP =
+        Pattern.compile("^Abandoned(\n.*)*$");
+    private static final Pattern STATUS_RESTORED_REGEXP =
+        Pattern.compile("^Restored(\n.*)*$");
+
     private final ChangeMessage message;
     private final Change notedbChange;
 
@@ -480,6 +485,7 @@ public class ChangeRebuilder {
       checkUpdate(update);
       update.setChangeMessage(message.getMessage());
       setTopic(update);
+      setStatus(update);
     }
 
     private void setTopic(ChangeUpdate update) {
@@ -505,6 +511,20 @@ public class ChangeRebuilder {
         notedbChange.setTopic(null);
       }
     }
+
+    private void setStatus(ChangeUpdate update) {
+      String msg = message.getMessage();
+      if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
+        update.setStatus(Change.Status.ABANDONED);
+        notedbChange.setStatus(Change.Status.ABANDONED);
+        return;
+      }
+
+      if (STATUS_RESTORED_REGEXP.matcher(msg).matches()) {
+        update.setStatus(Change.Status.NEW);
+        notedbChange.setStatus(Change.Status.NEW);
+      }
+    }
   }
 
   private static class FinalUpdatesEvent extends Event {
@@ -522,6 +542,10 @@ public class ChangeRebuilder {
     void apply(ChangeUpdate update) throws OrmException {
       if (!Objects.equals(change.getTopic(), notedbChange.getTopic())) {
         update.setTopic(change.getTopic());
+      }
+      if (!Objects.equals(change.getStatus(), notedbChange.getStatus())) {
+        // TODO(dborowitz): Stamp approximate approvals at this time.
+        update.fixStatus(change.getStatus());
       }
       if (!update.isEmpty()) {
         update.setSubjectForCommit("Final notedb migration updates");

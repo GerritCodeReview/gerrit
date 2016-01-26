@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -51,6 +52,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collections;
+import java.util.Locale;
+import java.util.Map;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
@@ -137,6 +140,15 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
       throws OrmException, ResourceConflictException {
+
+    // Do not allow creating groups with the same name as system groups
+    Map<String, GroupReference> sysGroupNames = SystemGroupBackend.getNames();
+    if (sysGroupNames.containsKey(
+        createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+      throw new ResourceConflictException("group '"
+          + createGroupArgs.getGroupName() + "' already exists");
+    }
+
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(

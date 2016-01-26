@@ -93,6 +93,10 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
   }
 
+  public static Map<String, GroupReference> getNames() {
+    return names;
+  }
+
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
     return isSystemGroup(uuid);

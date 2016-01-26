@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
@@ -113,6 +114,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeNotes notes;
   private PatchSetState psState;
   private Iterable<String> groups;
+  private String pushCert;
 
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private ChangeDraftUpdate draftUpdate;
@@ -368,10 +370,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setCommit(RevWalk rw, ObjectId id) throws IOException {
+    setCommit(rw, id, null);
+  }
+
+  public void setCommit(RevWalk rw, ObjectId id, String pushCert)
+      throws IOException {
     RevCommit commit = rw.parseCommit(id);
     rw.parseBody(commit);
     this.commit = commit;
     subject = commit.getShortMessage();
+    this.pushCert = pushCert;
   }
 
   public void setHashtags(Set<String> hashtags) {
@@ -402,18 +410,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (noteMap == null) {
       noteMap = NoteMap.newEmptyMap();
     }
-    if (comments.isEmpty()) {
+    if (comments.isEmpty() && pushCert == null) {
       return null;
     }
 
     Map<RevId, RevisionNoteBuilder> builders = new HashMap<>();
     for (PatchLineComment c : comments) {
-      RevisionNoteBuilder b = builders.get(c.getRevId());
-      if (b == null) {
-        b = new RevisionNoteBuilder(notes.getRevisionNotes().get(c.getRevId()));
-        builders.put(c.getRevId(), b);
-      }
-      b.addComment(c);
+      builder(builders, c.getRevId()).addComment(c);
+    }
+    if (pushCert != null) {
+      checkState(commit != null);
+      builder(builders, new RevId(commit.name())).setPushCertificate(pushCert);
     }
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
@@ -423,6 +430,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     return noteMap.writeTree(inserter);
+  }
+
+  private RevisionNoteBuilder builder(Map<RevId, RevisionNoteBuilder> builders,
+      RevId revId) {
+    RevisionNoteBuilder b = builders.get(revId);
+    if (b == null) {
+      b = new RevisionNoteBuilder(
+          getChangeNotes().getRevisionNotes().get(revId));
+      builders.put(revId, b);
+    }
+    return b;
   }
 
   public RevCommit commit() throws IOException {

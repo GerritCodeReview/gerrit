@@ -106,10 +106,12 @@ limitations under the License.
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
         <gr-change-list-view params="[[params]]"
+            view-state="{{_viewState.changeListView}}"
             logged-in="[[_computeLoggedIn(account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
-        <gr-dashboard-view params="[[params]]"></gr-dashboard-view>
+        <gr-dashboard-view params="[[params]]"
+            view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
         <gr-change-view server-config="[[config]]"
@@ -207,6 +209,11 @@ limitations under the License.
             selectedFileIndex: 0,
           },
           changeListView: {
+            query: null,
+            offset: 0,
+            selectedChangeIndex: 0,
+          },
+          dashboardView: {
             selectedChangeIndex: 0,
           },
         }

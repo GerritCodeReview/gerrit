@@ -42,7 +42,10 @@ limitations under the License.
         loading="{{_loading}}"></gr-ajax>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <gr-change-list groups="{{_results}}" show-star
+      <gr-change-list
+          show-star
+          selected-index="{{viewState.selectedChangeIndex}}"
+          groups="{{_results}}"
           group-titles="[[_groupTitles]]"></gr-change-list>
     </div>
   </template>
@@ -64,6 +67,8 @@ limitations under the License.
       },
 
       properties: {
+        viewState: Object,
+
         _results: Array,
         _groupTitles: {
           type: Array,

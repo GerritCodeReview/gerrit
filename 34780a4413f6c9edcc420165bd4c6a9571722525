@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_3fb4e7ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T14:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43efe47_20ce0a88",
+      "revId": "34780a4413f6c9edcc420165bd4c6a9571722525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b43efe47_40cb0e77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2016-01-26T14:34:51Z",
       "side": 1,
       "message": "Just do the pluralization properly.",
+      "range": {
+        "startLine": 152,
+        "startChar": 21,
+        "endLine": 152,
+        "endChar": 24
+      },
+      "revId": "34780a4413f6c9edcc420165bd4c6a9571722525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9441fad9_1fb7a3f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T14:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43efe47_40cb0e77",
       "range": {
         "startLine": 152,
         "startChar": 21,

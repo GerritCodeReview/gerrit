@@ -67,6 +67,7 @@ limitations under the License.
     });
 
     test('keyboard shortcuts', function(done) {
+      element.selectedIndex = 0;
       element.changes = [
         {_number: 0},
         {_number: 1},
@@ -76,7 +77,6 @@ limitations under the License.
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
       assert.equal(elementItems.length, 3);
-      assert.equal(element.selectedIndex, 0);
 
       element.async(function() {
         assert.isTrue(elementItems[0].selected);
@@ -116,6 +116,7 @@ limitations under the License.
     });
 
     test('keyboard shortcuts', function() {
+      element.selectedIndex = 0;
       element.groups = [
         [
           {_number: 0},
@@ -138,7 +139,6 @@ limitations under the License.
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
       assert.equal(elementItems.length, 9);
-      assert.equal(element.selectedIndex, 0);
 
       MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
       assert.equal(element.selectedIndex, 1);

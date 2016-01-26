@@ -223,6 +223,8 @@ limitations under the License.
       },
 
       _paramsChanged: function(value) {
+        if (value.view != this.tagName.toLowerCase()) { return; }
+
         this._changeNum = value.changeNum;
         this._patchRange = {
           patchNum: value.patchNum,

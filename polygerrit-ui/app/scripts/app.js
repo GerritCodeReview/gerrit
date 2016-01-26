@@ -47,7 +47,7 @@ window.addEventListener('WebComponentsReady', function() {
 
   page('/dashboard/(.*)', loadUser, function(data) {
     if (app.loggedIn) {
-      app.route = 'gr-dashboard-view';
+      data.params.view = 'gr-dashboard-view';
       app.params = data.params;
     } else {
       page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
@@ -55,7 +55,7 @@ window.addEventListener('WebComponentsReady', function() {
   });
 
   function queryHandler(data) {
-    app.route = 'gr-change-list-view';
+    data.params.view = 'gr-change-list-view';
     app.params = data.params;
   }
 
@@ -67,17 +67,17 @@ window.addEventListener('WebComponentsReady', function() {
   });
 
   page('/c/:changeNum/:patchNum?', function(data) {
-    app.route = 'gr-change-view';
+    data.params.view = 'gr-change-view';
     app.params = data.params;
   });
 
   page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
-    app.route = 'gr-diff-view';
     var params = {
       changeNum: ctx.params[0],
       basePatchNum: ctx.params[2],
       patchNum: ctx.params[4],
-      path: ctx.params[5]
+      path: ctx.params[5],
+      view: 'gr-diff-view',
     };
     // Don't allow diffing the same patch number against itself because WHY?
     if (params.basePatchNum == params.patchNum) {

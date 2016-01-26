@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
@@ -512,32 +513,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void subjectChangeNotes() throws Exception {
-    Change c = newChange();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getChange().getSubject()).isEqualTo(c.getSubject());
-    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
-
-    // An unrelated update doesn't affect the subject
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic("topic"); // Change something to get a new commit.
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getChange().getSubject()).isEqualTo(c.getSubject());
-    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
-
-    // An update of the subject doesn't affect the original subject
-    update = newUpdate(c, changeOwner);
-    String newSubject = "other subject";
-    update.setSubject(newSubject);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getChange().getSubject()).isEqualTo(newSubject);
-    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
-  }
-
-  @Test
   public void ownerChangeNotes() throws Exception {
     Change c = newChange();
 
@@ -581,6 +556,136 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     assertThat(newNotes(c).getChange().getLastUpdatedOn())
         .isGreaterThan(lastUpdatedOn);
+  }
+
+  @Test
+  public void commitChangeNotesUnique() throws Exception {
+    // PatchSetId -> RevId must be a one to one mapping
+    Change c = newChange();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSet ps = notes.getCurrentPatchSet();
+    assertThat(ps).isNotNull();
+
+    // new revId for the same patch set, ps1
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    RevCommit commit = tr.commit().message("PS1 again").create();
+    update.setCommit(rw, commit);
+    update.commit();
+    exception.expect(OrmException.class);
+    exception.expectMessage("Multiple revisions parsed for patch set");
+    notes = newNotes(c);
+  }
+
+  @Test
+  public void patchSetChangeNotes() throws Exception {
+    Change c = newChange();
+
+    // ps1 created by newChange()
+    ChangeNotes notes = newNotes(c);
+    PatchSet ps1 = notes.getCurrentPatchSet();
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.getId());
+    assertThat(notes.getChange().getSubject()).isEqualTo("Change subject");
+    assertThat(notes.getChange().getOriginalSubject())
+        .isEqualTo("Change subject");
+    assertThat(ps1.getId()).isEqualTo(new PatchSet.Id(c.getId(), 1));
+    assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
+
+    // ps2 by other user
+    incrementPatchSet(c);
+    RevCommit commit = tr.commit().message("PS2").create();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setCommit(rw, commit);
+    update.commit();
+    notes = newNotes(c);
+    PatchSet ps2 = notes.getCurrentPatchSet();
+    assertThat(ps2.getId()).isEqualTo(new PatchSet.Id(c.getId(), 2));
+    assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
+    assertThat(notes.getChange().getOriginalSubject())
+        .isEqualTo("Change subject");
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
+    assertThat(ps2.getRevision().get()).isNotEqualTo(ps1.getRevision());
+    assertThat(ps2.getRevision().get()).isEqualTo(commit.name());
+    assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
+    assertThat(ps2.getCreatedOn()).isEqualTo(update.getWhen());
+  }
+
+  @Test
+  public void patchSetStates() throws Exception {
+    Change c = newChange();
+    PatchSet.Id psId1 = c.currentPatchSetId();
+
+    // ps2
+    incrementPatchSet(c);
+    PatchSet.Id psId2 = c.currentPatchSetId();
+    RevCommit commit = tr.commit().message("PS2").create();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setCommit(rw, commit);
+    update.setPatchSetState(PatchSetState.DRAFT);
+    update.putApproval("Code-Review", (short) 1);
+    update.setChangeMessage("This is a message");
+    update.insertComment(newPublishedComment(c.currentPatchSetId(), "a.txt",
+        "uuid1", new CommentRange(1, 2, 3, 4), 1, changeOwner, null,
+        TimeUtil.nowTs(), "Comment", (short) 1, commit.name()));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).isDraft()).isTrue();
+    assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
+    assertThat(notes.getApprovals()).isNotEmpty();
+    assertThat(notes.getChangeMessagesByPatchSet()).isNotEmpty();
+    assertThat(notes.getChangeMessages()).isNotEmpty();
+    assertThat(notes.getComments()).isNotEmpty();
+
+    // publish ps2
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.PUBLISHED);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).isDraft()).isFalse();
+
+    // delete ps2
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.DELETED);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().keySet()).containsExactly(psId1);
+    assertThat(notes.getApprovals()).isEmpty();
+    assertThat(notes.getChangeMessagesByPatchSet()).isEmpty();
+    assertThat(notes.getChangeMessages()).isEmpty();
+    assertThat(notes.getComments()).isEmpty();
+  }
+
+  @Test
+  public void patchSetGroups() throws Exception {
+    Change c = newChange();
+    PatchSet.Id psId1 = c.currentPatchSetId();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId1).getGroups()).isNull();
+
+    // ps1
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setGroups(ImmutableList.of("a", "b"));
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId1).getGroups())
+      .containsExactly("a", "b").inOrder();
+
+    // ps2
+    incrementPatchSet(c);
+    PatchSet.Id psId2 = c.currentPatchSetId();
+    update = newUpdate(c, changeOwner);
+    update.setCommit(rw, tr.commit().message("PS2").create());
+    update.setGroups(ImmutableList.of("d"));
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).getGroups())
+      .containsExactly("d");
+    assertThat(notes.getPatchSets().get(psId1).getGroups())
+      .containsExactly("a", "b").inOrder();
   }
 
   @Test

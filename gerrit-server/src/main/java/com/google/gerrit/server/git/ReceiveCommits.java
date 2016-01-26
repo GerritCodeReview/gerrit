@@ -2273,7 +2273,7 @@ public class ReceiveCommits {
 
         boolean draft = magicBranch != null && magicBranch.draft;
         newPatchSet = psUtil.insert(
-            db, update, psId, newCommit, draft, newGroups,
+            db, state.rw, update, psId, newCommit, draft, newGroups,
             rp.getPushCertificate() != null
               ? rp.getPushCertificate().toTextWithSignature()
               : null);
@@ -2423,29 +2423,27 @@ public class ReceiveCommits {
     }
 
     private void updateGroups(RequestState state)
-        throws OrmException, IOException {
-      ReviewDb db = state.db;
-      PatchSet ps = db.patchSets().atomicUpdate(psId,
-          new AtomicUpdate<PatchSet>() {
-            @Override
-            public PatchSet update(PatchSet ps) {
-              List<String> oldGroups = ps.getGroups();
-              if (oldGroups == null) {
-                if (groups == null) {
-                  return null;
-                }
-              } else if (Sets.newHashSet(oldGroups).equals(groups)) {
-                return null;
+        throws RestApiException, UpdateException {
+      try (ObjectInserter oi = repo.newObjectInserter();
+          BatchUpdate bu = batchUpdateFactory.create(state.db,
+              magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
+        bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
+          @Override
+          public boolean updateChange(ChangeContext ctx) throws OrmException {
+            PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+            List<String> oldGroups = ps.getGroups();
+            if (oldGroups == null) {
+              if (groups == null) {
+                return false;
               }
-              ps.setGroups(groups);
-              return ps;
+            } else if (Sets.newHashSet(oldGroups).equals(groups)) {
+              return false;
             }
-          });
-      if (ps != null) {
-        Change change = db.changes().get(psId.getParentKey());
-        if (change != null) {
-          indexer.index(db, change);
-        }
+            psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
+            return true;
+          }
+        });
+        bu.execute();
       }
     }
 
@@ -2454,7 +2452,7 @@ public class ReceiveCommits {
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws OrmException, IOException {
+        public Void call() throws Exception {
           try (RequestState state = requestState(caller)) {
             updateGroups(state);
           }

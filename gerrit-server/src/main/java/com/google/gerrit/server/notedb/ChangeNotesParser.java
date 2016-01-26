@@ -15,6 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -54,10 +56,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -78,12 +82,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 class ChangeNotesParser implements AutoCloseable {
+  // Sentinel RevId indicating a mutable field on a patch set was parsed, but
+  // the parser does not yet know its commit SHA-1.
+  private static final RevId PARTIAL_PATCH_SET =
+      new RevId("INVALID PARTIAL PATCH SET");
+
   final Map<Account.Id, ReviewerStateInternal> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
   final Multimap<RevId, PatchLineComment> comments;
+  final TreeMap<PatchSet.Id, PatchSet> patchSets;
+  final Map<PatchSet.Id, PatchSetState> patchSetStates;
   NoteMap commentNoteMap;
   String branch;
   Change.Status status;
@@ -95,6 +107,7 @@ class ChangeNotesParser implements AutoCloseable {
   String subject;
   String originalSubject;
   String submissionId;
+  PatchSet.Id currentPatchSetId;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -119,6 +132,8 @@ class ChangeNotesParser implements AutoCloseable {
     allChangeMessages = Lists.newArrayList();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
+    patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
+    patchSetStates = Maps.newHashMap();
   }
 
   @Override
@@ -134,6 +149,7 @@ class ChangeNotesParser implements AutoCloseable {
     parseComments();
     allPastReviewers.addAll(reviewers.keySet());
     pruneReviewers();
+    updatePatchSetStates();
     checkMandatoryFooters();
   }
 
@@ -167,9 +183,12 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parse(RevCommit commit) throws ConfigInvalidException {
-    createdOn = getCommitTime(commit);
+    Timestamp ts =
+        new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+
+    createdOn = ts;
     if (lastUpdatedOn == null) {
-      lastUpdatedOn = getCommitTime(commit);
+      lastUpdatedOn = ts;
     }
     if (branch == null) {
       branch = parseBranch(commit);
@@ -177,21 +196,43 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
+
     PatchSet.Id psId = parsePatchSetId(commit);
+    if (currentPatchSetId == null) {
+      currentPatchSetId = psId;
+    }
+
+    PatchSetState psState = parsePatchSetState(commit);
+    if (psState != null && !patchSetStates.containsKey(psId)) {
+      patchSetStates.put(psId, psState);
+    }
+
     Account.Id accountId = parseIdent(commit);
     ownerId = accountId;
-    if (subject == null) {
-      subject = parseSubject(commit);
+
+    String currSubject = parseSubject(commit);
+    if (currSubject != null) {
+      if (subject == null) {
+        subject = currSubject;
+      }
+      originalSubject = currSubject;
     }
-    originalSubject = parseSubject(commit);
-    parseChangeMessage(psId, accountId, commit);
+
+    parseChangeMessage(psId, accountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
     }
+
     parseHashtags(commit);
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
     }
+
+    ObjectId currRev = parseRevision(commit);
+    if (currRev != null) {
+      parsePatchSet(psId, currRev, accountId, ts);
+    }
+    parseGroups(psId, commit);
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -200,7 +241,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     for (String line : commit.getFooterLines(FOOTER_LABEL)) {
-      parseApproval(psId, accountId, commit, line);
+      parseApproval(psId, accountId, ts, line);
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
@@ -239,6 +280,64 @@ class ChangeNotesParser implements AutoCloseable {
     return footerLines.get(0);
   }
 
+  private String parseExactlyOneFooter(RevCommit commit, FooterKey footerKey)
+      throws ConfigInvalidException {
+    String line = parseOneFooter(commit, footerKey);
+    if (line == null) {
+      throw expectedOneFooter(footerKey, Collections.<String> emptyList());
+    }
+    return line;
+  }
+
+  private ObjectId parseRevision(RevCommit commit)
+      throws ConfigInvalidException {
+    String sha = parseOneFooter(commit, FOOTER_COMMIT);
+    if (sha == null) {
+      return null;
+    }
+    try {
+      return ObjectId.fromString(sha);
+    } catch (InvalidObjectIdException e) {
+      ConfigInvalidException cie = invalidFooter(FOOTER_COMMIT, sha);
+      cie.initCause(e);
+      throw cie;
+    }
+  }
+
+  private void parsePatchSet(PatchSet.Id psId, ObjectId rev,
+      Account.Id accountId, Timestamp ts) throws ConfigInvalidException {
+    PatchSet ps = patchSets.get(psId);
+    if (ps == null) {
+      ps = new PatchSet(psId);
+      patchSets.put(psId, ps);
+    } else if (ps.getRevision() != PARTIAL_PATCH_SET) {
+      throw new ConfigInvalidException(
+          String.format(
+              "Multiple revisions parsed for patch set %s: %s and %s",
+              psId.get(), patchSets.get(psId).getRevision(), rev.name()));
+    }
+    ps.setRevision(new RevId(rev.name()));
+    ps.setUploader(accountId);
+    ps.setCreatedOn(ts);
+  }
+
+  private void parseGroups(PatchSet.Id psId, RevCommit commit)
+      throws ConfigInvalidException {
+    String groupsStr = parseOneFooter(commit, FOOTER_GROUPS);
+    if (groupsStr == null) {
+      return;
+    }
+    PatchSet ps = patchSets.get(psId);
+    if (ps == null) {
+      ps = new PatchSet(psId);
+      ps.setRevision(PARTIAL_PATCH_SET);
+      patchSets.put(psId, ps);
+    } else if (ps.getGroups() != null) {
+      return;
+    }
+    ps.setGroups(PatchSet.splitGroups(groupsStr));
+  }
+
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags should be used.
     if (hashtags != null) {
@@ -274,19 +373,36 @@ class ChangeNotesParser implements AutoCloseable {
 
   private PatchSet.Id parsePatchSetId(RevCommit commit)
       throws ConfigInvalidException {
-    List<String> psIdLines = commit.getFooterLines(FOOTER_PATCH_SET);
-    if (psIdLines.size() != 1) {
-      throw expectedOneFooter(FOOTER_PATCH_SET, psIdLines);
-    }
-    Integer psId = Ints.tryParse(psIdLines.get(0));
+    String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
+    int s = psIdLine.indexOf(' ');
+    String psIdStr = s < 0 ? psIdLine : psIdLine.substring(0, s);
+    Integer psId = Ints.tryParse(psIdStr);
     if (psId == null) {
-      throw invalidFooter(FOOTER_PATCH_SET, psIdLines.get(0));
+      throw invalidFooter(FOOTER_PATCH_SET, psIdStr);
     }
     return new PatchSet.Id(changeId, psId);
   }
 
+  private PatchSetState parsePatchSetState(RevCommit commit)
+      throws ConfigInvalidException {
+    String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
+    int s = psIdLine.indexOf(' ');
+    if (s < 0) {
+      return null;
+    }
+    String withParens = psIdLine.substring(s + 1);
+    if (withParens.startsWith("(") && withParens.endsWith(")")) {
+      Optional<PatchSetState> state = Enums.getIfPresent(PatchSetState.class,
+          withParens.substring(1, withParens.length() - 1).toUpperCase());
+      if (state.isPresent()) {
+        return state.get();
+      }
+    }
+    throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
+  }
+
   private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
-      RevCommit commit) {
+      RevCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
     Charset enc = RawParseUtils.parseEncoding(raw);
@@ -336,7 +452,7 @@ class ChangeNotesParser implements AutoCloseable {
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(psId.getParentKey(), commit.name()),
         accountId,
-        getCommitTime(commit),
+        ts,
         psId);
     changeMessage.setMessage(changeMsgString);
     changeMessagesByPatchSet.put(psId, changeMessage);
@@ -351,16 +467,16 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,
-      RevCommit commit, String line) throws ConfigInvalidException {
+      Timestamp ts, String line) throws ConfigInvalidException {
     if (line.startsWith("-")) {
       parseRemoveApproval(psId, accountId, line);
     } else {
-      parseAddApproval(psId, accountId, commit, line);
+      parseAddApproval(psId, accountId, ts, line);
     }
   }
 
   private void parseAddApproval(PatchSet.Id psId, Account.Id committerId,
-      RevCommit commit, String line) throws ConfigInvalidException {
+      Timestamp ts, String line) throws ConfigInvalidException {
     Account.Id accountId;
     String labelVoteStr;
     int s = line.indexOf(' ');
@@ -393,7 +509,7 @@ class ChangeNotesParser implements AutoCloseable {
               accountId,
               new LabelId(l.label())),
           l.value(),
-          getCommitTime(commit))));
+          ts)));
     }
   }
 
@@ -543,6 +659,65 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
+  private void updatePatchSetStates() throws ConfigInvalidException {
+    for (PatchSet ps : patchSets.values()) {
+      if (ps.getRevision() == PARTIAL_PATCH_SET) {
+        throw parseException("No %s found for patch set %s",
+            FOOTER_COMMIT, ps.getPatchSetId());
+      }
+    }
+
+    Set<PatchSet.Id> deleted =
+        Sets.newHashSetWithExpectedSize(patchSetStates.size());
+    for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {
+      switch (e.getValue()) {
+        case PUBLISHED:
+        default:
+          break;
+
+        case DELETED:
+          deleted.add(e.getKey());
+          break;
+
+        case DRAFT:
+          PatchSet ps = patchSets.get(e.getKey());
+          if (ps != null) {
+            ps.setDraft(true);
+          }
+          break;
+      }
+    }
+    if (deleted.isEmpty()) {
+      return;
+    }
+
+    // Post-process other collections to remove items corresponding to deleted
+    // patch sets. This is safer than trying to prevent insertion, as it will
+    // also filter out items racily added after the patch set was deleted.
+    patchSets.keySet().removeAll(deleted);
+    if (!patchSets.keySet().isEmpty()) {
+      currentPatchSetId = patchSets.navigableKeySet().last();
+    } else {
+      currentPatchSetId = null;
+    }
+    approvals.keySet().removeAll(deleted);
+    changeMessagesByPatchSet.keys().removeAll(deleted);
+
+    for (Iterator<ChangeMessage> it = allChangeMessages.iterator();
+        it.hasNext();) {
+      if (deleted.contains(it.next().getPatchSetId())) {
+        it.remove();
+      }
+    }
+    for (Iterator<PatchLineComment> it = comments.values().iterator();
+        it.hasNext();) {
+      PatchSet.Id psId = it.next().getKey().getParentKey().getParentKey();
+      if (deleted.contains(psId)) {
+        it.remove();
+      }
+    }
+  }
+
   private void checkMandatoryFooters() throws ConfigInvalidException {
     List<FooterKey> missing = new ArrayList<>();
     if (branch == null) {
@@ -578,10 +753,6 @@ class ChangeNotesParser implements AutoCloseable {
     if (!expr) {
       throw invalidFooter(footer, actual);
     }
-  }
-
-  private static Timestamp getCommitTime(RevCommit commit) {
-    return new Timestamp(commit.getCommitterIdent().getWhen().getTime());
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {

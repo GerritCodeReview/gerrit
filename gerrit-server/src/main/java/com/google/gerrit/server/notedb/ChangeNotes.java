@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -21,8 +22,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
@@ -36,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -117,6 +121,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   private final Change change;
+  private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
   private ImmutableList<Account.Id> allPastReviewers;
@@ -140,6 +145,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public Change getChange() {
     return change;
+  }
+
+  public ImmutableMap<PatchSet.Id, PatchSet> getPatchSets() {
+    return patchSets;
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
@@ -246,6 +255,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return ChangeNoteUtil.changeRefName(getChangeId());
   }
 
+  public PatchSet getCurrentPatchSet() {
+    PatchSet.Id psId = change.currentPatchSetId();
+    return checkNotNull(patchSets.get(psId),
+        "missing current patch set %s", psId.get());
+  }
+
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
@@ -266,14 +281,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
-      change.setOriginalSubject(parser.originalSubject);
-      change.setSubject(parser.subject);
       change.setDest(new Branch.NameKey(getProjectName(), parser.branch));
       change.setTopic(Strings.emptyToNull(parser.topic));
       change.setCreatedOn(parser.createdOn);
       change.setLastUpdatedOn(parser.lastUpdatedOn);
       change.setOwner(parser.ownerId);
       change.setSubmissionId(parser.submissionId);
+      patchSets = ImmutableSortedMap.copyOf(
+          parser.patchSets, ReviewDbUtil.intKeyOrdering());
+
+      if (!patchSets.isEmpty()) {
+        change.setCurrentPatchSet(
+            parser.currentPatchSetId, parser.subject, parser.originalSubject);
+      } else {
+        // TODO(dborowitz): This should be an error, but for now it's required
+        // for some tests to pass.
+        change.clearCurrentPatchSet();
+      }
 
       if (parser.hashtags != null) {
         hashtags = ImmutableSet.copyOf(parser.hashtags);

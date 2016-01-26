@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -29,6 +30,8 @@ import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,6 +49,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Inject
   private ChangeEditModifier editModifier;
+
+  @Inject
+  private BatchUpdate.Factory updateFactory;
 
   @Test
   public void getRelatedNoResult() throws Exception {
@@ -566,9 +572,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
 
     // Pretend PS1,1 was pushed before the groups field was added.
-    PatchSet ps1_1 = getPatchSet(psId1_1);
-    ps1_1.setGroups(null);
-    db.patchSets().update(ImmutableList.of(ps1_1));
+    setGroups(psId1_1, null);
     indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
 
     // PS1,1 has no groups, so disappeared from related changes.
@@ -623,6 +627,22 @@ public class GetRelatedIT extends AbstractDaemonTest {
     result._currentRevisionNumber = currentRevisionNum;
     result.status = "NEW";
     return result;
+  }
+
+  private void setGroups(final PatchSet.Id psId,
+      final Iterable<String> groups) throws Exception {
+    try (BatchUpdate bu = updateFactory.create(
+        db, project, user(user), TimeUtil.nowTs())) {
+      bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
+        @Override
+        public boolean updateChange(ChangeContext ctx) throws OrmException {
+          PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+          psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
+          return true;
+        }
+      });
+      bu.execute();
+    }
   }
 
   private void assertRelated(PatchSet.Id psId, ChangeAndCommit... expected)

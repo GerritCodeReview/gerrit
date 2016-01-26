@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static org.easymock.EasyMock.expect;
 
 import com.google.common.collect.Ordering;
@@ -39,8 +40,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
 
 import org.easymock.EasyMock;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -84,8 +90,8 @@ public class TestChanges {
   public static ChangeUpdate newUpdate(Injector injector,
       GitRepositoryManager repoManager, NotesMigration migration, Change c,
       final AllUsersNameProvider allUsers, final IdentifiedUser user)
-      throws OrmException {
-    return injector.createChildInjector(new FactoryModule() {
+      throws Exception  {
+    ChangeUpdate update = injector.createChildInjector(new FactoryModule() {
       @Override
       public void configure() {
         factory(ChangeUpdate.Factory.class);
@@ -96,6 +102,32 @@ public class TestChanges {
     }).getInstance(ChangeUpdate.Factory.class).create(
         stubChangeControl(repoManager, migration, c, allUsers, user),
         TimeUtil.nowTs(), Ordering.<String> natural());
+
+    ChangeNotes notes = update.getChangeNotes();
+    boolean hasPatchSets = notes.getPatchSets() != null
+        && !notes.getPatchSets().isEmpty();
+    if (hasPatchSets || !migration.readChanges()) {
+      return update;
+    }
+
+    // Change doesn't exist yet. Notedb requires that there be a commit for the
+    // first patch set, so create one.
+    try (Repository repo = repoManager.openRepository(c.getProject())) {
+      TestRepository<Repository> tr = new TestRepository<>(repo);
+      PersonIdent ident =
+          user.newCommitterIdent(update.getWhen(), TimeZone.getDefault());
+      TestRepository<Repository>.CommitBuilder cb = tr.commit()
+          .author(ident)
+          .committer(ident)
+          .message(firstNonNull(c.getSubject(), "Test change"));
+      Ref parent = repo.exactRef(c.getDest().get());
+      if (parent != null) {
+        cb.parent(tr.getRevWalk().parseCommit(parent.getObjectId()));
+      }
+      update.setBranch(c.getDest().get());
+      update.setCommit(tr.getRevWalk(), cb.create());
+      return update;
+    }
   }
 
   public static ChangeControl stubChangeControl(

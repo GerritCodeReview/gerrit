@@ -49,6 +49,9 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Subject: Change subject\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: " + update.getCommit().name() + "\n"
         + "Reviewer: Change Owner <1@gerrit>\n"
         + "CC: Other Account <2@gerrit>\n"
         + "Label: Code-Review=-1\n"
@@ -84,7 +87,31 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Just a little code change.\n"
         + "How about a new line\n"
         + "\n"
-        + "Patch-set: 1\n",
+        + "Patch-set: 1\n"
+        + "Subject: Change subject\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: " + update.getCommit().name() + "\n",
+        update.getRevision());
+  }
+
+  @Test
+  public void changeWithRevision() throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Foo");
+    RevCommit commit = tr.commit().message("Subject").create();
+    update.setCommit(rw, commit);
+    update.commit();
+    assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Foo\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Subject: Subject\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: " + commit.name() + "\n",
         update.getRevision());
   }
 

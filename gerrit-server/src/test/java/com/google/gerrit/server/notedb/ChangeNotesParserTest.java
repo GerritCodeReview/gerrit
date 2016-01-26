@@ -272,6 +272,79 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Subject: Some other subject\n");
   }
 
+  @Test
+  public void parseCommit() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n"
+        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n"
+        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    assertParseFails("Update patch set 1\n"
+        + "Uploaded patch set 1.\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n"
+        + "Commit: beef");
+  }
+
+  @Test
+  public void parsePatchSetState() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1 (PUBLISHED)\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1 (DRAFT)\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1 (DELETED)\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1 (NOT A STATUS)\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Some subject of a change\n");
+  }
+
+  @Test
+  public void parsePatchSetGroups() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "Subject: Change subject\n"
+        + "Groups: a,b,c\n");
+    // No patch set commit parsed on which we can set groups.
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Change subject\n"
+        + "Groups: a,b,c\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "Subject: Change subject\n"
+        + "Groups: a,b,c\n"
+        + "Groups: d,e,f\n");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

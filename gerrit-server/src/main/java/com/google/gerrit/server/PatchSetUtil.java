@@ -15,6 +15,8 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
+import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
@@ -24,18 +26,22 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 
 /** Utilities for manipulating patch sets. */
 @Singleton
 public class PatchSetUtil {
+  @SuppressWarnings("unused") // TODO(dborowitz): Read from notedb.
   private final NotesMigration migration;
 
   @Inject
@@ -60,19 +66,11 @@ public class PatchSetUtil {
         db.patchSets().byChange(notes.getChangeId()));
   }
 
-  public PatchSet insert(ReviewDb db, ChangeUpdate update, PatchSet.Id psId,
-      RevCommit commit, boolean draft, Iterable<String> groups,
-      String pushCertificate) throws OrmException {
-    Change.Id changeId = update.getChange().getId();
-    checkArgument(psId.getParentKey().equals(changeId),
-        "cannot insert patch set %s on change %s", psId, changeId);
-    if (update.getPatchSetId() != null) {
-      checkArgument(update.getPatchSetId().equals(psId),
-          "cannot insert patch set %s on update for %s",
-          psId, update.getPatchSetId());
-    } else {
-      update.setPatchSetId(psId);
-    }
+  public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,
+      PatchSet.Id psId, ObjectId commit, boolean draft,
+      Iterable<String> groups, String pushCertificate)
+      throws OrmException, IOException {
+    ensurePatchSetMatches(psId, update);
 
     PatchSet ps = new PatchSet(psId);
     ps.setRevision(new RevId(commit.name()));
@@ -83,13 +81,48 @@ public class PatchSetUtil {
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
 
-    if (!update.getChange().getSubject().equals(commit.getShortMessage())) {
-      update.setSubject(commit.getShortMessage());
+    update.setCommit(rw, commit);
+    if (draft) {
+      update.setPatchSetState(DRAFT);
     }
 
-    if (migration.writeChanges()) {
-      // TODO(dborowitz): Write to notedb.
-    }
     return ps;
+  }
+
+  public void publish(ReviewDb db, ChangeUpdate update, PatchSet ps)
+      throws OrmException {
+    ensurePatchSetMatches(ps.getId(), update);
+    ps.setDraft(false);
+    update.setPatchSetState(PUBLISHED);
+    db.patchSets().update(Collections.singleton(ps));
+  }
+
+  public void delete(ReviewDb db, ChangeUpdate update, PatchSet ps)
+      throws OrmException {
+    ensurePatchSetMatches(ps.getId(), update);
+    checkArgument(ps.isDraft(),
+        "cannot delete non-draft patch set %s", ps.getId());
+    update.setPatchSetState(PatchSetState.DELETED);
+    db.patchSets().delete(Collections.singleton(ps));
+  }
+
+  private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
+    Change.Id changeId = update.getChange().getId();
+    checkArgument(psId.getParentKey().equals(changeId),
+        "cannot modify patch set %s on update for change %s", psId, changeId);
+    if (update.getPatchSetId() != null) {
+      checkArgument(update.getPatchSetId().equals(psId),
+          "cannot modify patch set %s on update for %s",
+          psId, update.getPatchSetId());
+    } else {
+      update.setPatchSetId(psId);
+    }
+  }
+
+  public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps,
+      Iterable<String> groups) throws OrmException {
+    ps.setGroups(groups);
+    update.setGroups(groups);
+    db.patchSets().update(Collections.singleton(ps));
   }
 }

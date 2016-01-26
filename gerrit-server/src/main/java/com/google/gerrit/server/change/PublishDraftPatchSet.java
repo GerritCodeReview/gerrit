@@ -62,7 +62,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -201,12 +200,11 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       if (!patchSet.isDraft()) {
         throw new ResourceConflictException("Patch set is not a draft");
       }
-      patchSet.setDraft(false);
+      psUtil.publish(ctx.getDb(), ctx.getUpdate(psId), patchSet);
       // Force ETag invalidation if not done already
       if (!wasDraftChange) {
         ctx.saveChange();
       }
-      ctx.getDb().patchSets().update(Collections.singleton(patchSet));
     }
 
     private void addReviewers(ChangeContext ctx)

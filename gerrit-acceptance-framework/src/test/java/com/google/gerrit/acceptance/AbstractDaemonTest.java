@@ -47,6 +47,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -169,6 +170,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ChangeData.Factory changeDataFactory;
+
+  @Inject
+  protected PatchSetUtil psUtil;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -633,5 +637,9 @@ public abstract class AbstractDaemonTest {
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
     return changeDataFactory.create(db, psId.getParentKey()).patchSet(psId);
+  }
+
+  protected IdentifiedUser user(TestAccount testAccount) {
+    return identifiedUserFactory.create(Providers.of(db), testAccount.getId());
   }
 }

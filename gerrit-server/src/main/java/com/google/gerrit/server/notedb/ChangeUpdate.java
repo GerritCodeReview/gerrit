@@ -16,6 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -62,6 +64,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,9 +108,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
   private String topic;
+  private ObjectId commit;
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
+  private PatchSetState psState;
+  private Iterable<String> groups;
 
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private ChangeDraftUpdate draftUpdate;
@@ -225,8 +231,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.commitSubject = commitSubject;
   }
 
-  public void setSubject(String subject) {
+  void setSubject(String subject) {
     this.subject = subject;
+  }
+
+  @VisibleForTesting
+  ObjectId getCommit() {
+    return commit;
   }
 
   public void setChangeMessage(String changeMessage) {
@@ -357,6 +368,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.topic = Strings.nullToEmpty(topic);
   }
 
+  public void setCommit(RevWalk rw, ObjectId id) throws IOException {
+    RevCommit commit = rw.parseCommit(id);
+    rw.parseBody(commit);
+    this.commit = commit;
+    subject = commit.getShortMessage();
+  }
+
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
   }
@@ -368,6 +386,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void removeReviewer(Account.Id reviewer) {
     reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
+  }
+
+  public void setPatchSetState(PatchSetState psState) {
+    this.psState = psState;
+  }
+
+  public void setGroups(Iterable<String> groups) {
+    this.groups = groups;
   }
 
   /** @return the tree id for the updated tree */
@@ -432,12 +458,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) {
+  protected boolean onSave(CommitBuilder cb) {
     if (getRevision() != null && isEmpty()) {
       return false;
     }
-    commit.setAuthor(newIdent(getUser().getAccount(), when));
-    commit.setCommitter(new PersonIdent(serverIdent, when));
+    cb.setAuthor(newIdent(getUser().getAccount(), when));
+    cb.setCommitter(new PersonIdent(serverIdent, when));
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
@@ -453,8 +479,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       msg.append("\n\n");
     }
 
-
-    addFooter(msg, FOOTER_PATCH_SET, ps);
+    addPatchSetFooter(msg, ps);
 
     if (subject != null) {
       addFooter(msg, FOOTER_SUBJECT, subject);
@@ -472,8 +497,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_TOPIC, topic);
     }
 
+    if (commit != null) {
+      addFooter(msg, FOOTER_COMMIT, commit.name());
+    }
+
+    Joiner comma = Joiner.on(',');
     if (hashtags != null) {
-      addFooter(msg, FOOTER_HASHTAGS, Joiner.on(",").join(hashtags));
+      addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
+    }
+
+    if (groups != null) {
+      addFooter(msg, FOOTER_GROUPS, comma.join(groups));
     }
 
     for (Map.Entry<Account.Id, ReviewerStateInternal> e : reviewers.entrySet()) {
@@ -526,8 +560,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
 
-    commit.setMessage(msg.toString());
+    cb.setMessage(msg.toString());
     return true;
+  }
+
+  private void addPatchSetFooter(StringBuilder sb, int ps) {
+    addFooter(sb, FOOTER_PATCH_SET).append(ps);
+    if (psState != null) {
+      sb.append(" (").append(psState.name().toLowerCase()).append(')');
+    }
+    sb.append('\n');
   }
 
   @Override
@@ -543,11 +585,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && branch == null
         && status == null
-        && subject == null
         && submissionId == null
         && submitRecords == null
         && hashtags == null
-        && topic == null;
+        && topic == null
+        && commit == null
+        && psState == null
+        && groups == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

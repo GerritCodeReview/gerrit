@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7403a691_86a70ac9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-26T01:31:50Z",
+      "side": 1,
+      "message": "[optional] wrap so all args are on a separate line?",
+      "range": {
+        "startLine": 134,
+        "startChar": 58,
+        "endLine": 134,
+        "endChar": 59
+      },
+      "revId": "ba35ac20008bb840f37492bece70cd5e85456c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

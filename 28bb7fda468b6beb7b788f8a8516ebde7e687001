@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453795152 +0100\nnonce ALmjDBV7yMpG7CUIuTXBOv5p/9l480aT6Q0XZfSTiEVb6t2gB819anAmI94pCsbCfLC8rQrrgR2n\n\n0000000000000000000000000000000000000000 4dc1549a42b9dc49b8a5476a038e326f862a17c7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWpydQAAoJEFG1/Zeg0O9RD90IAIqh5Rq+qvhnR5jf0vnkmd4F\nZAZ7mfexYNszFqFoWAScu3Z8DhVDtRQLSdG20zOONZQ+0yOvcGhcXxV25MNib28b\nAR83t+8/DlKeOnuKGTsvxV+wHGCGPqBfi6BBUL256C0wV/5OH/hCLF+o6/6wykKq\nekwnETkMXVm5tvykkwszdQ6l2FNeLpwsjKXf4AjmyOQPD9XEIGn6UBOSzqaFuYhY\nQcdvPC984z8s6fgJSKsde5OzhTetw1PU7W2Fg25NfJIuvIHGCnjvSjn/lSAmMOpT\nGcW/oGAm8tSxrUJmVfbVcmcwGQA8R4FhMzj8CmxeL5o03cKEXDBXPB3PeOZd594\u003d\n\u003dlVQv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "94801a15_27175a97",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-26T08:37:28Z",
+      "side": 1,
+      "message": "Can\u0027t you just say?\n\n  Gerrit.display(PageLinks.toChange(psId));",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "28bb7fda468b6beb7b788f8a8516ebde7e687001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

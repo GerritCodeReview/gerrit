@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d437f269_81035a57",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-26T20:43:12Z",
+      "side": 1,
+      "message": "Does this also need to store the query, so this can be invalidated and reset when the query changes?\n\nOh, ok, that happens in the next change.",
+      "revId": "c95154765d003053651293a20ef848de1e8d20d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

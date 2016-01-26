@@ -660,6 +660,18 @@ public class MergeUtil {
       rw.markStart(mergeTip);
       for (RevCommit c : alreadyAccepted) {
         rw.markUninteresting(c);
+        if (c instanceof CodeReviewCommit) {
+          CodeReviewCommit r = (CodeReviewCommit) c;
+          if (r.getStatusCode() == null) {
+            r.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+            // TODO(sbeller): Additionally setup a message ("This was cross merged")
+
+            // TODO(sbeller): This is also not sufficient, we need to walk all other branches
+            // except the current branch (approximated by mergeTip) and check if we
+            // need to mark further commits as already merged, not just the tip.
+
+          }
+        }
       }
 
       CodeReviewCommit c;

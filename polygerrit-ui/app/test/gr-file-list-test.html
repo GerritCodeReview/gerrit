@@ -123,6 +123,46 @@ limitations under the License.
       }, 1);
     });
 
+    test('keyboard shortcuts', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '2';
+      element.selectedIndex = 0;
+      element.reload();
+      server.respond();
+
+      element.async(function() {
+        var elementItems = Polymer.dom(element.root).querySelectorAll(
+            '.fileRow');
+        assert.equal(elementItems.length, 3);
+        assert.isTrue(elementItems[0].hasAttribute('selected'));
+        assert.isFalse(elementItems[1].hasAttribute('selected'));
+        assert.isFalse(elementItems[2].hasAttribute('selected'));
+        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+        assert.equal(element.selectedIndex, 1);
+        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+
+        var showStub = sinon.stub(page, 'show');
+        assert.equal(element.selectedIndex, 2);
+        MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+        assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
+            'Should navigate to /c/42/2/myfile.txt');
+
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+        assert.equal(element.selectedIndex, 1);
+        MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'o'
+        assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
+            'Should navigate to /c/42/2/file_added_in_rev2.txt');
+
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+        assert.equal(element.selectedIndex, 0);
+
+        showStub.restore();
+        done();
+      }, 1);
+    });
+
     test('comment filtering', function() {
       var comments = {
         '/COMMIT_MSG': [

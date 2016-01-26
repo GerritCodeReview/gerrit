@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453752602 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBU6MRHN4r8ISLJaN3m5UAskKNKegYXBlzck58WOwo1o1hyoMhtb4HFGcgpSugkms00YOMVY\n\n0000000000000000000000000000000000000000 7158deac7749eaee1d3e60550e4c8cfcd867e458 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWpoEaAAoJEF/XxZqaEoiM+TMP/jMjbla4sG3wta5HdEk3X1SJ\nYHJ470dM9wbKojpE0oO8Qnv5pPweN6Ck80FV3NFplhYPPnYkcf3q2jkVcg5CoxJG\nCu6gwypwJwADIbaYWSukmVTyLg0MFlbN/ozMsV89Pz+uAcaIXQKlGlzQOTHD6INV\nq/dpE+Lo0rbPb/tbN0z248s41tO5x8xlNu7Rv/dk67Aodvp8gza51xENyonflRh+\nROOkQLafMLCzg90Liy199BWVp+j/lChyS+yOqFPJgqsFe8coK0o1kktvEvWY4vQk\n0FPx2t8c57qTSX9plZUZm4ZiRrj/uX7Qb8Ss9lUWagR+7Fhnhgw9Dc0PsY4z3Ax/\nPtLRnCgHAvpp7ycucvUREE3vCCcYINxtcncsAnYaeo1Ci0LLH1mgI3sO931R5lwx\nYa3qeCSaz8PZeFXNK2KbBdmTMaOyDwEwSSiGAaTaSNmpUrOqwv9xpdmYyRXlt3C9\nUxfJLD2tx7rx9JuluxqzmW/Qv00zt29bkbgu50au3Dd7GiRr8m9pyRHAoP2NVbcj\nAa1fzduJzfVc9g5navRSUKFhm8rvWMAIx7MAmrOXbQK2yPAQpdN3pCj4gANDGo5J\nUyvuRemNUeWXFyJRLS6heXtAl7xVlHFVKgtevu75F2A8EoWmTZmpIsuvgWYUEuOj\niFnpwvPu1C72PMHTjwUd\n\u003dIK/l\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7477260f_a6026651",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T09:21:29Z",
+      "side": 1,
+      "message": "Notedb also requires the \"Branch\" footer to be present. This is currently ensured in AbstractChangeNotesTest#newChange(), ConsistencyCheckerIT#insertChange() and CommentsTest#newChange(). This code should be removed and instead we should just set the branch here as well.",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 38
+      },
+      "revId": "65b0e7cdbc768f7947b7de21c04484f4d3f93385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

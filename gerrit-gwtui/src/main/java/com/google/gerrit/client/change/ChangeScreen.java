@@ -237,8 +237,10 @@ public class ChangeScreen extends Screen {
     add(uiBinder.createAndBindUi(this));
   }
 
-  Change.Id getChangeId() {
-    return changeId;
+  PatchSet.Id getPatchSetId() {
+    return new PatchSet.Id(
+        changeInfo.legacyId(),
+        changeInfo.revisions().get(revision)._number());
   }
 
   @Override

@@ -26,6 +26,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -71,12 +72,13 @@ class Labels extends Grid {
     Integer user = getDataId(event);
     if (user != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
-      ChangeApi.reviewer(screen.getChangeId().get(), user).delete(
+      final Change.Id changeId = screen.getPatchSetId().getParentKey();
+      ChangeApi.reviewer(changeId.get(), user).delete(
           new GerritCallback<JavaScriptObject>() {
             @Override
             public void onSuccess(JavaScriptObject result) {
               if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(screen.getChangeId()));
+                Gerrit.display(PageLinks.toChange(changeId));
               }
             }
           });
@@ -88,12 +90,13 @@ class Labels extends Grid {
     String vote = getVoteId(event);
     if (user != null && vote != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
-      ChangeApi.vote(screen.getChangeId().get(), user, vote).delete(
+      final Change.Id changeId = screen.getPatchSetId().getParentKey();
+      ChangeApi.vote(changeId.get(), user, vote).delete(
           new GerritCallback<JavaScriptObject>() {
             @Override
             public void onSuccess(JavaScriptObject result) {
               if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(screen.getChangeId()));
+                Gerrit.display(PageLinks.toChange(changeId));
               }
             }
           });

@@ -53,17 +53,19 @@ limitations under the License.
     <gr-ajax
         auto
         url="/changes/"
-        params="[[_computeQueryParams(query, offset)]]"
+        params="[[_computeQueryParams(_query, _offset)]]"
         last-response="{{_changes}}"
         loading="{{_loading}}"></gr-ajax>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <gr-change-list changes="{{_changes}}"
+      <gr-change-list
+          changes="{{_changes}}"
+          selected-index="{{viewState.selectedChangeIndex}}"
           show-star="[[loggedIn]]"></gr-change-list>
       <nav>
-        <a href$="[[_computeNavLink(query, offset, -1)]]"
-           hidden$="[[_hidePrevArrow(offset)]]">&larr; Prev</a>
-        <a href$="[[_computeNavLink(query, offset, 1)]]"
+        <a href$="[[_computeNavLink(_query, _offset, -1)]]"
+           hidden$="[[_hidePrevArrow(_offset)]]">&larr; Prev</a>
+        <a href$="[[_computeNavLink(_query, _offset, 1)]]"
            hidden$="[[_hideNextArrow(_changes.length)]]">Next &rarr;</a>
       </nav>
     </div>
@@ -101,14 +103,22 @@ limitations under the License.
         },
 
         /**
+         * State persisted across restamps of the element.
+         */
+        viewState: {
+          type: Object,
+          notify: true,
+        },
+
+        /**
          * Currently active query.
          */
-        query: String,
+        _query: String,
 
         /**
          * Offset of currently visible query results.
          */
-        offset: Number,
+        _offset: Number,
 
         /**
          * Change objects loaded from the server.
@@ -125,16 +135,22 @@ limitations under the License.
       },
 
       attached: function() {
-        this.fire('title-change', {title: this.query});
+        this.fire('title-change', {title: this._query});
       },
 
       _paramsChanged: function(value) {
         if (value.view != this.tagName.toLowerCase()) { return; }
 
-        this.query = value.query;
-        this.offset = value.offset || 0;
+        this._query = value.query;
+        this._offset = value.offset || 0;
+        if (this.viewState.query != this._query ||
+            this.viewState.offset != this._offset) {
+          this.set('viewState.selectedChangeIndex', 0);
+          this.set('viewState.query', this._query);
+          this.set('viewState.offset', this._offset);
+        }
 
-        this.fire('title-change', {title: this.query});
+        this.fire('title-change', {title: this._query});
       },
 
       _computeQueryParams: function(query, offset) {

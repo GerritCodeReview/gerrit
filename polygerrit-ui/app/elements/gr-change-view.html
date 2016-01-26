@@ -252,7 +252,8 @@ limitations under the License.
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"
           patch-num="[[_patchNum]]"
-          comments="[[_comments]]"></gr-file-list>
+          comments="[[_comments]]"
+          selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
       <gr-messages-list id="messageList"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
@@ -280,6 +281,10 @@ limitations under the License.
         params: {
           type: Object,
           observer: '_paramsChanged',
+        },
+        viewState: {
+          type: Object,
+          notify: true,
         },
         serverConfig: Object,
 
@@ -369,8 +374,16 @@ limitations under the License.
       },
 
       _paramsChanged: function(value) {
+        if (value.view != this.tagName.toLowerCase()) { return; }
+
         this._changeNum = value.changeNum;
         this._patchNum = value.patchNum;
+        if (this.viewState.changeNum != this._changeNum ||
+            this.viewState.patchNum != this._patchNum) {
+          this.set('viewState.selectedFileIndex', 0);
+          this.set('viewState.changeNum', this._changeNum);
+          this.set('viewState.patchNum', this._patchNum);
+        }
         if (!this._changeNum) {
           return;
         }

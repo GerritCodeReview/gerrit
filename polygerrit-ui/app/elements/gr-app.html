@@ -113,7 +113,7 @@ limitations under the License.
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
         <gr-change-view server-config="[[config]]"
-            params="[[params]]"></gr-change-view>
+            params="[[params]]" view-state="{{_viewState.changeView}}"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
         <gr-diff-view prefs="{{_diffPreferences}}" params="[[params]]"></gr-diff-view>
@@ -180,25 +180,36 @@ limitations under the License.
           reflectToAttribute: true,
         },
         params: Object,
-        route: {
-          type: String,
-          observer: '_routeChanged',
-        },
 
         _diffPreferences: Object,
-
         _showChangeListView: Boolean,
         _showDashboardView: Boolean,
         _showChangeView: Boolean,
         _showDiffView: Boolean,
+        _viewState: Object,
       },
 
       listeners: {
         'title-change': '_handleTitleChange',
       },
 
+      observers: [ '_viewChanged(params.view)' ],
+
       get loggedIn() {
         return !!(this.account && Object.keys(this.account).length > 0);
+      },
+
+      ready: function() {
+        this._viewState = {
+          changeView: {
+            changeNum: null,
+            patchNum: null,
+            selectedFileIndex: 0,
+          },
+          changeListView: {
+            selectedChangeIndex: 0,
+          },
+        }
       },
 
       _accountChanged: function() {
@@ -221,12 +232,12 @@ limitations under the License.
         this._resolveConfigReady(config);
       },
 
-      _routeChanged: function(route) {
-        this.set('_showChangeListView', route == 'gr-change-list-view');
-        this.set('_showDashboardView', route == 'gr-dashboard-view');
-        this.set('_showChangeView', route == 'gr-change-view');
-        this.set('_showDiffView', route == 'gr-diff-view');
-        this.constrained = route == 'gr-change-view';
+      _viewChanged: function(view) {
+        this.set('_showChangeListView', view == 'gr-change-list-view');
+        this.set('_showDashboardView', view == 'gr-dashboard-view');
+        this.set('_showChangeView', view == 'gr-change-view');
+        this.set('_showDiffView', view == 'gr-diff-view');
+        this.constrained = view == 'gr-change-view';
       },
 
       _loginTapHandler: function(e) {

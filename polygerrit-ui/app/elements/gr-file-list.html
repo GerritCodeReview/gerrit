@@ -40,6 +40,16 @@ limitations under the License.
       th {
         text-align: left;
       }
+      .positionIndicator {
+        padding-left: .25em;
+        visibility: hidden;
+      }
+      tr[selected] {
+        background-color: #ebf5fb;
+      }
+      tr[selected] .positionIndicator {
+        visibility: visible;
+      }
       .status {
         width: 20px;
       }
@@ -65,8 +75,8 @@ limitations under the License.
           <th>Stats</th>
         </tr>
         <template is="dom-repeat" items="{{files}}" as="file">
-          <tr>
-            <td></td>
+          <tr class="fileRow" selected$="[[_computeFileSelected(index, selectedIndex)]]">
+            <td class="positionIndicator">&#x25b6;</td>
             <td class="status">[[file.status]]</td>
             <td class="path">
               <a class="file"
@@ -97,8 +107,24 @@ limitations under the License.
         changeNum: String,
         comments: Object,
         files: Array,
+        selectedIndex: {
+          type: Number,
+          notify: true,
+        },
 
         _drafts: Object,
+        _boundKeyHandler: {
+          type: Function,
+          value: function() { return this._handleKey.bind(this); },
+        }
+      },
+
+      attached: function() {
+        document.body.addEventListener('keydown', this._boundKeyHandler);
+      },
+
+      detached: function() {
+        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       reload: function() {
@@ -151,6 +177,32 @@ limitations under the License.
           files.push(info)
         }
         this.files = files;
+      },
+
+      _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+
+        switch(e.keyCode) {
+          case 74:  // 'j'
+            e.preventDefault();
+            this.selectedIndex =
+                Math.min(this.files.length - 1, this.selectedIndex + 1);
+            break;
+          case 75:  // 'k'
+            e.preventDefault();
+            this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+            break;
+          case 13:  // <enter>
+          case 79:  // 'o'
+            e.preventDefault();
+            page(this._computeDiffURL(this.changeNum, this.patchNum,
+                this.files[this.selectedIndex].__path));
+            break;
+        }
+      },
+
+      _computeFileSelected: function(index, selectedIndex) {
+        return index == selectedIndex;
       },
 
       _computeDiffURL: function(changeNum, patchNum, path) {

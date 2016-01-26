@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -37,21 +38,31 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SystemGroupBackend extends AbstractGroupBackend {
+  public static final String SCHEME = "global:";
+  public static final String ANONYMOUS_USERS_GROUP_NAME = "Anonymous Users";
+  public static final String REGISTERED_USERS_GROUP_NAME = "Registered Users";
+  public static final String PROJECT_OWNERS_GROUP_NAME = "Project Owners";
+  public static final String CHANGE_OWNER_GROUP_NAME = "Change Owner";
+
   /** Common UUID assigned to the "Anonymous Users" group. */
   public static final AccountGroup.UUID ANONYMOUS_USERS =
-      new AccountGroup.UUID("global:Anonymous-Users");
+      new AccountGroup.UUID(SCHEME +
+          ANONYMOUS_USERS_GROUP_NAME.replace(" ", "-"));
 
   /** Common UUID assigned to the "Registered Users" group. */
   public static final AccountGroup.UUID REGISTERED_USERS =
-      new AccountGroup.UUID("global:Registered-Users");
+      new AccountGroup.UUID(SCHEME +
+          REGISTERED_USERS_GROUP_NAME.replace(" ", "-"));
 
   /** Common UUID assigned to the "Project Owners" placeholder group. */
   public static final AccountGroup.UUID PROJECT_OWNERS =
-      new AccountGroup.UUID("global:Project-Owners");
+      new AccountGroup.UUID(SCHEME +
+          PROJECT_OWNERS_GROUP_NAME.replace(" ", "-"));
 
   /** Common UUID assigned to the "Change Owner" placeholder group. */
   public static final AccountGroup.UUID CHANGE_OWNER =
-      new AccountGroup.UUID("global:Change-Owner");
+      new AccountGroup.UUID(SCHEME +
+          CHANGE_OWNER_GROUP_NAME.replace(" ", "-"));
 
   private static final SortedMap<String, GroupReference> names;
   private static final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
@@ -78,7 +89,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   public static boolean isSystemGroup(AccountGroup.UUID uuid) {
-    return uuid.get().startsWith("global:");
+    return uuid.get().startsWith(SCHEME);
   }
 
   public static boolean isAnonymousOrRegistered(GroupReference ref) {
@@ -91,6 +102,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   public static GroupReference getGroup(AccountGroup.UUID uuid) {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
+  }
+
+  public static List<String> getGroupNames() {
+    return Arrays.asList(ANONYMOUS_USERS_GROUP_NAME,
+        REGISTERED_USERS_GROUP_NAME, PROJECT_OWNERS_GROUP_NAME,
+        CHANGE_OWNER_GROUP_NAME);
   }
 
   @Override

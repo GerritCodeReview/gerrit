@@ -51,6 +51,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
@@ -137,6 +139,17 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
       throws OrmException, ResourceConflictException {
+
+    // Do not allow creating groups with the same name as system groups
+    List<String> sysGroupNames = SystemGroupBackend.getNames();
+    for (String name : sysGroupNames) {
+      if (name.toLowerCase(Locale.US).equals(
+          createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+        throw new ResourceConflictException("group '" + name
+            + "' already exists");
+      }
+    }
+
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(

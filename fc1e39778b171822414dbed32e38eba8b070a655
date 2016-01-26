@@ -22,6 +22,98 @@
       "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94801a15_27291ac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T10:10:48Z",
+      "side": 1,
+      "message": "Instead of adding a getNames() method to SystemGroupBackend, maybe better do something like this:\n\n  if (systemGroupBackend.get(new AccountGroup.UUID(\n      SystemGroupBackend.SCHEME + createGroupArgs.getGroupName()) !\u003d null) {\n    throw new ResourceConflictException(\"group \u0027\"\n          + createGroupArgs.getGroupName() + \"\u0027 already exists\");\n  }\n\nand extract the \"global:\" string in SystemGroupBackend into a SystemGroupBackend.SCHEME constant.",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 82
+      },
+      "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94801a15_e757024e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T10:10:48Z",
+      "side": 1,
+      "message": ".toLowerCase(Locale.US)",
+      "range": {
+        "startLine": 145,
+        "startChar": 64,
+        "endLine": 145,
+        "endChar": 78
+      },
+      "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7477260f_06241aef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T10:10:48Z",
+      "side": 1,
+      "message": "Only return the list of names?",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 43
+      },
+      "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7477260f_262916c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-26T10:10:48Z",
+      "side": 1,
+      "message": "My expectation from a getNames() method would be to get the names in actual case, not lowercase.",
+      "range": {
+        "startLine": 96,
+        "startChar": 44,
+        "endLine": 96,
+        "endChar": 54
+      },
+      "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -104,8 +104,10 @@ limitations under the License.
     });
 
     test('newlines', function() {
-      element.width = 80;
-      element.tabWidth = 4;
+      element.prefs = {
+        line_length: 80,
+        tab_size: 4,
+      };
 
       element.content = [{
         type: 'CODE',
@@ -138,6 +140,14 @@ limitations under the License.
       assert.equal(contentEl.innerHTML,
           'A'.repeat(80) + element._lineFeedHTML +
           'A'.repeat(20) + element._lineFeedHTML);
+    });
+
+    test('tabs', function(done) {
+      element.prefs = {
+        line_length: 80,
+        tab_size: 4,
+        show_tabs: true,
+      };
 
       element.content = [{
         type: 'CODE',
@@ -148,15 +158,47 @@ limitations under the License.
         intraline: [],
       }];
 
-      lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
+      var lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
       assert.ok(lineEl);
+      var contentEl = element.$$('.content .code[data-line-num="1"]');
+      assert.ok(contentEl);
+      var spanEl = contentEl.childNodes[1];
+      assert.equal(spanEl.tagName, 'SPAN');
+      assert.isTrue(spanEl.classList.contains(
+          'style-scope', 'gr-diff-side', 'tab', 'withIndicator'));
+
+      element.prefs.show_tabs = false;
+      element.content = [{
+        type: 'CODE',
+        content: 'A'.repeat(50) + '\t' + 'A'.repeat(50),
+        numLines: 2,
+        lineNum: 1,
+        highlight: false,
+        intraline: [],
+      }];
       contentEl = element.$$('.content .code[data-line-num="1"]');
       assert.ok(contentEl);
-      assert.equal(contentEl.innerHTML,
-          'A'.repeat(50) +
-          '<span class="style-scope gr-diff-side tab">\t</span>' +
-          'A'.repeat(26) + element._lineFeedHTML +
-          'A'.repeat(24) + element._lineFeedHTML);
+      var spanEl = contentEl.childNodes[1];
+      assert.equal(spanEl.tagName, 'SPAN');
+      assert.isTrue(spanEl.classList.contains(
+          'style-scope', 'gr-diff-side', 'tab'));
+
+      var alertStub = sinon.stub(window, 'alert');
+      element.prefs.tab_size =
+          '"><img src="/" onerror="alert(1);"><span class="';
+      element.content = [{
+        type: 'CODE',
+        content: '\t',
+        numLines: 1,
+        lineNum: 1,
+        highlight: false,
+        intraline: [],
+      }];
+      element.async(function() {
+        assert.isFalse(alertStub.called);
+        alertStub.restore();
+        done();
+      }, 100);  // Allow some time for the img error event to fire.
     });
 
     test('diff context', function() {

@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collections;
+import java.util.Map;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
@@ -137,6 +139,16 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
       throws OrmException, ResourceConflictException {
+
+    // Do not allow creating groups with the same name as system groups
+    Map<String, GroupReference> sysGroupNames = SystemGroupBackend.getNames();
+    for (Map.Entry<String, GroupReference> entry : sysGroupNames.entrySet()){
+      if (entry.getKey().equalsIgnoreCase(createGroupArgs.getGroupName())){
+        throw new ResourceConflictException("group '"
+            + createGroupArgs.getGroupName() + "' already exists");
+      }
+    }
+
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(
@@ -155,6 +167,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     if (createGroupArgs.groupDescription != null) {
       group.setDescription(createGroupArgs.groupDescription);
     }
+
     AccountGroupName gn = new AccountGroupName(group);
     // first insert the group name to validate that the group name hasn't
     // already been used to create another group

@@ -16,6 +16,24 @@
       "revId": "b9b77b1fd608574c7cf6bcd515d3891b0048e715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d437f269_0142ea97",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-26T21:58:57Z",
+      "side": 1,
+      "message": "I’m not sure I completely understand. Upon initial construction, gr-change-list will have it’s properties initialized and bound with observers firing, defaults set, etc. always before gr-change-list-view’s properties are initialized. So gr-change-list.selectedIndex is always set before gr-change-list-view._paramsChanged is called.\n\nWhere is the temp var that you’re referring to or are you talking about an underlying implementation detail?",
+      "parentUuid": "b43efe47_40fd4e82",
+      "revId": "b9b77b1fd608574c7cf6bcd515d3891b0048e715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

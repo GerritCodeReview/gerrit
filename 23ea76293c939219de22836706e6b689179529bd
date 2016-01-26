@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f483161b_6a11179e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-26T13:00:34Z",
+      "side": 1,
+      "message": "Commits\n\nNot really worth a new patch set, but since a new one is needed anyway because of the submodule update...",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "23ea76293c939219de22836706e6b689179529bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94801a15_672312e6",
         "filename": "plugins/replication",
         "patchSetId": 2

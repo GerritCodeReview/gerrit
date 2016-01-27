@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "744806fe_de8e251d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-27T07:29:53Z",
+      "side": 1,
+      "message": "You don\u0027t need this select, to retrieve the column name. Yes, it was done in schema 115 migration, but only because a select statement was needed there anyway. Here it\u0027s not, and patch sets is the biggest table. Instea use listcolumns method from JdbcDialect:\n\n    JdbcSchema jdbcSchema \u003d (JdbcSchema) db;\n    Set\u003cString\u003e columns \u003d jdbcSchema.getDialect().listColumns(\n        jdbcSchema.getConnection(), \"patch_sets\");\n    if (columns.contains(\"push_certficate\")) {\n      renameColumn(db, \"patch_sets\", \"push_certficate\", \"push_certificate\");\n    }",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 67
+      },
+      "revId": "a33f7d40b5d52bebe7c917d6ede05d2108217e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "744806fe_3e2f09c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 1

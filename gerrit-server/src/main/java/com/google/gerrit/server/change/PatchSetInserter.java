@@ -46,7 +46,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -204,8 +203,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException,
-      InvalidChangeOperationException, IOException {
+  public boolean updateChange(ChangeContext ctx)
+      throws ResourceConflictException, OrmException, IOException {
     ChangeControl ctl = ctx.getControl();
 
     change = ctx.getChange();
@@ -213,8 +212,9 @@ public class PatchSetInserter extends BatchUpdate.Op {
     update.setSubjectForCommit("Create patch set " + psId.get());
 
     if (!change.getStatus().isOpen() && !allowClosed) {
-      throw new InvalidChangeOperationException(String.format(
-          "Change %s is closed", change.getId()));
+      throw new ResourceConflictException(String.format(
+          "Cannot create new patch set of change %s because it is %s",
+          change.getId(), change.getStatus().name().toLowerCase()));
     }
 
     Iterable<String> newGroups = groups;

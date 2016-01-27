@@ -17,6 +17,24 @@
       "revId": "883f03320498376a11b224b72df957e2faa40c87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b43efe47_c074fed4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-27T20:26:54Z",
+      "side": 1,
+      "message": "Eh it\u0027s my TODO, I added it :)",
+      "parentUuid": "b43efe47_4058ee7f",
+      "revId": "883f03320498376a11b224b72df957e2faa40c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

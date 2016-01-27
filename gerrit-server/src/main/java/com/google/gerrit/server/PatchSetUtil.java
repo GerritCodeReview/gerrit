@@ -41,7 +41,6 @@ import java.util.Collections;
 /** Utilities for manipulating patch sets. */
 @Singleton
 public class PatchSetUtil {
-  @SuppressWarnings("unused") // TODO(dborowitz): Read from notedb.
   private final NotesMigration migration;
 
   @Inject
@@ -54,10 +53,12 @@ public class PatchSetUtil {
     return get(db, notes, notes.getChange().currentPatchSetId());
   }
 
-  @SuppressWarnings("unused") // TODO(dborowitz): Read from notedb.
   public PatchSet get(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
       throws OrmException {
-    return db.patchSets().get(psId);
+    if (!migration.readChanges()) {
+      return db.patchSets().get(psId);
+    }
+    return notes.load().getPatchSets().get(psId);
   }
 
   public ImmutableList<PatchSet> byChange(ReviewDb db, ChangeNotes notes)
@@ -81,7 +82,7 @@ public class PatchSetUtil {
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
 
-    update.setCommit(rw, commit);
+    update.setCommit(rw, commit, pushCertificate);
     if (draft) {
       update.setPatchSetState(DRAFT);
     }

@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.RevisionNote.MAX_NOTE_SZ;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
@@ -61,6 +62,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -105,7 +107,8 @@ public class CommentsInNotesUtil {
     for (Note note : noteMap) {
       byte[] bytes =
           reader.open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-      List<PatchLineComment> result = parseNote(bytes, changeId, status);
+      List<PatchLineComment> result =
+          parseNote(bytes, new MutableInteger(), changeId, status);
       if (result == null || result.isEmpty()) {
         continue;
       }
@@ -114,26 +117,27 @@ public class CommentsInNotesUtil {
     return noteMap;
   }
 
-  public static List<PatchLineComment> parseNote(byte[] note,
+  public static List<PatchLineComment> parseNote(byte[] note, MutableInteger p,
       Change.Id changeId, Status status) throws ConfigInvalidException {
+    if (p.value >= note.length) {
+      return ImmutableList.of();
+    }
     List<PatchLineComment> result = Lists.newArrayList();
     int sizeOfNote = note.length;
-    MutableInteger curr = new MutableInteger();
-    curr.value = 0;
 
     boolean isForBase =
-        (RawParseUtils.match(note, curr.value, PATCH_SET.getBytes(UTF_8))) < 0;
+        (RawParseUtils.match(note, p.value, PATCH_SET.getBytes(UTF_8))) < 0;
 
-    PatchSet.Id psId = parsePsId(note, curr, changeId, isForBase ? BASE_PATCH_SET : PATCH_SET);
+    PatchSet.Id psId = parsePsId(note, p, changeId, isForBase ? BASE_PATCH_SET : PATCH_SET);
 
     RevId revId =
-        new RevId(parseStringField(note, curr, changeId, REVISION));
+        new RevId(parseStringField(note, p, changeId, REVISION));
 
     PatchLineComment c = null;
-    while (curr.value < sizeOfNote) {
+    while (p.value < sizeOfNote) {
       String previousFileName = c == null ?
           null : c.getKey().getParentKey().getFileName();
-      c = parseComment(note, curr, previousFileName, psId, revId,
+      c = parseComment(note, p, previousFileName, psId, revId,
           isForBase, status);
       result.add(c);
     }
@@ -392,8 +396,10 @@ public class CommentsInNotesUtil {
       String fieldName, Change.Id changeId) throws ConfigInvalidException {
     boolean correct =
         RawParseUtils.match(note, curr.value, fieldName.getBytes(UTF_8)) != -1;
-    correct &= (note[curr.value + fieldName.length()] == ':');
-    correct &= (note[curr.value + fieldName.length() + 1] == ' ');
+    int p = curr.value + fieldName.length();
+    correct &= (p < note.length && note[p] == ':');
+    p++;
+    correct &= (p < note.length && note[p] == ' ');
     if (!correct) {
       throw parseException(changeId, "could not parse %s", fieldName);
     }
@@ -412,22 +418,26 @@ public class CommentsInNotesUtil {
     this.anonymousCowardName = anonymousCowardName;
   }
 
+  public byte[] buildNote(List<PatchLineComment> comments) {
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    buildNote(comments, out);
+    return out.toByteArray();
+  }
+
   /**
    * Build a note that contains the metadata for and the contents of all of the
    * comments in the given list of comments.
    *
-   * @param comments
-   *            A list of the comments to be written to the returned note
-   *            byte array.
-   *            All of the comments in this list must have the same side and
-   *            must share the same PatchSet.Id.
-   *            This list must not be empty because we cannot build a note
-   *            for no comments.
-   * @return the note. Null if there are no comments in the list.
+   * @param comments A list of the comments to be written to the
+   *            output stream. All of the comments in this list must have the
+   *            same side and must share the same patch set ID.
+   * @param out output stream to write to.
    */
-  public byte[] buildNote(List<PatchLineComment> comments) {
-    ByteArrayOutputStream buf = new ByteArrayOutputStream();
-    OutputStreamWriter streamWriter = new OutputStreamWriter(buf, UTF_8);
+  public void buildNote(List<PatchLineComment> comments, OutputStream out) {
+    if (comments.isEmpty()) {
+      return;
+    }
+    OutputStreamWriter streamWriter = new OutputStreamWriter(out, UTF_8);
     try (PrintWriter writer = new PrintWriter(streamWriter)) {
       PatchLineComment first = comments.get(0);
 
@@ -504,7 +514,6 @@ public class CommentsInNotesUtil {
         writer.print("\n\n");
       }
     }
-    return buf.toByteArray();
   }
 
   /**
@@ -536,7 +545,10 @@ public class CommentsInNotesUtil {
       // We allow comments for multiple commits to be written in the same
       // update, even though the rest of the metadata update is associated with
       // a single patch set.
-      noteMap.set(commit, inserter.insert(OBJ_BLOB, buildNote(comments)));
+      byte[] note = buildNote(comments);
+      if (note != null && note.length > 0) {
+        noteMap.set(commit, inserter.insert(OBJ_BLOB, note));
+      }
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d420d22f_5906a369",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-27T10:02:29Z",
+      "side": 1,
+      "message": "In other files the jgit line was moved to the end of the list.  Why not here?",
+      "revId": "336f358582df0a077c6fc95e943f95abfcface90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

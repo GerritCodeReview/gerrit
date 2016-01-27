@@ -20,6 +20,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,12 +31,17 @@ public class Schema_117 extends SchemaVersion {
   }
 
   @Override
-  protected void preUpdateSchema(ReviewDb db) throws OrmException {
-    renameColumn(db, "patch_sets", "push_certficate", "push_certificate");
+  protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement()) {
-      stmt.execute("ALTER TABLE patch_sets MODIFY push_certificate clob");
-    } catch (SQLException e) {
-      // Ignore.  Type may have already been modified manually.
+      ResultSet rs = stmt.executeQuery("SELECT * FROM patch_sets");
+      if (getColumnNames(rs).contains("push_certficate")) {
+        renameColumn(db, "patch_sets", "push_certficate", "push_certificate");
+      }
+      try {
+        stmt.execute("ALTER TABLE patch_sets MODIFY push_certificate clob");
+      } catch (SQLException e) {
+        // Ignore.  Type may have already been modified manually.
+      }
     }
   }
 }

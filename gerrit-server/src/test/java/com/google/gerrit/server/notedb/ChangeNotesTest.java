@@ -489,6 +489,28 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void changeIdChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getChange().getKey()).isEqualTo(c.getKey());
+
+    // An update doesn't affect the Change-Id
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    assertThat(notes.getChange().getKey()).isEqualTo(c.getKey());
+
+    // Set another Change-Id
+    String otherChangeId = "I577fb248e474018276351785930358ec0450e9f7";
+    update = newUpdate(c, changeOwner);
+    update.setChangeId(otherChangeId);
+    update.commit();
+    assertThat(newNotes(c).getChange().getKey())
+        .isEqualTo(new Change.Key(otherChangeId));
+  }
+
+  @Test
   public void branchChangeNotes() throws Exception {
     Change c = newChange();
 

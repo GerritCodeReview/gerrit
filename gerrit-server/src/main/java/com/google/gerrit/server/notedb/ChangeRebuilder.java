@@ -332,6 +332,7 @@ public class ChangeRebuilder {
       update.setSubject(change.getSubject());
       if (ps.getPatchSetId() == 1) {
         update.setSubjectForCommit("Create change");
+        update.setChangeId(change.getKey().get());
         update.setBranch(change.getDest().get());
       } else {
         update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());

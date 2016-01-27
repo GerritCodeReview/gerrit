@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -101,6 +102,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String subject;
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
+  private String changeId;
   private String branch;
   private Change.Status status;
   private List<SubmitRecord> submitRecords;
@@ -187,6 +189,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         }));
     this.reviewers = Maps.newLinkedHashMap();
     this.comments = Lists.newArrayList();
+  }
+
+  public void setChangeId(String changeId) {
+    this.changeId = changeId;
   }
 
   public void setBranch(String branch) {
@@ -481,6 +487,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     addPatchSetFooter(msg, ps);
 
+    if (changeId != null) {
+      addFooter(msg, FOOTER_CHANGE_ID, changeId);
+    }
+
     if (subject != null) {
       addFooter(msg, FOOTER_SUBJECT, subject);
     }
@@ -583,6 +593,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
+        && changeId == null
         && branch == null
         && status == null
         && submissionId == null

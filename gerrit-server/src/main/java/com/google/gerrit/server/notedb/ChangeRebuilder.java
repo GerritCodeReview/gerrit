@@ -151,6 +151,12 @@ public class ChangeRebuilder {
 
     Change notedbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : db.changeMessages().byChange(changeId)) {
+      if (msg.getAuthor() == null) {
+        // TODO(ekempin): Handle change messages that were created on behalf of
+        // the Gerrit server. Currently we cannot store them in notedb since all
+        // notedb updates require an account as author.
+        continue;
+      }
       events.add(new ChangeMessageEvent(msg, notedbChange));
     }
 

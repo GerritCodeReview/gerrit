@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "744806fe_9e273da2",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-27T22:23:53Z",
+      "side": 1,
+      "message": "This looks like a rebase mistake. I have removed this block in I87f925ff2. Fix: I487d2465b.",
+      "revId": "12d6212986f9f509451227bbfc48213ff9392c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

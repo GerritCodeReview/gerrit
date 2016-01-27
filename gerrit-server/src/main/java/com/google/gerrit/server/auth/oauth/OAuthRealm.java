@@ -25,23 +25,37 @@ import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Singleton
 public class OAuthRealm extends AbstractRealm {
   private final DynamicMap<OAuthLoginProvider> loginProviders;
+  private final Set<FieldName> editableAccountFields;
 
   @Inject
-  OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders) {
+  OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders,
+      @GerritServerConfig Config config) {
     this.loginProviders = loginProviders;
+    this.editableAccountFields = new HashSet<>();
+    if (config.getBoolean("oauth", null, "allowEditFullName", false)) {
+      editableAccountFields.add(FieldName.FULL_NAME);
+    }
+    if (config.getBoolean("oauth", null, "allowRegisterNewEmail", false)) {
+      editableAccountFields.add(FieldName.REGISTER_NEW_EMAIL);
+    }
   }
 
   @Override
   public boolean allowsEdit(FieldName field) {
-    return false;
+    return editableAccountFields.contains(field);
   }
 
   /**

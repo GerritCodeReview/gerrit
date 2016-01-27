@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -29,10 +30,13 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -132,6 +136,23 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final native JsArray<AccountInfo> removableReviewers()
   /*-{ return this.removable_reviewers; }-*/;
+
+  private final native NativeMap<JsArray<AccountInfo>> _reviewers()
+  /*-{ return this.reviewers; }-*/;
+  public final Map<ReviewerState, List<AccountInfo>> reviewers() {
+    NativeMap<JsArray<AccountInfo>> reviewers = _reviewers();
+    Map<ReviewerState, List<AccountInfo>> result = new HashMap<>();
+    for (String k : reviewers.keySet()) {
+      ReviewerState state = ReviewerState.valueOf(k.toUpperCase());
+      List<AccountInfo> accounts = result.get(state);
+      if (accounts == null) {
+        accounts = new ArrayList<>();
+        result.put(state, accounts);
+      }
+      accounts.addAll(Natives.asList(reviewers.get(k)));
+    }
+    return result;
+  }
 
   public final native boolean hasActions() /*-{ return this.hasOwnProperty('actions') }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;

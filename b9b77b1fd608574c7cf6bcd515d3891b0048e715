@@ -52,6 +52,24 @@
       "revId": "b9b77b1fd608574c7cf6bcd515d3891b0048e715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d437f269_a198de5d",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-27T16:13:50Z",
+      "side": 1,
+      "message": "As far as I understand, no. Binding model changes are synchronous in Polymer (as opposed to Angular which waits for the digest loop to run), so that coupled with initialization ordering guarantees I think we’re fine.",
+      "parentUuid": "d437f269_6138960f",
+      "revId": "b9b77b1fd608574c7cf6bcd515d3891b0048e715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

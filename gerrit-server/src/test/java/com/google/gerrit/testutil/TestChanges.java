@@ -125,6 +125,7 @@ public class TestChanges {
         cb.parent(tr.getRevWalk().parseCommit(parent.getObjectId()));
       }
       update.setBranch(c.getDest().get());
+      update.setChangeId(c.getKey().get());
       update.setCommit(tr.getRevWalk(), cb.create());
       return update;
     }

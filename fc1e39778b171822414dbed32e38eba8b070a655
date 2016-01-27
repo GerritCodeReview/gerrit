@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "f41dd6f7_5adf752b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-27T07:03:03Z",
+      "side": 1,
+      "message": "I don\u0027t think the SystemGroupBackend.get method is meant to work that way.  It looks like the SystemGroupBackend.getGroup method is meant to lookup already existing groups.  The checkNotNull precondition will result in an \u0027fatal: internal error\u0027 if the passed in uuid in does not match one of the system groups.",
+      "parentUuid": "94801a15_27291ac8",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 82
+      },
+      "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7477260f_06241aef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 2
@@ -110,6 +134,30 @@
         "startChar": 44,
         "endLine": 96,
         "endChar": 54
+      },
+      "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41dd6f7_7adcb935",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-27T07:03:03Z",
+      "side": 1,
+      "message": "yeah, that\u0027s possible however since the private member is called \u0027names\u0027 i was thinking that this is just a getter for that private member.  I thought it might be confusing to call this method \u0027getNames\u0027 and return a list instead of a map.",
+      "parentUuid": "7477260f_06241aef",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 43
       },
       "revId": "fc1e39778b171822414dbed32e38eba8b070a655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

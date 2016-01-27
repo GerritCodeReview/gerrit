@@ -26,7 +26,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -67,10 +67,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -397,7 +396,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /** @return the tree id for the updated tree */
-  private ObjectId storeCommentsInNotes() throws OrmException, IOException {
+  private ObjectId storeRevisionNotes() throws OrmException, IOException {
     ChangeNotes notes = ctl.getNotes().load();
     NoteMap noteMap = notes.getNoteMap();
     if (noteMap == null) {
@@ -407,19 +406,22 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       return null;
     }
 
-    Map<RevId, List<PatchLineComment>> allComments = Maps.newHashMap();
-    for (Map.Entry<RevId, Collection<PatchLineComment>> e
-        : notes.getComments().asMap().entrySet()) {
-      List<PatchLineComment> comments = new ArrayList<>();
-      for (PatchLineComment c : e.getValue()) {
-        comments.add(c);
-      }
-      allComments.put(e.getKey(), comments);
-    }
+    Map<RevId, RevisionNoteBuilder> builders = new HashMap<>();
     for (PatchLineComment c : comments) {
-      addCommentToMap(allComments, c);
+      RevisionNoteBuilder b = builders.get(c.getRevId());
+      if (b == null) {
+        b = new RevisionNoteBuilder(notes.getRevisionNotes().get(c.getRevId()));
+        builders.put(c.getRevId(), b);
+      }
+      b.addComment(c);
     }
-    commentsUtil.writeCommentsToNoteMap(noteMap, allComments, inserter);
+
+    for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
+      ObjectId data = inserter.insert(
+          OBJ_BLOB, e.getValue().build(commentsUtil));
+      noteMap.set(ObjectId.fromString(e.getKey().get()), data);
+    }
+
     return noteMap.writeTree(inserter);
   }
 
@@ -441,7 +443,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       IOException {
     CommitBuilder builder = new CommitBuilder();
     if (migration.writeChanges()) {
-      ObjectId treeId = storeCommentsInNotes();
+      ObjectId treeId = storeRevisionNotes();
       if (treeId != null) {
         builder.setTreeId(treeId);
       }

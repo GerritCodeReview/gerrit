@@ -180,6 +180,9 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   public abstract void writeCommit(BatchMetaDataUpdate batch)
       throws OrmException, IOException;
 
+  /** Whether no updates have been done. */
+  public abstract boolean isEmpty();
+
   /**
    * @return the NameKey for the project where the update will be stored,
    *    which is not necessarily the same as the change's project.

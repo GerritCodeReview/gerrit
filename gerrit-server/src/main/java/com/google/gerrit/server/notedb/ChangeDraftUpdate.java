@@ -288,7 +288,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     return true;
   }
 
-  private boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     return deleteComments.isEmpty()
         && upsertComments.isEmpty();
   }

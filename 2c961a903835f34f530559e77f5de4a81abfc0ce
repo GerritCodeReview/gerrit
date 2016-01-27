@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453887213 +0100\nnonce ALmjDBW7s8BgNA54bo99IMGIcCgbzczwGOyG4yov4IejtlZ0ZMGRvia7WFtmiyK00HCQrlmKdT+V\n\n0000000000000000000000000000000000000000 2c961a903835f34f530559e77f5de4a81abfc0ce refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWqI7tAAoJEFG1/Zeg0O9RxscH/1EDvuOf12kvXj15NBOkBT/g\nQZ71I4g3Q1x2wgenaEpTKdE3Wt9SPJDCnWO+fBC+/aTxwBO1+6g4nu5mzdxcTi+i\nXio/er9fjxFoaSj07w0dW4ClJFPucGfPoO/YbME8Le2ArVxQeb7d44r7LMJyG2a4\ngkB5Dcr04E3GDmrIoakI5HjEfi8koQT9CTJzMLEZxkH50ouO97hrflah/iAj1RQn\n1O5JRX1m+oPGU9uoQEGdyqcl+ybJsESLNwpn5Jd0PUyrLBV6licMVfJeOlNMqQYd\nZvcBKrX5hRNnPKIseFfTHZv1Amj73n9bF670bFY1MTXDxgMFEyHqQJwoyAWLzqQ\u003d\n\u003dUt8V\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d437f269_e18ee61c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-27T16:12:47Z",
+      "side": 1,
+      "message": "I kind of want to say this should share more code with ChangeNotesParser, but probably it shouldn\u0027t. This is much more lenient and hashtags are a special case in this regard.",
+      "revId": "2c961a903835f34f530559e77f5de4a81abfc0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

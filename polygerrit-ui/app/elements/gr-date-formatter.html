@@ -66,8 +66,12 @@ limitations under the License.
           // Within 24 hours and on the same day:
           // '2:14 AM'
           var pm = t.getHours() >= 12;
-          var hours = t.getHours() === 0 ? 12 :
-              pm ? t.getHours() - 12 : t.getHours();
+          var hours = t.getHours();
+          if (hours == 0) {
+            hours = 12;
+          } else if (hours > 12) {
+            hours = t.getHours() - 12;
+          }
           var minutes = t.getMinutes() < 10 ? '0' + t.getMinutes() :
               t.getMinutes();
           return hours + ':' + minutes + (pm ? ' PM' : ' AM');

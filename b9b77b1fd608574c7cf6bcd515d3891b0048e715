@@ -34,6 +34,24 @@
       "revId": "b9b77b1fd608574c7cf6bcd515d3891b0048e715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d437f269_6138960f",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-27T15:56:12Z",
+      "side": 1,
+      "message": "I was talking about an underlying implementation detail. Basically, is there any way gr-change-list could end up with a previous non-zero viewState.selectedChangeIndex *after* this _paramsChanged method is called. My gut says no but I don\u0027t know what is actually guaranteed.",
+      "parentUuid": "d437f269_0142ea97",
+      "revId": "b9b77b1fd608574c7cf6bcd515d3891b0048e715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -504,17 +504,12 @@ class ChangeNotesParser implements AutoCloseable {
 
   private Account.Id parseIdent(PersonIdent ident)
       throws ConfigInvalidException {
-    String email = ident.getEmailAddress();
-    int at = email.indexOf('@');
-    if (at >= 0) {
-      String host = email.substring(at + 1, email.length());
-      Integer id = Ints.tryParse(email.substring(0, at));
-      if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
-        return new Account.Id(id);
-      }
+    Account.Id id = ChangeNoteUtil.parseIdent(ident);
+    if (id == null) {
+      throw parseException("invalid identity, expected <id>@%s: %s",
+          GERRIT_PLACEHOLDER_HOST, ident.getEmailAddress());
     }
-    throw parseException("invalid identity, expected <id>@%s: %s",
-      GERRIT_PLACEHOLDER_HOST, email);
+    return id;
   }
 
   private void parseReviewer(ReviewerStateInternal state, String line)

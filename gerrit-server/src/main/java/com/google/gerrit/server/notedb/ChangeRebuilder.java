@@ -16,12 +16,18 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
+import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Account;
@@ -48,16 +54,21 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -106,16 +117,18 @@ public class ChangeRebuilder {
       BatchRefUpdate bruAllUsers, Repository changeRepo,
       Repository allUsersRepo) throws NoSuchChangeException, IOException,
       OrmException {
-    deleteRef(change, changeRepo);
-    ReviewDb db = dbProvider.get();
-    Change.Id changeId = change.getId();
-
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp. However, all draft comments for a given change
     // and author will be written as one commit in the notedb.
     List<Event> events = Lists.newArrayList();
     Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
+
+    events.addAll(getHashtagsEvents(change, changeRepo));
+
+    deleteRef(change, changeRepo);
+    ReviewDb db = dbProvider.get();
+    Change.Id changeId = change.getId();
 
     for (PatchSet ps : db.patchSets().byChange(changeId)) {
       events.add(new PatchSetEvent(change, ps));
@@ -208,6 +221,59 @@ public class ChangeRebuilder {
       oi.flush();
       return id;
     }
+  }
+
+  private List<HashtagsEvent> getHashtagsEvents(Change change,
+      Repository changeRepo) throws IOException {
+    String refName = ChangeNoteUtil.changeRefName(change.getId());
+    Ref ref = changeRepo.exactRef(refName);
+    if (ref == null) {
+      return Collections.emptyList();
+    }
+
+    List<HashtagsEvent> events = new ArrayList<>();
+    try (RevWalk rw = new RevWalk(changeRepo)) {
+      rw.markStart(rw.parseCommit(ref.getObjectId()));
+      for (RevCommit commit : rw) {
+        Account.Id authorId =
+            ChangeNoteUtil.parseIdent(commit.getAuthorIdent());
+        PatchSet.Id psId = parsePatchSetId(change, commit);
+        Set<String> hashtags = parseHashtags(commit);
+        if (authorId == null || psId == null || hashtags == null) {
+          continue;
+        }
+
+        Timestamp commitTime =
+            new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+        events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags));
+      }
+    }
+    return events;
+  }
+
+  private Set<String> parseHashtags(RevCommit commit) {
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty() || hashtagsLines.size() > 1) {
+      return null;
+    }
+
+    if (hashtagsLines.get(0).isEmpty()) {
+      return ImmutableSet.of();
+    } else {
+      return Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
+    }
+  }
+
+  private PatchSet.Id parsePatchSetId(Change change, RevCommit commit) {
+    List<String> psIdLines = commit.getFooterLines(FOOTER_PATCH_SET);
+    if (psIdLines.size() != 1) {
+      return null;
+    }
+    Integer psId = Ints.tryParse(psIdLines.get(0));
+    if (psId == null) {
+      return null;
+    }
+    return new PatchSet.Id(change.getId(), psId);
   }
 
   private void deleteRef(Change change, Repository changeRepo)
@@ -373,6 +439,21 @@ public class ChangeRebuilder {
         setCommentRevId(c, cache, change, ps);
       }
       draftUpdate.insertComment(c);
+    }
+  }
+
+  private static class HashtagsEvent extends Event {
+    private final Set<String> hashtags;
+
+    HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
+        Set<String> hashtags) {
+      super(psId, who, when);
+      this.hashtags = hashtags;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws OrmException {
+      update.setHashtags(hashtags);
     }
   }
 

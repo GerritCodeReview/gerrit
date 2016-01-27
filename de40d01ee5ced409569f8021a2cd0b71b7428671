@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9441fad9_3f614711",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-01-27T10:13:27Z",
+      "side": 0,
+      "message": "It\u0027s unclear to me why this didn\u0027t catch the issue. Was there some other exception thrown? OrmException?",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "de40d01ee5ced409569f8021a2cd0b71b7428671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

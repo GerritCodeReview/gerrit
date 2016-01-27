@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -52,7 +53,9 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -205,15 +208,9 @@ public class Reviewers extends Composite {
   }
 
   private void display(ChangeInfo info) {
-    Map<Integer, AccountInfo> r = new HashMap<>();
-    Map<Integer, AccountInfo> cc = new HashMap<>();
-    for (LabelInfo label : Natives.asList(info.allLabels().values())) {
-      if (label.all() != null) {
-        for (ApprovalInfo ai : Natives.asList(label.all())) {
-          (ai.value() != 0 ? r : cc).put(ai._accountId(), ai);
-        }
-      }
-    }
+    Map<ReviewerState, List<AccountInfo>> reviewers = info.reviewers();
+    Map<Integer, AccountInfo> r = byAccount(reviewers, ReviewerState.REVIEWER);
+    Map<Integer, AccountInfo> cc = byAccount(reviewers, ReviewerState.CC);
     for (Integer i : r.keySet()) {
       cc.remove(i);
     }
@@ -235,6 +232,19 @@ public class Reviewers extends Composite {
           && !r.containsKey(currentUser);
       addMe.setVisible(showAddMeButton);
     }
+  }
+
+  private static Map<Integer, AccountInfo> byAccount(
+      Map<ReviewerState, List<AccountInfo>> reviewers, ReviewerState state) {
+    List<AccountInfo> accounts = reviewers.get(state);
+    if (accounts == null) {
+      return Collections.emptyMap();
+    }
+    Map<Integer, AccountInfo> result = new HashMap<>();
+    for (AccountInfo a : accounts) {
+      result.put(a._accountId(), a);
+    }
+    return result;
   }
 
   private static Map<Integer, VotableInfo> votable(ChangeInfo change) {

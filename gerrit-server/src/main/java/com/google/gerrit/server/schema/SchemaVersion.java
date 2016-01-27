@@ -24,10 +24,14 @@ import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Provider;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
@@ -169,6 +173,17 @@ public abstract class SchemaVersion {
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.renameTable(e, from, to);
     }
+  }
+
+  /** Get names of available columns from a result set. */
+  protected static Set<String> getColumnNames(ResultSet rs) throws SQLException {
+    ResultSetMetaData metaData = rs.getMetaData();
+    int columnCount = metaData.getColumnCount();
+    Set<String> columns = new HashSet<>(columnCount);
+    for (int i = 1; i <= columnCount; i++) {
+      columns.add(metaData.getColumnLabel(i).toLowerCase());
+    }
+    return columns;
   }
 
   /** Rename an existing column. */

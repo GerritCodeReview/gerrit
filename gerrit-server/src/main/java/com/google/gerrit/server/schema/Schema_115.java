@@ -45,11 +45,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -76,7 +74,7 @@ public class Schema_115 extends SchemaVersion {
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(
           "SELECT * FROM account_diff_preferences")) {
-        Set<String> availableColumns = getColumns(rs);
+        Set<String> availableColumns = getColumnNames(rs);
         while (rs.next()) {
           Account.Id accountId = new Account.Id(rs.getInt("id"));
           DiffPreferencesInfo prefs = new DiffPreferencesInfo();
@@ -171,16 +169,6 @@ public class Schema_115 extends SchemaVersion {
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);
     }
-  }
-
-  private Set<String> getColumns(ResultSet rs) throws SQLException {
-    ResultSetMetaData metaData = rs.getMetaData();
-    int columnCount = metaData.getColumnCount();
-    Set<String> columns = new HashSet<>(columnCount);
-    for (int i = 1; i <= columnCount; i++) {
-      columns.add(metaData.getColumnLabel(i).toLowerCase());
-    }
-    return columns;
   }
 
   private static Theme toTheme(String v) {

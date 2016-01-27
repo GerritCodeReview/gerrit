@@ -16,14 +16,19 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -33,6 +38,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collection;
 
 public class DraftChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -107,6 +113,38 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assume().that(isAllowDrafts()).isFalse();
     PushOneCommit.Result r = createDraftChange();
     r.assertErrorStatus("draft workflow is disabled");
+  }
+
+  @Test
+  public void listApprovalsOnDraftChange() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    PushOneCommit.Result result = createDraftChange();
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+    String triplet = project.get() + "~master~" + changeId;
+
+    gApi.changes().id(triplet).addReviewer(user.fullName);
+
+    ChangeInfo info = get(triplet);
+    LabelInfo label = info.labels.get("Code-Review");
+    assertThat(label.all).hasSize(1);
+    assertThat(label.all.get(0)._accountId).isEqualTo(user.id.get());
+    assertThat(label.all.get(0).value).isEqualTo(0);
+
+    ReviewerState rs = isNoteDbTestEnabled()
+        ? ReviewerState.REVIEWER : ReviewerState.CC;
+    Collection<AccountInfo> ccs = info.reviewers.get(rs);
+    assertThat(ccs).hasSize(1);
+    assertThat(ccs.iterator().next()._accountId).isEqualTo(user.id.get());
+
+    setApiUser(user);
+    gApi.changes().id(triplet).current().review(ReviewInput.recommend());
+    setApiUser(admin);
+
+    label = get(triplet).labels.get("Code-Review");
+    assertThat(label.all).hasSize(1);
+    assertThat(label.all.get(0)._accountId).isEqualTo(user.id.get());
+    assertThat(label.all.get(0).value).isEqualTo(1);
   }
 
   private PushOneCommit.Result createDraftChange() throws Exception {

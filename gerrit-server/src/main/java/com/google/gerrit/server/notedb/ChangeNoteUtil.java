@@ -30,6 +30,7 @@ public class ChangeNoteUtil {
   static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
 
   static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
+  static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
   static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");

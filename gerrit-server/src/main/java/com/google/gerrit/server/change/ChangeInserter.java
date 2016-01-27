@@ -296,6 +296,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
 
     ChangeUpdate update = ctx.getUpdate(psId);
+    update.setChangeId(change.getKey().get());
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());

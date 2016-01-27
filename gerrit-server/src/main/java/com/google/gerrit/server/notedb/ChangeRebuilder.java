@@ -401,11 +401,12 @@ public class ChangeRebuilder {
     }
 
     @Override
-    void apply(ChangeUpdate update) throws IOException {
+    void apply(ChangeUpdate update) throws IOException, OrmException {
       checkUpdate(update);
       update.setSubject(change.getSubject());
       if (ps.getPatchSetId() == 1) {
         update.setSubjectForCommit("Create change");
+        update.setChangeId(change.getKey().get());
         update.setBranch(change.getDest().get());
       } else {
         update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());

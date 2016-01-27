@@ -48,6 +48,24 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    test('computed fields', function() {
+      assert.equal(element._computeLabelNames(
+          [[{_number: 0, labels: {}}]]).length, 0);
+      assert.equal(element._computeLabelNames([[
+            {_number: 0, labels: {Verified: {approved: {}}}},
+            {_number: 1, labels: {
+              Verified: {approved: {}}, 'Code-Review': {approved: {}}}},
+            {_number: 2, labels: {
+              Verified: {approved: {}}, 'Library-Compliance': {approved: {}}}},
+          ]]).length, 3);
+
+      assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
+      assert.equal(element._computeLabelShortcut('Verified'), 'V');
+      assert.equal(element._computeLabelShortcut('Library-Compliance'), 'LC');
+      assert.equal(element._computeLabelShortcut(
+          'Some-Special-Label-7'), 'SSL7');
+    });
+
     test('keyboard shortcuts', function(done) {
       element.changes = [
         {_number: 0},

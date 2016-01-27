@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d420d22f_195b4b7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-27T21:52:29Z",
+      "side": 1,
+      "message": "We\u0027d need to identify if removing alreadyAccepted in the other occurrences would fix similar bugs and have tests for those?",
+      "parentUuid": "f41dd6f7_faef69da",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "3482404d713e28e5236292088a61237d43dae6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f41dd6f7_daeaa5cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyListener.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2016-01-27T06:13:39Z",
       "side": 1,
       "message": "I was curious about whether there was a more concise way to write this. All I could come up with is\n\n args.mergeUtil.markCleanMerges(\n   args.rw,\n   args.canMergeFlag,\n   args.mergeTip.getCurrentTip(),\n   Optional.fromNullable(args.mergeTip.getInitialTip())\n     .asSet());\n\nwhich is not much better.",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 78,
+        "endChar": 72
+      },
+      "revId": "3482404d713e28e5236292088a61237d43dae6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41dd6f7_ba2251e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-27T21:52:29Z",
+      "side": 1,
+      "message": "I think it\u0027s about even, so not a point for rerolling this patch.",
+      "parentUuid": "f41dd6f7_daeaa5cd",
       "range": {
         "startLine": 77,
         "startChar": 41,

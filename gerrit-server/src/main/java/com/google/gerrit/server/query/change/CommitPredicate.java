@@ -21,21 +21,18 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
 class CommitPredicate extends IndexPredicate<ChangeData> {
-  static FieldDef<ChangeData, ?> commitField(Schema<ChangeData> schema,
-      String id) {
-    if (id.length() == OBJECT_ID_STRING_LENGTH
-        && schema != null && schema.hasField(EXACT_COMMIT)) {
+  static FieldDef<ChangeData, ?> commitField(String id) {
+    if (id.length() == OBJECT_ID_STRING_LENGTH) {
       return EXACT_COMMIT;
     }
     return COMMIT;
   }
 
-  CommitPredicate(Schema<ChangeData> schema, String id) {
-    super(commitField(schema, id), id);
+  CommitPredicate(String id) {
+    super(commitField(id), id);
   }
 
   @Override

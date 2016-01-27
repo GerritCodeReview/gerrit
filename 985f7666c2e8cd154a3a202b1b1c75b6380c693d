@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d437f269_21328e2d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-27T16:03:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an error? Change-Id is immutable.",
+      "revId": "985f7666c2e8cd154a3a202b1b1c75b6380c693d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -39,6 +41,10 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -370,6 +376,15 @@ public class BatchUpdate implements AutoCloseable {
       // exceptions like ResourceConflictException to indicate an atomic update
       // failure.
       throw e;
+
+    // Convert other common non-REST exception types with user-visible
+    // messages to corresponding REST exception types
+    } catch (InvalidChangeOperationException e) {
+      throw new ResourceConflictException(e.getMessage(), e);
+    } catch (NoSuchChangeException | NoSuchRefException
+        | NoSuchProjectException e) {
+      throw new ResourceNotFoundException(e.getMessage(), e);
+
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw new UpdateException(e);

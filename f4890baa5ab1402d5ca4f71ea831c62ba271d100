@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f41dd6f7_da3ce510",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-27T13:12:31Z",
+      "side": 1,
+      "message": "I tried modifying this to make it possible to set the email address, but it was still failing with the same error.  I wonder if the behaviour of the reviewer suggestion is actually different (broken?) on stable-2.12.\n\nDidn\u0027t have time to investigate further...",
+      "revId": "f4890baa5ab1402d5ca4f71ea831c62ba271d100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

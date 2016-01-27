@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "744806fe_be9d594d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-27T08:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d437f269_a1f45eac",
+      "range": {
+        "startLine": 147,
+        "startChar": 32,
+        "endLine": 147,
+        "endChar": 63
+      },
+      "revId": "478051b71d69f55179379567e58480b4957ab8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d437f269_c1f962a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
         "patchSetId": 3
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_3f8aa703",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-27T08:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d437f269_c1f962a5",
+      "revId": "478051b71d69f55179379567e58480b4957ab8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d437f269_61df362c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
         "patchSetId": 3
@@ -54,6 +96,24 @@
       "writtenOn": "2016-01-26T18:01:15Z",
       "side": 1,
       "message": "Not sure \"fix\" is the right word; it makes it seem like something was broken in the original change, which it wasn\u0027t necessarily. Maybe \"Finish migrating change to notedb\" or something?",
+      "revId": "478051b71d69f55179379567e58480b4957ab8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_7e8031e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-27T08:19:54Z",
+      "side": 1,
+      "message": "Yeah, I didn\u0027t like \"fix\" either...\n\nDone.",
+      "parentUuid": "d437f269_61df362c",
       "revId": "478051b71d69f55179379567e58480b4957ab8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -52,6 +52,24 @@
       "revId": "547886f39671ff54150f7198d22559a0d0894896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_de75c5d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-01-27T09:23:19Z",
+      "side": 1,
+      "message": "No, it won\u0027t.\n\nWhen upgrading from schema version N to schema version M the gwtorm\nwill create all columns newly introduced by version M but NOT all the intermediate states. How it could create intermediate schema versions?\nIf schema version N doesn\u0027t contain the push_certficate column and the version M contains the push_certificate (correct spelling) then even if we want it, gwtorm cannot create the intermediate (wrong spelling) column as it simply doesn\u0027t exist in the deployed Gerrit version.",
+      "parentUuid": "d420d22f_f99d377e",
+      "revId": "547886f39671ff54150f7198d22559a0d0894896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

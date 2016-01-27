@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -27,6 +29,7 @@ import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Utility functions to manipulate ChangeMessages.
@@ -68,6 +71,11 @@ public class ChangeMessagesUtil {
 
   public void addChangeMessage(ReviewDb db, ChangeUpdate update,
       ChangeMessage changeMessage) throws OrmException {
+    checkState(
+        Objects.equals(changeMessage.getAuthor(),
+            update.getUser().getAccountId()),
+        "cannot store change message of %s in update of %s",
+        changeMessage.getAuthor(), update.getUser().getAccountId());
     update.setChangeMessage(changeMessage.getMessage());
     db.changeMessages().insert(Collections.singleton(changeMessage));
   }

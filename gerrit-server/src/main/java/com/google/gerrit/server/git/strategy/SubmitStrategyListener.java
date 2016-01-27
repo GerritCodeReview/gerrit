@@ -84,9 +84,8 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       }
       CommitMergeStatus s = commit.getStatusCode();
       if (s == null) {
-        commits.problem(id,
-            "internal error: change not processed by merge strategy");
-        return;
+        commit.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+        s = CommitMergeStatus.ALREADY_MERGED;
       }
       switch (s) {
         case CLEAN_MERGE:

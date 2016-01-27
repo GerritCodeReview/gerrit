@@ -213,6 +213,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     reviewers = suggestReviewers(changeId, user1.username + " example", 2);
     assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "user3@example.com", 2);
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.get(0).account.email).isEqualTo("USER3@example.com");
   }
 
   @Test

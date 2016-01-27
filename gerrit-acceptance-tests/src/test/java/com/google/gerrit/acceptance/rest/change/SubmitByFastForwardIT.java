@@ -14,14 +14,19 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.project.GetHead;
 
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
 
 import java.util.Map;
@@ -106,5 +111,30 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
+  }
+
+  @Test
+  public void submitSameCommitsAsInExperimentalBranch() throws Exception {
+    grant(Permission.CREATE, project, "refs/heads/*");
+    grant(Permission.PUSH, project, "refs/heads/experimental");
+
+    RevCommit c1 = commitBuilder()
+        .add("b.txt", "1")
+        .message("commit at tip")
+        .create();
+    String id1 = GitUtil.getChangeId(testRepo, c1).get();
+
+    PushResult r1 = pushHead(testRepo, "refs/for/master", false);
+    assertThat(r1.getRemoteUpdate("refs/for/master").getNewObjectId())
+        .isEqualTo(c1.getId());
+
+    PushResult r2 = pushHead(testRepo, "refs/heads/experimental", false);
+    assertThat(r2.getRemoteUpdate("refs/heads/experimental").getNewObjectId())
+        .isEqualTo(c1.getId());
+
+    submit(id1);
+
+    assertThat(getRemoteHead().getId()).isEqualTo(c1.getId());
+    assertSubmitter(id1, 1);
   }
 }

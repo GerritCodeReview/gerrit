@@ -15,12 +15,15 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
+
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collection;
 import java.util.Set;
@@ -69,8 +72,10 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
   private void markCleanMerges() throws IntegrationException {
     for (SubmitStrategy strategy : strategies) {
       SubmitStrategy.Arguments args = strategy.args;
+      RevCommit initialTip = args.mergeTip.getInitialTip();
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          args.mergeTip.getCurrentTip(), args.alreadyAccepted);
+          args.mergeTip.getCurrentTip(), initialTip == null ?
+              ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
     }
   }
 

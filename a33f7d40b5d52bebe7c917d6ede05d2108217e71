@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_9f6f3303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-01-27T09:28:46Z",
+      "side": 1,
+      "message": "+1 Don\u0027t use SELECT\n\nJust for completeness of discussion:\nWhen using SELECT for this append \" LIMIT 1\" to limit the number of fetched rows.",
+      "parentUuid": "744806fe_de8e251d",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 67
+      },
+      "revId": "a33f7d40b5d52bebe7c917d6ede05d2108217e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "744806fe_3e2f09c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 1

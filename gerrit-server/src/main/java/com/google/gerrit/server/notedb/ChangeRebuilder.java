@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -131,6 +132,9 @@ public class ChangeRebuilder {
       events.add(new ApprovalEvent(psa));
     }
 
+    for (ChangeMessage msg : db.changeMessages().byChange(changeId)) {
+      events.add(new ChangeMessageEvent(msg));
+    }
 
     Collections.sort(events);
     BatchMetaDataUpdate batch = null;
@@ -364,6 +368,22 @@ public class ChangeRebuilder {
         setCommentRevId(c, cache, change, ps);
       }
       draftUpdate.insertComment(c);
+    }
+  }
+
+  private static class ChangeMessageEvent extends Event {
+    private final ChangeMessage message;
+
+    ChangeMessageEvent(ChangeMessage message) {
+      super(message.getPatchSetId(), message.getAuthor(),
+          message.getWrittenOn());
+      this.message = message;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws OrmException {
+      checkUpdate(update);
+      update.setChangeMessage(message.getMessage());
     }
   }
 }

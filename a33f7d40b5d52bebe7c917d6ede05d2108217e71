@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_bf7477d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-27T09:35:49Z",
+      "side": 1,
+      "message": "No. It wouldn\u0027t work for all SQL dialects since adding support for Apache Derby: [1]. You would have to use new introduced method SqlDialect#getLimitSql() ti make your suggestion work for all dialects.\n\n* [1] https://gerrit-review.googlesource.com/#/c/69777/9",
+      "parentUuid": "9441fad9_9f6f3303",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 67
+      },
+      "revId": "a33f7d40b5d52bebe7c917d6ede05d2108217e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "744806fe_3e2f09c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 1

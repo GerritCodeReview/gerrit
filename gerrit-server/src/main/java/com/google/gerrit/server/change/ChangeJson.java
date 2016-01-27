@@ -158,6 +158,7 @@ public class ChangeJson {
   private final GpgApiAdapter gpgApi;
 
   private AccountLoader accountLoader;
+  private Map<Change.Id, List<SubmitRecord>> submitRecords;
   private FixInput fix;
 
   @AssistedInject
@@ -485,14 +486,22 @@ public class ChangeJson {
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
-    if (cd.getSubmitRecords() != null) {
-      return cd.getSubmitRecords();
+    // Maintain our own cache rather than using cd.getSubmitRecords(),
+    // since the latter may not have used the same values for
+    // fastEvalLabels/allowDraft/etc.
+    // TODO(dborowitz): Handle this better at the ChangeData level.
+    if (submitRecords == null) {
+      submitRecords = new HashMap<>();
     }
-    cd.setSubmitRecords(new SubmitRuleEvaluator(cd)
+    List<SubmitRecord> records = submitRecords.get(cd.getId());
+    if (records == null) {
+      records = new SubmitRuleEvaluator(cd)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
-        .evaluate());
-    return cd.getSubmitRecords();
+        .evaluate();
+      submitRecords.put(cd.getId(), records);
+    }
+    return records;
   }
 
   private Map<String, LabelInfo> labelsFor(ChangeControl ctl,

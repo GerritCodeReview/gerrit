@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -146,7 +147,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx)
-        throws NoSuchChangeException, InvalidChangeOperationException,
+        throws NoSuchChangeException, ResourceConflictException,
         OrmException, IOException  {
       if (rebaseOp == null) {
         // Took the fast-forward option, nothing to do.

@@ -152,7 +152,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws OrmException, InvalidChangeOperationException, IOException {
+      throws ResourceConflictException, OrmException, IOException {
     boolean ret = patchSetInserter.updateChange(ctx);
     rebasedPatchSet = patchSetInserter.getPatchSet();
     return ret;

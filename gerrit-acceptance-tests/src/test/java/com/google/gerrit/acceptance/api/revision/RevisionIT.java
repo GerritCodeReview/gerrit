@@ -18,8 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
+import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -322,6 +324,47 @@ public class RevisionIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Cherry pick failed: merge conflict");
     orig.revision(r.getCommit().name()).cherryPick(in);
+  }
+
+  @Test
+  public void cherryPickToExistingChange() throws Exception {
+    PushOneCommit.Result r1 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+        .to("refs/for/master");
+    String t1 = project.get() + "~master~" + r1.getChangeId();
+
+    BranchInput bin = new BranchInput();
+    bin.revision = r1.getCommit().getParent(0).name();
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(bin);
+
+    PushOneCommit.Result r2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "b",
+          r1.getChangeId())
+        .to("refs/for/foo");
+    String t2 = project.get() + "~foo~" + r2.getChangeId();
+    gApi.changes().id(t2).abandon();
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = r1.getCommit().getFullMessage();
+    try {
+      gApi.changes().id(t1).current().cherryPick(in);
+      fail();
+    } catch (ResourceConflictException e) {
+      assertThat(e.getMessage()).isEqualTo(
+          "Cannot create new patch set of change " + info(t2)._number
+          + " because it is abandoned");
+    }
+
+    gApi.changes().id(t2).restore();
+    gApi.changes().id(t1).current().cherryPick(in);
+    assertThat(get(t2).revisions).hasSize(2);
+    assertThat(
+          gApi.changes().id(t2).current().file(FILE_NAME).content().asString())
+        .isEqualTo("a");
   }
 
   @Test

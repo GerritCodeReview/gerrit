@@ -492,6 +492,28 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void changeIdChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getChange().getKey()).isEqualTo(c.getKey());
+
+    // An update doesn't affect the Change-Id
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    assertThat(notes.getChange().getKey()).isEqualTo(c.getKey());
+
+    // Trying to set another Change-Id fails
+    String otherChangeId = "I577fb248e474018276351785930358ec0450e9f7";
+    update = newUpdate(c, changeOwner);
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("The Change-Id was already set to " + c.getKey()
+        + ", so we cannot set this Change-Id: " + otherChangeId);
+    update.setChangeId(otherChangeId);
+  }
+
+  @Test
   public void branchChangeNotes() throws Exception {
     Change c = newChange();
 

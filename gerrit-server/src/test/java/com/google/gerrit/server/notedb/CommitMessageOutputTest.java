@@ -49,6 +49,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Change-id: " + c.getKey().get() + "\n"
         + "Subject: Change subject\n"
         + "Branch: refs/heads/master\n"
         + "Commit: " + update.getCommit().name() + "\n"
@@ -88,6 +89,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "How about a new line\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Change-id: " + c.getKey().get() + "\n"
         + "Subject: Change subject\n"
         + "Branch: refs/heads/master\n"
         + "Commit: " + update.getCommit().name() + "\n",
@@ -109,6 +111,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Foo\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Change-id: " + c.getKey().get() + "\n"
         + "Subject: Subject\n"
         + "Branch: refs/heads/master\n"
         + "Commit: " + commit.name() + "\n",

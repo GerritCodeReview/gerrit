@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -48,6 +49,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +73,15 @@ public class CommentsIT extends AbstractDaemonTest {
   @Before
   public void setUp() {
     setApiUser(user);
+  }
+
+  @Test
+  public void getNonExistingComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    exception.expect(ResourceNotFoundException.class);
+    getPublishedComment(changeId, revId, "non-existing");
   }
 
   @Test
@@ -107,6 +118,36 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertCommentInfo(comment, actual);
+      assertCommentInfo(actual, getPublishedComment(changeId, revId, actual.id));
+    }
+  }
+
+  @Test
+  public void listComments() throws Exception {
+    String file = "file";
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        "first subject", file, "contents");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    assertThat(getPublishedComments(changeId, revId)).isEmpty();
+
+    List<Comment> expectedComments = new ArrayList<>();
+    for (Integer line : lines) {
+      ReviewInput input = new ReviewInput();
+      CommentInput comment = newComment(file, Side.REVISION, line, "comment " + line);
+      expectedComments.add(comment);
+      input.comments = new HashMap<>();
+      input.comments.put(comment.path, Lists.newArrayList(comment));
+      revision(r).review(input);
+    }
+
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    assertThat(result).isNotEmpty();
+    List<CommentInfo> actualComments = result.get(file);
+    assertThat(actualComments).hasSize(expectedComments.size());
+    for (int i = 0; i < actualComments.size(); i++) {
+      assertCommentInfo(expectedComments.get(i), actualComments.get(i));
     }
   }
 
@@ -127,6 +168,30 @@ public class CommentsIT extends AbstractDaemonTest {
       result = getDraftComments(changeId, revId);
       actual = Iterables.getOnlyElement(result.get(comment.path));
       assertCommentInfo(comment, actual);
+    }
+  }
+
+  @Test
+  public void listDrafts() throws Exception {
+    String file = "file";
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    assertThat(getDraftComments(changeId, revId)).isEmpty();
+
+    List<Comment> expectedDrafts = new ArrayList<>();
+    for (Integer line : lines) {
+      DraftInput comment = newDraft(file, Side.REVISION, line, "comment " + line);
+      expectedDrafts.add(comment);
+      addDraft(changeId, revId, comment);
+    }
+
+    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+    assertThat(result).isNotEmpty();
+    List<CommentInfo> actualComments = result.get(file);
+    assertThat(actualComments).hasSize(expectedDrafts.size());
+    for (int i = 0; i < actualComments.size(); i++) {
+      assertCommentInfo(expectedDrafts.get(i), actualComments.get(i));
     }
   }
 
@@ -436,6 +501,11 @@ public class CommentsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(revId).draft(uuid).delete();
   }
 
+  private CommentInfo getPublishedComment(String changeId, String revId,
+      String uuid) throws Exception {
+    return gApi.changes().id(changeId).revision(revId).comment(uuid).get();
+  }
+
   private Map<String, List<CommentInfo>> getPublishedComments(String changeId,
       String revId) throws Exception {
     return gApi.changes().id(changeId).revision(revId).comments();
@@ -456,7 +526,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
     assertCommentRange(expected.range, actual.range);
-    if (actual.side == null) {
+    if (actual.side == null && expected.side != null) {
       assertThat(Side.REVISION).isEqualTo(expected.side);
     }
   }

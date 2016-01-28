@@ -43,6 +43,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.OrmConcurrencyException;
@@ -73,7 +74,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -453,6 +456,25 @@ public class ChangeUtil {
     }
 
     throw new ResourceNotFoundException(id);
+  }
+
+  public HashMap<ChangeData, RevCommit> findCommits(
+      Collection<ChangeData> changes, Project.NameKey project)
+          throws IOException, OrmException {
+    HashMap<ChangeData, RevCommit> commits = new HashMap<>();
+    if (!changes.isEmpty()) {
+      try (Repository repo = gitManager.openRepository(project);
+          RevWalk walk = new RevWalk(repo)) {
+        for (ChangeData change : changes) {
+          PatchSet patchSet =
+              db.get().patchSets().get(change.change().currentPatchSetId());
+          String commitId = patchSet.getRevision().get();
+          RevCommit commit = walk.parseCommit(ObjectId.fromString(commitId));
+          commits.put(change, commit);
+        }
+      }
+    }
+    return commits;
   }
 
   private static void deleteOnlyDraftPatchSetPreserveRef(ReviewDb db,

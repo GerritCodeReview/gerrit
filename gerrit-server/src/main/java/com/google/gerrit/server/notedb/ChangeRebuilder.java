@@ -117,6 +117,8 @@ public class ChangeRebuilder {
       BatchRefUpdate bruAllUsers, Repository changeRepo,
       Repository allUsersRepo) throws NoSuchChangeException, IOException,
       OrmException {
+    ReviewDb db = dbProvider.get();
+    Change.Id changeId = change.getId();
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp. However, all draft comments for a given change
     // and author will be written as one commit in the notedb.
@@ -124,21 +126,21 @@ public class ChangeRebuilder {
     Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
 
-    events.addAll(getHashtagsEvents(change, changeRepo));
+    try (RevWalk rw = new RevWalk(changeRepo)) {
+      events.addAll(getHashtagsEvents(change, changeRepo, rw));
 
-    deleteRef(change, changeRepo);
-    ReviewDb db = dbProvider.get();
-    Change.Id changeId = change.getId();
+      deleteRef(change, changeRepo);
 
-    for (PatchSet ps : db.patchSets().byChange(changeId)) {
-      events.add(new PatchSetEvent(change, ps));
-      for (PatchLineComment c : db.patchComments().byPatchSet(ps.getId())) {
-        PatchLineCommentEvent e =
-            new PatchLineCommentEvent(c, change, ps, patchListCache);
-        if (c.getStatus() == Status.PUBLISHED) {
-          events.add(e);
-        } else {
-          draftCommentEvents.put(c.getAuthor(), e);
+      for (PatchSet ps : db.patchSets().byChange(changeId)) {
+        events.add(new PatchSetEvent(change, ps, rw));
+        for (PatchLineComment c : db.patchComments().byPatchSet(ps.getId())) {
+          PatchLineCommentEvent e =
+              new PatchLineCommentEvent(c, change, ps, patchListCache);
+          if (c.getStatus() == Status.PUBLISHED) {
+            events.add(e);
+          } else {
+            draftCommentEvents.put(c.getAuthor(), e);
+          }
         }
       }
     }
@@ -224,7 +226,7 @@ public class ChangeRebuilder {
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,
-      Repository changeRepo) throws IOException {
+      Repository changeRepo, RevWalk rw) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
     Ref ref = changeRepo.exactRef(refName);
     if (ref == null) {
@@ -232,21 +234,20 @@ public class ChangeRebuilder {
     }
 
     List<HashtagsEvent> events = new ArrayList<>();
-    try (RevWalk rw = new RevWalk(changeRepo)) {
-      rw.markStart(rw.parseCommit(ref.getObjectId()));
-      for (RevCommit commit : rw) {
-        Account.Id authorId =
-            ChangeNoteUtil.parseIdent(commit.getAuthorIdent());
-        PatchSet.Id psId = parsePatchSetId(change, commit);
-        Set<String> hashtags = parseHashtags(commit);
-        if (authorId == null || psId == null || hashtags == null) {
-          continue;
-        }
-
-        Timestamp commitTime =
-            new Timestamp(commit.getCommitterIdent().getWhen().getTime());
-        events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags));
+    rw.reset();
+    rw.markStart(rw.parseCommit(ref.getObjectId()));
+    for (RevCommit commit : rw) {
+      Account.Id authorId =
+          ChangeNoteUtil.parseIdent(commit.getAuthorIdent());
+      PatchSet.Id psId = parsePatchSetId(change, commit);
+      Set<String> hashtags = parseHashtags(commit);
+      if (authorId == null || psId == null || hashtags == null) {
+        continue;
       }
+
+      Timestamp commitTime =
+          new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+      events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags));
     }
     return events;
   }
@@ -348,7 +349,7 @@ public class ChangeRebuilder {
           who, update.getUser().getAccountId());
     }
 
-    abstract void apply(ChangeUpdate update) throws OrmException;
+    abstract void apply(ChangeUpdate update) throws OrmException, IOException;
 
     @Override
     public int compareTo(Event other) {
@@ -390,15 +391,17 @@ public class ChangeRebuilder {
   private static class PatchSetEvent extends Event {
     private final Change change;
     private final PatchSet ps;
+    private final RevWalk rw;
 
-    PatchSetEvent(Change change, PatchSet ps) {
+    PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
       super(ps.getId(), ps.getUploader(), ps.getCreatedOn());
       this.change = change;
       this.ps = ps;
+      this.rw = rw;
     }
 
     @Override
-    void apply(ChangeUpdate update) {
+    void apply(ChangeUpdate update) throws IOException {
       checkUpdate(update);
       update.setSubject(change.getSubject());
       if (ps.getPatchSetId() == 1) {
@@ -406,6 +409,12 @@ public class ChangeRebuilder {
         update.setBranch(change.getDest().get());
       } else {
         update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
+      }
+      update.setCommit(rw, ObjectId.fromString(ps.getRevision().get()),
+          ps.getPushCertificate());
+      update.setGroups(ps.getGroups());
+      if (ps.isDraft()) {
+        update.setPatchSetState(PatchSetState.DRAFT);
       }
     }
   }

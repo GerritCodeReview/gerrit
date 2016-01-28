@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "744806fe_7e9ef1d7",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d437f269_01fd0a59",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b43efe47_007bc6c7",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-27T20:21:45Z",
       "side": 1,
       "message": "Nit: long line.",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_1eab2df5",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43efe47_007bc6c7",
       "revId": "b94a1108039433b28067108df708d05ddf6237f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_3f3627b8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/HANAInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d437f269_21efeea8",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b43efe47_a06f7a02",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
         "patchSetId": 2
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "744806fe_3ea869f5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43efe47_a06f7a02",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b43efe47_408a2e04",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/HANATest.java",
         "patchSetId": 2
@@ -99,6 +171,24 @@
       "writtenOn": "2016-01-27T20:21:45Z",
       "side": 1,
       "message": "private",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9441fad9_9f5bb309",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/HANATest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43efe47_408a2e04",
       "revId": "b94a1108039433b28067108df708d05ddf6237f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_df613bb9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/HANATest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43efe47_e07582d2",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d437f269_e1f7c678",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/HANATest.java",
         "patchSetId": 2
@@ -139,6 +253,24 @@
       "writtenOn": "2016-01-27T20:21:45Z",
       "side": 1,
       "message": "We prefer assertThat from Truth rather than JUnit.",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9441fad9_ff667fce",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/HANATest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-01-28T13:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d437f269_e1f7c678",
       "revId": "b94a1108039433b28067108df708d05ddf6237f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

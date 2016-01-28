@@ -108,11 +108,9 @@ public class SetHashtagsOp extends BatchUpdate.Op {
       throw new BadRequestException(e.getMessage());
     }
 
-    if (existingHashtags != null && !existingHashtags.isEmpty()) {
-      updated.addAll(existingHashtags);
-      toAdd.removeAll(existingHashtags);
-      toRemove.retainAll(existingHashtags);
-    }
+    updated.addAll(existingHashtags);
+    toAdd.removeAll(existingHashtags);
+    toRemove.retainAll(existingHashtags);
     if (updated()) {
       updated.addAll(toAdd);
       updated.removeAll(toRemove);

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -26,18 +28,29 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.sql.Timestamp;
 
 @NoHttpd
 public class HashtagsIT extends AbstractDaemonTest {
   @Before
   public void before() {
     assume().that(notesMigration.enabled()).isTrue();
+  }
+
+  @BeforeClass
+  public static void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+  }
+
+  @AfterClass
+  public static void restoreTime() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test
@@ -87,11 +100,11 @@ public class HashtagsIT extends AbstractDaemonTest {
     addHashtags(r, "tag2");
     assertThatGet(r).containsExactly("tag2");
     assertMessage(r, "Hashtag added: tag2");
-    Timestamp lastMsgDate = getLastMessage(r).date;
+    ChangeMessageInfo last = getLastMessage(r);
 
     addHashtags(r, "tag2");
     assertThatGet(r).containsExactly("tag2");
-    assertNoNewMessageSince(r, lastMsgDate);
+    assertNoNewMessageSince(r, last);
 
     addHashtags(r, "tag1", "tag2");
     assertThatGet(r).containsExactly("tag1", "tag2").inOrder();
@@ -182,26 +195,26 @@ public class HashtagsIT extends AbstractDaemonTest {
     // Removing a single hashtag from change that has no hashtags returns an
     // empty list.
     PushOneCommit.Result r = createChange();
-    Timestamp lastMsgDate = getLastMessage(r).date;
+    ChangeMessageInfo last = getLastMessage(r);
     removeHashtags(r, "tag1");
     assertThatGet(r).isEmpty();
-    assertNoNewMessageSince(r, lastMsgDate);
+    assertNoNewMessageSince(r, last);
 
     // Removing a single non-existing tag from a change that only has one other
     // tag returns a list of only one tag.
     addHashtags(r, "tag1");
-    lastMsgDate = getLastMessage(r).date;
+    last = getLastMessage(r);
     removeHashtags(r, "tag4");
     assertThatGet(r).containsExactly("tag1");
-    assertNoNewMessageSince(r, lastMsgDate);
+    assertNoNewMessageSince(r, last);
 
     // Removing a single non-existing tag from a change that has multiple tags
     // returns a sorted list of tags without any deleted.
     addHashtags(r, "tag1", "tag2", "tag3");
-    lastMsgDate = getLastMessage(r).date;
+    last = getLastMessage(r);
     removeHashtags(r, "tag4");
     assertThatGet(r).containsExactly("tag1", "tag2", "tag3").inOrder();
-    assertNoNewMessageSince(r, lastMsgDate);
+    assertNoNewMessageSince(r, last);
   }
 
   @Test
@@ -258,16 +271,19 @@ public class HashtagsIT extends AbstractDaemonTest {
     assertThat(getLastMessage(r).message).isEqualTo(expectedMessage);
   }
 
-  private void assertNoNewMessageSince(PushOneCommit.Result r, Timestamp date)
-      throws RestApiException, OrmException {
-    assertThat(getLastMessage(r).date).isEqualTo(date);
+  private void assertNoNewMessageSince(PushOneCommit.Result r,
+      ChangeMessageInfo expected) throws Exception {
+    checkNotNull(expected);
+    ChangeMessageInfo last = getLastMessage(r);
+    assertThat(last.message).isEqualTo(expected.message);
+    assertThat(last.id).isEqualTo(expected.id);
   }
 
   private ChangeMessageInfo getLastMessage(PushOneCommit.Result r)
       throws RestApiException, OrmException {
     ChangeMessageInfo lastMessage = Iterables.getLast(
         gApi.changes().id(r.getChange().getId().get()).get().messages, null);
-    assertThat(lastMessage).isNotNull();
+    assertThat(lastMessage).named(lastMessage.message).isNotNull();
     return lastMessage;
   }
 }

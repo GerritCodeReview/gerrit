@@ -22,18 +22,29 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
+
+  @Inject
+  private AllUsersName allUsers;
 
   @Test
   public void deletePatchSetNotDraft() throws Exception {
@@ -66,6 +77,15 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
 
+    DraftInput din = new DraftInput();
+    din.path = "a.txt";
+    din.message = "comment on a.txt";
+    gApi.changes().id(changeId).current().createDraft(din);
+
+    if (notesMigration.writeChanges()) {
+      assertThat(getDraftRef(admin, ps.getId().getParentKey())).isNotNull();
+    }
+
     ChangeData cd = getChange(changeId);
     assertThat(cd.patchSets()).hasSize(2);
     assertThat(cd.change().currentPatchSetId().get()).isEqualTo(2);
@@ -79,6 +99,20 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     ps = getCurrentPatchSet(changeId);
     deletePatchSet(changeId, ps, adminSession).assertNoContent();
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
+
+    if (notesMigration.writeChanges()) {
+      assertThat(getDraftRef(admin, ps.getId().getParentKey())).isNull();
+    }
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.changes().id(ps.getId().getParentKey().get());
+  }
+
+  private Ref getDraftRef(TestAccount account, Change.Id changeId)
+      throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+      return repo.exactRef(RefNames.refsDraftComments(account.id, changeId));
+    }
   }
 
   private String createDraftChangeWith2PS() throws Exception {

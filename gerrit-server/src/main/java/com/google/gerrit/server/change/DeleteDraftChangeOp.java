@@ -92,13 +92,14 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
           db.accountPatchReviews().byPatchSet(ps.getId()));
     }
 
-    // No need to delete from notedb; draft patch sets will be filtered out.
+    // Only delete from reviewdb here; deletion from notedb is handled in
+    // BatchUpdate.
     db.patchComments().delete(db.patchComments().byChange(id));
-
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
-    db.patchSets().delete(patchSets);
+    db.patchSets().delete(db.patchSets().byChange(id));
     db.changeMessages().delete(db.changeMessages().byChange(id));
     starredChangesUtil.unstarAll(id);
+
     ctx.deleteChange();
     return true;
   }

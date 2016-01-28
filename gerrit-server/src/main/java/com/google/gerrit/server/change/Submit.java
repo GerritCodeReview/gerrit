@@ -20,6 +20,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -29,9 +31,11 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -45,6 +49,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -58,12 +63,18 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
@@ -117,6 +128,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final NotesMigration notesMigration;
   private final Provider<MergeOp> mergeOpProvider;
   private final MergeSuperSet mergeSuperSet;
   private final AccountsCollection accounts;
@@ -136,6 +148,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
+      NotesMigration notesMigration,
       Provider<MergeOp> mergeOpProvider,
       MergeSuperSet mergeSuperSet,
       AccountsCollection accounts,
@@ -147,6 +160,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
+    this.notesMigration = notesMigration;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
@@ -247,24 +261,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!changeControl.canSubmit()) {
           return BLOCKED_SUBMIT_TOOLTIP;
         }
-        // Recheck mergeability rather than using value stored in the index,
-        // which may be stale.
-        // TODO(dborowitz): This is ugly; consider providing a way to not read
-        // stored fields from the index in the first place.
-        c.setMergeable(null);
-        Boolean mergeable = c.isMergeable();
-        if (mergeable == null) {
-          log.error("Ephemeral error checking if change is submittable");
-          return CLICK_FAILURE_TOOLTIP;
-        }
-        if (!mergeable) {
-          return CLICK_FAILURE_OTHER_TOOLTIP;
-        }
         MergeOp.checkSubmitRule(c);
+      }
+
+      Boolean csIsMergeable = isPatchSetMergeable(cs);
+      if (csIsMergeable == null) {
+        return CLICK_FAILURE_TOOLTIP;
+      } else if (!csIsMergeable) {
+        return CLICK_FAILURE_OTHER_TOOLTIP;
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | NoSuchChangeException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
@@ -398,6 +406,78 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   static String status(Change change) {
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+  }
+
+  public Boolean isPatchSetMergeable(ChangeSet cs)
+      throws OrmException, IOException, NoSuchChangeException {
+    Map<ChangeData, Boolean> mergeabilityMap = new HashMap<>();
+    for (ChangeData change : cs.changes()) {
+      mergeabilityMap.put(change, false);
+    }
+
+    Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
+    for (Branch.NameKey branch : cbb.keySet()) {
+      Collection<ChangeData> targetBranch = cbb.get(branch);
+      HashMap<Change.Id, RevCommit> commits =
+          findCommits(targetBranch, branch.getParentKey());
+
+      Set<ObjectId> allParents = Sets.newHashSetWithExpectedSize(cs.size());
+      for (RevCommit commit : commits.values()) {
+        for (RevCommit parent : commit.getParents()) {
+          allParents.add(parent.getId());
+        }
+      }
+
+      for (ChangeData change : targetBranch) {
+        RevCommit commit = commits.get(change.getId());
+        boolean isMergeCommit = commit.getParentCount() > 1;
+        boolean isLastInChain = !allParents.contains(commit.getId());
+
+        // Recheck mergeability rather than using value stored in the index,
+        // which may be stale.
+        // TODO(dborowitz): This is ugly; consider providing a way to not read
+        // stored fields from the index in the first place.
+        change.setMergeable(null);
+        Boolean mergeable = change.isMergeable();
+        if (mergeable == null) {
+          // Skip whole check, cannot determine if mergeable
+          return null;
+        }
+        mergeabilityMap.put(change, mergeable);
+
+        if (isLastInChain && isMergeCommit && mergeable) {
+          for (ChangeData c : targetBranch) {
+            mergeabilityMap.put(c, true);
+          }
+          break;
+        }
+      }
+    }
+    return !mergeabilityMap.values().contains(Boolean.FALSE);
+  }
+
+  private HashMap<Change.Id, RevCommit> findCommits(
+      Collection<ChangeData> changes, Project.NameKey project)
+          throws IOException, OrmException, NoSuchChangeException {
+    HashMap<Change.Id, RevCommit> commits = new HashMap<>();
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk walk = new RevWalk(repo)) {
+      for (ChangeData change : changes) {
+        ObjectId objectId;
+        if (notesMigration.enabled()) {
+          ChangeNotes notes = changeNotesFactory.createChecked(change.getId());
+          objectId = notes.getRevision();
+        } else {
+          PatchSet patchSet = dbProvider.get().patchSets()
+              .get(change.change().currentPatchSetId());
+          String commitId = patchSet.getRevision().get();
+          objectId = ObjectId.fromString(commitId);
+        }
+        RevCommit commit = walk.parseCommit(objectId);
+        commits.put(change.getId(), commit);
+      }
+    }
+    return commits;
   }
 
   private RevisionResource onBehalfOf(RevisionResource rsrc, SubmitInput in)

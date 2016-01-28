@@ -311,7 +311,7 @@ public class ChangeData {
   private String commitMessage;
   private List<FooterLine> commitFooters;
   private PatchSet currentPatchSet;
-  private List<PatchSet> patchSets;
+  private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files = new HashMap<>();
@@ -692,10 +692,10 @@ public class ChangeData {
   }
 
   /**
-   * @return patches for the change.
+   * @return patches for the change, in patch set ID order.
    * @throws OrmException an error occurred reading the database.
    */
-  public List<PatchSet> patchSets() throws OrmException {
+  public Collection<PatchSet> patchSets() throws OrmException {
     if (patchSets == null) {
       patchSets = psUtil.byChange(db, notes());
     }

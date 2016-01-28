@@ -645,10 +645,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangesOptions() throws Exception {
+    EnumSet<ListChangesOption> options = EnumSet.allOf(ListChangesOption.class);
+    options.remove(ListChangesOption.CHECK);
     PushOneCommit.Result r = createChange();
     ChangeInfo result = Iterables.getOnlyElement(gApi.changes()
         .query(r.getChangeId())
-        .withOptions(EnumSet.allOf(ListChangesOption.class))
+        .withOptions(options)
         .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet()))
         .isEqualTo("Code-Review");
@@ -711,6 +713,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void check() throws Exception {
+    // TODO(dborowitz): Re-enable when ConsistencyChecker supports notedb.
+    assume().that(notesMigration.enabled()).isFalse();
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes()
         .id(r.getChangeId())

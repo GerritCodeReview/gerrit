@@ -781,8 +781,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   private PatchSet getCurrentPatchSet(String changeId) throws Exception {
-    return db.patchSets()
-        .get(getChange(changeId).currentPatchSetId());
+    return getOnlyElement(queryProvider.get().byKeyPrefix(changeId))
+        .currentPatchSet();
   }
 
   private static void assertByteArray(BinaryResult result, byte[] expected)

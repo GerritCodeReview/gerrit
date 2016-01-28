@@ -290,28 +290,28 @@ limitations under the License.
       },
 
       _handleReply: function(e) {
-        e.preventDefault();
+        this._preventDefaultAndBlur(e);
         this.fire('reply', {comment: this.comment}, {bubbles: false});
       },
 
       _handleDone: function(e) {
-        e.preventDefault();
+        this._preventDefaultAndBlur(e);
         this.fire('done', {comment: this.comment}, {bubbles: false});
       },
 
       _handleEdit: function(e) {
-        e.preventDefault();
+        this._preventDefaultAndBlur(e);
         this._editDraft = this.comment.message;
         this.editing = true;
       },
 
       _handleSave: function(e) {
-        e.preventDefault();
+        this._preventDefaultAndBlur(e);
         this.save();
       },
 
       _handleCancel: function(e) {
-        e.preventDefault();
+        this._preventDefaultAndBlur(e);
         if (this.comment.message == null || this.comment.message.length == 0) {
           this.fire('discard', null, {bubbles: false});
           return;
@@ -321,7 +321,7 @@ limitations under the License.
       },
 
       _handleDiscard: function(e) {
-        e.preventDefault();
+        this._preventDefaultAndBlur(e);
         if (!this.comment.__draft) {
           throw Error('Cannot discard a non-draft comment.');
         }
@@ -338,6 +338,11 @@ limitations under the License.
               'contact the PolyGerrit team for assistance.');
           this.disabled = false;
         }.bind(this));
+      },
+
+      _preventDefaultAndBlur: function(e) {
+        e.preventDefault();
+        Polymer.dom(e).rootTarget.blur();
       },
 
       _send: function(method, url) {

@@ -25,8 +25,12 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -48,6 +52,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 @NoHttpd
@@ -300,6 +305,49 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     c = db.changes().get(c.getId());
     assertThat(c.currentPatchSetId().get()).isEqualTo(1);
     assertThat(getPatchSet(ps1.getId())).isNotNull();
+  }
+
+  @Test
+  public void fixReturnsUpdatedValue() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    Change c = getChange(r);
+    c.setStatus(Change.Status.NEW);
+    db.changes().update(Collections.singleton(c));
+    ChangeUpdate changeUpdate =
+        changeUpdateFactory.create(
+            changeControlFactory.controlFor(
+                c, userFactory.create(admin.id)));
+    changeUpdate.setStatus(Change.Status.NEW);
+    changeUpdate.commit();
+    indexer.index(db, c);
+
+    ChangeInfo info = gApi.changes()
+        .id(r.getChangeId())
+        .check();
+    assertThat(info.problems).hasSize(1);
+    assertThat(info.problems.get(0).status).isNull();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+
+    info = gApi.changes()
+        .id(r.getChangeId())
+        .check(new FixInput());
+    assertThat(info.problems).hasSize(1);
+    assertThat(info.problems.get(0).status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+
+    info = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   @Test
@@ -645,5 +693,10 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
               return in.message;
             }
           })).containsExactly((Object[]) expected);
+  }
+
+  private Change getChange(PushOneCommit.Result r) throws Exception {
+    return db.changes().get(new Change.Id(
+        gApi.changes().id(r.getChangeId()).get()._number));
   }
 }

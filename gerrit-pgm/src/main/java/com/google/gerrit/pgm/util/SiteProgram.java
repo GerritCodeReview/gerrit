@@ -201,7 +201,9 @@ public abstract class SiteProgram extends AbstractProgram {
         buf.append(why.toString());
         why = why.getCause();
       }
-      throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
+      RuntimeException re = new RuntimeException("DbInjector failed", ce);
+      re.printStackTrace();
+      throw die(buf.toString(), re);
     }
   }
 

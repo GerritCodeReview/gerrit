@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453971177 +0100\nnonce ALmjDBUI3KoJYP7iRKGQYA84O0Cs0e6uD3VjyyRTHyTYYYPUk+jxZlXEc0RsjbdlVCR+O8t7x9TW\n\n0000000000000000000000000000000000000000 f2693acdaa4f6233fef6384d2bb27e852a5345de refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWqdbpAAoJEFG1/Zeg0O9RIZUH/jDA+xpE7bQ7MWg/qTtlR310\ndLXZoROQAmfLMHXB+PN0/V/yE0qnsSG1Lv/NlFP4iRVLP+qqzbbCQqDNEaQaK0Xd\nHWi/omVLZIYcAKeLuuKiTC86CAOkNUUCWoV2P0epHmiaswPpP/6zpgiTbG++Em+a\n0wWuFWlJZV/DRsEdcNZc4H/J6RQy+qVjhpXqV7qe3LY47QgW719IOu2/xG/1w9+k\nuObsExTlT4C8A6QzZKpgfa8Y230fQ2fPh5mz3a1geXkM+kSylVbJ/W9S26IZ8DN+\nP1qL8z7fgm0fUEAUJbnITcICzasUQe6TdRbYWg/d5bKd/geDpsGxVhDBoWsggcQ\u003d\n\u003du3aM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4823650_b2a7c0c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T13:08:24Z",
+      "side": 1,
+      "message": "It\u0027s going to bug me for a long time that Change-id is not Change-Id. Not that I disagree with this choice, I think it\u0027s correct to use capitalization consistent with the other notedb footers, it just looks wrong to me right now :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "f2693acdaa4f6233fef6384d2bb27e852a5345de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

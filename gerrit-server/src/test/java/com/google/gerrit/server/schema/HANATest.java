@@ -14,7 +14,6 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.hamcrest.CoreMatchers.sameInstance;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -43,6 +42,6 @@ public class HANATest {
 
   @Test
   public void testGetIndexScript() throws Exception {
-    assertThat(hana.getIndexScript()).isEqualTo(sameInstance(ScriptRunner.NOOP));
+    assertThat(hana.getIndexScript()).isSameAs(ScriptRunner.NOOP);
   }
 }

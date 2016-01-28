@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "744806fe_9e5bbd09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f41dd6f7_ba7491d3",
+      "range": {
+        "startLine": 26,
+        "startChar": 21,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d420d22f_9998bb5e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-28T06:34:14Z",
       "side": 1,
       "message": "I assume this is only when building with:\n\n --config repositories.jgit\u003dpath/to/dev/jgit\n\n?",
+      "range": {
+        "startLine": 36,
+        "startChar": 57,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_fe6681ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "Sure. Regular Gerrit build is not affected. Done.",
+      "parentUuid": "d420d22f_9998bb5e",
       "range": {
         "startLine": 36,
         "startChar": 57,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_7f210f7a",
+        "filename": "gerrit-openid/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f41dd6f7_3a8ac103",
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f41dd6f7_da75c5d2",
         "filename": "gerrit-patch-jgit/BUCK",
         "patchSetId": 16
@@ -76,6 +142,30 @@
       "writtenOn": "2016-01-28T06:34:14Z",
       "side": 1,
       "message": "use lower case for consistency?",
+      "range": {
+        "startLine": 19,
+        "startChar": 10,
+        "endLine": 19,
+        "endChar": 11
+      },
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9441fad9_df3a9ba3",
+        "filename": "gerrit-patch-jgit/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "It was moved from another place, whre it was calle like this.",
+      "parentUuid": "f41dd6f7_da75c5d2",
       "range": {
         "startLine": 19,
         "startChar": 10,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "744806fe_5e5695df",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "I added a comment on the place, wheren this dependency was removed from jgit-archive: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/73000/16/lib/jgit/BUCK",
+      "parentUuid": "d420d22f_d98e331d",
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f41dd6f7_fa7a09c2",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 16
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "744806fe_7e5351ee",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f41dd6f7_fa7a09c2",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 2
+      },
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d420d22f_f993f73f",
         "filename": "tools/pack_war.py",
         "patchSetId": 16
@@ -139,6 +271,30 @@
       "writtenOn": "2016-01-28T06:34:14Z",
       "side": 1,
       "message": "make this generic.  \"username\" or something like that.",
+      "range": {
+        "startLine": 43,
+        "startChar": 17,
+        "endLine": 43,
+        "endChar": 23
+      },
+      "revId": "db1d2f77c94a49000917d2a6524378b5f0ca8790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9441fad9_3f1b874e",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d420d22f_f993f73f",
       "range": {
         "startLine": 43,
         "startChar": 17,

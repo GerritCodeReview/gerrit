@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "744806fe_be60f9b1",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 0,
+      "message": "Before the refactoring, jgit-achive was depending transitively on //lib:tukaani-xz. After refactoring this was removed. Now this library must be passed directly to gerrit-server.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "64ceba260191ce694e279f7bee00cccce40963ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f41dd6f7_9a6f4d03",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 16
@@ -13,6 +36,30 @@
       "writtenOn": "2016-01-28T06:34:14Z",
       "side": 0,
       "message": "Ah, I see it was named with upper case E in the original version.",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "64ceba260191ce694e279f7bee00cccce40963ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_1e500ddf",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-28T10:49:55Z",
+      "side": 0,
+      "message": "Yes. That why I would prefer not to do any content changes.",
+      "parentUuid": "f41dd6f7_9a6f4d03",
       "range": {
         "startLine": 71,
         "startChar": 10,

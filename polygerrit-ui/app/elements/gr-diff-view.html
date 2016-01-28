@@ -168,6 +168,16 @@ limitations under the License.
           type: Function,
           value: function() { return this._handleKey.bind(this); },
         },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+      },
+
+      ready: function() {
+        app.accountReady.then(function() {
+          this._loggedIn = app.loggedIn;
+        }.bind(this));
       },
 
       attached: function() {
@@ -197,6 +207,13 @@ limitations under the License.
             if (this._changeNum) {
               e.preventDefault();
               page.show(this._computeChangePath(this._changeNum));
+            }
+            break;
+          case 65:  // 'a'
+            if (this._changeNum && this._loggedIn) {
+              e.preventDefault();
+              page.show(this._computeChangePath(this._changeNum) +
+                  '#show-reply-dropdown');
             }
             break;
         }

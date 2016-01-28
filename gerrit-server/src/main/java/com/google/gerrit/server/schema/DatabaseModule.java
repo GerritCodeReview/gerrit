@@ -18,17 +18,22 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 /** Loads the database with standard dependencies. */
 public class DatabaseModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
-        new TypeLiteral<Database<ReviewDb>>() {}).in(SINGLETON);
-    bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
-        ReviewDbDatabaseProvider.class).in(SINGLETON);
+    bind(NotesMigration.class);
+    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
+        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
+    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
+    bind(Key.get(schemaFactory, ReviewDbFactory.class))
+        .to(new TypeLiteral<Database<ReviewDb>>() {})
+        .in(SINGLETON);
   }
 }

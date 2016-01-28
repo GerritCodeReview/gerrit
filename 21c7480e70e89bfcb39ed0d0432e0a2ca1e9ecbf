@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1426ea4f_b3f918a6",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T18:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1426ea4f_f3ef90da",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1426ea4f_93f41cad",
         "filename": "polygerrit-ui/app/elements/gr-diff.html",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-28T18:18:33Z",
       "side": 1,
       "message": "This is just a deep copy, right?",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_53df642b",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T18:57:20Z",
+      "side": 1,
+      "message": "Sort of. If a child object is explicitly marked enumerable then it is copied (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).\n\nI’ll add a note about this.",
+      "parentUuid": "1426ea4f_93f41cad",
       "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1426ea4f_73dce035",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T18:57:20Z",
+      "side": 1,
+      "message": "No because if it fails it remains open to try again.",
+      "parentUuid": "f4823650_72dcf835",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4823650_12e9ecd2",
         "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2016-01-28T18:18:33Z",
       "side": 1,
       "message": "Well I hope this doesn\u0027t cause too much flakiness for us later on...",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_d21124a3",
+        "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T18:57:20Z",
+      "side": 1,
+      "message": "Agreed. If it becomes an issue then we can revisit. Better to test for security than not for now, though.",
+      "parentUuid": "f4823650_12e9ecd2",
       "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

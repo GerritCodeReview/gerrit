@@ -87,10 +87,11 @@ limitations under the License.
       .danger .action {
         margin-right: 0;
       }
-      .container:not(.draft) .actions :not(.reply):not(.done) {
+      .container:not(.draft) .actions :not(.reply):not(.quote):not(.done) {
         display: none;
       }
       .draft .reply,
+      .draft .quote,
       .draft .done {
         display: none;
       }
@@ -103,6 +104,7 @@ limitations under the License.
       }
       .editing .message,
       .editing .reply,
+      .editing .quote,
       .editing .done,
       .editing .edit {
         display: none;
@@ -136,11 +138,12 @@ limitations under the License.
           config="[[projectConfig.commentlinks]]"></gr-linked-text>
       <div class="actions" hidden$="[[!showActions]]">
         <button class="action reply" on-tap="_handleReply">Reply</button>
+        <button class="action quote" on-tap="_handleQuote">Quote</button>
         <button class="action done" on-tap="_handleDone">Done</button>
         <button class="action edit" on-tap="_handleEdit">Edit</button>
         <button class="action save" on-tap="_handleSave"
             disabled$="[[_computeSaveDisabled(_editDraft)]]">Save</button>
-        <button class="action cancel" on-tap="_handleCancel">Cancel</button>
+        <button class="action cancel" on-tap="_handleCancel" hidden>Cancel</button>
         <div class="danger">
           <button class="action discard" on-tap="_handleDiscard">Discard</button>
         </div>
@@ -209,6 +212,7 @@ limitations under the License.
 
       ready: function() {
         this._editDraft = (this.comment && this.comment.message) || '';
+        this.editing = this._editDraft.length == 0;
       },
 
       attached: function() {
@@ -251,9 +255,16 @@ limitations under the License.
       _editingChanged: function(editing) {
         this.$.container.classList.toggle('editing', editing);
         if (editing) {
+          var textarea = this.$.editTextarea.textarea;
+          // Put the cursor at the end always.
+          textarea.selectionStart = textarea.value.length;
+          textarea.selectionEnd = textarea.selectionStart;
           this.async(function() {
-            this.$.editTextarea.textarea.focus();
+            textarea.focus();
           }.bind(this));
+        }
+        if (this.comment && this.comment.id) {
+          this.$$('.cancel').hidden = !editing;
         }
         this._heightChanged();
       },
@@ -292,6 +303,12 @@ limitations under the License.
       _handleReply: function(e) {
         this._preventDefaultAndBlur(e);
         this.fire('reply', {comment: this.comment}, {bubbles: false});
+      },
+
+      _handleQuote: function(e) {
+        this._preventDefaultAndBlur(e);
+        this.fire('reply', {comment: this.comment, quote: true},
+            {bubbles: false});
       },
 
       _handleDone: function(e) {

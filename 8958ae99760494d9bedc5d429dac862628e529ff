@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4823650_920b9c73",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T19:00:04Z",
+      "side": 1,
+      "message": "80 char limit on JS",
+      "revId": "8958ae99760494d9bedc5d429dac862628e529ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

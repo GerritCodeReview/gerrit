@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1426ea4f_b310389c",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T20:36:37Z",
+      "side": 1,
+      "message": "This may not trigger a nav event but it does insert something into history. If you press \u0027a\u0027 then go back, it flickers to #show-reply-dropdown and leaves you on the change view, rather than going back to the diff view. (Chrome Linux at least)",
+      "revId": "094c444ca7c9d35f1fa691e18f9de6d73fa9f06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

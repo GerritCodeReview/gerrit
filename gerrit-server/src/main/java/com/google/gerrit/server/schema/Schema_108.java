@@ -84,9 +84,9 @@ public class Schema_108 extends SchemaVersion {
     ui.message("done");
   }
 
-  private static void updateProjectGroups(ReviewDb db, Repository repo,
+  private void updateProjectGroups(ReviewDb db, Repository repo,
       RevWalk rw, Set<Change.Id> changes, UpdateUI ui)
-          throws OrmException, IOException {
+      throws OrmException, IOException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -119,7 +119,8 @@ public class Schema_108 extends SchemaVersion {
       }
     }
 
-    GroupCollector collector = new GroupCollector(changeRefsBySha, db);
+    GroupCollector collector =
+        GroupCollector.createForSchemaUpgradeOnly(changeRefsBySha, db);
     RevCommit c;
     while ((c = rw.next()) != null) {
       collector.visit(c);

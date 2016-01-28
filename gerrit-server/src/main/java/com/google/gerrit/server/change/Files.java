@@ -58,11 +58,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -214,12 +213,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       List<String> r = scan(userId, resource.getPatchSet().getId());
 
       if (r.isEmpty() && 1 < resource.getPatchSet().getPatchSetId()) {
-        for (Integer id : reverseSortPatchSets(resource)) {
-          PatchSet.Id old = new PatchSet.Id(resource.getChange().getId(), id);
-          List<String> o = scan(userId, old);
+        for (PatchSet ps : reversePatchSets(resource)) {
+          List<String> o = scan(userId, ps.getId());
           if (!o.isEmpty()) {
             try {
-              r = copy(Sets.newHashSet(o), old, resource, userId);
+              r = copy(Sets.newHashSet(o), ps.getId(), resource, userId);
             } catch (IOException | PatchListNotAvailableException e) {
               log.warn("Cannot copy patch review flags", e);
             }
@@ -241,19 +239,14 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       return r;
     }
 
-    private List<Integer> reverseSortPatchSets(
-        RevisionResource resource) throws OrmException {
-      SortedSet<Integer> ids = Sets.newTreeSet();
-      for (PatchSet p : db.get().patchSets()
-          .byChange(resource.getChange().getId())) {
-        if (p.getPatchSetId() < resource.getPatchSet().getPatchSetId()) {
-          ids.add(p.getPatchSetId());
-        }
-      }
-
-      List<Integer> r = Lists.newArrayList(ids);
-      Collections.reverse(r);
-      return r;
+    private List<PatchSet> reversePatchSets(RevisionResource resource)
+        throws OrmException {
+      Collection<PatchSet> patchSets =
+          psUtil.byChange(db.get(), resource.getNotes());
+      List<PatchSet> list = (patchSets instanceof List) ?
+          (List<PatchSet>) patchSets
+          : new ArrayList<>(patchSets);
+      return Lists.reverse(list);
     }
 
     private List<String> copy(Set<String> paths, PatchSet.Id old,

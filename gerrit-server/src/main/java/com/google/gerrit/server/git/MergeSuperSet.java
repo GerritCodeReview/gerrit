@@ -66,6 +66,7 @@ public class MergeSuperSet {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeSet.Factory changeSetFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager repoManager;
   private final Config cfg;
@@ -73,10 +74,12 @@ public class MergeSuperSet {
   @Inject
   MergeSuperSet(@GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
+      ChangeSet.Factory changeSetFactory,
       Provider<InternalChangeQuery> queryProvider,
       GitRepositoryManager repoManager) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
+    this.changeSetFactory = changeSetFactory;
     this.queryProvider = queryProvider;
     this.repoManager = repoManager;
   }
@@ -86,9 +89,9 @@ public class MergeSuperSet {
       OrmException {
     ChangeData cd = changeDataFactory.create(db, change.getId());
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
+      return completeChangeSetIncludingTopics(db, changeSetFactory.create(cd));
     } else {
-      return completeChangeSetWithoutTopic(db, new ChangeSet(cd));
+      return completeChangeSetWithoutTopic(db, changeSetFactory.create(cd));
     }
   }
 
@@ -149,7 +152,7 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret);
+    return changeSetFactory.create(ret);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -170,7 +173,7 @@ public class MergeSuperSet {
           topicsTraversed.add(topic);
         }
       }
-      changes = new ChangeSet(chgs);
+      changes = changeSetFactory.create(chgs);
       newCs = completeChangeSetWithoutTopic(db, changes);
     }
     return newCs;

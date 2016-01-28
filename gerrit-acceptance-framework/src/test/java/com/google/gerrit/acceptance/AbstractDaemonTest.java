@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
@@ -123,7 +124,7 @@ public abstract class AbstractDaemonTest {
   protected AccountCache accountCache;
 
   @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
+  protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   protected PushOneCommit.Factory pushFactory;
@@ -420,6 +421,25 @@ public abstract class AbstractDaemonTest {
   protected PushOneCommit.Result createChange() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    return result;
+  }
+
+  protected PushOneCommit.Result createChange(String subject, String fileName,
+      String content, List<RevCommit> parents, String ref) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        subject, fileName, content);
+
+    if (parents != null) {
+      push.setParents(parents);
+    }
+
+    PushOneCommit.Result result;
+    if (fileName.isEmpty()) {
+      result = push.execute(ref);
+    } else {
+      result = push.to(ref);
+    }
     result.assertOkStatus();
     return result;
   }

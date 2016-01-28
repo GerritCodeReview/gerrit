@@ -83,6 +83,7 @@ public class PatchSetUtil {
     db.patchSets().insert(Collections.singleton(ps));
 
     update.setCommit(rw, commit, pushCertificate);
+    update.setGroups(groups);
     if (draft) {
       update.setPatchSetState(DRAFT);
     }

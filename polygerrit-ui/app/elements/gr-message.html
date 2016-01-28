@@ -72,7 +72,8 @@ limitations under the License.
       .collapsed .message {
         display: inline;
       }
-      .collapsed gr-comment-list {
+      .collapsed gr-comment-list,
+      .collapsed .replyContainer {
         display: none;
       }
       .collapsed .name {
@@ -86,6 +87,12 @@ limitations under the License.
         position: absolute;
         right: var(--default-horizontal-margin);
         top: 10px;
+      }
+      .replyContainer {
+        padding: .5em 0 1em;
+      }
+      .reply {
+        padding: .2em .6em .3em;
       }
     </style>
     <div class$="[[_computeClass(expanded, showAvatar)]]">
@@ -107,6 +114,9 @@ limitations under the License.
           <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
         </a>
       </div>
+      <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
+        <button class="reply" on-tap="_handleReplyTap">Reply</button>
+      </div>
     </div>
   </template>
   <script>
@@ -120,6 +130,12 @@ limitations under the License.
        * Fired when this message's permalink is tapped.
        *
        * @event scroll-to
+       */
+
+      /**
+       * Fired when this message's reply link is tapped.
+       *
+       * @event reply
        */
 
       listeners: {
@@ -140,6 +156,10 @@ limitations under the License.
           reflectToAttribute: true,
         },
         showAvatar: {
+          type: Boolean,
+          value: false,
+        },
+        showReplyButton: {
           type: Boolean,
           value: false,
         },
@@ -191,6 +211,11 @@ limitations under the License.
         // Change the URL but don’t trigger a nav event. Otherwise it will
         // reload the page.
         page.show(window.location.pathname + hash, null, false);
+      },
+
+      _handleReplyTap: function(e) {
+        e.preventDefault();
+        this.fire('reply', {message: this.message});
       },
     });
   })();

@@ -258,7 +258,9 @@ limitations under the License.
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
           comments="[[_comments]]"
-          project-config="[[_projectConfig]]"></gr-messages-list>
+          project-config="[[_projectConfig]]"
+          show-reply-buttons="[[_loggedIn]]"
+          on-reply="_handleMessageReply"></gr-messages-list>
     </div>
   </template>
   <script>
@@ -368,6 +370,14 @@ limitations under the License.
           return;
         }
         page.show(this._computeChangePath(this._changeNum) + '/' + patchNum);
+      },
+
+      _handleMessageReply: function(e) {
+        var msg = e.detail.message.message;
+        var quoteStr = msg.split('\n').map(
+            function(line) { return '> ' + line; }).join('\n') + '\n\n';
+        this.$.replyDropdown.draft += quoteStr;
+        this.$.replyDropdown.open();
       },
 
       _handleReplySent: function(e) {

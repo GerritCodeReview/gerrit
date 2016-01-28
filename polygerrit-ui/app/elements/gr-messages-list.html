@@ -44,6 +44,7 @@ limitations under the License.
                   message="[[message]]"
                   comments="[[_computeCommentsForMessage(comments, message, index)]]"
                   project-config="[[projectConfig]]"
+                  show-reply-button="[[showReplyButtons]]"
                   on-scroll-to="_handleScrollTo"
                   data-message-id$="[[message.id]]"></gr-message>
     </template>
@@ -64,6 +65,10 @@ limitations under the License.
         comments: Object,
         projectConfig: Object,
         topMargin: Number,
+        showReplyButtons: {
+          type: Boolean,
+          value: false,
+        },
       },
 
       scrollToMessage: function(messageID) {

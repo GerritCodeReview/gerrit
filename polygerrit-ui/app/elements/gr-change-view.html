@@ -400,14 +400,24 @@ limitations under the License.
         }
         this._reload().then(function() {
           this.$.messageList.topMargin = this._headerEl.offsetHeight;
+
           // Allow the message list to render before scrolling.
           this.async(function() {
-            var prefix = '#message-';
-            if (window.location.hash.indexOf(prefix) == 0) {
-              this.$.messageList.scrollToMessage(
-                  window.location.hash.substr(prefix.length));
+            var msgPrefix = '#message-';
+            var hash = window.location.hash;
+            if (hash.indexOf(msgPrefix) == 0) {
+              this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
             }
           }.bind(this), 1);
+
+          app.accountReady.then(function() {
+            if (!this._loggedIn) { return; }
+
+            if (window.sessionStorage.getItem('changeView.showReplyDropdown')) {
+              this.$.replyDropdown.open();
+              window.sessionStorage.removeItem('changeView.showReplyDropdown');
+            }
+          }.bind(this));
         }.bind(this));
       },
 

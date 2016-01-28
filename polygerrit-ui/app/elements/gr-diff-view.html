@@ -168,6 +168,16 @@ limitations under the License.
           type: Function,
           value: function() { return this._handleKey.bind(this); },
         },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+      },
+
+      ready: function() {
+        app.accountReady.then(function() {
+          this._loggedIn = app.loggedIn;
+        }.bind(this));
       },
 
       attached: function() {
@@ -193,6 +203,13 @@ limitations under the License.
             e.preventDefault();
             this._navToFile(this._fileList, 1);
             break;
+          case 65:  // 'a'
+            if (!this._loggedIn) { return; }
+
+            // Values can only be strings.
+            window.sessionStorage.setItem(
+                'changeView.showReplyDropdown', 'true');
+            // No break here. Allow to fall through.
           case 85:  // 'u'
             if (this._changeNum) {
               e.preventDefault();

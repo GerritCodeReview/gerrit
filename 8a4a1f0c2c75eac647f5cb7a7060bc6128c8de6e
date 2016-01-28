@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d420d22f_b9225fe0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-28T01:29:03Z",
+      "side": 1,
+      "message": "Mention that this version includes support for SAP HANA?",
+      "revId": "8a4a1f0c2c75eac647f5cb7a7060bc6128c8de6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

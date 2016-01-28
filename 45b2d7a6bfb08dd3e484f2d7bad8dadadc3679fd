@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1426ea4f_d3985491",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T04:39:41Z",
+      "side": 1,
+      "message": "s/emphasized/primary",
+      "revId": "45b2d7a6bfb08dd3e484f2d7bad8dadadc3679fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_d2984491",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T04:39:41Z",
+      "side": 1,
+      "message": "Can you make these into proper JS enums?\n\nvar ChangeAction \u003d {\n  ABANDON: \u0027abandon\u0027,\n  RESTORE: \u0027restore\u0027,\n};\n\nIt will also reduce confusion a little since ChangeActions and changeActions are used within the code to refer to different things.\n\nComputing an array of the values on the fly isn’t that costly.",
+      "revId": "45b2d7a6bfb08dd3e484f2d7bad8dadadc3679fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_92a2bcb9",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T04:39:41Z",
+      "side": 1,
+      "message": "why not just `actions`? the element name says it all.",
+      "revId": "45b2d7a6bfb08dd3e484f2d7bad8dadadc3679fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_f39d507e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T04:39:41Z",
+      "side": 1,
+      "message": "I’m not sure this works. If it does it’s not the documented way of declaring observers that watch multiple properties.\n\nObservers should be declared outside of the properties object. Do a search for “observers: [” to see an example.",
+      "revId": "45b2d7a6bfb08dd3e484f2d7bad8dadadc3679fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_f29d487e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T04:39:41Z",
+      "side": 1,
+      "message": "indexOf(a) \u003d\u003d -1 to be explicit.",
+      "revId": "45b2d7a6bfb08dd3e484f2d7bad8dadadc3679fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

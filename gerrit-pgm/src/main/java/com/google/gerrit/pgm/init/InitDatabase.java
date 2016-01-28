@@ -86,6 +86,8 @@ class InitDatabase implements InitStep {
       libraries.oracleDriver.downloadRequired();
     } else if (dci instanceof DB2Initializer) {
       libraries.db2Driver.downloadRequired();
+    } else if (dci instanceof HANAInitializer) {
+      libraries.hanaDriver.downloadRequired();
     }
 
     dci.initConfig(database);

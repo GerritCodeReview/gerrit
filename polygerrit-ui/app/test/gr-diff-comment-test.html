@@ -57,9 +57,19 @@ limitations under the License.
 
     test('proper event fires on reply', function(done) {
       element.addEventListener('reply', function(e) {
+        assert.ok(e.detail.comment);
         done();
       });
       MockInteractions.tap(element.$$('.reply'));
+    });
+
+    test('proper event fires on quote', function(done) {
+      element.addEventListener('reply', function(e) {
+        assert.ok(e.detail.comment);
+        assert.isTrue(e.detail.quote);
+        done();
+      });
+      MockInteractions.tap(element.$$('.quote'));
     });
 
     test('proper event fires on done', function(done) {
@@ -151,14 +161,16 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
       assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
+      assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
 
       element.editing = true;
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible')
       assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
-      assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
+      assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
+      assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
 
       element.draft = false,
@@ -168,10 +180,13 @@ limitations under the License.
           'discard is not visible');
       assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
-      assert.isTrue(isVisible(element.$$('.reply')), 'edit is visible');
-      assert.isTrue(isVisible(element.$$('.done')), 'edit is visible');
+      assert.isTrue(isVisible(element.$$('.reply')), 'reply is visible');
+      assert.isTrue(isVisible(element.$$('.quote')), 'quote is visible');
+      assert.isTrue(isVisible(element.$$('.done')), 'done is visible');
 
-      element.draft = true;
+      element.comment.id = 'foo';
+      element.editing = true;
+      assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
     });
 
     test('draft creation/cancelation', function(done) {

@@ -182,6 +182,22 @@ limitations under the License.
       commentEl.fire('reply', {comment: commentEl.comment}, {bubbles: false});
     });
 
+    test('quote reply', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('reply', function() {
+        var drafts = element._orderedComments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('reply', {comment: commentEl.comment, quote: true},
+          {bubbles: false});
+    });
+
     test('done', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';

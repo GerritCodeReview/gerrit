@@ -114,8 +114,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       return Collections.emptyList();
     } else {
       List<RevisionResource> out = Lists.newArrayList();
-      for (PatchSet ps : dbProvider.get().patchSets()
-          .byChange(change.getId())) {
+      for (PatchSet ps : psUtil.byChange(dbProvider.get(), change.getNotes())) {
         if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
           out.add(new RevisionResource(change, ps));
         }

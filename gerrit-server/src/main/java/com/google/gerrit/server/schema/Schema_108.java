@@ -27,8 +27,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.GroupCollector;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -52,12 +54,18 @@ import java.util.SortedSet;
 
 public class Schema_108 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
+  private final ChangeNotes.Factory notesFactory;
+  private final PatchSetUtil psUtil;
 
   @Inject
   Schema_108(Provider<Schema_107> prior,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      ChangeNotes.Factory notesFactory,
+      PatchSetUtil psUtil) {
     super(prior);
     this.repoManager = repoManager;
+    this.notesFactory = notesFactory;
+    this.psUtil = psUtil;
   }
 
   @Override
@@ -84,9 +92,9 @@ public class Schema_108 extends SchemaVersion {
     ui.message("done");
   }
 
-  private static void updateProjectGroups(ReviewDb db, Repository repo,
+  private void updateProjectGroups(ReviewDb db, Repository repo,
       RevWalk rw, Set<Change.Id> changes, UpdateUI ui)
-          throws OrmException, IOException {
+      throws OrmException, IOException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -119,7 +127,8 @@ public class Schema_108 extends SchemaVersion {
       }
     }
 
-    GroupCollector collector = new GroupCollector(changeRefsBySha, db);
+    GroupCollector collector =
+        new GroupCollector(changeRefsBySha, db, psUtil, notesFactory);
     RevCommit c;
     while ((c = rw.next()) != null) {
       collector.visit(c);

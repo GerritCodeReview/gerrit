@@ -117,10 +117,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private Set<String> getAllGroups(ChangeNotes notes) throws OrmException {
     Set<String> result = new HashSet<>();
     for (PatchSet ps : psUtil.byChange(db.get(), notes)) {
-      List<String> groups = ps.getGroups();
-      if (groups != null) {
-        result.addAll(groups);
-      }
+      result.addAll(ps.getGroups());
     }
     return result;
   }

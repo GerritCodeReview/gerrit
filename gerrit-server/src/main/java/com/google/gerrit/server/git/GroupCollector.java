@@ -30,6 +30,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -241,9 +242,9 @@ public class GroupCollector {
     }
   }
 
-  public SetMultimap<ObjectId, String> getGroups() throws OrmException {
+  public SortedSetMultimap<ObjectId, String> getGroups() throws OrmException {
     done = true;
-    SetMultimap<ObjectId, String> result = MultimapBuilder
+    SortedSetMultimap<ObjectId, String> result = MultimapBuilder
         .hashKeys(groups.keySet().size())
         .treeSetValues()
         .build();

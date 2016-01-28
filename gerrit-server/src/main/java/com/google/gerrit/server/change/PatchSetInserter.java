@@ -61,6 +61,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class PatchSetInserter extends BatchUpdate.Op {
   private static final Logger log =
@@ -93,7 +95,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
   private boolean draft;
-  private Iterable<String> groups;
+  private List<String> groups = Collections.emptyList();
   private boolean runHooks = true;
   private boolean sendMail = true;
   private boolean allowClosed;
@@ -158,7 +160,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public PatchSetInserter setGroups(Iterable<String> groups) {
+  public PatchSetInserter setGroups(List<String> groups) {
+    checkNotNull(groups, "groups may not be null");
     this.groups = groups;
     return this;
   }
@@ -217,8 +220,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
           change.getId(), change.getStatus().name().toLowerCase()));
     }
 
-    Iterable<String> newGroups = groups;
-    if (newGroups == null) {
+    List<String> newGroups = groups;
+    if (newGroups.isEmpty()) {
       PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
       newGroups = prevPs != null ? prevPs.getGroups() : null;
     }

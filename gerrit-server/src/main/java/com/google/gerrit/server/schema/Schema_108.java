@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -138,7 +139,7 @@ public class Schema_108 extends SchemaVersion {
       for (PatchSet.Id psId : patchSetsBySha.get(e.getKey())) {
         PatchSet ps = patchSets.get(psId);
         if (ps != null) {
-          ps.setGroups(e.getValue());
+          ps.setGroups(ImmutableList.copyOf(e.getValue()));
         }
       }
     }

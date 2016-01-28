@@ -348,7 +348,7 @@ class ChangeNotesParser implements AutoCloseable {
       ps = new PatchSet(psId);
       ps.setRevision(PARTIAL_PATCH_SET);
       patchSets.put(psId, ps);
-    } else if (ps.getGroups() != null) {
+    } else if (!ps.getGroups().isEmpty()) {
       return;
     }
     ps.setGroups(PatchSet.splitGroups(groupsStr));

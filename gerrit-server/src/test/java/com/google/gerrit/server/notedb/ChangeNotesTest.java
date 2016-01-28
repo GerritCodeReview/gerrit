@@ -689,7 +689,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id psId1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).isNull();
+    assertThat(notes.getPatchSets().get(psId1).getGroups()).isEmpty();
 
     // ps1
     ChangeUpdate update = newUpdate(c, changeOwner);

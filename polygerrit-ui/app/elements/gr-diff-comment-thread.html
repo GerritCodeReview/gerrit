@@ -41,7 +41,6 @@ limitations under the License.
             change-num="[[changeNum]]"
             patch-num="[[patchNum]]"
             draft="[[comment.__draft]]"
-            editing="[[!comment.message]]"
             show-actions="[[showActions]]"
             project-config="[[projectConfig]]"
             on-height-change="_handleCommentHeightChange"
@@ -158,9 +157,22 @@ limitations under the License.
 
       _handleCommentReply: function(e) {
         var comment = e.detail.comment;
-        this.push('comments',
-            this._newReply(comment.id, comment.line, this.path));
-        this.async(this._heightChanged.bind(this), 1);
+        var quoteStr;
+        if (e.detail.quote) {
+          var msg = comment.message;
+          var quoteStr = msg.split('\n').map(
+              function(line) { return ' > ' + line; }).join('\n') + '\n\n';
+        }
+        var reply =
+            this._newReply(comment.id, comment.line, this.path, quoteStr);
+        this.push('comments', reply);
+
+        // Allow the reply to render in the dom-repeat.
+        this.async(function() {
+          var commentEl = this._commentElWithDraftID(reply.__draftID);
+          commentEl.editing = true;
+          this.async(this._heightChanged.bind(this), 1);
+        }.bind(this), 1);
       },
 
       _handleCommentDone: function(e) {
@@ -170,22 +182,24 @@ limitations under the License.
 
         // Allow the reply to render in the dom-repeat.
         this.async(function() {
-          var commentEls =
-              Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
-          for (var i = 0; i < commentEls.length; i++) {
-            if (commentEls[i].comment.__draftID == reply.__draftID) {
-              commentEls[i].save();
-              return;
-            }
-          }
-          this._heightChanged();
+          var commentEl = this._commentElWithDraftID(reply.__draftID);
+          commentEl.save();
+          this.async(this._heightChanged.bind(this), 1);
         }.bind(this), 1);
       },
 
+      _commentElWithDraftID: function(draftID) {
+        var commentEls =
+            Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+        for (var i = 0; i < commentEls.length; i++) {
+          if (commentEls[i].comment.__draftID == draftID) {
+            return commentEls[i];
+          }
+        }
+        return null;
+      },
+
       _newReply: function(inReplyTo, line, path, opt_message) {
-        // TODO(andybons): These ad-hoc properties should be masked by a
-        // lightweight model class:
-        // https://code.google.com/p/gerrit/issues/detail?id=3729
         var c = {
           __draft: true,
           __draftID: Math.random().toString(36),

@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -61,10 +61,13 @@ public class PatchSetUtil {
     return notes.load().getPatchSets().get(psId);
   }
 
-  public ImmutableList<PatchSet> byChange(ReviewDb db, ChangeNotes notes)
+  public ImmutableCollection<PatchSet> byChange(ReviewDb db, ChangeNotes notes)
       throws OrmException {
-    return ChangeUtil.PS_ID_ORDER.immutableSortedCopy(
-        db.patchSets().byChange(notes.getChangeId()));
+    if (!migration.readChanges()) {
+      return ChangeUtil.PS_ID_ORDER.immutableSortedCopy(
+          db.patchSets().byChange(notes.getChangeId()));
+    }
+    return notes.load().getPatchSets().values();
   }
 
   public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,

@@ -54,6 +54,9 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -214,6 +217,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    */
   private String problemsForSubmittingChangeset(
       ChangeSet cs, IdentifiedUser identifiedUser) {
+    boolean changeSetHasMergeableMergeCommit = false;
+    boolean changeSetHasNonMergeableChange = false;
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
@@ -221,6 +226,17 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         ChangeControl changeControl = changeControlFactory
             .controlFor(psId.getParentKey(), identifiedUser);
         ChangeData c = changeDataFactory.create(db, changeControl);
+
+        boolean isMergeCommit = false;
+        String sha1 = db.patchSets().get(psId).getRevision().get();
+        try (Repository repo = repoManager.openRepository(
+            changeControl.getProject().getNameKey());
+            RevWalk walk = new RevWalk(repo)) {
+          RevCommit commit = walk.parseCommit(ObjectId.fromString(sha1));
+          if (commit.getParentCount() > 1) {
+            isMergeCommit = true;
+          }
+        }
 
         if (!changeControl.isVisible(db)) {
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
@@ -239,15 +255,21 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           return CLICK_FAILURE_TOOLTIP;
         }
         if (!mergeable) {
-          return CLICK_FAILURE_OTHER_TOOLTIP;
+          changeSetHasNonMergeableChange = true;
+        }
+        if (isMergeCommit && mergeable) {
+          changeSetHasMergeableMergeCommit = true;
         }
         MergeOp.checkSubmitRule(c);
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (NoSuchChangeException | OrmException e) {
+    } catch (NoSuchChangeException | OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
+    }
+    if (changeSetHasNonMergeableChange && !changeSetHasMergeableMergeCommit) {
+      return CLICK_FAILURE_OTHER_TOOLTIP;
     }
     return null;
   }

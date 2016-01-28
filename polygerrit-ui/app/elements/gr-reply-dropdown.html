@@ -126,7 +126,7 @@ limitations under the License.
               placeholder="Say something..."
               disabled="{{disabled}}"
               rows="1"
-              bind-value="{{_draft}}"></iron-autogrow-textarea>
+              bind-value="{{draft}}"></iron-autogrow-textarea>
         </section>
         <section>
           <template is="dom-repeat"
@@ -181,13 +181,16 @@ limitations under the License.
           value: false,
           reflectToAttribute: true,
         },
+        draft: {
+          type: String,
+          value: '',
+        },
         labels: Object,
         permittedLabels: Object,
 
         _account: Object,
         _drafts: Object,
         _xhrPromise: Object,  // Used for testing.
-        _draft: String,
       },
 
       get opened() {
@@ -289,13 +292,13 @@ limitations under the License.
           selectedVal = parseInt(selectedVal, 10);
           obj.labels[label] = selectedVal;
         }
-        if (this._draft != null) {
-          obj.message = this._draft;
+        if (this.draft != null) {
+          obj.message = this.draft;
         }
         this.disabled = true;
         this._send(obj).then(function(req) {
           this.fire('send', null, {bubbles: false});
-          this._draft = '';
+          this.draft = '';
           this.disabled = false;
           this.$.dropdown.close();
         }.bind(this)).catch(function(err) {

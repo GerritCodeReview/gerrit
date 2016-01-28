@@ -23,6 +23,30 @@
       "revId": "f2693acdaa4f6233fef6384d2bb27e852a5345de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744806fe_9e6dfd9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-28T13:12:30Z",
+      "side": 1,
+      "message": "These were exactly my thoughts when I typed it :D",
+      "parentUuid": "f4823650_b2a7c0c8",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "f2693acdaa4f6233fef6384d2bb27e852a5345de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

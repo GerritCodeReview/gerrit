@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "9441fad9_9ff2d34f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/HANAInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-01-28T07:44:29Z",
+      "side": 1,
+      "message": "-1 Ints.tryParse enforces us to check for null, which is not any better, at least.",
+      "parentUuid": "d437f269_21efeea8",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b43efe47_a06f7a02",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
         "patchSetId": 2

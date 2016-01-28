@@ -40,15 +40,16 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.collect.SortedSetMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -1690,16 +1691,16 @@ public class ReceiveCommits {
     }
 
     try {
-      Multimap<ObjectId, String> groups = groupCollector.getGroups();
+      SortedSetMultimap<ObjectId, String> groups = groupCollector.getGroups();
       for (CreateRequest create : newChanges) {
         batch.addCommand(create.cmd);
-        create.groups = groups.get(create.commitId);
+        create.groups = ImmutableList.copyOf(groups.get(create.commitId));
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
-        replace.groups = groups.get(replace.newCommitId);
+        replace.groups = ImmutableList.copyOf(groups.get(replace.newCommitId));
       }
       for (UpdateGroupsRequest update : updateGroups) {
-        update.groups = Sets.newHashSet(groups.get(update.commit));
+        update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
     } catch (OrmException e) {
       log.error("Error collecting groups for changes", e);
@@ -1744,7 +1745,7 @@ public class ReceiveCommits {
     final ChangeInserter ins;
     Change.Id changeId;
     Change change;
-    Collection<String> groups;
+    List<String> groups = ImmutableList.of();
 
     CreateRequest(RevCommit c, String refName)
         throws OrmException {
@@ -1974,7 +1975,7 @@ public class ReceiveCommits {
     String mergedIntoRef;
     boolean skip;
     private PatchSet.Id priorPatchSet;
-    Collection<String> groups;
+    List<String> groups = ImmutableList.of();
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
         final ReceiveCommand cmd, final boolean checkMergedInto) {
@@ -2276,10 +2277,12 @@ public class ReceiveCommits {
           return null;
         }
 
-        Iterable<String> newGroups = groups;
-        if (newGroups == null) {
+        List<String> newGroups = groups;
+        if (newGroups.isEmpty()) {
           PatchSet prevPs = psUtil.current(db, update.getChangeNotes());
-          newGroups = prevPs != null ? prevPs.getGroups() : null;
+          newGroups = prevPs != null
+              ? prevPs.getGroups()
+              : ImmutableList.<String> of();
         }
 
         boolean draft = magicBranch != null && magicBranch.draft;
@@ -2429,7 +2432,7 @@ public class ReceiveCommits {
   private class UpdateGroupsRequest {
     private final PatchSet.Id psId;
     private final RevCommit commit;
-    Set<String> groups;
+    List<String> groups = ImmutableList.of();
 
     UpdateGroupsRequest(Ref ref, RevCommit commit) {
       this.psId = checkNotNull(PatchSet.Id.fromRef(ref.getName()));

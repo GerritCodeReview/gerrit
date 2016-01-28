@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
@@ -411,7 +412,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psState = psState;
   }
 
-  public void setGroups(Iterable<String> groups) {
+  public void setGroups(List<String> groups) {
+    checkNotNull(groups, "groups may not be null");
     this.groups = groups;
   }
 

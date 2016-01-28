@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
@@ -37,6 +38,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.List;
 
 /** Utilities for manipulating patch sets. */
 @Singleton
@@ -69,8 +71,9 @@ public class PatchSetUtil {
 
   public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,
       PatchSet.Id psId, ObjectId commit, boolean draft,
-      Iterable<String> groups, String pushCertificate)
+      List<String> groups, String pushCertificate)
       throws OrmException, IOException {
+    checkNotNull(groups, "groups may not be null");
     ensurePatchSetMatches(psId, update);
 
     PatchSet ps = new PatchSet(psId);
@@ -83,6 +86,7 @@ public class PatchSetUtil {
     db.patchSets().insert(Collections.singleton(ps));
 
     update.setCommit(rw, commit, pushCertificate);
+    update.setGroups(groups);
     if (draft) {
       update.setPatchSetState(DRAFT);
     }
@@ -121,7 +125,7 @@ public class PatchSetUtil {
   }
 
   public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps,
-      Iterable<String> groups) throws OrmException {
+      List<String> groups) throws OrmException {
     ps.setGroups(groups);
     update.setGroups(groups);
     db.patchSets().update(Collections.singleton(ps));

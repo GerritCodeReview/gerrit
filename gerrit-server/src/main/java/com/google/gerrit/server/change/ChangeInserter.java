@@ -100,7 +100,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private Change.Status status;
   private String topic;
   private String message;
-  private Iterable<String> groups;
+  private List<String> groups = Collections.emptyList();
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
   private NotifyHandling notify = NotifyHandling.ALL;
@@ -238,7 +238,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setGroups(Iterable<String> groups) {
+  public ChangeInserter setGroups(List<String> groups) {
+    checkNotNull(groups, "groups may not be empty");
     checkState(patchSet == null,
         "setGroups(Iterable<String>) only valid before creating change");
     this.groups = groups;
@@ -319,8 +320,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     update.setTopic(change.getTopic());
 
     boolean draft = status == Change.Status.DRAFT;
-    Iterable<String> newGroups = groups;
-    if (newGroups == null) {
+    List<String> newGroups = groups;
+    if (newGroups.isEmpty()) {
       newGroups = GroupCollector.getDefaultGroups(commit);
     }
     patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), update, psId,

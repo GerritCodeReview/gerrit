@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -151,7 +152,8 @@ public class CherryPick extends SubmitStrategy {
       PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
       PatchSet newPs = args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
           ctx.getUpdate(psId), psId, newCommit, false,
-          prevPs != null ? prevPs.getGroups() : null, null);
+          prevPs != null ? prevPs.getGroups() : ImmutableList.<String> of(),
+          null);
       ctx.getChange().setCurrentPatchSet(patchSetInfo);
       ctx.saveChange();
 

@@ -34,9 +34,11 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeDelete;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -398,6 +400,7 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final NotesMigration notesMigration;
+  private final PatchLineCommentsUtil plcUtil;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -424,6 +427,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeUpdate.Factory changeUpdateFactory,
       GitReferenceUpdated gitRefUpdated,
       NotesMigration notesMigration,
+      PatchLineCommentsUtil plcUtil,
       @GerritPersonIdent PersonIdent serverIdent,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
@@ -436,6 +440,7 @@ public class BatchUpdate implements AutoCloseable {
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.notesMigration = notesMigration;
+    this.plcUtil = plcUtil;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -584,23 +589,29 @@ public class BatchUpdate implements AutoCloseable {
           db.rollback();
         }
 
-        if (dirty) {
-          BatchMetaDataUpdate bmdu = null;
-          for (ChangeUpdate u : ctx.updates.values()) {
-            if (bmdu == null) {
-              bmdu = u.openUpdate();
-            }
-            u.writeCommit(bmdu);
-          }
-          if (bmdu != null) {
-            bmdu.commit();
-          }
+        if (!dirty) {
+          return;
+        }
 
-          if (ctx.deleted) {
-            indexFutures.add(indexer.deleteAsync(id));
-          } else {
-            indexFutures.add(indexer.indexAsync(id));
+        if (ctx.deleted) {
+          if (notesMigration.writeChanges()) {
+            new ChangeDelete(plcUtil, getRepository(), ctx.getNotes()).delete();
           }
+          indexFutures.add(indexer.deleteAsync(id));
+        } else {
+          if (notesMigration.writeChanges()) {
+            BatchMetaDataUpdate bmdu = null;
+            for (ChangeUpdate u : ctx.updates.values()) {
+              if (bmdu == null) {
+                bmdu = u.openUpdate();
+              }
+              u.writeCommit(bmdu);
+            }
+            if (bmdu != null) {
+              bmdu.commit();
+            }
+          }
+          indexFutures.add(indexer.indexAsync(id));
         }
       }
     } catch (Exception e) {

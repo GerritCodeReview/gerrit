@@ -22,26 +22,31 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class GetRelatedIT extends AbstractDaemonTest {
   @Inject
@@ -49,9 +54,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Inject
   private ChangeEditModifier editModifier;
-
-  @Inject
-  private BatchUpdate.Factory updateFactory;
 
   @Test
   public void getRelatedNoResult() throws Exception {
@@ -572,8 +574,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
 
     // Pretend PS1,1 was pushed before the groups field was added.
-    setGroups(psId1_1, null);
-    indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
+    clearGroups(project, psId1_1);
 
     // PS1,1 has no groups, so disappeared from related changes.
     assertRelated(psId2_1);
@@ -629,20 +630,58 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return result;
   }
 
-  private void setGroups(final PatchSet.Id psId,
-      final Iterable<String> groups) throws Exception {
-    try (BatchUpdate bu = updateFactory.create(
-        db, project, user(user), TimeUtil.nowTs())) {
-      bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
-        @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
-          PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
-          psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
-          return true;
+  private void clearGroups(Project.NameKey project, PatchSet.Id psId)
+      throws Exception {
+    if (notesMigration.writeChanges()) {
+      // Ew. We have no way to tell ReceiveCommits "pretend the groups field
+      // didn't exist, just for this next push." (Nor do we really want to
+      // complicate it for the purpose of this test.) So let's rewrite notedb
+      // history instead.
+      try (Repository repo = repoManager.openMetadataRepository(project);
+          RevWalk rw = new RevWalk(repo)) {
+        TestRepository<Repository> tr = new TestRepository<>(repo);
+        String refName = ChangeNoteUtil.changeRefName(psId.getParentKey());
+        rw.markStart(rw.parseCommit(repo.exactRef(refName).getObjectId()));
+        rw.sort(RevSort.REVERSE);
+
+        RevCommit newTip = null;
+        RevCommit c;
+        RevCommit last = null;
+        Pattern pat = Pattern.compile("^Groups:.*\\n", Pattern.MULTILINE);
+        while ((c = rw.next()) != null) {
+          // Ensure linear history.
+          if (last == null) {
+            assertThat(c.getParents()).isEmpty();
+          } else {
+            assertThat(c.getParentCount()).isEqualTo(1);
+            assertThat(c.getParent(0)).isEqualTo(last);
+          }
+          // Copying the tree is a pain, but we don't need to for this test as
+          // long as it's the empty tree.
+          assertThat(c.getTree()).isEqualTo(
+              ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
+          TestRepository<Repository>.CommitBuilder cb = tr.commit()
+              .author(c.getAuthorIdent())
+              .committer(c.getCommitterIdent())
+              .message(pat.matcher(c.getFullMessage()).replaceAll(""));
+          if (newTip != null) {
+            cb.parent(newTip);
+          } else {
+            cb.noParents();
+          }
+          newTip = cb.create();
+          last = c;
         }
-      });
-      bu.execute();
+        assertThat(newTip).isNotNull();
+        tr.update(refName, newTip);
+      }
     }
+    if (!notesMigration.readChanges()) {
+      PatchSet ps = db.patchSets().get(psId);
+      ps.setGroups(null);
+      db.patchSets().update(Collections.singleton(ps));
+    }
+    indexer.index(changeDataFactory.create(db, psId.getParentKey()));
   }
 
   private void assertRelated(PatchSet.Id psId, ChangeAndCommit... expected)

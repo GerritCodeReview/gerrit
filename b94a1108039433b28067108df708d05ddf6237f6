@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1426ea4f_13b7acf5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/HANAInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T14:45:06Z",
+      "side": 1,
+      "message": "It\u0027s 100x faster and improves readability by reducing a level of nesting.\n\nSee also Effective Java item 57[1]. Not strictly applicable because yes this is an \"exceptional condition\", but goes through the arguments against using exceptions for normal control flow.\n\n[1] https://books.google.com/books?id\u003dka2VUBqHiWkC\u0026pg\u003dPA241\u0026lpg\u003dPA241\u0026dq\u003deffective+java+use+exceptions+for+exceptional+conditions\u0026source\u003dbl\u0026ots\u003dyZHiRnp_Q-\u0026sig\u003dRXxchaiUcfNcI1aY3HDLcavc_5I\u0026hl\u003den\u0026sa\u003dX\u0026ved\u003d0ahUKEwjM4Ibq3szKAhVnsIMKHZgiCIoQ6AEIMjAD#v\u003donepage\u0026q\u003deffective%20java%20use%20exceptions%20for%20exceptional%20conditions\u0026f\u003dfalse",
+      "parentUuid": "9441fad9_9ff2d34f",
+      "revId": "b94a1108039433b28067108df708d05ddf6237f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b43efe47_a06f7a02",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Libraries.java",
         "patchSetId": 2

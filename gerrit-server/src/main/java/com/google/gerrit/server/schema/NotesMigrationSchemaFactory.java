@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,26 +14,32 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.inject.Scopes.SINGLETON;
-
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gwtorm.jdbc.Database;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-/** Loads the database with standard dependencies. */
-public class DatabaseModule extends FactoryModule {
+@Singleton
+public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
+  private final SchemaFactory<ReviewDb> delegate;
+  private final boolean disableChangesTables;
+
+  @Inject
+  NotesMigrationSchemaFactory(
+      @ReviewDbFactory SchemaFactory<ReviewDb> delegate,
+      NotesMigration migration) {
+    this.delegate = delegate;
+    disableChangesTables = migration.readChanges();
+  }
+
   @Override
-  protected void configure() {
-    bind(NotesMigration.class);
-    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
-        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class))
-        .to(new TypeLiteral<Database<ReviewDb>>() {})
-        .in(SINGLETON);
+  public ReviewDb open() throws OrmException {
+    ReviewDb db = delegate.open();
+    if (!disableChangesTables) {
+      return db;
+    }
+    return new DisabledChangesReviewDbWrapper(db);
   }
 }

@@ -140,7 +140,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       // automatically filtered out when patch sets are deleted.
       psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
 
-      ReviewDb db = ctx.getDb();
+      ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
       db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(psId));
       db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
       db.patchComments().delete(db.patchComments().byPatchSet(psId));

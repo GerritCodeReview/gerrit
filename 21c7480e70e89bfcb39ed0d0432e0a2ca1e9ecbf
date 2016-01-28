@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1426ea4f_f3ef90da",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T18:18:33Z",
+      "side": 1,
+      "message": "Comment here that (at least) Render Mode is not applicable to PolyGerrit.",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_93f41cad",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T18:18:33Z",
+      "side": 1,
+      "message": "This is just a deep copy, right?",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_72dcf835",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T18:18:33Z",
+      "side": 1,
+      "message": "I wonder if it makes more sense to close first and save in the background? Or maybe not, at least without a retry loop...",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_12e9ecd2",
+        "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-28T18:18:33Z",
+      "side": 1,
+      "message": "Well I hope this doesn\u0027t cause too much flakiness for us later on...",
+      "revId": "21c7480e70e89bfcb39ed0d0432e0a2ca1e9ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

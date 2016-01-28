@@ -27,7 +27,10 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceType;
+import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
+import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.testutil.InMemoryDatabase;
@@ -37,6 +40,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -71,9 +75,14 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
+
+    bind(NotesMigration.class);
+    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
+        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
+    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
+    bind(Key.get(schemaFactory, ReviewDbFactory.class))
+        .to(InMemoryDatabase.class);
     bind(InMemoryDatabase.class).in(SINGLETON);
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
-      .to(InMemoryDatabase.class);
 
     listener().to(CreateDatabase.class);
 

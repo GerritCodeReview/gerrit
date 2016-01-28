@@ -22,6 +22,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -48,15 +49,21 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -163,9 +170,8 @@ public class PatchLineCommentsUtil {
     }
 
     List<PatchLineComment> comments = Lists.newArrayList();
-    Iterable<String> filtered = getDraftRefs(notes.getChangeId());
-    for (String refName : filtered) {
-      Account.Id account = Account.Id.fromRefPart(refName);
+    for (String refSuffix : getDraftRefs(notes.getChangeId()).keySet()) {
+      Account.Id account = Account.Id.fromRefPart(refSuffix);
       if (account != null) {
         comments.addAll(draftByChangeAuthor(db, notes, account));
       }
@@ -194,9 +200,8 @@ public class PatchLineCommentsUtil {
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(publishedByPatchSet(db, notes, psId));
 
-    Iterable<String> filtered = getDraftRefs(notes.getChangeId());
-    for (String refName : filtered) {
-      Account.Id account = Account.Id.fromRefPart(refName);
+    for (String refSuffix : getDraftRefs(notes.getChangeId()).keySet()) {
+      Account.Id account = Account.Id.fromRefPart(refSuffix);
       if (account != null) {
         comments.addAll(draftByPatchSetAuthor(db, psId, account, notes));
       }
@@ -316,6 +321,28 @@ public class PatchLineCommentsUtil {
     db.patchComments().delete(comments);
   }
 
+  public void deleteAllDraftsFromAllUsers(Change.Id changeId)
+      throws IOException {
+    try (Repository repo = repoManager.openMetadataRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      for (Ref ref : getDraftRefs(repo, changeId).values()) {
+        bru.addCommand(new ReceiveCommand(
+            ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+      }
+      bru.setRefLogMessage("Delete drafts from notedb", false);
+      bru.execute(rw, NullProgressMonitor.INSTANCE);
+      for (ReceiveCommand cmd : bru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException(String.format(
+              "Failed to delete draft comment ref %s at %s: %s (%s)",
+              cmd.getRefName(), cmd.getOldId(), cmd.getResult(),
+              cmd.getMessage()));
+        }
+      }
+    }
+  }
+
   private static List<PatchLineComment> commentsOnFile(
       Collection<PatchLineComment> allComments,
       String file) {
@@ -366,16 +393,26 @@ public class PatchLineCommentsUtil {
     }
   }
 
-  private Iterable<String> getDraftRefs(final Change.Id changeId)
+  private Map<String, Ref> getDraftRefs(Change.Id changeId)
       throws OrmException {
-    Set<String> refNames = getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
+    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+      return getDraftRefs(repo, changeId);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  private Map<String, Ref> getDraftRefs(Repository repo,
+      final Change.Id changeId) throws IOException {
     final String suffix = "/" + changeId.get();
-    return Iterables.filter(refNames, new Predicate<String>() {
-      @Override
-      public boolean apply(String input) {
-        return input.endsWith(suffix);
-      }
-    });
+    return Maps.filterKeys(
+        repo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS),
+        new Predicate<String>() {
+          @Override
+          public boolean apply(String input) {
+            return input.endsWith(suffix);
+          }
+        });
   }
 
   private static List<PatchLineComment> sort(List<PatchLineComment> comments) {

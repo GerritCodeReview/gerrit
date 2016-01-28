@@ -83,6 +83,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -682,9 +683,11 @@ class ChangeNotesParser implements AutoCloseable {
             FOOTER_COMMIT, ps.getPatchSetId());
       }
     }
+    if (patchSetStates.isEmpty()) {
+      return;
+    }
 
-    Set<PatchSet.Id> deleted =
-        Sets.newHashSetWithExpectedSize(patchSetStates.size());
+    boolean deleted = false;
     for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {
       switch (e.getValue()) {
         case PUBLISHED:
@@ -692,7 +695,8 @@ class ChangeNotesParser implements AutoCloseable {
           break;
 
         case DELETED:
-          deleted.add(e.getKey());
+          deleted = true;
+          patchSets.remove(e.getKey());
           break;
 
         case DRAFT:
@@ -703,32 +707,32 @@ class ChangeNotesParser implements AutoCloseable {
           break;
       }
     }
-    if (deleted.isEmpty()) {
+    if (!deleted) {
       return;
     }
 
     // Post-process other collections to remove items corresponding to deleted
     // patch sets. This is safer than trying to prevent insertion, as it will
     // also filter out items racily added after the patch set was deleted.
-    patchSets.keySet().removeAll(deleted);
-    if (!patchSets.keySet().isEmpty()) {
-      currentPatchSetId = patchSets.navigableKeySet().last();
+    NavigableSet<PatchSet.Id> all = patchSets.navigableKeySet();
+    if (!all.isEmpty()) {
+      currentPatchSetId = all.last();
     } else {
       currentPatchSetId = null;
     }
-    approvals.keySet().removeAll(deleted);
-    changeMessagesByPatchSet.keys().removeAll(deleted);
+    approvals.keySet().retainAll(all);
+    changeMessagesByPatchSet.keys().retainAll(all);
 
     for (Iterator<ChangeMessage> it = allChangeMessages.iterator();
         it.hasNext();) {
-      if (deleted.contains(it.next().getPatchSetId())) {
+      if (!all.contains(it.next().getPatchSetId())) {
         it.remove();
       }
     }
     for (Iterator<PatchLineComment> it = comments.values().iterator();
         it.hasNext();) {
       PatchSet.Id psId = it.next().getKey().getParentKey().getParentKey();
-      if (deleted.contains(psId)) {
+      if (!all.contains(psId)) {
         it.remove();
       }
     }

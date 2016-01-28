@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -81,7 +82,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "This change depends on other hidden changes which are not ready";
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail";
-  private static final String CLICK_FAILURE_OTHER_TOOLTIP =
+
+  public static final String CLICK_FAILURE_OTHER_TOOLTIP =
       "Clicking the button would fail for other changes";
 
   public static class Output {
@@ -212,11 +214,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChangeset(
-      ChangeSet cs, IdentifiedUser identifiedUser) {
+  @VisibleForTesting
+  public String problemsForSubmittingChangeset(
+      ChangeSet cs, IdentifiedUser identifiedUser, ReviewDb db) {
     try {
-      @SuppressWarnings("resource")
-      ReviewDb db = dbProvider.get();
       for (PatchSet.Id psId : cs.patchIds()) {
         ChangeControl changeControl = changeControlFactory
             .controlFor(psId.getParentKey(), identifiedUser);
@@ -238,14 +239,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           log.error("Ephemeral error checking if change is submittable");
           return CLICK_FAILURE_TOOLTIP;
         }
-        if (!mergeable) {
-          return CLICK_FAILURE_OTHER_TOOLTIP;
-        }
         MergeOp.checkSubmitRule(c);
+      }
+
+      if (!cs.isMergeable()) {
+        return CLICK_FAILURE_OTHER_TOOLTIP;
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (NoSuchChangeException | OrmException e) {
+    } catch (NoSuchChangeException | OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
@@ -319,7 +321,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && topicSize > 1;
 
     String submitProblems = problemsForSubmittingChangeset(cs,
-        resource.getUser());
+        resource.getUser(), db);
     if (submitProblems != null) {
       return new UiAction.Description()
         .setLabel(treatWithTopic

@@ -179,6 +179,13 @@ public class PushOneCommit {
       .committer(new PersonIdent(i, testRepo.getClock()));
   }
 
+  void setParents(RevCommit... parents) throws Exception {
+    commitBuilder.noParents();
+    for (RevCommit p : parents) {
+      commitBuilder.parent(p);
+    }
+  }
+
   public Result to(String ref) throws Exception {
     commitBuilder.add(fileName, content);
     return execute(ref);
@@ -189,7 +196,7 @@ public class PushOneCommit {
     return execute(ref);
   }
 
-  private Result execute(String ref) throws Exception {
+  Result execute(String ref) throws Exception {
     RevCommit c = commitBuilder.create();
     if (changeId == null) {
       changeId = GitUtil.getChangeId(testRepo, c).get();

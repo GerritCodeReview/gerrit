@@ -26,9 +26,15 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,8 +45,17 @@ import java.util.Set;
  */
 public class ChangeSet {
   private final ImmutableCollection<ChangeData> changeData;
+  private final ChangeUtil changeUtil;
 
-  public ChangeSet(Iterable<ChangeData> changes) {
+  public interface Factory {
+    ChangeSet create(ChangeData change);
+    ChangeSet create(Iterable<ChangeData> changes);
+  }
+
+  @AssistedInject
+  public ChangeSet(ChangeUtil changeUtil,
+      @Assisted Iterable<ChangeData> changes) {
+    this.changeUtil = changeUtil;
     Set<Change.Id> ids = new HashSet<>();
     ImmutableSet.Builder<ChangeData> cdb = ImmutableSet.builder();
     for (ChangeData cd : changes) {
@@ -51,8 +66,9 @@ public class ChangeSet {
     changeData = cdb.build();
   }
 
-  public ChangeSet(ChangeData change) {
-    this(ImmutableList.of(change));
+  @AssistedInject
+  public ChangeSet(ChangeUtil changeUtil, @Assisted ChangeData change) {
+    this(changeUtil, ImmutableList.of(change));
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -107,6 +123,45 @@ public class ChangeSet {
 
   public int size() {
     return changeData.size();
+  }
+
+  public boolean isMergeable() throws OrmException, IOException {
+    boolean hasNonMergeableChange = false;
+    for (ChangeData change : changes()) {
+      boolean isMergeCommit = false;
+      boolean isLastInChain = false;
+      RevCommit commit = changeUtil.findCommit(change.change());
+      if (commit.getParentCount() > 1) {
+        isMergeCommit = true;
+      }
+      isLastInChain = !isParentOfAnotherCommit(commit);
+
+      change.setMergeable(null);
+      Boolean mergeable = change.isMergeable();
+      if (mergeable == null) {
+        return false;
+      } else if (!mergeable) {
+        hasNonMergeableChange = true;
+      }
+
+      if (isLastInChain && isMergeCommit && mergeable) {
+        return true;
+      }
+    }
+    return !hasNonMergeableChange;
+  }
+
+  private boolean isParentOfAnotherCommit(RevCommit commitToCheck)
+      throws OrmException, IOException {
+    for (ChangeData change : changes()) {
+      RevCommit commit = changeUtil.findCommit(change.change());
+      for (RevCommit parent : commit.getParents()) {
+        if (parent.name().equals(commitToCheck.name())) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   @Override

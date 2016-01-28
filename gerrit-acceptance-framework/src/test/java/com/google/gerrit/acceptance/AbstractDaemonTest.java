@@ -123,7 +123,7 @@ public abstract class AbstractDaemonTest {
   protected AccountCache accountCache;
 
   @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
+  protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   protected PushOneCommit.Factory pushFactory;

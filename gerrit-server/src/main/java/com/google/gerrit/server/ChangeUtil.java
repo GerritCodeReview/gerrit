@@ -455,6 +455,17 @@ public class ChangeUtil {
     throw new ResourceNotFoundException(id);
   }
 
+  public RevCommit findCommit(Change change) throws IOException, OrmException {
+    PatchSet patchSet = db.get().patchSets().get(change.currentPatchSetId());
+    String commitId = patchSet.getRevision().get();
+    RevCommit commit = null;
+    try (Repository repo = gitManager.openRepository(change.getProject());
+        RevWalk walk = new RevWalk(repo)) {
+      commit = walk.parseCommit(ObjectId.fromString(commitId));
+    }
+    return commit;
+  }
+
   private static void deleteOnlyDraftPatchSetPreserveRef(ReviewDb db,
       PatchSet patch) throws NoSuchChangeException, OrmException {
     PatchSet.Id patchSetId = patch.getId();

@@ -228,24 +228,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         if (!changeControl.canSubmit()) {
           return BLOCKED_SUBMIT_TOOLTIP;
         }
-        // Recheck mergeability rather than using value stored in the index,
-        // which may be stale.
-        // TODO(dborowitz): This is ugly; consider providing a way to not read
-        // stored fields from the index in the first place.
-        c.setMergeable(null);
-        Boolean mergeable = c.isMergeable();
-        if (mergeable == null) {
-          log.error("Ephemeral error checking if change is submittable");
-          return CLICK_FAILURE_TOOLTIP;
-        }
-        if (!mergeable) {
-          return CLICK_FAILURE_OTHER_TOOLTIP;
-        }
         MergeOp.checkSubmitRule(c);
+      }
+
+      Boolean csIsMergeable = cs.isMergeable();
+      if (csIsMergeable == null) {
+        return CLICK_FAILURE_TOOLTIP;
+      } else if (!csIsMergeable) {
+        return CLICK_FAILURE_OTHER_TOOLTIP;
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (NoSuchChangeException | OrmException e) {
+    } catch (NoSuchChangeException | OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }

@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -114,9 +113,8 @@ public class PatchLineCommentsUtil {
   private final DraftCommentNotes.Factory draftFactory;
   private final NotesMigration migration;
 
-  @VisibleForTesting
   @Inject
-  public PatchLineCommentsUtil(GitRepositoryManager repoManager,
+  PatchLineCommentsUtil(GitRepositoryManager repoManager,
       AllUsersNameProvider allUsersProvider,
       DraftCommentNotes.Factory draftFactory,
       NotesMigration migration) {

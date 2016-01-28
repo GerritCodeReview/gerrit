@@ -69,6 +69,30 @@
       "revId": "64ceba260191ce694e279f7bee00cccce40963ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41dd6f7_daf70579",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-28T10:51:16Z",
+      "side": 0,
+      "message": "OK.  This can be fixed in a separate change, if necessary.",
+      "parentUuid": "744806fe_1e500ddf",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "64ceba260191ce694e279f7bee00cccce40963ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

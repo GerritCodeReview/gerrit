@@ -646,9 +646,24 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void queryChangesOptions() throws Exception {
     PushOneCommit.Result r = createChange();
+
     ChangeInfo result = Iterables.getOnlyElement(gApi.changes()
         .query(r.getChangeId())
-        .withOptions(EnumSet.allOf(ListChangesOption.class))
+        .get());
+    assertThat(result.labels).isNull();
+    assertThat(result.messages).isNull();
+    assertThat(result.actions).isNull();
+    assertThat(result.revisions).isNull();
+
+    EnumSet<ListChangesOption> options = EnumSet.of(
+        ListChangesOption.ALL_REVISIONS,
+        ListChangesOption.CHANGE_ACTIONS,
+        ListChangesOption.CURRENT_ACTIONS,
+        ListChangesOption.DETAILED_LABELS,
+        ListChangesOption.MESSAGES);
+    result = Iterables.getOnlyElement(gApi.changes()
+        .query(r.getChangeId())
+        .withOptions(options)
         .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet()))
         .isEqualTo("Code-Review");
@@ -711,6 +726,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void check() throws Exception {
+    // TODO(dborowitz): Re-enable when ConsistencyChecker supports notedb.
+    assume().that(notesMigration.enabled()).isFalse();
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes()
         .id(r.getChangeId())

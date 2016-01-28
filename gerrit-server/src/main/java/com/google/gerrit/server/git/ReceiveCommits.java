@@ -292,6 +292,7 @@ public class ReceiveCommits {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
@@ -366,6 +367,7 @@ public class ReceiveCommits {
       final Provider<InternalChangeQuery> queryProvider,
       final SchemaFactory<ReviewDb> schemaFactory,
       final ChangeData.Factory changeDataFactory,
+      final ChangeNotes.Factory notesFactory,
       final ChangeUpdate.Factory updateFactory,
       final AccountResolver accountResolver,
       final CmdLineParser.Factory optionParserFactory,
@@ -413,6 +415,7 @@ public class ReceiveCommits {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
+    this.notesFactory = notesFactory;
     this.updateFactory = updateFactory;
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
@@ -1528,7 +1531,8 @@ public class ReceiveCommits {
     newChanges = Lists.newArrayList();
 
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
-    GroupCollector groupCollector = new GroupCollector(refsById, db);
+    GroupCollector groupCollector =
+        GroupCollector.create(refsById, db, psUtil, notesFactory);
 
     rp.getRevWalk().reset();
     rp.getRevWalk().sort(RevSort.TOPO);

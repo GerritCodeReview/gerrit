@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -420,22 +421,24 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     private final Provider<ReviewDb> dbProvider;
     private final Submit submit;
     private final ChangeJson.Factory json;
+    private final PatchSetUtil psUtil;
 
     @Inject
     CurrentRevision(Provider<ReviewDb> dbProvider,
         Submit submit,
-        ChangeJson.Factory json) {
+        ChangeJson.Factory json,
+        PatchSetUtil psUtil) {
       this.dbProvider = dbProvider;
       this.submit = submit;
       this.json = json;
+      this.psUtil = psUtil;
     }
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException,
         OrmException {
-      PatchSet ps = dbProvider.get().patchSets()
-        .get(rsrc.getChange().currentPatchSetId());
+      PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {

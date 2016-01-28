@@ -34,6 +34,24 @@
       "revId": "094c444ca7c9d35f1fa691e18f9de6d73fa9f06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c6a2da_25ad2ea9",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-28T21:43:49Z",
+      "side": 1,
+      "message": "Replaced with a sessionStorage implementation.",
+      "parentUuid": "54c6a2da_e5a2f6b9",
+      "revId": "094c444ca7c9d35f1fa691e18f9de6d73fa9f06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

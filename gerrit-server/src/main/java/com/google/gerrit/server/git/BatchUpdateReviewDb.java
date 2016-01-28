@@ -20,12 +20,16 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gwtorm.server.AtomicUpdate;
 
-class BatchUpdateReviewDb extends ReviewDbWrapper {
+public class BatchUpdateReviewDb extends ReviewDbWrapper {
   private final ChangeAccess changesWrapper;
 
   BatchUpdateReviewDb(ReviewDb delegate) {
     super(delegate);
     changesWrapper = new BatchUpdateChanges(delegate.changes());
+  }
+
+  public ReviewDb unsafeGetDelegate() {
+    return delegate;
   }
 
   @Override

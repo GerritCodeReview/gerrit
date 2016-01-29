@@ -277,8 +277,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return;
     }
     try (RevWalk walk = new RevWalk(reader);
-        ChangeNotesParser parser =
-          new ChangeNotesParser(change, rev, walk, repoManager)) {
+        ChangeNotesParser parser = new ChangeNotesParser(change.getProject(),
+            change.getId(), rev, walk, repoManager)) {
       parser.parseAll();
 
       if (parser.status != null) {

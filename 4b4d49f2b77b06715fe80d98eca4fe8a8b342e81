@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7479e672_d61de4a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-01-29T14:31:23Z",
+      "side": 1,
+      "message": "How about extracting condition\n!sameFirstParents(prior, next) \u0026\u0026 sameRestOfParents(prior, next)\nto method:\nfirstParentChanged(prior, next)\nand calling here like\n!(firstParentChanged(prior, next))",
+      "range": {
+        "startLine": 216,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 50
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_54b70cf4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T00:42:06Z",
+      "side": 1,
+      "message": "Unintentionally committed debug code?",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 44
+      },
+      "revId": "bc6f2e3096fe828adbdb4ef9327bca0db8b7dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

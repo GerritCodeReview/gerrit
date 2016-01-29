@@ -186,7 +186,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, MIGRATION, allUsers, c).load();
+    return new ChangeNotes(null, repoManager, MIGRATION, allUsers, c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

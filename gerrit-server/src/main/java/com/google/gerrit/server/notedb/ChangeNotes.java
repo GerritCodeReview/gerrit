@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -115,12 +116,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    public ChangeNotes create(ReviewDb db, Change change) {
+      return new ChangeNotes(db, repoManager, migration, allUsersProvider,
+          change);
     }
 
-    public ChangeNotes createForNew(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    public ChangeNotes createForNew(ReviewDb db, Change change) {
+      return new ChangeNotes(db, repoManager, migration, allUsersProvider,
+          change);
     }
   }
 
@@ -144,7 +147,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
+  public ChangeNotes(@SuppressWarnings("unused") ReviewDb db,
+      GitRepositoryManager repoManager, NotesMigration migration,
       AllUsersNameProvider allUsersProvider, Change change) {
     super(repoManager, migration, change.getId());
     this.allUsers = allUsersProvider.get();

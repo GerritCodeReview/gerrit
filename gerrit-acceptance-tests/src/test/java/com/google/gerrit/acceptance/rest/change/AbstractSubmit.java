@@ -287,7 +287,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void assertSubmitter(String changeId, int psId)
       throws OrmException {
-    ChangeNotes cn = notesFactory.create(
+    ChangeNotes cn = notesFactory.create(db,
         getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
@@ -298,7 +298,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void assertNoSubmitter(String changeId, int psId)
       throws OrmException {
-    ChangeNotes cn = notesFactory.create(
+    ChangeNotes cn = notesFactory.create(db,
         getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));

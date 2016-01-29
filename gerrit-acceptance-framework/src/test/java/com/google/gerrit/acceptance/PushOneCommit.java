@@ -274,7 +274,7 @@ public class PushOneCommit {
     private void assertReviewers(Change c, TestAccount... expectedReviewers)
         throws OrmException {
       Iterable<Account.Id> actualIds =
-          approvalsUtil.getReviewers(db, notesFactory.create(c)).values();
+          approvalsUtil.getReviewers(db, notesFactory.create(db, c)).values();
       assertThat(actualIds).containsExactlyElementsIn(
           Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }

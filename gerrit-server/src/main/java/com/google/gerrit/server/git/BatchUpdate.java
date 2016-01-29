@@ -631,7 +631,7 @@ public class BatchUpdate implements AutoCloseable {
     // Pass in preloaded change to controlFor, to avoid:
     //  - reading from a db that does not belong to this update
     //  - attempting to read a change that doesn't exist yet
-    ChangeNotes notes = changeNotesFactory.createForNew(c);
+    ChangeNotes notes = changeNotesFactory.createForNew(db, c);
     ChangeContext ctx = new ChangeContext(
       changeControlFactory.controlFor(notes, user), new BatchUpdateReviewDb(db));
     if (notesMigration.readChanges()) {

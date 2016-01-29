@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 
 <dom-module id="gr-file-list">
@@ -119,6 +120,8 @@ limitations under the License.
         }
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
       attached: function() {
         document.body.addEventListener('keydown', this._boundKeyHandler);
       },
@@ -141,7 +144,7 @@ limitations under the License.
       },
 
       _computeFilesURL: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/files';
+        return this.changeBaseURL(changeNum, patchNum) + '/files';
       },
 
       _computeCommentsString: function(comments, patchNum, path) {
@@ -155,7 +158,7 @@ limitations under the License.
       },
 
       _computeDraftsURL: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/drafts';
+        return this.changeBaseURL(changeNum, patchNum) + '/drafts';
       },
 
       _computeDraftsString: function(drafts, path) {

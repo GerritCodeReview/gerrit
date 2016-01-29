@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/gr-change-list-styles.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
@@ -107,6 +108,8 @@ limitations under the License.
         },
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
       _computeChangeURL: function(changeNum) {
         if (!changeNum) { return ''; }
         return '/c/' + changeNum + '/';
@@ -116,13 +119,13 @@ limitations under the License.
         if (change.mergeable != null && change.mergeable == false) {
           return 'Merge Conflict';
         }
-        if (change.status == Changes.Status.MERGED) {
+        if (change.status == this.ChangeStatus.MERGED) {
           return 'Merged';
         }
-        if (change.status == Changes.Status.DRAFT) {
+        if (change.status == this.ChangeStatus.DRAFT) {
           return 'Draft';
         }
-        if (change.status == Changes.Status.ABANDONED) {
+        if (change.status == this.ChangeStatus.ABANDONED) {
           return 'Abandoned';
         }
         return '';

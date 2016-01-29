@@ -118,6 +118,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public ChangeNotes create(Change change) {
       return new ChangeNotes(repoManager, migration, allUsersProvider, change);
     }
+
+    public ChangeNotes createForNew(Change change) {
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    }
   }
 
   private final Change change;
@@ -345,7 +349,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected Project.NameKey getProjectName() {
+  public Project.NameKey getProjectName() {
     return getChange().getProject();
   }
 }

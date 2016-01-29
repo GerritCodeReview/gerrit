@@ -186,7 +186,7 @@ public class CherryPickChange {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
           ChangeControl destCtl = refControl.getProjectControl()
-              .controlFor(destChanges.get(0).change());
+              .controlFor(destChanges.get(0).notes());
           return insertPatchSet(git, revWalk, oi, destCtl,
               cherryPickCommit, refControl, identifiedUser);
         } else {

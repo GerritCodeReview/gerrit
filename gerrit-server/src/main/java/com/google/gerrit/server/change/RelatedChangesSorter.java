@@ -222,7 +222,7 @@ class RelatedChangesSorter {
       throws OrmException {
     // Reuse existing project control rather than lazily creating a new one for
     // each ChangeData.
-    return ctl.controlFor(psd.data().change())
+    return ctl.controlFor(psd.data().notes())
         .isPatchVisible(psd.patchSet(), psd.data());
   }
 

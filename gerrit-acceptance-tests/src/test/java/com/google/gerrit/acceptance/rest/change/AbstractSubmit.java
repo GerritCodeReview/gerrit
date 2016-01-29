@@ -14,21 +14,19 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static org.junit.Assert.fail;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
@@ -41,6 +39,8 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -55,11 +55,9 @@ import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -209,55 +207,57 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void submit(String changeId) throws Exception {
-    submit(changeId, HttpStatus.SC_OK, null);
+    submit(changeId, new SubmitInput(), null, null);
+  }
+
+  protected void submit(String changeId, SubmitInput input) throws Exception {
+    submit(changeId, input, null, null);
   }
 
   protected void submitWithConflict(String changeId,
       String expectedError) throws Exception {
-    submit(changeId, HttpStatus.SC_CONFLICT, expectedError);
+    submit(changeId, new SubmitInput(), ResourceConflictException.class,
+        expectedError);
   }
 
-  private void submit(String changeId, int expectedStatus, String msg)
-      throws Exception {
+  private void submit(String changeId, SubmitInput input,
+      Class<? extends RestApiException> expectedExceptionType,
+      String expectedExceptionMsg) throws Exception {
     approve(changeId);
-    SubmitInput subm = new SubmitInput();
-    RestResponse r =
-        adminSession.post("/changes/" + changeId + "/submit", subm);
-    assertThat(r.getStatusCode())
-        .named("Status code [" + r.getEntityContent() + "]")
-        .isEqualTo(expectedStatus);
-    if (expectedStatus == HttpStatus.SC_OK) {
-      checkArgument(msg == null, "msg must be null for successful submits");
-      ChangeInfo change =
-          newGson().fromJson(r.getReader(),
-              new TypeToken<ChangeInfo>() {}.getType());
-      assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
-
-      checkMergeResult(change);
-    } else {
-      checkArgument(!Strings.isNullOrEmpty(msg), "msg must be a valid string " +
-          "containing an error message for unsuccessful submits");
-      assertThat(r.getEntityContent()).isEqualTo(msg);
+    try {
+      gApi.changes().id(changeId).current().submit(input);
+      if (expectedExceptionType != null) {
+        fail("Expected exception of type "
+            + expectedExceptionType.getSimpleName());
+      }
+    } catch (RestApiException e) {
+      if (expectedExceptionType == null) {
+        throw e;
+      }
+      // More verbose than using assertThat and/or ExpectedException, but gives
+      // us the stack trace.
+      if (!expectedExceptionType.isAssignableFrom(e.getClass())
+          || !e.getMessage().equals(expectedExceptionMsg)) {
+        throw new AssertionError("Expected exception of type "
+            + expectedExceptionType.getSimpleName() + " with message: "
+            + expectedExceptionMsg, e);
+      }
+      return;
     }
-    r.consume();
+    ChangeInfo change = gApi.changes().id(changeId).info();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    checkMergeResult(change);
   }
 
-  private void checkMergeResult(ChangeInfo change) throws IOException {
+  private void checkMergeResult(ChangeInfo change) throws Exception {
     // Get the revision of the branch after the submit to compare with the
     // newRev of the ChangeMergedEvent.
-    RestResponse b =
-        adminSession.get("/projects/" + change.project + "/branches/"
-            + change.branch);
-    if (b.getStatusCode() == HttpStatus.SC_OK) {
-      BranchInfo branch =
-          newGson().fromJson(b.getReader(),
-              new TypeToken<BranchInfo>() {}.getType());
-      assertThat(mergeResults).isNotEmpty();
-      String newRev = mergeResults.get(Integer.toString(change._number));
-      assertThat(newRev).isNotNull();
-      assertThat(branch.revision).isEqualTo(newRev);
-    }
-    b.consume();
+    BranchInfo branch = gApi.projects().name(change.project)
+        .branch(change.branch).get();
+    assertThat(mergeResults).isNotEmpty();
+    String newRev = mergeResults.get(Integer.toString(change._number));
+    assertThat(newRev).isNotNull();
+    assertThat(branch.revision).isEqualTo(newRev);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,

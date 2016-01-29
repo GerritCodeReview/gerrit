@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -167,8 +168,7 @@ public class SetReviewersCommand extends SshCommand {
         changeUtil.findChanges(id, userProvider.get());
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
     for (ChangeControl ctl : matched) {
-      Change c = ctl.getChange();
-      if (!changes.containsKey(c.getId()) && inProject(c)
+      if (!changes.containsKey(ctl.getId()) && inProject(ctl.getProject())
           && ctl.isVisible(db)) {
         toAdd.add(ctl);
       }
@@ -187,9 +187,9 @@ public class SetReviewersCommand extends SshCommand {
     }
   }
 
-  private boolean inProject(Change change) {
+  private boolean inProject(Project project) {
     if (projectControl != null) {
-      return projectControl.getProject().getNameKey().equals(change.getProject());
+      return projectControl.getProject().getNameKey().equals(project.getNameKey());
     } else {
       // No --project option, so they want every project.
       return true;

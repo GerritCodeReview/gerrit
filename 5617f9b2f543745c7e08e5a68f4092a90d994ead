@@ -16,6 +16,47 @@
       "revId": "5617f9b2f543745c7e08e5a68f4092a90d994ead",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3473ee96_34dc5035",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T09:25:52Z",
+      "side": 1,
+      "message": "I added it in patch set 6 yesterday.",
+      "parentUuid": "7479e672_56ce3488",
+      "revId": "5617f9b2f543745c7e08e5a68f4092a90d994ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3473ee96_14df542c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T09:25:52Z",
+      "side": 1,
+      "message": "Here",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 46
+      },
+      "revId": "5617f9b2f543745c7e08e5a68f4092a90d994ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

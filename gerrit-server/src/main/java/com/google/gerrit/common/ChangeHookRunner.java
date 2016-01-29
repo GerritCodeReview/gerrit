@@ -903,7 +903,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
             @Override
             public PatchSetAttribute get() {
               try (Repository repo =
-                    repoManager.openRepository(notes.getChange().getProject());
+                    repoManager.openRepository(notes.getProjectName());
                   RevWalk revWalk = new RevWalk(repo)) {
                 return eventFactory.asPatchSetAttribute(
                     revWalk, notes, patchSet);

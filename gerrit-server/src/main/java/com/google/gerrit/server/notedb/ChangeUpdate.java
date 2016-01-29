@@ -159,7 +159,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
-    return ctl.getChange().getDest().getParentKey();
+    return ctl.getProject().getNameKey();
   }
 
   @AssistedInject

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -91,6 +92,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     private Output(Change c) {
       change = c;
+    }
+  }
+
+  /**
+   * Subclass of {@link SubmitInput} with special bits that may be flipped for
+   * testing purposes only.
+   */
+  @VisibleForTesting
+  public static class TestSubmitInput extends SubmitInput {
+    public final boolean failAfterRefUpdates;
+
+    @SuppressWarnings("deprecation")
+    public TestSubmitInput(SubmitInput base, boolean failAfterRefUpdates) {
+      this.onBehalfOf = base.onBehalfOf;
+      this.waitForMerge = base.waitForMerge;
+      this.failAfterRefUpdates = failAfterRefUpdates;
     }
   }
 
@@ -185,7 +202,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
-      op.merge(db, change, caller, true);
+      op.merge(db, change, caller, true, input);
       change = db.changes().get(change.getId());
     }
 

@@ -219,22 +219,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void submit(String changeId) throws Exception {
-    submit(changeId, new SubmitInput(), null, null);
+    submit(changeId, new SubmitInput(), null, null, true);
   }
 
   protected void submit(String changeId, SubmitInput input) throws Exception {
-    submit(changeId, input, null, null);
+    submit(changeId, input, null, null, true);
   }
 
   protected void submitWithConflict(String changeId,
       String expectedError) throws Exception {
     submit(changeId, new SubmitInput(), ResourceConflictException.class,
-        expectedError);
+        expectedError, true);
   }
 
-  private void submit(String changeId, SubmitInput input,
+  protected void submit(String changeId, SubmitInput input,
       Class<? extends RestApiException> expectedExceptionType,
-      String expectedExceptionMsg) throws Exception {
+      String expectedExceptionMsg, boolean checkMergeResult) throws Exception {
     approve(changeId);
     try {
       gApi.changes().id(changeId).current().submit(input);
@@ -258,7 +258,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
-    checkMergeResult(change);
+    if (checkMergeResult) {
+      checkMergeResult(change);
+    }
   }
 
   private void checkMergeResult(ChangeInfo change) throws Exception {

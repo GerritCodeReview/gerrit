@@ -129,6 +129,8 @@ Add `has:edit` search operator to match changes that have edit revisions on them
 +
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#index.maxTerms[
 `index.maxTerms`] can be set to limit the number of leaf index terms.
++
+index.defaultMaxClauseCount is no longer used and can be removed from gerrit.config; index.maxTerms replaces it.
 
 * Expose Lucene index writers for plugins.
 +

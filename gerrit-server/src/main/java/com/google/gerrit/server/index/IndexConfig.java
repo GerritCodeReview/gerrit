@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 
+import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -49,7 +50,7 @@ public abstract class IndexConfig {
     return new AutoValue_IndexConfig(
         checkLimit(maxLimit, "maxLimit", Integer.MAX_VALUE),
         checkLimit(maxPages, "maxPages", Integer.MAX_VALUE),
-        checkLimit(maxTerms, "maxTerms", Integer.MAX_VALUE),
+        checkLimit(maxTerms, "maxTerms", BooleanQuery.getMaxClauseCount()),
         checkLimit(maxPrefixTerms, "maxPrefixTerms", DEFAULT_MAX_PREFIX_TERMS));
   }
 

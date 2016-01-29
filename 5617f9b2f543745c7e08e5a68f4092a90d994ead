@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7479e672_56ce3488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-29T09:22:24Z",
+      "side": 1,
+      "message": "Should the bug fixed in: [1] be mentioned as well?\n\n* [1] https://gerrit-review.googlesource.com/74130",
+      "revId": "5617f9b2f543745c7e08e5a68f4092a90d994ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -84,11 +86,15 @@ public class MergeSuperSet {
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
     ChangeData cd = changeDataFactory.create(db, change.getId());
+    ChangeSet result;
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
+      result = completeChangeSetIncludingTopics(db, new ChangeSet(cd));
     } else {
-      return completeChangeSetWithoutTopic(db, new ChangeSet(cd));
+      result = completeChangeSetWithoutTopic(db, new ChangeSet(cd));
     }
+    checkState(result.ids().contains(change.getId()),
+        "change %s missing from result %s", change.getId(), result);
+    return result;
   }
 
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes)
@@ -132,8 +138,13 @@ public class MergeSuperSet {
           }
 
           List<String> hashes = new ArrayList<>();
+          // Always include the input, even if merged. This allows
+          // SubmitStrategyOp to correct the situation later.
+          hashes.add(objIdStr);
           for (RevCommit c : rw) {
-            hashes.add(c.name());
+            if (!c.equals(commit)) {
+              hashes.add(c.name());
+            }
           }
 
           if (!hashes.isEmpty()) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "146eeab0_535ba47d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-29T19:18:23Z",
+      "side": 1,
+      "message": "I read that comment as \"Should never happen, except when someone is *really* trying to\". Would it make sense to at least log this event?\n\nCould the missing object exception come up because our storage messed up (if so, we need to stop here)",
+      "range": {
+        "startLine": 173,
+        "startChar": 19,
+        "endLine": 173,
+        "endChar": 74
+      },
+      "revId": "bc74042f5c8e360c1b931cf35d48ca6f4da4a170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146eeab0_7358a080",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-29T19:18:23Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 318,
+        "startChar": 76,
+        "endLine": 318,
+        "endChar": 80
+      },
+      "revId": "bc74042f5c8e360c1b931cf35d48ca6f4da4a170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

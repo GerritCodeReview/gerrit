@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7479e672_b6414895",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-29T11:57:48Z",
+      "side": 1,
+      "message": "It wouldn\u0027t? How does it work for hashtags then?\nIf all hashtags have been deleted that would also result in an empty footer, as \"Hashtags:\" and ChangeNotesParser#parseHashtags expects this to be found.",
+      "range": {
+        "startLine": 11,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 36
+      },
+      "revId": "aff34679655a5864140fa025ffac0efc26c3f5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4823650_92463ca9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
         "patchSetId": 1

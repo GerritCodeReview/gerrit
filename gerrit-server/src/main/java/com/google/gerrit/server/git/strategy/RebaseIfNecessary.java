@@ -186,11 +186,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
         mergeTip.moveTipTo(toMerge, toMerge);
         acceptMergeTip(mergeTip);
       } else {
-        // TODO(dborowitz): Can't use repo from ctx due to canMergeFlag.
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
             args.serverIdent, args.serverIdent, args.repo, args.rw,
-            args.inserter, args.canMergeFlag, args.destBranch,
-            mergeTip.getCurrentTip(), toMerge);
+            args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
         mergeTip.moveTipTo(newTip, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

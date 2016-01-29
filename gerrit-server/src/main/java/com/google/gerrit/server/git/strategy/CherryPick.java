@@ -187,9 +187,8 @@ public class CherryPick extends SubmitStrategy {
       } else {
         PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
-            myIdent, args.repo, args.rw, args.inserter,
-            args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
-            toMerge);
+            myIdent, args.repo, args.rw, args.inserter, args.destBranch,
+            mergeTip.getCurrentTip(), toMerge);
         mergeTip.moveTipTo(result, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

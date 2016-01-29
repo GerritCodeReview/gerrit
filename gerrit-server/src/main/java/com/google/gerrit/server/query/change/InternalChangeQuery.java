@@ -39,9 +39,12 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +62,9 @@ import java.util.Set;
  * matching results.
  */
 public class InternalChangeQuery {
+  private static final Logger log =
+      LoggerFactory.getLogger(InternalChangeQuery.class);
+
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
     return new RefPredicate(branch.get());
   }
@@ -150,7 +156,21 @@ public class InternalChangeQuery {
     if (hashes.size() > indexLimit) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
     } else {
-      return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
+      try {
+        return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
+      } catch (OrmException e) {
+        Throwable cause = e;
+        while (cause.getCause() != null) {
+          cause = cause.getCause();
+        }
+        if (cause instanceof BooleanQuery.TooManyClauses) {
+          log.warn(
+              "Cannot use index, using db instead; tune index config? -Cause: "
+              + cause.getClass() + ": " + cause.getMessage());
+          return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
+        }
+        throw e;
+      }
     }
   }
 

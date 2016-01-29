@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
@@ -289,6 +290,10 @@ limitations under the License.
           value: function() { return {}; },
         },
         serverConfig: Object,
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
 
         _comments: Object,
         _change: {
@@ -314,13 +319,12 @@ limitations under the License.
           type: Function,
           value: function() { return this._handleBodyScroll.bind(this); },
         },
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        }
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+        Gerrit.RESTClientBehavior,
+      ],
 
       ready: function() {
         app.accountReady.then(function() {
@@ -331,12 +335,10 @@ limitations under the License.
 
       attached: function() {
         window.addEventListener('scroll', this._boundScrollHandler);
-        document.body.addEventListener('keydown', this._boundKeyHandler);
       },
 
       detached: function() {
         window.removeEventListener('scroll', this._boundScrollHandler);
-        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _handleBodyScroll: function(e) {
@@ -494,7 +496,7 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
-        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
         switch(e.keyCode) {
           case 65:  // 'a'

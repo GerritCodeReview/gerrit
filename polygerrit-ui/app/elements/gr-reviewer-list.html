@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-request.html">
 
@@ -173,26 +174,19 @@ limitations under the License.
             return this._handleBodyClick.bind(this);
           },
         },
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        },
 
         // Used for testing.
         _lastAutocompleteRequest: Object,
         _xhrPromise: Object,
       },
 
+      behaviors: [ Gerrit.KeyboardShortcutBehavior ],
+
       observers: [
         '_reviewersChanged(change.reviewers.*, change.owner)',
       ],
 
-      attached: function() {
-        this.addEventListener('keydown', this._boundKeyHandler);
-      },
-
       detached: function() {
-        this.removeEventListener('keydown', this._boundKeyHandler);
         this._clearInputRequestHandle();
       },
 

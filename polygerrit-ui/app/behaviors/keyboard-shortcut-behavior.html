@@ -1,0 +1,63 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<script>
+(function(window) {
+  'use strict';
+
+  var KeyboardShortcutBehavior = {
+    properties: {
+      keyEventTarget: {
+        type: Object,
+        value: function() { return this; },
+      },
+
+      _boundKeyHandler: {
+        type: Function,
+        readonly: true,
+        value: function() { return this._handleKey.bind(this); },
+      },
+    },
+
+    attached: function() {
+      this.keyEventTarget.addEventListener('keydown', this._boundKeyHandler);
+    },
+
+    detached: function() {
+      this.keyEventTarget.removeEventListener('keydown', this._boundKeyHandler);
+    },
+
+    shouldSupressKeyboardShortcut: function(e) {
+      var getModifierState = e.getModifierState ?
+          e.getModifierState.bind(e) :
+          function() { return false; };
+      var target = e.detail ? e.detail.keyboardEvent : e.target;
+      return getModifierState('Control') ||
+             getModifierState('Alt') ||
+             getModifierState('Meta') ||
+             getModifierState('Fn') ||
+             target.tagName == 'INPUT' ||
+             target.tagName == 'TEXTAREA' ||
+             target.tagName == 'SELECT' ||
+             target.tagName == 'BUTTON' ||
+             target.tagName == 'A';
+    },
+  };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.KeyboardShortcutBehavior = KeyboardShortcutBehavior;
+})(window);
+</script>

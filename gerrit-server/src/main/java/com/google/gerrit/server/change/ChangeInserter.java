@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -102,6 +103,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private Iterable<String> groups;
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
+  private NotifyHandling notify = NotifyHandling.ALL;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
@@ -203,6 +205,11 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   public ChangeInserter setValidatePolicy(CommitValidators.Policy validate) {
     this.validatePolicy = checkNotNull(validate);
+    return this;
+  }
+
+  public ChangeInserter setNotify(NotifyHandling notify) {
+    this.notify = notify;
     return this;
   }
 
@@ -347,6 +354,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
                 createChangeSenderFactory.create(change.getId());
             cm.setFrom(change.getOwner());
             cm.setPatchSet(patchSet, patchSetInfo);
+            cm.setNotify(notify);
             cm.addReviewers(reviewers);
             cm.addExtraCC(extraCC);
             cm.send();

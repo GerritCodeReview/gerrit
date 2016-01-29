@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailStrategy;
 import com.google.gerrit.reviewdb.client.UserIdentity;
@@ -66,7 +67,7 @@ public abstract class OutgoingEmail {
 
   protected final EmailArguments args;
   protected Account.Id fromId;
-
+  protected NotifyHandling notify = NotifyHandling.ALL;
 
   protected OutgoingEmail(EmailArguments ea, String mc) {
     args = ea;
@@ -78,12 +79,20 @@ public abstract class OutgoingEmail {
     fromId = id;
   }
 
+  public void setNotify(NotifyHandling notify) {
+    this.notify = notify;
+  }
+
   /**
    * Format and enqueue the message for delivery.
    *
    * @throws EmailException
    */
   public void send() throws EmailException {
+    if (NotifyHandling.NONE.equals(notify)) {
+      return;
+    }
+
     if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //

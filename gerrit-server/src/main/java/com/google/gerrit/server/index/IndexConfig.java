@@ -49,7 +49,7 @@ public abstract class IndexConfig {
     return new AutoValue_IndexConfig(
         checkLimit(maxLimit, "maxLimit", Integer.MAX_VALUE),
         checkLimit(maxPages, "maxPages", Integer.MAX_VALUE),
-        checkLimit(maxTerms, "maxTerms", Integer.MAX_VALUE),
+        checkLimit(maxTerms, "maxTerms", 1024),
         checkLimit(maxPrefixTerms, "maxPrefixTerms", DEFAULT_MAX_PREFIX_TERMS));
   }
 

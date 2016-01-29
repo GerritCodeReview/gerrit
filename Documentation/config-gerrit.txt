@@ -2382,10 +2382,14 @@ Defaults to no limit.
 +
 Maximum number of leaf terms to allow in a query. Too-large queries may
 perform poorly, so setting this option causes query parsing to fail fast
-before attempting to send them to the secondary index. Set to 0 for no
-limit.
+before attempting to send them to the secondary index. Should this limit
+be reached, database is used instead of index as applicable.
 +
-Defaults to no limit.
+When the index type is `LUCENE`, also sets the maximum number of clauses
+permitted per BooleanQuery. This is so that all enforced query limits
+are the same.
++
+Defaults to 1024.
 
 ==== Lucene configuration
 
@@ -2393,14 +2397,6 @@ Open and closed changes are indexed in separate indexes named
 'open' and 'closed' respectively.
 
 The following settings are only used when the index type is `LUCENE`.
-
-[[index.defaultMaxClauseCount]]index.defaultMaxClauseCount::
-+
-Only used when the type is `LUCENE`.
-+
-Sets the maximum number of clauses permitted per BooleanQuery.
-+
-Defaults to 1024.
 
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
@@ -2445,7 +2441,6 @@ Sample Lucene index configuration:
 ----
 [index]
   type = LUCENE
-  defaultMaxClauseCount = 2048
 
 [index "changes_open"]
   ramBufferSize = 60 m

@@ -38,6 +38,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -335,6 +336,7 @@ public class MergeOp implements AutoCloseable {
 
   private CommitStatus commits;
   private ReviewDb db;
+  private SubmitInput submitInput;
 
   @Inject
   MergeOp(ChangeControl.GenericFactory changeControlFactory,
@@ -544,7 +546,9 @@ public class MergeOp implements AutoCloseable {
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules) throws OrmException, RestApiException {
+      boolean checkSubmitRules, SubmitInput submitInput)
+      throws OrmException, RestApiException {
+    this.submitInput = submitInput;
     this.caller = caller;
     updateSubmissionId(change);
     this.db = db;
@@ -627,7 +631,7 @@ public class MergeOp implements AutoCloseable {
 
       BatchUpdate.execute(
           batchUpdates(projects),
-          new SubmitStrategyListener(strategies, commits));
+          new SubmitStrategyListener(submitInput, strategies, commits));
 
       SubmoduleOp subOp = subOpProvider.get();
       for (Branch.NameKey branch : branches) {

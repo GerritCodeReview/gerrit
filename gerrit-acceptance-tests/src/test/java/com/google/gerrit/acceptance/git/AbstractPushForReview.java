@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableSet;
@@ -275,6 +277,37 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
         "Uploaded patch set 1: Code-Review+1.");
+  }
+
+  @Test
+  public void testPushWithMultipleApprovals()
+      throws Exception {
+    LabelType Q = category("Custom-Label",
+        value(1, "Positive"),
+        value(0, "No score"),
+        value(-1, "Negative"));
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID anon =
+        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    String heads = "refs/heads/*";
+    Util.allow(config, Permission.forLabel("Custom-Label"), -1, 1, anon, heads);
+    config.getLabelSections().put(Q.getName(), Q);
+    saveProjectConfig(project, config);
+
+    RevCommit c = commitBuilder()
+        .author(admin.getIdent())
+        .committer(admin.getIdent())
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+        .message(PushOneCommit.SUBJECT)
+        .create();
+
+    pushHead(testRepo, "refs/for/master/%l=Code-Review+1,l=Custom-Label-1", false);
+
+    ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get());
+    LabelInfo cr = ci.labels.get("Code-Review");
+    assertThat(cr.all).hasSize(1);
+    cr = ci.labels.get("Custom-Label");
+    assertThat(cr.all).hasSize(1);
   }
 
   @Test

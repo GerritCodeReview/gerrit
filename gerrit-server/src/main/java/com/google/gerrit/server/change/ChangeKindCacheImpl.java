@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -50,8 +51,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -209,7 +212,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           return ChangeKind.NO_CHANGE;
         }
 
-        if (prior.getParentCount() != 1 || next.getParentCount() != 1) {
+        if ((prior.getParentCount() != 1 || next.getParentCount() != 1)
+            && !onlyFirstParentChanged(prior, next)) {
           // Trivial rebases done by machine only work well on 1 parent.
           return ChangeKind.REWORK;
         }
@@ -223,7 +227,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         try {
           if (merger.merge(next.getParent(0), prior)
               && merger.getResultTreeId().equals(next.getTree())) {
-            return ChangeKind.TRIVIAL_REBASE;
+            if (prior.getParentCount() == 1) {
+              return ChangeKind.TRIVIAL_REBASE;
+            } else {
+              return ChangeKind.MERGE_FIRST_PARENT_UPDATE;
+            }
           }
         } catch (LargeObjectException e) {
           // Some object is too large for the merge attempt to succeed. Assume
@@ -231,6 +239,24 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
         return ChangeKind.REWORK;
       }
+    }
+
+    public static boolean onlyFirstParentChanged(RevCommit prior, RevCommit next) {
+      return !sameFirstParents(prior, next) && sameRestOfParents(prior, next);
+    }
+
+    private static boolean sameFirstParents(RevCommit prior, RevCommit next) {
+      return prior.getParent(0).equals(next.getParent(0));
+    }
+
+    private static boolean sameRestOfParents(RevCommit prior, RevCommit next) {
+      Set<RevCommit> priorRestParents = allExceptFirstParent(prior.getParents());
+      Set<RevCommit> nextRestParents = allExceptFirstParent(next.getParents());
+      return priorRestParents.equals(nextRestParents);
+    }
+
+    private static Set<RevCommit> allExceptFirstParent(RevCommit[] parents) {
+      return FluentIterable.from(Arrays.asList(parents)).skip(1).toSet();
     }
 
     private static boolean isSameDeltaAndTree(RevCommit prior, RevCommit next) {

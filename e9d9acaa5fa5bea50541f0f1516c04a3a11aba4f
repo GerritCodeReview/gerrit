@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7479e672_16df5c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-29T10:35:38Z",
+      "side": 1,
+      "message": "Yes, this is exactly the case that is meant here.\n\nDone.",
+      "parentUuid": "3473ee96_74e6c802",
+      "range": {
+        "startLine": 18,
+        "startChar": 57,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "e9d9acaa5fa5bea50541f0f1516c04a3a11aba4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "146eeab0_f310309d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-29T10:23:42Z",
       "side": 1,
       "message": "nit: wrap this line?\n\nand should the possible values be mentioned here?",
+      "revId": "e9d9acaa5fa5bea50541f0f1516c04a3a11aba4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7479e672_36dc5835",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-29T10:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "146eeab0_f310309d",
       "revId": "e9d9acaa5fa5bea50541f0f1516c04a3a11aba4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

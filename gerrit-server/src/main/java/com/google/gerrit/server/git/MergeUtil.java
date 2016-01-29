@@ -672,13 +672,15 @@ public class MergeUtil {
 
   public Set<Change.Id> findUnmergedChanges(Set<Change.Id> expected,
       CodeReviewRevWalk rw, RevFlag canMergeFlag, CodeReviewCommit oldTip,
-      CodeReviewCommit mergeTip) throws IntegrationException {
+      CodeReviewCommit mergeTip, Iterable<Change.Id> alreadyMerged)
+      throws IntegrationException {
     if (mergeTip == null) {
       return expected;
     }
 
     try {
       Set<Change.Id> found = Sets.newHashSetWithExpectedSize(expected.size());
+      Iterables.addAll(found, alreadyMerged);
       rw.resetRetain(canMergeFlag);
       rw.sort(RevSort.TOPO);
       rw.markStart(mergeTip);
@@ -704,5 +706,17 @@ public class MergeUtil {
     } catch (IOException e) {
       throw new IntegrationException("Cannot check if changes were merged", e);
     }
+  }
+
+  public static CodeReviewCommit findAnyMergedInto(CodeReviewRevWalk rw,
+      Iterable<CodeReviewCommit> commits, CodeReviewCommit tip) throws IOException {
+    for (CodeReviewCommit c : commits) {
+      // TODO(dborowitz): Seems like this could get expensive for many patch
+      // sets. Is there a more efficient implementation?
+      if (rw.isMergedInto(c, tip)) {
+        return c;
+      }
+    }
+    return null;
   }
 }

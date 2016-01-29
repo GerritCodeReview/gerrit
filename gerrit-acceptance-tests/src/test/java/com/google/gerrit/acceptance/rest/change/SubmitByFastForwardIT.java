@@ -16,12 +16,23 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 import java.util.Map;
@@ -106,5 +117,45 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
+  }
+
+  @Test
+  public void repairChangeStateAfterFailure() throws Exception {
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
+    Change.Id id = change.getChange().getId();
+    SubmitInput failAfterRefUpdates =
+        new TestSubmitInput(new SubmitInput(), true);
+    submit(change.getChangeId(), failAfterRefUpdates,
+        ResourceConflictException.class, "Failing after ref updates", true);
+
+    // Bad: ref advanced but change wasn't updated.
+    PatchSet.Id psId = new PatchSet.Id(id, 1);
+    ChangeInfo info = gApi.changes().id(id.get()).get();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
+    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
+
+    ObjectId rev;
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      rev = repo.exactRef(psId.toRefName()).getObjectId();
+      assertThat(rev).isNotNull();
+      assertThat(repo.exactRef("refs/heads/master").getObjectId())
+          .isEqualTo(rev);
+    }
+
+    submit(change.getChangeId());
+
+    // Change status was updated, and branch tip stayed the same.
+    info = gApi.changes().id(id.get()).get();
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
+    assertThat(Iterables.getLast(info.messages).message)
+        .isEqualTo(lastMessage.message);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.exactRef("refs/heads/master").getObjectId())
+          .isEqualTo(rev);
+    }
   }
 }

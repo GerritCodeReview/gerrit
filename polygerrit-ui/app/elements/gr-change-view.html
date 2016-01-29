@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-change-actions.html">
@@ -319,6 +320,8 @@ limitations under the License.
         }
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
       ready: function() {
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
@@ -415,7 +418,7 @@ limitations under the License.
       },
 
       _computeChangeStatus: function(status) {
-        if (status == Changes.Status.NEW) {
+        if (status == this.ChangeStatus.NEW) {
           return '';
         }
         return '(' + status.toLowerCase() + ')';
@@ -426,7 +429,7 @@ limitations under the License.
       },
 
       _computeCommitInfoPath: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/commit?links';
+        return this.changeBaseURL(changeNum, patchNum) + '/commit?links';
       },
 
       _computeCommentsPath: function(changeNum) {
@@ -438,9 +441,9 @@ limitations under the License.
       },
 
       _computeDetailQueryParams: function() {
-        var options = Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.ALL_REVISIONS,
-            Changes.ListChangesOption.CHANGE_ACTIONS
+        var options = this.listChangesOptionsToHex(
+            this.ListChangesOption.ALL_REVISIONS,
+            this.ListChangesOption.CHANGE_ACTIONS
         );
         return { O: options };
       },

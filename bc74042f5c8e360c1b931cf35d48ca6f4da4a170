@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "34c5aece_c4bedecb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-29T20:21:29Z",
+      "side": 1,
+      "message": "Taking the N-way merge base this way is not what I want; the merge base of multiple patch sets of the change is going to be a common ancestor, not one of the patch sets themselves.\n\nI really want N isMergedInto checks. I was trying to avoid it, but I guess not.",
+      "revId": "bc74042f5c8e360c1b931cf35d48ca6f4da4a170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "146eeab0_7358a080",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 1

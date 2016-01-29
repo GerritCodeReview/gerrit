@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_14ad94a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T00:35:51Z",
+      "side": 1,
+      "message": "Instead of explicitly importing this, refer to it as Project.NameKey like in the existing code.",
+      "revId": "6c0f02478272b9d5b2cb65051e322c3dbbae3917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3473ee96_f4a738c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T00:35:51Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "6c0f02478272b9d5b2cb65051e322c3dbbae3917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146eeab0_13adaca8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T00:35:51Z",
+      "side": 1,
+      "message": "Project.NameKey",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "6c0f02478272b9d5b2cb65051e322c3dbbae3917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

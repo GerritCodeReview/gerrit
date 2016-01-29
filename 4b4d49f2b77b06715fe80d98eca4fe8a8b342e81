@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7479e672_f69d804c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d47ff24a_a18e5e1b",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d47ff24a_c1936240",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-29T14:55:19Z",
       "side": 1,
       "message": "reduces",
+      "range": {
+        "startLine": 15,
+        "startChar": 63,
+        "endLine": 15,
+        "endChar": 69
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d47ff24a_618d361a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d47ff24a_c1936240",
       "range": {
         "startLine": 15,
         "startChar": 63,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7479e672_762fb0c6",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d47ff24a_e198665f",
+      "range": {
+        "startLine": 103,
+        "startChar": 40,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7479e672_f622e0e0",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d47ff24a_21832ef2",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7479e672_f622e0e0",
+      "range": {
+        "startLine": 224,
+        "startChar": 39,
+        "endLine": 224,
+        "endChar": 43
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7479e672_16383c0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2016-01-29T14:55:19Z",
       "side": 1,
       "message": "FirstParent",
+      "range": {
+        "startLine": 176,
+        "startChar": 39,
+        "endLine": 176,
+        "endChar": 43
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7479e672_968e0c1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7479e672_16383c0e",
       "range": {
         "startLine": 176,
         "startChar": 39,
@@ -164,6 +284,54 @@
     },
     {
       "key": {
+        "uuid": "7479e672_b6930841",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7479e672_d61de4a5",
+      "range": {
+        "startLine": 216,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 50
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d47ff24a_418032e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7479e672_36353815",
+      "range": {
+        "startLine": 216,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 50
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d47ff24a_019e2a48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 1
@@ -175,6 +343,30 @@
       "writtenOn": "2016-01-29T14:55:19Z",
       "side": 1,
       "message": "Is \"mergedInParents\" a common name for \"all except the first parent\" in Git?",
+      "range": {
+        "startLine": 255,
+        "startChar": 34,
+        "endLine": 255,
+        "endChar": 49
+      },
+      "revId": "4b4d49f2b77b06715fe80d98eca4fe8a8b342e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7479e672_d698845f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-29T15:14:15Z",
+      "side": 1,
+      "message": "I don\u0027t know what is the common name for this thing in Git, this was just my initial idea that was good enough ;) I\u0027m open for propositions how this could be changed.",
+      "parentUuid": "d47ff24a_019e2a48",
       "range": {
         "startLine": 255,
         "startChar": 34,

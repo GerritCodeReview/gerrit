@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -33,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -47,14 +50,22 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private static final Logger log =
@@ -68,6 +79,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private ObjectId mergeResultRev;
   private PatchSet mergedPatchSet;
   private Change updatedChange;
+  private CodeReviewCommit alreadyMerged;
 
   protected SubmitStrategyOp(SubmitStrategy.Arguments args,
       CodeReviewCommit toMerge) {
@@ -96,7 +108,10 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // Run the submit strategy implementation and record the merge tip state so
     // we can create the ref update.
     CodeReviewCommit tipBefore = args.mergeTip.getCurrentTip();
-    updateRepoImpl(ctx);
+    alreadyMerged = getAlreadyMergedCommit(ctx);
+    if (alreadyMerged == null) {
+      updateRepoImpl(ctx);
+    }
     CodeReviewCommit tipAfter = args.mergeTip.getCurrentTip();
 
     if (Objects.equals(tipBefore, tipAfter)) {
@@ -133,27 +148,119 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     }
   }
 
+  private CodeReviewCommit getAlreadyMergedCommit(RepoContext ctx)
+      throws IOException {
+    if (args.mergeTip.getCurrentTip() == null) {
+      return null;
+    }
+    CodeReviewRevWalk rw = (CodeReviewRevWalk) ctx.getRevWalk();
+    Change.Id id = getId();
+
+    Collection<Ref> refs = ctx.getRepository().getRefDatabase()
+        .getRefs(id.toRefPrefix()).values();
+    Set<CodeReviewCommit> commits =
+        Sets.newHashSetWithExpectedSize(refs.size());
+    for (Ref ref : refs) {
+      PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+      if (psId == null) {
+        continue;
+      }
+      try {
+        CodeReviewCommit c = rw.parseCommit(ref.getObjectId());
+        c.setPatchsetId(psId);
+        commits.add(c);
+      } catch (MissingObjectException | IncorrectObjectTypeException e) {
+        continue; // Bogus ref, can't be merged into tip so we don't care.
+      }
+    }
+
+    List<CodeReviewCommit> alreadyMergedCommits = new ArrayList<>();
+    // MERGE_BASE requires one flag per commit, so break into batches and take
+    // the max resulting patch set.
+    for (Iterable<CodeReviewCommit> batch : Iterables.partition(commits, 20)) {
+      CodeReviewCommit c = getAlreadyMergedCommit(rw, commits, batch);
+      if (c != null) {
+        alreadyMergedCommits.add(c);
+      }
+    }
+    if (alreadyMergedCommits.isEmpty()) {
+      return null;
+    }
+
+    // Some patch set of this change is actually merged into the target
+    // branch, most likely because a previous run of MergeOp failed after
+    // updateRepo, during updateChange.
+    //
+    // Do the best we can to clean this up: mark the change as merged and set
+    // the current patch set. Don't touch the dest branch at all. This can
+    // lead to some odd situations like another change in the set merging in
+    // a different patch set of this change, but that's unavoidable at this
+    // point.  At least the change will end up in the right state.
+    //
+    // TODO(dborowitz): Consider deleting later junk patch set refs. They
+    // presumably don't have PatchSets pointing to them.
+    CodeReviewCommit result = ReviewDbUtil.intKeyOrdering().onResultOf(
+        new Function<CodeReviewCommit, PatchSet.Id>() {
+          @Override
+          public PatchSet.Id apply(CodeReviewCommit in) {
+            return in.getPatchsetId();
+          }
+        }).max(alreadyMergedCommits);
+    rw.parseBody(result);
+    result.copyFrom(toMerge);
+    result.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+    args.commits.put(result);
+    return result;
+  }
+
+  private CodeReviewCommit getAlreadyMergedCommit(CodeReviewRevWalk rw,
+      Set<CodeReviewCommit> all, Iterable<CodeReviewCommit> commits)
+      throws IOException {
+    RevFilter oldFilter = rw.getRevFilter();
+    try {
+      rw.reset();
+      rw.setRevFilter(RevFilter.MERGE_BASE);
+      rw.markStart(args.mergeTip.getCurrentTip());
+      for (CodeReviewCommit c : commits) {
+        rw.markStart(c);
+      }
+      CodeReviewCommit mergeBase = rw.next();
+      return all.contains(mergeBase) ? mergeBase : null;
+    } finally {
+      rw.reset();
+      rw.setRevFilter(oldFilter);
+    }
+  }
+
   @Override
   public final boolean updateChange(ChangeContext ctx) throws Exception {
     toMerge.setControl(ctx.getControl()); // Update change and notes from ctx.
-    PatchSet newPatchSet = updateChangeImpl(ctx);
     PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
-    PatchSet.Id newPsId = checkNotNull(ctx.getChange().currentPatchSetId());
-    if (newPatchSet == null) {
-      checkState(oldPsId.equals(newPsId),
-          "patch set advanced from %s to %s but updateChangeImpl did not return"
-          + " new patch set instance", oldPsId, newPsId);
-      // Ok to use stale notes to get the old patch set, which didn't change
-      // during the submit strategy.
-      mergedPatchSet = checkNotNull(
-          args.psUtil.get(ctx.getDb(), ctx.getNotes(), oldPsId),
-          "missing old patch set %s", oldPsId);
+    PatchSet.Id newPsId;
+
+    if (alreadyMerged != null) {
+      alreadyMerged.setControl(ctx.getControl());
+      mergedPatchSet = getOrCreateAlreadyMergedPatchSet(ctx);
+      newPsId = mergedPatchSet.getId();
     } else {
-      PatchSet.Id n = newPatchSet.getId();
-      checkState(!n.equals(oldPsId) && n.equals(newPsId),
-          "current patch was %s and is now %s, but updateChangeImpl returned"
-          + " new patch set instance at %s", oldPsId, newPsId, n);
-      mergedPatchSet = newPatchSet;
+      PatchSet newPatchSet = updateChangeImpl(ctx);
+      newPsId = checkNotNull(ctx.getChange().currentPatchSetId());
+      if (newPatchSet == null) {
+        checkState(oldPsId.equals(newPsId),
+            "patch set advanced from %s to %s but updateChangeImpl did not"
+            + " return new patch set instance", oldPsId, newPsId);
+        // Ok to use stale notes to get the old patch set, which didn't change
+        // during the submit strategy.
+        mergedPatchSet = checkNotNull(
+            args.psUtil.get(ctx.getDb(), ctx.getNotes(), oldPsId),
+            "missing old patch set %s", oldPsId);
+      } else {
+        PatchSet.Id n = newPatchSet.getId();
+        checkState(!n.equals(oldPsId) && n.equals(newPsId),
+            "current patch was %s and is now %s, but updateChangeImpl returned"
+            + " new patch set instance at %s", oldPsId, newPsId, n);
+        mergedPatchSet = newPatchSet;
+      }
     }
 
     Change c = ctx.getChange();
@@ -168,8 +275,9 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
           id);
       setApproval(ctx, args.caller);
 
-      mergeResultRev = args.mergeTip != null
-          ? args.mergeTip.getMergeResults().get(commit) : null;
+      mergeResultRev = alreadyMerged == null
+          ? args.mergeTip.getMergeResults().get(commit)
+          : alreadyMerged;
       String txt = s.getMessage();
 
       ChangeMessage msg;
@@ -195,6 +303,23 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     }
     updatedChange = c;
     return true;
+  }
+
+  private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx)
+      throws IOException, OrmException {
+    PatchSet.Id psId = alreadyMerged.getPatchsetId();
+    ctx.getChange().setCurrentPatchSet(psId,
+        alreadyMerged.getShortMessage(),
+        ctx.getChange().getOriginalSubject());
+    PatchSet existing = args.psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+    if (existing != null) {
+      return existing;
+    }
+    // No patch set for the already merged commit, although we know it came form
+    // a patch set ref. Fix up the database. Note that this uses the current
+    // user as the uploader, which is as good a guess as any.
+    return args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
+        ctx.getUpdate(psId), psId, alreadyMerged, false, null, null);
   }
 
   private void setApproval(ChangeContext ctx, IdentifiedUser user)

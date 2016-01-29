@@ -20,13 +20,13 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
@@ -75,6 +75,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@NoHttpd
 public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
@@ -222,16 +223,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             + expectedExceptionType.getSimpleName());
       }
     } catch (RestApiException e) {
+      if (expectedExceptionType == null) {
+        throw e;
+      }
       // More verbose than using assertThat and/or ExpectedException, but gives
       // us the stack trace.
-      if (expectedExceptionType != null && (
-          !expectedExceptionType.isAssignableFrom(e.getClass())
-          || !e.getMessage().equals(expectedExceptionMsg))) {
+      if (!expectedExceptionType.isAssignableFrom(e.getClass())
+          || !e.getMessage().equals(expectedExceptionMsg)) {
         throw new AssertionError("Expected exception of type "
             + expectedExceptionType.getSimpleName() + " with message: "
             + expectedExceptionMsg, e);
       }
-      throw e;
+      return;
     }
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);

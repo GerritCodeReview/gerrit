@@ -60,7 +60,7 @@ public class GerritServer {
       return new AutoValue_GerritServer_Description(
           configName,
           true, // @UseLocalDisk is only valid on methods.
-          testDesc.getTestClass().getAnnotation(NoHttpd.class) == null,
+          !hasNoHttpd(testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null); // @GerritConfigs is only valid on methods.
 
@@ -72,9 +72,18 @@ public class GerritServer {
           configName,
           testDesc.getAnnotation(UseLocalDisk.class) == null,
           testDesc.getAnnotation(NoHttpd.class) == null
-            && testDesc.getTestClass().getAnnotation(NoHttpd.class) == null,
+            && !hasNoHttpd(testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class));
+    }
+
+    private static boolean hasNoHttpd(Class<?> clazz) {
+      for (; clazz != null; clazz = clazz.getSuperclass()) {
+        if (clazz.getAnnotation(NoHttpd.class) != null) {
+          return true;
+        }
+      }
+      return false;
     }
 
     @Nullable abstract String configName();

@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.EventListener;
@@ -78,6 +79,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@NoHttpd
 public abstract class AbstractSubmit extends AbstractDaemonTest {
   private static final Logger log =
       LoggerFactory.getLogger(AbstractSubmit.class);

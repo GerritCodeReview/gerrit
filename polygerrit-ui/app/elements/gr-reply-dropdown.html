@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-request.html">
 
@@ -193,6 +194,8 @@ limitations under the License.
         _xhrPromise: Object,  // Used for testing.
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
       get opened() {
         return this.$.dropdown.opened;
       },
@@ -312,7 +315,7 @@ limitations under the License.
         var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: 'POST',
-          url: Changes.baseURL(this.changeNum, this.patchNum) + '/review',
+          url: this.changeBaseURL(this.changeNum, this.patchNum) + '/review',
           body: payload,
         });
 

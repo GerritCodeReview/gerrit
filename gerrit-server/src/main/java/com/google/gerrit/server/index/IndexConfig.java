@@ -29,7 +29,7 @@ import org.eclipse.jgit.lib.Config;
  */
 @AutoValue
 public abstract class IndexConfig {
-  private static final int DEFAULT_MAX_TERMS = 500;
+  private static final int DEFAULT_MAX_TERMS = 1024;
   private static final int DEFAULT_MAX_PREFIX_TERMS = 100;
 
   public static IndexConfig createDefault() {
@@ -49,7 +49,7 @@ public abstract class IndexConfig {
     return new AutoValue_IndexConfig(
         checkLimit(maxLimit, "maxLimit", Integer.MAX_VALUE),
         checkLimit(maxPages, "maxPages", Integer.MAX_VALUE),
-        checkLimit(maxTerms, "maxTerms", Integer.MAX_VALUE),
+        checkLimit(maxTerms, "maxTerms", DEFAULT_MAX_TERMS),
         checkLimit(maxPrefixTerms, "maxPrefixTerms", DEFAULT_MAX_PREFIX_TERMS));
   }
 

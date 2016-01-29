@@ -2385,7 +2385,7 @@ perform poorly, so setting this option causes query parsing to fail fast
 before attempting to send them to the secondary index. Set to 0 for no
 limit.
 +
-Defaults to 500.
+Defaults to no limit.
 
 ==== Lucene configuration
 

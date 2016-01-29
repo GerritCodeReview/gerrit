@@ -15,38 +15,55 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class SubmitStrategyListener extends BatchUpdate.Listener {
   private final Collection<SubmitStrategy> strategies;
   private final CommitStatus commits;
+  private final boolean failAfterRefUpdates;
 
-  public SubmitStrategyListener(Collection<SubmitStrategy> strategies,
-      CommitStatus commits) {
+  public SubmitStrategyListener(SubmitInput input,
+      Collection<SubmitStrategy> strategies, CommitStatus commits) {
     this.strategies = strategies;
     this.commits = commits;
+    if (input instanceof TestSubmitInput) {
+      failAfterRefUpdates = ((TestSubmitInput) input).failAfterRefUpdates;
+    } else {
+      failAfterRefUpdates = false;
+    }
   }
 
   @Override
   public void afterUpdateRepos() throws ResourceConflictException {
     try {
       markCleanMerges();
-      checkCommitStatus();
-      findUnmergedChanges();
+      List<Change.Id> alreadyMerged = checkCommitStatus();
+      findUnmergedChanges(alreadyMerged);
     } catch (IntegrationException e) {
       throw new ResourceConflictException(e.getMessage(), e);
     }
   }
 
-  private void findUnmergedChanges()
+  @Override
+  public void afterRefUpdates() throws ResourceConflictException {
+    if (failAfterRefUpdates) {
+      throw new ResourceConflictException("Failing after ref updates");
+    }
+  }
+
+  private void findUnmergedChanges(List<Change.Id> alreadyMerged)
       throws ResourceConflictException, IntegrationException {
     for (SubmitStrategy strategy : strategies) {
       if (strategy instanceof CherryPick) {
@@ -57,7 +74,7 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       Set<Change.Id> unmerged = args.mergeUtil.findUnmergedChanges(
           args.commits.getChangeIds(args.destBranch), args.rw,
           args.canMergeFlag, args.mergeTip.getInitialTip(),
-          args.mergeTip.getCurrentTip());
+          args.mergeTip.getCurrentTip(), alreadyMerged);
       for (Change.Id id : unmerged) {
         commits.problem(id,
             "internal error: change not reachable from new branch tip");
@@ -74,21 +91,27 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
     }
   }
 
-  private void checkCommitStatus() throws ResourceConflictException {
+  private List<Change.Id> checkCommitStatus() throws ResourceConflictException {
+    List<Change.Id> alreadyMerged =
+        new ArrayList<>(commits.getChangeIds().size());
     for (Change.Id id : commits.getChangeIds()) {
       CodeReviewCommit commit = commits.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
         commits.problem(id,
             "internal error: change not processed by merge strategy");
-        return;
+        continue;
       }
       switch (s) {
         case CLEAN_MERGE:
         case CLEAN_REBASE:
         case CLEAN_PICK:
-        case ALREADY_MERGED:
           break; // Merge strategy accepted this change.
+
+        case ALREADY_MERGED:
+          // Already an ancestor of tip.
+          alreadyMerged.add(commit.getPatchsetId().getParentKey());
+          break;
 
         case PATH_CONFLICT:
         case REBASE_MERGE_CONFLICT:
@@ -112,6 +135,7 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       }
     }
     commits.maybeFailVerbose();
+    return alreadyMerged;
   }
 
   @Override

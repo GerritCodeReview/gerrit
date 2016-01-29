@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
@@ -335,6 +336,7 @@ public class MergeOp implements AutoCloseable {
 
   private CommitStatus commits;
   private ReviewDb db;
+  private TestSubmitInput testSubmitInput;
 
   @Inject
   MergeOp(ChangeControl.GenericFactory changeControlFactory,
@@ -365,6 +367,10 @@ public class MergeOp implements AutoCloseable {
     this.subOpProvider = subOpProvider;
 
     openRepos = new HashMap<>();
+  }
+
+  public void setTestSubmitInput(TestSubmitInput input) {
+    this.testSubmitInput = input;
   }
 
   private OpenRepo getRepo(Project.NameKey project) {
@@ -627,7 +633,7 @@ public class MergeOp implements AutoCloseable {
 
       BatchUpdate.execute(
           batchUpdates(projects),
-          new SubmitStrategyListener(strategies, commits));
+          new SubmitStrategyListener(testSubmitInput, strategies, commits));
 
       SubmoduleOp subOp = subOpProvider.get();
       for (Branch.NameKey branch : branches) {

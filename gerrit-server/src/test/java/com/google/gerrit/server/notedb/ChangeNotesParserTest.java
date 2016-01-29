@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Change;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -422,6 +423,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
-    return new ChangeNotesParser(newChange(), tip, walk, repoManager);
+    Change c = newChange();
+    return new ChangeNotesParser(c.getProject(), c.getId(), tip, walk,
+        repoManager);
   }
 }

@@ -126,7 +126,7 @@ public class GroupCollector {
             if (c == null) {
               return null;
             }
-            ChangeNotes notes = notesFactory.create(c);
+            ChangeNotes notes = notesFactory.create(db, c);
             PatchSet ps = psUtil.get(db, notes, psId);
             return ps != null ? ps.getGroups() : null;
           }

@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -115,7 +116,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(Change change) {
+    public ChangeNotes create(@SuppressWarnings("unused") ReviewDb db,
+        Change change) {
       return new ChangeNotes(repoManager, migration, allUsersProvider, change);
     }
 

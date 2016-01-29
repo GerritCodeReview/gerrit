@@ -127,7 +127,7 @@ public class PatchSetParser {
     if (c == null) {
       throw error("\"" + changeId + "\" no such change");
     }
-    return notesFactory.create(c);
+    return notesFactory.create(db.get(), c);
   }
 
   private static boolean inProject(Change change,

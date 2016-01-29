@@ -42,8 +42,8 @@ class MergeOneOp extends SubmitStrategyOp {
     // BatchUpdate how to produce CodeReviewRevWalks.
     CodeReviewCommit merged =
         args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
-            ctx.getRepository(), args.rw, ctx.getInserter(), args.canMergeFlag,
-            args.destBranch, args.mergeTip.getCurrentTip(), toMerge);
+            ctx.getRepository(), args.rw, ctx.getInserter(), args.destBranch,
+            args.mergeTip.getCurrentTip(), toMerge);
     args.mergeTip.moveTipTo(merged, toMerge);
   }
 }

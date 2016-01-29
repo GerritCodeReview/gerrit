@@ -135,6 +135,7 @@ public class MergeOp implements AutoCloseable {
       rw.sort(RevSort.COMMIT_TIME_DESC, true);
       rw.setRetainBody(false);
       canMergeFlag = rw.newFlag("CAN_MERGE");
+      rw.retainOnReset(canMergeFlag);
 
       ins = repo.newObjectInserter();
       branches = Maps.newHashMapWithExpectedSize(1);

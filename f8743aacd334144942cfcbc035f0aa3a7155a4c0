@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1454013121 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBXhgQPEgedG1ryyA8FDuzKrlo/qxLNMOkF1O06Dpn9/Cqw9p7BkTDaNQiyc7x93qIuuNLmw\n\n0000000000000000000000000000000000000000 0e083e32f976ddcc932a91f1a10578a88c9d2971 refs/for/master%topic\u003dnotedb-fixes,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWqnrBAAoJEF/XxZqaEoiMvGcQAMqIfzj0ikB0r6s35T/ix7Vx\n2wqxcu5UCEdRugYrt2272P7w88iVePmeLSTMUwEEn8X8akT8iHABlzZoh3eP082w\nCTh3/INQgK6Zd272wAClT6NQyG28rDrZaihgafT3mARXyyF+jLcKKuc28xYtqXid\nDkdwwliNWRaZZwtZjhpziN1blvqU5yEgjn0MtFZ5KC5mEYK3hnHbuyw36uNI1QMS\nxXxZCeQDMDIGWvAiUKTZdwaej0+H+Lc6HUp1c07JXrikcEx36182l8wobV9TzE88\nhHxUm90goGmjtsKw4SAWlCtaHjplgjGoVuVUc2ZGO+hDTTjs99eGUqd5P77c1Osv\n6VBK3jThVVwq6lAywpaZg0nXjltcjWt0XL1wZ42MwcR/JqHcrPqEN1hcxPVE188h\nwCidpHbVbjAHwYNW6Sszxa7dxTxAAdDbYvO0XEr6CAf6L9DrmIjh/EDs8yVG0hz4\nxvVgzvU94teyj/8QEyqYjSNrNaTz+s2+LcsWeG4yKFon4m08cbFYjsZfRQwa2pct\naTJC7t3TunPKR+q6Btq7oVzOiGOgeXhQRjPNYZLwqWPidn6L1rojr03JCf6slXkX\nh3dplBzXkQscJXFkwE8BU5n3599BTYFutYEQ9ni8xfEGBLLUf0PaoJuaGgL20Pru\npGSazaeZTwalKiwaSEb6\n\u003ds3em\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_74cb2877",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T06:37:24Z",
+      "side": 1,
+      "message": "We only care whether it was OK or not, so replace this with an if-else block? \n\nAlso, is it correct to break on the first OK? The result of subsequent cmds will not be processed.\n\n for (ReceiveCommand cmd : bru.getCommands()) {\n   if (cmd.getResult() !\u003d ReceiveCommand.Result.OK) {\n     throw new IOException(...);\n   }\n }",
+      "range": {
+        "startLine": 336,
+        "startChar": 8,
+        "endLine": 353,
+        "endChar": 9
+      },
+      "revId": "f8743aacd334144942cfcbc035f0aa3a7155a4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

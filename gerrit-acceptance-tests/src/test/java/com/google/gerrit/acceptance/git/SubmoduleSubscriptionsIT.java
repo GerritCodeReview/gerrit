@@ -65,14 +65,14 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subRepoId);
     expectToHaveCommitMessage(superRepo, "master",
-        "Updated git submodules\n\n");
+        "Update git submodules\n\n");
 
     // Any following update also has a short message
     subRepoId = pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subRepoId);
     expectToHaveCommitMessage(superRepo, "master",
-        "Updated git submodules\n\n");
+        "Update git submodules\n\n");
   }
 
   @Test
@@ -89,7 +89,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     RevWalk rw = subRepo.getRevWalk();
     RevCommit subCommitMsg = rw.parseCommit(subHEAD);
     expectToHaveCommitMessage(superRepo, "master",
-        "Updated git submodules\n\n" +
+        "Update git submodules\n\n" +
         "Project: " + name("subscribed-to-project")
             + " master " + subHEAD.name() + "\n\n");
 
@@ -98,7 +98,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     subHEAD = pushChangeTo(subRepo, "master");
     subCommitMsg = rw.parseCommit(subHEAD);
     expectToHaveCommitMessage(superRepo, "master",
-        "Updated git submodules\n\n" +
+        "Update git submodules\n\n" +
         "Project: " + name("subscribed-to-project")
             + " master " + subHEAD.name() + "\n\n" +
         subCommitMsg.getFullMessage() + "\n\n");

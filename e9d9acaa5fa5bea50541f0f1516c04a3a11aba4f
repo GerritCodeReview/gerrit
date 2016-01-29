@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_74e6c802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T10:23:42Z",
+      "side": 1,
+      "message": "Does this include the case where a bot uploads a commit/change with forged author and/or committer?",
+      "range": {
+        "startLine": 18,
+        "startChar": 57,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "e9d9acaa5fa5bea50541f0f1516c04a3a11aba4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146eeab0_f310309d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-29T10:23:42Z",
+      "side": 1,
+      "message": "nit: wrap this line?\n\nand should the possible values be mentioned here?",
+      "revId": "e9d9acaa5fa5bea50541f0f1516c04a3a11aba4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

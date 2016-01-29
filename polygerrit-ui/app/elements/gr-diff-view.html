@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff.html">
 
@@ -170,6 +171,8 @@ limitations under the License.
         },
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
       attached: function() {
         if (this._path) {
           this.fire('title-change', {title: this._path});
@@ -273,13 +276,13 @@ limitations under the License.
       },
 
       _computeChangeDetailQueryParams: function() {
-        return { O: Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.ALL_REVISIONS
+        return { O: this.listChangesOptionsToHex(
+            this.ListChangesOption.ALL_REVISIONS
         )};
       },
 
       _computeFilesPath: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/files';
+        return this.changeBaseURL(changeNum, patchNum) + '/files';
       },
 
       _computeProjectConfigPath: function(project) {

@@ -360,6 +360,7 @@ public class RestApiServlet extends HttpServlet {
       replyError(req, res, status = SC_BAD_REQUEST,
           "Invalid " + JSON_TYPE + " in request", e);
     } catch (BadRequestException e) {
+      log.error(e.getClass() + ": " + e.getMessage());
       replyError(req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"),
           e.caching(), e);
     } catch (AuthException e) {

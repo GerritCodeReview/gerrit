@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -125,7 +123,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
       rebaseOp = args.rebaseFactory.create(
             toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
           .setRunHooks(false)
-          // Bypass approval copier since we're going to copy all approvals
+          // Bypass approval copier since SubmitStrategyOp copy all approvals
           // later anyway.
           .setCopyApprovals(false)
           .setValidatePolicy(CommitValidators.Policy.NONE);
@@ -155,18 +153,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
       }
 
       rebaseOp.updateChange(ctx);
-      PatchSet.Id newPatchSetId = rebaseOp.getPatchSetId();
-      List<PatchSetApproval> approvals = Lists.newArrayList();
-      // Copy approvals from original patch set.
-      for (PatchSetApproval a : args.approvalsUtil.byPatchSet(ctx.getDb(),
-          ctx.getControl(), toMerge.getPatchsetId())) {
-        approvals.add(new PatchSetApproval(newPatchSetId, a));
-      }
-      args.db.patchSetApprovals().insert(approvals);
-
       ctx.getChange().setCurrentPatchSet(
           args.patchSetInfoFactory.get(
-              args.rw, newCommit, newPatchSetId));
+              args.rw, newCommit, rebaseOp.getPatchSetId()));
       newCommit.setControl(ctx.getControl());
       return rebaseOp.getPatchSet();
     }

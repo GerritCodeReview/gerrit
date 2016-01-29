@@ -16,10 +16,19 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -152,6 +161,66 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertThat(head).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertNoSubmitter(change2.getChangeId(), 1);
+  }
+
+  @Test
+  public void repairChangeStateAfterFailure() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change =
+        createChange("Change 1", "a.txt", "content");
+    submit(change.getChangeId());
+
+    RevCommit oldHead = getRemoteHead();
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 =
+        createChange("Change 2", "b.txt", "other content");
+    Change.Id id2 = change2.getChange().getId();
+    SubmitInput failAfterRefUpdates =
+        new TestSubmitInput(new SubmitInput(), true);
+    submit(change2.getChangeId(), failAfterRefUpdates,
+        ResourceConflictException.class, "Failing after ref updates", true);
+
+    // Bad: ref advanced but change wasn't updated.
+    PatchSet.Id psId1 = new PatchSet.Id(id2, 1);
+    PatchSet.Id psId2 = new PatchSet.Id(id2, 2);
+    ChangeInfo info = gApi.changes().id(id2.get()).get();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
+    assertThat(getPatchSet(psId2)).isNull();
+    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
+
+    ObjectId rev2;
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      ObjectId rev1 = repo.exactRef(psId1.toRefName()).getObjectId();
+      assertThat(rev1).isNotNull();
+
+      rev2 = repo.exactRef(psId2.toRefName()).getObjectId();
+      assertThat(rev2).isNotNull();
+      assertThat(rev2).isNotEqualTo(rev1);
+      assertThat(rw.parseCommit(rev2).getParent(0)).isEqualTo(oldHead);
+
+      assertThat(repo.exactRef("refs/heads/master").getObjectId())
+          .isEqualTo(rev2);
+    }
+
+    submit(change2.getChangeId());
+
+    // Change status and patch set entities were updated, and branch tip stayed
+    // the same.
+    info = gApi.changes().id(id2.get()).get();
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(2);
+    PatchSet ps2 = getPatchSet(psId2);
+    assertThat(ps2).isNotNull();
+    assertThat(ps2.getRevision().get()).isEqualTo(rev2.name());
+    assertThat(Iterables.getLast(info.messages).message)
+        .isEqualTo(lastMessage.message);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.exactRef("refs/heads/master").getObjectId())
+          .isEqualTo(rev2);
+    }
   }
 
   private RevCommit parse(ObjectId id) throws Exception {

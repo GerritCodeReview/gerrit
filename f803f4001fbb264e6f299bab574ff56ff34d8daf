@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f41dd6f7_faa76979",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a20e64_5cc05d57",
+      "range": {
+        "startLine": 143,
+        "startChar": 35,
+        "endLine": 143,
+        "endChar": 52
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a20e64_3cbf91ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-22T05:58:24Z",
       "side": 1,
       "message": "No final in new code. Consider to remove the other finals in method signature you touched.",
+      "range": {
+        "startLine": 480,
+        "startChar": 10,
+        "endLine": 480,
+        "endChar": 15
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d420d22f_1964ab20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "No problem removing but was just wondering why?  Is this a general decision from Gerrit community or just your preference to not use final in new code?  Also would it not be better to removal all finals in this class as a follow up change?",
+      "parentUuid": "34a20e64_3cbf91ca",
       "range": {
         "startLine": 480,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f41dd6f7_9aac2d60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74980634_be57194f",
+      "range": {
+        "startLine": 62,
+        "startChar": 47,
+        "endLine": 62,
+        "endChar": 59
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74980634_5e24d5ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 11
@@ -82,6 +154,30 @@
       "writtenOn": "2016-01-22T05:58:24Z",
       "side": 1,
       "message": "To be consequent with previous line, just:\n\n  new HashMap\u003c\u003e();",
+      "range": {
+        "startLine": 353,
+        "startChar": 50,
+        "endLine": 353,
+        "endChar": 68
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41dd6f7_bab1f1b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74980634_5e24d5ef",
       "range": {
         "startLine": 353,
         "startChar": 50,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "f41dd6f7_7a94b904",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74980634_7e2991c6",
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a20e64_7cc51966",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 11
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "f41dd6f7_5a97750a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "Ok, have removed.  I just thought it might be better to be explicit.",
+      "parentUuid": "34a20e64_7cc51966",
+      "range": {
+        "startLine": 605,
+        "startChar": 4,
+        "endLine": 605,
+        "endChar": 22
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a20e64_1cbad5d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -145,6 +283,30 @@
       "writtenOn": "2016-01-22T05:58:24Z",
       "side": 1,
       "message": "For one it\u0027s really bad to use null value for collections, for another you\u0027ve missed the update status now. magic branch supports approvals now:\n\n  git push g HEAD:refs/for/master%l\u003dCode-Review+1\n\nBut because you are passing null here, you would erroneously end up with the hard coded false value:\n\n  Boolean status \u003d false;\n  if (approvalStatus !\u003d null \u0026\u0026 !approvalStatus.isEmpty()) {\n     status \u003d approvalStatus.get(approval.getKey());\n  }\n  addArg(args, \"--\" + lt.getName() + \"-Updated\", Boolean.toString(status));",
+      "range": {
+        "startLine": 2407,
+        "startChar": 29,
+        "endLine": 2407,
+        "endChar": 33
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146eeab0_93bffcca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2407,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-01-29T07:02:08Z",
+      "side": 1,
+      "message": "Thanks for pointing out I completely forgot about that feature.  I\u0027ve fixed this and the one in ChangeInserter.java",
+      "parentUuid": "34a20e64_1cbad5d9",
       "range": {
         "startLine": 2407,
         "startChar": 29,

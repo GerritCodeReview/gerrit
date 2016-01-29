@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d47ff24a_a1eadecb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1787,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-29T09:04:45Z",
+      "side": 1,
+      "message": "Is it safe to assume that magicBranch is not null here?\nAbove in line 1782 and below in line 1803 and 1823 we have extra null checks for magicBranch. Below in line 1793 we don\u0027t, but that\u0027s also new code. In any case it\u0027s confusing to have this check in some places and in some places not.",
+      "range": {
+        "startLine": 1787,
+        "startChar": 27,
+        "endLine": 1787,
+        "endChar": 44
+      },
+      "revId": "94ed8fd25832443b9c13710b0fdb29b1275a64d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

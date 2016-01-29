@@ -134,6 +134,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+  private static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = "copyAllScoresOnMergeFirstParentUpdate";
   private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
   private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
   private static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
@@ -716,6 +717,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setCopyMaxScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE,
               LabelType.DEF_COPY_MAX_SCORE));
+      label.setCopyAllScoresOnMergeFirstParentUpdate(
+          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+              LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE));
       label.setCopyAllScoresOnTrivialRebase(
           rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
               LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE));

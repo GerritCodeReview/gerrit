@@ -2198,6 +2198,7 @@ public class ReceiveCommits {
 
     private String changeKindMessage(ChangeKind changeKind) {
       switch (changeKind) {
+        case MERGE_FIRST_PARENT_UPDATE:
         case TRIVIAL_REBASE:
         case NO_CHANGE:
           return ": Patch Set " + priorPatchSet.get() + " was rebased";

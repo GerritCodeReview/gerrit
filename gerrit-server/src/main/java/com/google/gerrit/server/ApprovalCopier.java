@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.change.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
 import static com.google.gerrit.server.change.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.server.change.ChangeKind.NO_CODE_CHANGE;
 import static com.google.gerrit.server.change.ChangeKind.TRIVIAL_REBASE;
@@ -172,7 +173,8 @@ public class ApprovalCopier {
       // may not be psId.get() - 1).
       return true;
     }
-    return (type.isCopyAllScoresOnTrivialRebase() && kind == TRIVIAL_REBASE)
+    return (type.isCopyAllScoresOnMergeFirstParentUpdate() && kind == MERGE_FIRST_PARENT_UPDATE)
+        || (type.isCopyAllScoresOnTrivialRebase() && kind == TRIVIAL_REBASE)
         || (type.isCopyAllScoresIfNoCodeChange() && kind == NO_CODE_CHANGE)
         || (type.isCopyAllScoresIfNoChange() && kind == NO_CHANGE);
   }

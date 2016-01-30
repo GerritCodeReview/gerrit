@@ -96,12 +96,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   EventSource source;
 
+  private EventListener eventListener;
+
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
     CurrentUser listenerUser = factory.create(user.id);
-    source.addEventListener(new EventListener() {
-
+    eventListener = new EventListener() {
       @Override
       public void onEvent(Event event) {
         if (event instanceof ChangeMergedEvent) {
@@ -110,12 +111,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
               changeMergedEvent.newRev);
         }
       }
-
-    }, listenerUser);
+    };
+    source.addEventListener(eventListener, listenerUser);
   }
 
   @After
   public void cleanup() {
+    source.removeEventListener(eventListener);
     db.close();
   }
 

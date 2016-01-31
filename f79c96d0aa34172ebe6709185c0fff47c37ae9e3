@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_b4414095",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-31T12:35:48Z",
+      "side": 1,
+      "message": "I think this needs to be \u003d\u003d\u003d\u003d (i.e 4 \u003d)",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 3
+      },
+      "revId": "f79c96d0aa34172ebe6709185c0fff47c37ae9e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

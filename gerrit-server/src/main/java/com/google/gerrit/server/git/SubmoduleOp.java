@@ -225,7 +225,7 @@ public class SubmoduleOp {
   private void updateGitlinks(ReviewDb db, Branch.NameKey subscriber,
       Collection<SubmoduleSubscription> updates) throws SubmoduleException {
     PersonIdent author = null;
-    StringBuilder msgbuf = new StringBuilder("Updated git submodules\n\n");
+    StringBuilder msgbuf = new StringBuilder("Update git submodules\n\n");
     boolean sameAuthorForAll = true;
 
     try (Repository pdb = repoManager.openRepository(subscriber.getParentKey())) {

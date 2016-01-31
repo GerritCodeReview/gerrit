@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -294,6 +295,10 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
+    if (!NotifyHandling.ALL.equals(notify)) {
+      return;
+    }
+
     try {
       // BCC anyone who has starred this change.
       //
@@ -311,6 +316,10 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected final Watchers getWatchers(NotifyType type) throws OrmException {
+    if (!NotifyHandling.ALL.equals(notify)) {
+      return new Watchers();
+    }
+
     ProjectWatch watch = new ProjectWatch(
         args, branch.getParentKey(), projectState, changeData);
     return watch.getWatchers(type);
@@ -318,6 +327,11 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
+    if (!NotifyHandling.ALL.equals(notify)
+        && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+      return;
+    }
+
     try {
       for (Account.Id id : changeData.reviewers().values()) {
         add(RecipientType.CC, id);
@@ -329,6 +343,11 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
+    if (!NotifyHandling.ALL.equals(notify)
+        && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+      return;
+    }
+
     try {
       for (Account.Id id : changeData.reviewers().get(REVIEWER)) {
         add(RecipientType.CC, id);
@@ -356,18 +375,29 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> getAuthors() {
     Set<Account.Id> authors = new HashSet<>();
 
-    authors.add(change.getOwner());
-    if (patchSet != null) {
-      authors.add(patchSet.getUploader());
+    switch (notify) {
+      case NONE:
+        break;
+      case ALL:
+      default:
+        if (patchSet != null) {
+          authors.add(patchSet.getUploader());
+        }
+        if (patchSetInfo != null) {
+          if (patchSetInfo.getAuthor().getAccount() != null) {
+            authors.add(patchSetInfo.getAuthor().getAccount());
+          }
+          if (patchSetInfo.getCommitter().getAccount() != null) {
+            authors.add(patchSetInfo.getCommitter().getAccount());
+          }
+        }
+        //$FALL-THROUGH$
+      case OWNER_REVIEWERS:
+      case OWNER:
+        authors.add(change.getOwner());
+        break;
     }
-    if (patchSetInfo != null) {
-      if (patchSetInfo.getAuthor().getAccount() != null) {
-        authors.add(patchSetInfo.getAuthor().getAccount());
-      }
-      if (patchSetInfo.getCommitter().getAccount() != null) {
-        authors.add(patchSetInfo.getCommitter().getAccount());
-      }
-    }
+
     return authors;
   }
 

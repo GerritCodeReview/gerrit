@@ -146,6 +146,27 @@ Other users (e.g. project owners) who have configured Gerrit to
 notify them of new changes will be automatically sent an email
 message when the push is completed.
 
+[[notify]]
+
+Uploaders can control to whom email notifications are sent by setting
+the `notify` option:
+
+* `NONE`: No email notification will be sent to anyone.
+* `OWNER`: Only the change owner is notified.
+* `OWNER_REVIEWERS`: Only owners and reviewers will be  notified. This
+  includes all reviewers, existing reviewers of the change and new
+  reviewers that are added by the `reviewer` option or by mentioning
+  in the commit message.
+* `ALL`: All email notifications will be sent. This includes
+  notifications to watchers, users that have starred the change, CCs
+  and the committer and author of the uploaded commit.
+
+By default all email notifications are sent.
+
+====
+  git push ssh://bot@git.example.com:29418/kernel/common HEAD:refs/for/master%notify=NONE
+====
+
 [[topic]]
 To include a short tag associated with all of the changes in the
 same group, such as the local topic branch name, append it after

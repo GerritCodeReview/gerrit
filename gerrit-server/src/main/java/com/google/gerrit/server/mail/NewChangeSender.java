@@ -49,8 +49,19 @@ public abstract class NewChangeSender extends ChangeEmail {
 
     setHeader("Message-ID", getChangeMessageThreadId());
 
-    add(RecipientType.TO, reviewers);
-    add(RecipientType.CC, extraCC);
+    switch (notify) {
+      case NONE:
+      case OWNER:
+        break;
+      case ALL:
+      default:
+        add(RecipientType.CC, extraCC);
+        //$FALL-THROUGH$
+      case OWNER_REVIEWERS:
+        add(RecipientType.TO, reviewers);
+        break;
+    }
+
     rcptToAuthors(RecipientType.CC);
   }
 

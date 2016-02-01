@@ -120,7 +120,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
           .setValidatePolicy(CommitValidators.Policy.GERRIT));
       bu.execute();
     }
-    return json.create(OPTIONS).format(change.getId());
+    return json.create(OPTIONS).format(change.getProject(), change.getId());
   }
 
   private String findBaseRev(RevWalk rw, RevisionResource rsrc,

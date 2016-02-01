@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -37,13 +38,16 @@ import javax.servlet.http.HttpServletResponse;
 public class XsrfCookieFilter implements Filter {
   private final Provider<CurrentUser> user;
   private final DynamicItem<WebSession> session;
+  private final AuthConfig authConfig;
 
   @Inject
   XsrfCookieFilter(
       Provider<CurrentUser> user,
-      DynamicItem<WebSession> session) {
+      DynamicItem<WebSession> session,
+      AuthConfig authConfig) {
     this.user = user;
     this.session = session;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -55,7 +59,7 @@ public class XsrfCookieFilter implements Filter {
     chain.doFilter(req, rsp);
   }
 
-  private static void setXsrfTokenCookie(HttpServletRequest req,
+  private void setXsrfTokenCookie(HttpServletRequest req,
       HttpServletResponse rsp, WebSession session) {
     String v = session != null ? session.getXGerritAuth() : "";
     Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, v);
@@ -67,8 +71,10 @@ public class XsrfCookieFilter implements Filter {
     rsp.addCookie(c);
   }
 
-  private static boolean isSecure(HttpServletRequest req) {
-    return req.isSecure() || "https".equals(req.getScheme());
+  private boolean isSecure(HttpServletRequest req) {
+    return authConfig.getCookieSecure()
+        || req.isSecure()
+        || "https".equals(req.getScheme());
   }
 
   @Override

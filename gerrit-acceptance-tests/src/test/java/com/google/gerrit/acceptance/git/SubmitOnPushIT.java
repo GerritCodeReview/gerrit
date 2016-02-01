@@ -21,6 +21,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -194,8 +196,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .call();
     assertCommit(project, "refs/heads/master");
     assertThat(getSubmitter(r.getPatchSetId())).isNull();
-    Change c = db.changes().get(r.getPatchSetId().getParentKey());
-    assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
+    ChangeInfo c =
+        gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
+    assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   @Test
@@ -213,8 +216,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     assertCommit(project, "refs/heads/master");
     assertThat(getSubmitter(r.getPatchSetId())).isNull();
-    Change c = db.changes().get(r.getPatchSetId().getParentKey());
-    assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
+    ChangeInfo c =
+        gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
+    assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)

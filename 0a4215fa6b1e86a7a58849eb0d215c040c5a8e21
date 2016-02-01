@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1454348272 -0500\nnonce ALmjDBV4wwADSDa/Znke+QZtp8blCV7u1Xl8/wAlVzjvXua0xxe4ewloMm7xLqnqHQ1i8YEMTORL\n\n0000000000000000000000000000000000000000 0cc57c5260f9180a487f792be1d90ae25910a58e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWr5fwAAoJEF/XxZqaEoiM2vgQAKJLD/lWU6U0XSnzMxJavCvY\nOgVnEQLtXSBiUEMOe5/m+il4cvflj+pfVNXqcH6CIEXMoi/RUAuNLETbpkB7d8n8\nccPyydvhzWlgn/9HYlTkM6/EZ4uColTAtAt1i6A3/aDYJMFjESn9SA5HZMJLfZKB\nj0HRQ92HHDnhft3xKtBZL/1Nq+vA1H/qkh2SSTi17416hn1T54vGqQx2570kIFHq\nY73ogECDl72d9yNxD0KzK/iBk/hZeUG2wbwGcAB2wkFDZryLGwkLNUeYp8W+RU+0\n/Qmhasqm+grhoEdDOYS81hZ+kAoI/JnMkGwilbYzZEdZ9isdjpRUnDccRwv9r93e\nNlTBWoZIGfXbrB3zIUdVR6gKJVPjQCzgEz4L7w2GBI//wIOpUmG1iTpnFLAcQ11H\n//Q2tdoE1v1ECNnGOM8Q5eii2t857/vcqHBTeAErrcNRy3gd5pRHF81/g0mFfJLC\nVLKacQICVb/xM9jluo8syZvRrl5EshH8AbizteiQQZN11dXAyZZdcaX90u1sqr98\nDeFj8jHElMBZKcCub9TlxEuFSf38aidP64T7yccWmCwMrEellwWRoptgkvUobJGs\nY1bCNjYsKLbwrViJT1crf1lbReqEQDS4uoXGiCNZr4P+mbfsTcJauFqBrpAbhF4T\nuBV2q6R02vfVT9Sqf0tA\n\u003df11a\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "146eeab0_b3ceb83a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-01T18:13:04Z",
+      "side": 1,
+      "message": "(food for thought)\nWould it make sense to log all the events?\n\nNot sure if here would be the right place, though. I could imagine each event to be logged in a different place to have annotations ready for each event. Although I\u0027d think it would be convenient to have all the events in the debug output.",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 16
+      },
+      "revId": "0a4215fa6b1e86a7a58849eb0d215c040c5a8e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

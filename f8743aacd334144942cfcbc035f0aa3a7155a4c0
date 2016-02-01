@@ -23,6 +23,30 @@
       "revId": "f8743aacd334144942cfcbc035f0aa3a7155a4c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c6a2da_e54676a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T16:16:01Z",
+      "side": 1,
+      "message": "The break breaks out of the switch, not the for loop.",
+      "parentUuid": "3473ee96_74cb2877",
+      "range": {
+        "startLine": 336,
+        "startChar": 8,
+        "endLine": 353,
+        "endChar": 9
+      },
+      "revId": "f8743aacd334144942cfcbc035f0aa3a7155a4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1492,7 +1492,8 @@ public class ReceiveCommits {
 
     final Change changeEnt;
     try {
-      changeEnt = db.changes().get(changeId);
+      changeEnt =
+          notesFactory.create(db, project.getNameKey(), changeId).getChange();
     } catch (OrmException e) {
       log.error("Cannot lookup existing change " + changeId, e);
       reject(cmd, "database error");
@@ -1843,7 +1844,8 @@ public class ReceiveCommits {
           changeCtl.getUser().asIdentifiedUser(), false);
     }
     addMessage("");
-    Change c = db.changes().get(rsrc.getChange().getId());
+    Change c = notesFactory
+        .create(db, project.getNameKey(), rsrc.getChange().getId()).getChange();
     switch (c.getStatus()) {
       case MERGED:
         addMessage("Change " + c.getChangeId() + " merged.");
@@ -2726,7 +2728,8 @@ public class ReceiveCommits {
     String refName = cmd.getRefName();
     Change.Id cid = psi.getParentKey();
 
-    Change change = db.changes().get(cid);
+    Change change =
+        notesFactory.create(db, project.getNameKey(), cid).getChange();
     ChangeControl ctl = projectControl.controlFor(change);
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psi);
     if (change == null || ps == null) {

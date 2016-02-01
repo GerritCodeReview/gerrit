@@ -40,6 +40,24 @@
       "revId": "5187041ce23b274c82bfebddc4b3ffce7baa608f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c6a2da_452f8ac6",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T18:21:33Z",
+      "side": 1,
+      "message": "\u003e Done.\n \u003e \n \u003e Which parser? Gmail’s?\n\nThis one. Like, the one you\u0027re looking at right now to read this comment thread.",
+      "parentUuid": "146eeab0_33946804",
+      "revId": "5187041ce23b274c82bfebddc4b3ffce7baa608f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2146,7 +2146,7 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
         public PatchSet.Id call() throws OrmException, IOException,
-            NoSuchChangeException, ResourceConflictException {
+            ResourceConflictException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
@@ -2157,6 +2157,9 @@ public class ReceiveCommits {
                 return insertPatchSet(db);
               }
             }
+          } catch (OrmException | IOException  e) {
+            log.error("Failed to insert patch set", e);
+            throw e;
           } finally {
             synchronized (replaceProgress) {
               replaceProgress.update(1);

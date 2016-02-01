@@ -76,7 +76,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
-    return json.create(ChangeJson.NO_OPTIONS).format(revertedChangeId);
+    return json.create(ChangeJson.NO_OPTIONS).format(req.getProject(),
+        revertedChangeId);
   }
 
   @Override

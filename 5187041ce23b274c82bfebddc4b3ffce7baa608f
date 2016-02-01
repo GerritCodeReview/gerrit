@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1dc50fe_10bba4dd",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T15:51:17Z",
+      "side": 1,
+      "message": "GWT UI has a leading space on each line, which I think is actually required for the parser thing to pull out the quotes.",
+      "range": {
+        "startLine": 164,
+        "startChar": 38,
+        "endLine": 164,
+        "endChar": 42
+      },
+      "revId": "5187041ce23b274c82bfebddc4b3ffce7baa608f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

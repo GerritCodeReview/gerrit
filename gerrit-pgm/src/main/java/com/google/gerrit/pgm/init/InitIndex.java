@@ -57,8 +57,8 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-      LuceneChangeIndex.setReady(
-          site, ChangeSchemas.getLatest().getVersion(), true);
+    LuceneChangeIndex.setReady(
+        site, ChangeSchemas.getLatest().getVersion(), true);
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
     } else {
       final String message = String.format(

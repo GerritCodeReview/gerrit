@@ -22,6 +22,30 @@
       "revId": "f79c96d0aa34172ebe6709185c0fff47c37ae9e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1dc50fe_d0abdc92",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-01T14:10:45Z",
+      "side": 1,
+      "message": "Yes, done",
+      "parentUuid": "3473ee96_b4414095",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 3
+      },
+      "revId": "f79c96d0aa34172ebe6709185c0fff47c37ae9e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,9 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -404,7 +404,8 @@ public class BatchUpdate implements AutoCloseable {
   private final Timestamp when;
   private final TimeZone tz;
 
-  private final ListMultimap<Change.Id, Op> ops = ArrayListMultimap.create();
+  private final ListMultimap<Change.Id, Op> ops =
+      MultimapBuilder.linkedHashKeys().arrayListValues().build();
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<CheckedFuture<?, IOException>> indexFutures =
       new ArrayList<>();

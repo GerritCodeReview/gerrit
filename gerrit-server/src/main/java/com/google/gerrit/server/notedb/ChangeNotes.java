@@ -116,14 +116,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(ReviewDb db, Change change) {
+    public ChangeNotes create(ReviewDb db, Change change) throws OrmException {
       return new ChangeNotes(db, repoManager, migration, allUsersProvider,
-          change);
+          change).load();
     }
 
-    public ChangeNotes createForNew(ReviewDb db, Change change) {
+    public ChangeNotes createForNew(ReviewDb db, Change change) throws OrmException {
       return new ChangeNotes(db, repoManager, migration, allUsersProvider,
-          change);
+          change).load();
     }
   }
 

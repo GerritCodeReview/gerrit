@@ -17,6 +17,24 @@
       "revId": "0c31414d5395c26c429e80073f6763e63dc62955",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c6a2da_6500c64a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T16:13:11Z",
+      "side": 1,
+      "message": "This test is not testing that every single option works. It only cares that the withOptions argument is respected at all.\n\nWill rewrite to only set the options we explicitly assert about below.",
+      "parentUuid": "146eeab0_33d1c825",
+      "revId": "0c31414d5395c26c429e80073f6763e63dc62955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

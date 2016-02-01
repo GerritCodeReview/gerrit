@@ -105,11 +105,12 @@ public class EmailReviewComments implements Runnable, RequestContext {
     RequestContext old = requestContext.setContext(this);
     try {
 
-      CommentSender cm = commentSenderFactory.create(notify, change.getId());
+      CommentSender cm = commentSenderFactory.create(change.getId());
       cm.setFrom(authorId);
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(change, patchSet));
       cm.setChangeMessage(message);
       cm.setPatchLineComments(comments);
+      cm.setNotify(notify);
       cm.send();
     } catch (Exception e) {
       log.error("Cannot email comments for " + patchSet.getId(), e);

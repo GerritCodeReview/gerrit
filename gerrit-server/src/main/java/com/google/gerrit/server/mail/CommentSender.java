@@ -52,20 +52,17 @@ public class CommentSender extends ReplyToChangeSender {
       .getLogger(CommentSender.class);
 
   public static interface Factory {
-    CommentSender create(NotifyHandling notify, Change.Id id);
+    CommentSender create(Change.Id id);
   }
 
-  private final NotifyHandling notify;
   private List<PatchLineComment> inlineComments = Collections.emptyList();
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
   public CommentSender(EmailArguments ea,
       PatchLineCommentsUtil plcUtil,
-      @Assisted NotifyHandling notify,
       @Assisted Change.Id id) throws OrmException {
     super(ea, "comment", newChangeData(ea, id));
-    this.notify = notify;
     this.plcUtil = plcUtil;
   }
 

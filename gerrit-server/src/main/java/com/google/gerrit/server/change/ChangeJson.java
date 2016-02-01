@@ -96,6 +96,7 @@ import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -156,6 +157,7 @@ public class ChangeJson {
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
+  private final ChangeNotes.Factory changeNotesFactory;
 
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
@@ -181,6 +183,7 @@ public class ChangeJson {
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
+      ChangeNotes.Factory changeNotesFactory,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -200,6 +203,7 @@ public class ChangeJson {
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.gpgApi = gpgApi;
+    this.changeNotesFactory = changeNotesFactory;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -218,17 +222,18 @@ public class ChangeJson {
     return format(changeDataFactory.create(db.get(), change));
   }
 
-  public ChangeInfo format(Change.Id id) throws OrmException {
-    Change c;
+  public ChangeInfo format(Project.NameKey project, Change.Id id)
+      throws OrmException {
+    ChangeNotes notes;
     try {
-      c = db.get().changes().get(id);
+      notes = changeNotesFactory.create(db.get(), project, id);
     } catch (OrmException e) {
       if (!has(CHECK)) {
         throw e;
       }
       return checkOnly(changeDataFactory.create(db.get(), id));
     }
-    return format(changeDataFactory.create(db.get(), c));
+    return format(changeDataFactory.create(db.get(), notes.getChange()));
   }
 
   public List<ChangeInfo> format(Collection<Change.Id> ids) throws OrmException {

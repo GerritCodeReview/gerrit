@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454063730 +0100\nnonce ALmjDBW5ZRm1CzCwGdPOMSyfYwDs3TQf3H5uNXJ+gm9dJCQBGjeeKyMHuM+xiMilG5FHw80Vlnbl\n\n0000000000000000000000000000000000000000 9e078d805b56443181cd703b9e9efa058721d07f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWq0ByAAoJEFG1/Zeg0O9RfgUIAKAk43kXEC3WD6Ps0sjqB9U7\nWVwetw06sub9g44PIxfBrfct7lwIFBcVMPRs1TnrB3ALeGW9VQfU3BR1iwt/exU4\n/1gObhEn+xCS5PbpRedhGM294w78jwU3wI+RG9AiyprdOsdes99iUoom5Id9LLHh\nyjTMFMFeWE6Z/nJlJbhZ9SFn61E/R3ioGPrY3YaQvKWyJwSGGGHDA0cGvtoinJJe\n2xU+i7etvOo0BsEpySN9GDDCV1YKkSZQY2TO0iKS5tOFO+haafAo0sR/xnw9Wu82\nHbLmhJpz98wBllt1T4u8oSMd94rhTjRfAUOxQ9J8vEVqg7pUXyIV2euPnnJl49E\u003d\n\u003d8Ja/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_f47498d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-01T09:09:36Z",
+      "side": 1,
+      "message": "This causes a warning in CommentSender:\n\nThe field CommentSender.notify is hiding a field from type OutgoingEmail",
+      "revId": "9e078d805b56443181cd703b9e9efa058721d07f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

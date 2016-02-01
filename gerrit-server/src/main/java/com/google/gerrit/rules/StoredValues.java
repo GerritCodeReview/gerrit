@@ -85,7 +85,7 @@ public final class StoredValues {
       PatchSetInfoFactory patchInfoFactory =
               env.getArgs().getPatchSetInfoFactory();
       try {
-        return patchInfoFactory.get(change, ps);
+        return patchInfoFactory.get(change.getProject(), ps);
       } catch (PatchSetInfoNotAvailableException e) {
         throw new SystemException(e.getMessage());
       }

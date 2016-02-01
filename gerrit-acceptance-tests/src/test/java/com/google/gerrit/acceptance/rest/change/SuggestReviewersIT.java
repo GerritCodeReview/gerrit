@@ -64,7 +64,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     user1 = user("user1", "First1 Last1", group1);
     user2 = user("user2", "First2 Last2", group2);
-    user3 = user("user3", "First3 Last3", group1, group2);
+    user3 = user("user3", "First3 Last3", "USER3", group1, group2);
   }
 
   @Test
@@ -213,6 +213,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     reviewers = suggestReviewers(changeId, user1.username + " example", 2);
     assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, user3.email.toLowerCase(), 2);
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.get(0).account.email).isEqualTo(user3.email);
   }
 
   @Test
@@ -254,9 +258,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return GroupDescriptions.toAccountGroup(d);
   }
 
-  private TestAccount user(String name, String fullName, AccountGroup... groups)
+  private TestAccount user(String name, String fullName, String emailName, AccountGroup... groups)
       throws Exception {
-    name = name(name);
     String[] groupNames = FluentIterable.from(Arrays.asList(groups))
         .transform(new Function<AccountGroup, String>() {
           @Override
@@ -264,6 +267,12 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
             return in.getName();
           }
         }).toArray(String.class);
-    return accounts.create(name, name + "@example.com", fullName, groupNames);
+    return accounts.create(name(name), name(emailName) + "@example.com",
+        fullName, groupNames);
+  }
+
+  private TestAccount user(String name, String fullName, AccountGroup... groups)
+      throws Exception {
+    return user(name, fullName, name, groups);
   }
 }

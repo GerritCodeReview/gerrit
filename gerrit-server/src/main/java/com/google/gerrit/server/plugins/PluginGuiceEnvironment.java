@@ -555,7 +555,9 @@ public class PluginGuiceEnvironment {
       return false;
     }
     Class<?> type = key.getTypeLiteral().getRawType();
-    if (LifecycleListener.class.isAssignableFrom(type)) {
+    if (LifecycleListener.class.isAssignableFrom(type)
+        // This is needed for secondary index to work from plugin listeners
+        && !is("com.google.gerrit.server.index.IndexCollection", type)) {
       return false;
     }
     if (StartPluginListener.class.isAssignableFrom(type)) {

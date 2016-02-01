@@ -22,6 +22,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -167,12 +169,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info.messages).isNotNull();
-    assertThat(info.messages).hasSize(3);
+    Iterable<String> messages = Iterables.transform(info.messages,
+        new Function<ChangeMessageInfo, String>() {
+          @Override
+          public String apply(ChangeMessageInfo in) {
+            return in.message;
+          }
+        });
+    assertThat(messages).hasSize(3);
+    String last = Iterables.getLast(messages);
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
-      assertThat(Iterables.getLast(info.messages).message).startsWith(
+      assertThat(last).startsWith(
           "Change has been successfully cherry-picked as ");
     } else {
-      assertThat(Iterables.getLast(info.messages).message).isEqualTo(
+      assertThat(last).isEqualTo(
           "Change has been successfully merged by Administrator");
     }
   }

@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
@@ -213,12 +214,12 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
       allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-      Change change1 = db.changes().get(c1);
+      ChangeNotes notes = notesFactory.create(db, project, c1);
       PatchSet ps1 = getPatchSet(new PatchSet.Id(c1, 1));
       setApiUser(admin);
-      editModifier.createEdit(change1, ps1);
+      editModifier.createEdit(notes.getChange(), ps1);
       setApiUser(user);
-      editModifier.createEdit(change1, ps1);
+      editModifier.createEdit(notes.getChange(), ps1);
 
       assertRefs(
           // Change 1 is visible due to accessDatabase capability, even though

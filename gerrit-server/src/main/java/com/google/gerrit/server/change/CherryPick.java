@@ -84,7 +84,8 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
           cherryPickChange.cherryPick(revision.getChange(),
               revision.getPatchSet(), input.message, refName,
               refControl);
-      return json.create(ChangeJson.NO_OPTIONS).format(cherryPickedChangeId);
+      return json.create(ChangeJson.NO_OPTIONS).format(revision.getProject(),
+          cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (IntegrationException | NoSuchChangeException e) {

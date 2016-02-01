@@ -125,7 +125,7 @@ limitations under the License.
           assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
               label);
         }
-        element._draft = 'I wholeheartedly disapprove';
+        element.draft = 'I wholeheartedly disapprove';
         MockInteractions.tap(element.$$(
             'iron-selector[data-label="Code-Review"] > button[data-value="-1"]'));
         MockInteractions.tap(element.$$(

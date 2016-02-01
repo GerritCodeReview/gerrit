@@ -72,11 +72,17 @@ def _main():
     parser.add_option('-m', '--message', dest='message',
                       metavar='STRING', default=None,
                       help='Custom message to append to abandon message')
+    parser.add_option('--branch', dest='branches', metavar='BRANCH_NAME',
+                      default=[], action='append',
+                      help='Abandon changes only on the given branch')
     parser.add_option('--exclude-branch', dest='exclude_branches',
                       metavar='BRANCH_NAME',
                       default=[],
                       action='append',
                       help='Do not abandon changes on given branch')
+    parser.add_option('--project', dest='projects', metavar='PROJECT_NAME',
+                      default=[], action='append',
+                      help='Abandon changes only on the given project')
     parser.add_option('--exclude-project', dest='exclude_projects',
                       metavar='PROJECT_NAME',
                       default=[],
@@ -126,9 +132,15 @@ def _main():
         stale_changes = []
         offset = 0
         step = 500
-        query_terms = ["status:new", "age:%s" % options.age] + \
-                      ["-branch:%s" % b for b in options.exclude_branches] + \
-                      ["-project:%s" % p for p in options.exclude_projects]
+        query_terms = ["status:new", "age:%s" % options.age]
+        if options.branches:
+            query_terms += ["branch:%s" % b for b in options.branches]
+        elif options.exclude_branch:
+            query_terms += ["-branch:%s" % b for b in options.exclude_branches]
+        if options.projects:
+            query_terms += ["project:%s" % p for p in options.projects]
+        elif options.exclude_projects:
+            query_terms = ["-project:%s" % p for p in options.exclude_projects]
         if options.owner:
             query_terms += ["owner:%s" % options.owner]
         query = "%20".join(query_terms)

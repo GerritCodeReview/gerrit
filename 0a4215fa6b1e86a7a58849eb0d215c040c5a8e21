@@ -23,6 +23,30 @@
       "revId": "0a4215fa6b1e86a7a58849eb0d215c040c5a8e21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c6a2da_6532862e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T18:19:18Z",
+      "side": 1,
+      "message": "Yes, I think having a debug log of all events is a fine feature independent of this series.\n\nThe most annoying thing at the moment I think would be implementing toString on the whole Event hierarchy.",
+      "parentUuid": "146eeab0_b3ceb83a",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 16
+      },
+      "revId": "0a4215fa6b1e86a7a58849eb0d215c040c5a8e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

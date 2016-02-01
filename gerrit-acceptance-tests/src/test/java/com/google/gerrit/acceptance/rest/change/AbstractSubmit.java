@@ -49,6 +49,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -70,6 +72,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -77,6 +81,9 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
+  private static final Logger log =
+      LoggerFactory.getLogger(AbstractDaemonTest.class);
+
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
@@ -105,11 +112,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     eventListener = new EventListener() {
       @Override
       public void onEvent(Event event) {
-        if (event instanceof ChangeMergedEvent) {
-          ChangeMergedEvent changeMergedEvent = (ChangeMergedEvent) event;
-          mergeResults.put(changeMergedEvent.change.get().number,
-              changeMergedEvent.newRev);
+        if (!(event instanceof ChangeMergedEvent)) {
+          return;
         }
+        ChangeMergedEvent e = (ChangeMergedEvent) event;
+        ChangeAttribute c = e.change.get();
+        PatchSetAttribute ps = e.patchSet.get();
+        log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
+        mergeResults.put(e.change.get().number, e.newRev);
       }
     };
     source.addEventListener(eventListener, listenerUser);

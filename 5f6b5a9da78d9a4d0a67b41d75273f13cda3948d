@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7181f8c7_36c01855",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-01T07:00:54Z",
+      "side": 1,
+      "message": "I was trying on master with JDK 1.7 and JDK 1.8 on most recent OpenSUSE (42.1 Leap). I amended the code:\n\n  boolean isModified(Path jar) {\n    long lastModifiedSnapshot \u003d snapshot.lastModified();\n    long lastModifiedJar \u003d lastModified(jar);\n    System.out.println(\"Snapshot: \" + lastModifiedSnapshot);\n    System.out.println(\"Jar: \" + lastModifiedJar);\n\nOutput on the JDK 1.7:\n\n  Snapshot: 1454235705000\n  Jar: 1454235705000\n\nOutput on JDK 1.8:\n\n  Snapshot: 1454235705000\n  Jar: 1454235705799\n\nSee also my comment below. So JGit is entirely unreated here (at least on master). So the commit message is wrong. It should refect the real situation, that the breakage is caused by the combination of JDK 1.8 change (with the pointer to the related commit) and underlying OS requirement fo rthe native part to support hight resolution file timestamp retrieval.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "5f6b5a9da78d9a4d0a67b41d75273f13cda3948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3473ee96_1438340e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -13,6 +36,30 @@
       "writtenOn": "2016-02-01T05:35:13Z",
       "side": 1,
       "message": "Seems like the root cause is a combination of this and the java version?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "5f6b5a9da78d9a4d0a67b41d75273f13cda3948d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7181f8c7_16bb9cdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-01T07:00:54Z",
+      "side": 1,
+      "message": "I think that the root cause is this change in JDK 8: [1]. And it\u0027s not even sufficient. In addition, your OS must be POSIX 2008 compatible on the native side, as was pointed out in this answer n SO: [2].\n\n* [1] http://hg.openjdk.java.net/jdk8/jdk8/jdk/rev/06da87777d0e\n* [2] http://stackoverflow.com/questions/24804618/get-file-mtime-with-millisecond-resolution-from-java",
+      "parentUuid": "3473ee96_1438340e",
       "range": {
         "startLine": 9,
         "startChar": 0,

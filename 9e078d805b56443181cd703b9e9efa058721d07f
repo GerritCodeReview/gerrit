@@ -17,6 +17,24 @@
       "revId": "9e078d805b56443181cd703b9e9efa058721d07f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7181f8c7_16f4fcab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-01T09:19:08Z",
+      "side": 1,
+      "message": "Thanks for noting. Should be fixed by\n  https://gerrit-review.googlesource.com/74449",
+      "parentUuid": "3473ee96_f47498d4",
+      "revId": "9e078d805b56443181cd703b9e9efa058721d07f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

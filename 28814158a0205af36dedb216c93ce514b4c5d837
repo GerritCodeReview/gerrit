@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7181f8c7_36f9f8a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-02-01T09:28:28Z",
+      "side": 1,
+      "message": "this clearly is meant to be a new sentence ...",
+      "revId": "28814158a0205af36dedb216c93ce514b4c5d837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

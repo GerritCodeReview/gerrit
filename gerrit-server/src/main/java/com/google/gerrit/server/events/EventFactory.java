@@ -496,7 +496,7 @@ public class EventFactory {
         p.author = asAccountAttribute(author.getAccount());
       }
 
-      Change change = db.changes().get(pId.getParentKey());
+      Change change = notes.getChange();
       List<Patch> list =
           patchListCache.get(change, patchSet).toPatchList(pId);
       for (Patch pe : list) {
@@ -506,7 +506,7 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-    } catch (OrmException | IOException e) {
+    } catch (IOException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchSetInfoNotAvailableException e) {
       log.error(String.format("Cannot get authorEmail for %s.", pId), e);

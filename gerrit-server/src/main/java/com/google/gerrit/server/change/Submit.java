@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -116,6 +117,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final MergeSuperSet mergeSuperSet;
   private final AccountsCollection accounts;
@@ -135,6 +137,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       MergeSuperSet mergeSuperSet,
       AccountsCollection accounts,
@@ -146,6 +149,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.changeControlFactory = changeControlFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
@@ -203,7 +207,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
       op.merge(db, change, caller, true, input);
-      change = db.changes().get(change.getId());
+      change = changeNotesFactory
+          .create(db, change.getProject(), change.getId()).getChange();
     }
 
     if (change == null) {

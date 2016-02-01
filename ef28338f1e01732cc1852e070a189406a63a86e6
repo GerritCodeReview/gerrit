@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3473ee96_54ef0ca7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-01T10:17:11Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary.",
+      "revId": "ef28338f1e01732cc1852e070a189406a63a86e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146eeab0_b3a7987a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-01T10:17:11Z",
+      "side": 1,
+      "message": "This should be in the footer, i.e. remove the blank line at 39.",
+      "revId": "ef28338f1e01732cc1852e070a189406a63a86e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

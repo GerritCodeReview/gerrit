@@ -76,6 +76,24 @@
       "revId": "5187041ce23b274c82bfebddc4b3ffce7baa608f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3473ee96_b4fce05e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-01T18:24:48Z",
+      "side": 1,
+      "message": "Ah. PolyGerrit’s parser doesn’t handle quote styling yet. Got it.",
+      "parentUuid": "b1dc50fe_304b48b3",
+      "revId": "5187041ce23b274c82bfebddc4b3ffce7baa608f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

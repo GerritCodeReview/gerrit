@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "54c6a2da_a53c7e0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T16:15:36Z",
+      "side": 1,
+      "message": "In Ieb6c22fe it\u0027s changed to return TreeSet#values() in the notedb case.\n\nTheoretically since that\u0027s from a NavigableMap we should be able to iterate it in reverse order, but the type system isn\u0027t really helping us here, there\u0027s no NavigableCollection.",
+      "parentUuid": "146eeab0_93ea9ccc",
+      "range": {
+        "startLine": 246,
+        "startChar": 28,
+        "endLine": 246,
+        "endChar": 55
+      },
+      "revId": "fe20f71b558ed88f2d02490ade8df6a04d406a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d47ff24a_0111ca9e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
         "patchSetId": 4

@@ -36,6 +36,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -68,6 +69,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   private final RebaseChangeOp.Factory rebaseFactory;
   private final RebaseUtil rebaseUtil;
   private final ChangeJson.Factory json;
+  private final ChangeNotes.Factory notesFatcory;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
@@ -78,6 +80,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
+      ChangeNotes.Factory notesFatcory,
       Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil) {
@@ -86,6 +89,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
     this.json = json;
+    this.notesFatcory = notesFatcory;
     this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
@@ -120,7 +124,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
           .setValidatePolicy(CommitValidators.Policy.GERRIT));
       bu.execute();
     }
-    return json.create(OPTIONS).format(change.getId());
+    return json.create(OPTIONS).format(change.getProject(), change.getId());
   }
 
   private String findBaseRev(RevWalk rw, RevisionResource rsrc,
@@ -236,11 +240,9 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getControl();
     }
-    Change c = dbProvider.get().changes().get(id);
-    if (c == null) {
-      return null;
-    }
-    return rsrc.getControl().getProjectControl().controlFor(c);
+    ChangeNotes notes =
+        notesFatcory.create(dbProvider.get(), rsrc.getProject(), id);
+    return rsrc.getControl().getProjectControl().controlFor(notes);
   }
 
   private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {

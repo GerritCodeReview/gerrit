@@ -64,6 +64,24 @@
       "revId": "fe20f71b558ed88f2d02490ade8df6a04d406a6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1dc50fe_b0565853",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T18:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d47ff24a_0111ca9e",
+      "revId": "fe20f71b558ed88f2d02490ade8df6a04d406a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

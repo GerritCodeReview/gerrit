@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54c6a2da_45582a80",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-01T18:06:28Z",
+      "side": 1,
+      "message": "Just instantiate LabelTypes directly",
+      "revId": "efbcb26b66518de390e2a698806662a6bb63d65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

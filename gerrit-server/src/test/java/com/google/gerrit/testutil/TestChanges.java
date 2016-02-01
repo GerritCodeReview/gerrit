@@ -19,7 +19,6 @@ import static org.easymock.EasyMock.expect;
 
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,11 +26,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -87,20 +85,12 @@ public class TestChanges {
     return ps;
   }
 
-  public static ChangeUpdate newUpdate(Injector injector,
+  public static ChangeUpdate newUpdate(Injector injector, ReviewDb db,
       GitRepositoryManager repoManager, NotesMigration migration, Change c,
       final AllUsersNameProvider allUsers, final IdentifiedUser user)
       throws Exception  {
-    ChangeUpdate update = injector.createChildInjector(new FactoryModule() {
-      @Override
-      public void configure() {
-        factory(ChangeUpdate.Factory.class);
-        factory(ChangeDraftUpdate.Factory.class);
-        bind(IdentifiedUser.class).toInstance(user);
-        bind(AllUsersName.class).toProvider(allUsers);
-      }
-    }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(repoManager, migration, c, allUsers, user),
+    ChangeUpdate update = injector.getInstance(ChangeUpdate.Factory.class).create(
+        stubChangeControl(db, repoManager, migration, c, allUsers, user),
         TimeUtil.nowTs(), Ordering.<String> natural());
 
     ChangeNotes notes = update.getChangeNotes();
@@ -131,16 +121,15 @@ public class TestChanges {
     }
   }
 
-  public static ChangeControl stubChangeControl(
-      GitRepositoryManager repoManager, NotesMigration migration,
-      Change c, AllUsersNameProvider allUsers,
-      IdentifiedUser user) throws OrmException {
+  public static ChangeControl stubChangeControl(ReviewDb db,
+      GitRepositoryManager repoManager, NotesMigration migration, Change c,
+      AllUsersNameProvider allUsers, IdentifiedUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
     expect(ctl.getUser()).andStubReturn(user);
-    ChangeNotes notes = new ChangeNotes(null, repoManager, migration, allUsers, c)
-        .load();
+    ChangeNotes notes = new ChangeNotes(db, repoManager, migration, allUsers,
+        c.getProject(), c.getId()).load();
     expect(ctl.getNotes()).andStubReturn(notes);
     expect(ctl.getId()).andStubReturn(c.getId());
     EasyMock.replay(ctl);

@@ -129,6 +129,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
+  protected void loadFromDb() {
+  }
+
+  @Override
   protected void loadDefaults() {
     comments = ImmutableListMultimap.of();
   }

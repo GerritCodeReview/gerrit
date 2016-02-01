@@ -125,7 +125,7 @@ public class ChangeControl {
       @Assisted RefControl refControl,
       @Assisted Change change) throws OrmException {
     this(changeDataFactory, approvalsUtil, refControl,
-        notesFactory.create(db, change));
+        notesFactory.create(db, change.getProject(), change.getId()));
   }
 
   @AssistedInject

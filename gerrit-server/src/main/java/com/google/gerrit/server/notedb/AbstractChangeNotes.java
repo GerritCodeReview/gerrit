@@ -50,6 +50,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     if (loaded) {
       return self();
     }
+    loadFromDb();
     if (!migration.enabled()) {
       loadDefaults();
       return self();
@@ -83,7 +84,9 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   }
 
   /** Load default values for any instance variables when notedb is disabled. */
-  protected abstract void loadDefaults();
+  protected abstract void loadDefaults() throws OrmException;
+
+  protected abstract void loadFromDb() throws OrmException;
 
   /**
    * @return the NameKey for the project where the notes should be stored,

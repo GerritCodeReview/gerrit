@@ -310,7 +310,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     private ChangeNotes newNotes(ReviewDb db, Change change) throws OrmException {
-      return notesFactory.create(db, change);
+      return notesFactory.create(db, change.getProject(), change.getId());
     }
 
     private static Optional<Path> hook(Config config, Path path, String name) {

@@ -22,7 +22,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.TestChanges;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -30,13 +32,14 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsCommitFormatSimple() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
+    Change c = newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Verified", (short) 1);
     update.putApproval("Code-Review", (short) -1);
@@ -76,7 +79,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
   @Test
   public void changeMessageCommitFormatSimple() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
+    Change c = newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage("Just a little code change.\n"
         + "How about a new line");
@@ -98,7 +101,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
   @Test
   public void changeWithRevision() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
+    Change c = newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage("Foo");
     RevCommit commit = tr.commit().message("Subject").create();
@@ -270,6 +273,13 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n",
         update.getRevision());
+  }
+
+  private Change newChange(Project.NameKey project, Account.Id userId, int id)
+      throws OrmException {
+    Change c = TestChanges.newChange(project, userId, id);
+    db.changes().insert(Arrays.asList(c));
+    return c;
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

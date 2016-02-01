@@ -597,7 +597,8 @@ public class ChangeData {
 
   public ChangeNotes notes() throws OrmException {
     if (notes == null) {
-      notes = notesFactory.create(db, change());
+      Change c = change();
+      notes = notesFactory.create(db, c.getProject(), c.getId());
     }
     return notes;
   }

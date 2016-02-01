@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -116,9 +117,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(ReviewDb db, Change change) throws OrmException {
+    public ChangeNotes create(ReviewDb db, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
       return new ChangeNotes(db, repoManager, migration, allUsersProvider,
-          change).load();
+          project, changeId).load();
     }
 
     public ChangeNotes createForNew(ReviewDb db, Change change) throws OrmException {
@@ -127,7 +129,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
-  private final Change change;
+  private Change change;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
@@ -143,19 +145,32 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   NoteMap noteMap;
   Map<RevId, RevisionNote> revisionNotes;
 
+  private final ReviewDb db;
   private final AllUsersName allUsers;
+  private final Project.NameKey project;
   private DraftCommentNotes draftCommentNotes;
 
-  @VisibleForTesting
-  public ChangeNotes(@SuppressWarnings("unused") ReviewDb db,
-      GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersNameProvider allUsersProvider, Change change) {
-    super(repoManager, migration, change.getId());
-    this.allUsers = allUsersProvider.get();
+  ChangeNotes(ReviewDb db, GitRepositoryManager repoManager,
+      NotesMigration migration, AllUsersNameProvider allUsersProvider,
+      Change change) {
+    this(db, repoManager, migration, allUsersProvider, change.getProject(),
+        change.getId());
     this.change = new Change(change);
   }
 
+  @VisibleForTesting
+  public ChangeNotes(ReviewDb db,
+      GitRepositoryManager repoManager, NotesMigration migration,
+      AllUsersNameProvider allUsersProvider, Project.NameKey project,
+      Change.Id changeId) {
+    super(repoManager, migration, changeId);
+    this.db = db;
+    this.allUsers = allUsersProvider.get();
+    this.project = project;
+  }
+
   public Change getChange() {
+    checkState(change != null, "getChange() only valid after loading the change notes");
     return change;
   }
 
@@ -272,6 +287,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public PatchSet getCurrentPatchSet() {
+    checkState(change != null,
+        "getCurrentPatchSet() only valid after loading the change notes");
     PatchSet.Id psId = change.currentPatchSetId();
     return checkNotNull(patchSets.get(psId),
         "missing current patch set %s", psId.get());
@@ -285,8 +302,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return;
     }
     try (RevWalk walk = new RevWalk(reader);
-        ChangeNotesParser parser = new ChangeNotesParser(change.getProject(),
-            change.getId(), rev, walk, repoManager)) {
+        ChangeNotesParser parser = new ChangeNotesParser(project,
+            getChangeId(), rev, walk, repoManager)) {
       parser.parseAll();
 
       if (parser.status != null) {
@@ -336,6 +353,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
+  protected void loadFromDb() throws OrmException {
+    if (change == null) {
+      change = db.changes().get(getChangeId());
+      checkState(change != null,
+          "Failed to load change " + getChangeId() + " from database.");
+    }
+  }
+
+  @Override
   protected void loadDefaults() {
     approvals = ImmutableListMultimap.of();
     reviewers = ImmutableSetMultimap.of();
@@ -354,6 +380,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   public Project.NameKey getProjectName() {
-    return getChange().getProject();
+    return project;
   }
 }

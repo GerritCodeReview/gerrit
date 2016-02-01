@@ -452,21 +452,20 @@ public class MergeUtil {
 
   public CodeReviewCommit mergeOneCommit(PersonIdent author,
       PersonIdent committer, Repository repo, CodeReviewRevWalk rw,
-      ObjectInserter inserter, RevFlag canMergeFlag, Branch.NameKey destBranch,
+      ObjectInserter inserter, Branch.NameKey destBranch,
       CodeReviewCommit mergeTip, CodeReviewCommit n)
       throws IntegrationException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        return writeMergeCommit(author, committer, rw, inserter, canMergeFlag,
-            destBranch, mergeTip, m.getResultTreeId(), n);
+        return writeMergeCommit(author, committer, rw, inserter, destBranch,
+            mergeTip, m.getResultTreeId(), n);
       } else {
-        failed(rw, canMergeFlag, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
+        failed(rw, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
     } catch (NoMergeBaseException e) {
       try {
-        failed(rw, canMergeFlag, mergeTip, n,
-            getCommitMergeStatus(e.getReason()));
+        failed(rw, mergeTip, n, getCommitMergeStatus(e.getReason()));
       } catch (IOException e2) {
         throw new IntegrationException("Cannot merge " + n.name(), e);
       }
@@ -489,10 +488,9 @@ public class MergeUtil {
   }
 
   private static CodeReviewCommit failed(CodeReviewRevWalk rw,
-      RevFlag canMergeFlag, CodeReviewCommit mergeTip, CodeReviewCommit n,
-      CommitMergeStatus failure)
+      CodeReviewCommit mergeTip, CodeReviewCommit n, CommitMergeStatus failure)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    rw.resetRetain(canMergeFlag);
+    rw.reset();
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
     CodeReviewCommit failed;
@@ -504,12 +502,11 @@ public class MergeUtil {
 
   public CodeReviewCommit writeMergeCommit(PersonIdent author,
       PersonIdent committer, CodeReviewRevWalk rw, ObjectInserter inserter,
-      RevFlag canMergeFlag, Branch.NameKey destBranch,
-      CodeReviewCommit mergeTip, ObjectId treeId, CodeReviewCommit n)
-      throws IOException, MissingObjectException,
+      Branch.NameKey destBranch, CodeReviewCommit mergeTip, ObjectId treeId,
+      CodeReviewCommit n) throws IOException, MissingObjectException,
       IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<>();
-    rw.resetRetain(canMergeFlag);
+    rw.reset();
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
     CodeReviewCommit crc;

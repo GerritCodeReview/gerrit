@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 
 <dom-module id="gr-dashboard-view">
   <template>
@@ -62,10 +63,6 @@ limitations under the License.
        * @event title-change
        */
 
-      attached: function() {
-        this.fire('title-change', {title: 'My Reviews'});
-      },
-
       properties: {
         viewState: Object,
 
@@ -88,11 +85,17 @@ limitations under the License.
         },
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
+      attached: function() {
+        this.fire('title-change', {title: 'My Reviews'});
+      },
+
       _computeQueryParams: function() {
-        var options = Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.LABELS,
-            Changes.ListChangesOption.DETAILED_ACCOUNTS,
-            Changes.ListChangesOption.REVIEWED
+        var options = this.listChangesOptionsToHex(
+            this.ListChangesOption.LABELS,
+            this.ListChangesOption.DETAILED_ACCOUNTS,
+            this.ListChangesOption.REVIEWED
         );
         return {
           O: options,

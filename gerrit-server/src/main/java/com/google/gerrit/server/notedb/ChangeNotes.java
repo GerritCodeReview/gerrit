@@ -116,16 +116,27 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(@SuppressWarnings("unused") ReviewDb db,
-        Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    public ChangeNotes create(ReviewDb db, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
+      Change change = db.changes().get(changeId);
+      // TODO: Throw NoSuchChangeException when the change is not found in the
+      // database
+      return new ChangeNotes(repoManager, migration, allUsersProvider, project,
+          change);
+    }
+
+    public ChangeNotes createFromIndexedChange(Change change) {
+      return new ChangeNotes(repoManager, migration, allUsersProvider,
+          change.getProject(), change);
     }
 
     public ChangeNotes createForNew(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+      return new ChangeNotes(repoManager, migration, allUsersProvider,
+          change.getProject(), change);
     }
   }
 
+  private final Project.NameKey project;
   private final Change change;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
@@ -147,10 +158,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersNameProvider allUsersProvider, Change change) {
-    super(repoManager, migration, change.getId());
+      AllUsersNameProvider allUsersProvider, Project.NameKey project,
+      Change change) {
+    super(repoManager, migration, change != null ? change.getId() : null);
     this.allUsers = allUsersProvider.get();
-    this.change = new Change(change);
+    this.project = project;
+    this.change = change != null ? new Change(change) : null;
   }
 
   public Change getChange() {
@@ -278,12 +291,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
-    if (rev == null) {
+    if (rev == null || change.getId() == null) {
       loadDefaults();
       return;
     }
     try (RevWalk walk = new RevWalk(reader);
-        ChangeNotesParser parser = new ChangeNotesParser(change.getProject(),
+        ChangeNotesParser parser = new ChangeNotesParser(project,
             change.getId(), rev, walk, repoManager)) {
       parser.parseAll();
 
@@ -297,7 +310,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       noteMap = parser.noteMap;
       revisionNotes = parser.revisionNotes;
       change.setKey(new Change.Key(parser.changeId));
-      change.setDest(new Branch.NameKey(getProjectName(), parser.branch));
+      change.setDest(new Branch.NameKey(project, parser.branch));
       change.setTopic(Strings.emptyToNull(parser.topic));
       change.setCreatedOn(parser.createdOn);
       change.setLastUpdatedOn(parser.lastUpdatedOn);
@@ -352,6 +365,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   public Project.NameKey getProjectName() {
-    return getChange().getProject();
+    return project;
   }
 }

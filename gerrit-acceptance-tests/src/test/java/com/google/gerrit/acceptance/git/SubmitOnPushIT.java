@@ -223,8 +223,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
       throws OrmException {
-    Change c = db.changes().get(patchSetId.getParentKey());
-    ChangeNotes notes = changeNotesFactory.create(db, c).load();
+    ChangeNotes notes = changeNotesFactory
+        .create(db, project, patchSetId.getParentKey()).load();
     return approvalsUtil.getSubmitter(db, notes, patchSetId);
   }
 

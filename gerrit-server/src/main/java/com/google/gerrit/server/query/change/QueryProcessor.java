@@ -31,6 +31,7 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IndexRewriter;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -48,6 +49,7 @@ public class QueryProcessor {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final IndexCollection indexes;
   private final IndexRewriter rewriter;
   private final IndexConfig indexConfig;
@@ -62,6 +64,7 @@ public class QueryProcessor {
   QueryProcessor(Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory notesFactory,
       IndexCollection indexes,
       IndexRewriter rewriter,
       IndexConfig indexConfig,
@@ -69,6 +72,7 @@ public class QueryProcessor {
     this.db = db;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
+    this.notesFactory = notesFactory;
     this.indexes = indexes;
     this.rewriter = rewriter;
     this.indexConfig = indexConfig;
@@ -138,7 +142,8 @@ public class QueryProcessor {
     Timer0.Context context = metrics.executionTime.start();
 
     Predicate<ChangeData> visibleToMe = enforceVisibility
-        ? new IsVisibleToPredicate(db, changeControlFactory, userProvider.get())
+        ? new IsVisibleToPredicate(db, notesFactory, changeControlFactory,
+            userProvider.get())
         : null;
     int cnt = queries.size();
 

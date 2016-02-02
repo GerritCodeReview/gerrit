@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_8aed2bb0",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T14:47:03Z",
+      "side": 1,
+      "message": "Agreed. Split it later would be fine.",
+      "parentUuid": "71c65832_ce06e369",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "8949944b03436b46710d3cf7fdfa49d164fb9b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1bb289e_ca6a43f0",
         "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
         "patchSetId": 5

@@ -16,6 +16,8 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff.html">
 
@@ -155,6 +157,11 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
+
         _patchRange: Object,
         _change: Object,
         _changeNum: String,
@@ -164,15 +171,16 @@ limitations under the License.
           value: function() { return []; },
         },
         _path: String,
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        },
         _loggedIn: {
           type: Boolean,
           value: false,
         },
       },
+
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+        Gerrit.RESTClientBehavior,
+      ],
 
       ready: function() {
         app.accountReady.then(function() {
@@ -184,15 +192,10 @@ limitations under the License.
         if (this._path) {
           this.fire('title-change', {title: this._path});
         }
-        document.body.addEventListener('keydown', this._boundKeyHandler);
-      },
-
-      detached: function() {
-        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _handleKey: function(e) {
-        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
         switch(e.keyCode) {
           case 219:  // '['
@@ -290,13 +293,13 @@ limitations under the License.
       },
 
       _computeChangeDetailQueryParams: function() {
-        return { O: Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.ALL_REVISIONS
+        return { O: this.listChangesOptionsToHex(
+            this.ListChangesOption.ALL_REVISIONS
         )};
       },
 
       _computeFilesPath: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/files';
+        return this.changeBaseURL(changeNum, patchNum) + '/files';
       },
 
       _computeProjectConfigPath: function(project) {

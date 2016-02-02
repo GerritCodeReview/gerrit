@@ -15,6 +15,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-change-actions.html">
@@ -291,6 +293,10 @@ limitations under the License.
           value: function() { return {}; },
         },
         serverConfig: Object,
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
 
         _comments: Object,
         _change: {
@@ -316,11 +322,12 @@ limitations under the License.
           type: Function,
           value: function() { return this._handleBodyScroll.bind(this); },
         },
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        }
       },
+
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+        Gerrit.RESTClientBehavior,
+      ],
 
       ready: function() {
         app.accountReady.then(function() {
@@ -331,12 +338,10 @@ limitations under the License.
 
       attached: function() {
         window.addEventListener('scroll', this._boundScrollHandler);
-        document.body.addEventListener('keydown', this._boundKeyHandler);
       },
 
       detached: function() {
         window.removeEventListener('scroll', this._boundScrollHandler);
-        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _handleBodyScroll: function(e) {
@@ -436,7 +441,7 @@ limitations under the License.
       },
 
       _computeChangeStatus: function(status) {
-        if (status == Changes.Status.NEW) {
+        if (status == this.ChangeStatus.NEW) {
           return '';
         }
         return '(' + status.toLowerCase() + ')';
@@ -447,7 +452,7 @@ limitations under the License.
       },
 
       _computeCommitInfoPath: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/commit?links';
+        return this.changeBaseURL(changeNum, patchNum) + '/commit?links';
       },
 
       _computeCommentsPath: function(changeNum) {
@@ -459,9 +464,9 @@ limitations under the License.
       },
 
       _computeDetailQueryParams: function() {
-        var options = Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.ALL_REVISIONS,
-            Changes.ListChangesOption.CHANGE_ACTIONS
+        var options = this.listChangesOptionsToHex(
+            this.ListChangesOption.ALL_REVISIONS,
+            this.ListChangesOption.CHANGE_ACTIONS
         );
         return { O: options };
       },
@@ -512,7 +517,7 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
-        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
         switch(e.keyCode) {
           case 65:  // 'a'

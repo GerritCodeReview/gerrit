@@ -39,22 +39,6 @@ util.escapeHTML = function(str) {
   });
 };
 
-util.shouldSupressKeyboardShortcut = function(e) {
-  var getModifierState = e.getModifierState ?
-      e.getModifierState.bind(e) :
-      function() { return false; };
-  var target = e.detail ? e.detail.keyboardEvent : e.target;
-  return getModifierState('Control') ||
-         getModifierState('Alt') ||
-         getModifierState('Meta') ||
-         getModifierState('Fn') ||
-         target.tagName == 'INPUT' ||
-         target.tagName == 'TEXTAREA' ||
-         target.tagName == 'SELECT' ||
-         target.tagName == 'BUTTON' ||
-         target.tagName == 'A';
-};
-
 util.getCookie = function(name) {
   var key = name + '=';
   var cookies = document.cookie.split(';');

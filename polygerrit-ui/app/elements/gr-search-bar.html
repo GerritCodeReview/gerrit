@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 
 <dom-module id="gr-search-bar">
   <template>
@@ -55,6 +56,8 @@ limitations under the License.
     Polymer({
       is: 'gr-search-bar',
 
+      behaviors: [ Gerrit.KeyboardShortcutBehavior ],
+
       listeners: {
         'searchInput.keydown': '_inputKeyDownHandler',
         'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
@@ -67,20 +70,12 @@ limitations under the License.
           notify: true,
           observer: '_valueChanged',
         },
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
 
         _inputVal: String,
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        }
-      },
-
-      attached: function() {
-        document.body.addEventListener('keydown', this._boundKeyHandler);
-      },
-
-      detached: function() {
-        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _valueChanged: function(value) {
@@ -100,7 +95,7 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
-        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
         switch(e.keyCode) {
           case 191:  // '/'
             e.preventDefault();

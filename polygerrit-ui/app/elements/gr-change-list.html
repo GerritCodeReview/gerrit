@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/gr-change-list-styles.html">
 <link rel="import" href="gr-change-list-item.html">
 
@@ -114,19 +115,13 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        }
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
       },
 
-      attached: function() {
-        document.body.addEventListener('keydown', this._boundKeyHandler);
-      },
-
-      detached: function() {
-        document.body.removeEventListener('keydown', this._boundKeyHandler);
-      },
+      behaviors: [ Gerrit.KeyboardShortcutBehavior ],
 
       _computeLabelNames: function(groups) {
         var labels = [];
@@ -168,7 +163,7 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
-        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
         if (this.groups == null) { return; }
         var len = 0;

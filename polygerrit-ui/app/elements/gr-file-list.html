@@ -15,6 +15,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 
 <dom-module id="gr-file-list">
@@ -111,21 +113,18 @@ limitations under the License.
           type: Number,
           notify: true,
         },
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
 
         _drafts: Object,
-        _boundKeyHandler: {
-          type: Function,
-          value: function() { return this._handleKey.bind(this); },
-        }
       },
 
-      attached: function() {
-        document.body.addEventListener('keydown', this._boundKeyHandler);
-      },
-
-      detached: function() {
-        document.body.removeEventListener('keydown', this._boundKeyHandler);
-      },
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+        Gerrit.RESTClientBehavior,
+      ],
 
       reload: function() {
         if (!this.changeNum || !this.patchNum) {
@@ -141,7 +140,7 @@ limitations under the License.
       },
 
       _computeFilesURL: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/files';
+        return this.changeBaseURL(changeNum, patchNum) + '/files';
       },
 
       _computeCommentsString: function(comments, patchNum, path) {
@@ -155,7 +154,7 @@ limitations under the License.
       },
 
       _computeDraftsURL: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/drafts';
+        return this.changeBaseURL(changeNum, patchNum) + '/drafts';
       },
 
       _computeDraftsString: function(drafts, path) {
@@ -180,7 +179,7 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
-        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
         switch(e.keyCode) {
           case 74:  // 'j'

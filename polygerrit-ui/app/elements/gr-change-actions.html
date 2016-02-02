@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-request.html">
 
@@ -114,6 +115,8 @@ limitations under the License.
         },
       },
 
+      behaviors: [ Gerrit.RESTClientBehavior ],
+
       observers: [
         '_actionsChanged(actions, _revisionActions)',
       ],
@@ -132,7 +135,7 @@ limitations under the License.
       },
 
       _computeRevisionActionsPath: function(changeNum, patchNum) {
-        return Changes.baseURL(changeNum, patchNum) + '/actions';
+        return this.changeBaseURL(changeNum, patchNum) + '/actions';
       },
 
       _getValuesFor: function(obj) {
@@ -208,7 +211,7 @@ limitations under the License.
         var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: method,
-          url: Changes.baseURL(this.changeNum,
+          url: this.changeBaseURL(this.changeNum,
               revisionAction ? this.patchNum : null) + actionEndpoint,
           body: payload,
         });

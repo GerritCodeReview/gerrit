@@ -52,7 +52,7 @@ limitations under the License.
         /\/changes\/42\/revisions\/(1|2)\/files\/sieve\.go\/diff(.*)/,
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify({
             change_type: 'MODIFIED',
@@ -99,7 +99,7 @@ limitations under the License.
         '/changes/42/revisions/1/comments',
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify({
             '/COMMIT_MSG': [],
@@ -136,7 +136,7 @@ limitations under the License.
         '/changes/42/revisions/2/comments',
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify({
             '/COMMIT_MSG': [],
@@ -187,9 +187,9 @@ limitations under the License.
         '/accounts/self/preferences.diff',
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
-          JSON.stringify({ context: 25 }),
+          JSON.stringify({context: 25}),
         ]
       );
 
@@ -293,7 +293,7 @@ limitations under the License.
                 newThreadEls[i].classList.contains('commentThread') ||
                 newThreadEls[i].tagName == 'GR-DIFF-COMMENT-THREAD');
           }
-          var newHeight = newThreadEls[0].offsetHeight
+          var newHeight = newThreadEls[0].offsetHeight;
           assert.equal(newThreadEls[1].offsetHeight, newHeight);
           assert.equal(leftFillerEls[0].offsetHeight, newHeight);
           assert.equal(leftThreadEls[0].offsetHeight, newHeight);
@@ -317,13 +317,13 @@ limitations under the License.
             assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
             assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
             assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
-            done()
+            done();
           });
           var commentEl = newThreadEls[1].$$('gr-diff-comment');
           commentEl.fire('discard', null, {bubbles: false});
         }, 1);
       }, 1);
-    }),
+    });
 
     test('intraline normalization', function() {
       // The content and highlights are in the format returned by the Gerrit
@@ -514,8 +514,8 @@ limitations under the License.
         10: {},
       };
       var ctx = {
-        left: { lineNum: 0 },
-        right: { lineNum: 0 },
+        left: {lineNum: 0},
+        right: {lineNum: 0},
       };
       var content = [
         {

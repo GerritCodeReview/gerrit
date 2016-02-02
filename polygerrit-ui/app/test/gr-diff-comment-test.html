@@ -102,7 +102,7 @@ limitations under the License.
         '/changes/42/revisions/1/drafts',
         [
           201,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n{' +
             '"id": "baf0414d_40572e03",' +
             '"path": "/path/to/file",' +
@@ -118,7 +118,7 @@ limitations under the License.
         /\/changes\/42\/revisions\/1\/drafts\/.+/,
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n{' +
             '"id": "baf0414d_40572e03",' +
             '"path": "/path/to/file",' +
@@ -154,16 +154,16 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
 
       element.editing = true;
-      assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible')
+      assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
       assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
       assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
 
-      element.draft = false,
+      element.draft = false;
       element.editing = false;
-      assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible')
+      assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
       assert.isFalse(isVisible(element.$$('.discard')),
           'discard is not visible');
       assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
@@ -183,7 +183,7 @@ limitations under the License.
       // Save should be disabled on an empty message.
       var disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
-      element._editDraft == '     ';
+      element._editDraft = '     ';
       disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
 

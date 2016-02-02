@@ -93,7 +93,7 @@ limitations under the License.
 
     test('Change-Id pattern was parsed and linked', function() {
       // "Change-Id:" pattern.
-      var changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e'
+      var changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
       var prefix = 'Change-Id: ';
       element.content = prefix + changeID;
 
@@ -110,7 +110,6 @@ limitations under the License.
     test('Multiple matches', function() {
       element.content = 'Issue 3650\nIssue 3450';
       var linkEl1 = element.$.output.childNodes[0];
-      var newlineNode = element.$.output.childNodes[1];
       var linkEl2 = element.$.output.childNodes[2];
 
       assert.equal(linkEl1.target, '_blank');

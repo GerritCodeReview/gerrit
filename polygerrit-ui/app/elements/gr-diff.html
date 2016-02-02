@@ -197,7 +197,9 @@ limitations under the License.
         _diffPreferencesPromise: Object,  // Used for testing.
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
+      behaviors: [
+        Gerrit.RESTClientBehavior,
+      ],
 
       observers: [
         '_prefsChanged(prefs.*)',
@@ -221,7 +223,6 @@ limitations under the License.
         ];
 
         var basePatchNum = this.patchRange.basePatchNum;
-        var patchNum = this.patchRange.patchNum;
 
         return app.accountReady.then(function() {
           promises.push(this._getCommentsAndDrafts(basePatchNum, app.loggedIn));
@@ -259,8 +260,6 @@ limitations under the License.
       },
 
       _getCommentsAndDrafts: function(basePatchNum, loggedIn) {
-        var promises = [];
-
         function onlyParent(c) { return c.side == 'PARENT'; }
         function withoutParent(c) { return c.side != 'PARENT'; }
 
@@ -543,8 +542,7 @@ limitations under the License.
             continue;
           }
           var chunk = content[i].ab;
-          var currentChunk = { ab: [] };
-          var inCommentGroup = false;
+          var currentChunk = {ab: []};
           for (var j = 0; j < chunk.length; j++) {
             leftLineNum++;
             rightLineNum++;
@@ -554,7 +552,7 @@ limitations under the License.
             } else {
               if (currentChunk.ab && currentChunk.ab.length > 0) {
                 result.push(currentChunk);
-                currentChunk = { ab: [] };
+                currentChunk = {ab: []};
               }
               // Append an annotation to indicate that this line should not be
               // highlighted even though it's implied with both `a` and `b`
@@ -562,8 +560,8 @@ limitations under the License.
               // should be highlighted but are equal (blank lines, for example).
               result.push({
                 __noHighlight: true,
-                a: [ chunk[j] ],
-                b: [ chunk[j] ],
+                a: [chunk[j]],
+                b: [chunk[j]],
               });
             }
           }
@@ -590,7 +588,7 @@ limitations under the License.
               byLine[line] = [];
             }
             byLine[line].push(c);
-          }
+          };
         };
         allLeft.forEach(mapFunc(leftByLine));
         allRight.forEach(mapFunc(rightByLine));
@@ -609,7 +607,7 @@ limitations under the License.
           throw Error(
               'Left and right ranges for context control should be equal:' +
               'Left: [' + leftStart + ', ' + leftEnd + '] ' +
-              'Right: ['+ rightStart + ', ' + rightEnd + ']');
+              'Right: [' + rightStart + ', ' + rightEnd + ']');
         }
         var obj = {
           type: 'CONTEXT_CONTROL',
@@ -748,9 +746,9 @@ limitations under the License.
           });
         }
         if (leftComments && !rightComments) {
-          rightSide.push({ type: 'FILLER' });
+          rightSide.push({type: 'FILLER'});
         } else if (!leftComments && rightComments) {
-          leftSide.push({ type: 'FILLER' });
+          leftSide.push({type: 'FILLER'});
         }
         this._groupedBaseComments[ctx.left.lineNum] = null;
         this._groupedComments[ctx.right.lineNum] = null;

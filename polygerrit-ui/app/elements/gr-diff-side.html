@@ -174,7 +174,9 @@ limitations under the License.
         'tap': '_tapHandler',
       },
 
-      observers: [ '_prefsChanged(prefs.*)' ],
+      observers: [
+        '_prefsChanged(prefs.*)',
+      ],
 
       rowInserted: function(index) {
         this.renderLineIndexRange(index, index);
@@ -243,7 +245,7 @@ limitations under the License.
           return row.height;
         }
 
-        var selector = '[data-index="' + index + '"]'
+        var selector = '[data-index="' + index + '"]';
         var els = Polymer.dom(this.root).querySelectorAll(selector);
         if (els.length != 2) {
           throw Error('Rows should only consist of two elements');
@@ -564,7 +566,7 @@ limitations under the License.
           if (numChars > 0 && numChars % this.prefs.line_length == 0) {
             indices.push(htmlIndex);
           }
-          htmlIndex = this._advanceChar(html, htmlIndex)
+          htmlIndex = this._advanceChar(html, htmlIndex);
           if (content[i] == '\t') {
             numChars += this.prefs.tab_size;
           } else {

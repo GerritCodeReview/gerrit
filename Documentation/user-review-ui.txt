@@ -595,8 +595,12 @@ image::images/user-review-ui-change-screen-reply.png[width=800, link="images/use
 
 Clicking on the `Reply...` button opens a popup panel.
 
+[[summary-comment]]
 A text box allows to type a summary comment for the currently viewed
-patch set.
+patch set. Some basic markdown-like syntax is supported which renders
+indented lines preformatted, lines starting with "- " or "* " as list
+items, and lines starting with "> " as block quotes (also see replying to
+link:#reply-to-message[messages] and link:#reply-inline-comment[inline comments]).
 
 Note that you can set the text and tooltip of the button in
 link:config-gerrit.html#change.replyLabel[gerrit.config].
@@ -653,7 +657,7 @@ It is possible to directly reply to a change message by clicking on the
 reply icon in the right upper corner of a change message. This opens
 the reply popup panel and prefills the text box with the quoted comment.
 Then the reply can be written below the quoted comment or inserted
-inline. Lines starting with " > " will be rendered as a block quote.
+inline. Lines starting with "> " will be rendered as a block quote.
 Please note that for a correct rendering it is important to leave a blank
 line between a quoted block and the reply to it.
 
@@ -822,7 +826,7 @@ image::images/user-review-ui-side-by-side-diff-screen-comment-box.png[width=800,
 Clicking on the `Reply` button opens an editor to type the reply.
 
 Quoting is supported, but only by manually copying & pasting the old
-comment that should be quoted and prefixing every line by " > ". Please
+comment that should be quoted and prefixing every line by "> ". Please
 note that for a correct rendering it is important to leave a blank line
 between a quoted block and the reply to it.
 

@@ -213,7 +213,7 @@ public class ChangeUtil {
     }
     Change changeToRevert = db.get().changes().get(changeIdToRevert);
 
-    Project.NameKey project = ctl.getChange().getProject();
+    Project.NameKey project = ctl.getProject().getNameKey();
     try (Repository git = gitManager.openRepository(project);
         RevWalk revWalk = new RevWalk(git)) {
       RevCommit commitToRevert =
@@ -309,7 +309,7 @@ public class ChangeUtil {
     }
 
     try (Repository git =
-          gitManager.openRepository(notes.getChange().getProject());
+          gitManager.openRepository(notes.getProjectName());
         RevWalk revWalk = new RevWalk(git)) {
       RevCommit commit = revWalk.parseCommit(
           ObjectId.fromString(ps.getRevision().get()));

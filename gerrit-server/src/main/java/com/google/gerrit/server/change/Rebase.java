@@ -223,7 +223,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         }
         if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
           ret = Base.create(
-              rsrc.getControl().getProjectControl().controlFor(cd.change()),
+              rsrc.getControl().getProjectControl().controlFor(cd.notes()),
               ps);
         }
       }

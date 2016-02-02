@@ -18,15 +18,14 @@ import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+import static org.easymock.EasyMock.expect;
 
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
@@ -38,6 +37,7 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 
+import org.easymock.EasyMock;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,12 +94,12 @@ public class GerritCommonTest extends PrologTestCase {
 
   @Override
   protected void setUpEnvironment(PrologEnvironment env) {
-    Change change =
-        new Change(new Change.Key("Ibeef"), new Change.Id(1),
-            new Account.Id(2),
-            new Branch.NameKey(localKey, "refs/heads/master"),
-            TimeUtil.nowTs());
-    env.set(StoredValues.CHANGE_CONTROL, util.user(local).controlFor(change));
+    LabelTypes labelTypes =
+        new LabelTypes(Arrays.asList(Util.codeReview(), Util.verified()));
+    ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
+    expect(ctl.getLabelTypes()).andStubReturn(labelTypes);
+    EasyMock.replay(ctl);
+    env.set(StoredValues.CHANGE_CONTROL, ctl);
   }
 
   @Test

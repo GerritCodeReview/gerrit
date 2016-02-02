@@ -96,10 +96,10 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       final String msgTxt, final Account account)
       throws RestApiException, UpdateException {
     Op op = new Op(msgTxt, account);
-    Change c = control.getChange();
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        c.getProject(), control.getUser(), TimeUtil.nowTs())) {
-      u.addOp(c.getId(), op).execute();
+        control.getProject().getNameKey(), control.getUser(),
+        TimeUtil.nowTs())) {
+      u.addOp(control.getId(), op).execute();
     }
     return op.change;
   }

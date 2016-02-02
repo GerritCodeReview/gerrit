@@ -65,6 +65,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -341,7 +342,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private final ReviewInput in;
 
     private IdentifiedUser user;
-    private Change change;
+    private ChangeNotes notes;
     private PatchSet ps;
     private ChangeMessage message;
     private List<PatchLineComment> comments = new ArrayList<>();
@@ -357,14 +358,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, ResourceConflictException {
       user = ctx.getUser().asIdentifiedUser();
-      change = ctx.getChange();
+      notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= updateLabels(ctx);
       dirty |= insertMessage(ctx);
-      if (change.getLastUpdatedOn().before(ctx.getWhen())) {
-        change.setLastUpdatedOn(ctx.getWhen());
+      Change c = notes.getChange();
+      if (c.getLastUpdatedOn().before(ctx.getWhen())) {
+        c.setLastUpdatedOn(ctx.getWhen());
       }
       if (dirty) {
         ctx.saveChange();
@@ -380,14 +382,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (in.notify.compareTo(NotifyHandling.NONE) > 0) {
         email.create(
             in.notify,
-            change,
+            notes,
             ps,
             user.getAccountId(),
             message,
             comments).sendAsync();
       }
       try {
-        hooks.doCommentAddedHook(change, user.getAccount(), ps,
+        hooks.doCommentAddedHook(notes.getChange(), user.getAccount(), ps,
             message.getMessage(), categories, ctx.getDb());
       } catch (OrmException e) {
         log.warn("ChangeHook.doCommentAddedHook delivery failed", e);

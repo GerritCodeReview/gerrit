@@ -77,6 +77,16 @@ public class ChangeControl {
       }
     }
 
+    public ChangeControl controlFor(ChangeNotes notes, CurrentUser user)
+        throws NoSuchChangeException {
+      try {
+        return projectControl.controlFor(notes.getProjectName(), user)
+            .controlFor(notes);
+      } catch (NoSuchProjectException | IOException e) {
+        throw new NoSuchChangeException(notes.getChangeId(), e);
+      }
+    }
+
     public ChangeControl validateFor(Change.Id changeId, CurrentUser user)
         throws NoSuchChangeException, OrmException {
       Change change = db.get().changes().get(changeId);

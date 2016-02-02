@@ -15,9 +15,9 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -78,16 +78,15 @@ public class PatchSetInfoFactory {
       throws PatchSetInfoNotAvailableException {
     try {
       PatchSet patchSet = psUtil.get(db, notes, psId);
-      Change change = db.changes().get(psId.getParentKey());
-      return get(change, patchSet);
+      return get(notes.getProjectName(), patchSet);
     } catch (OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
   }
 
-  public PatchSetInfo get(Change change, PatchSet patchSet)
+  public PatchSetInfo get(Project.NameKey project, PatchSet patchSet)
       throws PatchSetInfoNotAvailableException {
-    try (Repository repo = repoManager.openRepository(change.getProject());
+    try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       final RevCommit src =
           rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));

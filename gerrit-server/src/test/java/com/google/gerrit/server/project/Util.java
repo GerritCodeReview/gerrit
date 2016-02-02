@@ -97,6 +97,13 @@ public class Util {
         value(-2, "This shall not be merged"));
   }
 
+  public static final LabelType verified() {
+    return category("Verified",
+        value(1, "Verified"),
+        value(0, "No score"),
+        value(-1, "Fails"));
+  }
+
   public static final LabelType patchSetLock() {
     LabelType label = category("Patch-Set-Lock",
         value(1, "Patch Set Locked"),

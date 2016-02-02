@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -194,6 +195,11 @@ public class ProjectControl {
 
   public ChangeControl controlFor(final Change change) {
     return changeControlFactory.create(controlForRef(change.getDest()), change);
+  }
+
+  public ChangeControl controlFor(ChangeNotes notes) {
+    return changeControlFactory
+        .create(controlForRef(notes.getChange().getDest()), notes);
   }
 
   public RefControl controlForRef(Branch.NameKey ref) {

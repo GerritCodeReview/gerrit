@@ -55,6 +55,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
@@ -125,13 +126,13 @@ class ChangeNotesParser implements AutoCloseable {
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
-  ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
-      GitRepositoryManager repoManager)
+  ChangeNotesParser(Project.NameKey project, Change.Id changeId, ObjectId tip,
+      RevWalk walk, GitRepositoryManager repoManager)
       throws RepositoryNotFoundException, IOException {
-    this.id = change.getId();
+    this.id = changeId;
     this.tip = tip;
     this.walk = walk;
-    this.repo = repoManager.openMetadataRepository(change.getProject());
+    this.repo = repoManager.openMetadataRepository(project);
     approvals = Maps.newHashMap();
     reviewers = Maps.newLinkedHashMap();
     allPastReviewers = Lists.newArrayList();

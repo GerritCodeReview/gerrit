@@ -89,7 +89,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
    * @return the NameKey for the project where the notes should be stored,
    *    which is not necessarily the same as the change's project.
    */
-  protected abstract Project.NameKey getProjectName();
+  public abstract Project.NameKey getProjectName();
 
   @SuppressWarnings("unchecked")
   protected final T self() {

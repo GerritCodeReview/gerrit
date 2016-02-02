@@ -134,7 +134,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected Project.NameKey getProjectName() {
+  public Project.NameKey getProjectName() {
     return draftsProject;
   }
 }

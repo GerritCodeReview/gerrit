@@ -397,6 +397,7 @@ public class BatchUpdate implements AutoCloseable {
   private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final NotesMigration notesMigration;
@@ -425,6 +426,7 @@ public class BatchUpdate implements AutoCloseable {
   BatchUpdate(GitRepositoryManager repoManager,
       ChangeIndexer indexer,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       GitReferenceUpdated gitRefUpdated,
       NotesMigration notesMigration,
@@ -438,6 +440,7 @@ public class BatchUpdate implements AutoCloseable {
     this.repoManager = repoManager;
     this.indexer = indexer;
     this.changeControlFactory = changeControlFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.notesMigration = notesMigration;
@@ -629,8 +632,9 @@ public class BatchUpdate implements AutoCloseable {
     // Pass in preloaded change to controlFor, to avoid:
     //  - reading from a db that does not belong to this update
     //  - attempting to read a change that doesn't exist yet
+    ChangeNotes notes = changeNotesFactory.createForNew(c);
     ChangeContext ctx = new ChangeContext(
-      changeControlFactory.controlFor(c, user), new BatchUpdateReviewDb(db));
+      changeControlFactory.controlFor(notes, user), new BatchUpdateReviewDb(db));
     if (notesMigration.readChanges()) {
       ctx.getNotes().load();
     }

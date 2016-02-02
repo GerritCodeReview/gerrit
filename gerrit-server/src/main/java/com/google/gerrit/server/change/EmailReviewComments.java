@@ -18,7 +18,6 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -26,6 +25,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.mail.CommentSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -49,7 +49,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   interface Factory {
     EmailReviewComments create(
         NotifyHandling notify,
-        Change change,
+        ChangeNotes notes,
         PatchSet patchSet,
         Account.Id authorId,
         ChangeMessage message,
@@ -63,7 +63,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final ThreadLocalRequestContext requestContext;
 
   private final NotifyHandling notify;
-  private final Change change;
+  private final ChangeNotes notes;
   private final PatchSet patchSet;
   private final Account.Id authorId;
   private final ChangeMessage message;
@@ -78,7 +78,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       @Assisted NotifyHandling notify,
-      @Assisted Change change,
+      @Assisted ChangeNotes notes,
       @Assisted PatchSet patchSet,
       @Assisted Account.Id authorId,
       @Assisted ChangeMessage message,
@@ -89,7 +89,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
     this.notify = notify;
-    this.change = change;
+    this.notes = notes;
     this.patchSet = patchSet;
     this.authorId = authorId;
     this.message = message;
@@ -105,9 +105,10 @@ public class EmailReviewComments implements Runnable, RequestContext {
     RequestContext old = requestContext.setContext(this);
     try {
 
-      CommentSender cm = commentSenderFactory.create(change.getId());
+      CommentSender cm = commentSenderFactory.create(notes.getChangeId());
       cm.setFrom(authorId);
-      cm.setPatchSet(patchSet, patchSetInfoFactory.get(change, patchSet));
+      cm.setPatchSet(patchSet,
+          patchSetInfoFactory.get(notes.getProjectName(), patchSet));
       cm.setChangeMessage(message);
       cm.setPatchLineComments(comments);
       cm.setNotify(notify);

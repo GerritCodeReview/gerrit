@@ -1532,8 +1532,8 @@ public class ReceiveCommits {
     newChanges = Lists.newArrayList();
 
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
-    GroupCollector groupCollector =
-        GroupCollector.create(refsById, db, psUtil, notesFactory);
+    GroupCollector groupCollector = GroupCollector.create(refsById, db, psUtil,
+        notesFactory, project.getNameKey());
 
     rp.getRevWalk().reset();
     rp.getRevWalk().sort(RevSort.TOPO);

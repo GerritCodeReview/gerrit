@@ -121,10 +121,10 @@ public class ChangeControl {
       this.approvalsUtil = approvalsUtil;
     }
 
-    @SuppressWarnings("unused")
-    ChangeControl create(RefControl refControl, Change change)
-        throws OrmException {
-      return create(refControl, notesFactory.create(db, change));
+    ChangeControl create(RefControl refControl, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
+      return create(refControl,
+          notesFactory.create(db, project, changeId));
     }
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {

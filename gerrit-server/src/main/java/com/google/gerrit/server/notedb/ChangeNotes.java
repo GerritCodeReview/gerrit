@@ -122,7 +122,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
       return new ChangeNotes(repoManager, migration, allUsersProvider, project,
-          change);
+          change).load();
     }
 
     public ChangeNotes createFromIndexedChange(Change change) {
@@ -130,9 +130,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           change.getProject(), change);
     }
 
-    public ChangeNotes createForNew(Change change) {
+    public ChangeNotes createForNew(Change change) throws OrmException {
       return new ChangeNotes(repoManager, migration, allUsersProvider,
-          change.getProject(), change);
+          change.getProject(), change).load();
     }
   }
 

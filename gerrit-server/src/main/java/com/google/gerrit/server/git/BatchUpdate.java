@@ -635,9 +635,6 @@ public class BatchUpdate implements AutoCloseable {
     ChangeNotes notes = changeNotesFactory.createForNew(c);
     ChangeContext ctx = new ChangeContext(
       changeControlFactory.controlFor(notes, user), new BatchUpdateReviewDb(db));
-    if (notesMigration.readChanges()) {
-      ctx.getNotes().load();
-    }
     return ctx;
   }
 

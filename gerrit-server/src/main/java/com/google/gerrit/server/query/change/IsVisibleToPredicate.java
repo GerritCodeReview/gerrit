@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.OperatorPredicate;
@@ -36,13 +37,15 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   }
 
   private final Provider<ReviewDb> db;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeControl.GenericFactory changeControl;
   private final CurrentUser user;
 
-  IsVisibleToPredicate(Provider<ReviewDb> db,
+  IsVisibleToPredicate(Provider<ReviewDb> db, ChangeNotes.Factory notesFactory,
       ChangeControl.GenericFactory changeControlFactory, CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;
+    this.notesFactory = notesFactory;
     this.changeControl = changeControlFactory;
     this.user = user;
   }
@@ -58,7 +61,8 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
         return false;
       }
 
-      ChangeControl cc = changeControl.controlFor(c, user);
+      ChangeNotes notes = notesFactory.createFromIndexedChange(c);
+      ChangeControl cc = changeControl.controlFor(notes, user);
       if (cc.isVisible(db.get())) {
         cd.cacheVisibleTo(cc);
         return true;

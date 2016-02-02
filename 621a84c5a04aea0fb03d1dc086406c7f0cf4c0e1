@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_aafd8f84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-02-02T08:49:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913d8cf0_7ff44fad",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "621a84c5a04aea0fb03d1dc086406c7f0cf4c0e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b13a90f4_20ef4add",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-02T08:46:46Z",
       "side": 1,
       "message": "Is this anchor used anywhere?",
+      "range": {
+        "startLine": 598,
+        "startChar": 0,
+        "endLine": 598,
+        "endChar": 19
+      },
+      "revId": "621a84c5a04aea0fb03d1dc086406c7f0cf4c0e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_4525eaeb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-02-02T08:49:30Z",
+      "side": 1,
+      "message": "Not yet, but I plan to use it from the outside [1].\n\n[1] https://github.com/uwolfer/gerrit-intellij-plugin/issues/198#issuecomment-178444431",
+      "parentUuid": "b13a90f4_20ef4add",
       "range": {
         "startLine": 598,
         "startChar": 0,

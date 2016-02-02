@@ -57,6 +57,7 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -161,6 +162,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
+    final ChangeNotes.Factory notesFactory;
     final ChangeData.Factory changeDataFactory;
     final FieldDef.FillArgs fillArgs;
     final PatchLineCommentsUtil plcUtil;
@@ -192,6 +194,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
+        ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
         PatchLineCommentsUtil plcUtil,
@@ -211,12 +214,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
-          capabilityControlFactory, changeControlGenericFactory,
+          capabilityControlFactory, changeControlGenericFactory, notesFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitDryRun,
-          conflictsCache, trackingFooters,
-          indexes != null ? indexes.getSearchIndex() : null,
+          projectCache, listChildProjects, submitDryRun, conflictsCache,
+          trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
           indexConfig, listMembers,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
@@ -230,6 +232,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
+        ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
         PatchLineCommentsUtil plcUtil,
@@ -255,6 +258,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.userFactory = userFactory;
      this.self = self;
      this.capabilityControlFactory = capabilityControlFactory;
+     this.notesFactory = notesFactory;
      this.changeControlGenericFactory = changeControlGenericFactory;
      this.changeDataFactory = changeDataFactory;
      this.fillArgs = fillArgs;
@@ -279,7 +283,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Arguments asUser(CurrentUser otherUser) {
       return new Arguments(db, queryProvider, rewriter, opFactories, userFactory,
           Providers.of(otherUser),
-          capabilityControlFactory, changeControlGenericFactory,
+          capabilityControlFactory, changeControlGenericFactory, notesFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun,
@@ -729,9 +733,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new IsVisibleToPredicate(args.db, //
-        args.changeControlGenericFactory, //
-        user);
+    return new IsVisibleToPredicate(args.db, args.notesFactory,
+        args.changeControlGenericFactory, user);
   }
 
   public Predicate<ChangeData> is_visible() throws QueryParseException {

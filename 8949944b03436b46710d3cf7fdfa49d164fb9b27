@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "71c65832_ce06e369",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-02T14:31:27Z",
+      "side": 1,
+      "message": "Yeah I think this is probably a good idea. I don\u0027t feel strongly one way or the other as to whether it should happen now or in a later change.",
+      "parentUuid": "f1bb289e_8a644b24",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "8949944b03436b46710d3cf7fdfa49d164fb9b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1bb289e_ca6a43f0",
         "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
         "patchSetId": 5

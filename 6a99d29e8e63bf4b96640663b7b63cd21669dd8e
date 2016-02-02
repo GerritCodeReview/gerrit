@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1bb289e_ea094747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T18:49:33Z",
+      "side": 1,
+      "message": "possibly",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "6a99d29e8e63bf4b96640663b7b63cd21669dd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_aa034f25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T18:49:33Z",
+      "side": 1,
+      "message": "about",
+      "range": {
+        "startLine": 22,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "6a99d29e8e63bf4b96640663b7b63cd21669dd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_8a068b36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T18:49:33Z",
+      "side": 1,
+      "message": "Another use case is missing:\n\n* Delete vote, while keeping the reviewer listed: [1]\n\nSo we should provide two different events:\n\n* 1. Delete Reviewer\n* 2. Delete Vote\n\nand care about three different use cases:\n\n* A. Delete Vote by keeping the reviewer listed: [1]\n* B. Delete Reviewer without vote\n* C. Delete Reviewer with vote\n\nObviously that in latter case, both events are triggered.\n\n* [1] https://gerrit-review.googlesource.com/62410",
+      "revId": "6a99d29e8e63bf4b96640663b7b63cd21669dd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

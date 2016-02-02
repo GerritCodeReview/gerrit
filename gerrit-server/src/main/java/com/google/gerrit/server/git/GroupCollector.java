@@ -31,8 +31,8 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -115,18 +115,15 @@ public class GroupCollector {
 
   public static GroupCollector create(Multimap<ObjectId, Ref> changeRefsById,
       final ReviewDb db, final PatchSetUtil psUtil,
-      final ChangeNotes.Factory notesFactory) {
+      final ChangeNotes.Factory notesFactory, final Project.NameKey project) {
     return new GroupCollector(
         transformRefs(changeRefsById),
         new Lookup() {
           @Override
           public List<String> lookup(PatchSet.Id psId) throws OrmException {
-            // TODO(dborowitz): Shouldn't have to look up Change.
-            Change c = db.changes().get(psId.getParentKey());
-            if (c == null) {
-              return null;
-            }
-            ChangeNotes notes = notesFactory.create(db, c);
+            // TODO(dborowitz): Reuse open repository from caller.
+            ChangeNotes notes =
+                notesFactory.create(db, project, psId.getParentKey());
             PatchSet ps = psUtil.get(db, notes, psId);
             return ps != null ? ps.getGroups() : null;
           }

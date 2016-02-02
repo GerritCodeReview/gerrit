@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51aa3454_858be205",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-02T10:16:12Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "b1dc50fe_503ccc0d",
+      "revId": "95f4fada3a46600349650193f0f56794fa3107db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54c6a2da_25388e0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "51aa3454_a5885e09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-02T10:16:12Z",
+      "side": 1,
+      "message": "Yes, this was from before I had that change.",
+      "parentUuid": "54c6a2da_25388e0e",
+      "revId": "95f4fada3a46600349650193f0f56794fa3107db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54c6a2da_05359214",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-02-01T18:22:31Z",
       "side": 1,
       "message": "As mentioned before I think this should happen eagerly in ChangeNotes.Factory",
+      "revId": "95f4fada3a46600349650193f0f56794fa3107db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_45772adc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-02T10:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54c6a2da_05359214",
       "revId": "95f4fada3a46600349650193f0f56794fa3107db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

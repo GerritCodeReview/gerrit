@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "913d8cf0_7f0d6f85",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-02T21:46:12Z",
+      "side": 1,
+      "message": "while I understand for-loop variables are function scoped, this hampers readability in my opinion.\n\nWhen I’m reading code and I see for (var j \u003d 0;...) I assume it’s already within a for loop.\n\nCan we suppress this warning?",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1
@@ -13,6 +30,41 @@
       "writtenOn": "2016-02-02T20:11:05Z",
       "side": 1,
       "message": "This way, JSHint accepts a missing break.\nSee http://stackoverflow.com/a/19015824",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b13a90f4_a04cfac7",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-02T21:46:12Z",
+      "side": 1,
+      "message": "I’m assuming the `// Falls through` doesn’t work? Add a comment that JSHint requires the comment to be in that format.",
+      "parentUuid": "51aa3454_45740aaf",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "913d8cf0_bf06d767",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-02T21:46:12Z",
+      "side": 1,
+      "message": "can this be !\u003d instead of !\u003d\u003d for consistency?",
       "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

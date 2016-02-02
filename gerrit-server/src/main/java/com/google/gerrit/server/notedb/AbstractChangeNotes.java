@@ -50,7 +50,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     if (loaded) {
       return self();
     }
-    if (!migration.enabled()) {
+    if (!migration.enabled() || changeId == null) {
       loadDefaults();
       return self();
     }

@@ -359,6 +359,20 @@ Upon clicking the Reply button:
 * Project Owners have limited scores (-2..+2) available, -2 is set as the default.
 * Registered Users have limited scores (-1..+1) available, -1 is set as the default.
 
+=== Patch Set Lock Example
+
+This example shows how a label can be configured to have a standard patch set lock.
+
+====
+  [access "refs/heads/*"]
+      label-Patch-Set-Lock = +0..+1 group Administrators
+  [label "Patch-Set-Lock"]
+      function = PatchSetLock
+      value =  0 Patch Set Unlocked
+      value = +1 Patch Set Locked
+      defaultValue = 0
+====
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

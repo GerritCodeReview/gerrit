@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d133841e_61c03656",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-02T13:25:51Z",
+      "side": 1,
+      "message": "one argument per line for @Inject constructors",
+      "range": {
+        "startLine": 53,
+        "startChar": 41,
+        "endLine": 53,
+        "endChar": 74
+      },
+      "revId": "f9e60787563f1a600006314f149025b62f2db1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

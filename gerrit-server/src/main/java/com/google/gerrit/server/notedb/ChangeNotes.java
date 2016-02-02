@@ -122,16 +122,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Change change = db.changes().get(changeId);
       checkState(change != null, "Failed to load change " + changeId
           + " of project " + project.get() + "from database.");
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change)
+          .load();
 
     }
 
-    public ChangeNotes createForIndexed(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    public ChangeNotes createForIndexed(Change change) throws OrmException {
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change)
+          .load();
     }
 
-    public ChangeNotes createForNew(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    public ChangeNotes createForNew(Change change) throws OrmException {
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change)
+          .load();
     }
   }
 

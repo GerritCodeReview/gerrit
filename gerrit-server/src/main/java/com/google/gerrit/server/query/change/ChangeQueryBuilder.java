@@ -623,10 +623,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
                   return new Account.Id(accountInfo._accountId);
                 }
               }));
-      int maxTerms = args.indexConfig.maxLimit();
-      if (allMembers.size() > maxTerms) {
+      int maxLimit = args.indexConfig.maxLimit();
+      if (allMembers.size() > maxLimit) {
         // limit the number of query terms otherwise Gerrit will barf
-        accounts = ImmutableSet.copyOf(Iterables.limit(allMembers, maxTerms));
+        accounts = ImmutableSet.copyOf(Iterables.limit(allMembers, maxLimit));
       } else {
         accounts = allMembers;
       }

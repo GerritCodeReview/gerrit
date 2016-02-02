@@ -123,7 +123,8 @@ public class ChangeControl {
 
     ChangeControl create(RefControl refControl, Change change)
         throws OrmException {
-      return create(refControl, notesFactory.create(db, change));
+      return create(refControl,
+          notesFactory.create(db, change.getProject(), change.getId()));
     }
 
     @SuppressWarnings("unused")

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1bb289e_6aa7977d",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-02T20:11:05Z",
+      "side": 0,
+      "message": "This is a real bug.",
+      "range": {
+        "startLine": 186,
+        "startChar": 25,
+        "endLine": 186,
+        "endChar": 27
+      },
+      "revId": "d2f6e98ff1373e7bbf585d862a8f869bccbf8cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

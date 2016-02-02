@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51aa3454_25f8ee65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T13:24:55Z",
+      "side": 1,
+      "message": "FWIW i find the naming this mixin concept as more appropriate and don\u0027t get why this was renamed in Polymer 1.0.",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "8949944b03436b46710d3cf7fdfa49d164fb9b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_8a644b24",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T13:24:55Z",
+      "side": 1,
+      "message": "Is this really generic REST client stuff or ChangeAPI specific thing. When we migrate the whole Gerrit UI to Polymer, we will get:\n\n* AccountAPI\n* EditAPI\n* ProjectAPI\n* ...\n\nI also would omit word behavior in the var name, as it is clear from the context how it\u0027s used, so instead:\n\n  behaviors: [ Gerrit.RESTClientBehavior ],\n\nthis should be fine:\n\n  behaviors: [ Gerrit.ChangeAPI ],",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "8949944b03436b46710d3cf7fdfa49d164fb9b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_ca6a43f0",
+        "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-02T13:24:55Z",
+      "side": 1,
+      "message": "You missed to move this description below, when you moved the function.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "8949944b03436b46710d3cf7fdfa49d164fb9b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

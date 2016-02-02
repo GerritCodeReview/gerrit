@@ -48,7 +48,7 @@ limitations under the License.
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
       assert.equal(element._computeAccountTitle(
-          { name: 'Andrew Bonventre' }),
+          {name: 'Andrew Bonventre'}),
           'Andrew Bonventre');
 
       assert.equal(element._computeShowEmail(true,
@@ -58,10 +58,10 @@ limitations under the License.
           }), true);
 
       assert.equal(element._computeShowEmail(true,
-          { name: 'Andrew Bonventre' }), false);
+          {name: 'Andrew Bonventre'}), false);
 
       assert.equal(element._computeShowEmail(false,
-          { name: 'Andrew Bonventre' }), false);
+          {name: 'Andrew Bonventre'}), false);
 
       assert.equal(element._computeShowEmail(
           true, undefined), false);

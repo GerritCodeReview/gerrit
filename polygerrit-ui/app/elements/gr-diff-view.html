@@ -204,7 +204,7 @@ limitations under the License.
       _handleKey: function(e) {
         if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
-        switch(e.keyCode) {
+        switch (e.keyCode) {
           case 219:  // '['
             e.preventDefault();
             this._navToFile(this._fileList, -1);
@@ -217,7 +217,7 @@ limitations under the License.
             if (!this._loggedIn) { return; }
 
             this.set('changeViewState.showReplyDropdown', true);
-            // No break here. Allow to fall through.
+            /* falls through */ // required by JSHint
           case 85:  // 'u'
             if (this._changeNum) {
               e.preventDefault();
@@ -305,7 +305,7 @@ limitations under the License.
       },
 
       _computeChangeDetailQueryParams: function() {
-        return { O: this.listChangesOptionsToHex(
+        return {O: this.listChangesOptionsToHex(
             this.ListChangesOption.ALL_REVISIONS
         )};
       },

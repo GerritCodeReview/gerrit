@@ -136,7 +136,9 @@ limitations under the License.
         },
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
+      behaviors: [
+        Gerrit.RESTClientBehavior,
+      ],
 
       attached: function() {
         this.fire('title-change', {title: this._query});

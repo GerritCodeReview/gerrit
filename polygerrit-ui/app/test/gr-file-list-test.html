@@ -46,7 +46,7 @@ limitations under the License.
         '/changes/42/revisions/1/files',
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify({
             '/COMMIT_MSG': {
@@ -68,7 +68,7 @@ limitations under the License.
         '/changes/42/revisions/2/files',
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify({
             '/COMMIT_MSG': {
@@ -165,14 +165,14 @@ limitations under the License.
     test('comment filtering', function() {
       var comments = {
         '/COMMIT_MSG': [
-          { patch_set: 1, message: 'Done' },
-          { patch_set: 1, message: 'oh hay' },
-          { patch_set: 2, message: 'hello' },
+          {patch_set: 1, message: 'Done'},
+          {patch_set: 1, message: 'oh hay'},
+          {patch_set: 2, message: 'hello'},
         ],
         'myfile.txt': [
-          { patch_set: 1, message: 'good news!' },
-          { patch_set: 2, message: 'wat!?' },
-          { patch_set: 2, message: 'hi' },
+          {patch_set: 1, message: 'good news!'},
+          {patch_set: 2, message: 'wat!?'},
+          {patch_set: 2, message: 'hi'},
         ],
       };
       assert.equal(

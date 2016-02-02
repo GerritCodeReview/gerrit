@@ -42,7 +42,7 @@ util.escapeHTML = function(str) {
 util.getCookie = function(name) {
   var key = name + '=';
   var cookies = document.cookie.split(';');
-  for(var i = 0; i < cookies.length; i++) {
+  for (var i = 0; i < cookies.length; i++) {
     var c = cookies[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);

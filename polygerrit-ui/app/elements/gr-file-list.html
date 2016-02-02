@@ -150,7 +150,7 @@ limitations under the License.
         var num = patchComments.length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 comment'; }
-        if (num > 1) { return num + ' comments'; };
+        if (num > 1) { return num + ' comments'; }
       },
 
       _computeDraftsURL: function(changeNum, patchNum) {
@@ -161,7 +161,7 @@ limitations under the License.
         var num = (drafts[path] || []).length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 draft'; }
-        if (num > 1) { return num + ' drafts'; };
+        if (num > 1) { return num + ' drafts'; }
       },
 
       _handleResponse: function(e, req) {
@@ -173,7 +173,7 @@ limitations under the License.
           info.__path = paths[i];
           info.lines_inserted = info.lines_inserted || 0;
           info.lines_deleted = info.lines_deleted || 0;
-          files.push(info)
+          files.push(info);
         }
         this.files = files;
       },
@@ -181,7 +181,7 @@ limitations under the License.
       _handleKey: function(e) {
         if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
-        switch(e.keyCode) {
+        switch (e.keyCode) {
           case 74:  // 'j'
             e.preventDefault();
             this.selectedIndex =

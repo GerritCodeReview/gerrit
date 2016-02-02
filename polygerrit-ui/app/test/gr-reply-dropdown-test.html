@@ -80,7 +80,7 @@ limitations under the License.
         '/changes/42/revisions/1/review',
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           '{' +
             '"labels": {' +
@@ -154,7 +154,7 @@ limitations under the License.
               message: 'I wholeheartedly disapprove'
             });
             assert.equal(req.response.labels['Code-Review'], -1);
-            assert.equal(req.response.labels['Verified'], -1);
+            assert.equal(req.response.labels.Verified, -1);
             assert.isFalse(element.opened);
             done();
           });

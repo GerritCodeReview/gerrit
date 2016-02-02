@@ -191,7 +191,9 @@ limitations under the License.
         'title-change': '_handleTitleChange',
       },
 
-      observers: [ '_viewChanged(params.view)' ],
+      observers: [
+        '_viewChanged(params.view)',
+      ],
 
       get loggedIn() {
         return !!(this.account && Object.keys(this.account).length > 0);
@@ -213,7 +215,7 @@ limitations under the License.
           dashboardView: {
             selectedChangeIndex: 0,
           },
-        }
+        };
       },
 
       _accountChanged: function() {

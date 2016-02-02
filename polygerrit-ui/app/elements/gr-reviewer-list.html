@@ -180,7 +180,9 @@ limitations under the License.
         _xhrPromise: Object,
       },
 
-      behaviors: [ Gerrit.KeyboardShortcutBehavior ],
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+      ],
 
       observers: [
         '_reviewersChanged(change.reviewers.*, change.owner)',
@@ -240,7 +242,7 @@ limitations under the License.
       _handleResponse: function(e) {
         this._autocompleteData = e.detail.response.filter(function(reviewer) {
           var account = reviewer.account;
-          if (!account) return true;
+          if (!account) { return true; }
           for (var i = 0; i < this._reviewers.length; i++) {
             if (account._account_id == this.change.owner._account_id ||
                 account._account_id == this._reviewers[i]._account_id) {
@@ -404,7 +406,7 @@ limitations under the License.
         }
         this._autocompleteData = [];
         this._send('POST', this._restEndpoint(), reviewerID).then(function(req) {
-          this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
+          this.change.reviewers.CC = this.change.reviewers.CC || [];
           req.response.reviewers.forEach(function(r) {
             this.push('change.removable_reviewers', r);
             this.push('change.reviewers.CC', r);

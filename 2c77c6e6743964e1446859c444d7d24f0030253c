@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454408002 +0100\nnonce ALmjDBVJoYWfcZrA+tINQzW6xe6UtWJIP8w9B+6/rpRf84kPY2S/3Ts1rN70PDIGwx4F9n4FXsrl\n\n0000000000000000000000000000000000000000 d15dab365b70414f20255d7e6d3ed5264ed605df refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWsIFCAAoJEFG1/Zeg0O9RtiUH/ifVbd+25Uqqx6SaILw/qizg\n1kxWa8mqZxUnZhDZsX9tJJVLVOa2H0cnwWbcZib7bmPnRZUPAciCQmN7MtFVys2Y\naLGKNqzNLVKds8B4u0DytKB+hI1kZ8bpqZnP46WG/EBwv/7G4QLWexLEO5kyTlzy\n7Yfu83ntg0nGD+WzjsEYwXOpvo9F7VmmzIYA4kzDNXHhmsT/uAW64yR2j9/AOJZ8\nm2CxSq0L2b3yZqHNbWqLy0sp+vF2tvWXh98uO2vC3sWQhQUJgSYx9kUCvP+tZ0r7\nMkgMMC51DXUUUC94pjYT/q1VBNLZZHDPDj1P+C3KDzUV2HCvuAs97Abau+M5zaw\u003d\n\u003dq3Pt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d133841e_c1ddc233",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-02T14:00:45Z",
+      "side": 1,
+      "message": "Can you leave a TODO in here for me:\n\n // TODO(dborowitz): Reuse open repository from caller.",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d133841e_61f956a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-02T14:00:45Z",
+      "side": 1,
+      "message": "missing space here",
+      "range": {
+        "startLine": 124,
+        "startChar": 45,
+        "endLine": 124,
+        "endChar": 47
+      },
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c65832_aecb5774",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-02T14:00:45Z",
+      "side": 1,
+      "message": "Hm, I think this needs a better name.",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c65832_2ef9a7a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsVisibleToPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-02T14:00:45Z",
+      "side": 1,
+      "message": "I think eager loading is going to cause a serious performance problem here. This method has to be fast; on a server with lots of small disjoint groups, this might have to be called hundreds or thousands of times to load a single results page.\n\nThis may have been one of the reasons I originally implemented lazy loading in the first place. The options are:\n\n* implement isVisible with something that doesn\u0027t require a full ChangeControl object\n* stick with lazily loading ChangeNotes\n* remove ChangeNotes from ChangeControl",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

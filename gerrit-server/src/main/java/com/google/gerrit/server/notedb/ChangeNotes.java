@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -116,8 +117,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(@SuppressWarnings("unused") ReviewDb db,
-        Change change) {
+    public ChangeNotes create(ReviewDb db, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
+      Change change = db.changes().get(changeId);
+      checkState(change != null, "Failed to load change " + changeId
+          + " of project " + project.get() + " from database.");
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+
+    }
+
+    public ChangeNotes createFromIndexedChange(Change change) {
       return new ChangeNotes(repoManager, migration, allUsersProvider, change);
     }
 

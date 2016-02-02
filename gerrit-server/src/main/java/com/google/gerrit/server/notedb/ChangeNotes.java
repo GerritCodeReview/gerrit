@@ -116,8 +116,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allUsersProvider = allUsersProvider;
     }
 
-    public ChangeNotes create(@SuppressWarnings("unused") ReviewDb db,
-        Change change) {
+    public ChangeNotes create(ReviewDb db,
+        @SuppressWarnings("unused") Project.NameKey project, Change.Id changeId)
+            throws OrmException {
+      Change change = db.changes().get(changeId);
+      // TODO: Throw NoSuchChangeException when the change is not found in the
+      // database
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+    }
+
+    public ChangeNotes createFromIndexedChange(Change change) {
       return new ChangeNotes(repoManager, migration, allUsersProvider, change);
     }
 

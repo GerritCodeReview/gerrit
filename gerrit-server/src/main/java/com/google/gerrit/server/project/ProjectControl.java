@@ -195,7 +195,8 @@ public class ProjectControl {
   }
 
   public ChangeControl controlFor(Change change) throws OrmException {
-    return changeControlFactory.create(controlForRef(change.getDest()), change);
+    return changeControlFactory.create(controlForRef(change.getDest()),
+        change.getProject(), change.getId());
   }
 
   public ChangeControl controlFor(ChangeNotes notes) {

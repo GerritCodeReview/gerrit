@@ -587,7 +587,7 @@ public class ConsistencyChecker {
         if (c == null) {
           throw new OrmException("Change missing: " + cid);
         }
-        ChangeNotes notes = notesFactory.create(db, c);
+        ChangeNotes notes = notesFactory.create(db, c.getProject(), cid);
 
         if (psId.equals(c.currentPatchSetId())) {
           List<PatchSet> all = Lists.newArrayList(db.patchSets().byChange(cid));

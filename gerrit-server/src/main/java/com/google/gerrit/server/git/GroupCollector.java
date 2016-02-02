@@ -30,9 +30,13 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.collect.SortedSetMultimap;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -109,6 +113,39 @@ public class GroupCollector {
 
   private boolean done;
 
+  public static GroupCollector create(Multimap<ObjectId, Ref> changeRefsById,
+      final ReviewDb db, final PatchSetUtil psUtil,
+      final ChangeNotes.Factory notesFactory) {
+    return new GroupCollector(
+        transformRefs(changeRefsById),
+        new Lookup() {
+          @Override
+          public List<String> lookup(PatchSet.Id psId) throws OrmException {
+            // TODO(dborowitz): Shouldn't have to look up Change.
+            Change c = db.changes().get(psId.getParentKey());
+            if (c == null) {
+              return null;
+            }
+            ChangeNotes notes = notesFactory.create(c);
+            PatchSet ps = psUtil.get(db, notes, psId);
+            return ps != null ? ps.getGroups() : null;
+          }
+        });
+  }
+
+  public static GroupCollector createForSchemaUpgradeOnly(
+      Multimap<ObjectId, Ref> changeRefsById, final ReviewDb db) {
+    return new GroupCollector(
+        transformRefs(changeRefsById),
+        new Lookup() {
+          @Override
+          public List<String> lookup(PatchSet.Id psId) throws OrmException {
+            PatchSet ps = db.patchSets().get(psId);
+            return ps != null ? ps.getGroups() : null;
+          }
+        });
+  }
+
   private GroupCollector(
       Multimap<ObjectId, PatchSet.Id> patchSetsBySha,
       Lookup groupLookup) {
@@ -118,24 +155,14 @@ public class GroupCollector {
     groupAliases = HashMultimap.create();
   }
 
-  public GroupCollector(
-      Multimap<ObjectId, Ref> changeRefsById,
-      final ReviewDb db) {
-    this(
-        Multimaps.transformValues(
-            changeRefsById,
-            new Function<Ref, PatchSet.Id>() {
-              @Override
-              public PatchSet.Id apply(Ref in) {
-                return PatchSet.Id.fromRef(in.getName());
-              }
-            }),
-        new Lookup() {
+  private static Multimap<ObjectId, PatchSet.Id> transformRefs(
+      Multimap<ObjectId, Ref> refs) {
+    return Multimaps.transformValues(
+        refs,
+        new Function<Ref, PatchSet.Id>() {
           @Override
-          public List<String> lookup(PatchSet.Id psId) throws OrmException {
-            // TODO(dborowitz): PatchSetUtil.
-            PatchSet ps = db.patchSets().get(psId);
-            return ps != null ? ps.getGroups() : null;
+          public PatchSet.Id apply(Ref in) {
+            return PatchSet.Id.fromRef(in.getName());
           }
         });
   }
@@ -215,9 +242,9 @@ public class GroupCollector {
     }
   }
 
-  public SetMultimap<ObjectId, String> getGroups() throws OrmException {
+  public SortedSetMultimap<ObjectId, String> getGroups() throws OrmException {
     done = true;
-    SetMultimap<ObjectId, String> result = MultimapBuilder
+    SortedSetMultimap<ObjectId, String> result = MultimapBuilder
         .hashKeys(groups.keySet().size())
         .treeSetValues()
         .build();

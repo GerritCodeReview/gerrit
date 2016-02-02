@@ -30,6 +30,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
+import com.google.gerrit.server.git.BatchUpdateReviewDb;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -45,6 +47,20 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
     return cfg.getBoolean("change", "allowDrafts", true);
   }
+
+  static ReviewDb unwrap(ReviewDb db) {
+    // This is special. We want to delete exactly the rows that are present in
+    // the database, even when reading everything else from notedb, so we need
+    // to bypass the write-only wrapper.
+    if (db instanceof BatchUpdateReviewDb) {
+      db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
+    }
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
+  }
+
 
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
@@ -71,7 +87,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     Change change = ctx.getChange();
     id = change.getId();
 
-    ReviewDb db = ctx.getDb();
+    ReviewDb db = unwrap(ctx.getDb());
     if (change.getStatus() != Change.Status.DRAFT) {
       throw new ResourceConflictException("Change is not a draft: " + id);
     }
@@ -92,13 +108,14 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
           db.accountPatchReviews().byPatchSet(ps.getId()));
     }
 
-    // No need to delete from notedb; draft patch sets will be filtered out.
+    // Only delete from reviewdb here; deletion from notedb is handled in
+    // BatchUpdate.
     db.patchComments().delete(db.patchComments().byChange(id));
-
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
-    db.patchSets().delete(patchSets);
+    db.patchSets().delete(db.patchSets().byChange(id));
     db.changeMessages().delete(db.changeMessages().byChange(id));
     starredChangesUtil.unstarAll(id);
+
     ctx.deleteChange();
     return true;
   }

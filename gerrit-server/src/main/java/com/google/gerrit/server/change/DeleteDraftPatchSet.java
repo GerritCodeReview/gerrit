@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -46,6 +45,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @Singleton
 public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
@@ -90,6 +90,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private class Op extends BatchUpdate.Op {
     private final PatchSet.Id psId;
 
+    private Collection<PatchSet> patchSetsBeforeDeletion;
     private PatchSet patchSet;
     private DeleteDraftChangeOp deleteChangeOp;
 
@@ -114,6 +115,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         throw new AuthException("Not permitted to delete this draft patch set");
       }
 
+      patchSetsBeforeDeletion = psUtil.byChange(ctx.getDb(), ctx.getNotes());
       deleteDraftPatchSet(patchSet, ctx);
       deleteOrUpdateDraftChange(ctx);
       return true;
@@ -134,20 +136,21 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
     private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx)
         throws OrmException {
-      ReviewDb db = ctx.getDb();
+      // For notedb itself, no need to delete these entities, as they are
+      // automatically filtered out when patch sets are deleted.
+      psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
+
+      ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
       db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(psId));
       db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
-      // No need to delete from notedb; deleted patch sets are filtered out.
       db.patchComments().delete(db.patchComments().byPatchSet(psId));
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
-
-      psUtil.delete(db, ctx.getUpdate(patchSet.getId()), patchSet);
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)
         throws OrmException, RestApiException {
       Change c = ctx.getChange();
-      if (Iterables.isEmpty(psUtil.byChange(ctx.getDb(), ctx.getNotes()))) {
+      if (deletedOnlyPatchSet()) {
         deleteChangeOp = deleteChangeOpProvider.get();
         deleteChangeOp.updateChange(ctx);
         return;
@@ -156,6 +159,11 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         c.setCurrentPatchSet(previousPatchSetInfo(ctx));
       }
       ctx.saveChange();
+    }
+
+    private boolean deletedOnlyPatchSet() {
+      return patchSetsBeforeDeletion.size() == 1
+          && patchSetsBeforeDeletion.iterator().next().getId().equals(psId);
     }
 
     private PatchSetInfo previousPatchSetInfo(ChangeContext ctx)
@@ -174,8 +182,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
     try {
-      int psCount = db.get().patchSets()
-          .byChange(rsrc.getChange().getId()).toList().size();
+      int psCount = psUtil.byChange(db.get(), rsrc.getNotes()).size();
       return new UiAction.Description()
         .setTitle(String.format("Delete draft revision %d",
             rsrc.getPatchSet().getPatchSetId()))

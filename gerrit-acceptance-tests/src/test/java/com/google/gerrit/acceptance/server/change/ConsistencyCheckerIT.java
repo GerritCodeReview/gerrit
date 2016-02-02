@@ -27,6 +27,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -388,6 +390,26 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     c = db.changes().get(c.getId());
     assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
     assertProblems(c);
+  }
+
+  @Test
+  public void extensionApiReturnsUpdatedValueAfterFix() throws Exception {
+    Change c = insertChange();
+    RevCommit commit = testRepo.branch(c.currentPatchSetId().toRefName()).commit()
+        .parent(tip).create();
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, adminId);
+    db.patchSets().insert(singleton(ps));
+    testRepo.branch(c.getDest().get()).update(commit);
+
+    ChangeInfo info = gApi.changes()
+        .id(c.getChangeId())
+        .info();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+
+    info = gApi.changes()
+        .id(c.getChangeId())
+        .check(new FixInput());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   @Test

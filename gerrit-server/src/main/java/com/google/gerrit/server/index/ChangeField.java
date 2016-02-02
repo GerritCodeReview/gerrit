@@ -599,10 +599,7 @@ public class ChangeField {
             throws OrmException {
           Set<String> r = Sets.newHashSetWithExpectedSize(1);
           for (PatchSet ps : input.patchSets()) {
-            List<String> groups = ps.getGroups();
-            if (groups != null) {
-              r.addAll(groups);
-            }
+            r.addAll(ps.getGroups());
           }
           return r;
         }

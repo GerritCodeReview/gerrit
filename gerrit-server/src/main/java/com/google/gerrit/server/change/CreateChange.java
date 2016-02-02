@@ -68,6 +68,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -182,7 +183,7 @@ public class CreateChange implements
               "Branch %s does not exist.", refName));
         }
         parentCommit = destRef.getObjectId();
-        groups = null;
+        groups = Collections.emptyList();
       }
       RevCommit mergeTip = rw.parseCommit(parentCommit);
 

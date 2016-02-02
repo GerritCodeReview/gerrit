@@ -313,7 +313,7 @@ public class EventFactory {
 
   private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change,
       PatchSet currentPs) throws OrmException, IOException {
-    if (currentPs.getGroups() == null || currentPs.getGroups().isEmpty()) {
+    if (currentPs.getGroups().isEmpty()) {
       return;
     }
     String rev = currentPs.getRevision().get();

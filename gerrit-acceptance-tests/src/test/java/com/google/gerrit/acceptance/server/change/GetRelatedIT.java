@@ -572,7 +572,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
 
     // Pretend PS1,1 was pushed before the groups field was added.
-    setGroups(psId1_1, null);
+    clearGroups(psId1_1);
     indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
 
     // PS1,1 has no groups, so disappeared from related changes.
@@ -629,15 +629,15 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return result;
   }
 
-  private void setGroups(final PatchSet.Id psId,
-      final Iterable<String> groups) throws Exception {
+  private void clearGroups(final PatchSet.Id psId) throws Exception {
     try (BatchUpdate bu = updateFactory.create(
         db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
         @Override
         public boolean updateChange(ChangeContext ctx) throws OrmException {
           PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
-          psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
+          psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps,
+              ImmutableList.<String> of());
           return true;
         }
       });

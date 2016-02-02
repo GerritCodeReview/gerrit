@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -84,9 +85,9 @@ public class Schema_108 extends SchemaVersion {
     ui.message("done");
   }
 
-  private static void updateProjectGroups(ReviewDb db, Repository repo,
+  private void updateProjectGroups(ReviewDb db, Repository repo,
       RevWalk rw, Set<Change.Id> changes, UpdateUI ui)
-          throws OrmException, IOException {
+      throws OrmException, IOException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -119,7 +120,8 @@ public class Schema_108 extends SchemaVersion {
       }
     }
 
-    GroupCollector collector = new GroupCollector(changeRefsBySha, db);
+    GroupCollector collector =
+        GroupCollector.createForSchemaUpgradeOnly(changeRefsBySha, db);
     RevCommit c;
     while ((c = rw.next()) != null) {
       collector.visit(c);
@@ -137,7 +139,7 @@ public class Schema_108 extends SchemaVersion {
       for (PatchSet.Id psId : patchSetsBySha.get(e.getKey())) {
         PatchSet ps = patchSets.get(psId);
         if (ps != null) {
-          ps.setGroups(e.getValue());
+          ps.setGroups(ImmutableList.copyOf(e.getValue()));
         }
       }
     }

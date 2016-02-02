@@ -19,6 +19,7 @@ import com.google.gwtorm.client.IntKey;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** A single revision of a {@link Change}. */
@@ -38,9 +39,9 @@ public final class PatchSet {
     return isChangeRef(name);
   }
 
-  public static String joinGroups(Iterable<String> groups) {
+  static String joinGroups(List<String> groups) {
     if (groups == null) {
-      return null;
+      throw new IllegalArgumentException("groups may not be null");
     }
     StringBuilder sb = new StringBuilder();
     boolean first = true;
@@ -57,7 +58,7 @@ public final class PatchSet {
 
   public static List<String> splitGroups(String joinedGroups) {
     if (joinedGroups == null) {
-      return null;
+      throw new IllegalArgumentException("groups may not be null");
     }
     List<String> groups = new ArrayList<>();
     int i = 0;
@@ -241,10 +242,16 @@ public final class PatchSet {
   }
 
   public List<String> getGroups() {
+    if (groups == null) {
+      return Collections.emptyList();
+    }
     return splitGroups(groups);
   }
 
-  public void setGroups(Iterable<String> groups) {
+  public void setGroups(List<String> groups) {
+    if (groups == null) {
+      groups = Collections.emptyList();
+    }
     this.groups = joinGroups(groups);
   }
 

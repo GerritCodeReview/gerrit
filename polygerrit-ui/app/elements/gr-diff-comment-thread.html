@@ -55,7 +55,6 @@ limitations under the License.
   (function() {
     'use strict';
 
-
     Polymer({
       is: 'gr-diff-comment-thread',
 
@@ -135,8 +134,8 @@ limitations under the License.
           }
         }
         var results = [];
-        for (var i = 0; i < topLevelComments.length; i++) {
-          this._visitComment(topLevelComments[i], commentIDToReplies, results);
+        for (var j = 0; j < topLevelComments.length; j++) {
+          this._visitComment(topLevelComments[j], commentIDToReplies, results);
         }
         return results;
       },

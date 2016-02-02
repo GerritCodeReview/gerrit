@@ -45,27 +45,27 @@ limitations under the License.
         /\/changes\/42\/suggest_reviewers\?n=10&q=andy(.*)/,
         [
           200,
-          { 'Content-Type': 'application/json' },
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify([
             {
               account: {
                 _account_id: 1021482,
-                name: "Andrew Bonventre",
-                email: "andybons@chromium.org",
+                name: 'Andrew Bonventre',
+                email: 'andybons@chromium.org',
               }
             },
             {
               account: {
                 _account_id: 1021863,
-                name: "Andrew Bonventre",
-                email: "andybons@google.com",
+                name: 'Andrew Bonventre',
+                email: 'andybons@google.com',
               }
             },
             {
-              "group": {
-                "id": "c7af6dd375c092ff3b23c0937aa910693dc0c41b",
-                "name": "andy"
+              group: {
+                id: 'c7af6dd375c092ff3b23c0937aa910693dc0c41b',
+                name: 'andy',
               }
             }
           ]),
@@ -76,7 +76,7 @@ limitations under the License.
         '/changes/42/reviewers',
         [
           200,
-          { 'Content-Type': 'application/json'},
+          {'Content-Type': 'application/json'},
           ')]}\'\n' +
           JSON.stringify({
             reviewers: [{
@@ -95,7 +95,7 @@ limitations under the License.
         '/changes/42/reviewers/1021482',
         [
           204,
-          { 'Content-Type': 'application/json'},
+          {'Content-Type': 'application/json'},
           ')]}\'\n{}',
         ]
       );
@@ -198,7 +198,8 @@ limitations under the License.
         function() {
           assert(false, 'generateRequest should not be called for input ' +
               'lengths of less than 3 chars');
-      });
+        }
+      );
       element._inputVal = 'fo';
       flushAsynchronousOperations();
       genRequestStub.restore();
@@ -209,7 +210,7 @@ limitations under the License.
         _number: 42,
         reviewers: {},
         removable_reviewers: [],
-        owner: { _account_id: 0 },
+        owner: {_account_id: 0},
       };
       element._inputRequestTimeout = 0;
       element._mutable = true;

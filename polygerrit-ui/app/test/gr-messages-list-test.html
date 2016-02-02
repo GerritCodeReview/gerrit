@@ -89,9 +89,9 @@ limitations under the License.
 
       element.scrollToMessage('invalid');
 
-      for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isFalse(allMessageEls[i].expanded,
-            'expected gr-message ' + i + ' to not be expanded');
+      for (var j = 0; j < allMessageEls.length; j++) {
+        assert.isFalse(allMessageEls[j].expanded,
+            'expected gr-message ' + j + ' to not be expanded');
       }
 
       var messageID = '47c43261_9593e420';

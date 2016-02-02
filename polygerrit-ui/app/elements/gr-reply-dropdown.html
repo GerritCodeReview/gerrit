@@ -194,7 +194,9 @@ limitations under the License.
         _xhrPromise: Object,  // Used for testing.
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
+      behaviors: [
+        Gerrit.RESTClientBehavior,
+      ],
 
       get opened() {
         return this.$.dropdown.opened;
@@ -234,7 +236,7 @@ limitations under the License.
         }
         if (total == 0) { return ''; }
         if (total == 1) { return '1 Draft'; }
-        if (total > 1) { return total + ' Drafts'; };
+        if (total > 1) { return total + ' Drafts'; }
       },
 
       _computeLabelArray: function(labelsObj) {
@@ -260,10 +262,10 @@ limitations under the License.
 
         var len = permittedLabels[labelName] != null ?
             permittedLabels[labelName].length : 0;
-        for (var i = 0; i < len; i++) {
-          var val = parseInt(permittedLabels[labelName][i], 10);
+        for (var j = 0; j < len; j++) {
+          var val = parseInt(permittedLabels[labelName][j], 10);
           if (val == labelValue) {
-            return i;
+            return j;
           }
         }
         return null;

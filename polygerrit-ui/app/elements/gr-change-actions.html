@@ -115,7 +115,9 @@ limitations under the License.
         },
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
+      behaviors: [
+        Gerrit.RESTClientBehavior,
+      ],
 
       observers: [
         '_actionsChanged(actions, _revisionActions)',
@@ -139,7 +141,7 @@ limitations under the License.
       },
 
       _getValuesFor: function(obj) {
-        return Object.keys(obj).map(function (key) {
+        return Object.keys(obj).map(function(key) {
           return obj[key];
         });
       },
@@ -184,8 +186,8 @@ limitations under the License.
           }.bind(this)).catch(function(err) {
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');
-          throw err;
-        });
+            throw err;
+          });
       },
 
       _fireRevisionAction: function(endpoint, action) {
@@ -204,7 +206,7 @@ limitations under the License.
             buttonEl.setAttribute('loading', false);
             buttonEl.disabled = false;
             throw err;
-        });
+          });
       },
 
       _send: function(method, payload, actionEndpoint, revisionAction) {

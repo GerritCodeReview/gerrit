@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51aa3454_c5223a91",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-03T08:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b13a90f4_8098d65c",
+      "range": {
+        "startLine": 252,
+        "startChar": 35,
+        "endLine": 252,
+        "endChar": 42
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b13a90f4_609dd24a",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-03T01:38:35Z",
       "side": 1,
       "message": "\"the feature branch being merged into the target branch\"",
+      "range": {
+        "startLine": 253,
+        "startChar": 54,
+        "endLine": 254,
+        "endChar": 47
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_851c4255",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-03T08:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b13a90f4_609dd24a",
       "range": {
         "startLine": 253,
         "startChar": 54,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_0a7e1b8d",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-03T08:45:57Z",
+      "side": 1,
+      "message": "yes in 99,9% of cases merge commits have two parents. but in case of octo-merges there are more then two parents.\n\nfrom the way how this policy works it doesn\u0027t matter how many branches you merge-in, votes would be copied as long as only first parent changes and rest of parents stay as they were.",
+      "parentUuid": "913d8cf0_bf4ff7bb",
+      "range": {
+        "startLine": 261,
+        "startChar": 49,
+        "endLine": 261,
+        "endChar": 58
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "913d8cf0_9f4cb3c8",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-02-03T01:38:35Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 262,
+        "startChar": 12,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_a5193e64",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-03T08:45:57Z",
+      "side": 1,
+      "message": "imagine a situation when you would like to merge multiple feature branches at once. then as long as your feature branches doesn\u0027t change you can \"rebase\" merge commit on top of the master (target branch) and have votes copied from previous patchset",
+      "parentUuid": "913d8cf0_9f4cb3c8",
       "range": {
         "startLine": 262,
         "startChar": 12,

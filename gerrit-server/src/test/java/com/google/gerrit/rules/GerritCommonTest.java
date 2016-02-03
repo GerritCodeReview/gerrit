@@ -14,20 +14,11 @@
 
 package com.google.gerrit.rules;
 
-import static com.google.gerrit.common.data.Permission.LABEL;
-import static com.google.gerrit.server.project.Util.allow;
-import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.value;
 import static org.easymock.EasyMock.expect;
 
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -47,22 +38,8 @@ import java.io.StringReader;
 import java.util.Arrays;
 
 public class GerritCommonTest extends PrologTestCase {
-  private final LabelType V = category("Verified",
-      value(1, "Verified"),
-      value(0, "No score"),
-      value(-1, "Fails"));
-  private final LabelType Q = category("Qualified",
-      value(1, "Qualified"),
-      value(0, "No score"),
-      value(-1, "Fails"));
-
-  private final Project.NameKey localKey = new Project.NameKey("local");
-  private ProjectConfig local;
-  private Util util;
-
   @Before
   public void setUp() throws Exception {
-    util = new Util();
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
@@ -80,16 +57,6 @@ public class GerritCommonTest extends PrologTestCase {
                 cfg));
       }
     });
-
-    local = new ProjectConfig(localKey);
-    local.load(InMemoryRepositoryManager.newRepository(localKey));
-    Q.setRefPatterns(Arrays.asList("refs/heads/develop"));
-
-    local.getLabelSections().put(V.getName(), V);
-    local.getLabelSections().put(Q.getName(), Q);
-    util.add(local);
-    allow(local, LABEL + V.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/*");
-    allow(local, LABEL + Q.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/master");
   }
 
   @Override

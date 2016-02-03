@@ -138,7 +138,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private List<RevisionResource> loadEdit(ChangeResource change, RevId revid)
-      throws AuthException, IOException {
+      throws AuthException, IOException, OrmException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
     if (edit.isPresent()) {
       PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 0));

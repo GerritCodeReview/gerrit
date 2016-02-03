@@ -419,7 +419,9 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c = db.get().changes().get(psId.getParentKey());
+          Change c = notesFactory
+              .create(db.get(), change.getProject(), psId.getParentKey())
+              .getChange();
           if (c == null || !c.getDest().equals(change.getDest())) {
             continue;
           }

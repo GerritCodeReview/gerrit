@@ -22,6 +22,30 @@
       "revId": "e8f99813a7b0f4e2fa9ac0c48702d26047c4d95b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "913d8cf0_9f35d318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-03T07:16:03Z",
+      "side": 1,
+      "message": "See the following change in the series.  I did them separately, do you think it\u0027s better to squash them?",
+      "parentUuid": "51aa3454_856a02bd",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "e8f99813a7b0f4e2fa9ac0c48702d26047c4d95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

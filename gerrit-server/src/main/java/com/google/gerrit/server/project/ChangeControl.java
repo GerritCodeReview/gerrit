@@ -35,8 +35,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -106,34 +104,43 @@ public class ChangeControl {
     }
   }
 
-  public interface AssistedFactory {
-    ChangeControl create(RefControl refControl, Change change);
-    ChangeControl create(RefControl refControl, ChangeNotes notes);
+  public static class Factory {
+    private final ReviewDb db;
+    private final ChangeData.Factory changeDataFactory;
+    private final ChangeNotes.Factory notesFactory;
+    private final ApprovalsUtil approvalsUtil;
+
+    @Inject
+    Factory(ReviewDb db,
+        ChangeData.Factory changeDataFactory,
+        ChangeNotes.Factory notesFactory,
+        ApprovalsUtil approvalsUtil) {
+      this.db = db;
+      this.changeDataFactory = changeDataFactory;
+      this.notesFactory = notesFactory;
+      this.approvalsUtil = approvalsUtil;
+    }
+
+    ChangeControl create(RefControl refControl, Change change) {
+      return create(refControl, notesFactory.create(db, change));
+    }
+
+    ChangeControl create(RefControl refControl, ChangeNotes notes) {
+      return new ChangeControl(changeDataFactory, approvalsUtil, refControl,
+          notes);
+    }
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final RefControl refControl;
   private final ChangeNotes notes;
-  private final ApprovalsUtil approvalsUtil;
 
-  @AssistedInject
-  ChangeControl(
-      ChangeData.Factory changeDataFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ReviewDb db,
-      @Assisted RefControl refControl,
-      @Assisted Change change) {
-    this(changeDataFactory, approvalsUtil, refControl,
-        notesFactory.create(db, change));
-  }
-
-  @AssistedInject
   ChangeControl(
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      @Assisted RefControl refControl,
-      @Assisted ChangeNotes notes) {
+      RefControl refControl,
+      ChangeNotes notes) {
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.refControl = refControl;

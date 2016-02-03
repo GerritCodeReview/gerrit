@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -89,9 +90,10 @@ public class LabelNormalizer {
    *     included in the output, nor are approvals where the user has no
    *     permissions for that label.
    * @throws NoSuchChangeException
+   * @throws OrmException
    */
-  public Result normalize(Change change,
-      Collection<PatchSetApproval> approvals) throws NoSuchChangeException {
+  public Result normalize(Change change, Collection<PatchSetApproval> approvals)
+      throws NoSuchChangeException, OrmException {
     return normalize(
         changeFactory.controlFor(change, userFactory.create(change.getOwner())),
         approvals);

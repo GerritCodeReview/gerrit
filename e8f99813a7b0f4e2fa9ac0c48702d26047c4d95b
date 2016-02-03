@@ -46,6 +46,30 @@
       "revId": "e8f99813a7b0f4e2fa9ac0c48702d26047c4d95b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_a5405e3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T07:38:01Z",
+      "side": 1,
+      "message": "Squashing is not needed, I just didn\u0027t look at the follow-up changes yet.",
+      "parentUuid": "913d8cf0_9f35d318",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "e8f99813a7b0f4e2fa9ac0c48702d26047c4d95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

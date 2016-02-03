@@ -16,6 +16,24 @@
       "revId": "8d5eba1cca93b04c509ab72702bfa9a562287b8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d19d4471_71a758cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-03T09:33:32Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t notice that this had not been fixed since the previous comments.",
+      "parentUuid": "51aa3454_850522f5",
+      "revId": "8d5eba1cca93b04c509ab72702bfa9a562287b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

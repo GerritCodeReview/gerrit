@@ -607,6 +607,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private Change insertChange() throws Exception {
     Change c = newChange(project, adminId);
     db.changes().insert(singleton(c));
+    indexer.index(db, c);
 
     ChangeUpdate u = changeUpdateFactory.create(
         changeControlFactory.controlFor(c, userFactory.create(adminId)));

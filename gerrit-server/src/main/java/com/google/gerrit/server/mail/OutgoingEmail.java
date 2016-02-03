@@ -25,6 +25,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapterImpl;
@@ -347,21 +348,21 @@ public abstract class OutgoingEmail {
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
-      if (args.emailSender.canEmail(addr.email)) {
-        if (smtpRcptTo.add(addr)) {
-          switch (rt) {
-            case TO:
-              ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
-              break;
-            case CC:
-              ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
-              break;
-            case BCC:
-              break;
-          }
-        }
-      } else {
+      if (!EmailValidator.getInstance().isValid(addr.email)) {
+        log.warn("Not emailing " + addr.email + " (invalid email address)");
+      } else if (!args.emailSender.canEmail(addr.email)) {
         log.warn("Not emailing " + addr.email + " (prohibited by allowrcpt)");
+      } else {
+        switch (rt) {
+          case TO:
+            ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
+            break;
+          case CC:
+            ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
+            break;
+          case BCC:
+            break;
+        }
       }
     }
   }

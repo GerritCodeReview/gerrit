@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -110,6 +112,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected NotesMigration notesMigration;
+  @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected ProjectControl.GenericFactory projectControlFactory;
   @Inject protected QueryProcessor queryProcessor;
@@ -720,6 +723,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updatedOrderWithSubMinuteResolution() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo);
     Change change1 = insert(repo, ins1);
@@ -731,7 +736,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     gApi.changes().id(change1.getId().get()).current()
         .review(new ReviewInput());
-    change1 = db.changes().get(change1.getId());
+    change1 = notesFactory.create(db, change1.getProject(), change1.getId())
+        .getChange();
 
     assertThat(lastUpdatedMs(change1)).isGreaterThan(lastUpdatedMs(change2));
     assertThat(lastUpdatedMs(change1) - lastUpdatedMs(change2))

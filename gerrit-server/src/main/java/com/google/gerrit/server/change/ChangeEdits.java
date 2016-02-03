@@ -103,7 +103,7 @@ public class ChangeEdits implements
   @Override
   public ChangeEditResource parse(ChangeResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, IOException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, OrmException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (!edit.isPresent()) {
       throw new ResourceNotFoundException(id);
@@ -556,7 +556,7 @@ public class ChangeEdits implements
 
     @Override
     public BinaryResult apply(ChangeResource rsrc) throws AuthException,
-        IOException, ResourceNotFoundException {
+        IOException, ResourceNotFoundException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (edit.isPresent()) {
         String msg = edit.get().getEditCommit().getFullMessage();

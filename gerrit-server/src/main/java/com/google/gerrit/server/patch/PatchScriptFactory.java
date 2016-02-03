@@ -219,7 +219,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private ObjectId toObjectId(PatchSet ps) throws NoSuchChangeException,
-      AuthException, NoSuchChangeException, IOException {
+      AuthException, NoSuchChangeException, IOException, OrmException {
     if (ps.getId().get() == 0) {
       return getEditRev();
     }
@@ -236,7 +236,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private ObjectId getEditRev() throws AuthException,
-      NoSuchChangeException, IOException {
+      NoSuchChangeException, IOException, OrmException {
     edit = editReader.byChange(change);
     if (edit.isPresent()) {
       return edit.get().getRef().getObjectId();

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.DeleteChangeEdit.Input;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -41,7 +42,8 @@ public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, IOException {
+      throws AuthException, ResourceNotFoundException, IOException,
+      OrmException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (edit.isPresent()) {
       editUtil.delete(edit.get());

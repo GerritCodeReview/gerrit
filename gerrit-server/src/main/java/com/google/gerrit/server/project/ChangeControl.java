@@ -63,7 +63,7 @@ public class ChangeControl {
     }
 
     public ChangeControl controlFor(Change change, CurrentUser user)
-        throws NoSuchChangeException {
+        throws NoSuchChangeException, OrmException {
       final Project.NameKey projectKey = change.getProject();
       try {
         return projectControl.controlFor(projectKey, user).controlFor(change);
@@ -121,7 +121,9 @@ public class ChangeControl {
       this.approvalsUtil = approvalsUtil;
     }
 
-    ChangeControl create(RefControl refControl, Change change) {
+    @SuppressWarnings("unused")
+    ChangeControl create(RefControl refControl, Change change)
+        throws OrmException {
       return create(refControl, notesFactory.create(db, change));
     }
 

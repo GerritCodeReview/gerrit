@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454507459 +0100\nnonce ALmjDBUgKI8Q355EYHENfVGK3dGvDHBgPWh1iaMUq83Bqdl20fipDZLl6cUad+aiJARGlGH8tcYX\n\n0000000000000000000000000000000000000000 7be04103fa5a0a20cfe481fe2b07ea5d61940866 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWsgXDAAoJEFG1/Zeg0O9RqxYIAMYNndNKyVkjBjmaKdaVfHS3\nPAP03Z6iTiRFiaHSrO5f1jXslzutT/QV/b/SiYWFtnBMvD5oYAEqYz2LwQMN85XI\nkJDjYhmvVKZSqfvipK3uP0Z15IxyeYNbvo8wEWxrmOIUli1o1pBLuOvmokkrAFWH\nDOYemM9OfXInXL1KVN+BMqKjVKhSw4Epl9+RdYYZYRU1Wn/cjs6qx9b3K3+8rgJi\nu1c1c6meXBqUReyMTo+OhaXYZVNT7VYPcrC8KvnrI30EWpVtCu+NvXdfgUl0GCCi\n5h8B298eUcCnXm14lbpuchVy3cwly0W3eS/cOE3VEhZcedPTFTPFSFzKYbLm+0o\u003d\n\u003dBOJC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d133841e_018cca1c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-03T16:58:13Z",
+      "side": 1,
+      "message": "Nice, glad we could cut down on the module size here.",
+      "revId": "d30a352afd611304d1c9581c2efd7c2813babdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

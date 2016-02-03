@@ -419,8 +419,10 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c = db.get().changes().get(psId.getParentKey());
-          if (c == null || !c.getDest().equals(change.getDest())) {
+          Change c = notesFactory
+              .create(db.get(), change.getProject(), psId.getParentKey())
+              .getChange();
+          if (!c.getDest().equals(change.getDest())) {
             continue;
           }
         } catch (OrmException e) {

@@ -309,8 +309,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
               .build());
     }
 
-    private ChangeNotes newNotes(Change change) {
-      return notesFactory.create(change);
+    private ChangeNotes newNotes(ReviewDb db, Change change) {
+      return notesFactory.create(db, change);
     }
 
     private static Optional<Path> hook(Config config, Path path, String name) {
@@ -403,7 +403,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doPatchsetCreatedHook(Change change,
         PatchSet patchSet, ReviewDb db) throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
       Supplier<AccountState> uploader =
           getAccountSupplier(patchSet.getUploader());
@@ -441,7 +441,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doDraftPublishedHook(Change change, PatchSet patchSet,
           ReviewDb db) throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       DraftPublishedEvent event = new DraftPublishedEvent(change);
       Supplier<AccountState> uploader =
           getAccountSupplier(patchSet.getUploader());
@@ -478,7 +478,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doCommentAddedHook(final Change change, Account account,
           PatchSet patchSet, String comment, final Map<String, Short> approvals,
           ReviewDb db) throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       CommentAddedEvent event = new CommentAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
@@ -540,7 +540,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeMergedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db, String mergeResultRev)
         throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       ChangeMergedEvent event = new ChangeMergedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
@@ -576,7 +576,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doMergeFailedHook(Change change, Account account,
           PatchSet patchSet, String reason,
           ReviewDb db) throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       MergeFailedEvent event = new MergeFailedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
@@ -612,7 +612,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeAbandonedHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -648,7 +648,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeRestoredHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       ChangeRestoredEvent event = new ChangeRestoredEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -725,7 +725,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doReviewerAddedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db) throws OrmException {
-      ChangeNotes notes = newNotes(change);
+      ChangeNotes notes = newNotes(db, change);
       ReviewerAddedEvent event = new ReviewerAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 

@@ -121,10 +121,11 @@ public class ChangeControl {
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      ReviewDb db,
       @Assisted RefControl refControl,
       @Assisted Change change) {
     this(changeDataFactory, approvalsUtil, refControl,
-        notesFactory.create(change));
+        notesFactory.create(db, change));
   }
 
   @AssistedInject

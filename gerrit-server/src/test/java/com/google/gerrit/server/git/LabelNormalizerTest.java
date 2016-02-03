@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
@@ -41,11 +42,14 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.LabelNormalizer.Result;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Repository;
@@ -66,6 +70,7 @@ public class LabelNormalizerTest {
   @Inject private MetaDataUpdate.User metaDataUpdateFactory;
   @Inject private ProjectCache projectCache;
   @Inject private SchemaCreator schemaCreator;
+  @Inject protected ThreadLocalRequestContext requestContext;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -86,6 +91,18 @@ public class LabelNormalizerTest {
     userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
     user = userFactory.create(Providers.of(db), userId);
+
+    requestContext.setContext(new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return user;
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    });
 
     configureProject();
     setUpChange();
@@ -123,6 +140,7 @@ public class LabelNormalizerTest {
     if (lifecycle != null) {
       lifecycle.stop();
     }
+    requestContext.setContext(null);
     if (db != null) {
       db.close();
     }

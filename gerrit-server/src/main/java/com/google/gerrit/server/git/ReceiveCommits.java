@@ -734,15 +734,10 @@ public class ReceiveCommits {
           if (replace.insertPatchSet().checkedGet() != null) {
             replace.inputCommand.setResult(OK);
           }
-        } catch (IOException err) {
+        } catch (IOException | InsertException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
-              "Cannot add patch set to %d of %s",
-              e.getKey().get(), project.getName()), err);
-        } catch (InsertException err) {
-          reject(replace.inputCommand, "internal server error");
-          log.error(String.format(
-              "Cannot add patch set to %d of %s",
+              "Cannot add patch set to change %d in project %s",
               e.getKey().get(), project.getName()), err);
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {

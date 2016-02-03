@@ -51,6 +51,24 @@
       "revId": "4fe0b8d9a34f32d8b1f30dffba630b8f0ef72b1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_4a46535f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T12:31:52Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/74561",
+      "parentUuid": "b1dc50fe_f0038056",
+      "revId": "4fe0b8d9a34f32d8b1f30dffba630b8f0ef72b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

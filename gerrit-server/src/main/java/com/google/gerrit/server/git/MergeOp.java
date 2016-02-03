@@ -555,6 +555,8 @@ public class MergeOp implements AutoCloseable {
     logDebug("Beginning integration of {}", change);
     try {
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
+      checkState(cs.ids().contains(change.getId()),
+          "change %s missing from %s", change.getId(), cs);
       this.commits = new CommitStatus(cs);
       reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);

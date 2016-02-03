@@ -149,7 +149,7 @@ public class ProjectControl {
   private final CurrentUser user;
   private final ProjectState state;
   private final GitRepositoryManager repoManager;
-  private final ChangeControl.AssistedFactory changeControlFactory;
+  private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
@@ -167,7 +167,7 @@ public class ProjectControl {
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
       GitRepositoryManager repoManager,
-      ChangeControl.AssistedFactory changeControlFactory,
+      ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
       ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,

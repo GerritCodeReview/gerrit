@@ -70,6 +70,30 @@
       "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51895439_0d98b18c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-03T20:03:57Z",
+      "side": 1,
+      "message": "I debugged this and the ArrayIndexOutOfBoundsException is caused by this class trying to add the line from \"side a\", which is wrong because in the case of adding a submodule, \"side a\" should be empty.\n\nThe root cause seems to be the Edit returned by JGit when generating the diff for a submodule add, instead of returning INSERT(0-0,0-1), it returns REPLACE(0-1,0-1).",
+      "parentUuid": "a7b88e3e_f00ac06b",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 17
+      },
+      "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

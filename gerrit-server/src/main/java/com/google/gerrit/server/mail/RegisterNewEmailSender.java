@@ -65,4 +65,8 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     }
     return emailToken;
   }
+
+  public boolean isAllowed() {
+    return args.emailSender.canEmail(addr);
+  }
 }

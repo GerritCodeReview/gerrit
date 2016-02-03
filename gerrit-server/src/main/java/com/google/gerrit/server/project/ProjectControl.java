@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -193,11 +194,11 @@ public class ProjectControl {
     return r;
   }
 
-  public ChangeControl controlFor(final Change change) {
+  public ChangeControl controlFor(Change change) throws OrmException {
     return changeControlFactory.create(controlForRef(change.getDest()), change);
   }
 
-  public ChangeControl controlFor(ChangeNotes notes) {
+  public ChangeControl controlFor(ChangeNotes notes) throws OrmException {
     return changeControlFactory
         .create(controlForRef(notes.getChange().getDest()), notes);
   }

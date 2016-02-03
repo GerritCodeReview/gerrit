@@ -114,9 +114,10 @@ public class ChangeEditUtil {
    * @return edit for this change for this user, if present.
    * @throws AuthException
    * @throws IOException
+   * @throws OrmException
    */
   public Optional<ChangeEdit> byChange(Change change)
-      throws AuthException, IOException {
+      throws AuthException, IOException, OrmException {
     try {
       return byChange(changeControlFactory.controlFor(change, user.get()));
     } catch (NoSuchChangeException e) {

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "51aa3454_e521767c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T12:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d133841e_c1ddc233",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d133841e_61f956a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2016-02-02T14:00:45Z",
       "side": 1,
       "message": "missing space here",
+      "range": {
+        "startLine": 124,
+        "startChar": 45,
+        "endLine": 124,
+        "endChar": 47
+      },
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_851e823b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T12:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d133841e_61f956a2",
       "range": {
         "startLine": 124,
         "startChar": 45,
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_aa67cff5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T12:33:10Z",
+      "side": 1,
+      "message": "Done. Let me know if you have a better suggestion.",
+      "parentUuid": "71c65832_aecb5774",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1bb289e_cae323c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -77,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_8a6a0bbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T12:33:10Z",
+      "side": 1,
+      "message": "Done in a predecessor change:\n  https://gerrit-review.googlesource.com/74561",
+      "parentUuid": "f1bb289e_cae323c4",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71c65832_2ef9a7a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsVisibleToPredicate.java",
         "patchSetId": 2
@@ -88,6 +166,24 @@
       "writtenOn": "2016-02-02T14:00:45Z",
       "side": 1,
       "message": "I think eager loading is going to cause a serious performance problem here. This method has to be fast; on a server with lots of small disjoint groups, this might have to be called hundreds or thousands of times to load a single results page.\n\nThis may have been one of the reasons I originally implemented lazy loading in the first place. The options are:\n\n* implement isVisible with something that doesn\u0027t require a full ChangeControl object\n* stick with lazily loading ChangeNotes\n* remove ChangeNotes from ChangeControl",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_a51b7e4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsVisibleToPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T12:33:10Z",
+      "side": 1,
+      "message": "With this change there is no eager loading.\n\nBy having ChangeControl.Factory#createFromIndexedChange the change instance is passed into ChangeNotes and it doesn\u0027t need to be loaded from the database. Also there is no load() call on ChangeNotes done.",
+      "parentUuid": "71c65832_2ef9a7a2",
       "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

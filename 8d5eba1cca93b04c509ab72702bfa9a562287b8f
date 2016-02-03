@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51aa3454_850522f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-03T09:31:49Z",
+      "side": 1,
+      "message": "I still think it\u0027s bad to expose this internal set.\nWhy not make a proper\n\n  Set\u003cString\u003e getNames() \n\nmethod that returns the set of names in the correct case? This is what everyone would expect from a getNames method.",
+      "revId": "8d5eba1cca93b04c509ab72702bfa9a562287b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

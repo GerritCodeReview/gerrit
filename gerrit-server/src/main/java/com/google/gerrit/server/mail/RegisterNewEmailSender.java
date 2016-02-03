@@ -50,11 +50,6 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected boolean shouldSendMessage() {
-    return true;
-  }
-
-  @Override
   protected void format() throws EmailException {
     appendText(velocifyFile("RegisterNewEmail.vm"));
   }

@@ -7,13 +7,22 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.change.GetChange;
 
+
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.RemoteAddCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
 import java.util.List;
@@ -382,6 +391,145 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  public void testBranch() throws Exception {
+    // TODO(sbeller): write this test once we have a way to set
+    // new-change-for-all-not-in-target within the gApi.
+    // gApi.config().server().setConfig("--new-change-for-all-not-in-target")
+
+    // A1: configure create new change on target in project.config
+    // stable at C, master at C^
+    // upload C for review for master
+    // submit C to master
+  }
+
+  @Test
+  public void testBranch2() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("stable")
+        .create(new BranchInput());
+
+    PushOneCommit change1 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "One commit", "a.txt", "2");
+    PushOneCommit.Result stableResult = change1.to("refs/for/stable");
+    PushOneCommit.Result masterResult = change1.to("refs/for/master");
+
+
+    assertThat(masterResult.getChangeId()).isEqualTo(stableResult.getChangeId());
+
+    String masterChangeId = project.get() + "~master~" + masterResult.getChangeId();
+    String stableChangeId = project.get() + "~stable~" + stableResult.getChangeId();
+
+    RevCommit stableHead = getRemoteHead(project, "stable");
+    submit(masterChangeId);
+    ChangeInfo change = gApi.changes().id(stableChangeId).info();
+    assertThat(change.status).isNotEqualTo(ChangeStatus.MERGED);
+    assertThat(getRemoteHead(project, "stable")).isEqualTo(stableHead);
+    submit(stableChangeId);
+
+    assertThat(getRemoteHead(project, "stable")).isNotEqualTo(stableHead);
+  }
+
+  @Test
+  public void testBranch3() throws Exception {
+    // A3: master at C^, stable at C^
+    gApi.projects()
+        .name(project.get())
+        .branch("stable")
+        .create(new BranchInput());
+
+    // upload C for master
+    PushOneCommit change1 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "One commit", "a.txt", "2");
+    PushOneCommit.Result masterResult = change1.to("refs/for/master");
+    String masterChangeId = project.get() + "~master~" + masterResult.getChangeId();
+
+    // advance stable to C
+    change1.to("refs/heads/stable");
+
+    assertThat(getRemoteHead(project, "stable").getId())
+        .isEqualTo(masterResult.getCommit().getId());
+
+    // assert change on master is still open
+    List<ChangeInfo> results = gApi.changes().query()
+        .withQuery("project:{" + project.get() + "} status:open").get();
+    assertThat(results.size()).isEqualTo(1);
+
+    // submit for master
+    submit(masterChangeId);
+  }
+
+  @Test
+  public void test2Commits() throws Exception {
+    // A <- B <- C
+    // master, stable at A
+    gApi.projects()
+    .name(project.get())
+    .branch("stable")
+    .create(new BranchInput());
+
+    // upload B,C for master
+    PushOneCommit change1 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "One commit", "a.txt", "2");
+    PushOneCommit.Result masterResult1 = change1.to("refs/for/master");
+    String masterChange1Id = project.get() + "~master~" + masterResult1.getChangeId();
+
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "One commit", "a.txt", "2");
+    PushOneCommit.Result masterResult2 = change2.to("refs/for/master");
+    String masterChange2Id = project.get() + "~master~" + masterResult2.getChangeId();
+
+    // advance stable to B
+    change1.to("refs/heads/stable");
+
+    // approve C, but not B
+    approve(masterChange2Id);
+
+    // submit C, fail because of B
+    submitWithConflict(masterChange2Id, "Failed to submit 2 changes due to the following problems:\n" +
+        "Change " + masterResult1.getChange().getId() + ": needs Code-Review");
+  }
+
+  @Test
+  public void test2Commits2() throws Exception {
+    // A <- B <- C
+    // master, stable at A
+    gApi.projects()
+    .name(project.get())
+    .branch("stable")
+    .create(new BranchInput());
+
+    // upload B for stable
+    PushOneCommit change1 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "One commit", "a.txt", "2");
+    PushOneCommit.Result stableResult1 = change1.to("refs/for/stable");
+    String stableChange1Id = project.get() + "~stable~" + stableResult1.getChangeId();
+    // advance master to B
+    change1.to("refs/heads/master");
+
+    testRepo.git().fetch().call();
+    testRepo.branch("master").update(getRemoteHead(project, "master"));
+
+    // upload C for master
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "One commit", "a.txt", "2");
+    PushOneCommit.Result masterResult2 = change2.to("refs/for/master");
+    String masterChange2Id = project.get() + "~master~" + masterResult2.getChangeId();
+    // submit C
+    submit(masterChange2Id);
+
+    // check B is open for stable
+    List<ChangeInfo> results = gApi.changes().query()
+        .withQuery("project:{" + project.get() + "} status:open").get();
+    assertThat(results.size()).isEqualTo(1);
+  }
+
   public void openChangeForTargetBranchPreventsMerge() throws Exception {
     gApi.projects()
         .name(project.get())

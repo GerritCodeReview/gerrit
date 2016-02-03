@@ -118,6 +118,30 @@
       "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31986085_2c9d737d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-03T20:47:52Z",
+      "side": 1,
+      "message": "I am digging in JGit, I think I found the root cause and a possible fix, I will continue to work on this tomorrow.\n\nI think the proper fix in JGit is easier/safer to do than a patch in Gerrit.",
+      "parentUuid": "913d8cf0_bf6a57ee",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 17
+      },
+      "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

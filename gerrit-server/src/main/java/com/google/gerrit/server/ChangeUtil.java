@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
@@ -166,7 +165,6 @@ public class ChangeUtil {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final GitRepositoryManager gitManager;
@@ -180,7 +178,6 @@ public class ChangeUtil {
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
-      ChangeControl.GenericFactory changeControlFactory,
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
       GitRepositoryManager gitManager,
@@ -192,7 +189,6 @@ public class ChangeUtil {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
-    this.changeControlFactory = changeControlFactory;
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.gitManager = gitManager;
@@ -331,23 +327,18 @@ public class ChangeUtil {
    */
   public List<ChangeControl> findChanges(String id, CurrentUser user)
       throws OrmException {
-    // Try legacy id
-    if (!id.isEmpty() && id.charAt(0) != '0') {
-      Integer n = Ints.tryParse(id);
-      try {
-        if (n != null) {
-          return ImmutableList.of(
-              changeControlFactory.controlFor(new Change.Id(n), user));
-        }
-      } catch (NoSuchChangeException e) {
-        return Collections.emptyList();
-      }
-    }
-
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get()
         .setRequestedFields(ImmutableSet.<String> of());
+
+    // Try legacy id
+    if (!id.isEmpty() && id.charAt(0) != '0') {
+      Integer n = Ints.tryParse(id);
+      if (n != null) {
+        return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);
+      }
+    }
 
     // Try isolated changeId
     if (!id.contains("~")) {
@@ -364,6 +355,15 @@ public class ChangeUtil {
     }
 
     return Collections.emptyList();
+  }
+
+  public List<ChangeControl> findChanges(Change.Id id, CurrentUser user)
+      throws OrmException {
+    // Use the index to search for changes, but don't return any stored fields,
+    // to force rereading in case the index is stale.
+    InternalChangeQuery query = queryProvider.get()
+        .setRequestedFields(ImmutableSet.<String> of());
+    return asChangeControls(query.byLegacyChangeId(id), user);
   }
 
   private List<ChangeControl> asChangeControls(List<ChangeData> cds,

@@ -34,6 +34,24 @@
       "revId": "8d5eba1cca93b04c509ab72702bfa9a562287b8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "913d8cf0_ff64df24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-03T23:51:25Z",
+      "side": 1,
+      "message": "Done as requested.",
+      "parentUuid": "d19d4471_71a758cb",
+      "revId": "8d5eba1cca93b04c509ab72702bfa9a562287b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_2a499f48",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-03T22:29:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913d8cf0_7f0d6f85",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51aa3454_a5a61e29",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-03T22:29:30Z",
+      "side": 1,
+      "message": "Yes, it would be nice to use \u0027let\u0027 here. ES6 is already used at least in \u0027gr-app\u0027 (\u0027get loggedIn\u0027). But when using ES6, we would need to transpile it for older browsers (not sure what are minimum target browsers).",
+      "parentUuid": "d133841e_c1382210",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1
@@ -72,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "51aa3454_85a9a2fb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-03T22:29:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b13a90f4_a04cfac7",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "913d8cf0_bf06d767",
         "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
         "patchSetId": 1
@@ -83,6 +137,24 @@
       "writtenOn": "2016-02-02T21:46:12Z",
       "side": 1,
       "message": "can this be !\u003d instead of !\u003d\u003d for consistency?",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_0a44db31",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-03T22:29:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913d8cf0_bf06d767",
       "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

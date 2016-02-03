@@ -29,7 +29,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,7 +44,6 @@ public class ChangesCollection implements
     AcceptsPost<TopLevelResource> {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
   private final ChangeUtil changeUtil;
@@ -56,7 +54,6 @@ public class ChangesCollection implements
   ChangesCollection(
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
-      ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
       ChangeUtil changeUtil,
@@ -64,7 +61,6 @@ public class ChangesCollection implements
       ChangeIndexer changeIndexer) {
     this.db = db;
     this.user = user;
-    this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
     this.changeUtil = changeUtil;
@@ -112,15 +108,23 @@ public class ChangesCollection implements
 
   public ChangeResource parse(Change.Id id)
       throws ResourceNotFoundException, OrmException {
-    try {
-      ChangeControl ctl = changeControlFactory.controlFor(id, user.get());
-      if (!ctl.isVisible(db.get())) {
-        throw new ResourceNotFoundException(toIdString(id));
+    List<ChangeControl> ctls = changeUtil.findChanges(id, user.get());
+    if (ctls.isEmpty()) {
+      try {
+        changeIndexer.delete(id);
+      } catch (IOException e) {
+        throw new ResourceNotFoundException(toIdString(id).get(), e);
       }
-      return new ChangeResource(ctl);
-    } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(toIdString(id));
     }
+    if (ctls.size() != 1) {
+      throw new ResourceNotFoundException("Multiple changes found for " + id);
+    }
+    ChangeControl ctl = ctls.get(0);
+    if (!ctl.isVisible(db.get())) {
+      throw new ResourceNotFoundException(toIdString(id));
+    }
+    return new ChangeResource(ctl);
   }
 
   private static IdString toIdString(Change.Id id) {

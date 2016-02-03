@@ -118,6 +118,10 @@ public class InternalChangeQuery {
     return query(new ChangeIdPredicate(prefix));
   }
 
+  public List<ChangeData> byLegacyChangeId(Change.Id id) throws OrmException {
+    return query(new LegacyChangeIdPredicate(id));
+  }
+
   public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
       throws OrmException {
     return query(and(

@@ -40,7 +40,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,43 +48,29 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.FakeRealm;
-import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.change.ChangeKindCacheImpl;
-import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.DisableReverseDnsLookup;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.testutil.InMemoryDatabase;
+import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -245,8 +230,13 @@ public class RefControlTest {
   private InMemoryRepositoryManager repoManager;
   private ProjectCache projectCache;
   private PermissionCollection.Factory sectionSorter;
-  private CapabilityControl.Factory capabilityControlFactory;
-  private ChangeControl.AssistedFactory changeControlFactory;
+  private ChangeControl.Factory changeControlFactory;
+  private ReviewDb db;
+
+  @Inject private CapabilityControl.Factory capabilityControlFactory;
+  @Inject private SchemaCreator schemaCreator;
+  @Inject private InMemoryDatabase schemaFactory;
+  @Inject private ThreadLocalRequestContext requestContext;
 
   @Before
   public void setUp() throws Exception {
@@ -317,43 +307,11 @@ public class RefControlTest {
       }
     };
 
-    Injector injector = Guice.createInjector(new FactoryModule() {
-      @SuppressWarnings({"rawtypes", "unchecked"})
-      @Override
-      protected void configure() {
-        Provider nullProvider = Providers.of(null);
-        bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
-            new Config());
-        bind(ReviewDb.class).toProvider(nullProvider);
-        bind(GitRepositoryManager.class).toInstance(repoManager);
-        bind(PatchListCache.class).toProvider(nullProvider);
-        bind(Realm.class).to(FakeRealm.class);
+    Injector injector = Guice.createInjector(new InMemoryModule());
+    injector.injectMembers(this);
 
-        factory(CapabilityControl.Factory.class);
-        factory(ChangeControl.AssistedFactory.class);
-        factory(ChangeData.Factory.class);
-        factory(MergeUtil.Factory.class);
-        bind(ProjectCache.class).toInstance(projectCache);
-        bind(AccountCache.class).toInstance(new FakeAccountCache());
-        bind(GroupBackend.class).to(SystemGroupBackend.class);
-        bind(String.class).annotatedWith(CanonicalWebUrl.class)
-            .toProvider(CanonicalWebUrlProvider.class);
-        bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
-            .toInstance(Boolean.FALSE);
-        bind(String.class).annotatedWith(AnonymousCowardName.class)
-            .toProvider(AnonymousCowardNameProvider.class);
-        bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
-        bind(MergeabilityCache.class)
-          .to(MergeabilityCache.NotImplemented.class);
-        bind(StarredChangesUtil.class)
-          .toProvider(Providers.<StarredChangesUtil> of(null));
-      }
-    });
-
-    capabilityControlFactory =
-        injector.getInstance(CapabilityControl.Factory.class);
-    changeControlFactory =
-        injector.getInstance(ChangeControl.AssistedFactory.class);
+    db = schemaFactory.open();
+    schemaCreator.create(db);
 
     Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
         CacheBuilder.newBuilder().build();
@@ -367,6 +325,29 @@ public class RefControlTest {
     local.load(newRepository(localKey));
     add(local);
     local.getProject().setParentName(parentKey);
+
+    requestContext.setContext(new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return null;
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    });
+
+    changeControlFactory = injector.getInstance(ChangeControl.Factory.class);
+  }
+
+  @After
+  public void tearDown() {
+    requestContext.setContext(null);
+    if (db != null) {
+      db.close();
+    }
+    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

@@ -119,7 +119,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
       .annotatedWith(GitReceivePackGroups.class)
       .toInstance(Collections.<AccountGroup.UUID> emptySet());
-    factory(ChangeControl.AssistedFactory.class);
+    bind(ChangeControl.Factory.class);
     factory(ProjectControl.AssistedFactory.class);
 
     install(new BatchGitModule());

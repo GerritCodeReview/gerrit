@@ -47,8 +47,18 @@ import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.ETagView;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.GetRevisionActions;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -68,6 +78,15 @@ import java.util.Map;
 
 @NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
+
+  @Inject
+  private ChangeUtil changeUtil;
+
+  @Inject
+  private GetRevisionActions getRevisionActions;
+
+  @Inject
+  private Revisions revisions;
 
   private TestAccount admin2;
 
@@ -618,6 +637,38 @@ public class RevisionIT extends AbstractDaemonTest {
         String.format(PATCH, r.getCommitId().name(), date, r.getChangeId()));
   }
 
+  @Test
+  public void actions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(current(r).actions().keySet())
+        .containsExactly("cherrypick", "rebase");
+
+    current(r).review(ReviewInput.approve());
+    assertThat(current(r).actions().keySet())
+        .containsExactly("submit", "cherrypick", "rebase");
+
+    current(r).submit();
+    assertThat(current(r).actions().keySet())
+        .containsExactly("cherrypick");
+  }
+
+  @Test
+  public void actionsETag() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    String oldETag = checkETag(getRevisionActions, r2, null);
+    current(r2).review(ReviewInput.approve());
+    oldETag = checkETag(getRevisionActions, r2, oldETag);
+
+    // Dependent change is included in ETag.
+    current(r1).review(ReviewInput.approve());
+    oldETag = checkETag(getRevisionActions, r2, oldETag);
+
+    current(r2).submit();
+    oldETag = checkETag(getRevisionActions, r2, oldETag);
+  }
+
   private void merge(PushOneCommit.Result r) throws Exception {
     revision(r).review(ReviewInput.approve());
     revision(r).submit();
@@ -633,5 +684,27 @@ public class RevisionIT extends AbstractDaemonTest {
   private PushOneCommit.Result createDraft() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to("refs/drafts/master");
+  }
+
+  private RevisionApi current(PushOneCommit.Result r) throws Exception {
+    return gApi.changes().id(r.getChangeId()).current();
+  }
+
+  private RevisionResource parseRevisionResource(PushOneCommit.Result r)
+      throws Exception {
+    PatchSet.Id psId = r.getPatchSetId();
+    List<ChangeControl> ctls = changeUtil.findChanges(
+        Integer.toString(psId.getParentKey().get()), atrScope.get().getUser());
+    assertThat(ctls).hasSize(1);
+    return revisions.parse(
+        new ChangeResource(ctls.get(0)),
+        IdString.fromDecoded(Integer.toString(psId.get())));
+  }
+
+  private String checkETag(ETagView<RevisionResource> view,
+      PushOneCommit.Result r, String oldETag) throws Exception {
+    String eTag = view.getETag(parseRevisionResource(r));
+    assertThat(eTag).isNotEqualTo(oldETag);
+    return eTag;
   }
 }

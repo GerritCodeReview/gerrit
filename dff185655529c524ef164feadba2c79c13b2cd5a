@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b13a90f4_8098d65c",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-03T01:38:35Z",
+      "side": 1,
+      "message": "\"want to\"",
+      "range": {
+        "startLine": 252,
+        "startChar": 35,
+        "endLine": 252,
+        "endChar": 42
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b13a90f4_609dd24a",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-03T01:38:35Z",
+      "side": 1,
+      "message": "\"the feature branch being merged into the target branch\"",
+      "range": {
+        "startLine": 253,
+        "startChar": 54,
+        "endLine": 254,
+        "endChar": 47
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "913d8cf0_bf4ff7bb",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-03T01:38:35Z",
+      "side": 1,
+      "message": "Why \"parent(s)\"?  For a merge commit there are only two parents; the first parent (change\u0027s target branch) and the other parent (feature branch).",
+      "range": {
+        "startLine": 261,
+        "startChar": 49,
+        "endLine": 261,
+        "endChar": 58
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "913d8cf0_9f4cb3c8",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-03T01:38:35Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 262,
+        "startChar": 12,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "dff185655529c524ef164feadba2c79c13b2cd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

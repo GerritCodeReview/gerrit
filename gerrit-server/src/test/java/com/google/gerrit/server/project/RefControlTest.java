@@ -32,21 +32,76 @@ import static com.google.gerrit.server.project.Util.deny;
 import static com.google.gerrit.server.project.Util.doNotInherit;
 import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.rules.PrologEnvironment;
+import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.FakeRealm;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DisableReverseDnsLookup;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class RefControlTest {
   private void assertAdminsAreOwnersAndDevsAreNot() {
-    ProjectControl uBlah = util.user(local, DEVS);
-    ProjectControl uAdmin = util.user(local, DEVS, ADMIN);
+    ProjectControl uBlah = user(local, DEVS);
+    ProjectControl uAdmin = user(local, DEVS, ADMIN);
 
     assertThat(uBlah.isOwner()).named("not owner").isFalse();
     assertThat(uAdmin.isOwner()).named("is owner").isTrue();
@@ -179,26 +234,138 @@ public class RefControlTest {
       .isFalse();
   }
 
+  private final AllProjectsName allProjectsName =
+      new AllProjectsName(AllProjectsNameProvider.DEFAULT);
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
+  private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
   private Project.NameKey parentKey = new Project.NameKey("parent");
   private ProjectConfig parent;
-  private final Util util;
-
-  public RefControlTest() {
-    util = new Util();
-  }
+  private InMemoryRepositoryManager repoManager;
+  private ProjectCache projectCache;
+  private PermissionCollection.Factory sectionSorter;
+  private CapabilityControl.Factory capabilityControlFactory;
+  private ChangeControl.AssistedFactory changeControlFactory;
 
   @Before
   public void setUp() throws Exception {
+    repoManager = new InMemoryRepositoryManager();
+    try {
+      Repository repo = repoManager.createRepository(allProjectsName);
+      ProjectConfig allProjects =
+          new ProjectConfig(new Project.NameKey(allProjectsName.get()));
+      allProjects.load(repo);
+      LabelType cr = Util.codeReview();
+      allProjects.getLabelSections().put(cr.getName(), cr);
+      add(allProjects);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RuntimeException(e);
+    }
+
+    projectCache = new ProjectCache() {
+      @Override
+      public ProjectState getAllProjects() {
+        return get(allProjectsName);
+      }
+
+      @Override
+      public ProjectState getAllUsers() {
+        return null;
+      }
+
+      @Override
+      public ProjectState get(Project.NameKey projectName) {
+        return all.get(projectName);
+      }
+
+      @Override
+      public void evict(Project p) {
+      }
+
+      @Override
+      public void remove(Project p) {
+      }
+
+      @Override
+      public Iterable<Project.NameKey> all() {
+        return Collections.emptySet();
+      }
+
+      @Override
+      public Iterable<Project.NameKey> byName(String prefix) {
+        return Collections.emptySet();
+      }
+
+      @Override
+      public void onCreateProject(Project.NameKey newProjectName) {
+      }
+
+      @Override
+      public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
+        return Collections.emptySet();
+      }
+
+      @Override
+      public ProjectState checkedGet(Project.NameKey projectName)
+          throws IOException {
+        return all.get(projectName);
+      }
+
+      @Override
+      public void evict(Project.NameKey p) {
+      }
+    };
+
+    Injector injector = Guice.createInjector(new FactoryModule() {
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      @Override
+      protected void configure() {
+        Provider nullProvider = Providers.of(null);
+        bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
+            new Config());
+        bind(ReviewDb.class).toProvider(nullProvider);
+        bind(GitRepositoryManager.class).toInstance(repoManager);
+        bind(PatchListCache.class).toProvider(nullProvider);
+        bind(Realm.class).to(FakeRealm.class);
+
+        factory(CapabilityControl.Factory.class);
+        factory(ChangeControl.AssistedFactory.class);
+        factory(ChangeData.Factory.class);
+        factory(MergeUtil.Factory.class);
+        bind(ProjectCache.class).toInstance(projectCache);
+        bind(AccountCache.class).toInstance(new FakeAccountCache());
+        bind(GroupBackend.class).to(SystemGroupBackend.class);
+        bind(String.class).annotatedWith(CanonicalWebUrl.class)
+            .toProvider(CanonicalWebUrlProvider.class);
+        bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
+            .toInstance(Boolean.FALSE);
+        bind(String.class).annotatedWith(AnonymousCowardName.class)
+            .toProvider(AnonymousCowardNameProvider.class);
+        bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
+        bind(MergeabilityCache.class)
+          .to(MergeabilityCache.NotImplemented.class);
+        bind(StarredChangesUtil.class)
+          .toProvider(Providers.<StarredChangesUtil> of(null));
+      }
+    });
+
+    capabilityControlFactory =
+        injector.getInstance(CapabilityControl.Factory.class);
+    changeControlFactory =
+        injector.getInstance(ChangeControl.AssistedFactory.class);
+
+    Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
+        CacheBuilder.newBuilder().build();
+    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
+
     parent = new ProjectConfig(parentKey);
     parent.load(newRepository(parentKey));
-    util.add(parent);
+    add(parent);
 
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
-    util.add(local);
+    add(local);
     local.getProject().setParentName(parentKey);
   }
 
@@ -230,7 +397,7 @@ public class RefControlTest {
     allow(local, OWNER, ADMIN, "refs/*");
     allow(local, OWNER, DEVS, "refs/heads/x/*");
 
-    ProjectControl uDev = util.user(local, DEVS);
+    ProjectControl uDev = user(local, DEVS);
     assertNotOwner(uDev);
     assertOwnerAnyRef(uDev);
 
@@ -249,7 +416,7 @@ public class RefControlTest {
     allow(local, OWNER, fixers, "refs/heads/x/y/*");
     doNotInherit(local, OWNER, "refs/heads/x/y/*");
 
-    ProjectControl uDev = util.user(local, DEVS);
+    ProjectControl uDev = user(local, DEVS);
     assertNotOwner(uDev);
     assertOwnerAnyRef(uDev);
 
@@ -259,7 +426,7 @@ public class RefControlTest {
     assertNotOwner("refs/*", uDev);
     assertNotOwner("refs/heads/master", uDev);
 
-    ProjectControl uFix = util.user(local, fixers);
+    ProjectControl uFix = user(local, fixers);
     assertNotOwner(uFix);
     assertOwnerAnyRef(uFix);
 
@@ -279,7 +446,7 @@ public class RefControlTest {
     doNotInherit(local, READ, "refs/heads/foobar");
     doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCanUpload(u);
     assertCanUpload("refs/heads/master", u);
     assertCannotUpload("refs/heads/foobar", u);
@@ -290,7 +457,7 @@ public class RefControlTest {
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCanUpload("refs/heads/master", u);
     assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
   }
@@ -300,8 +467,8 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(parent, PUSH, ADMIN, "refs/drafts/*");
 
-    ProjectControl u = util.user(local);
-    ProjectControl a = util.user(local, "a", ADMIN);
+    ProjectControl u = user(local);
+    ProjectControl a = user(local, "a", ADMIN);
     assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
     assertNotBlocked(PUSH, "refs/drafts/refs/heads/master", a);
   }
@@ -312,7 +479,7 @@ public class RefControlTest {
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCanUpload(u);
     assertCanUpload("refs/heads/master", u);
     assertCanUpload("refs/heads/foobar", u);
@@ -322,13 +489,13 @@ public class RefControlTest {
   public void testInheritDuplicateSections() throws Exception {
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
-    assertCanRead(util.user(local, "a", ADMIN));
+    assertCanRead(user(local, "a", ADMIN));
 
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
     local.getProject().setParentName(parentKey);
     allow(local, READ, DEVS, "refs/*");
-    assertCanRead(util.user(local, "d", DEVS));
+    assertCanRead(user(local, "d", DEVS));
   }
 
   @Test
@@ -336,7 +503,7 @@ public class RefControlTest {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
-    assertCannotRead(util.user(local));
+    assertCannotRead(user(local));
   }
 
   @Test
@@ -344,7 +511,7 @@ public class RefControlTest {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCanRead(u);
     assertCanRead("refs/master", u);
     assertCanRead("refs/tags/foobar", u);
@@ -357,7 +524,7 @@ public class RefControlTest {
     deny(local, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCanRead(u);
     assertCannotRead("refs/foobar", u);
     assertCannotRead("refs/tags/foobar", u);
@@ -370,7 +537,7 @@ public class RefControlTest {
     deny(local, SUBMIT, REGISTERED_USERS, "refs/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCannotSubmit("refs/foobar", u);
     assertCannotSubmit("refs/tags/foobar", u);
     assertCanSubmit("refs/heads/foobar", u);
@@ -382,7 +549,7 @@ public class RefControlTest {
     allow(local, READ, DEVS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertCannotUpload(u);
     assertCannotUpload("refs/heads/master", u);
   }
@@ -390,7 +557,7 @@ public class RefControlTest {
   @Test
   public void testUsernamePatternCanUploadToAnyRef() {
     allow(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
-    ProjectControl u = util.user(local, "a-registered-user");
+    ProjectControl u = user(local, "a-registered-user");
     assertCanUpload(u);
   }
 
@@ -398,8 +565,8 @@ public class RefControlTest {
   public void testUsernamePatternNonRegex() {
     allow(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
-    ProjectControl u = util.user(local, "u", DEVS);
-    ProjectControl d = util.user(local, "d", DEVS);
+    ProjectControl u = user(local, "u", DEVS);
+    ProjectControl d = user(local, "d", DEVS);
     assertCannotRead("refs/sb/d/heads/foobar", u);
     assertCanRead("refs/sb/d/heads/foobar", d);
   }
@@ -408,8 +575,8 @@ public class RefControlTest {
   public void testUsernamePatternWithRegex() {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
-    ProjectControl u = util.user(local, "d.v", DEVS);
-    ProjectControl d = util.user(local, "dev", DEVS);
+    ProjectControl u = user(local, "d.v", DEVS);
+    ProjectControl d = user(local, "dev", DEVS);
     assertCannotRead("refs/sb/dev/heads/foobar", u);
     assertCanRead("refs/sb/dev/heads/foobar", d);
   }
@@ -418,8 +585,8 @@ public class RefControlTest {
   public void testUsernameEmailPatternWithRegex() {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
-    ProjectControl u = util.user(local, "d.v@ger-rit.org", DEVS);
-    ProjectControl d = util.user(local, "dev@ger-rit.org", DEVS);
+    ProjectControl u = user(local, "d.v@ger-rit.org", DEVS);
+    ProjectControl d = user(local, "dev@ger-rit.org", DEVS);
     assertCannotRead("refs/sb/dev@ger-rit.org/heads/foobar", u);
     assertCanRead("refs/sb/dev@ger-rit.org/heads/foobar", d);
   }
@@ -429,8 +596,8 @@ public class RefControlTest {
     allow(local, READ, DEVS, "^refs/heads/.*");
     allow(parent, READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");
 
-    ProjectControl u = util.user(local, DEVS);
-    ProjectControl d = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
+    ProjectControl d = user(local, DEVS);
     assertCanRead("refs/heads/foo-QA-bar", u);
     assertCanRead("refs/heads/foo-QA-bar", d);
   }
@@ -439,7 +606,7 @@ public class RefControlTest {
   public void testBlockRule_ParentBlocksChild() {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCannotUpdate("refs/tags/V10", u);
   }
 
@@ -449,7 +616,7 @@ public class RefControlTest {
     block(local, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCannotUpdate("refs/tags/V10", u);
   }
 
@@ -458,7 +625,7 @@ public class RefControlTest {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
 
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCanVote(-1, range);
@@ -474,7 +641,7 @@ public class RefControlTest {
     block(parent, LABEL + "Code-Review", -2, +2, DEVS,
         "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
 
     PermissionRange range =
         u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
@@ -490,7 +657,7 @@ public class RefControlTest {
     allow(parent, SUBMIT, REGISTERED_USERS, "refs/heads/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
-    ProjectControl u = util.user(local);
+    ProjectControl u = user(local);
     assertNotBlocked(SUBMIT, "refs/heads/master", u);
   }
 
@@ -499,7 +666,7 @@ public class RefControlTest {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCanUpdate("refs/heads/master", u);
   }
 
@@ -509,7 +676,7 @@ public class RefControlTest {
     r.setForce(true);
     allow(local, PUSH, DEVS, "refs/heads/*").setForce(true);
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCanForceUpdate("refs/heads/master", u);
   }
 
@@ -519,7 +686,7 @@ public class RefControlTest {
     r.setForce(true);
     allow(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCannotForceUpdate("refs/heads/master", u);
   }
 
@@ -528,7 +695,7 @@ public class RefControlTest {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCannotUpdate("refs/heads/master", u);
   }
 
@@ -537,7 +704,7 @@ public class RefControlTest {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertCannotUpdate("refs/heads/master", u);
   }
 
@@ -546,7 +713,7 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, fixers, "refs/heads/*");
 
-    ProjectControl f = util.user(local, fixers);
+    ProjectControl f = user(local, fixers);
     assertCannotUpdate("refs/heads/master", f);
   }
 
@@ -556,7 +723,7 @@ public class RefControlTest {
     allow(parent, PUSH, DEVS, "refs/heads/*");
     block(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl d = util.user(local, DEVS);
+    ProjectControl d = user(local, DEVS);
     assertCannotUpdate("refs/heads/master", d);
   }
 
@@ -565,7 +732,7 @@ public class RefControlTest {
     block(local, READ, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, REGISTERED_USERS);
+    ProjectControl u = user(local, REGISTERED_USERS);
     assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
       .named("u can read")
       .isTrue();
@@ -576,7 +743,7 @@ public class RefControlTest {
     block(parent, READ, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, REGISTERED_USERS);
+    ProjectControl u = user(local, REGISTERED_USERS);
     assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
       .named("u can't read")
       .isFalse();
@@ -587,7 +754,7 @@ public class RefControlTest {
     block(local, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
       .named("u can edit topic name")
       .isTrue();
@@ -598,7 +765,7 @@ public class RefControlTest {
     block(parent, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
-    ProjectControl u = util.user(local, REGISTERED_USERS);
+    ProjectControl u = user(local, REGISTERED_USERS);
     assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
       .named("u can't edit topic name")
       .isFalse();
@@ -609,7 +776,7 @@ public class RefControlTest {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCanVote(-2, range);
     assertCanVote(2, range);
@@ -620,7 +787,7 @@ public class RefControlTest {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/master");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
@@ -631,7 +798,7 @@ public class RefControlTest {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
@@ -643,7 +810,7 @@ public class RefControlTest {
         "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     PermissionRange range =
         u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
@@ -654,7 +821,7 @@ public class RefControlTest {
   public void testUnblockRangeForChangeOwner() {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master")
         .getRange(LABEL + "Code-Review", true);
     assertCanVote(-2, range);
@@ -665,7 +832,7 @@ public class RefControlTest {
   public void testUnblockRangeForNotChangeOwner() {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
-    ProjectControl u = util.user(local, DEVS);
+    ProjectControl u = user(local, DEVS);
     PermissionRange range = u.controlForRef("refs/heads/master")
         .getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
@@ -695,5 +862,81 @@ public class RefControlTest {
   public void testValidateRefPatternNoDanglingCharacter() throws Exception {
     RefControl
         .validateRefPattern("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
+  }
+
+  private InMemoryRepository add(ProjectConfig pc) {
+    PrologEnvironment.Factory envFactory = null;
+    ProjectControl.AssistedFactory projectControlFactory = null;
+    RulesCache rulesCache = null;
+    SitePaths sitePaths = null;
+    List<CommentLinkInfo> commentLinks = null;
+
+    InMemoryRepository repo;
+    try {
+      repo = repoManager.createRepository(pc.getName());
+      if (pc.getProject() == null) {
+        pc.load(repo);
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RuntimeException(e);
+    }
+    all.put(pc.getName(), new ProjectState(sitePaths,
+        projectCache, allProjectsName, projectControlFactory, envFactory,
+        repoManager, rulesCache, commentLinks, pc));
+    return repo;
+  }
+
+  private ProjectControl user(ProjectConfig local,
+      AccountGroup.UUID... memberOf) {
+    return user(local, null, memberOf);
+  }
+
+  private ProjectControl user(ProjectConfig local, String name,
+      AccountGroup.UUID... memberOf) {
+    String canonicalWebUrl = "http://localhost";
+
+    return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
+        Collections.<AccountGroup.UUID> emptySet(), projectCache,
+        sectionSorter, repoManager, changeControlFactory, null, null,
+        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
+  }
+
+  private ProjectState newProjectState(ProjectConfig local) {
+    add(local);
+    return all.get(local.getProject().getNameKey());
+  }
+
+  private class MockUser extends CurrentUser {
+    private final String username;
+    private final GroupMembership groups;
+
+    MockUser(String name, AccountGroup.UUID[] groupId) {
+      super(capabilityControlFactory);
+      username = name;
+      ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
+      groupIds.add(REGISTERED_USERS);
+      groupIds.add(ANONYMOUS_USERS);
+      groups = new ListGroupMembership(groupIds);
+    }
+
+    @Override
+    public GroupMembership getEffectiveGroups() {
+      return groups;
+    }
+
+    @Override
+    public String getUserName() {
+      return username;
+    }
+
+    @Override
+    public Set<Change.Id> getStarredChanges() {
+      return Collections.emptySet();
+    }
+
+    @Override
+    public Collection<AccountProjectWatch> getNotificationFilters() {
+      return Collections.emptySet();
+    }
   }
 }

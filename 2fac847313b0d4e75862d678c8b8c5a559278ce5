@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "51895439_8dabc193",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-03T23:44:39Z",
+      "side": 1,
+      "message": "I guess we will minify the js when PolyGerrit goes in production? Closure Compiler can do the transpilation and minification.",
+      "parentUuid": "51aa3454_a5a61e29",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1

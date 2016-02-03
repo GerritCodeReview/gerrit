@@ -249,16 +249,19 @@ public class SmtpEmailSender implements EmailSender {
       client.enableSSL(sslVerify);
     }
 
+    client.setConnectTimeout(connectTimeout);
     try {
-      client.setConnectTimeout(connectTimeout);
       client.connect(smtpHost, smtpPort);
-      if (!SMTPReply.isPositiveCompletion(client.getReplyCode())) {
-        throw new EmailException("SMTP server rejected connection");
+      int replyCode = client.getReplyCode();
+      String replyString = client.getReplyString();
+      if (!SMTPReply.isPositiveCompletion(replyCode)) {
+        throw new EmailException(
+            String.format("SMTP server rejected connection: %d: %s",
+                replyCode, replyString));
       }
       if (!client.login()) {
-        String e = client.getReplyString();
         throw new EmailException(
-            "SMTP server rejected HELO/EHLO greeting: " + e);
+            "SMTP server rejected HELO/EHLO greeting: " + replyString);
       }
 
       if (smtpEncryption == Encryption.TLS) {
@@ -266,16 +269,15 @@ public class SmtpEmailSender implements EmailSender {
           throw new EmailException("SMTP server does not support TLS");
         }
         if (!client.login()) {
-          String e = client.getReplyString();
-          throw new EmailException("SMTP server rejected login: " + e);
+          throw new EmailException("SMTP server rejected login: " + replyString);
         }
       }
 
       if (smtpUser != null && !client.auth(smtpUser, smtpPass)) {
-        String e = client.getReplyString();
-        throw new EmailException("SMTP server rejected auth: " + e);
+        throw new EmailException("SMTP server rejected auth: " + replyString);
       }
-    } catch (IOException e) {
+      return client;
+    } catch (IOException | EmailException e) {
       if (client.isConnected()) {
         try {
           client.disconnect();
@@ -283,17 +285,10 @@ public class SmtpEmailSender implements EmailSender {
           //Ignored
         }
       }
-      throw new EmailException(e.getMessage(), e);
-    } catch (EmailException e) {
-      if (client.isConnected()) {
-        try {
-          client.disconnect();
-        } catch (IOException e2) {
-          // Ignored
-        }
+      if (e instanceof EmailException) {
+        throw (EmailException) e;
       }
-      throw e;
+      throw new EmailException(e.getMessage(), e);
     }
-    return client;
   }
 }

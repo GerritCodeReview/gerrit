@@ -600,6 +600,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ups.add(c);
         }
       }
+      ctx.getUpdate(ctx.getChange().currentPatchSetId())
+          .putReviewer(user.getAccountId(), REVIEWER);
     }
 
     private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,

@@ -246,6 +246,22 @@ forward when a new patch set is uploaded. This can be used to enable
 sticky approvals, reducing turn-around for trivial cleanups prior to
 submitting a change. Defaults to false.
 
+[[lable_copyAllScoresOnMergCommitFirstParentUpdate]]
+=== `label.Label-Name.copyAllScoresOnMergeCommitFirstParentUpdate`
+
+This policy is useful if you don't want to trigger CI or human
+verification again if your target branch moved on but the feature
+branch being merged into the target branch did not change. It only
+applies if the patch set is a merge commit.
+
+If true, all scores for the label are copied forward when a new
+patch set is uploaded that is a new merge commit which only
+differs from the previous patch set in its first parent. The
+first parent would be the parent of the merge commit that is part
+of the change's target branch, whereas the other parent(s) refer to
+the feature branch(es) to be merged.
+Defaults to false.
+
 [[label_copyAllScoresOnTrivialRebase]]
 === `label.Label-Name.copyAllScoresOnTrivialRebase`
 

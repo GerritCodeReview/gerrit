@@ -29,6 +29,7 @@ public class LabelType {
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
+  public static final boolean DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = false;
   public static final boolean DEF_COPY_MAX_SCORE = false;
   public static final boolean DEF_COPY_MIN_SCORE = false;
 
@@ -99,6 +100,7 @@ public class LabelType {
   protected String functionName;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
+  protected boolean copyAllScoresOnMergeFirstParentUpdate;
   protected boolean copyAllScoresOnTrivialRebase;
   protected boolean copyAllScoresIfNoCodeChange;
   protected boolean copyAllScoresIfNoChange;
@@ -138,6 +140,8 @@ public class LabelType {
     setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
     setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
     setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setCopyAllScoresOnMergeFirstParentUpdate(
+        DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
   }
@@ -215,6 +219,16 @@ public class LabelType {
 
   public void setCopyMaxScore(boolean copyMaxScore) {
     this.copyMaxScore = copyMaxScore;
+  }
+
+  public boolean isCopyAllScoresOnMergeFirstParentUpdate() {
+    return copyAllScoresOnMergeFirstParentUpdate;
+  }
+
+  public void setCopyAllScoresOnMergeFirstParentUpdate(
+      boolean copyAllScoresOnMergeFirstParentUpdate) {
+    this.copyAllScoresOnMergeFirstParentUpdate =
+        copyAllScoresOnMergeFirstParentUpdate;
   }
 
   public boolean isCopyAllScoresOnTrivialRebase() {

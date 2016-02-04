@@ -32,7 +32,7 @@ limitations under the License.
   <template>
     <style>
       .container {
-        margin: 1em 0;
+        margin: 1em var(--default-horizontal-margin);
       }
       .container:not(.loading) {
         background-color: var(--view-background-color);
@@ -47,9 +47,7 @@ limitations under the License.
         align-items: center;
         background-color: var(--view-background-color);
         display: flex;
-        max-width: var(--max-constrained-width);
         padding: 1em var(--default-horizontal-margin);
-        width: 100%;
         z-index: 1000;
       }
       .header.pinned {
@@ -57,6 +55,7 @@ limitations under the License.
         position: fixed;
         top: 0;
         transition: box-shadow 250ms linear;
+        width: calc(100% - (2 * var(--default-horizontal-margin)));
       }
       .header-title {
         flex: 1;
@@ -419,9 +418,9 @@ limitations under the License.
           app.accountReady.then(function() {
             if (!this._loggedIn) { return; }
 
-            if (window.sessionStorage.getItem('changeView.showReplyDropdown')) {
+            if (this.viewState.showReplyDropdown) {
               this.$.replyDropdown.open();
-              window.sessionStorage.removeItem('changeView.showReplyDropdown');
+              this.set('viewState.showReplyDropdown', false);
             }
           }.bind(this));
         }.bind(this));

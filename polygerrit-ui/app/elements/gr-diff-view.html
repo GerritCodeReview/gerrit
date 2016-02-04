@@ -82,12 +82,6 @@ limitations under the License.
         font: inherit;
         padding: .3em 0;
       }
-      .mainContainer {
-        border-bottom: 1px solid #eee;
-        border-collapse: collapse;
-        border-top: 1px solid #eee;
-        width: 100%;
-      }
     </style>
     <gr-ajax id="changeDetailXHR"
         auto
@@ -161,6 +155,11 @@ limitations under the License.
           type: Object,
           value: function() { return document.body; },
         },
+        changeViewState: {
+          type: Object,
+          notify: true,
+          value: function() { return {}; },
+        },
 
         _patchRange: Object,
         _change: Object,
@@ -170,7 +169,10 @@ limitations under the License.
           type: Array,
           value: function() { return []; },
         },
-        _path: String,
+        _path: {
+          type: String,
+          observer: '_pathChanged',
+        },
         _loggedIn: {
           type: Boolean,
           value: false,
@@ -192,6 +194,11 @@ limitations under the License.
         if (this._path) {
           this.fire('title-change', {title: this._path});
         }
+        window.addEventListener('resize', this._boundWindowResizeHandler);
+      },
+
+      detached: function() {
+        window.removeEventListener('resize', this._boundWindowResizeHandler);
       },
 
       _handleKey: function(e) {
@@ -209,9 +216,7 @@ limitations under the License.
           case 65:  // 'a'
             if (!this._loggedIn) { return; }
 
-            // Values can only be strings.
-            window.sessionStorage.setItem(
-                'changeView.showReplyDropdown', 'true');
+            this.set('changeViewState.showReplyDropdown', true);
             // No break here. Allow to fall through.
           case 85:  // 'u'
             if (this._changeNum) {
@@ -265,6 +270,13 @@ limitations under the License.
         }
 
         this.$.diff.reload();
+      },
+
+      _pathChanged: function(path) {
+        if (this._fileList.length == 0) { return; }
+
+        this.set('changeViewState.selectedFileIndex',
+            this._fileList.indexOf(path));
       },
 
       _computeDiffURL: function(changeNum, patchRange, path) {

@@ -37,11 +37,6 @@ limitations under the License.
         min-height: 100vh;
         flex-direction: column;
       }
-      :host([constrained]) main {
-        margin: 0 auto;
-        width: 100%;
-        max-width: var(--max-constrained-width);
-      }
       header,
       footer {
         background-color: var(--primary-color);
@@ -104,20 +99,27 @@ limitations under the License.
     </header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
-        <gr-change-list-view params="[[params]]"
+        <gr-change-list-view
+            params="[[params]]"
             view-state="{{_viewState.changeListView}}"
             logged-in="[[_computeLoggedIn(account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
-        <gr-dashboard-view params="[[params]]"
+        <gr-dashboard-view
+            params="[[params]]"
             view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
-        <gr-change-view server-config="[[config]]"
-            params="[[params]]" view-state="{{_viewState.changeView}}"></gr-change-view>
+        <gr-change-view
+            params="[[params]]"
+            server-config="[[config]]"
+            view-state="{{_viewState.changeView}}"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
-        <gr-diff-view prefs="{{_diffPreferences}}" params="[[params]]"></gr-diff-view>
+        <gr-diff-view
+            params="[[params]]"
+            prefs="{{_diffPreferences}}"
+            change-view-state="{{_viewState.changeView}}"></gr-diff-view>
       </template>
     </main>
     <footer role="contentinfo">
@@ -175,11 +177,6 @@ limitations under the License.
           },
         },
         version: String,
-        constrained: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true,
-        },
         params: Object,
 
         _diffPreferences: Object,
@@ -206,6 +203,7 @@ limitations under the License.
             changeNum: null,
             patchNum: null,
             selectedFileIndex: 0,
+            showReplyDropdown: false,
           },
           changeListView: {
             query: null,
@@ -255,7 +253,6 @@ limitations under the License.
         this.set('_showDashboardView', view == 'gr-dashboard-view');
         this.set('_showChangeView', view == 'gr-change-view');
         this.set('_showDiffView', view == 'gr-diff-view');
-        this.constrained = view == 'gr-change-view';
       },
 
       _loginTapHandler: function(e) {

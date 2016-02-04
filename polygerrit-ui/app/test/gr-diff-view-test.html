@@ -52,6 +52,7 @@ limitations under the License.
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
+      element.changeViewState.selectedFileIndex = 1;
 
       var showStub = sinon.stub(page, 'show');
       MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
@@ -62,20 +63,24 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
           'Should navigate to /c/42/10/wheatley.md');
       element._path = 'wheatley.md';
+      assert.equal(element.changeViewState.selectedFileIndex, 2);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
       assert(showStub.lastCall.calledWithExactly('/c/42/10/glados.txt'),
           'Should navigate to /c/42/10/glados.txt');
       element._path = 'glados.txt';
+      assert.equal(element.changeViewState.selectedFileIndex, 1);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
       assert(showStub.lastCall.calledWithExactly('/c/42/10/chell.go'),
           'Should navigate to /c/42/10/chell.go');
       element._path = 'chell.go';
+      assert.equal(element.changeViewState.selectedFileIndex, 0);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
       assert(showStub.lastCall.calledWithExactly('/c/42'),
           'Should navigate to /c/42');
+      assert.equal(element.changeViewState.selectedFileIndex, 0);
 
       var showPrefsStub = sinon.stub(element.$.diff, 'showDiffPreferences');
       MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
@@ -104,9 +109,8 @@ limitations under the License.
 
       element._loggedIn = true;
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
-      assert.equal(window.sessionStorage.getItem(
-          'changeView.showReplyDropdown'), 'true');
-      window.sessionStorage.removeItem('changeView.showReplyDropdown');
+      assert.isTrue(element.changeViewState.showReplyDropdown);
+
       assert(showStub.lastCall.calledWithExactly('/c/42'),
           'Should navigate to /c/42');
 

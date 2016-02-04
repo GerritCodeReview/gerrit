@@ -18,6 +18,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
 
 import org.junit.Test;
@@ -84,7 +85,8 @@ public class RegexPathPredicateTest {
 
   private static ChangeData change(String... files) throws OrmException {
     Arrays.sort(files);
-    ChangeData cd = ChangeData.createForTest(new Change.Id(1), 1);
+    ChangeData cd = ChangeData.createForTest(new Project.NameKey("project"),
+        new Change.Id(1), 1);
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

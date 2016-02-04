@@ -281,7 +281,7 @@ public class ChangeUtil {
       }
 
       try {
-        RevertedSender cm = revertedSenderFactory.create(changeId);
+        RevertedSender cm = revertedSenderFactory.create(project, changeId);
         cm.setFrom(user.get().getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();

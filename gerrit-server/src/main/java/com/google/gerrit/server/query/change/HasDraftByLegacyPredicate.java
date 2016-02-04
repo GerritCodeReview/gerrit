@@ -57,8 +57,10 @@ class HasDraftByLegacyPredicate extends OperatorPredicate<ChangeData> implements
     }
 
     List<ChangeData> r = new ArrayList<>(ids.size());
-    for (Change.Id id : ids) {
-      r.add(args.changeDataFactory.create(args.db.get(), id));
+    // TODO Don't load the changes directly from the database, but provide
+    // project name + change ID to changeDataFactory, or delete this predicate.
+    for (Change c : args.db.get().changes().get(ids)) {
+      r.add(args.changeDataFactory.create(args.db.get(), c));
     }
     return new ListResultSet<>(r);
   }

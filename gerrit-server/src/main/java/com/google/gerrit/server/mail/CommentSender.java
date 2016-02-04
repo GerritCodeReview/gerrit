@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
@@ -52,7 +53,7 @@ public class CommentSender extends ReplyToChangeSender {
       .getLogger(CommentSender.class);
 
   public static interface Factory {
-    CommentSender create(Change.Id id);
+    CommentSender create(Project.NameKey project, Change.Id id);
   }
 
   private List<PatchLineComment> inlineComments = Collections.emptyList();
@@ -61,8 +62,9 @@ public class CommentSender extends ReplyToChangeSender {
   @Inject
   public CommentSender(EmailArguments ea,
       PatchLineCommentsUtil plcUtil,
+      @Assisted Project.NameKey project,
       @Assisted Change.Id id) throws OrmException {
-    super(ea, "comment", newChangeData(ea, id));
+    super(ea, "comment", newChangeData(ea, project, id));
     this.plcUtil = plcUtil;
   }
 

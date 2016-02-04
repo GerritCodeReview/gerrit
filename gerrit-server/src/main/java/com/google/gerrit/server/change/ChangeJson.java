@@ -231,7 +231,7 @@ public class ChangeJson {
       if (!has(CHECK)) {
         throw e;
       }
-      return checkOnly(changeDataFactory.create(db.get(), id));
+      return checkOnly(changeDataFactory.create(db.get(), project, id));
     }
     return format(changeDataFactory.create(db.get(), notes.getChange()));
   }
@@ -381,7 +381,7 @@ public class ChangeJson {
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
-          cd = changeDataFactory.create(cd.db(), cd.getId());
+          cd = changeDataFactory.create(cd.db(), cd.getProject(), cd.getId());
           break;
         }
       }

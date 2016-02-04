@@ -2379,8 +2379,8 @@ public class ReceiveCommits {
           @Override
           public void run() {
             try {
-              ReplacePatchSetSender cm =
-                  replacePatchSetFactory.create(change.getId());
+              ReplacePatchSetSender cm = replacePatchSetFactory
+                  .create(project.getNameKey(), change.getId());
               cm.setFrom(me);
               cm.setPatchSet(newPatchSet, info);
               cm.setChangeMessage(msg);
@@ -2819,8 +2819,8 @@ public class ReceiveCommits {
       @Override
       public void run() {
         try {
-          MergedSender cm =
-              mergedSenderFactory.create(ps.getId().getParentKey());
+          MergedSender cm = mergedSenderFactory.create(project.getNameKey(),
+              ps.getId().getParentKey());
           cm.setFrom(user.getAccountId());
           cm.setPatchSet(ps, info);
           cm.send();

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
@@ -56,8 +57,9 @@ import java.util.TreeSet;
 public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
-  protected static ChangeData newChangeData(EmailArguments ea, Change.Id id) {
-    return ea.changeDataFactory.create(ea.db.get(), id);
+  protected static ChangeData newChangeData(EmailArguments ea,
+      Project.NameKey project, Change.Id id) {
+    return ea.changeDataFactory.create(ea.db.get(), project, id);
   }
 
   protected final Change change;

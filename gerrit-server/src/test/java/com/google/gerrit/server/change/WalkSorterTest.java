@@ -355,7 +355,7 @@ public class WalkSorterTest {
       throws Exception {
     Project.NameKey project = tr.getRepository().getDescription().getProject();
     Change c = TestChanges.newChange(project, userId);
-    ChangeData cd = ChangeData.createForTest(c.getId(), 1);
+    ChangeData cd = ChangeData.createForTest(project, c.getId(), 1);
     cd.setChange(c);
     cd.currentPatchSet().setRevision(new RevId(id.name()));
     cd.setPatchSets(ImmutableList.of(cd.currentPatchSet()));

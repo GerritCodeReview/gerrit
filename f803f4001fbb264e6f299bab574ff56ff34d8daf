@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_9ba64bcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-04T19:01:39Z",
+      "side": 1,
+      "message": "approvalStatus is used in an inner class (line 500) so when i remove the final i get the following \"error:  local variable approvalStatus is accessed from within inner class; needs to be declared final\".  The same with approvals.   I guess we could remove final here and copy the approvalStatus contents to a new final variable then pass that into the inner class.  Although I don\u0027t see that it would be better than leaving the final here.\n\nThe style guide does say you should use final for variables in inner class so i\u0027m a bit confused.  Please advise.  Thanks.",
+      "parentUuid": "3473ee96_d4f4fcad",
+      "range": {
+        "startLine": 480,
+        "startChar": 10,
+        "endLine": 480,
+        "endChar": 15
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74980634_be57194f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 11

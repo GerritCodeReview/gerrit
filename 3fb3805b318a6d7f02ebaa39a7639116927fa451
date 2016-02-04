@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ac98b5_5edb153e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T18:11:33Z",
+      "side": 1,
+      "message": "Just curious, is there some way to say this is a \"required\" attribute? Returning an empty object belonging just to this instance doesn\u0027t feel right, it always needs to be linked to the enclosing view.\n\nOr maybe it doesn\u0027t necessarily need to be linked to the enclosing view, in which case having an empty object here makes sense so that manipulating it is a no-op.",
+      "revId": "3fb3805b318a6d7f02ebaa39a7639116927fa451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a58cc9_ff12dfa6",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T18:11:33Z",
+      "side": 1,
+      "message": "Make this an optional arg to _openSelectedFile and have the body set selectedIndex?",
+      "revId": "3fb3805b318a6d7f02ebaa39a7639116927fa451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

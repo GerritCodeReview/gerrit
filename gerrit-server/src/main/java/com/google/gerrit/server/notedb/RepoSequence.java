@@ -129,7 +129,7 @@ public class RepoSequence {
   }
 
   private void acquire() throws OrmException {
-    try (Repository repo = repoManager.openRepository(projectName);
+    try (Repository repo = repoManager.openMetadataRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
       TryAcquire attempt = new TryAcquire(repo, rw);
       RefUpdate.Result result = retryer.call(attempt);

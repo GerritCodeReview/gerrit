@@ -22,6 +22,30 @@
       "revId": "077c6c2330d635e9549cd9919e13faf8b2b0a2de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51895439_0dc1915c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-02-04T13:59:43Z",
+      "side": 1,
+      "message": "Done \u003d\u003e [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/74580/",
+      "parentUuid": "913d8cf0_3fd007ee",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 27
+      },
+      "revId": "077c6c2330d635e9549cd9919e13faf8b2b0a2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

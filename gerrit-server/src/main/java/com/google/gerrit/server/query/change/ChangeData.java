@@ -561,6 +561,9 @@ public class ChangeData {
 
   public Change reloadChange() throws OrmException {
     change = db.changes().get(legacyId);
+    if (change == null) {
+      throw new OrmException("Unable to load change " + legacyId);
+    }
     return change;
   }
 

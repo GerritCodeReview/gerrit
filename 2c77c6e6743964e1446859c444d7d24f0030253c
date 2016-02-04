@@ -205,6 +205,24 @@
       "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1bb289e_cad1e37f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsVisibleToPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-04T13:55:25Z",
+      "side": 1,
+      "message": "\u003e Ok, I see later on that there is no call to load() in \n \u003e createFromIndexed, fair enough.\n\nYes, this was a mistake in the other change.\n\n \u003e I guess I was thinking that one benefit of always calling \n \u003e load() was that we would not have to call load() from e.g.   \n \u003e every method in ChangeMessagesUtil. But we still have to: \n \u003e a ChangeNotes from the index is only partially loaded, so \n \u003e if we just have an arbitrary instance, we don\u0027t know \n \u003e whether or not it has been loaded.\n \u003e \n \u003e So I guess that\u0027s fine, it just means always eagerly \n \u003e loading changes is more of an implementation detail and is \n \u003e not going to simplify callers.\n\nYes and no. By eagerly loading the change notes we guarantee that callers can invoke the getChange() and getCurrentPatchSet() on changes notes without invoking load before, but for notes created by createFromIndexed, this may return stale data. This applies to a world without database where we would instantiate the change object only in the ChangeNotes#onLoad method.",
+      "parentUuid": "31986085_0cc1975c",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

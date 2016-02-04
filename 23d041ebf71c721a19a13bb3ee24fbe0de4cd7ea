@@ -16,6 +16,24 @@
       "revId": "23d041ebf71c721a19a13bb3ee24fbe0de4cd7ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d19d4471_f156e853",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-04T10:38:25Z",
+      "side": 1,
+      "message": "I think the main reason we don\u0027t support it is because the master branch often advances more than one version ahead, so it\u0027s impossible to cherry-pick fixes back. i.e. if we have something like:\n\n master (fix something, schema v20)\n master (add feature, schema v19)\n master (add feature, schema v18)\n stable (using schema v17)\n\nthen we absolutely don\u0027t (rather, can\u0027t) take the \"fix something\" commit from master to stable.  Same story for both database and index schema versions.\n\nHowever if we have something like:\n\n master (fix something, schema v18)\n stable (using schema v17)\n\nthen it should in theory be possible to take that fix to stable because both paths will still be able to upgrade to any next schema on master.\n\nHaving said that, no, it\u0027s not something we usually do.  Quickly grepping the release notes, I can see that the only stable releases that had schema updates were 2.2.1 and 2.2.2 which were way back in the past.",
+      "parentUuid": "f1bb289e_ea9ce7de",
+      "revId": "23d041ebf71c721a19a13bb3ee24fbe0de4cd7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -236,21 +236,6 @@ public class ChangeJson {
     return format(changeDataFactory.create(db.get(), notes.getChange()));
   }
 
-  public List<ChangeInfo> format(Collection<Change.Id> ids) throws OrmException {
-    List<ChangeData> changes = new ArrayList<>(ids.size());
-    List<ChangeInfo> ret = new ArrayList<>(ids.size());
-    ReviewDb reviewDb = db.get();
-    for (Change.Id id : ids) {
-      changes.add(changeDataFactory.create(reviewDb, id));
-    }
-    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    for (ChangeData cd : changes) {
-      ret.add(format(cd, Optional.<PatchSet.Id> absent(), false));
-    }
-    accountLoader.fill();
-    return ret;
-  }
-
   public ChangeInfo format(ChangeData cd) throws OrmException {
     return format(cd, Optional.<PatchSet.Id> absent(), true);
   }

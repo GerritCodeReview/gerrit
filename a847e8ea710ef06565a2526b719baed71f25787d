@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ac98b5_7e07f165",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T19:09:00Z",
+      "side": 1,
+      "message": "Use DEFAULT_MAX_TERMS instead of hard-coding.",
+      "revId": "a847e8ea710ef06565a2526b719baed71f25787d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

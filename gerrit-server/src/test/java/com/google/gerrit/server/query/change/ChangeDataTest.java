@@ -28,9 +28,9 @@ import org.junit.Test;
 public class ChangeDataTest {
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
-    ChangeData cd = ChangeData.createForTest(new Change.Id(1), 1);
-    cd.setChange(TestChanges.newChange(
-          new Project.NameKey("project"), new Account.Id(1000)));
+    Project.NameKey project = new Project.NameKey("project");
+    ChangeData cd = ChangeData.createForTest(project, new Change.Id(1), 1);
+    cd.setChange(TestChanges.newChange(project, new Account.Id(1000)));
     PatchSet curr1 = cd.currentPatchSet();
     int currId = curr1.getId().get();
     PatchSet ps1 = new PatchSet(new PatchSet.Id(cd.getId(), currId + 1));

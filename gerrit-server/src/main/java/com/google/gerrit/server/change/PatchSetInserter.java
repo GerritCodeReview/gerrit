@@ -259,7 +259,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     if (sendMail) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
-            change.getId());
+            ctx.getProject(), change.getId());
         cm.setFrom(ctx.getUser().getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage);

@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -269,7 +270,7 @@ public class ChangeData {
   }
 
   public interface Factory {
-    ChangeData create(ReviewDb db, Change.Id id);
+    ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id);
     ChangeData create(ReviewDb db, Change c);
     ChangeData create(ReviewDb db, ChangeControl c);
   }
@@ -283,9 +284,10 @@ public class ChangeData {
    * @param id change ID
    * @return instance for testing.
    */
-  public static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
+  public static ChangeData createForTest(Project.NameKey project, Change.Id id,
+      int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, id);
+        null, null, null, null, null, null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -305,6 +307,7 @@ public class ChangeData {
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
   private final Change.Id legacyId;
+  private final Project.NameKey project;
   private ChangeDataSource returnedBySource;
   private Change change;
   private ChangeNotes notes;
@@ -345,6 +348,7 @@ public class ChangeData {
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
+      @Assisted Project.NameKey project,
       @Assisted Change.Id id) {
     this.db = db;
     this.repoManager = repoManager;
@@ -360,7 +364,8 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
-    legacyId = id;
+    this.project = project;
+    this.legacyId = id;
   }
 
   @AssistedInject
@@ -396,6 +401,7 @@ public class ChangeData {
     this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getId();
     change = c;
+    project = c.getProject();
   }
 
   @AssistedInject
@@ -433,6 +439,7 @@ public class ChangeData {
     change = c.getChange();
     changeControl = c;
     notes = c.getNotes();
+    project = notes.getProjectName();
   }
 
   public ReviewDb db() {
@@ -536,6 +543,10 @@ public class ChangeData {
     return legacyId;
   }
 
+  public Project.NameKey getProject() {
+    return project;
+  }
+
   boolean fastIsVisibleTo(CurrentUser user) {
     return visibleTo == user;
   }
@@ -591,14 +602,14 @@ public class ChangeData {
   }
 
   public Change reloadChange() throws OrmException {
-    change = db.changes().get(legacyId);
+    notes = notesFactory.create(db, project, legacyId);
+    change = notes.getChange();
     return change;
   }
 
   public ChangeNotes notes() throws OrmException {
     if (notes == null) {
-      Change c = change();
-      notes = notesFactory.create(db, c.getProject(), c.getId());
+      notes = notesFactory.create(db, project, legacyId);
     }
     return notes;
   }
@@ -681,7 +692,7 @@ public class ChangeData {
       return false;
     }
     String sha1 = ps.getRevision().get();
-    try (Repository repo = repoManager.openRepository(change().getProject());
+    try (Repository repo = repoManager.openRepository(project);
         RevWalk walk = new RevWalk(repo)) {
       RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
       commitMessage = c.getFullMessage();
@@ -790,7 +801,7 @@ public class ChangeData {
         if (ps == null || !changeControl().isPatchVisible(ps, db)) {
           return null;
         }
-        try (Repository repo = repoManager.openRepository(c.getProject())) {
+        try (Repository repo = repoManager.openRepository(project)) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
           SubmitTypeRecord str = submitTypeRecord();
           if (!str.isOk()) {
@@ -799,7 +810,7 @@ public class ChangeData {
             return false;
           }
           String mergeStrategy = mergeUtilFactory
-              .create(projectCache.get(c.getProject()))
+              .create(projectCache.get(project))
               .mergeStrategyName();
           mergeable = mergeabilityCache.get(
               ObjectId.fromString(ps.getRevision().get()),
@@ -820,7 +831,7 @@ public class ChangeData {
       }
       editsByUser = new HashSet<>();
       Change.Id id = change.getId();
-      try (Repository repo = repoManager.openRepository(change.getProject())) {
+      try (Repository repo = repoManager.openRepository(project)) {
         for (String ref
             : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).keySet()) {
           if (Change.Id.fromEditRefPart(ref).equals(id)) {

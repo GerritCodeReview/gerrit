@@ -82,12 +82,6 @@ limitations under the License.
         font: inherit;
         padding: .3em 0;
       }
-      .mainContainer {
-        border-bottom: 1px solid #eee;
-        border-collapse: collapse;
-        border-top: 1px solid #eee;
-        width: 100%;
-      }
     </style>
     <gr-ajax id="changeDetailXHR"
         auto
@@ -192,6 +186,11 @@ limitations under the License.
         if (this._path) {
           this.fire('title-change', {title: this._path});
         }
+        window.addEventListener('resize', this._boundWindowResizeHandler);
+      },
+
+      detached: function() {
+        window.removeEventListener('resize', this._boundWindowResizeHandler);
       },
 
       _handleKey: function(e) {

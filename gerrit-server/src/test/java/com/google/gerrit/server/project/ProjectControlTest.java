@@ -25,17 +25,21 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -55,6 +59,7 @@ public class ProjectControlTest {
   @Inject private InMemoryRepositoryManager repoManager;
   @Inject private ProjectControl.GenericFactory projectControlFactory;
   @Inject private SchemaCreator schemaCreator;
+  @Inject private ThreadLocalRequestContext requestContext;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -81,6 +86,18 @@ public class ProjectControlTest {
     project = new ProjectConfig(name);
     project.load(inMemoryRepo);
     repo = new TestRepository<>(inMemoryRepo);
+
+    requestContext.setContext(new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return user;
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    });
   }
 
   @After
@@ -91,6 +108,7 @@ public class ProjectControlTest {
     if (lifecycle != null) {
       lifecycle.stop();
     }
+    requestContext.setContext(null);
     if (db != null) {
       db.close();
     }

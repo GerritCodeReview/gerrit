@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -149,7 +150,7 @@ public class ProjectControl {
   private final CurrentUser user;
   private final ProjectState state;
   private final GitRepositoryManager repoManager;
-  private final ChangeControl.AssistedFactory changeControlFactory;
+  private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
@@ -167,7 +168,7 @@ public class ProjectControl {
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
       GitRepositoryManager repoManager,
-      ChangeControl.AssistedFactory changeControlFactory,
+      ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
       ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
@@ -193,7 +194,7 @@ public class ProjectControl {
     return r;
   }
 
-  public ChangeControl controlFor(final Change change) {
+  public ChangeControl controlFor(Change change) throws OrmException {
     return changeControlFactory.create(controlForRef(change.getDest()), change);
   }
 

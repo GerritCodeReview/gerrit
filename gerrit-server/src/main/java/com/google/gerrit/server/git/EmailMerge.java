@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.mail.MergedSender;
@@ -39,7 +40,8 @@ public class EmailMerge implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailMerge.class);
 
   public interface Factory {
-    EmailMerge create(Change.Id changeId, Account.Id submitter);
+    EmailMerge create(Project.NameKey project, Change.Id changeId,
+        Account.Id submitter);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -47,6 +49,7 @@ public class EmailMerge implements Runnable, RequestContext {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
 
+  private final Project.NameKey project;
   private final Change.Id changeId;
   private final Account.Id submitter;
   private ReviewDb db;
@@ -56,12 +59,14 @@ public class EmailMerge implements Runnable, RequestContext {
       MergedSender.Factory mergedSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
+      @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
+    this.project = project;
     this.changeId = changeId;
     this.submitter = submitter;
   }
@@ -74,7 +79,7 @@ public class EmailMerge implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-      MergedSender cm = mergedSenderFactory.create(changeId);
+      MergedSender cm = mergedSenderFactory.create(project, changeId);
       if (submitter != null) {
         cm.setFrom(submitter);
       }

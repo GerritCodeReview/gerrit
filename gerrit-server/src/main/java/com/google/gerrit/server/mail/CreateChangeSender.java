@@ -19,6 +19,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -33,13 +34,15 @@ public class CreateChangeSender extends NewChangeSender {
       LoggerFactory.getLogger(CreateChangeSender.class);
 
   public static interface Factory {
-    CreateChangeSender create(Change.Id id);
+    CreateChangeSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public CreateChangeSender(EmailArguments ea, @Assisted Change.Id id)
+  public CreateChangeSender(EmailArguments ea,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id id)
       throws OrmException {
-    super(ea, newChangeData(ea, id));
+    super(ea, newChangeData(ea, project, id));
   }
 
   @Override

@@ -640,7 +640,8 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
-    return changeDataFactory.create(db, psId.getParentKey()).patchSet(psId);
+    return changeDataFactory.create(db, project, psId.getParentKey())
+        .patchSet(psId);
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {

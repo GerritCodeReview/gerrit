@@ -150,7 +150,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     @Override
     public void postUpdate(Context ctx) throws OrmException {
       try {
-        ReplyToChangeSender cm = restoredSenderFactory.create(change.getId());
+        ReplyToChangeSender cm =
+            restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(caller.getAccountId());
         cm.setChangeMessage(message);
         cm.send();

@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -46,7 +46,7 @@ public class ChangesCollection implements
   private final Provider<CurrentUser> user;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
-  private final ChangeUtil changeUtil;
+  private final ChangeFinder changeFinder;
   private final CreateChange createChange;
   private final ChangeIndexer changeIndexer;
 
@@ -56,14 +56,14 @@ public class ChangesCollection implements
       Provider<CurrentUser> user,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
-      ChangeUtil changeUtil,
+      ChangeFinder changeFinder,
       CreateChange createChange,
       ChangeIndexer changeIndexer) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
     this.views = views;
-    this.changeUtil = changeUtil;
+    this.changeFinder = changeFinder;
     this.createChange = createChange;
     this.changeIndexer = changeIndexer;
   }
@@ -81,7 +81,8 @@ public class ChangesCollection implements
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException {
-    List<ChangeControl> ctls = changeUtil.findChanges(id.encoded(), user.get());
+    List<ChangeControl> ctls =
+        changeFinder.find(id.encoded(), user.get());
     if (ctls.isEmpty()) {
       Integer changeId = Ints.tryParse(id.get());
       if (changeId != null) {
@@ -108,7 +109,7 @@ public class ChangesCollection implements
 
   public ChangeResource parse(Change.Id id)
       throws ResourceNotFoundException, OrmException {
-    List<ChangeControl> ctls = changeUtil.findChanges(id, user.get());
+    List<ChangeControl> ctls = changeFinder.find(id, user.get());
     if (ctls.isEmpty()) {
       try {
         changeIndexer.delete(id);

@@ -52,7 +52,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
@@ -80,7 +80,7 @@ import java.util.Map;
 public class RevisionIT extends AbstractDaemonTest {
 
   @Inject
-  private ChangeUtil changeUtil;
+  private ChangeFinder changeFinder;
 
   @Inject
   private GetRevisionActions getRevisionActions;
@@ -693,7 +693,7 @@ public class RevisionIT extends AbstractDaemonTest {
   private RevisionResource parseRevisionResource(PushOneCommit.Result r)
       throws Exception {
     PatchSet.Id psId = r.getPatchSetId();
-    List<ChangeControl> ctls = changeUtil.findChanges(
+    List<ChangeControl> ctls = changeFinder.find(
         Integer.toString(psId.getParentKey().get()), atrScope.get().getUser());
     assertThat(ctls).hasSize(1);
     return revisions.parse(

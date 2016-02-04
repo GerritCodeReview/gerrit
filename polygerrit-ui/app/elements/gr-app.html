@@ -99,20 +99,27 @@ limitations under the License.
     </header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
-        <gr-change-list-view params="[[params]]"
+        <gr-change-list-view
+            params="[[params]]"
             view-state="{{_viewState.changeListView}}"
             logged-in="[[_computeLoggedIn(account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
-        <gr-dashboard-view params="[[params]]"
+        <gr-dashboard-view
+            params="[[params]]"
             view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
-        <gr-change-view server-config="[[config]]"
-            params="[[params]]" view-state="{{_viewState.changeView}}"></gr-change-view>
+        <gr-change-view
+            params="[[params]]"
+            server-config="[[config]]"
+            view-state="{{_viewState.changeView}}"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
-        <gr-diff-view prefs="{{_diffPreferences}}" params="[[params]]"></gr-diff-view>
+        <gr-diff-view
+            params="[[params]]"
+            prefs="{{_diffPreferences}}"
+            change-view-state="{{_viewState.changeView}}"></gr-diff-view>
       </template>
     </main>
     <footer role="contentinfo">
@@ -196,6 +203,7 @@ limitations under the License.
             changeNum: null,
             patchNum: null,
             selectedFileIndex: 0,
+            showReplyDropdown: false,
           },
           changeListView: {
             query: null,

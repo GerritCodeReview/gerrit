@@ -191,13 +191,27 @@ limitations under the License.
             e.preventDefault();
             this.selectedIndex = Math.max(0, this.selectedIndex - 1);
             break;
+          case 219:  // '['
+            e.preventDefault();
+            this.selectedIndex = this.files.length - 1;
+            this._openSelectedFile();
+            break;
+          case 221:  // ']'
+            e.preventDefault();
+            this.selectedIndex = 0;
+            this._openSelectedFile();
+            break;
           case 13:  // <enter>
           case 79:  // 'o'
             e.preventDefault();
-            page(this._computeDiffURL(this.changeNum, this.patchNum,
-                this.files[this.selectedIndex].__path));
+            this._openSelectedFile();
             break;
         }
+      },
+
+      _openSelectedFile: function() {
+        page(this._computeDiffURL(this.changeNum, this.patchNum,
+            this.files[this.selectedIndex].__path));
       },
 
       _computeFileSelected: function(index, selectedIndex) {

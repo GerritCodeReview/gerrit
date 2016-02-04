@@ -90,7 +90,7 @@ limitations under the License.
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
 
-      <div class="diffContainer">
+      <div class="diffContainer" id="diffContainer">
         <gr-diff-side id="leftDiff"
             change-num="[[changeNum]]"
             patch-num="[[patchRange.basePatchNum]]"
@@ -146,6 +146,11 @@ limitations under the License.
           notify: true,
         },
         projectConfig: Object,
+        contentFontSize: {
+          type: Number,
+          value: 11,
+          observer: '_contentFontSizeChanged',
+        },
 
         _prefsReady: {
           type: Object,
@@ -209,6 +214,10 @@ limitations under the License.
         }.bind(this));
       },
 
+      get contentWidth() {
+        return this.$.leftDiff.scrollWidth + this.$.rightDiff.scrollWidth;
+      },
+
       scrollToLine: function(lineNum) {
         // TODO(andybons): Should this always be the right side?
         this.$.rightDiff.scrollToLine(lineNum);
@@ -244,6 +253,11 @@ limitations under the License.
           this._render();
         }
         this._resolvePrefsReady(changeRecord.base);
+      },
+
+      _contentFontSizeChanged: function(value) {
+        console.log('content font size', value)
+        this.$.diffContainer.style.fontSize = value + 'px';
       },
 
       _render: function() {

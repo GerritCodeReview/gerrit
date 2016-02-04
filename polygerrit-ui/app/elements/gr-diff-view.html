@@ -82,12 +82,6 @@ limitations under the License.
         font: inherit;
         padding: .3em 0;
       }
-      .mainContainer {
-        border-bottom: 1px solid #eee;
-        border-collapse: collapse;
-        border-top: 1px solid #eee;
-        width: 100%;
-      }
     </style>
     <gr-ajax id="changeDetailXHR"
         auto
@@ -175,6 +169,10 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        _boundWindowResizeHandler: {
+          type: Function,
+          value: function() { return this._handleWindowResize.bind(this); },
+        },
       },
 
       behaviors: [
@@ -192,6 +190,11 @@ limitations under the License.
         if (this._path) {
           this.fire('title-change', {title: this._path});
         }
+        window.addEventListener('resize', this._boundWindowResizeHandler);
+      },
+
+      detached: function() {
+        window.removeEventListener('resize', this._boundWindowResizeHandler);
       },
 
       _handleKey: function(e) {
@@ -225,11 +228,32 @@ limitations under the License.
         }
       },
 
+      _handleWindowResize: function(e) {
+        var minDiffFontSize = 11;
+        var maxDiffFontSize = 14;
+        var dX = window.innerWidth - this.$.diff.contentWidth;
+        if (dX < 0) {
+          this.$.diff.contentFontSize = Math.max(minDiffFontSize,
+              this.$.diff.contentFontSize - 1);
+          return;
+        }
+
+        var gapPercentage = dX / window.innerWidth;
+        while (this.$.diff.contentFontSize < maxDiffFontSize &&
+               gapPercentage > .08) {
+          this.$.diff.contentFontSize = Math.min(maxDiffFontSize,
+              this.$.diff.contentFontSize + 1);
+          dX = window.innerWidth - this.$.diff.contentWidth;
+          gapPercentage = dX / window.innerWidth;
+        }
+      },
+
       _handleDiffRender: function() {
         if (window.location.hash.length > 0) {
           this.$.diff.scrollToLine(
               parseInt(window.location.hash.substring(1), 10));
         }
+        this.fire('resize', {}, {node: window});
       },
 
       _navToFile: function(fileList, direction) {
@@ -243,6 +267,10 @@ limitations under the License.
         page.show(this._computeDiffURL(this._changeNum,
                                        this._patchRange,
                                        fileList[idx]));
+      },
+
+      _contentFontSizeChanged: function(value) {
+        this.$.diff.style.fontSize = value + 'px';
       },
 
       _paramsChanged: function(value) {

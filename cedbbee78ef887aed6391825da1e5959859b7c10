@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31986085_ecb28b03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T12:36:33Z",
+      "side": 1,
+      "message": "This gives ArrayIndexOutOfBoundsException if there are no parents.",
+      "revId": "cedbbee78ef887aed6391825da1e5959859b7c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

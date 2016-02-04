@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "913d8cf0_3fcbe72d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-04T08:01:56Z",
+      "side": 0,
+      "message": "This statement got lost in the refactoring.",
+      "range": {
+        "startLine": 351,
+        "startChar": 8,
+        "endLine": 351,
+        "endChar": 34
+      },
+      "revId": "7f64ab66b89c861bb744d513dfb50ee574bb7d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

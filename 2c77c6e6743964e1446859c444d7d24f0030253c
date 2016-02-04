@@ -187,6 +187,24 @@
       "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31986085_0cc1975c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsVisibleToPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T12:41:56Z",
+      "side": 1,
+      "message": "Ok, I see later on that there is no call to load() in createFromIndexed, fair enough.\n\nI guess I was thinking that one benefit of always calling load() was that we would not have to call load() from e.g. every method in ChangeMessagesUtil. But we still have to: a ChangeNotes from the index is only partially loaded, so if we just have an arbitrary instance, we don\u0027t know whether or not it has been loaded.\n\nSo I guess that\u0027s fine, it just means always eagerly loading changes is more of an implementation detail and is not going to simplify callers.",
+      "parentUuid": "51aa3454_a51b7e4a",
+      "revId": "2c77c6e6743964e1446859c444d7d24f0030253c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

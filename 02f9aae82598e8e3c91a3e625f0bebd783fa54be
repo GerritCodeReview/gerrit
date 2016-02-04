@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a58cc9_5fdb0b3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:45:30Z",
+      "side": 1,
+      "message": "Maybe we could get away with naming this method \"find\". As it is in several places you name the ChangeFinder changeFinder, at which point it\u0027s a little stuttery to say changeFinder.findChanges",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 40
+      },
+      "revId": "02f9aae82598e8e3c91a3e625f0bebd783fa54be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ac98b5_3ecf2984",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:45:30Z",
+      "side": 1,
+      "message": "Is this necessary? The ChangeNotes that get created in findChanges requested no fields from the index, so they should only have project and id set. So seems like nothing would be stale?",
+      "revId": "02f9aae82598e8e3c91a3e625f0bebd783fa54be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

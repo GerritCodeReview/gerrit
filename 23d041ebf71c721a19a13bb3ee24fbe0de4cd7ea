@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1bb289e_ea9ce7de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-04T09:09:38Z",
+      "side": 1,
+      "message": "Hm. Do we support secondary schema index upgrade on stable branches (we don\u0027t support it for database schema)?",
+      "revId": "23d041ebf71c721a19a13bb3ee24fbe0de4cd7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

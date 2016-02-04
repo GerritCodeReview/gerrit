@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -32,16 +31,6 @@ abstract class ChangeDataResultSet<T> extends AbstractResultSet<ChangeData> {
       @Override
       ChangeData convert(Change t) {
         return factory.create(db.get(), t);
-      }
-    };
-  }
-
-  static ResultSet<ChangeData> patchSet(final ChangeData.Factory factory,
-      final Provider<ReviewDb> db, final ResultSet<PatchSet> rs) {
-    return new ChangeDataResultSet<PatchSet>(rs, false) {
-      @Override
-      ChangeData convert(PatchSet t) {
-        return factory.create(db.get(), t.getId().getParentKey());
       }
     };
   }

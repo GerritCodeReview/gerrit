@@ -351,7 +351,7 @@ public class ChangeUtil {
 
     // Try isolated changeId
     if (!id.contains("~")) {
-      return asChangeControls(query.byKeyPrefix(id));
+      return asChangeControls(query.byKeyPrefix(id), user);
     }
 
     // Try change triplet
@@ -359,17 +359,18 @@ public class ChangeUtil {
     if (triplet.isPresent()) {
       return asChangeControls(query.byBranchKey(
           triplet.get().branch(),
-          triplet.get().id()));
+          triplet.get().id()),
+          user);
     }
 
     return Collections.emptyList();
   }
 
-  private List<ChangeControl> asChangeControls(List<ChangeData> cds)
-      throws OrmException {
+  private List<ChangeControl> asChangeControls(List<ChangeData> cds,
+      CurrentUser user) throws OrmException {
     List<ChangeControl> ctls = new ArrayList<>(cds.size());
     for (ChangeData cd : cds) {
-      ctls.add(cd.changeControl(user.get()));
+      ctls.add(cd.changeControl(user));
     }
     return ctls;
   }

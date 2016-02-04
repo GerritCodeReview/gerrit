@@ -33,7 +33,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -84,7 +84,7 @@ public class CreateChange implements
   private final ProjectsCollection projectsCollection;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
-  private final ChangeUtil changeUtil;
+  private final ChangeFinder changeFinder;
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
@@ -98,7 +98,7 @@ public class CreateChange implements
       ProjectsCollection projectsCollection,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
-      ChangeUtil changeUtil,
+      ChangeFinder changeFinder,
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config) {
@@ -110,7 +110,7 @@ public class CreateChange implements
     this.projectsCollection = projectsCollection;
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
-    this.changeUtil = changeUtil;
+    this.changeFinder = changeFinder;
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
@@ -162,7 +162,7 @@ public class CreateChange implements
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
-        List<ChangeControl> ctls = changeUtil.findChanges(
+        List<ChangeControl> ctls = changeFinder.findChanges(
             input.baseChange, rsrc.getControl().getUser());
         if (ctls.size() != 1) {
           throw new InvalidChangeOperationException(

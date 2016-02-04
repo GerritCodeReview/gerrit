@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454598160 +0100\nnonce AO+Zq7g43tjgZBcMp39hNu8kzh2uLTOMCp9+CzsNnhZ/QShUZt9Gh7Nv5dFs3lk63rAplj9FrTrw\n\n0000000000000000000000000000000000000000 c8565ef7e653c92c9bed4b1e00dd8dc01348be47 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWs2gQAAoJEFG1/Zeg0O9RSsUIAIVerZlUnjKIlb3rwVEfomxh\nVuX0AyEOC9wdW+3Jascxv8ljWtfAP1N8r8myivP52sv3ZuH0tbyzhEL/LjMkFRfv\nN+EcJv0d8zMoq1PURSbNWLdrhEg/yCkmCK3aMSiIJClXhVg/Gfuft1f4sLrM9GLf\nH5qPp1yJfrImX4T8GHSJaAdWC3OCBCnSr/AboZx3sz4sNC9s5jkudNneo6qDJIs8\nd6hXTn1YhZ9YmN77NQeLTDE60zSZParUXG3G24UmaD9gAoC5upcT7xaTRDMSIeBS\nho7/96qHa2FXY/CobcbcBRJG3zAv1u35YKVFdCbOEzcPuiK1tGsNV4bQaPyZHRU\u003d\n\u003dtI3I\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a58cc9_ffc09f5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T16:59:56Z",
+      "side": 1,
+      "message": "I think this is going to be a behavior change in a lot of places that check the result of changes().get to see if it\u0027s null. Particularly in throwing an unchecked exception instead of NoSuchChangeException.",
+      "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

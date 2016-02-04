@@ -22,6 +22,30 @@
       "revId": "8499dbc88a26c224da62806a2ff9727111e05b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_fa97895d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-04T17:42:04Z",
+      "side": 0,
+      "message": "I concur.  I was going to push as a separate change but just felt it should be in same change when writing the commit message. Anyways I\u0027ve gone back to only dealing with system groups on this change.  Done.",
+      "parentUuid": "51aa3454_65f7c6f3",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 5
+      },
+      "revId": "8499dbc88a26c224da62806a2ff9727111e05b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

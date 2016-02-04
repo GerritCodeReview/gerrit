@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454604455 +0100\nnonce AO+Zq7iZDACc/52hKcNd4z9umZ0i+S2wGdqFad5k3HBsX8G4MxSzdHok/wRC4FolW8xN+nXEVpVV\n\n0000000000000000000000000000000000000000 02f9aae82598e8e3c91a3e625f0bebd783fa54be refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWs4CnAAoJEFG1/Zeg0O9RiaoIAMT6BNnTpf/YV61AFhKsXLrO\ntjNasgAqESvrgBmEnGQZiiq4JIZlFOxaah0VpBqjNo7LP11z6GhNQFI38a2RY8+2\nH2qghlAijJMhy+y3ho1o6EeSEk/eqfKto7SuPGPUWkTyjAhD9Fv5mCnjEMQh8G2F\nBj55TNyxKD5SijNSYBm56Kfr2KA65b9Ao13VX7OuZQNvpqUz9Pl4DkfeCbv57m4G\nwNJ1ZRGc38SmfpJFy8Y51T8SGoX0/bkb3Aq85hWap807r9pm3Hfq7AqM5HZOR8HT\nmZeY0bgLckEBADYGkz9ZqM2YAWkrnLt2mKwb842MIjA0yQmwP3H46Fn3vTJiFP8\u003d\n\u003dtQcR\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a58cc9_9ff873a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:42:08Z",
+      "side": 1,
+      "message": "Maybe, maybe not. Probably we can guarantee people have the new draftby field before they attempt to convert to notedb. But if this turns out to be easy, no reason not to do it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "492fdd93d892b76f8c9fc92d68cb074299b5f09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ac98b5_7ed5b111",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:42:08Z",
+      "side": 1,
+      "message": "If the failure was that 4,1 was switched relative to (3,2 2,2), then that\u0027s ok: we aren\u0027t really concerned about the relative ordering of side branches.\n\nBut if the failure was anything other than that, it sounds like there might actually be a bug.",
+      "revId": "492fdd93d892b76f8c9fc92d68cb074299b5f09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

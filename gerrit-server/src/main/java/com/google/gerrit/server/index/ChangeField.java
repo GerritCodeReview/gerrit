@@ -108,7 +108,7 @@ public class ChangeField {
   /** Project containing the change. */
   public static final FieldDef<ChangeData, String> PROJECT =
       new FieldDef.Single<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_PROJECT, FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_PROJECT, FieldType.EXACT, true) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {

@@ -16,10 +16,8 @@ package com.google.gerrit.server.index;
 
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -74,17 +72,19 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
         || event.getRefName().startsWith(RefNames.REFS_USERS)) {
       return;
     }
-    Futures.transformAsync(
+    Futures.addCallback(
         executor.submit(new GetChanges(event)),
-        new AsyncFunction<List<Change>, List<Void>>() {
+        new FutureCallback<List<Change>>() {
           @Override
-          public ListenableFuture<List<Void>> apply(List<Change> changes) {
-            List<ListenableFuture<Void>> result =
-                Lists.newArrayListWithCapacity(changes.size());
+          public void onSuccess(List<Change> changes) {
             for (Change c : changes) {
-              result.add(executor.submit(new Index(event, c.getId())));
+              executor.submit(new Index(event, c.getId()));
             }
-            return Futures.allAsList(result);
+          }
+
+          @Override
+          public void onFailure(Throwable ignored) {
+            // Logged by {@link GetChanges#call()}.
           }
         });
   }

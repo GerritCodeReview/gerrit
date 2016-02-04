@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51aa3454_65f7c6f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-04T15:18:09Z",
+      "side": 0,
+      "message": "We may still want to catch OrmDuplicateKeyException here. The new check on the name and this insert statement are not done in a transaction, so there can be a race and another request creates a group after the name check is done, but before the insert is done.\n\nThis also means you have no full protection against duplicate names with different cases.\n\nDo we really care about groups with same name but different case? The problem reported by issue 3831 is only about groups with the same name as system groups. Maybe that\u0027s the only thing that this change should do?\n\nIf a protection against groups with the same name but different case is needed, this should maybe be done in a separate change? Getting this thread-safe might not be that easy.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 5
+      },
+      "revId": "8499dbc88a26c224da62806a2ff9727111e05b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

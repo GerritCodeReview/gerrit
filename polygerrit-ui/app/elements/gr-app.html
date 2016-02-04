@@ -37,11 +37,6 @@ limitations under the License.
         min-height: 100vh;
         flex-direction: column;
       }
-      :host([constrained]) main {
-        margin: 0 auto;
-        width: 100%;
-        max-width: var(--max-constrained-width);
-      }
       header,
       footer {
         background-color: var(--primary-color);
@@ -175,11 +170,6 @@ limitations under the License.
           },
         },
         version: String,
-        constrained: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true,
-        },
         params: Object,
 
         _diffPreferences: Object,
@@ -255,7 +245,6 @@ limitations under the License.
         this.set('_showDashboardView', view == 'gr-dashboard-view');
         this.set('_showChangeView', view == 'gr-change-view');
         this.set('_showDiffView', view == 'gr-diff-view');
-        this.constrained = view == 'gr-change-view';
       },
 
       _loginTapHandler: function(e) {

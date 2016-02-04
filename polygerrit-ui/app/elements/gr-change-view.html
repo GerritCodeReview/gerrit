@@ -418,9 +418,9 @@ limitations under the License.
           app.accountReady.then(function() {
             if (!this._loggedIn) { return; }
 
-            if (window.sessionStorage.getItem('changeView.showReplyDropdown')) {
+            if (this.viewState.showReplyDropdown) {
               this.$.replyDropdown.open();
-              window.sessionStorage.removeItem('changeView.showReplyDropdown');
+              this.set('viewState.showReplyDropdown', false);
             }
           }.bind(this));
         }.bind(this));

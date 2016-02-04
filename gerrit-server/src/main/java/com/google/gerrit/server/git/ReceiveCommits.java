@@ -867,14 +867,8 @@ public class ReceiveCommits {
       addMessage(e.getMessage());
       reject(magicBranch.cmd, "conflict");
     } catch (RestApiException err) {
-      log.error("Can't insert change/patchset for " + project.getName()
-          + ". " + err.getMessage(), err);
-
-      String rejection = "internal server error";
-      if (err.getCause() != null) {
-        rejection += ": " + err.getCause().getMessage();
-      }
-      reject(magicBranch.cmd, rejection);
+      log.error("Can't insert change/patch set for " + project.getName(), err);
+      reject(magicBranch.cmd, "internal server error: " + err.getMessage());
     }
   }
 

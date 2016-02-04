@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "31986085_aca88397",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T03:36:36Z",
+      "side": 1,
+      "message": "The way we do dev mode for PolyGerrit, the code has to work verbatim when loaded into a browser. So I think that rules out some kinds of transpilation, though I don\u0027t know enough to comment on this particular case.\n\nAs for using Closure Compiler when productionizing, I\u0027m not opposed, but the first time I tried it there were some things in Polymer core that it couldn\u0027t handle properly. Someone just needs to track down what those incompatibilities might have been, and possibly write the build rules to split the vulcanized resources into compilable/non-compilable pieces.",
+      "parentUuid": "51895439_8dabc193",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1

@@ -108,7 +108,7 @@ public class AutoCommitWriter extends IndexWriter {
   }
 
   void manualFlush() throws IOException {
-    flush(true, true);
+    flush();
     if (autoCommit) {
       commit();
     }

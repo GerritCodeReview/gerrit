@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f1bb289e_0a6ffb93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-04T11:01:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913d8cf0_7fda8f0d",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "d30a352afd611304d1c9581c2efd7c2813babdd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d133841e_018cca1c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 2

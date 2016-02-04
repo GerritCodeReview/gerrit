@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1bb289e_eace27df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-04T14:53:50Z",
+      "side": 1,
+      "message": "I think this should be removed. It\u0027s not ignoring any exception here. Also the indention would be wrong.",
+      "revId": "8e7cf1fc5a67ab3b4ced3485b864dcdd3615e233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

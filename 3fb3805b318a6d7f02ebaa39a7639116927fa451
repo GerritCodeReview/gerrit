@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_bba107b9",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-04T19:04:17Z",
+      "side": 1,
+      "message": "Making it “required” is difficult because when you mock it out for tests, enforcing it would be tricky. That’s really the reasoning behind this.",
+      "parentUuid": "71ac98b5_5edb153e",
+      "revId": "3fb3805b318a6d7f02ebaa39a7639116927fa451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a58cc9_ff12dfa6",
         "filename": "polygerrit-ui/app/elements/gr-file-list.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-04T18:11:33Z",
       "side": 1,
       "message": "Make this an optional arg to _openSelectedFile and have the body set selectedIndex?",
+      "revId": "3fb3805b318a6d7f02ebaa39a7639116927fa451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_da9cc582",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-04T19:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a58cc9_ff12dfa6",
       "revId": "3fb3805b318a6d7f02ebaa39a7639116927fa451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

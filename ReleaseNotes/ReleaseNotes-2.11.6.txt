@@ -90,6 +90,10 @@ to new Gerrit version.
 The default was 'No' which resulted in some sites not upgrading core
 plugins and running the wrong versions.
 
+* Fix reading of plugin documentation.
++
+Under some circumstances it was possible to fail with an IO error.
+
 * Replication
 
 ** Recursively include parent groups of groups specified in `authGroup`.

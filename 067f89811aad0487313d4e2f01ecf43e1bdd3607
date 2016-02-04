@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454598160 +0100\nnonce AO+Zq7g43tjgZBcMp39hNu8kzh2uLTOMCp9+CzsNnhZ/QShUZt9Gh7Nv5dFs3lk63rAplj9FrTrw\n\n0000000000000000000000000000000000000000 c8565ef7e653c92c9bed4b1e00dd8dc01348be47 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWs2gQAAoJEFG1/Zeg0O9RSsUIAIVerZlUnjKIlb3rwVEfomxh\nVuX0AyEOC9wdW+3Jascxv8ljWtfAP1N8r8myivP52sv3ZuH0tbyzhEL/LjMkFRfv\nN+EcJv0d8zMoq1PURSbNWLdrhEg/yCkmCK3aMSiIJClXhVg/Gfuft1f4sLrM9GLf\nH5qPp1yJfrImX4T8GHSJaAdWC3OCBCnSr/AboZx3sz4sNC9s5jkudNneo6qDJIs8\nd6hXTn1YhZ9YmN77NQeLTDE60zSZParUXG3G24UmaD9gAoC5upcT7xaTRDMSIeBS\nho7/96qHa2FXY/CobcbcBRJG3zAv1u35YKVFdCbOEzcPuiK1tGsNV4bQaPyZHRU\u003d\n\u003dtI3I\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a58cc9_7fac8fab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:01:05Z",
+      "side": 1,
+      "message": "Hm, what about this one? I wonder if this should become format(Multimap\u003cProject.NameKey, Change.Id\u003e) or something. Might be big enough to go in a separate change.",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a58cc9_1fb3430a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:01:05Z",
+      "side": 1,
+      "message": "What happens if the change is missing?",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a58cc9_5fa9cb99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:01:05Z",
+      "side": 1,
+      "message": "s/Fatcory/Factory/ everywhere in this file.",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a58cc9_3fb607fa",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:01:05Z",
+      "side": 1,
+      "message": "Intentional?",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

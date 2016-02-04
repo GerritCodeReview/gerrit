@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
+import static com.google.gerrit.server.index.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriter.OPEN_STATUSES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -34,6 +35,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -454,6 +456,10 @@ public class LuceneChangeIndex implements ChangeIndex {
           ChangeProtoField.CODEC.decode(cb.bytes, cb.offset, cb.length));
     } else {
       int id = doc.getField(idFieldName).numericValue().intValue();
+      // TODO(ekempin): Pass project to changeDataFactory
+      @SuppressWarnings("unused")
+      Project.NameKey project =
+          new Project.NameKey(doc.getField(PROJECT.getName()).stringValue());
       cd = changeDataFactory.create(db.get(), new Change.Id(id));
     }
 

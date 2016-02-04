@@ -142,6 +142,30 @@
       "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a58cc9_ff977f5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-04T15:50:12Z",
+      "side": 1,
+      "message": "Fix submitted in JGit: https://git.eclipse.org/r/#/c/65903/\n\nOnce we have a JGit version that include that fix, I will upload a patchset on this change.",
+      "parentUuid": "31986085_2c9d737d",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 17
+      },
+      "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -68,6 +68,24 @@
       "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31b6a005_9cbf65c7",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-04T18:14:06Z",
+      "side": 1,
+      "message": "Intended, but I forgot to link the change in reviewnotes[1]  by a common topic. Done.\n\n[1] https://gerrit-review.googlesource.com/74530",
+      "parentUuid": "91a58cc9_3fb607fa",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

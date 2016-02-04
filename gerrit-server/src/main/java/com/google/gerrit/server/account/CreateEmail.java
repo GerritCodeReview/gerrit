@@ -103,7 +103,8 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, EmailException {
+      ResourceNotFoundException, OrmException, EmailException,
+      MethodNotAllowedException {
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }
@@ -126,7 +127,11 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       }
     } else {
       try {
-        registerNewEmailFactory.create(email).send();
+        RegisterNewEmailSender sender = registerNewEmailFactory.create(email);
+        if (!sender.isAllowed()) {
+          throw new MethodNotAllowedException("Not allowed to add email address " + email);
+        }
+        sender.send();
         info.pendingConfirmation = true;
       } catch (EmailException | RuntimeException e) {
         log.error("Cannot send email verification message to " + email, e);

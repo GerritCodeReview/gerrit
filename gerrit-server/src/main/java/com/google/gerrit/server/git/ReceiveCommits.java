@@ -763,7 +763,7 @@ public class ReceiveCommits {
         } catch (IOException | RestApiException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
-              "Cannot add patch set to %d of %s",
+              "Cannot add patch set to change %d in project %s",
               e.getKey().get(), project.getName()), err);
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {

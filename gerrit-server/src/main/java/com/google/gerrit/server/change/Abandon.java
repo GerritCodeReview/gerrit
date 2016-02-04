@@ -162,7 +162,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     @Override
     public void postUpdate(Context ctx) throws OrmException {
       try {
-        ReplyToChangeSender cm = abandonedSenderFactory.create(change.getId());
+        ReplyToChangeSender cm =
+            abandonedSenderFactory.create(ctx.getProject(), change.getId());
         if (account != null) {
           cm.setFrom(account.getId());
         }

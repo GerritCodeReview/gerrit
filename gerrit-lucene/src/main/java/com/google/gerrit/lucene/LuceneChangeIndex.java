@@ -456,11 +456,9 @@ public class LuceneChangeIndex implements ChangeIndex {
           ChangeProtoField.CODEC.decode(cb.bytes, cb.offset, cb.length));
     } else {
       int id = doc.getField(idFieldName).numericValue().intValue();
-      // TODO(ekempin): Pass project to changeDataFactory
-      @SuppressWarnings("unused")
       Project.NameKey project =
           new Project.NameKey(doc.getField(PROJECT.getName()).stringValue());
-      cd = changeDataFactory.create(db.get(), new Change.Id(id));
+      cd = changeDataFactory.create(db.get(), project, new Change.Id(id));
     }
 
     if (fields.contains(PATCH_SET_FIELD)) {

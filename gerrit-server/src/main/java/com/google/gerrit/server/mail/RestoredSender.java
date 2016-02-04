@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -26,13 +27,15 @@ public class RestoredSender extends ReplyToChangeSender {
   public static interface Factory extends
       ReplyToChangeSender.Factory<RestoredSender> {
     @Override
-    RestoredSender create(Change.Id id);
+    RestoredSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public RestoredSender(EmailArguments ea, @Assisted Change.Id id)
+  public RestoredSender(EmailArguments ea,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id id)
       throws OrmException {
-    super(ea, "restore", newChangeData(ea, id));
+    super(ea, "restore", newChangeData(ea, project, id));
   }
 
   @Override

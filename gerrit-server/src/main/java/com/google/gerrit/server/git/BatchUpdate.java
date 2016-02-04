@@ -615,7 +615,7 @@ public class BatchUpdate implements AutoCloseable {
               bmdu.commit();
             }
           }
-          indexFutures.add(indexer.indexAsync(id));
+          indexFutures.add(indexer.indexAsync(ctx.getProject(), id));
         }
       }
     } catch (Exception e) {

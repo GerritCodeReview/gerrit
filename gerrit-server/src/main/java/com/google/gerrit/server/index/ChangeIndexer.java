@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -128,9 +129,10 @@ public class ChangeIndexer {
    * @param id change to index.
    * @return future for the indexing task.
    */
-  public CheckedFuture<?, IOException> indexAsync(Change.Id id) {
+  public CheckedFuture<?, IOException> indexAsync(Project.NameKey project,
+      Change.Id id) {
     return executor != null
-        ? submit(new IndexTask(id))
+        ? submit(new IndexTask(project, id))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
@@ -140,10 +142,11 @@ public class ChangeIndexer {
    * @param ids changes to index.
    * @return future for completing indexing of all changes.
    */
-  public CheckedFuture<?, IOException> indexAsync(Collection<Change.Id> ids) {
+  public CheckedFuture<?, IOException> indexAsync(Project.NameKey project,
+      Collection<Change.Id> ids) {
     List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
-      futures.add(indexAsync(id));
+      futures.add(indexAsync(project, id));
     }
     return allAsList(futures);
   }
@@ -201,9 +204,11 @@ public class ChangeIndexer {
   }
 
   private class IndexTask implements Callable<Void> {
+    private final Project.NameKey project;
     private final Change.Id id;
 
-    private IndexTask(Change.Id id) {
+    private IndexTask(Project.NameKey project, Change.Id id) {
+      this.project = project;
       this.id = id;
     }
 
@@ -237,8 +242,8 @@ public class ChangeIndexer {
         };
         RequestContext oldCtx = context.setContext(newCtx);
         try {
-          ChangeData cd = changeDataFactory.create(
-              newCtx.getReviewDbProvider().get(), id);
+          ChangeData cd = changeDataFactory
+              .create(newCtx.getReviewDbProvider().get(), project, id);
           index(cd);
           return null;
         } finally  {

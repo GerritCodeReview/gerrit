@@ -18,6 +18,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -31,16 +32,18 @@ import java.util.Set;
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
   public static interface Factory {
-    ReplacePatchSetSender create(Change.Id id);
+    ReplacePatchSetSender create(Project.NameKey project, Change.Id id);
   }
 
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
 
   @Inject
-  public ReplacePatchSetSender(EmailArguments ea, @Assisted Change.Id id)
+  public ReplacePatchSetSender(EmailArguments ea,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id id)
       throws OrmException {
-    super(ea, "newpatchset", newChangeData(ea, id));
+    super(ea, "newpatchset", newChangeData(ea, project, id));
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

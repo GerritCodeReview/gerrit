@@ -361,8 +361,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         @Override
         public void run() {
           try {
-            CreateChangeSender cm =
-                createChangeSenderFactory.create(change.getId());
+            CreateChangeSender cm = createChangeSenderFactory
+                .create(change.getProject(), change.getId());
             cm.setFrom(change.getOwner());
             cm.setPatchSet(patchSet, patchSetInfo);
             cm.setNotify(notify);

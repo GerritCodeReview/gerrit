@@ -46,20 +46,21 @@ public class ChangeControl {
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
     private final Provider<ReviewDb> db;
+    private final ChangeNotes.Factory notesFactory;
 
     @Inject
-    GenericFactory(ProjectControl.GenericFactory p, Provider<ReviewDb> d) {
+    GenericFactory(
+        ProjectControl.GenericFactory p,
+        Provider<ReviewDb> d,
+        ChangeNotes.Factory n) {
       projectControl = p;
       db = d;
+      notesFactory = n;
     }
 
-    public ChangeControl controlFor(Change.Id changeId, CurrentUser user)
-        throws NoSuchChangeException, OrmException {
-      Change change = db.get().changes().get(changeId);
-      if (change == null) {
-        throw new NoSuchChangeException(changeId);
-      }
-      return controlFor(change, user);
+    public ChangeControl controlFor(Project.NameKey project, Change.Id changeId,
+        CurrentUser user) throws NoSuchChangeException, OrmException {
+      return controlFor(notesFactory.create(db.get(), project, changeId), user);
     }
 
     public ChangeControl controlFor(Change change, CurrentUser user)

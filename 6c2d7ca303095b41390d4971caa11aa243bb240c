@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454604455 +0100\nnonce AO+Zq7iZDACc/52hKcNd4z9umZ0i+S2wGdqFad5k3HBsX8G4MxSzdHok/wRC4FolW8xN+nXEVpVV\n\n0000000000000000000000000000000000000000 02f9aae82598e8e3c91a3e625f0bebd783fa54be refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWs4CnAAoJEFG1/Zeg0O9RiaoIAMT6BNnTpf/YV61AFhKsXLrO\ntjNasgAqESvrgBmEnGQZiiq4JIZlFOxaah0VpBqjNo7LP11z6GhNQFI38a2RY8+2\nH2qghlAijJMhy+y3ho1o6EeSEk/eqfKto7SuPGPUWkTyjAhD9Fv5mCnjEMQh8G2F\nBj55TNyxKD5SijNSYBm56Kfr2KA65b9Ao13VX7OuZQNvpqUz9Pl4DkfeCbv57m4G\nwNJ1ZRGc38SmfpJFy8Y51T8SGoX0/bkb3Aq85hWap807r9pm3Hfq7AqM5HZOR8HT\nmZeY0bgLckEBADYGkz9ZqM2YAWkrnLt2mKwb842MIjA0yQmwP3H46Fn3vTJiFP8\u003d\n\u003dtQcR\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a58cc9_dfeefbde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:25:27Z",
+      "side": 1,
+      "message": "I think something is missing from this commit message. My first thought was \"why do you need the project when you already have the change.\" Then I realized this is specifically about the case where you need to reload the change so you intentionally do not request the change field.",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "6c2d7ca303095b41390d4971caa11aa243bb240c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ac98b5_9ebf5dc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-04T17:25:27Z",
+      "side": 1,
+      "message": "As a minor optimization you could omit this when CHANGE is requested",
+      "revId": "6c2d7ca303095b41390d4971caa11aa243bb240c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

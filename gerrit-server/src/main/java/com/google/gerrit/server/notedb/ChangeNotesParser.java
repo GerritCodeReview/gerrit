@@ -207,7 +207,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     PatchSet.Id psId = parsePatchSetId(commit);
-    if (currentPatchSetId == null) {
+    if (currentPatchSetId == null || psId.get() > currentPatchSetId.get()) {
       currentPatchSetId = psId;
     }
 

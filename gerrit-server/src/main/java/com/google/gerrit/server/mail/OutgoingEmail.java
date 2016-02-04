@@ -350,7 +350,7 @@ public abstract class OutgoingEmail {
         log.warn("Not emailing " + addr.email + " (invalid email address)");
       } else if (!args.emailSender.canEmail(addr.email)) {
         log.warn("Not emailing " + addr.email + " (prohibited by allowrcpt)");
-      } else {
+      } else if (smtpRcptTo.add(addr)) {
         switch (rt) {
           case TO:
             ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);

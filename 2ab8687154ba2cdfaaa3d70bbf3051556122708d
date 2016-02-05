@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "91410cda_7fdb4f3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T09:29:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71ac98b5_3eb609fa",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "2ab8687154ba2cdfaaa3d70bbf3051556122708d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a58cc9_5fd2eb2b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -37,6 +61,24 @@
       "writtenOn": "2016-02-04T17:07:04Z",
       "side": 1,
       "message": "Not in this change but I suspect eventually we should just do this by default (and set it to 1ms where necessary).",
+      "revId": "2ab8687154ba2cdfaaa3d70bbf3051556122708d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_44db4e3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T09:29:50Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "91a58cc9_5fd2eb2b",
       "revId": "2ab8687154ba2cdfaaa3d70bbf3051556122708d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

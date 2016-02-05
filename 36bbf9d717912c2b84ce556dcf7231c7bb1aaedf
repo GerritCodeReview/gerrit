@@ -68,6 +68,30 @@
       "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b19c0d_3b01774f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:13:22Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/74593",
+      "parentUuid": "f1c1686d_3ae861cd",
+      "range": {
+        "startLine": 87,
+        "startChar": 30,
+        "endLine": 87,
+        "endChar": 72
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

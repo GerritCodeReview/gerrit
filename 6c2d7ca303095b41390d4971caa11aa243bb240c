@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "31fdc0c1_245a9279",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T10:44:24Z",
+      "side": 1,
+      "message": "Rephrased the commit message.\n\nDone.",
+      "parentUuid": "91a58cc9_dfeefbde",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "6c2d7ca303095b41390d4971caa11aa243bb240c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71ac98b5_9ebf5dc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryOptions.java",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2016-02-04T17:25:27Z",
       "side": 1,
       "message": "As a minor optimization you could omit this when CHANGE is requested",
+      "revId": "6c2d7ca303095b41390d4971caa11aa243bb240c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_1f01e34e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T10:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71ac98b5_9ebf5dc7",
       "revId": "6c2d7ca303095b41390d4971caa11aa243bb240c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

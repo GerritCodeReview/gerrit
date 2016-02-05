@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11b19c0d_9b11aba2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3952,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T06:48:02Z",
+      "side": 1,
+      "message": "Mention that it\u0027s only set for merged changes?",
+      "revId": "3725e4a4fefe3664c090b56ec10ca23e200a21a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

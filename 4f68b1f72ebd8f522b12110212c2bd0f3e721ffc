@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "117b5c38_2bfef97f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-05T20:38:43Z",
+      "side": 1,
+      "message": "I think you mean the similar code in ChangeInserter?  It\u0027s not really the same though because in this case we need to know about the existing (or current) labels to make sure that the label\u0027s value was updated.  For ChangeInserter we don\u0027t need to know about existing labels at all because that\u0027s for a new change so we can assume that all label values are initially 0.  We only need to know that the user set a label to something other than 0 on the push to know that it was updated.",
+      "parentUuid": "31fdc0c1_e4247af2",
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_64508a5b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 13
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "117b5c38_8b45ada0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-05T20:38:43Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean.  This is comparing a label\u0027s current vote with an updated vote.  if the vote has been updated (or new vote) then the put is done on next line.",
+      "parentUuid": "31fdc0c1_64508a5b",
+      "range": {
+        "startLine": 2419,
+        "startChar": 10,
+        "endLine": 2419,
+        "endChar": 48
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_04579651",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 13
@@ -53,6 +95,30 @@
       "writtenOn": "2016-02-05T10:42:52Z",
       "side": 1,
       "message": "Shorter:\n\n  approvalStatus.put(inputLabel,\n     current.get(inputLabel).getValue() !\u003d entry.getValue());",
+      "range": {
+        "startLine": 2420,
+        "startChar": 12,
+        "endLine": 2424,
+        "endChar": 13
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "117b5c38_eb40f191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2424,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-05T20:38:43Z",
+      "side": 1,
+      "message": "Actually, this only needs to for the true case. Done.",
+      "parentUuid": "31fdc0c1_04579651",
       "range": {
         "startLine": 2420,
         "startChar": 12,

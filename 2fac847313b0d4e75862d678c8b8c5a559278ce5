@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "3180604e_8cbaa7d7",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-05T19:35:03Z",
+      "side": 1,
+      "message": "Well without a transpiler step we wouldn\u0027t have a way to support it in production either.\n\nA bigger issue on the dev side of things, I think, is the fact that wct will launch every browser it finds on your system, so if we completely broke Safari this would cause unnecessary test failures for anybody developing on a Mac.",
+      "parentUuid": "91410cda_bff79777",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1

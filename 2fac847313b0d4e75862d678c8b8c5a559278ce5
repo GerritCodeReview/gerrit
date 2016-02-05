@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "91410cda_7f0a6f3d",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-05T19:39:55Z",
+      "side": 1,
+      "message": "Yes, I fully agree. It\u0027s not worth changing this at the moment.",
+      "parentUuid": "3180604e_8cbaa7d7",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1

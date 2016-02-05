@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "31fdc0c1_a497a22c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T11:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a58cc9_5fdb0b3e",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 40
+      },
+      "revId": "02f9aae82598e8e3c91a3e625f0bebd783fa54be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71ac98b5_3ecf2984",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-02-04T17:45:30Z",
       "side": 1,
       "message": "Is this necessary? The ChangeNotes that get created in findChanges requested no fields from the index, so they should only have project and id set. So seems like nothing would be stale?",
+      "revId": "02f9aae82598e8e3c91a3e625f0bebd783fa54be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_ff92ff3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T11:57:57Z",
+      "side": 1,
+      "message": "Oh, you are right.\n\nDone.",
+      "parentUuid": "71ac98b5_3ecf2984",
       "revId": "02f9aae82598e8e3c91a3e625f0bebd783fa54be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

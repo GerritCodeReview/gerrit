@@ -107,6 +107,24 @@
       "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_844a66ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T10:19:35Z",
+      "side": 1,
+      "message": "\u003e The documentation [1] doesn\u0027t explicitly say, but it implies that\n \u003e warnings will be suppressed by assigning to a variable named\n \u003e \"unused\".\n\nSure, but I don\u0027t see how it helps us with handling the case where the change is not found and we would return null here. E.g.\n\n  ChangeNotes notes \u003d\n        notesFactory.create(db, project, patchSetId.getParentKey()).load()\n\nwould not result in a warning when this annotation is used and still fail with an NPE.\n\n \u003e \n \u003e It might be worth trying it though, just to see how much noise it\n \u003e makes?\n \u003e \n \u003e [1] http://errorprone.info/bugpattern/CheckReturnValue\n\nI would like to use it independent of what we do when the change is not found. Actually it seems to not cause any noise. But for the BUCK build we would need a new dependency to javax-annotation and this seems to be GPL [1], which we cannot use?\n\n[1] http://search.maven.org/#artifactdetails%7Cjavax.annotation%7Cjavax.annotation-api%7C1.2%7Cjar",
+      "parentUuid": "f1c1686d_fa3b0915",
+      "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

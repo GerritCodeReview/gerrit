@@ -53,6 +53,42 @@
       "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_dfc05b5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T08:50:17Z",
+      "side": 1,
+      "message": "Throwing a NoSuchChangeException here requires adaption in a lot of classes :( Not sure if we really want to do this, but if yes, maybe better in a separate change.\n\nI\u0027m rather adding a TODO here for now.",
+      "parentUuid": "91a58cc9_7fd5af11",
+      "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_ffc51f68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T08:50:17Z",
+      "side": 1,
+      "message": "Not sure if this would help in this case. If I understand this annotation correctly it only makes sure that you do not ignore the return value. So when the return value is assigned to some variable it\u0027s already satisfied. It doesn\u0027t enforce the caller to check if the return value is null, does it?",
+      "parentUuid": "f1c1686d_3acf4184",
+      "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

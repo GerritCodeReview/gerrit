@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "3180604e_ecc56b68",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-05T18:58:57Z",
+      "side": 1,
+      "message": "Pretty sure we support Safari...",
+      "parentUuid": "31fdc0c1_44e10ebb",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1

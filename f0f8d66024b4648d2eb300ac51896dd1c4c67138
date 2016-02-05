@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11b19c0d_fb3b0f15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:24:06Z",
+      "side": 1,
+      "message": "SYSTEM_GROUP_SCHEME?",
+      "range": {
+        "startLine": 41,
+        "startChar": 29,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "f0f8d66024b4648d2eb300ac51896dd1c4c67138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b19c0d_1bfebb7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:24:06Z",
+      "side": 1,
+      "message": "getSystemGroupNames",
+      "range": {
+        "startLine": 108,
+        "startChar": 29,
+        "endLine": 108,
+        "endChar": 42
+      },
+      "revId": "f0f8d66024b4648d2eb300ac51896dd1c4c67138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_fa12e9a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:24:06Z",
+      "side": 1,
+      "message": "The disadvantage of doing it like this is that we need to remember to update this list when/if a system group is added/removed/renamed.\n\nIt might be better to dynamically generate the return value by iterating over the existing \"all\" list (line 74-80). The removal of the \"global:\" prefix and replacement of spaces can also be done here, thus removing the need to add those new constants (line 42-45).",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 33
+      },
+      "revId": "f0f8d66024b4648d2eb300ac51896dd1c4c67138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

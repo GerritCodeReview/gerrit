@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "117b5c38_4bd58511",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-05T17:33:19Z",
+      "side": 1,
+      "message": "Yeah the only reason we can\u0027t get rid of it right now is we have to keep the old index versions around until the next release. But that will probably happen before 3.0 :)",
+      "parentUuid": "91410cda_bf4a37ac",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "492fdd93d892b76f8c9fc92d68cb074299b5f09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71ac98b5_7ed5b111",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
         "patchSetId": 3
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "I believe it\u0027s like you guessed.\nIt failed right here with:\n\njava.lang.AssertionError: Not true that change ID of index 0 related to 1,2 (\u003c3\u003e) is equal to \u003c4\u003e\n\nChanging the order in the assert to\n\n  assertRelated(ps1_2,\n        changeAndCommit(ps3_2, c3_2, 2),\n        changeAndCommit(ps2_2, c2_2, 2),\n        changeAndCommit(ps4_1, c4_1, 1),\n        changeAndCommit(ps1_2, c1_2, 2));\n\nmakes the test succeed.\n\nIs it this what you meant what would be ok?",
       "parentUuid": "71ac98b5_7ed5b111",
+      "revId": "492fdd93d892b76f8c9fc92d68cb074299b5f09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "117b5c38_abbf49c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-05T17:33:19Z",
+      "side": 1,
+      "message": "Well we would have to see the rest of the list but this is what I would expect for the first failure. I believe it\u0027s fine.",
+      "parentUuid": "91410cda_1f5a4379",
       "revId": "492fdd93d892b76f8c9fc92d68cb074299b5f09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

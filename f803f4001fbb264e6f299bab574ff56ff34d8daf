@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_fbe9cfd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T00:44:38Z",
+      "side": 1,
+      "message": "In this case it\u0027s OK then.  I usually just remove the ones that don\u0027t cause compilation errors :)",
+      "parentUuid": "11b19c0d_9ba64bcd",
+      "range": {
+        "startLine": 480,
+        "startChar": 10,
+        "endLine": 480,
+        "endChar": 15
+      },
+      "revId": "f803f4001fbb264e6f299bab574ff56ff34d8daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74980634_be57194f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 11

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "f1c1686d_9a11ada2",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T08:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c1686d_5adb153e",
+      "range": {
+        "startLine": 1086,
+        "startChar": 11,
+        "endLine": 1086,
+        "endChar": 24
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_7a07f965",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T08:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c1686d_7aded92f",
+      "range": {
+        "startLine": 1086,
+        "startChar": 43,
+        "endLine": 1086,
+        "endChar": 49
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1c1686d_3ae861cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 7
@@ -107,6 +155,30 @@
       "side": 1,
       "message": "That change was merged, so this text should be modified in the same way.",
       "parentUuid": "11b19c0d_3b01774f",
+      "range": {
+        "startLine": 87,
+        "startChar": 30,
+        "endLine": 87,
+        "endChar": 72
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_5a04355f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T08:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b19c0d_db405392",
       "range": {
         "startLine": 87,
         "startChar": 30,

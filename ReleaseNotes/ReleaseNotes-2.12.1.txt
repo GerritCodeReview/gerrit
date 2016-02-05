@@ -8,6 +8,15 @@ https://gerrit-releases.storage.googleapis.com/gerrit-2.12.1.war]
 
 There are no schema changes from link:ReleaseNotes-2.12.html[2.12].
 
+Configuration Changes
+---------------------
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3771[Issue 3771]:
+Remove index defaultMaxClauseCount config setting while reusing maxTerms.
++
+index.defaultMaxClauseCount is no longer used and can be removed from gerrit.config;
+index.maxTerms replaces it.
+
 Bug Fixes
 ---------
 

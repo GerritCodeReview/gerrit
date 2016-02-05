@@ -63,7 +63,7 @@ public class SetEditPreferences implements
       IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("restricted to members of Modify Accounts");
+      throw new AuthException("requires Modify Account capability");
     }
 
     if (in == null) {

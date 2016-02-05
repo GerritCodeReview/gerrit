@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1c1686d_5adb153e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:10:28Z",
+      "side": 1,
+      "message": "Link this and ModifyAccounts to the relevant anchors in access-control.html",
+      "range": {
+        "startLine": 1086,
+        "startChar": 11,
+        "endLine": 1086,
+        "endChar": 24
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_7aded92f",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:10:28Z",
+      "side": 1,
+      "message": "capability",
+      "range": {
+        "startLine": 1086,
+        "startChar": 43,
+        "endLine": 1086,
+        "endChar": 49
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_3ae861cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T07:10:28Z",
+      "side": 1,
+      "message": "I think \"requires Modify Account capability\" is better.  I\u0027m proposing to change the existing instances of \"restricted to members of Modify Accounts\" in a separate patch.",
+      "range": {
+        "startLine": 87,
+        "startChar": 30,
+        "endLine": 87,
+        "endChar": 72
+      },
+      "revId": "36bbf9d717912c2b84ce556dcf7231c7bb1aaedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

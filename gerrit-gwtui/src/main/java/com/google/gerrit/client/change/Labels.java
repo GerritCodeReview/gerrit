@@ -279,17 +279,21 @@ class Labels extends Grid {
 
       String votableCategories = "";
       if (votable != null) {
-        Set<String> s = votable.get(ai._accountId()).votableLabels();
-        if (!s.isEmpty()) {
-          StringBuilder sb = new StringBuilder(Util.C.votable());
-          sb.append(" ");
-          for (Iterator<String> it = s.iterator(); it.hasNext();) {
-            sb.append(it.next());
-            if (it.hasNext()) {
-              sb.append(", ");
+        VotableInfo vi = votable.get(ai._accountId());
+        if (vi != null) {
+          Set<String> s = vi.votableLabels();
+          if (!s.isEmpty()) {
+            StringBuilder sb = new StringBuilder(Util.C.votable());
+            sb.append(" ");
+            for (Iterator<String> it = vi.votableLabels().iterator();
+                it.hasNext();) {
+              sb.append(it.next());
+              if (it.hasNext()) {
+                sb.append(", ");
+              }
             }
+            votableCategories = sb.toString();
           }
-          votableCategories = sb.toString();
         }
       }
       html.openSpan()

@@ -125,6 +125,24 @@
       "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_9a4acdac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-05T11:00:52Z",
+      "side": 1,
+      "message": "Ah, I didn\u0027t look into it in that much detail.  I assumed the annotation was provided by errorprone itself.",
+      "parentUuid": "31fdc0c1_844a66ac",
+      "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -143,6 +143,24 @@
       "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "117b5c38_0bb69df9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-05T17:29:07Z",
+      "side": 1,
+      "message": "\u003e Throwing a NoSuchChangeException here requires adaption in a lot of\n \u003e classes :( Not sure if we really want to do this, but if yes, maybe\n \u003e better in a separate change.\n \u003e \n \u003e I\u0027m rather adding a TODO here for now.\n\nAgreed, fine for now, it\u0027ll probably end up throwing some more NPEs later in various corrupt cases, rather than a nicer exception, but I can live with that I guess.",
+      "parentUuid": "91410cda_dfc05b5b",
+      "revId": "d405ae55927c81ce1d55bd3dcd2f8ee1e3b508cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91410cda_3ffe2780",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerSuggestionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-02-05T10:28:38Z",
+      "side": 1,
+      "message": "it would have been smart to add a comment noting that and why the order is important. you can\u0027t rely on people checking the history.",
+      "revId": "76929c4ae0386d1b28a970748e3322b8d93254f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

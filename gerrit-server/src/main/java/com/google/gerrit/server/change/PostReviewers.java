@@ -248,7 +248,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
     update.commit();
     CheckedFuture<?, IOException> indexFuture =
-        indexer.indexAsync(rsrc.getId());
+        indexer.indexAsync(rsrc.getProject(), rsrc.getId());
     result.reviewers = Lists.newArrayListWithCapacity(added.size());
     for (PatchSetApproval psa : added) {
       // New reviewers have value 0, don't bother normalizing.
@@ -286,7 +286,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
     if (!toMail.isEmpty()) {
       try {
-        AddReviewerSender cm = addReviewerSenderFactory.create(change.getId());
+        AddReviewerSender cm = addReviewerSenderFactory
+            .create(change.getProject(), change.getId());
         cm.setFrom(userId);
         cm.addReviewers(toMail);
         cm.send();

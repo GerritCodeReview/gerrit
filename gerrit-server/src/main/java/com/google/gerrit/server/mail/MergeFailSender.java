@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -23,13 +24,15 @@ import com.google.inject.assistedinject.Assisted;
 /** Send notice about a change failing to merged. */
 public class MergeFailSender extends ReplyToChangeSender {
   public static interface Factory {
-    MergeFailSender create(Change.Id id);
+    MergeFailSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public MergeFailSender(EmailArguments ea, @Assisted Change.Id id)
+  public MergeFailSender(EmailArguments ea,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id id)
       throws OrmException {
-    super(ea, "merge-failed", newChangeData(ea, id));
+    super(ea, "merge-failed", newChangeData(ea, project, id));
   }
 
   @Override

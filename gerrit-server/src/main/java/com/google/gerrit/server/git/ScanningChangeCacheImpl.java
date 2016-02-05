@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -86,12 +88,18 @@ public class ScanningChangeCacheImpl implements ChangeCache {
 
   static class Loader extends CacheLoader<Project.NameKey, List<Change>> {
     private final GitRepositoryManager repoManager;
+    private final NotesMigration notesMigration;
+    private final ChangeNotes.Factory notesFactory;
     private final OneOffRequestContext requestContext;
 
     @Inject
     Loader(GitRepositoryManager repoManager,
+        NotesMigration notesMigration,
+        ChangeNotes.Factory notesFactory,
         OneOffRequestContext requestContext) {
       this.repoManager = repoManager;
+      this.notesMigration = notesMigration;
+      this.notesFactory = notesFactory;
       this.requestContext = requestContext;
     }
 
@@ -99,13 +107,23 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     public List<Change> load(Project.NameKey key) throws Exception {
       try (Repository repo = repoManager.openRepository(key);
           ManualRequestContext ctx = requestContext.open()) {
-        return scan(repo, ctx.getReviewDbProvider().get());
+        return scan(notesMigration, notesFactory, repo,
+            ctx.getReviewDbProvider().get(), key);
       }
     }
-
   }
 
-  public static List<Change> scan(Repository repo, ReviewDb db)
+  public static List<Change> scan(NotesMigration notesMigration,
+      ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
+      Project.NameKey project) throws OrmException, IOException {
+    if (!notesMigration.readChanges()) {
+      return scanDb(repo, db);
+    }
+
+    return scanNotedb(notesFactory, repo, db, project);
+  }
+
+  public static List<Change> scanDb(Repository repo, ReviewDb db)
       throws OrmException, IOException {
     Map<String, Ref> refs =
         repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
@@ -121,6 +139,21 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     // but still >1.
     for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
       Iterables.addAll(changes, db.changes().get(batch));
+    }
+    return changes;
+  }
+
+  public static List<Change> scanNotedb(ChangeNotes.Factory notesFactory,
+      Repository repo, ReviewDb db, Project.NameKey project)
+          throws OrmException, IOException {
+    Map<String, Ref> refs =
+        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+    List<Change> changes = new ArrayList<>(refs.size());
+    for (Ref r : refs.values()) {
+      Change.Id id = Change.Id.fromRef(r.getName());
+      if (id != null) {
+        changes.add(notesFactory.create(db, project, id).getChange());
+      }
     }
     return changes;
   }

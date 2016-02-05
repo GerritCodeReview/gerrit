@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -116,6 +118,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final MergeSuperSet mergeSuperSet;
   private final AccountsCollection accounts;
@@ -135,6 +138,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       MergeSuperSet mergeSuperSet,
       AccountsCollection accounts,
@@ -146,6 +150,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.changeControlFactory = changeControlFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
@@ -203,7 +208,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
       op.merge(db, change, caller, true, input);
-      change = db.changes().get(change.getId());
+      change = changeNotesFactory
+          .create(db, change.getProject(), change.getId()).getChange();
     }
 
     if (change == null) {
@@ -227,17 +233,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   /**
    * @param cs set of changes to be submitted at once
+   * @param project the name of the project
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChangeset(
-      ChangeSet cs, IdentifiedUser identifiedUser) {
+  private String problemsForSubmittingChangeset(ChangeSet cs,
+      Project.NameKey project, IdentifiedUser identifiedUser) {
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
       for (PatchSet.Id psId : cs.patchIds()) {
         ChangeControl changeControl = changeControlFactory
-            .controlFor(psId.getParentKey(), identifiedUser);
+            .controlFor(project, psId.getParentKey(), identifiedUser);
         ChangeData c = changeDataFactory.create(db, changeControl);
 
         if (!changeControl.isVisible(db)) {
@@ -337,7 +344,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && topicSize > 1;
 
     String submitProblems = problemsForSubmittingChangeset(cs,
-        resource.getUser());
+        resource.getProject(), resource.getUser());
     if (submitProblems != null) {
       return new UiAction.Description()
         .setLabel(treatWithTopic

@@ -50,9 +50,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject
   private ApprovalsUtil approvalsUtil;
 
-  @Inject
-  private ChangeNotes.Factory changeNotesFactory;
-
   @Test
   public void submitOnPush() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
@@ -223,8 +220,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
       throws OrmException {
-    Change c = db.changes().get(patchSetId.getParentKey());
-    ChangeNotes notes = changeNotesFactory.create(db, c).load();
+    ChangeNotes notes =
+        notesFactory.create(db, project, patchSetId.getParentKey()).load();
     return approvalsUtil.getSubmitter(db, notes, patchSetId);
   }
 

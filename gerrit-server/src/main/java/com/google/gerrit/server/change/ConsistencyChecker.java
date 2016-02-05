@@ -312,7 +312,7 @@ public class ConsistencyChecker {
           objId, String.format("patch set %d", psNum));
       if (psCommit == null) {
         if (fix != null && fix.deletePatchSetIfCommitMissing) {
-          deletePatchSet(lastProblem(), ps.getId());
+          deletePatchSet(lastProblem(), change.getProject(), ps.getId());
         }
         continue;
       } else if (refProblem != null && fix != null) {
@@ -419,7 +419,9 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c = db.get().changes().get(psId.getParentKey());
+          Change c = notesFactory
+              .create(db.get(), change.getProject(), psId.getParentKey())
+              .getChange();
           if (c == null || !c.getDest().equals(change.getDest())) {
             continue;
           }
@@ -577,17 +579,18 @@ public class ConsistencyChecker {
     }
   }
 
-  private void deletePatchSet(ProblemInfo p, PatchSet.Id psId) {
+  private void deletePatchSet(ProblemInfo p, Project.NameKey project,
+      PatchSet.Id psId) {
     ReviewDb db = this.db.get();
     Change.Id cid = psId.getParentKey();
     try {
       db.changes().beginTransaction(cid);
       try {
-        Change c = db.changes().get(cid);
+        ChangeNotes notes = notesFactory.create(db, project, cid);
+        Change c = notes.getChange();
         if (c == null) {
           throw new OrmException("Change missing: " + cid);
         }
-        ChangeNotes notes = notesFactory.create(db, c);
 
         if (psId.equals(c.currentPatchSetId())) {
           List<PatchSet> all = Lists.newArrayList(db.patchSets().byChange(cid));

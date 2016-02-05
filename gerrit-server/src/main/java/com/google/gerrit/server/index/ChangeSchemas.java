@@ -67,6 +67,7 @@ public class ChangeSchemas {
       ChangeField.AUTHOR,
       ChangeField.COMMITTER);
 
+  @Deprecated
   static final Schema<ChangeData> V26 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
@@ -103,6 +104,8 @@ public class ChangeSchemas {
       ChangeField.AUTHOR,
       ChangeField.COMMITTER,
       ChangeField.DRAFTBY);
+
+  static final Schema<ChangeData> V27 = schema(V26.getFields().values());
 
   private static Schema<ChangeData> schema(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(ImmutableList.copyOf(fields));

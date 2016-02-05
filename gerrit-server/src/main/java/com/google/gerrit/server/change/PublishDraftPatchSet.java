@@ -245,7 +245,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     private void sendCreateChange(Context ctx) throws EmailException {
       CreateChangeSender cm =
-          createChangeSenderFactory.create(change.getId());
+          createChangeSenderFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(ctx.getUser().getAccountId());
       cm.setPatchSet(patchSet, patchSetInfo);
       cm.addReviewers(recipients.getReviewers());
@@ -262,7 +262,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
               ctx.getWhen(), psId);
       msg.setMessage("Uploaded patch set " + psId.get() + ".");
       ReplacePatchSetSender cm =
-          replacePatchSetFactory.create(change.getId());
+          replacePatchSetFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(accountId);
       cm.setPatchSet(patchSet, patchSetInfo);
       cm.setChangeMessage(msg);

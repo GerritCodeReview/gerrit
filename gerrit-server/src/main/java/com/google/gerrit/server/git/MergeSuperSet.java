@@ -83,7 +83,8 @@ public class MergeSuperSet {
   public ChangeSet completeChangeSet(ReviewDb db, Change change)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
-    ChangeData cd = changeDataFactory.create(db, change.getId());
+    ChangeData cd =
+        changeDataFactory.create(db, change.getProject(), change.getId());
     if (Submit.wholeTopicEnabled(cfg)) {
       return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
     } else {
@@ -101,7 +102,7 @@ public class MergeSuperSet {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (Change.Id cId : pc.get(project)) {
-          ChangeData cd = changeDataFactory.create(db, cId);
+          ChangeData cd = changeDataFactory.create(db, project, cId);
 
           SubmitTypeRecord str = cd.submitTypeRecord();
           if (!str.isOk()) {

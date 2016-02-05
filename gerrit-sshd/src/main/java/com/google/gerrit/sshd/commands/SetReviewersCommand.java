@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -94,7 +94,7 @@ public class SetReviewersCommand extends SshCommand {
   private ChangesCollection changesCollection;
 
   @Inject
-  private ChangeUtil changeUtil;
+  private ChangeFinder changeFinder;
 
   private Set<Account.Id> toRemove = new HashSet<>();
 
@@ -165,7 +165,7 @@ public class SetReviewersCommand extends SshCommand {
 
   private void addChangeImpl(String id) throws UnloggedFailure, OrmException {
     List<ChangeControl> matched =
-        changeUtil.findChanges(id, userProvider.get());
+        changeFinder.find(id, userProvider.get());
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId()) && inProject(ctl.getProject())

@@ -139,8 +139,9 @@ public class TestChanges {
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
     expect(ctl.getUser()).andStubReturn(user);
-    ChangeNotes notes = new ChangeNotes(repoManager, migration, allUsers, c)
-        .load();
+    ChangeNotes notes =
+        new ChangeNotes(repoManager, migration, allUsers, c.getProject(), c)
+            .load();
     expect(ctl.getNotes()).andStubReturn(notes);
     expect(ctl.getId()).andStubReturn(c.getId());
     EasyMock.replay(ctl);

@@ -633,6 +633,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ps2.getRevision().get()).isEqualTo(commit.name());
     assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
     assertThat(ps2.getCreatedOn()).isEqualTo(update.getWhen());
+
+    // comment on ps1, current patch set is still ps2
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetId(ps1.getId());
+    update.setChangeMessage("Comment on old patch set.");
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
   }
 
   @Test

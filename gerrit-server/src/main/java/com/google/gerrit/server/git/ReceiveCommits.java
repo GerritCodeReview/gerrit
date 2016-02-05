@@ -1486,7 +1486,8 @@ public class ReceiveCommits {
 
     final Change changeEnt;
     try {
-      changeEnt = db.changes().get(changeId);
+      changeEnt =
+          notesFactory.create(db, project.getNameKey(), changeId).getChange();
     } catch (OrmException e) {
       log.error("Cannot lookup existing change " + changeId, e);
       reject(cmd, "database error");
@@ -1526,8 +1527,8 @@ public class ReceiveCommits {
     newChanges = Lists.newArrayList();
 
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
-    GroupCollector groupCollector =
-        GroupCollector.create(refsById, db, psUtil, notesFactory);
+    GroupCollector groupCollector = GroupCollector.create(refsById, db, psUtil,
+        notesFactory, project.getNameKey());
 
     rp.getRevWalk().reset();
     rp.getRevWalk().sort(RevSort.TOPO);
@@ -1837,7 +1838,8 @@ public class ReceiveCommits {
           changeCtl.getUser().asIdentifiedUser(), false, null);
     }
     addMessage("");
-    Change c = db.changes().get(rsrc.getChange().getId());
+    Change c = notesFactory
+        .create(db, project.getNameKey(), rsrc.getChange().getId()).getChange();
     switch (c.getStatus()) {
       case MERGED:
         addMessage("Change " + c.getChangeId() + " merged.");
@@ -2377,8 +2379,8 @@ public class ReceiveCommits {
           @Override
           public void run() {
             try {
-              ReplacePatchSetSender cm =
-                  replacePatchSetFactory.create(change.getId());
+              ReplacePatchSetSender cm = replacePatchSetFactory
+                  .create(project.getNameKey(), change.getId());
               cm.setFrom(me);
               cm.setPatchSet(newPatchSet, info);
               cm.setChangeMessage(msg);
@@ -2721,7 +2723,8 @@ public class ReceiveCommits {
     String refName = cmd.getRefName();
     Change.Id cid = psi.getParentKey();
 
-    Change change = db.changes().get(cid);
+    Change change =
+        notesFactory.create(db, project.getNameKey(), cid).getChange();
     ChangeControl ctl = projectControl.controlFor(change);
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psi);
     if (change == null || ps == null) {
@@ -2816,8 +2819,8 @@ public class ReceiveCommits {
       @Override
       public void run() {
         try {
-          MergedSender cm =
-              mergedSenderFactory.create(ps.getId().getParentKey());
+          MergedSender cm = mergedSenderFactory.create(project.getNameKey(),
+              ps.getId().getParentKey());
           cm.setFrom(user.getAccountId());
           cm.setPatchSet(ps, info);
           cm.send();

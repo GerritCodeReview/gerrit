@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -46,20 +47,24 @@ public class ChangeControl {
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
     private final Provider<ReviewDb> db;
+    private final ChangeNotes.Factory notesFactory;
+    private final ChangeFinder changeFinder;
 
     @Inject
-    GenericFactory(ProjectControl.GenericFactory p, Provider<ReviewDb> d) {
+    GenericFactory(
+        ProjectControl.GenericFactory p,
+        Provider<ReviewDb> d,
+        ChangeNotes.Factory n,
+        ChangeFinder f) {
       projectControl = p;
       db = d;
+      notesFactory = n;
+      changeFinder = f;
     }
 
-    public ChangeControl controlFor(Change.Id changeId, CurrentUser user)
-        throws NoSuchChangeException, OrmException {
-      Change change = db.get().changes().get(changeId);
-      if (change == null) {
-        throw new NoSuchChangeException(changeId);
-      }
-      return controlFor(change, user);
+    public ChangeControl controlFor(Project.NameKey project, Change.Id changeId,
+        CurrentUser user) throws NoSuchChangeException, OrmException {
+      return controlFor(notesFactory.create(db.get(), project, changeId), user);
     }
 
     public ChangeControl controlFor(Change change, CurrentUser user)
@@ -87,11 +92,11 @@ public class ChangeControl {
 
     public ChangeControl validateFor(Change.Id changeId, CurrentUser user)
         throws NoSuchChangeException, OrmException {
-      Change change = db.get().changes().get(changeId);
-      if (change == null) {
+      List<ChangeControl> ctls = changeFinder.find(changeId, user);
+      if (ctls.size() != 1) {
         throw new NoSuchChangeException(changeId);
       }
-      return validateFor(change, user);
+      return validateFor(ctls.get(0).getChange(), user);
     }
 
     public ChangeControl validateFor(Change change, CurrentUser user)
@@ -121,10 +126,10 @@ public class ChangeControl {
       this.approvalsUtil = approvalsUtil;
     }
 
-    @SuppressWarnings("unused")
-    ChangeControl create(RefControl refControl, Change change)
-        throws OrmException {
-      return create(refControl, notesFactory.create(db, change));
+    ChangeControl create(RefControl refControl, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
+      return create(refControl,
+          notesFactory.create(db, project, changeId));
     }
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {

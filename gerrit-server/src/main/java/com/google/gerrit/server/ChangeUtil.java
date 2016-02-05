@@ -15,11 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -30,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
-import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
@@ -40,8 +35,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -66,9 +59,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Singleton
@@ -164,9 +155,7 @@ public class ChangeUtil {
   private final Provider<CurrentUser> user;
   private final Provider<ReviewDb> db;
   private final Sequences seq;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final GitRepositoryManager gitManager;
@@ -178,9 +167,7 @@ public class ChangeUtil {
   ChangeUtil(Provider<CurrentUser> user,
       Provider<ReviewDb> db,
       Sequences seq,
-      Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
-      ChangeControl.GenericFactory changeControlFactory,
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
       GitRepositoryManager gitManager,
@@ -190,9 +177,7 @@ public class ChangeUtil {
     this.user = user;
     this.db = db;
     this.seq = seq;
-    this.queryProvider = queryProvider;
     this.psUtil = psUtil;
-    this.changeControlFactory = changeControlFactory;
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.gitManager = gitManager;
@@ -285,7 +270,7 @@ public class ChangeUtil {
       }
 
       try {
-        RevertedSender cm = revertedSenderFactory.create(changeId);
+        RevertedSender cm = revertedSenderFactory.create(project, changeId);
         cm.setFrom(user.get().getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
@@ -317,62 +302,6 @@ public class ChangeUtil {
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
     }
-  }
-
-  /**
-   * Find changes matching the given identifier.
-   *
-   * @param id change identifier, either a numeric ID, a Change-Id, or
-   *     project~branch~id triplet.
-   * @param user user to wrap in controls.
-   * @return possibly-empty list of controls for all matching changes,
-   *     corresponding to the given user; may or may not be visible.
-   * @throws OrmException if an error occurred querying the database.
-   */
-  public List<ChangeControl> findChanges(String id, CurrentUser user)
-      throws OrmException {
-    // Try legacy id
-    if (!id.isEmpty() && id.charAt(0) != '0') {
-      Integer n = Ints.tryParse(id);
-      try {
-        if (n != null) {
-          return ImmutableList.of(
-              changeControlFactory.controlFor(new Change.Id(n), user));
-        }
-      } catch (NoSuchChangeException e) {
-        return Collections.emptyList();
-      }
-    }
-
-    // Use the index to search for changes, but don't return any stored fields,
-    // to force rereading in case the index is stale.
-    InternalChangeQuery query = queryProvider.get()
-        .setRequestedFields(ImmutableSet.<String> of());
-
-    // Try isolated changeId
-    if (!id.contains("~")) {
-      return asChangeControls(query.byKeyPrefix(id), user);
-    }
-
-    // Try change triplet
-    Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
-    if (triplet.isPresent()) {
-      return asChangeControls(query.byBranchKey(
-          triplet.get().branch(),
-          triplet.get().id()),
-          user);
-    }
-
-    return Collections.emptyList();
-  }
-
-  private List<ChangeControl> asChangeControls(List<ChangeData> cds,
-      CurrentUser user) throws OrmException {
-    List<ChangeControl> ctls = new ArrayList<>(cds.size());
-    for (ChangeData cd : cds) {
-      ctls.add(cd.changeControl(user));
-    }
-    return ctls;
   }
 
   public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {

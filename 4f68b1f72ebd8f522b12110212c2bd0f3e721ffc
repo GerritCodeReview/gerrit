@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31fdc0c1_e4247af2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-05T10:42:52Z",
+      "side": 1,
+      "message": "I havn\u0027t checkd, but the similar logic in this block (until line 2426) is needed in other palce(s) too. Can\u0027t it be somehow reused?",
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_64508a5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-05T10:42:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t true be put for new vote as well?",
+      "range": {
+        "startLine": 2419,
+        "startChar": 10,
+        "endLine": 2419,
+        "endChar": 48
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_04579651",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2424,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-05T10:42:52Z",
+      "side": 1,
+      "message": "Shorter:\n\n  approvalStatus.put(inputLabel,\n     current.get(inputLabel).getValue() !\u003d entry.getValue());",
+      "range": {
+        "startLine": 2420,
+        "startChar": 12,
+        "endLine": 2424,
+        "endChar": 13
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

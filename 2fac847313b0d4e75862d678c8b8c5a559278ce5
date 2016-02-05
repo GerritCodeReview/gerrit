@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "91410cda_bff79777",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-05T19:08:29Z",
+      "side": 1,
+      "message": "Yes, support of course in production - but we could say that it is not supported for dev mode. But for the moment, I think we are fine with just using \u0027var\u0027 and support any browser. Let\u0027s hope Safari also supports \u0027let\u0027 soon...",
+      "parentUuid": "3180604e_ecc56b68",
+      "revId": "2fac847313b0d4e75862d678c8b8c5a559278ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51aa3454_45740aaf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1

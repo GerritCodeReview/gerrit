@@ -23,6 +23,30 @@
       "revId": "17b67fd409a41fbb9fe9c96278da6cbb4efb27d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_bf11d7a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T10:19:35Z",
+      "side": 1,
+      "message": "This should be no problem. I will just update my later change [1] to continue throwing this exception when the change is null.\n\n[1] https://gerrit-review.googlesource.com/#/c/74582/3/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+      "parentUuid": "f1c1686d_da404592",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 17
+      },
+      "revId": "17b67fd409a41fbb9fe9c96278da6cbb4efb27d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

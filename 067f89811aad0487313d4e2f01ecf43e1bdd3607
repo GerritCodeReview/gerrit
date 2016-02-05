@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "31fdc0c1_e4e91ad9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T09:24:22Z",
+      "side": 1,
+      "message": "This method is now removed by the predecessor change.",
+      "parentUuid": "91a58cc9_7fac8fab",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a58cc9_1fb3430a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 11
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "91410cda_ffee7fde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T09:24:22Z",
+      "side": 1,
+      "message": "It was an IllegalStateException, but with the new patch set the old behaviour (change is null and then we throw an OrmException) is restored.\n\nDone.",
+      "parentUuid": "91a58cc9_1fb3430a",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a58cc9_5fa9cb99",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 11
@@ -48,6 +84,24 @@
       "writtenOn": "2016-02-04T17:01:05Z",
       "side": 1,
       "message": "s/Fatcory/Factory/ everywhere in this file.",
+      "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_9ff3b3c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-05T09:24:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a58cc9_5fa9cb99",
       "revId": "067f89811aad0487313d4e2f01ecf43e1bdd3607",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

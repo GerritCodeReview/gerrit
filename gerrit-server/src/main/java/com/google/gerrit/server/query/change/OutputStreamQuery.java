@@ -236,7 +236,9 @@ public class OutputStreamQuery {
           if (includeComments) {
             eventFactory.addComments(c, d.messages());
             if (includePatchSets) {
-              eventFactory.addPatchSets(c, d.patches(), labelTypes);
+              eventFactory.addPatchSets(c, d.patches(),
+                  includeApprovals ? d.approvals().asMap() : null,
+                  includeFiles, d.change(), labelTypes);
               for (PatchSetAttribute attribute : c.patchSets) {
                 eventFactory.addPatchSetComments(attribute,  d.publishedComments());
               }

@@ -99,6 +99,7 @@ limitations under the License.
       element = fixture('draft');
       element.changeNum = 42;
       element.patchNum = 1;
+      element.editing = false;
       element.comment = {
         __draft: true,
         __draftID: 'temp_draft_id',
@@ -185,6 +186,7 @@ limitations under the License.
       assert.isTrue(isVisible(element.$$('.done')), 'done is visible');
 
       element.comment.id = 'foo';
+      element.draft = true;
       element.editing = true;
       assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
     });

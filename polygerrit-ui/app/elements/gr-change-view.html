@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-messages-list.html">
+<link rel="import" href="gr-related-changes-list.html">
 <link rel="import" href="gr-reply-dropdown.html">
 <link rel="import" href="gr-reviewer-list.html">
 
@@ -132,6 +133,10 @@ limitations under the License.
       }
       gr-file-list {
         padding: 0 var(--default-horizontal-margin) 10px;
+      }
+      gr-related-changes-list {
+        border-top: 1px solid #ddd;
+        padding: 0 var(--default-horizontal-margin);
       }
     </style>
     <gr-ajax id="detailXHR"
@@ -256,6 +261,10 @@ limitations under the License.
           patch-num="[[_patchNum]]"
           comments="[[_comments]]"
           selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
+      <gr-related-changes-list id="relatedChanges"
+          change="[[_change]]"
+          server-config="[[serverConfig]]"
+          patch-num="[[_patchNum]]"></gr-related-changes-list>
       <gr-messages-list id="messageList"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
@@ -540,14 +549,20 @@ limitations under the License.
             this.$.fileList.reload(),
           ]);
         }.bind(this);
+        var reloadDetailDependentResources = function() {
+          return this.$.relatedChanges.reload();
+        }.bind(this);
 
         this._resetHeaderEl();
 
         if (this._patchNum) {
-          return reloadPatchNumDependentResources();
+          return reloadPatchNumDependentResources().then(function() {
+            return detailCompletes;
+          }).then(reloadDetailDependentResources);
         } else {
           // The patch number is reliant on the change detail request.
-          return detailCompletes.then(reloadPatchNumDependentResources);
+          return detailCompletes.then(reloadPatchNumDependentResources).then(
+              reloadDetailDependentResources);
         }
       },
 

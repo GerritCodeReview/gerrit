@@ -93,6 +93,16 @@ public interface ChangeApi {
 
   List<ChangeInfo> submittedTogether() throws RestApiException;
 
+  /**
+   * Publishes a draft change.
+   */
+  void publish() throws RestApiException;
+
+  /**
+   * Deletes a draft change.
+   */
+  void delete() throws RestApiException;
+
   String topic() throws RestApiException;
   void topic(String topic) throws RestApiException;
 
@@ -226,6 +236,16 @@ public interface ChangeApi {
 
     @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void publish() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
 

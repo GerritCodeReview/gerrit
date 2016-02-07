@@ -16,6 +16,24 @@
       "revId": "02de5950cf97189abc77b6cd2e795ecdaa21b55a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_5fbf6b76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-07T16:31:10Z",
+      "side": 1,
+      "message": "They are, but in that case, they are used for the selected revision. Deleting a change is not possible there (only draft revisions can be deleted there). Publish does the same as when you publish the \u0027current\u0027 revision from the revisions api.",
+      "parentUuid": "91410cda_bfc9d732",
+      "revId": "02de5950cf97189abc77b6cd2e795ecdaa21b55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

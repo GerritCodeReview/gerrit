@@ -89,6 +89,8 @@ limitations under the License.
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
+        border-bottom: 1px solid #ddd;
+        display: flex;
         margin-top: 0;
         padding-top: 0;
       }
@@ -96,15 +98,14 @@ limitations under the License.
         border-collapse: collapse;
       }
       td {
-        padding: 2px 5px;
+        padding: 2px 5px 2px 0;
         vertical-align: top;
       }
       gr-reviewer-list {
         min-width: 25em;
       }
-      .changeInfo-label {
+      .changeMetadata-label {
         font-weight: bold;
-        text-align: right;
       }
       .labelValue:not(:first-of-type) {
         margin-top: .25em;
@@ -124,14 +125,26 @@ limitations under the License.
       gr-change-actions {
         margin-top: 1em;
       }
-      .summary {
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
+      .description {
         font-family: var(--monospace-font-family);
-        overflow-x: auto;
+        margin-left: 1em;
+        max-width: 72ch;
+      }
+      .description h4 {
+        font-family: var(--font-family);
+        font-weight: bold;
+        margin-bottom: .25em;
       }
       gr-file-list {
         padding: 0 var(--default-horizontal-margin) 10px;
+      }
+      @media screen and (max-width: 55em) {
+        .changeInfo {
+          flex-direction: column;
+        }
+        .description {
+          max-width: none;
+        }
       }
     </style>
     <gr-ajax id="detailXHR"
@@ -180,76 +193,79 @@ limitations under the License.
         </div>
       </div>
       <section class="changeInfo">
-        <table>
-          <tr>
-            <td class="changeInfo-label">Owner</td>
-            <td>
-              <gr-account-link account="[[_change.owner]]"
-                  show-email></gr-account-link>
-            </td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Reviewers</td>
-            <td>
-              <gr-reviewer-list
-                  change="[[_change]]"
-                  mutable="[[_loggedIn]]"
-                  suggest-from="[[serverConfig.suggest.from]]"></gr-reviewer-list>
-            </td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Project</td>
-            <td>[[_change.project]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Branch</td>
-            <td>[[_change.branch]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Topic</td>
-            <td>[[_change.topic]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Strategy</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Updated</td>
-            <td>
-              <gr-date-formatter
-                  date-str="[[_change.updated]]"></gr-date-formatter>
-            </td>
-          </tr>
-          <template is="dom-repeat"
-              items="[[_computeLabelNames(_change.labels)]]" as="labelName">
+        <div class="changeMetadata">
+          <table>
             <tr>
-              <td class="changeInfo-label">[[labelName]]</td>
+              <td class="changeMetadata-label">Owner</td>
               <td>
-                <template is="dom-repeat"
-                    items="[[_computeLabelValues(labelName, _change.labels)]]"
-                    as="label">
-                  <div class="labelValue">
-                    <span class$="[[label.className]]">
-                      <span>[[label.value]]</span>
-                      <gr-account-link account="[[label.account]]"
-                          show-email></gr-account-link>
-                    </span>
-                  </div>
-                </template>
+                <gr-account-link account="[[_change.owner]]"
+                    show-email></gr-account-link>
               </td>
             </tr>
-          </template>
-        </table>
-        <gr-change-actions id="actions"
-            actions="[[_change.actions]]"
-            change-num="[[_changeNum]]"
-            patch-num="[[_patchNum]]"
-            on-reload-change="_reload"></gr-change-actions>
-      </section>
-      <section class="summary">
-        <gr-linked-text pre
-            content="[[_commitInfo.message]]"
-            config="[[_projectConfig.commentlinks]]"></gr-linked-text>
+            <tr>
+              <td class="changeMetadata-label">Reviewers</td>
+              <td>
+                <gr-reviewer-list
+                    change="[[_change]]"
+                    mutable="[[_loggedIn]]"
+                    suggest-from="[[serverConfig.suggest.from]]"></gr-reviewer-list>
+              </td>
+            </tr>
+            <tr>
+              <td class="changeMetadata-label">Project</td>
+              <td>[[_change.project]]</td>
+            </tr>
+            <tr>
+              <td class="changeMetadata-label">Branch</td>
+              <td>[[_change.branch]]</td>
+            </tr>
+            <tr>
+              <td class="changeMetadata-label">Topic</td>
+              <td>[[_change.topic]]</td>
+            </tr>
+            <tr>
+              <td class="changeMetadata-label">Strategy</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="changeMetadata-label">Updated</td>
+              <td>
+                <gr-date-formatter
+                    date-str="[[_change.updated]]"></gr-date-formatter>
+              </td>
+            </tr>
+            <template is="dom-repeat"
+                items="[[_computeLabelNames(_change.labels)]]" as="labelName">
+              <tr>
+                <td class="changeMetadata-label">[[labelName]]</td>
+                <td>
+                  <template is="dom-repeat"
+                      items="[[_computeLabelValues(labelName, _change.labels)]]"
+                      as="label">
+                    <div class="labelValue">
+                      <span class$="[[label.className]]">
+                        <span>[[label.value]]</span>
+                        <gr-account-link account="[[label.account]]"
+                            show-email></gr-account-link>
+                      </span>
+                    </div>
+                  </template>
+                </td>
+              </tr>
+            </template>
+          </table>
+          <gr-change-actions id="actions"
+              actions="[[_change.actions]]"
+              change-num="[[_changeNum]]"
+              patch-num="[[_patchNum]]"
+              on-reload-change="_reload"></gr-change-actions>
+        </div>
+        <div class="description">
+          <h4>Description</h4>
+          <gr-linked-text pre
+              content="[[_commitInfo.message]]"
+              config="[[_projectConfig.commentlinks]]"></gr-linked-text>
+        </div>
       </section>
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"

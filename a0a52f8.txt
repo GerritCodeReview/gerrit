@@ -1,0 +1,10 @@
+tree   34141d762f0e81695f8cd5e65a04db773fbbe664
+commit a0a52f869a9a8298fd6647d10a8258727670f74e 0502b8a9861b735302a0965f0700f7025841af2e
+Author:     Andrew Bonventre <andybons@chromium.org>
+AuthorDate: Sun Feb 7 14:01:27 2016 -0800
+Commit:     Andrew Bonventre <andybons@chromium.org>
+CommitDate: Tue Feb 9 13:44:24 2016 -0500
+
+    Show change description to the right of metadata
+    
+    Change-Id: I65598374248891784249266ee09aadb778cf2e10

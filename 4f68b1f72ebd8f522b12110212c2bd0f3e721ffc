@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "91410cda_9fabb346",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2305,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-07T09:04:53Z",
+      "side": 1,
+      "message": "Here the labels were synced to the backend.",
+      "range": {
+        "startLine": 2304,
+        "startChar": 0,
+        "endLine": 2305,
+        "endChar": 34
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_e4247af2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 13
@@ -72,6 +95,30 @@
       "side": 1,
       "message": "I\u0027m not sure what you mean.  This is comparing a label\u0027s current vote with an updated vote.  if the vote has been updated (or new vote) then the put is done on next line.",
       "parentUuid": "31fdc0c1_64508a5b",
+      "range": {
+        "startLine": 2419,
+        "startChar": 10,
+        "endLine": 2419,
+        "endChar": 48
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_84b026b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-07T09:04:53Z",
+      "side": 1,
+      "message": "I was confused because of the wrong name of the outcome of:\n\n  current \u003d scanLabels(db, approvals);\n\nThat\u0027s because these are not current labels, but the snapshot of the labels for the current user, before (!) the new patch set was created. You can see that priorPatchSet is passed in to ApprovalsUtil#byPatchSetUser method:\n\n      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(\n        db, changeCtl, priorPatchSet, user.getAccountId())) {\n          if (a.isSubmit()) {\n            continue;\n          }\n\nSo because the variable was named wrong, this statement doesn\u0027t make any sense:\n\n   if (current.get(inputLabel).getValue() !\u003d entry.getValue()) {\n\nBecause when you would read *really* labels, then they would be equal to the labels contained in approvals map. Why? Because this map was written on the line 2305.\n\nSo may be name the var prevLabels:\n\n  prevLabels \u003d scanLabels(db, approvals);",
+      "parentUuid": "117b5c38_8b45ada0",
       "range": {
         "startLine": 2419,
         "startChar": 10,

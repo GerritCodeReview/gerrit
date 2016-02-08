@@ -16,6 +16,24 @@
       "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_e4459a51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T08:10:41Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t it be better to just fix it now?\n\nSure, I just think it\u0027s not that easy...\n\n \u003e I.e. by getting the server identity injected with \n \u003e @GerritPersonIdent and using that to set the author on \n \u003e the message?\n\nYes, on Git level this is what we want. When there is a change message from Gerrit server we want to use @GerritPersonIdent as author for the commit on the notes branch.\n\n \u003e Or am I missing something and it\u0027s more complicated that \n \u003e that?\n\nThe problem is that all the framework around notedb requires a user/account for making updates to the notes branch. E.g. to create a ChangeUpdate instance we need a ChangeControl instance, which we can only create for a user/account. There is no user/account representation of Gerrit server yet.\n\nMore difficult than fixing it here in ChangeRebuilder would be to fix it in the rest of the code base. The problem is that we would need to have separate commits in the notes branch for updates from the user and updates from Gerrit (because the commits get different authors), but at the moment the code is intermixed: make some updates on behalf of the user, add a message on behalf of Gerrit, make some more updates on behalf of the user, etc. [1]. BatchUpdate the collects all the user updates and makes one commit out of them would need to be able to collect in addition updates on behalf of the Gerrit server and make a separate commit for them.\n\nBut maybe it\u0027s also me missing some easier solution.\n\n[1] https://gerrit-review.googlesource.com/74347",
+      "parentUuid": "11b19c0d_9b752bd2",
+      "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

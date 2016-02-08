@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "11b19c0d_1beb5b9b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:21:06Z",
+      "side": 1,
+      "message": "Add assertions on the expected message too.",
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_1f1d634f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
         "patchSetId": 10
@@ -18,6 +35,53 @@
         "startChar": 14,
         "endLine": 149,
         "endChar": 44
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c1686d_baf23188",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:21:06Z",
+      "side": 1,
+      "message": "As it is now, it\u0027s consistent with the existing way it works (see line 177-178).",
+      "parentUuid": "91410cda_1f1d634f",
+      "range": {
+        "startLine": 149,
+        "startChar": 14,
+        "endLine": 149,
+        "endChar": 44
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b19c0d_3bee17ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:21:06Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 65
       },
       "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

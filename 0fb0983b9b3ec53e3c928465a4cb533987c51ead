@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454667585 +0100\nnonce AO+Zq7jHTT35cMGbPX1kKWVk06U1Ca/B2bqzMGL8/Iu0SZyAyZvh7++XvJQ81KYTGMKCTXh9nQaH\n\n0000000000000000000000000000000000000000 02417753a93b5613317c92c2aa02ab7566a8766d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWtHdBAAoJEFG1/Zeg0O9RcB4H/iBbEAaNMRsIC61BPzKQG0uW\ngUyAUj4vdyx48W6olwdAfCYoQFarHS84nFfFcDyGu3IkEP09KgrP9V/m6cHrfTSY\nCIEdvQMU7mAtsRe24pCQ+dCOj9TlEW37V53NssO6woP+5LXu+FmVdohqHnM9KpB/\nVNkSCPl4nzalod3scm63lVDvWlWhKau96xDCtg6UZCgV22bUWBparlenVX3nu+P6\nqpM7hpxboHz3Kk6nxPdHTcjbvMpFlLZIMiWchjcqGrYAEAOUdpU3Q+Z0pkjHgSHv\nV9dBJ3vTTtoIoJ22hDFqgYmoUeXAlIyH/Pukz3J9ScF/qLltyPfsfRX+U6DYKO0\u003d\n\u003dB38B\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1c1686d_9a752dd2",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T07:23:55Z",
+      "side": 1,
+      "message": "This causes a \"hiding a field\" warning for the field of the same name in AbstractSubmit which derives from this.",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 45
+      },
+      "revId": "0fb0983b9b3ec53e3c928465a4cb533987c51ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

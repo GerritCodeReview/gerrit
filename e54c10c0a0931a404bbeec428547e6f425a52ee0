@@ -22,6 +22,30 @@
       "revId": "e54c10c0a0931a404bbeec428547e6f425a52ee0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b19c0d_dbd4d3e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T09:13:14Z",
+      "side": 1,
+      "message": "Good point.  Done.",
+      "parentUuid": "31fdc0c1_4437ced6",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 36
+      },
+      "revId": "e54c10c0a0931a404bbeec428547e6f425a52ee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

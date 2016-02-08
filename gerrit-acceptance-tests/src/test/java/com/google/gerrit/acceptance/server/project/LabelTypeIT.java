@@ -134,6 +134,40 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void copyAllScoresIfNoCodeChangeAppliesToNoChange() throws Exception {
+    codeReview.setCopyAllScoresIfNoCodeChange(true);
+    codeReview.setCopyAllScoresIfNoChange(false);
+    saveLabelConfig();
+
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    rebase(patchSet);
+    assertApproval(patchSet, 1);
+  }
+
+  @Test
+  public void copyAllScoresOnTrivialRebaseAppliesToNoChange() throws Exception {
+    codeReview.setCopyAllScoresOnTrivialRebase(true);
+    codeReview.setCopyAllScoresIfNoChange(false);
+    saveLabelConfig();
+
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    rebase(patchSet);
+    assertApproval(patchSet, 1);
+  }
+
+  @Test
+  public void copyAllScoresOnMergeFirstParentUpdateAppliesToNoChange()
+      throws Exception {
+    codeReview.setCopyAllScoresOnMergeFirstParentUpdate(true);
+    codeReview.setCopyAllScoresIfNoChange(false);
+    saveLabelConfig();
+
+    PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
+    rebase(patchSet);
+    assertApproval(patchSet, 1);
+  }
+
+  @Test
   public void copyAllScoresIfNoChange() throws Exception {
     PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
     rebase(patchSet);

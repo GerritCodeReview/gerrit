@@ -256,10 +256,11 @@ applies if the patch set is a merge commit.
 
 If true, all scores for the label are copied forward when a new
 patch set is uploaded that is a new merge commit which only
-differs from the previous patch set in its first parent. The
-first parent would be the parent of the merge commit that is part
-of the change's target branch, whereas the other parent(s) refer to
-the feature branch(es) to be merged.
+differs from the previous patch set in its first parent, or has
+identical parents. The first parent would be the parent of the merge
+commit that is part of the change's target branch, whereas the other
+parent(s) refer to the feature branch(es) to be merged.
+
 Defaults to false.
 
 [[label_copyAllScoresOnTrivialRebase]]
@@ -269,10 +270,13 @@ If true, all scores for the label are copied forward when a new patch
 set is uploaded that is a trivial rebase. A new patch set is considered
 as trivial rebase if the commit message is the same as in the previous
 patch set and if it has the same code delta as the previous patch set.
-This is the case if the change was rebased onto a different parent.
+This is the case if the change was rebased onto a different parent, or
+if the parent did not change at all.
+
 This can be used to enable sticky approvals, reducing turn-around for
 trivial rebases prior to submitting a change.
 For the pre-installed Code-Review label this is enabled by default.
+
 Defaults to false.
 
 [[label_copyAllScoresIfNoCodeChange]]
@@ -286,6 +290,7 @@ approvals on labels that only depend on the code, reducing turn-around
 if only the commit message is changed prior to submitting a change.
 For the Verified label that is installed by the link:pgm-init.html[init]
 site program this is enabled by default.
+
 Defaults to false.
 
 [[label_copyAllScoresIfNoChange]]
@@ -297,7 +302,9 @@ message as the previous patch set. This means that only the patch
 set SHA1 is different. This can be used to enable sticky
 approvals, reducing turn-around for this special case.
 It is recommended to leave this enabled for both Verified and
-Code-Review labels. Defaults to true.
+Code-Review labels.
+
+Defaults to true.
 
 [[label_canOverride]]
 === `label.Label-Name.canOverride`

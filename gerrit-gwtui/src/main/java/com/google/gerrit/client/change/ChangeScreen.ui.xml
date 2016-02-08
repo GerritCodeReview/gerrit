@@ -350,6 +350,10 @@ limitations under the License.
     .pushCertStatus {
       padding-left: 5px;
     }
+
+    .notCurrentPatchSet {
+      background-color: #FFA62F;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>

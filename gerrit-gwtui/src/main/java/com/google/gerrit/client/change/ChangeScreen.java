@@ -126,6 +126,7 @@ public class ChangeScreen extends Screen {
     String pushCertStatus();
     String replyBox();
     String selected();
+    String notCurrentPatchSet();
   }
 
   static ChangeScreen get(NativeEvent in) {
@@ -420,6 +421,14 @@ public class ChangeScreen extends Screen {
     }
   }
 
+  private void updatePatchSetsTextStyle(boolean isPatchSetCurrent) {
+    if (isPatchSetCurrent) {
+      patchSetsText.removeClassName(style.notCurrentPatchSet());
+    } else {
+      patchSetsText.addClassName(style.notCurrentPatchSet());
+    }
+  }
+
   private void initRevisionsAction(ChangeInfo info, String revision,
       NativeMap<ActionInfo> actions) {
     int currentPatchSet;
@@ -433,16 +442,22 @@ public class ChangeScreen extends Screen {
     }
 
     String currentlyViewedPatchSet;
-    if (info.revision(revision).id().equals("edit")) {
+    boolean isPatchSetCurrent = true;
+    String revisionId = info.revision(revision).id();
+    if (revisionId.equals("edit")) {
       currentlyViewedPatchSet =
           Resources.M.editPatchSet(RevisionInfo.findEditParent(info.revisions()
               .values()));
       currentPatchSet = info.revisions().values().length() - 1;
     } else {
-      currentlyViewedPatchSet = info.revision(revision).id();
+      currentlyViewedPatchSet = revisionId;
+      if (!currentlyViewedPatchSet.equals(Integer.toString(currentPatchSet))) {
+        isPatchSetCurrent = false;
+      }
     }
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
+    updatePatchSetsTextStyle(isPatchSetCurrent);
     patchSetsAction = new PatchSetsAction(
         info.legacyId(), revision, edit,
         style, headerLine, patchSets);

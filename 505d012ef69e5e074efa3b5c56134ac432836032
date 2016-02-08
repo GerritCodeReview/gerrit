@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d937019_1da173bf",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T19:17:52Z",
+      "side": 1,
+      "message": "The O(1) way to do this is change.revisions[change.current_revision]",
+      "revId": "505d012ef69e5e074efa3b5c56134ac432836032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d937019_7d9c3788",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T19:17:52Z",
+      "side": 1,
+      "message": "You can\u0027t count on http being there. Some sites allow e.g. only ssh access.",
+      "range": {
+        "startLine": 100,
+        "startChar": 53,
+        "endLine": 100,
+        "endChar": 57
+      },
+      "revId": "505d012ef69e5e074efa3b5c56134ac432836032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fda13c5f_7c9c3988",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T19:17:52Z",
+      "side": 1,
+      "message": "change.revisions[change.current_revision]",
+      "range": {
+        "startLine": 130,
+        "startChar": 14,
+        "endLine": 130,
+        "endChar": 43
+      },
+      "revId": "505d012ef69e5e074efa3b5c56134ac432836032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

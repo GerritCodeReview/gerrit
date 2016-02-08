@@ -34,6 +34,8 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -83,16 +85,22 @@ public class InternalChangeQuery {
   private final QueryProcessor qp;
   private final IndexCollection indexes;
   private final ChangeData.Factory changeDataFactory;
+  private final NotesMigration notesMigration;
+  private final ChangeNotes.Factory notesFactory;
 
   @Inject
   InternalChangeQuery(IndexConfig indexConfig,
       QueryProcessor queryProcessor,
       IndexCollection indexes,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      NotesMigration notesMigration,
+      ChangeNotes.Factory notesFactory) {
     this.indexConfig = indexConfig;
     qp = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
     this.changeDataFactory = changeDataFactory;
+    this.notesMigration = notesMigration;
+    this.notesFactory = notesFactory;
   }
 
   public InternalChangeQuery setLimit(int n) {
@@ -184,6 +192,18 @@ public class InternalChangeQuery {
     }
 
     List<ChangeData> cds = new ArrayList<>(hashes.size());
+    if (notesMigration.enabled()) {
+      for (Change.Id cid : changeIds) {
+        Change c =
+            notesFactory.create(db, branch.getParentKey(), cid).getChange();
+        if (c != null && c.getDest().equals(branch)
+            && c.getStatus() != Change.Status.MERGED) {
+          cds.add(changeDataFactory.create(db, c));
+        }
+      }
+      return cds;
+    }
+
     for (Change c : db.changes().get(changeIds)) {
       if (c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED) {
         cds.add(changeDataFactory.create(db, c));

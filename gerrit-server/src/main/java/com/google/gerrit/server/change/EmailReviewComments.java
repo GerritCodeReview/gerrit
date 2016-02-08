@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.mail.CommentSender;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
@@ -62,6 +62,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final CommentSender.Factory commentSenderFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private final NotifyHandling notify;
   private final Change change;
@@ -78,6 +79,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       CommentSender.Factory commentSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
       @Assisted NotifyHandling notify,
       @Assisted Change change,
       @Assisted PatchSet patchSet,
@@ -89,6 +91,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.commentSenderFactory = commentSenderFactory;
     this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.notify = notify;
     this.change = change;
     this.patchSet = patchSet;
@@ -153,7 +156,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   @Override
   public CurrentUser getCurrentUser() {
-    throw new OutOfScopeException("No user on email thread");
+    return identifiedUserFactory.create(authorId).getRealUser();
   }
 
   @Override

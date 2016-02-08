@@ -92,11 +92,8 @@ public class ChangeControl {
 
     public ChangeControl validateFor(Change.Id changeId, CurrentUser user)
         throws NoSuchChangeException, OrmException {
-      List<ChangeControl> ctls = changeFinder.find(changeId, user);
-      if (ctls.size() != 1) {
-        throw new NoSuchChangeException(changeId);
-      }
-      return validateFor(ctls.get(0).getChange(), user);
+      ChangeControl ctl = changeFinder.findOne(changeId, user);
+      return validateFor(ctl.getChange(), user);
     }
 
     public ChangeControl validateFor(Change change, CurrentUser user)

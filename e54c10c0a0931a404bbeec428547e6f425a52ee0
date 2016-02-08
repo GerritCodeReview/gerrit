@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31fdc0c1_4437ced6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-08T08:46:53Z",
+      "side": 1,
+      "message": "Can\u0027t IdentifiedUser be passed in instead of Account.Id? The caller has the user instance already:\n\n  email.create(\n            in.notify,\n            change,\n            ps,\n            user.getAccountId(),\n            message,\n            comments).sendAsync();\n\nand degrade it to Account.Id. So that it can could be passed:\n\n  email.create(\n            in.notify,\n            change,\n            ps,\n            user,\n            message,\n            comments).sendAsync();\n\nAnd stored here locally and just be returned in getCurrentUser() method below. This would save the user lookups in the backends.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 36
+      },
+      "revId": "e54c10c0a0931a404bbeec428547e6f425a52ee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -244,7 +244,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ReviewDb db = dbProvider.get();
       for (PatchSet.Id psId : cs.patchIds()) {
         ChangeControl changeControl = changeControlFactory
-            .controlFor(project, psId.getParentKey(), identifiedUser);
+            .controlFor(db, project, psId.getParentKey(), identifiedUser);
         ChangeData c = changeDataFactory.create(db, changeControl);
 
         if (!changeControl.isVisible(db)) {

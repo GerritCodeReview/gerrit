@@ -1824,7 +1824,7 @@ public class ReceiveCommits {
       change = ins.getChange();
 
       if (magicBranch != null && magicBranch.submit) {
-        submit(projectControl.controlFor(change), ins.getPatchSet());
+        submit(projectControl.controlFor(state.db, change), ins.getPatchSet());
       }
     }
   }
@@ -2018,7 +2018,7 @@ public class ReceiveCommits {
         return false;
       }
 
-      changeCtl = projectControl.controlFor(change);
+      changeCtl = projectControl.controlFor(db, change);
       if (!changeCtl.canAddPatchSet(db)) {
         String locked = ".";
         if (changeCtl.isPatchSetLocked(db)) {
@@ -2725,7 +2725,7 @@ public class ReceiveCommits {
 
     Change change =
         notesFactory.create(db, project.getNameKey(), cid).getChange();
-    ChangeControl ctl = projectControl.controlFor(change);
+    ChangeControl ctl = projectControl.controlFor(db, change);
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psi);
     if (change == null || ps == null) {
       log.warn(project.getName() + " " + psi + " is missing");

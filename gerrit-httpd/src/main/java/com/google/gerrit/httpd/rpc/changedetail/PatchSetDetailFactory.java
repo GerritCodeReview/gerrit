@@ -129,7 +129,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     Optional<ChangeEdit> edit = null;
     ChangeNotes notes;
     if (control == null || patchSet == null) {
-      control = changeControlFactory.validateFor(psIdNew.getParentKey(),
+      control = changeControlFactory.validateFor(db, psIdNew.getParentKey(),
           userProvider.get());
       notes = control.getNotes();
       if (psIdNew.get() == 0) {

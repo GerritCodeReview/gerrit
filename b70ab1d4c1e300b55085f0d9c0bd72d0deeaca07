@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fda13c5f_5c97fd64",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T19:17:52Z",
+      "side": 1,
+      "message": "Hm, is there a more readable/scalable way to arrange z-indexes? Maybe some crazy use of variables and calculations?",
+      "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_5f252b87",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 2
@@ -73,6 +90,24 @@
       "side": 1,
       "message": "Eh, so i measured the time spent to calculate the fetch commands. The commands are supplied by the download-plugin and can be extended. I\u0027m not aware of any custom implementation of this plugin. So i used the default one. The time spent to calculate the commands on my test site is about 1-2 milliseconds. So we clearly don\u0027t care. And ca. 1K additional (and possibly unused) data to transport: [1] too.\n\n* [1] http://paste.openstack.org/show/486317",
       "parentUuid": "1d2530a9_cdcec97a",
+      "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d937019_5d97fb64",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T19:17:52Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not aware of any custom implementation of this plugin.\n\nWe actually have a couple, for our custom download schemes. But they just do trivial checks against our custom group backends, so they\u0027re fast. I think anybody who implements something super slow here is doing it wrong :)",
+      "parentUuid": "91410cda_7f5a6fd3",
       "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -201,9 +201,24 @@ public class GitUtil {
 
   public static PushResult pushHead(Git git, String ref, boolean pushTags,
       boolean force) throws GitAPIException {
+    return push(git, "HEAD:" + ref, pushTags, force);
+  }
+
+  public static PushResult push(Git git, String refSpec)
+      throws GitAPIException {
+    return push(git, refSpec, false, false);
+  }
+
+  public static PushResult forcePush(Git git, String refSpec)
+      throws GitAPIException {
+    return push(git, refSpec, false, true);
+  }
+
+  public static PushResult push(Git git, String refSpec, boolean pushTags,
+      boolean force) throws GitAPIException {
     PushCommand pushCmd = git.push();
     pushCmd.setForce(force);
-    pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
+    pushCmd.setRefSpecs(new RefSpec(refSpec));
     if (pushTags) {
       pushCmd.setPushTags();
     }

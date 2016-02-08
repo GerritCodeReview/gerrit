@@ -22,9 +22,11 @@ limitations under the License.
 <link rel="import" href="gr-change-actions.html">
 <link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
+<link rel="import" href="gr-download-dialog.html">
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-messages-list.html">
+<link rel="import" href="gr-overlay.html">
 <link rel="import" href="gr-reply-dropdown.html">
 <link rel="import" href="gr-reviewer-list.html">
 
@@ -48,7 +50,7 @@ limitations under the License.
         background-color: var(--view-background-color);
         display: flex;
         padding: 1em var(--default-horizontal-margin);
-        z-index: 1000;
+        z-index: 99;  /* Less than gr-overlay's backdrop */
       }
       .header.pinned {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -69,6 +71,7 @@ limitations under the License.
         margin-right: .25em;
         vertical-align: -.425em;
       }
+      .download,
       .patchSelectLabel {
         margin-left: var(--default-horizontal-margin);
       }
@@ -172,6 +175,14 @@ limitations under the License.
             <span>[[_change.subject]]</span>
             <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>
           </span>
+          <gr-reply-dropdown id="replyDropdown"
+              change-num="[[_changeNum]]"
+              patch-num="[[_patchNum]]"
+              labels="[[_change.labels]]"
+              permitted-labels="[[_change.permitted_labels]]"
+              on-send="_handleReplySent"
+              hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
+          <a class="download" href="#" on-tap="_handleDownloadTap">Download</a>
           <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
           <select id="patchSetSelect" on-change="_handlePatchChange">
             <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
@@ -182,13 +193,6 @@ limitations under the License.
               </option>
             </template>
           </select>
-          <gr-reply-dropdown id="replyDropdown"
-              change-num="[[_changeNum]]"
-              patch-num="[[_patchNum]]"
-              labels="[[_change.labels]]"
-              permitted-labels="[[_change.permitted_labels]]"
-              on-send="_handleReplySent"
-              hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
         </div>
       </div>
       <section class="changeInfo">
@@ -279,6 +283,12 @@ limitations under the License.
           show-reply-buttons="[[_loggedIn]]"
           on-reply="_handleMessageReply"></gr-messages-list>
     </div>
+    <gr-overlay id="downloadOverlay" with-backdrop>
+      <gr-download-dialog
+          change="[[_change]]"
+          patch-num="[[_patchNum]]"
+          on-close="_handleDownloadDialogClose"></gr-download-dialog>
+    </gr-overlay>
   </template>
   <script>
   (function() {
@@ -392,6 +402,15 @@ limitations under the License.
         page.show(this._computeChangePath(this._changeNum) + '/' + patchNum);
       },
 
+      _handleDownloadTap: function(e) {
+        e.preventDefault();
+        this.$.downloadOverlay.open();
+      },
+
+      _handleDownloadDialogClose: function(e) {
+        this.$.downloadOverlay.close();
+      },
+
       _handleMessageReply: function(e) {
         var msg = e.detail.message.message;
         var quoteStr = msg.split('\n').map(
@@ -480,7 +499,8 @@ limitations under the License.
       _computeDetailQueryParams: function() {
         var options = this.listChangesOptionsToHex(
             this.ListChangesOption.ALL_REVISIONS,
-            this.ListChangesOption.CHANGE_ACTIONS
+            this.ListChangesOption.CHANGE_ACTIONS,
+            this.ListChangesOption.DOWNLOAD_COMMANDS
         );
         return { O: options };
       },

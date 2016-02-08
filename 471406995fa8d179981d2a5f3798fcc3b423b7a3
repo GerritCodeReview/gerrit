@@ -34,6 +34,24 @@
       "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_a4e7a262",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T16:21:20Z",
+      "side": 0,
+      "message": "Right, we don\u0027t have any tests that check email notifications. I guess we would need some test email server for this if we want to include this into our acceptance tests. Not sure how easy/difficult it is to find one, but it would be great to get tests for this.",
+      "parentUuid": "91410cda_1faa43ef",
+      "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

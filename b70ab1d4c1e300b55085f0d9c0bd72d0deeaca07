@@ -22,6 +22,24 @@
       "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2530a9_0dbdf1dd",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-08T17:18:01Z",
+      "side": 1,
+      "message": "No this was a conscious choice. It simplifies the implementation and unless there is _significant_ overhead involved in calculating the fetch commands I’m going to leave it as is.",
+      "parentUuid": "91410cda_5f252b87",
+      "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

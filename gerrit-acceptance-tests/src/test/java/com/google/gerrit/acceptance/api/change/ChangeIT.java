@@ -251,6 +251,27 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void publish() throws Exception {
+    PushOneCommit.Result r = createChange("refs/drafts/master");
+    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
+    gApi.changes()
+      .id(r.getChangeId())
+      .publish();
+    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void delete() throws Exception {
+    PushOneCommit.Result r = createChange("refs/drafts/master");
+    assertThat(query(r.getChangeId())).hasSize(1);
+    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
+    gApi.changes()
+      .id(r.getChangeId())
+      .delete();
+    assertThat(query(r.getChangeId())).isEmpty();
+  }
+
+  @Test
   public void voteOnBehalfOf() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     LabelType codeReviewType = Util.codeReview();

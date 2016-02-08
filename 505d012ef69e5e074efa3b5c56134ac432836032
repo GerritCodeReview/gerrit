@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1d937019_9dcb4369",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T19:34:01Z",
+      "side": 1,
+      "message": "No, I\u0027m wrong here. You could do this if you built up a side map of revision number -\u003e sha1 key, but that\u0027s premature optimization.",
+      "parentUuid": "1d937019_5dbe1bdf",
+      "revId": "505d012ef69e5e074efa3b5c56134ac432836032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d937019_7d9c3788",
         "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
         "patchSetId": 5

@@ -14,13 +14,18 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeFinder;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -39,16 +44,22 @@ public class PatchSetParser {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
   private final PatchSetUtil psUtil;
+  private final ChangeFinder changeFinder;
+  private final Provider<CurrentUser> self;
 
   @Inject
   PatchSetParser(Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      ChangeFinder changeFinder,
+      Provider<CurrentUser> self) {
     this.db = db;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.psUtil = psUtil;
+    this.changeFinder = changeFinder;
+    this.self = self;
   }
 
   public PatchSet parsePatchSet(String token, ProjectControl projectControl,
@@ -100,7 +111,7 @@ public class PatchSetParser {
       } catch (IllegalArgumentException e) {
         throw error("\"" + token + "\" is not a valid patch set");
       }
-      ChangeNotes notes = getNotes(patchSetId.getParentKey());
+      ChangeNotes notes = getNotes(projectControl, patchSetId.getParentKey());
       PatchSet patchSet = psUtil.get(db.get(), notes, patchSetId);
       if (patchSet == null) {
         throw error("\"" + token + "\" no such patch set");
@@ -121,13 +132,20 @@ public class PatchSetParser {
     throw error("\"" + token + "\" is not a valid patch set");
   }
 
-  private ChangeNotes getNotes(Change.Id changeId)
-      throws OrmException, UnloggedFailure {
-    Change c = db.get().changes().get(changeId);
-    if (c == null) {
-      throw error("\"" + changeId + "\" no such change");
+  private ChangeNotes getNotes(@Nullable ProjectControl projectControl,
+      Change.Id changeId) throws OrmException, UnloggedFailure {
+    if (projectControl != null) {
+      return notesFactory.create(db.get(), projectControl.getProject().getNameKey(),
+          changeId);
+    } else {
+      try {
+        ChangeControl ctl = changeFinder.findOne(changeId, self.get());
+        return notesFactory.create(db.get(), ctl.getProject().getNameKey(),
+            changeId);
+      } catch (NoSuchChangeException e) {
+        throw error("\"" + changeId + "\" no such change");
+      }
     }
-    return notesFactory.create(db.get(), c.getProject(), changeId);
   }
 
   private static boolean inProject(Change change,

@@ -276,18 +276,8 @@ public class RefControl {
       } else if (!canPerform(Permission.CREATE)) {
         // No create permissions.
         return false;
-      } else if (canUpdate()) {
-        // If the user has push permissions, they can create the ref regardless
-        // of whether they are pushing any new objects along with the create.
-        return true;
-      } else if (isMergedIntoBranchOrTag(db, repo, (RevCommit) object)) {
-        // If the user has no push permissions, check whether the object is
-        // merged into a branch or tag readable by this user. If so, they are
-        // not effectively "pushing" more objects, so they can create the ref
-        // even if they don't have push permission.
-        return true;
       }
-      return false;
+      return canCreateCommit(db, repo, (RevCommit) object, admin, owner);
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -312,16 +302,47 @@ public class RefControl {
         }
       }
 
+      RevObject tagObject = tag.getObject();
+      if (tagObject instanceof RevCommit) {
+        if (!canCreateCommit(db, repo, (RevCommit) tagObject, admin, owner)) {
+          return false;
+        }
+      } else {
+        if (!canCreate(db, repo, tagObject)) {
+          return false;
+        }
+      }
+
       // If the tag has a PGP signature, allow a lower level of permission
       // than if it doesn't have a PGP signature.
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
         return owner || canPerform(Permission.PUSH_SIGNED_TAG);
       }
+
       return owner || canPerform(Permission.PUSH_TAG);
     } else {
       return false;
     }
+  }
+
+  private boolean canCreateCommit(ReviewDb db, Repository repo,
+      RevCommit commit, boolean admin, boolean owner) {
+    if (admin || (owner && !isBlocked(Permission.CREATE))) {
+      // Admin or project owner; bypass visibility check.
+      return true;
+    } else if (canUpdate()) {
+      // If the user has push permissions, they can create the ref regardless
+      // of whether they are pushing any new objects along with the create.
+      return true;
+    } else if (isMergedIntoBranchOrTag(db, repo, commit)) {
+      // If the user has no push permissions, check whether the object is
+      // merged into a branch or tag readable by this user. If so, they are
+      // not effectively "pushing" more objects, so they can create the ref
+      // even if they don't have push permission.
+      return true;
+    }
+    return false;
   }
 
   private boolean isMergedIntoBranchOrTag(ReviewDb db, Repository repo,

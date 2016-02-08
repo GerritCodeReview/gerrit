@@ -77,6 +77,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPushWithAnnotatedTag() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.AnnotatedTag tag =
         new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);

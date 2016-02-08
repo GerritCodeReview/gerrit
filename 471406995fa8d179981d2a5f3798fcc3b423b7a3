@@ -52,6 +52,24 @@
       "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2530a9_cdd5a900",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T18:35:33Z",
+      "side": 0,
+      "message": "Correction, we have one test (ProjectWatchIT), but it\u0027s flaky.",
+      "parentUuid": "31fdc0c1_a4e7a262",
+      "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

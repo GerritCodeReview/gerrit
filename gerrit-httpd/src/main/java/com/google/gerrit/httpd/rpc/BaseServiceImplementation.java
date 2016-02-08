@@ -48,6 +48,10 @@ public class BaseServiceImplementation {
     return currentUser.get();
   }
 
+  protected ReviewDb getDb() {
+    return schema.get();
+  }
+
   /**
    * Executes {@code action.run} with an active ReviewDb connection.
    * <p>

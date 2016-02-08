@@ -122,7 +122,7 @@ public class CatServlet extends HttpServlet {
     String revision;
     try {
       final ReviewDb db = requestDb.get();
-      final ChangeControl control = changeControl.validateFor(changeId,
+      final ChangeControl control = changeControl.validateFor(db, changeId,
           userProvider.get());
       if (patchKey.getParentKey().get() == 0) {
         // change edit

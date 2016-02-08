@@ -29,11 +29,13 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collection;
@@ -72,12 +74,16 @@ public class LabelNormalizer {
     }
   }
 
+  private final Provider<ReviewDb> db;
   private final ChangeControl.GenericFactory changeFactory;
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  LabelNormalizer(ChangeControl.GenericFactory changeFactory,
+  LabelNormalizer(
+      Provider<ReviewDb> db,
+      ChangeControl.GenericFactory changeFactory,
       IdentifiedUser.GenericFactory userFactory) {
+    this.db = db;
     this.changeFactory = changeFactory;
     this.userFactory = userFactory;
   }
@@ -94,9 +100,9 @@ public class LabelNormalizer {
    */
   public Result normalize(Change change, Collection<PatchSetApproval> approvals)
       throws NoSuchChangeException, OrmException {
+    IdentifiedUser user = userFactory.create(change.getOwner());
     return normalize(
-        changeFactory.controlFor(change, userFactory.create(change.getOwner())),
-        approvals);
+        changeFactory.controlFor(db.get(), change, user), approvals);
   }
 
   /**

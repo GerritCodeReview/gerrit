@@ -561,8 +561,8 @@ public class ChangeData {
     if (changeControl == null) {
       Change c = change();
       try {
-        changeControl =
-            changeControlFactory.controlFor(c, userFactory.create(c.getOwner()));
+        changeControl = changeControlFactory.controlFor(
+            db, c, userFactory.create(c.getOwner()));
       } catch (NoSuchChangeException e) {
         throw new OrmException(e);
       }
@@ -577,10 +577,10 @@ public class ChangeData {
     }
     try {
       if (change != null) {
-        changeControl = changeControlFactory.controlFor(change, user);
+        changeControl = changeControlFactory.controlFor(db, change, user);
       } else {
         changeControl =
-            changeControlFactory.controlFor(project, legacyId, user);
+            changeControlFactory.controlFor(db, project, legacyId, user);
       }
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);

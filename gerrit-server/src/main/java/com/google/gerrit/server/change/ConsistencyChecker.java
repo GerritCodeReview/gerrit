@@ -531,7 +531,7 @@ public class ConsistencyChecker {
           });
       ChangeUpdate changeUpdate =
           changeUpdateFactory.create(
-              changeControlFactory.controlFor(change, user.get()));
+              changeControlFactory.controlFor(db.get(), change, user.get()));
       changeUpdate.fixStatus(Change.Status.MERGED);
       changeUpdate.commit();
       indexer.index(db.get(), change);

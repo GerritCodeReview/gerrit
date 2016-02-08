@@ -899,7 +899,7 @@ public class MergeOp implements AutoCloseable {
     db.changes().beginTransaction(change.getId());
 
     //TODO(dborowitz): support InternalUser in ChangeUpdate
-    ChangeControl control = changeControlFactory.controlFor(change,
+    ChangeControl control = changeControlFactory.controlFor(db, change,
         identifiedUserFactory.create(change.getOwner()));
     // TODO(dborowitz): Convert to BatchUpdate.
     ChangeUpdate update = changeUpdateFactory.create(control);

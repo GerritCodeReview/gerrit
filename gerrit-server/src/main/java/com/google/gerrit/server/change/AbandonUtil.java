@@ -15,11 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -42,7 +40,6 @@ public class AbandonUtil {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final QueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final Abandon abandon;
 
   @Inject
@@ -51,13 +48,11 @@ public class AbandonUtil {
       IdentifiedUser.GenericFactory identifiedUserFactory,
       QueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
-      ChangeControl.GenericFactory changeControlFactory,
       Abandon abandon) {
     this.cfg = cfg;
     this.identifiedUserFactory = identifiedUserFactory;
     this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
-    this.changeControlFactory = changeControlFactory;
     this.abandon = abandon;
   }
 
@@ -95,10 +90,8 @@ public class AbandonUtil {
     }
   }
 
-  private ChangeControl changeControl(ChangeData cd)
-      throws NoSuchChangeException, OrmException {
-    Change c = cd.change();
-    return changeControlFactory.controlFor(c,
-        identifiedUserFactory.create(c.getOwner()));
+  private ChangeControl changeControl(ChangeData cd) throws OrmException {
+    return cd.changeControl(
+        identifiedUserFactory.create(cd.change().getOwner()));
   }
 }

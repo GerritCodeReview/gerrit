@@ -2068,30 +2068,21 @@ public class ReceiveCommits {
         final boolean authorEq = authorEqual(newCommit, priorCommit);
         final ObjectReader reader = rp.getRevWalk().getObjectReader();
 
-        if (messageEq && parentsEq && authorEq && !autoClose) {
-          addMessage(String.format(
-              "(W) No changes between prior commit %s and new commit %s",
-              reader.abbreviate(priorCommit).name(),
-              reader.abbreviate(newCommit).name()));
-          reject(inputCommand, "no changes made");
-          return false;
-        } else {
-          StringBuilder msg = new StringBuilder();
-          msg.append("(W) ");
-          msg.append(reader.abbreviate(newCommit).name());
-          msg.append(":");
-          msg.append(" no files changed");
-          if (!authorEq) {
-            msg.append(", author changed");
-          }
-          if (!messageEq) {
-            msg.append(", message updated");
-          }
-          if (!parentsEq) {
-            msg.append(", was rebased");
-          }
-          addMessage(msg.toString());
+        StringBuilder msg = new StringBuilder();
+        msg.append("(W) ");
+        msg.append(reader.abbreviate(newCommit).name());
+        msg.append(":");
+        msg.append(" no files changed");
+        if (!authorEq) {
+          msg.append(", author changed");
         }
+        if (!messageEq) {
+          msg.append(", message updated");
+        }
+        if (!parentsEq) {
+          msg.append(", was rebased");
+        }
+        addMessage(msg.toString());
       }
 
       if (magicBranch != null && magicBranch.edit) {

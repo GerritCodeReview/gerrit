@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "fda13c5f_5c0cdd8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-08T23:24:57Z",
+      "side": 1,
+      "message": "I agree, var names were confusing.  I\u0027ve change to make it more clear. thanks.",
+      "parentUuid": "31fdc0c1_84b026b1",
+      "range": {
+        "startLine": 2419,
+        "startChar": 10,
+        "endLine": 2419,
+        "endChar": 48
+      },
+      "revId": "4f68b1f72ebd8f522b12110212c2bd0f3e721ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_04579651",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 13

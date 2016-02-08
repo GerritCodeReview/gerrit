@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454407879 +0100\nnonce ALmjDBX4XXcB+1/k1XDKh1KavkO/TFKWOkDP6IOKjDyQ74h6zADJjA1qhZZXOL+nWf/CXMO0r8K8\n\n0000000000000000000000000000000000000000 3730c8bbb40dbcab40afbaebf8298ef4b30f0026 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWsIDHAAoJEFG1/Zeg0O9RPAgH/iTfCX9BpN05Gt9UhJDmaYR/\ndXgCkseMMZGBCKlfaXWvw0ilYpzyUbB1UEd4vRRhH8AkNBdGBGf/U+kjE8q/H52U\nhK1nW1zazDkFSAt7SH3fcBHtNuO8FRuy9Z7u4pIkCTzXxubFbROQEOdeZHjNeBdS\npWWqRsbdt53RTFlK7qzZszJDsrWQcw4iXDN5TIDgEhfHiiTNFxmIKQa2UHdZbozO\n0g/HksTDmKmPUwRmYdpJzseuhIoxaCIGejgw58/6LhQPYsYB9awfXyFDbMZewlJw\nEB5Q7BLzF2loDo7Oo0vN+NnFBBq12BWdXnvlHBdvzoyDm3PQeq1lBhnZVlrCU8I\u003d\n\u003dSE0N\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fda13c5f_7ceaf9c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T21:33:55Z",
+      "side": 1,
+      "message": "Here is the error I was talking about elsewhere: you can\u0027t inject ReviewDb when it\u0027s not in request scope.",
+      "revId": "8508d2f4e3aa3e29e160042adf9146656ea2f3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

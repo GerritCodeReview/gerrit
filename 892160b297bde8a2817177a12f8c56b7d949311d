@@ -138,6 +138,23 @@
     },
     {
       "key": {
+        "uuid": "91410cda_1fb56334",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:44:37Z",
+      "side": 1,
+      "message": "Sorry, here I forgot the:\n\n grant(Permission.CREATE, project, \"refs/tags/*\");",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_a46e8294",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 1
@@ -149,6 +166,24 @@
       "writtenOn": "2016-02-08T16:24:52Z",
       "side": 1,
       "message": "Fails in both 2.10 and 2.11. Why?",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_64d2ca85",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:44:37Z",
+      "side": 1,
+      "message": "Actually this works in 2.11 (when the CREATE is added)\n\nIt works in 2.10 but only with \"force --push\".",
+      "parentUuid": "31fdc0c1_a46e8294",
       "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -465,7 +465,10 @@ as well as bypass review for new commits on that branch.
 
 To push lightweight (non-annotated) tags, grant
 `Create Reference` for reference name `+refs/tags/*+`, as lightweight
-tags are implemented just like branches in Git.
+tags are implemented just like branches in Git. To push a lightweight
+tag on a new commit (commit not reachable from any branch/tag) grant
+`Push` permission on the `+refs/tags/*` too. The `Push` permission
+on `+refs/tags/*` allows fast-forwarding of lightweight tags.
 
 For example, to grant the possibility to create new branches under the
 namespace `foo`, you have to grant this permission on
@@ -667,6 +670,14 @@ branches in Git.
 To delete or overwrite an existing tag, grant `Push` with the force
 option enabled for reference name `+refs/tags/*+`, as deleting a tag
 requires the same permission as deleting a branch.
+
+To push an annotated tag on a new commit (commit not reachable from any
+branch/tag) grant `Push` permission on the `+refs/tags/*` too.
+The `Push` permission on `+refs/tags/*` does *not* allow updating of annotated
+tags, not even fast-forwarding of annotated tags. Update of annotated tags
+is only allowed by granting `Push` with `force` option on `+refs/tags/*`.
+NOTE: The 'force' option of the `Push Annotated Tag` permission has the same
+effect as granting `Push` with `force` option.
 
 
 [[category_push_signed]]

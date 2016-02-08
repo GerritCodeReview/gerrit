@@ -40,6 +40,24 @@
       "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2530a9_cdcec97a",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-08T17:26:15Z",
+      "side": 1,
+      "message": "Yeah I\u0027m with Andy, I\u0027m not sure why we decided download commands would be expensive enough to warrant another request in ChangeScreen2.\n\nIf we really want to overthink it then download commands should be a separate endpoint and not populate a whole ChangeInfo just for that.",
+      "parentUuid": "1d2530a9_0dbdf1dd",
+      "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

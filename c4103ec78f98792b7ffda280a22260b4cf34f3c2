@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_7be49fcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T09:55:55Z",
+      "side": 1,
+      "message": "Oops.  It was getGroupNames in the previous patch set, and I suggested changing it to getSystemGroupNames",
+      "parentUuid": "91410cda_3f1aa758",
+      "range": {
+        "startLine": 99,
+        "startChar": 29,
+        "endLine": 99,
+        "endChar": 50
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11b19c0d_fb766fde",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 10

@@ -28,12 +28,15 @@ import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
@@ -137,6 +140,26 @@ public class GitUtil {
     return cloneProject(project, sshSession.getUrl() + "/" + project.get());
   }
 
+  public static Ref createAnnotatedTag(TestRepository<?> testRepo, String name,
+      PersonIdent tagger) throws GitAPIException {
+    TagCommand cmd = testRepo.git().tag()
+        .setName(name)
+        .setAnnotated(true)
+        .setMessage(name)
+        .setTagger(tagger);
+    return cmd.call();
+  }
+
+  public static Ref updateAnnotatedTag(TestRepository<?> testRepo, String name,
+      PersonIdent tagger) throws GitAPIException {
+    TagCommand tc = testRepo.git().tag().setName(name);
+    return tc.setAnnotated(true)
+        .setMessage(name)
+        .setTagger(tagger)
+        .setForceUpdate(true)
+        .call();
+  }
+
   public static void fetch(TestRepository<?> testRepo, String spec)
       throws GitAPIException {
     FetchCommand fetch = testRepo.git().fetch();
@@ -144,10 +167,16 @@ public class GitUtil {
     fetch.call();
   }
 
+  public static PushResult pushHead(TestRepository<?> testRepo, String ref)
+      throws GitAPIException {
+    return pushHead(testRepo, ref, false);
+  }
+
   public static PushResult pushHead(TestRepository<?> testRepo, String ref,
       boolean pushTags) throws GitAPIException {
     return pushHead(testRepo, ref, pushTags, false);
   }
+
 
   public static PushResult pushHead(TestRepository<?> testRepo, String ref,
       boolean pushTags, boolean force) throws GitAPIException {
@@ -157,10 +186,26 @@ public class GitUtil {
   public static PushResult pushHead(TestRepository<?> testRepo, String ref,
       boolean pushTags, boolean force, List<String> pushOptions)
           throws GitAPIException {
+    return pushOne(testRepo, "HEAD", ref, pushTags, force, pushOptions);
+  }
+
+  public static PushResult forcePushHead(TestRepository<?> testRepo, String ref)
+      throws GitAPIException {
+    return pushHead(testRepo, ref, false, true);
+  }
+
+  public static PushResult deleteRef(TestRepository<?> testRepo, String ref)
+      throws GitAPIException {
+    return pushOne(testRepo, "", ref, false, true, null);
+  }
+
+  private static PushResult pushOne(TestRepository<?> testRepo, String source,
+      String target, boolean pushTags, boolean force, List<String> pushOptions)
+          throws GitAPIException {
     PushCommand pushCmd = testRepo.git().push();
     pushCmd.setForce(force);
     pushCmd.setPushOptions(pushOptions);
-    pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
+    pushCmd.setRefSpecs(new RefSpec(source + ":" + target));
     if (pushTags) {
       pushCmd.setPushTags();
     }
@@ -180,6 +225,25 @@ public class GitUtil {
     assertThat(rru.getStatus()).named(rru.toString())
         .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
     assertThat(rru.getMessage()).isEqualTo(expectedMessage);
+  }
+
+  public static PushResult pushTag(TestRepository<?> testRepo, String tag)
+      throws GitAPIException {
+    return pushTag(testRepo, tag, false);
+  }
+
+  public static PushResult forcePushTag(TestRepository<?> testRepo, String tag)
+      throws GitAPIException {
+    return pushTag(testRepo, tag, true);
+  }
+
+  private static PushResult pushTag(TestRepository<?> testRepo, String tag,
+      boolean force) throws GitAPIException {
+    PushCommand pushCmd = testRepo.git().push();
+    pushCmd.setForce(force);
+    pushCmd.setRefSpecs(new RefSpec("refs/tags/" + tag + ":refs/tags/" + tag));
+    Iterable<PushResult> r = pushCmd.call();
+    return Iterables.getOnlyElement(r);
   }
 
   public static Optional<String> getChangeId(TestRepository<?> tr, ObjectId id)

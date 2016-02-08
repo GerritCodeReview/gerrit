@@ -20,6 +20,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -80,6 +81,15 @@ public class ChangeFinder {
     }
 
     return Collections.emptyList();
+  }
+
+  public ChangeControl findOne(Change.Id id, CurrentUser user)
+      throws OrmException, NoSuchChangeException {
+    List<ChangeControl> ctls = find(id, user);
+    if (ctls.size() != 1) {
+      throw new NoSuchChangeException(id);
+    }
+    return ctls.get(0);
   }
 
   public List<ChangeControl> find(Change.Id id, CurrentUser user)

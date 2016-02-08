@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91410cda_ffe2ff53",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "NOTE for reviewers:\n\nIn 2.10 this succeeds. In 2.11 this fails.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_9fe73363",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "NOTE for reviewers:\n\nThis succeeds in both 2.10 and 2.11.\n\nThis means that 2.11 allows transport of new commits as a part of creation of an annotated tag even without the Push permission.\nHowever, it doesn\u0027t allow the same for lightweight tags as seen in the previous test.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_04a79627",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Behaves identically in both 2.10 and 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_bfec7745",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Behaves identically in both 2.10 and 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_e4747a68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Minor issue in 2.11: this fails with REJECTED_NONFASTFORWARD seems strange as the tag update is a FF.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_5fd20b85",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "2.11: Like in the previous test fails with REJECTED_NONFASTFORWARD",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_c4797e5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "The only purpose of this test is a question: what is the purpose of the +force option of the \"Push Annotated Tag\".",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_7fcfcfdb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "2.11: again REJECTED_NONFASTFORWARD.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_a46e8294",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Fails in both 2.10 and 2.11. Why?",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_1fdc8392",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Fails in 2.11 but succeeds in 2.10.\n\nMeans, doing \"push --force\" makes it working in 2.10.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_3fd947a3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "2.11: strangely, if we add the \"Create Reference\" permission on the refs/tags/* then the Push permission is honored ...",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_6489aa97",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "... so this will succeed in 2.11.\n\nMeans: to make Gerrit respect \"Push\" on refs/tags/* for lightweight tags we need to use \"push --force\" in 2.10 and assign \"Create Reference\" in 2.11.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_dfc61bc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Works in 2.10 fails in 2.11 with REJECTED_OTHER_REASON.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_ffcbdfc9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "again, strangely this \"Create Reference\" makes it working in 2.11\n\nin 2.10 this is not necessary",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_9fc093a8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Fails in both 2.10 and 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_2483b279",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "Works in 2.10 fails in 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_0480b668",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "fails in both 2.10 and 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_e4dd9a96",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "works in 2.10 fails in 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_c4e29e54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "this makes it work in 2.11",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_bfc557b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T16:24:52Z",
+      "side": 1,
+      "message": "This works in 2.11.\n\nSo the Push+force is honored for annotated tags even withotu the \"Push Annotated Tag\" but is not honored for lightweight tags without the \"Create Reference\" permission.",
+      "revId": "892160b297bde8a2817177a12f8c56b7d949311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91410cda_5f252b87",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-08T12:26:03Z",
+      "side": 1,
+      "message": "Is this a temporarily hack (in which case \"TODO: Fixme\" is missing)? I\u0027m asking because it\u0027s not how it supposed to work. There is a reason why options to REST handler \"/changes/\u003cid\u003e/detail\" were introduced in the first place. If you are passing all them at once, then you jeopardize the optimization to only retrieve and transport the data that is actually needed and shown, by redundantly fetching the whole data at once. Instead, the the different views and panels supposed to retrieve the data on their own. Because unless the user haven\u0027t opened Download dropdown, the data shouldn\u0027t to be retrieved (Note, that the data should be cached there, so that if the user open the Dropdown second time it shouldn\u0027t be re-fetched). IOW, Dropdown should work similar to gr-change-actions element, where revision actions are retrieved (to render submit button asynchronously, because it takes ages to compute it, when submit whole topic option was activated on gerrit site).",
+      "range": {
+        "startLine": 503,
+        "startChar": 12,
+        "endLine": 503,
+        "endChar": 52
+      },
+      "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

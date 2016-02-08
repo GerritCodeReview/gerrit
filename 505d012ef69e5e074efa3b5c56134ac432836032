@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "fda13c5f_3cbd51de",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-08T20:07:14Z",
+      "side": 1,
+      "message": "Yep. Looking through in more depth now...",
+      "parentUuid": "1d937019_7d9c3788",
+      "revId": "505d012ef69e5e074efa3b5c56134ac432836032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fda13c5f_7c9c3988",
         "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
         "patchSetId": 5

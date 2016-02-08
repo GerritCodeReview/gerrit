@@ -1,0 +1,244 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91410cda_7f54afd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_1f51e3e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_84482646",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_642e4a66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: unused",
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_e4623abd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: wrap lines at 80 characters\n\nsome more long lines are below",
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_442b4e54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: These 2 exceptions cannot occur anymore, remove them from the throws declaration",
+      "range": {
+        "startLine": 158,
+        "startChar": 62,
+        "endLine": 159,
+        "endChar": 17
+      },
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_c4673ecb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: unrelated formatting change",
+      "range": {
+        "startLine": 185,
+        "startChar": 5,
+        "endLine": 186,
+        "endChar": 45
+      },
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_3f4e2746",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: null is the default value, no need to set it explictly",
+      "range": {
+        "startLine": 250,
+        "startChar": 40,
+        "endLine": 250,
+        "endChar": 47
+      },
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_243852a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: Those should be final. For class members we always use final if possible, in all other places only where required.",
+      "range": {
+        "startLine": 251,
+        "startChar": 4,
+        "endLine": 253,
+        "endChar": 30
+      },
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_043556ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "The actual formatting of the result could be done outside of the batch. At least for other operations it\u0027s done after the batch and I think we should be consistent here. For an example have a look at com.google.gerrit.server.change.Restore (line 95).",
+      "range": {
+        "startLine": 278,
+        "startChar": 6,
+        "endLine": 287,
+        "endChar": 63
+      },
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_df8b7b9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "This is currently unused, but it should be invoked from postUpdate.",
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_ff90bfc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-08T15:25:24Z",
+      "side": 1,
+      "message": "nit: unrelated formatting change",
+      "range": {
+        "startLine": 320,
+        "startChar": 2,
+        "endLine": 321,
+        "endChar": 35
+      },
+      "revId": "113b5b25cb44713c0a310faa3ff32cf47b0191f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

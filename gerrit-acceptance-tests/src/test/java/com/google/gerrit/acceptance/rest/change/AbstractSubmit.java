@@ -94,9 +94,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private Map<String, String> mergeResults;
 
   @Inject
-  private ChangeNotes.Factory notesFactory;
-
-  @Inject
   private ApprovalsUtil approvalsUtil;
 
   @Inject

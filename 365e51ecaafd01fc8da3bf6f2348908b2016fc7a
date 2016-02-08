@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11b19c0d_9b752bd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T05:10:53Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to just fix it now?\n\nI.e. by getting the server identity injected with @GerritPersonIdent and using that to set the author on the message?\n\nOr am I missing something and it\u0027s more complicated that that?",
+      "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

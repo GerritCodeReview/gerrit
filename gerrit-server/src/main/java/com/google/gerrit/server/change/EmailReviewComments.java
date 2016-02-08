@@ -16,13 +16,13 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.mail.CommentSender;
@@ -32,7 +32,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
@@ -52,7 +51,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         NotifyHandling notify,
         Change change,
         PatchSet patchSet,
-        Account.Id authorId,
+        IdentifiedUser user,
         ChangeMessage message,
         List<PatchLineComment> comments);
   }
@@ -66,13 +65,13 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final NotifyHandling notify;
   private final Change change;
   private final PatchSet patchSet;
-  private final Account.Id authorId;
+  private final IdentifiedUser user;
   private final ChangeMessage message;
   private List<PatchLineComment> comments;
   private ReviewDb db;
 
   @Inject
-  EmailReviewComments (
+  EmailReviewComments(
       @EmailReviewCommentsExecutor final Executor executor,
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
@@ -81,7 +80,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted NotifyHandling notify,
       @Assisted Change change,
       @Assisted PatchSet patchSet,
-      @Assisted Account.Id authorId,
+      @Assisted IdentifiedUser user,
       @Assisted ChangeMessage message,
       @Assisted List<PatchLineComment> comments) {
     this.sendEmailsExecutor = executor;
@@ -92,7 +91,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.notify = notify;
     this.change = change;
     this.patchSet = patchSet;
-    this.authorId = authorId;
+    this.user = user;
     this.message = message;
     this.comments = comments;
   }
@@ -130,7 +129,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       });
 
       CommentSender cm = commentSenderFactory.create(notify, change);
-      cm.setFrom(authorId);
+      cm.setFrom(user.getAccountId());
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(change, patchSet));
       cm.setChangeMessage(message);
       cm.setPatchLineComments(comments);
@@ -153,7 +152,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   @Override
   public CurrentUser getCurrentUser() {
-    throw new OutOfScopeException("No user on email thread");
+    return user.getRealUser();
   }
 
   @Override

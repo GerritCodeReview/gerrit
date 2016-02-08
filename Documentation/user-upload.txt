@@ -183,7 +183,7 @@ Review labels can be applied to the change by using the `label` (or `l`)
 option in the reference:
 
 ====
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%l=Verified+1
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%l=Verified+1,l=Audited+1
 ====
 
 The `l='label[score]'` option may be specified more than once to

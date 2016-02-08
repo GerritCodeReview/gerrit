@@ -32,9 +32,14 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.TagCommand;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidTagNameException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
@@ -182,6 +187,29 @@ public class GitUtil {
     return new Commit(c, changeId);
   }
 
+  public static Ref createAnnotatedTag(Git git, String name,
+      String message, PersonIdent tagger)
+      throws ConcurrentRefUpdateException, InvalidTagNameException,
+         NoHeadException, GitAPIException {
+    TagCommand cmd = git.tag()
+        .setName(name)
+        .setAnnotated(true)
+        .setMessage(message)
+        .setTagger(tagger);
+    return cmd.call();
+  }
+
+  public static Ref updateAnnotatedTag(Git git, String name, PersonIdent tagger)
+      throws ConcurrentRefUpdateException, InvalidTagNameException,
+          NoHeadException, GitAPIException {
+    TagCommand tc = git.tag().setName(name);
+    return tc.setAnnotated(true)
+        .setMessage(name)
+        .setTagger(tagger)
+        .setForceUpdate(true)
+        .call();
+  }
+
   public static void fetch(Git git, String spec) throws GitAPIException {
     FetchCommand fetch = git.fetch();
     fetch.setRefSpecs(new RefSpec(spec));
@@ -201,9 +229,24 @@ public class GitUtil {
 
   public static PushResult pushHead(Git git, String ref, boolean pushTags,
       boolean force) throws GitAPIException {
+    return push(git, "HEAD:" + ref, pushTags, force);
+  }
+
+  public static PushResult push(Git git, String refSpec)
+      throws GitAPIException {
+    return push(git, refSpec, false, false);
+  }
+
+  public static PushResult forcePush(Git git, String refSpec)
+      throws GitAPIException {
+    return push(git, refSpec, false, true);
+  }
+
+  public static PushResult push(Git git, String refSpec, boolean pushTags,
+      boolean force) throws GitAPIException {
     PushCommand pushCmd = git.push();
     pushCmd.setForce(force);
-    pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
+    pushCmd.setRefSpecs(new RefSpec(refSpec));
     if (pushTags) {
       pushCmd.setPushTags();
     }

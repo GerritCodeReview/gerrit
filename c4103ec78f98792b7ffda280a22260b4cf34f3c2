@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_7b0dbf52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:30:17Z",
+      "side": 1,
+      "message": "Done, according to comment below.",
+      "parentUuid": "f1c1686d_baf23188",
+      "range": {
+        "startLine": 149,
+        "startChar": 14,
+        "endLine": 149,
+        "endChar": 44
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11b19c0d_3bee17ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
         "patchSetId": 10
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "But OrmDuplicateKeyException is only thrown if it has the same case, so it doesn\u0027t matter which name is used here? But it matters above.",
       "parentUuid": "11b19c0d_3bee17ab",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 65
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b19c0d_9bf76b78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:30:17Z",
+      "side": 1,
+      "message": "OK.  I see.",
+      "parentUuid": "31fdc0c1_6423ea96",
       "range": {
         "startLine": 177,
         "startChar": 6,

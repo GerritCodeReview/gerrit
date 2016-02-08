@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d937019_ddd1cb1c",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-08T20:07:14Z",
+      "side": 1,
+      "message": "Yes, but it really only works if other components follow the same convention. For instance, if I controlled all z-indices, I would defined variables @zIndex-1 -\u003e @zIndex-9 where nothing can be greater than z-Index-9. But the overlay z-index is set within iron-overlay.",
+      "parentUuid": "fda13c5f_5c97fd64",
+      "revId": "b70ab1d4c1e300b55085f0d9c0bd72d0deeaca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_5f252b87",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 2

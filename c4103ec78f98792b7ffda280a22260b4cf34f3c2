@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11b19c0d_fb766fde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T03:41:39Z",
+      "side": 1,
+      "message": "[optional] use a FluentIterable.\n\n  public static List\u003cString\u003e getSystemGroupNames() {\n    return FluentIterable\n        .from(all)\n        .transform(new Function\u003cAccountGroup.UUID, String\u003e() {\n            @Override\n            public String apply(AccountGroup.UUID uuid) {\n              String name \u003d uuid.get();\n              int i \u003d name.indexOf(\u0027:\u0027);\n              return name.substring(i + 1).replace(\u0027-\u0027, \u0027 \u0027);\n            }\n          })\n        .toList();\n  }\n\n`all` would need to be changed to an ImmutableList:\n\n  private static final List\u003cAccountGroup.UUID\u003e all \u003d ImmutableList.of(\n      ANONYMOUS_USERS,\n      REGISTERED_USERS,\n      PROJECT_OWNERS,\n      CHANGE_OWNER);",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

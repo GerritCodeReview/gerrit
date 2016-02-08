@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "fda13c5f_fcd5a9ff",
+        "filename": "polygerrit-ui/app/elements/gr-related-changes-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-08T22:26:08Z",
+      "side": 1,
+      "message": "Agreed. There are other issues as well like load-time and how that will block the change from scrolling to a linked comment until it’s fully loaded, for example. I’ll reach out to you offline to get a better sense of things, but didn’t want it to hold up things.",
+      "parentUuid": "1d937019_3dbd4fde",
+      "revId": "0a412d0e9be6e0697df72d66599cae8503bd1266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d937019_bdc87f6c",
         "filename": "polygerrit-ui/app/elements/gr-related-changes-list.html",
         "patchSetId": 2
@@ -53,6 +71,24 @@
       "writtenOn": "2016-02-08T20:24:21Z",
       "side": 1,
       "message": "You already set hidden on the \u003csection\u003e above, why is this necessary?",
+      "revId": "0a412d0e9be6e0697df72d66599cae8503bd1266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fda13c5f_dcd8ed3a",
+        "filename": "polygerrit-ui/app/elements/gr-related-changes-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-08T22:26:08Z",
+      "side": 1,
+      "message": "The loading indicator should still show if all sections are loading. This will hide the entire element if all sections are empty.",
+      "parentUuid": "1d937019_bdc87f6c",
       "revId": "0a412d0e9be6e0697df72d66599cae8503bd1266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

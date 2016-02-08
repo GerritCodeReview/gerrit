@@ -391,6 +391,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Collection<AccountInfo> reviewers = isNoteDbTestEnabled()
         ? c.reviewers.get(REVIEWER)
         : c.reviewers.get(CC);
+    assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId)
         .isEqualTo(user.getId().get());

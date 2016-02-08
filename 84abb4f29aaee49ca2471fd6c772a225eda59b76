@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31fdc0c1_04b2f64c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "In 2.10 this succeeds. In 2.11 this fails.",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_e41fda04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "This succeeds in both 2.10 and 2.11.\nThis means that 2.11 allows transport of new commits as a part of creation of an annotated tag even without the Push permission.\nHowever, it doesn\u0027t allow the same for lightweight tags as seen in the previous test.",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_df485b12",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "Behaves identically in both 2.10 and 2.11",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_ff4d1f1f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "Behaves identically in both 2.10 and 2.11",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_9f42d3ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "Minor issue in 2.11: this fails with REJECTED_NONFASTFORWARD seems strange as the tag update is a FF.",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fdc0c1_c424de59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "The only purpose of this test is a question: what is the purpose of the +force option of the \"Push Annotated Tag\".",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_bf4797fd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "works in 2.11\nfails in 2.10 with \"Already exists\"\nHowever, using \"push --force\" it also works in 2.10.",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91410cda_5f5d2bc8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-08T17:38:06Z",
+      "side": 1,
+      "message": "Fails in 2.11 with REJECTED_NONFASTSORWARD, which means: \"Push\" permission allows update of lightweight tags but doesn\u0027t allow update of annotated tags.\n\nFails in 2.10",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

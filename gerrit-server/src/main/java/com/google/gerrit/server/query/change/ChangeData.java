@@ -115,6 +115,7 @@ public class ChangeData {
       for (ChangeData cd : changes) {
         cd.change();
       }
+      return;
     }
 
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();

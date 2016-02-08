@@ -191,7 +191,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           input.notify,
           change,
           revision.getPatchSet(),
-          revision.getAccountId(),
+          revision.getUser(),
           message,
           comments).sendAsync();
     }

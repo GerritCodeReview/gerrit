@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_fbf8af6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b19c0d_1beb5b9b",
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_1f1d634f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
         "patchSetId": 10
@@ -160,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "11b19c0d_dbfdf359",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91410cda_ffec3f78",
+      "range": {
+        "startLine": 99,
+        "startChar": 29,
+        "endLine": 99,
+        "endChar": 50
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11b19c0d_fb766fde",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 10
@@ -195,6 +237,30 @@
       "side": 1,
       "message": "Edwin, do you think it\u0027s worth changing this to use FluentIterable?\n\nI\u0027m going to upload a new patch set to address the other nits, so I could do this at the same time.",
       "parentUuid": "11b19c0d_fb766fde",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "c4103ec78f98792b7ffda280a22260b4cf34f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11b19c0d_bbf22788",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-08T10:22:34Z",
+      "side": 1,
+      "message": "Left this as it is.",
+      "parentUuid": "11b19c0d_5be1e3ba",
       "range": {
         "startLine": 99,
         "startChar": 2,

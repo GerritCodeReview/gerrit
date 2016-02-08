@@ -369,7 +369,7 @@ limitations under the License.
       _handlePatchChange: function(e) {
         var patchNum = e.target.value;
         var currentPatchNum =
-            this._change.revisions[this._change.current_revision]._number
+            this._change.revisions[this._change.current_revision]._number;
         if (patchNum == currentPatchNum) {
           page.show(this._computeChangePath(this._changeNum));
           return;
@@ -467,7 +467,7 @@ limitations under the License.
             this.ListChangesOption.ALL_REVISIONS,
             this.ListChangesOption.CHANGE_ACTIONS
         );
-        return { O: options };
+        return {O: options};
       },
 
       _computeLatestPatchNum: function(change) {
@@ -483,7 +483,7 @@ limitations under the License.
       },
 
       _computePatchIndexIsSelected: function(index, patchNum) {
-         return this._allPatchSets[index] == patchNum;
+        return this._allPatchSets[index] == patchNum;
       },
 
       _computeLabelNames: function(labels) {
@@ -500,7 +500,7 @@ limitations under the License.
             var labelClassName;
             var labelValPrefix = '';
             if (label.value > 0) {
-              labelValPrefix = '+'
+              labelValPrefix = '+';
               labelClassName = 'approved';
             } else if (label.value < 0) {
               labelClassName = 'notApproved';
@@ -518,7 +518,7 @@ limitations under the License.
       _handleKey: function(e) {
         if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
-        switch(e.keyCode) {
+        switch (e.keyCode) {
           case 65:  // 'a'
             e.preventDefault();
             this.$.replyDropdown.open();

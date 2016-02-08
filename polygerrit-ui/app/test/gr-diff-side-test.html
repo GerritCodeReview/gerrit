@@ -84,8 +84,8 @@ limitations under the License.
           '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>';
       var html = util.escapeHTML(content);
       var highlights = [
-        { startIndex: 0, endIndex: 33, },
-        { startIndex: 75 },
+        {startIndex: 0, endIndex: 33},
+        {startIndex: 75},
       ];
       assert.equal(
           content.slice(highlights[0].startIndex, highlights[0].endIndex),
@@ -178,7 +178,7 @@ limitations under the License.
       }];
       contentEl = element.$$('.content .code[data-line-num="1"]');
       assert.ok(contentEl);
-      var spanEl = contentEl.childNodes[1];
+      spanEl = contentEl.childNodes[1];
       assert.equal(spanEl.tagName, 'SPAN');
       assert.isTrue(spanEl.classList.contains(
           'style-scope', 'gr-diff-side', 'tab'));
@@ -246,7 +246,7 @@ limitations under the License.
 
     test('tap line to add a draft', function() {
       var numAddDraftEvents = 0;
-      var fireMock = sinon.stub(element, 'fire', function(eventName) {
+      sinon.stub(element, 'fire', function(eventName) {
         if (eventName == 'add-draft') {
           numAddDraftEvents++;
         }

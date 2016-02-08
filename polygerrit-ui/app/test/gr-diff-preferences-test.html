@@ -64,7 +64,7 @@ limitations under the License.
       });
       var cancelPromise = new Promise(function(resolve) {
         element.addEventListener('cancel', function() { resolve(); });
-      })
+      });
       Promise.all([savePromise, cancelPromise]).then(function() {
         done();
       });

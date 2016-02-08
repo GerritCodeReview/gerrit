@@ -66,7 +66,7 @@ GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
     var pattern = new RegExp(patterns[p].match, 'g');
 
     var match;
-    while (match = pattern.exec(text)) {
+    while ((match = pattern.exec(text)) != null) {
       var before = text.substr(0, match.index);
       this.addText(before);
       text = text.substr(match.index + match[0].length);

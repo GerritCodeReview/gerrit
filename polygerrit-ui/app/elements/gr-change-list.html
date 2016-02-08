@@ -121,7 +121,9 @@ limitations under the License.
         },
       },
 
-      behaviors: [ Gerrit.KeyboardShortcutBehavior ],
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+      ],
 
       _computeLabelNames: function(groups) {
         var labels = [];
@@ -170,7 +172,7 @@ limitations under the License.
         this.groups.forEach(function(group) {
           len += group.length;
         });
-        switch(e.keyCode) {
+        switch (e.keyCode) {
           case 74:  // 'j'
             e.preventDefault();
             if (this.selectedIndex == len - 1) { return; }

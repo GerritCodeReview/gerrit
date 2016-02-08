@@ -108,7 +108,9 @@ limitations under the License.
         },
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
+      behaviors: [
+        Gerrit.RESTClientBehavior,
+      ],
 
       _computeChangeURL: function(changeNum) {
         if (!changeNum) { return ''; }
@@ -134,8 +136,8 @@ limitations under the License.
       _computeLabelTitle: function(change, labelName) {
         var label = change.labels[labelName];
         if (!label) { return labelName; }
-        var significantLabel = label.rejected || label.approved
-            || label.disliked || label.recommended;
+        var significantLabel = label.rejected || label.approved ||
+            label.disliked || label.recommended;
         if (significantLabel && significantLabel.name) {
           return labelName + '\nby ' + significantLabel.name;
         }

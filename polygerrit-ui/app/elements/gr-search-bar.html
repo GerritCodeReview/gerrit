@@ -56,7 +56,9 @@ limitations under the License.
     Polymer({
       is: 'gr-search-bar',
 
-      behaviors: [ Gerrit.KeyboardShortcutBehavior ],
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+      ],
 
       listeners: {
         'searchInput.keydown': '_inputKeyDownHandler',
@@ -96,7 +98,7 @@ limitations under the License.
 
       _handleKey: function(e) {
         if (this.shouldSupressKeyboardShortcut(e)) { return; }
-        switch(e.keyCode) {
+        switch (e.keyCode) {
           case 191:  // '/'
             e.preventDefault();
             var s = this.$.searchInput;

@@ -157,7 +157,9 @@ limitations under the License.
         },
       },
 
-      observers: [ '_prefsChanged(prefs.*)' ],
+      observers: [
+        '_prefsChanged(prefs.*)',
+      ],
 
       _prefsChanged: function(changeRecord) {
         var prefs = changeRecord.base;

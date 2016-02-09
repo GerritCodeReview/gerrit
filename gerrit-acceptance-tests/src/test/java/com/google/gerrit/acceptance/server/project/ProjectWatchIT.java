@@ -16,9 +16,11 @@ package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -36,6 +38,8 @@ import java.util.List;
 public class ProjectWatchIT extends AbstractDaemonTest {
   @Inject
   private FakeEmailSender sender;
+
+  private final Address addr = new Address("Watcher", "watcher@example.com");
 
   /**
    * Tests message project watches on new patch sets
@@ -97,17 +101,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
    */
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
-    nc.setName("new-patch-set");
-    nc.setHeader(NotifyConfig.Header.CC);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.NEW_PATCHSETS));
     nc.setFilter("message:sekret");
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("watch", nc);
-    saveProjectConfig(project, cfg);
+    addNotifyConfig(project, nc);
 
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
           "original subject", "a", "a1")
@@ -130,6 +127,22 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(addr);
     assertThat(m.body()).contains("Change subject: super sekret subject\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 2\n");
+  }
+
+  private NotifyConfig newNotifyConfig(EnumSet<NotifyType> types) throws Exception {
+    NotifyConfig nc = new NotifyConfig();
+    nc.addEmail(addr);
+    nc.setName(Joiner.on("-").join(types));
+    nc.setHeader(NotifyConfig.Header.CC);
+    nc.setTypes(types);
+    return nc;
+  }
+
+  private void addNotifyConfig(Project.NameKey project, NotifyConfig nc)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.putNotifyConfig("watch", nc);
+    saveProjectConfig(project, cfg);
   }
 
   // TODO(anybody reading this): More tests.

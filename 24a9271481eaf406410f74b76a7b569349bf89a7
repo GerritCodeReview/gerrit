@@ -40,6 +40,24 @@
       "revId": "24a9271481eaf406410f74b76a7b569349bf89a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_39804fb8",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T19:41:10Z",
+      "side": 1,
+      "message": "\u003e I’m exploring options to make things better.\n\nThis would be very much appreciated. I asked Shawn to re-consider and to preserve related changes implementation on its own third tab, after he removed it and added it similar to this change. See the detailed discussion thread in this change: [1]. The point is, everyone has 30\"+ display size on desktop and at least 15.4\" on laptop. So that why it\u0027s not acceptable to not use so much place to the right of the change description. Moreover, related changes is central change data, because it is used to see the current series, topic and conflicts. In fact, this is the most important data and should be immediately visible, afer the change view is rendered.\n\n* [1] https://gerrit-review.googlesource.com/51821",
+      "parentUuid": "3dd5942a_f619e0c1",
+      "revId": "24a9271481eaf406410f74b76a7b569349bf89a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

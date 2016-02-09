@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fda13c5f_fcfcc989",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:20:22Z",
+      "side": 1,
+      "message": "It might be better to use Javadoc syntax, i.e with @param and @return lines.\n\nAlso why not add Javadoc for the other two methods at the same time?",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 7
+      },
+      "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

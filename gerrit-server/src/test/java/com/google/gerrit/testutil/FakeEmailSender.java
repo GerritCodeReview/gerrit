@@ -104,6 +104,18 @@ public class FakeEmailSender implements EmailSender {
     }
   }
 
+  public ImmutableList<Message> getMessagesFor(final Address addr) {
+    waitForEmails();
+    synchronized (messages) {
+      return FluentIterable.from(messages).filter(new Predicate<Message>() {
+        @Override
+        public boolean apply(Message message) {
+          return message.rcpt().contains(addr);
+        }
+      }).toList();
+    }
+  }
+
   public void clearMessages() {
     waitForEmails();
     synchronized (messages) {

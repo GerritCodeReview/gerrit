@@ -20,14 +20,25 @@ import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +50,12 @@ import java.util.List;
 public class ProjectWatchIT extends AbstractDaemonTest {
   @Inject
   private FakeEmailSender sender;
+
+  @Inject
+  private AccountManager accountManager;
+
+  @Inject
+  private ThreadLocalRequestContext requestContext;
 
   private final Address addr = new Address("Watcher", "watcher@example.com");
 
@@ -135,6 +152,99 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("Gerrit-PatchSet: 2\n");
   }
 
+  /**
+   * Tests for project watch type "all comments" with a basic "label:" query.
+   */
+  @Test
+  public void labelWithoutGroupConfig() throws Exception {
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.ALL_COMMENTS));
+    nc.setFilter("label:Code-Review=+1");
+    addNotifyConfig(project, nc);
+
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
+        "subject", "a", "a1")
+      .to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
+
+    List<Message> messages = sender.getMessagesFor(addr);
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(addr);
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Patch Set 1: Code-Review+1\n");
+  }
+
+  /**
+   * Tests for project watch type "all comments" with a "label:" query
+   * with group parameter specifying a group that does not exist. This
+   * should not cause any notification to be sent.
+   */
+  @Test
+  public void labelWithGroupConfigNoMembers() throws Exception {
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.ALL_COMMENTS));
+    nc.setFilter("label:Code-Review=+1,group=test-group");
+    addNotifyConfig(project, nc);
+
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
+        "subject", "a", "a1")
+      .to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
+
+    List<Message> messages = sender.getMessagesFor(addr);
+    assertThat(messages).hasSize(0);
+  }
+
+  /**
+   * Tests for project watch type "all comments" with a "label:" query
+   * with group parameter.
+   */
+  @Test
+  public void labelWithGroupConfig() throws Exception {
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.ALL_COMMENTS));
+    nc.setFilter("label:Code-Review=+1,group=test-group");
+    addNotifyConfig(project, nc);
+
+    // Create 'test-group' and add a test user to it
+    Account.Id user1 = createAccount("testuser");
+    String group = createGroup("test-group", "Administrators");
+    gApi.groups().id(group).addMembers("testuser");
+
+    PushOneCommit.Result r = pushFactory.create(db, user.getIdent(), testRepo,
+        "subject", "a", "a1")
+      .to("refs/for/master");
+    r.assertOkStatus();
+
+    // Send a review as the test user
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
+
+    List<Message> messages = sender.getMessagesFor(addr);
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(1);
+    assertThat(m.rcpt()).hasSize(1);
+    assertThat(m.rcpt()).contains(addr);
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Patch Set 1: Code-Review+1\n");
+  }
+
+  private Account.Id createAccount(String name) throws Exception {
+    return accountManager.authenticate(
+        AuthRequest.forUser(name)).getAccountId();
+  }
+
+  private String createGroup(String name, String owner) throws Exception {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = owner;
+    in.visibleToAll = true;
+    gApi.groups().create(in);
+    return name;
+  }
+
   private NotifyConfig newNotifyConfig(EnumSet<NotifyType> types) throws Exception {
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
@@ -149,6 +259,22 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.putNotifyConfig("watch", nc);
     saveProjectConfig(project, cfg);
+  }
+
+  private RequestContext newRequestContext(Account.Id requestUserId) {
+    final CurrentUser requestUser =
+        identifiedUserFactory.create(Providers.of(db), requestUserId);
+    return new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return requestUser;
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    };
   }
 
   // TODO(anybody reading this): More tests.

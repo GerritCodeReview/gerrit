@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_9fa0536b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T20:06:30Z",
+      "side": 1,
+      "message": "Add @NoHttpd annotation?",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "8d195d389f0651e002f7f5a80d38f7004781810a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_598503c7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T20:06:30Z",
+      "side": 1,
+      "message": "This part seems to be common to all test invocations. Move it to executeSucessfullQuery() method, and only pass unique paramaters to specific test methods, e. g. for this test you would say:\n\n  executeSucessfullQuery(\"1234\");\n\nAnd the implementation of the\n\n  executeSucessfullQuery(String params) {\n    string query \u003d \"gerrit query --format\u003dJSON \" + paams;\n  [...]",
+      "range": {
+        "startLine": 43,
+        "startChar": 32,
+        "endLine": 43,
+        "endChar": 59
+      },
+      "revId": "8d195d389f0651e002f7f5a80d38f7004781810a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_dfaadb48",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T20:06:30Z",
+      "side": 1,
+      "message": "private static.",
+      "range": {
+        "startLine": 319,
+        "startChar": 2,
+        "endLine": 319,
+        "endChar": 9
+      },
+      "revId": "8d195d389f0651e002f7f5a80d38f7004781810a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_bf9d1732",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T20:06:30Z",
+      "side": 1,
+      "message": "The base class exposes this method ath should be used to construct Gson instance:\n\n  protected static Gson newGson() {\n    return OutputFormat.JSON_COMPACT.newGson();\n  }\n\nCan the same instace of the GSon object be re-used, instead of creation of new instances in the loop?",
+      "range": {
+        "startLine": 323,
+        "startChar": 18,
+        "endLine": 323,
+        "endChar": 28
+      },
+      "revId": "8d195d389f0651e002f7f5a80d38f7004781810a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

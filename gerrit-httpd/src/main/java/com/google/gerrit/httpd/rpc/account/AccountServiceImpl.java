@@ -55,7 +55,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final Provider<IdentifiedUser> currentUser;
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
-  private final ChangeQueryBuilder queryBuilder;
+  private final Provider<ChangeQueryBuilder> queryBuilder;
   private final SetDiffPreferences setDiff;
 
   @Inject
@@ -63,7 +63,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final Provider<IdentifiedUser> identifiedUser,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
-      final ChangeQueryBuilder queryBuilder,
+      final Provider<ChangeQueryBuilder> queryBuilder,
       SetDiffPreferences setDiff) {
     super(schema, identifiedUser);
     this.currentUser = identifiedUser;
@@ -147,7 +147,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
         if (filter != null) {
           try {
-            queryBuilder.parse(filter);
+            queryBuilder.get().parse(filter);
           } catch (QueryParseException badFilter) {
             throw new InvalidQueryException(badFilter.getMessage(), filter);
           }

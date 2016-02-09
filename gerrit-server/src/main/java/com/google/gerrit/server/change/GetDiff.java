@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
@@ -89,8 +90,12 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--base", metaVar = "REVISION")
   String base;
 
+  @Deprecated
   @Option(name = "--ignore-whitespace")
-  IgnoreWhitespace ignoreWhitespace = IgnoreWhitespace.NONE;
+  IgnoreWhitespace ignoreWhitespace;
+
+  @Option(name = "--whitespace")
+  Whitespace whitespace;
 
   @Option(name = "--context", handler = ContextOptionHandler.class)
   int context = DiffPreferencesInfo.DEFAULT_CONTEXT;
@@ -123,7 +128,13 @@ public class GetDiff implements RestReadView<FileResource> {
       basePatchSet = baseResource.getPatchSet();
     }
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
-    prefs.ignoreWhitespace = ignoreWhitespace.whitespace;
+    if (whitespace != null) {
+      prefs.ignoreWhitespace = whitespace;
+    } else if (ignoreWhitespace != null) {
+      prefs.ignoreWhitespace = ignoreWhitespace.whitespace;
+    } else {
+      prefs.ignoreWhitespace = Whitespace.IGNORE_ALL;
+    }
     prefs.context = context;
     prefs.intralineDifference = intraline;
 
@@ -368,6 +379,7 @@ public class GetDiff implements RestReadView<FileResource> {
     }
   }
 
+  @Deprecated
   enum IgnoreWhitespace {
     NONE(DiffPreferencesInfo.Whitespace.IGNORE_NONE),
     TRAILING(DiffPreferencesInfo.Whitespace.IGNORE_TRAILING),

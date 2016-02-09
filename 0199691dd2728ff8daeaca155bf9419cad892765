@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_d6370436",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-09T17:14:50Z",
+      "side": 1,
+      "message": "Looking at JschConfigSessionFactory I think setUserHome(null) should work, and save some syscalls as it won\u0027t even attempt to read .ssh",
+      "revId": "0199691dd2728ff8daeaca155bf9419cad892765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

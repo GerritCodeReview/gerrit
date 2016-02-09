@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_99c79b0e",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T19:12:35Z",
+      "side": 1,
+      "message": "You probably have missed this one. I\u0027m interested in your opinion here.",
+      "parentUuid": "9db840d6_d9aaf348",
+      "range": {
+        "startLine": 187,
+        "startChar": 30,
+        "endLine": 187,
+        "endChar": 38
+      },
+      "revId": "b070b1ef9c307a861c786c38848f0cd8a35a5166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_99a07b6b",
         "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
         "patchSetId": 8
@@ -60,6 +84,24 @@
       "side": 1,
       "message": "I’ll follow up with this in a future commit. I’m not convinced that this style is the best (and we’re only doing it to satisfy the linter.",
       "parentUuid": "9db840d6_99a07b6b",
+      "revId": "b070b1ef9c307a861c786c38848f0cd8a35a5166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_79d3a7d5",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T19:12:35Z",
+      "side": 1,
+      "message": "Of course JSLint / JSCS can be configured another way (and I still haven\u0027t committed to config files yet). ;)\n\nI prefer the style with one line per item because it easily extendable without doing any unnecessary formatting changes which blows up diffs and destroys \u0027blame\u0027.",
+      "parentUuid": "ddb0f80b_bb13479e",
       "revId": "b070b1ef9c307a861c786c38848f0cd8a35a5166",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

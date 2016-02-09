@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_9f74d3d9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:43:41Z",
+      "side": 1,
+      "message": "I don\u0027t think this has an influence on the test but will definitely check.",
+      "parentUuid": "5dd9683d_5f3deb15",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_04b2f64c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -53,6 +77,30 @@
       "writtenOn": "2016-02-09T13:54:18Z",
       "side": 1,
       "message": "Why doesn\u0027t this require create in refs/tags/*? It creates a ref there.",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 55
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_f97b37c4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:43:41Z",
+      "side": 1,
+      "message": "The \"Push Annotated Tag\" permission is enough to create a new annotated tag including its ref [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#category_push_annotated",
+      "parentUuid": "5dd9683d_3f382727",
       "range": {
         "startLine": 31,
         "startChar": 4,
@@ -202,6 +250,24 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_1968ebf5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:43:41Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "9db840d6_d9503350",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_9946bb99",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 4
@@ -225,6 +291,30 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_396daf06",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:43:41Z",
+      "side": 1,
+      "message": "Because, currently, we cannot push a lightweight tag to a new commit without the \"Push\" permission on the refs/tags/*.\n\nSo we either need to grant that permission (which contradicts the tests name \"noPushPermission\") or we need to make sure the new commit is available at the server before we push the tag. By default pushing to \"refs/for/*\" is allowed for everyone and \"%submit\" option submits the change immediately.\n\nAnother alternative would be to grant Push on \"refs/heads/*\" and do a push to refs/heads/master.",
+      "parentUuid": "9db840d6_9946bb99",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_b9437f88",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 4
@@ -236,6 +326,30 @@
       "writtenOn": "2016-02-09T13:54:18Z",
       "side": 1,
       "message": "Why not directly push to the master branch? Why push the commit at all and not just via the tag?",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_59626315",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:43:41Z",
+      "side": 1,
+      "message": "Because it requires one additional permission which is not given by default. See the previous answer...",
+      "parentUuid": "9db840d6_b9437f88",
       "range": {
         "startLine": 32,
         "startChar": 4,
@@ -419,6 +533,30 @@
       "writtenOn": "2016-02-09T13:54:18Z",
       "side": 1,
       "message": "For which reason does this fail? You are using force but may not be using force as you are lacking the permission to use force?",
+      "range": {
+        "startLine": 170,
+        "startChar": 48,
+        "endLine": 170,
+        "endChar": 76
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_79672724",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:43:41Z",
+      "side": 1,
+      "message": "Sorry, I missed to copy my comment from the PS1 here:\n\nFails in 2.11 but succeeds in 2.10.\nMeans, doing \"push --force\" makes it working in 2.10.\n\nSo using \"--force\" even without having Push+force permission made a difference in 2.10.",
+      "parentUuid": "9db840d6_391f6fa6",
       "range": {
         "startLine": 170,
         "startChar": 48,

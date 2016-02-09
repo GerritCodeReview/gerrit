@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_f6bd60e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-09T14:29:28Z",
+      "side": 1,
+      "message": "I am not sure this is true, the scp command is also broken, see my comments in If047c3a279fc9c98a59ac3102b0db3f5f2fdae48.\n\nI swiched the backend from MINA to NIO2 and I do not need to pass -T to the SSH connectivity check.\n\nIt looks like there is a regression in MINA.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "7ee677b9d3ca15b0a19850b47680c37e1977ec4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -211,7 +211,7 @@ limitations under the License.
         if (opt_index != null) {
           this.selectedIndex = opt_index;
         }
-        page(this._computeDiffURL(this.changeNum, this.patchNum,
+        page.show(this._computeDiffURL(this.changeNum, this.patchNum,
             this.files[this.selectedIndex].__path));
       },
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_19ad4b67",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T17:56:21Z",
+      "side": 1,
+      "message": "Probably add some doc like there is for the methods above?",
+      "revId": "3eda95f0a9538bc1024c1137e4915d0379110182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_f910976e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T17:56:21Z",
+      "side": 1,
+      "message": "Looks like this body is missing.",
+      "range": {
+        "startLine": 99,
+        "startChar": 35,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "3eda95f0a9538bc1024c1137e4915d0379110182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

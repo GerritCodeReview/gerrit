@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_5bd6830c",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-09T15:36:53Z",
+      "side": 0,
+      "message": "Hah. This tells you how long it\u0027s been since anybody tried to use IntelliJ: this is based on the project layout under Maven before we switched to Buck.",
+      "revId": "d906b28114280318ac6341e65c6f5cb763e7a19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

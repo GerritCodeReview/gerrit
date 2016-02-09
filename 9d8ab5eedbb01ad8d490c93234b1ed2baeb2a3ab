@@ -39,6 +39,24 @@
       "revId": "9d8ab5eedbb01ad8d490c93234b1ed2baeb2a3ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_9b8f6b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-09T21:07:05Z",
+      "side": 1,
+      "message": "I will take it into consideration but I won’t change it for now. I understand and have read the conversations.",
+      "parentUuid": "9db840d6_7958072a",
+      "revId": "9d8ab5eedbb01ad8d490c93234b1ed2baeb2a3ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

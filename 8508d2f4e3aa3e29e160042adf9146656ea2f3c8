@@ -35,6 +35,24 @@
       "revId": "8508d2f4e3aa3e29e160042adf9146656ea2f3c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_bfd51701",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-09T09:08:49Z",
+      "side": 1,
+      "message": "Thanks for fixing. When I wrote this I was afraid that this wouldn\u0027t work everywhere, but then all the tests were green...",
+      "parentUuid": "1d937019_7d1197a5",
+      "revId": "8508d2f4e3aa3e29e160042adf9146656ea2f3c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

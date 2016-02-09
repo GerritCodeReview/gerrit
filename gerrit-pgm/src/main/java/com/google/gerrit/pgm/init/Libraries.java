@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -30,6 +31,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
 /** Standard {@link LibraryDownloader} instances derived from configuration. */
 @Singleton
@@ -38,6 +40,8 @@ class Libraries {
       "com/google/gerrit/pgm/init/libraries.config";
 
   private final Provider<LibraryDownloader> downloadProvider;
+  private final List<String> skippedDownloads;
+  private final boolean skipAllDownloads;
 
   /* final */LibraryDownloader bouncyCastlePGP;
   /* final */LibraryDownloader bouncyCastleProvider;
@@ -49,9 +53,12 @@ class Libraries {
   /* final */LibraryDownloader oracleDriver;
 
   @Inject
-  Libraries(final Provider<LibraryDownloader> downloadProvider) {
+  Libraries(final Provider<LibraryDownloader> downloadProvider,
+      @LibraryDownload List<String> skippedDownloads,
+      @LibraryDownload Boolean skipAllDownloads) {
     this.downloadProvider = downloadProvider;
-
+    this.skippedDownloads = skippedDownloads;
+    this.skipAllDownloads = skipAllDownloads;
     init();
   }
 
@@ -98,6 +105,7 @@ class Libraries {
     for (String d : cfg.getStringList("library", n, "needs")) {
       dl.addNeeds((LibraryDownloader) getClass().getDeclaredField(d).get(this));
     }
+    dl.setSkipDownload(skipAllDownloads || skippedDownloads.contains(n));
   }
 
   private static String getOptional(Config cfg, String name, String key) {

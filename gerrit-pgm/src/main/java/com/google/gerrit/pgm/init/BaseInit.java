@@ -26,6 +26,7 @@ import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
+import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -147,6 +148,14 @@ public class BaseInit extends SiteProgram {
     return null;
   }
 
+  protected boolean skipAllDownloads() {
+    return false;
+  }
+
+  protected List<String> getSkippedDownloads() {
+    return Collections.emptyList();
+  }
+
   /**
    * Invoked before site init is called.
    *
@@ -252,6 +261,10 @@ public class BaseInit extends SiteProgram {
         bind(String.class).annotatedWith(SecureStoreClassName.class)
             .toProvider(Providers.of(secureStoreClassName));
         bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
+        bind(new TypeLiteral<List<String>>() {}).annotatedWith(
+            LibraryDownload.class).toInstance(getSkippedDownloads());
+        bind(Boolean.class).annotatedWith(
+            LibraryDownload.class).toInstance(skipAllDownloads());
       }
     });
 

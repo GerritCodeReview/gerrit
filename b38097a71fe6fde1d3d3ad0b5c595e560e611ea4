@@ -68,6 +68,30 @@
       "revId": "b38097a71fe6fde1d3d3ad0b5c595e560e611ea4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_fbbd4fe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-09T14:45:32Z",
+      "side": 1,
+      "message": "Truncating on the division means 10.1% won\u0027t hit the threshold, e.g. nFailed \u003d 21, nTotal \u003d 200 \u003d\u003e 21*100/200 \u003d 10 which is not \u003e10.",
+      "parentUuid": "5dd9683d_1f0c438e",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 25
+      },
+      "revId": "b38097a71fe6fde1d3d3ad0b5c595e560e611ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

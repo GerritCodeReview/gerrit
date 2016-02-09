@@ -90,6 +90,67 @@ limitations under the License.
           }),
         ]
       );
+      server.respondWith(
+        'GET',
+        '/changes/42/revisions/1/drafts',
+        [
+          200,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          '{}',
+        ]
+      );
+      server.respondWith(
+        'GET',
+        '/changes/42/revisions/2/drafts',
+        [
+          200,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          '{}',
+        ]
+      );
+      server.respondWith(
+        'GET',
+        '/changes/42/revisions/1/files?reviewed',
+        [
+          200,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          '["/COMMIT_MSG"]',
+        ]
+      );
+      server.respondWith(
+        'GET',
+        '/changes/42/revisions/2/files?reviewed',
+        [
+          200,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          '["/COMMIT_MSG","myfile.txt"]',
+        ]
+      );
+      server.respondWith(
+        'PUT',
+        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
+        [
+          201,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          '""',
+        ]
+      );
+      server.respondWith(
+        'DELETE',
+        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
+        [
+          204,
+          {'Content-Type': 'application/json'},
+          '',
+        ]
+      );
+
+      app.loggedIn = true;
     });
 
     teardown(function() {
@@ -107,6 +168,7 @@ limitations under the License.
           return f.__path;
         });
         assert.deepEqual(filenames, ['/COMMIT_MSG', 'myfile.txt']);
+        assert.deepEqual(element._reviewed, ['/COMMIT_MSG']);
 
         element.patchNum = '2';
         element.reload();
@@ -117,6 +179,7 @@ limitations under the License.
           });
           assert.deepEqual(filenames,
               ['/COMMIT_MSG', 'file_added_in_rev2.txt', 'myfile.txt']);
+          assert.deepEqual(element._reviewed, ['/COMMIT_MSG', 'myfile.txt']);
           done();
         }, 1);
       }, 1);
@@ -195,6 +258,47 @@ limitations under the License.
           element._computeCommentsString(comments, '2',
               'file_added_in_rev2.txt'),
           '');
+    });
+
+    test('file review status', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '2';
+      element.reload();
+      server.respond();
+
+      element.async(function() {
+        var fileRows = Polymer.dom(element.root).querySelectorAll('.fileRow');
+        var commitMsg = fileRows[0].querySelector('input[type="checkbox"]');
+        var fileAdded = fileRows[1].querySelector('input[type="checkbox"]');
+        var myFile = fileRows[2].querySelector('input[type="checkbox"]');
+
+        assert.isTrue(commitMsg.checked);
+        assert.isFalse(fileAdded.checked);
+        assert.isTrue(myFile.checked);
+
+        assert.equal(element._reviewed.length, 2);
+
+        MockInteractions.tap(commitMsg);
+        server.respond();
+        element._xhrPromise.then(function(req) {
+          assert.equal(element._reviewed.length, 1);
+          assert.equal(req.status, 204);
+          assert.equal(req.url,
+              '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
+
+          MockInteractions.tap(commitMsg);
+          server.respond();
+        }).then(function() {
+          element._xhrPromise.then(function(req) {
+            assert.equal(element._reviewed.length, 2);
+            assert.equal(req.status, 201);
+            assert.equal(req.url,
+                '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
+
+            done();
+          });
+        });
+      }, 1);
     });
   });
 </script>

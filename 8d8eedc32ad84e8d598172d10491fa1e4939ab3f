@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_bf58b760",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T16:45:20Z",
+      "side": 1,
+      "message": "All supported sizes are supported like in any other option.\n\nDone.",
+      "parentUuid": "5dd9683d_7f19cfbc",
+      "range": {
+        "startLine": 533,
+        "startChar": 4,
+        "endLine": 533,
+        "endChar": 8
+      },
+      "revId": "8d8eedc32ad84e8d598172d10491fa1e4939ab3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd9683d_5f140b86",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-09T14:02:52Z",
       "side": 1,
       "message": "If we now are using a builder anyhow we could use url.append instead of \u0027+\u0027.",
+      "range": {
+        "startLine": 226,
+        "startChar": 26,
+        "endLine": 226,
+        "endChar": 27
+      },
+      "revId": "8d8eedc32ad84e8d598172d10491fa1e4939ab3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_ff523f3c",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T16:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd9683d_5f140b86",
       "range": {
         "startLine": 226,
         "startChar": 26,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d937019_bd4ddfb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:45:24Z",
+      "side": 1,
+      "message": "Mention that ChangeControl is now @Singleton?",
+      "revId": "ddb97c926703c814652783417e7209c1e8e7ad1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -230,6 +230,10 @@ public class OutputStreamQuery {
                 eventFactory.addPatchSetFileNames(c.currentPatchSet,
                     d.change(), d.currentPatchSet());
               }
+              if (includeComments) {
+                eventFactory.addPatchSetComments(c.currentPatchSet,
+                    d.publishedComments());
+              }
             }
           }
 

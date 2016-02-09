@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "3dd5942a_76471097",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-09T19:16:03Z",
+      "side": 1,
+      "message": "We have a few different styles of “buttons”:\nLinks, small buttons, and larger buttons. These will eventually be consolidated into a single button element that will solve the stylistic repetition and avoid the issue that you’re talking about.\n\nFor now, though, it’s strictly for convenience.",
+      "parentUuid": "9db840d6_99c79b0e",
+      "revId": "b070b1ef9c307a861c786c38848f0cd8a35a5166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_99a07b6b",
         "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
         "patchSetId": 8

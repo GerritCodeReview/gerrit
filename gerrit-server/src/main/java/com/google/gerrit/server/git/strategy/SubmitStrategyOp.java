@@ -274,6 +274,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
           || s == CommitMergeStatus.CLEAN_PICK) {
         msg = message(ctx, commit.getPatchsetId(),
             txt + " as " + commit.name() + getByAccountName());
+      } else if (s == CommitMergeStatus.SKIPPED_IDENTICAL_TREE) {
+        msg = message(ctx, commit.getPatchsetId(), txt);
       } else if (s == CommitMergeStatus.ALREADY_MERGED) {
         msg = null;
       } else {

@@ -272,6 +272,21 @@ public class GetDiff implements RestReadView<FileResource> {
     return this;
   }
 
+  public GetDiff setContext(int context) {
+    this.context = context;
+    return this;
+  }
+
+  public GetDiff setIntraline(boolean intraline) {
+    this.intraline = intraline;
+    return this;
+  }
+
+  public GetDiff setWhitespace(Whitespace whitespace) {
+    this.whitespace = whitespace;
+    return this;
+  }
+
   private static class Content {
     final List<ContentEntry> lines;
     final SparseFileContent fileA;

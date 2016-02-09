@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_df7e5bb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T15:45:54Z",
+      "side": 1,
+      "message": "Now I remember: this is because the \"grant\" method from the superclass grants to the \"Administrators\" group, hardcoded.",
+      "parentUuid": "5dd9683d_5f3deb15",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_04b2f64c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4

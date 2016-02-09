@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_bf16f769",
+        "filename": "6e82b6f.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T19:13:37Z",
+      "side": 1,
+      "message": "This should not be included in this commit.",
+      "revId": "0da0a0516709ce7eb53855c8bab3e6e4fdbfd537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_df13bb78",
+        "filename": "a0a52f8.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T19:13:37Z",
+      "side": 1,
+      "message": "This should not be included in this commit.",
+      "revId": "0da0a0516709ce7eb53855c8bab3e6e4fdbfd537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

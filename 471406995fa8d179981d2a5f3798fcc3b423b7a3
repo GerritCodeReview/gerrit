@@ -22,6 +22,30 @@
       "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_5f8b2b0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-02-09T15:05:54Z",
+      "side": 1,
+      "message": "added @return. \n\nI\u0027ll gladly leave other undocumented parts to others that went through the effort to understand them.",
+      "parentUuid": "fda13c5f_fcfcc989",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 7
+      },
+      "revId": "471406995fa8d179981d2a5f3798fcc3b423b7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -218,6 +218,33 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCommentOptionsInCurrentPatchSetJSON() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    ReviewInput review = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.path = PushOneCommit.FILE_NAME;
+    comment.side = Side.REVISION;
+    comment.message = "comment 1";
+    review.comments = new HashMap<>();
+    review.comments.put(comment.path, Lists.newArrayList(comment));
+    gApi.changes().id(changeId).current().review(review);
+
+    List<ChangeAttribute> changes =
+        executeSucessfullQuery("gerrit query --format=JSON --current-patch-set "
+            + changeId);
+    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes.get(0).currentPatchSet.comments).isNull();
+
+    changes =
+        executeSucessfullQuery("gerrit query --format=JSON --current-patch-set "
+            + "--comments " + changeId);
+    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes.get(0).currentPatchSet.comments).isNotNull();
+    assertThat(changes.get(0).currentPatchSet.comments.size()).isEqualTo(1);
+  }
+
+  @Test
   public void testCommentOptionInPatchSetsJSON() throws Exception {
     String changeId = createChange().getChangeId();
 

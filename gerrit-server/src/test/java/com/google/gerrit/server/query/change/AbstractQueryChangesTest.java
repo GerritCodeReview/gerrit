@@ -711,7 +711,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     gApi.changes().id(change1.getId().get()).current()
         .review(new ReviewInput());
-    change1 = db.changes().get(change1.getId());
+    change1 = notesFactory.create(db, change1.getProject(), change1.getId())
+        .getChange();
 
     assertThat(lastUpdatedMs(change1)).isGreaterThan(lastUpdatedMs(change2));
     assertThat(lastUpdatedMs(change1) - lastUpdatedMs(change2))

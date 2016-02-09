@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -153,7 +152,6 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     ChangeInfo info = gApi.changes().id(id2.get()).get();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
     assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
-    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
 
     RevCommit tip;
     try (Repository repo = repoManager.openRepository(project);
@@ -177,7 +175,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
     assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo(lastMessage.message);
+        .isEqualTo("Change has been successfully merged by Administrator");
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef("refs/heads/master").getObjectId())

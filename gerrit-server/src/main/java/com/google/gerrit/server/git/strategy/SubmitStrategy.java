@@ -78,6 +78,7 @@ public abstract class SubmitStrategy {
   static class Arguments {
     interface Factory {
       Arguments create(
+          SubmitType submitType,
           Branch.NameKey destBranch,
           CommitStatus commits,
           CodeReviewRevWalk rw,
@@ -118,6 +119,7 @@ public abstract class SubmitStrategy {
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
     final String submissionId;
+    final SubmitType submitType;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
@@ -151,7 +153,8 @@ public abstract class SubmitStrategy {
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
-        @Assisted String submissionId) {
+        @Assisted String submissionId,
+        @Assisted SubmitType submitType) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
       this.batchUpdateFactory = batchUpdateFactory;
@@ -179,6 +182,7 @@ public abstract class SubmitStrategy {
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
       this.submissionId = submissionId;
+      this.submitType = submitType;
 
       this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
             "project not found: %s", destBranch.getParentKey());

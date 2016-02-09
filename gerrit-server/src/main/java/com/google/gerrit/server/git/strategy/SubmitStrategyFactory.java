@@ -53,9 +53,9 @@ public class SubmitStrategyFactory {
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
       CommitStatus commits, String submissionId)
       throws IntegrationException {
-    SubmitStrategy.Arguments args = argsFactory.create(destBranch, commits, rw,
-        caller, mergeTip, inserter, repo, canMergeFlag, db, alreadyAccepted,
-        submissionId);
+    SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
+        commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
+        alreadyAccepted, submissionId);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

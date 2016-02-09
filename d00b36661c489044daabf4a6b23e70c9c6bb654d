@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3dd5942a_16c9fc6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-09T15:23:57Z",
+      "side": 1,
+      "message": "I think this is the same as the case for any label where you don\u0027t configure copying. Which is to say, yes, it\u0027s not optimal, but the fact is that since approval copying is now the default, it\u0027s more prevalent. So (b) hasn\u0027t gone away, it\u0027s just a weaker argument.",
+      "parentUuid": "fda13c5f_bcf641a4",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_849a66e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ddb0f80b_5bcfa376",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-09T15:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31fdc0c1_849a66e2",
+      "range": {
+        "startLine": 41,
+        "startChar": 25,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fda13c5f_9cf90599",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +108,24 @@
       "writtenOn": "2016-02-09T00:30:37Z",
       "side": 1,
       "message": "Add a link to issue 1867 (which should be reopened).",
+      "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_3bccd77f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-09T15:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fda13c5f_9cf90599",
       "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

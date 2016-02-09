@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fda13c5f_bcf641a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:30:37Z",
+      "side": 1,
+      "message": "Just as an aside: the benefit of label copying can be lost if using a CI system that wipes out its own scores when it gets triggered by a new patch set upload. This can of course be avoided by adjusting to not trigger on trivial/no-code-change, but that might not always be feasible.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_849a66e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -20,6 +43,23 @@
         "endLine": 41,
         "endChar": 31
       },
+      "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fda13c5f_9cf90599",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:30:37Z",
+      "side": 1,
+      "message": "Add a link to issue 1867 (which should be reopened).",
       "revId": "d00b36661c489044daabf4a6b23e70c9c6bb654d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

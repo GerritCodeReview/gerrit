@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-request.html">
 
 <dom-module id="gr-file-list">
   <template>
@@ -52,6 +53,7 @@ limitations under the License.
       tr[selected] .positionIndicator {
         visibility: visible;
       }
+      .reviewed,
       .status {
         width: 20px;
       }
@@ -66,12 +68,16 @@ limitations under the License.
     <gr-ajax id="draftsXHR"
         url="[[_computeDraftsURL(changeNum, patchNum)]]"
         last-response="{{_drafts}}"></gr-ajax>
+    <gr-ajax id="reviewedXHR"
+        url="[[_computeReviewedURL(changeNum, patchNum)]]"
+        last-response="{{_reviewed}}"></gr-ajax>
     </gr-ajax>
     <div class="tableContainer">
       <table>
         <tr>
           <th></th>
           <th></th>
+          <th hidden$="[[!_loggedIn]]" hidden></th>
           <th>Path</th>
           <th>Comments</th>
           <th>Stats</th>
@@ -79,6 +85,10 @@ limitations under the License.
         <template is="dom-repeat" items="{{files}}" as="file">
           <tr class="fileRow" selected$="[[_computeFileSelected(index, selectedIndex)]]">
             <td class="positionIndicator">&#x25b6;</td>
+            <td class="reviewed" hidden$="[[!_loggedIn]]" hidden>
+              <input type="checkbox" checked="[[_computeReviewed(file, _reviewed)]]"
+                  data-path$="[[file.__path]]" on-change="_toggleReviewed">
+            </td>
             <td class="status">[[file.status]]</td>
             <td class="path">
               <a class="file"
@@ -118,7 +128,13 @@ limitations under the License.
           value: function() { return document.body; },
         },
 
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
         _drafts: Object,
+        _reviewed: Array,
+        _xhrPromise: Object,  // Used for testing.
       },
 
       behaviors: [
@@ -133,8 +149,10 @@ limitations under the License.
         return Promise.all([
           this.$.filesXHR.generateRequest().completes,
           app.accountReady.then(function() {
+            this._loggedIn = app.loggedIn;
             if (!app.loggedIn) { return; }
             this.$.draftsXHR.generateRequest();
+            this.$.reviewedXHR.generateRequest();
           }.bind(this)),
         ]);
       },
@@ -151,6 +169,34 @@ limitations under the License.
         if (num == 0) { return ''; }
         if (num == 1) { return '1 comment'; }
         if (num > 1) { return num + ' comments'; }
+      },
+
+      _computeReviewedURL: function(changeNum, patchNum) {
+        return this.changeBaseURL(changeNum, patchNum) + '/files?reviewed';
+      },
+
+      _computeReviewed: function(file, _reviewed) {
+        return _reviewed.indexOf(file.__path) != -1;
+      },
+
+      _toggleReviewed: function(e) {
+        var path = e.target.getAttribute('data-path');
+        var index = this._reviewed.indexOf(path);
+        var reviewed = index != -1;
+        if (reviewed) {
+          this.splice('_reviewed', index, 1);
+        } else {
+          this.push('_reviewed', path);
+        }
+
+        var method = reviewed ? 'DELETE' : 'PUT';
+        var url = this.changeBaseURL(this.changeNum, this.patchNum) +
+            '/files/' + encodeURIComponent(path) + '/reviewed';
+        this._send(method, url).catch(function(err) {
+          alert('Couldn’t change file review status. Check the console ' +
+              'and contact the PolyGerrit team for assistance.');
+          throw err;
+        }.bind(this));
       },
 
       _computeDraftsURL: function(changeNum, patchNum) {
@@ -221,6 +267,15 @@ limitations under the License.
 
       _computeDiffURL: function(changeNum, patchNum, path) {
         return '/c/' + changeNum + '/' + patchNum + '/' + path;
+      },
+
+      _send: function(method, url) {
+        var xhr = document.createElement('gr-request');
+        this._xhrPromise = xhr.send({
+          method: method,
+          url: url,
+        });
+        return this._xhrPromise;
       },
     });
   })();

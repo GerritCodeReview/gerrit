@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_d685c4f9",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-02-09T23:52:21Z",
+      "side": 1,
+      "message": "Do I understand correctly that this isn\u0027t true any more?",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 64
+      },
+      "revId": "c9357d471d8d0857e5c044677e293e50efe3b475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

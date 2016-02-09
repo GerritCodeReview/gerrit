@@ -2874,6 +2874,31 @@ Common examples:
   safe = true
 ----
 
+[[oauth]]
+=== Section oauth
+
+OAuth integration is only enabled if `auth.type` is set to `OAUTH`. See
+link:#auth.type[above] for a detailed description of the `auth.type` settings
+and their implications.
+
+By default, contact information, like the full name and email address,
+is retrieved from the selected OAuth provider when a user account is created,
+or when a user requests to reload that information in the settings UI. If
+that is not supported by the OAuth provider, users can be allowed to edit
+their contact information manually.
+
+[[oauth.allowEditFullName]]oauth.allowEditFullName::
++
+If true, the full name can be edited in the contact information.
++
+Default is false.
+
+[[oauth.allowRegisterNewEmail]]oauth.allowRegisterNewEmail::
++
+If true, additional email addresses can be registered in the contact
+information.
++
+Default is false.
 
 [[pack]]
 === Section pack

@@ -105,7 +105,7 @@ limitations under the License.
             target="_blank">[[change.project]]: [[change.branch]]: [[change.subject]]</a>
       </template>
     </section>
-    <section hidden="[[!_sameTopic.length]]" hidden>
+    <section hidden$="[[!_sameTopic.length]]" hidden>
       <h4>Same topic</h4>
       <template is="dom-repeat" items="[[_sameTopic]]" as="change">
         <a href$="[[_computeChangeURL(change._number)]]"
@@ -113,7 +113,7 @@ limitations under the License.
             target="_blank">[[change.project]]: [[change.branch]]: [[change.subject]]</a>
       </template>
     </section>
-    <section hidden="[[!_conflicts.length]]" hidden>
+    <section hidden$="[[!_conflicts.length]]" hidden>
       <h4>Merge conflicts</h4>
       <template is="dom-repeat" items="[[_conflicts]]" as="change">
         <a href$="[[_computeChangeURL(change._number)]]"
@@ -121,7 +121,7 @@ limitations under the License.
             target="_blank">[[change.subject]]</a>
       </template>
     </section>
-    <section hidden="[[!_cherryPicks.length]]" hidden>
+    <section hidden$="[[!_cherryPicks.length]]" hidden>
       <h4>Cherry picks</h4>
       <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
         <a href$="[[_computeChangeURL(change._number)]]"

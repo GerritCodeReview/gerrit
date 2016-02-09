@@ -66,7 +66,7 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':powermock-reflect',
-    '//lib:javassist-3.17.1-GA',
+    '//lib:javassist',
     '//lib:junit',
   ],
 )

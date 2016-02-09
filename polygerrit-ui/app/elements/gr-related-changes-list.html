@@ -82,7 +82,6 @@ limitations under the License.
         params="[[_computeSameTopicQueryParams(change.topic)]]"
         last-response="{{_sameTopic}}"></gr-ajax>
 
-    <h3>Related changes</h3>
     <div hidden$="[[!_loading]]">Loading...</div>
     <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
       <h4>Relation Chain</h4>

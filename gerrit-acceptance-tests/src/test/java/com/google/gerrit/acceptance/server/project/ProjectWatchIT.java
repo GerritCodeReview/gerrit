@@ -29,6 +29,7 @@ import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.EnumSet;
@@ -40,6 +41,11 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   private FakeEmailSender sender;
 
   private final Address addr = new Address("Watcher", "watcher@example.com");
+
+  @Before
+  public void setup() {
+    sender.clearMessages();
+  }
 
   /**
    * Tests message project watches on new patch sets

@@ -104,6 +104,13 @@ public class FakeEmailSender implements EmailSender {
     }
   }
 
+  public void clearMessages() {
+    waitForEmails();
+    synchronized (messages) {
+      messages.clear();
+    }
+  }
+
   public ImmutableList<Message> getMessages(String changeId, String type) {
     final String idFooter = "\nGerrit-Change-Id: " + changeId + "\n";
     final String typeFooter = "\nGerrit-MessageType: " + type + "\n";

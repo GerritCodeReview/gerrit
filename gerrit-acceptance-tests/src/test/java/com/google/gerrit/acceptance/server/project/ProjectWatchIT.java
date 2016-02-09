@@ -20,6 +20,7 @@ import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
@@ -133,6 +134,79 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(addr);
     assertThat(m.body()).contains("Change subject: super sekret subject\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 2\n");
+  }
+
+  /**
+   * Tests for project watch type "all comments" with a basic "label:" query.
+   */
+  @Test
+  public void labelWithoutGroupConfig() throws Exception {
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.ALL_COMMENTS));
+    nc.setFilter("label:Code-Review+2");
+    addNotifyConfig(project, nc);
+
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
+        "subject", "a", "a1")
+      .to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(addr);
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+  }
+
+  /**
+   * Tests for project watch type "all comments" with a "label:" query
+   * with group parameter specifying a group that does not exist. This
+   * should not cause any notification to be sent.
+   */
+  @Test
+  public void labelWithGroupConfigNoMembers() throws Exception {
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.ALL_COMMENTS));
+    nc.setFilter("label:Code-Review+2,test-group");
+    addNotifyConfig(project, nc);
+
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
+        "subject", "a", "a1")
+      .to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(0);
+  }
+
+  /**
+   * Tests for project watch type "all comments" with a "label:" query
+   * with group parameter.
+   */
+  @Test
+  public void labelWithGroupConfig() throws Exception {
+    NotifyConfig nc = newNotifyConfig(EnumSet.of(NotifyType.ALL_COMMENTS));
+    nc.setFilter("label:Code-Review+2,test-group");
+    addNotifyConfig(project, nc);
+
+    //TODO: create 'test-group' and add admin user to it
+
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo,
+        "subject", "a", "a1")
+      .to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(addr);
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
 
   private NotifyConfig newNotifyConfig(EnumSet<NotifyType> types) throws Exception {

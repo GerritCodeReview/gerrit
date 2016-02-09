@@ -19,6 +19,7 @@ import com.google.gerrit.client.info.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -70,22 +71,8 @@ public class DiffApi {
   }
 
   public DiffApi ignoreWhitespace(DiffPreferencesInfo.Whitespace w) {
-    switch (w) {
-      default:
-      case IGNORE_NONE:
-        return ignoreWhitespace(IgnoreWhitespace.NONE);
-      case IGNORE_TRAILING:
-        return ignoreWhitespace(IgnoreWhitespace.TRAILING);
-      case IGNORE_LEADING_AND_TRAILING:
-        return ignoreWhitespace(IgnoreWhitespace.CHANGED);
-      case IGNORE_ALL:
-        return ignoreWhitespace(IgnoreWhitespace.ALL);
-    }
-  }
-
-  public DiffApi ignoreWhitespace(IgnoreWhitespace w) {
-    if (w != null && w != IgnoreWhitespace.NONE) {
-      call.addParameter("ignore-whitespace", w);
+    if (w != null && w != Whitespace.IGNORE_ALL) {
+      call.addParameter("whitespace", w);
     }
     return this;
   }

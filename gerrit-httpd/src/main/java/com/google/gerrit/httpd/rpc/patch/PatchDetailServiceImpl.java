@@ -59,7 +59,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       @Override
       public PatchScript call() throws Exception {
         ChangeControl control = changeControlFactory.validateFor(
-            patchKey.getParentKey().getParentKey(),
+            getDb(), patchKey.getParentKey().getParentKey(),
             getUser());
         return patchScriptFactoryFactory.create(
             control, patchKey.getFileName(), psa, psb, dp).call();

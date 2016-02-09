@@ -610,7 +610,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     indexer.index(db, c);
 
     ChangeUpdate u = changeUpdateFactory.create(
-        changeControlFactory.controlFor(c, userFactory.create(adminId)));
+        changeControlFactory.controlFor(db, c, userFactory.create(adminId)));
     u.setBranch(c.getDest().get());
     u.setChangeId(c.getKey().get());
     u.commit();

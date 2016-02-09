@@ -163,7 +163,7 @@ public class ChangeRebuilder {
         writeToBatch(batch, update, changeRepo);
         IdentifiedUser user = userFactory.create(dbProvider, e.who);
         update = updateFactory.create(
-            controlFactory.controlFor(change, user), e.when);
+            controlFactory.controlFor(db, change, user), e.when);
         update.setPatchSetId(e.psId);
         if (batch == null) {
           batch = update.openUpdateInBatch(bru);
@@ -191,7 +191,7 @@ public class ChangeRebuilder {
       for (PatchLineCommentEvent e : draftCommentEvents.get(author)) {
         if (draftUpdate == null) {
           draftUpdate = draftUpdateFactory.create(
-              controlFactory.controlFor(change, user), e.when);
+              controlFactory.controlFor(db, change, user), e.when);
           draftUpdate.setPatchSetId(e.psId);
           batchForDrafts = draftUpdate.openUpdateInBatch(bruAllUsers);
         }

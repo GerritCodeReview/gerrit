@@ -985,7 +985,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         return false;
       }
       ProjectControl pc = pe.controlFor(user);
-      return pc.controlFor(change).isVisible(db);
+      return pc.controlFor(db, change).isVisible(db);
     }
 
     private boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {

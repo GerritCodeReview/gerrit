@@ -230,6 +230,17 @@ public class SiteIndexer {
       log.error("Error in batch indexer", e);
       ok.set(false);
     }
+    // If too many changes failed, maybe there was a bug in the indexer. Don't
+    // trust the results. This is not an exact percentage since we bump the same
+    // failure counter if a project can't be read, but close enough.
+    int nFailed = failedTask.getCount();
+    int nTotal = nFailed + doneTask.getCount();
+    double pctFailed = ((double) nFailed) / nTotal * 100;
+    if (pctFailed > 10) {
+      log.error("Failed {}/{} changes ({}%); not marking new index as ready",
+          nFailed, nTotal, Math.round(pctFailed));
+      ok.set(false);
+    }
     return new Result(sw, ok.get(), doneTask.getCount(), failedTask.getCount());
   }
 

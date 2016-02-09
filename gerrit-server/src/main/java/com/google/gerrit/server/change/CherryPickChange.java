@@ -279,7 +279,8 @@ public class CherryPickChange {
         .append(cherryPickCommit.getId().getName());
     changeMessage.setMessage(sb.toString());
 
-    ChangeControl ctl = refControl.getProjectControl().controlFor(change);
+    ChangeControl ctl = refControl.getProjectControl()
+        .controlFor(db.get(), change);
     ChangeUpdate update = updateFactory.create(ctl, TimeUtil.nowTs());
     changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
     update.commit();

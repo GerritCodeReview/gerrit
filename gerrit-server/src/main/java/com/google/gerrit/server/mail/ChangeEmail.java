@@ -370,7 +370,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
-            .controlFor(change).isVisible(args.db.get());
+            .controlFor(args.db.get(), change).isVisible(args.db.get());
   }
 
   /** Find all users who are authors of any part of this change. */

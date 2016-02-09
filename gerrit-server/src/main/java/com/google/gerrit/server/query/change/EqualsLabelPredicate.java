@@ -114,7 +114,8 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
       //
       IdentifiedUser reviewer = userFactory.create(dbProvider, approver);
       try {
-        ChangeControl cc = ccFactory.controlFor(change, reviewer);
+        ChangeControl cc =
+            ccFactory.controlFor(dbProvider.get(), change, reviewer);
         if (!cc.isVisible(dbProvider.get())) {
           // The user can't see the change anymore.
           //

@@ -119,7 +119,8 @@ public class ChangeEditUtil {
   public Optional<ChangeEdit> byChange(Change change)
       throws AuthException, IOException, OrmException {
     try {
-      return byChange(changeControlFactory.controlFor(change, user.get()));
+      return byChange(
+          changeControlFactory.controlFor(db.get(), change, user.get()));
     } catch (NoSuchChangeException e) {
       throw new IOException(e);
     }

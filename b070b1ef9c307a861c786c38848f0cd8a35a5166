@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_d9aaf348",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T18:56:37Z",
+      "side": 1,
+      "message": "It looks like this is used for styling links only? I just don\u0027t really like it since it leads in a browser status bar with no useful value.",
+      "range": {
+        "startLine": 187,
+        "startChar": 30,
+        "endLine": 187,
+        "endChar": 38
+      },
+      "revId": "b070b1ef9c307a861c786c38848f0cd8a35a5166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_99a07b6b",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-09T18:56:37Z",
+      "side": 1,
+      "message": "Style:\n\n      behaviors: [\n        Gerrit.RESTClientBehavior,\n      ],\n\n      observers: [\n        \u0027_schemesChanged(config.schemes)\u0027,\n      ],",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 55
+      },
+      "revId": "b070b1ef9c307a861c786c38848f0cd8a35a5166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

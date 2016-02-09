@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_59cee32e",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T19:21:31Z",
+      "side": 1,
+      "message": "I don\u0027t think it is the best location of related change panel.  Why don\u0027t we add another column for the related changes, like it\u0027s done on the current change screen? From the usability point of view, it\u0027s aways very wrong to scroll to South Africa to see substantial details of the change. Consider a change with dozen of files, you would need to scroll to see realted changed. Consider a change with long commit message, you would need to scroll to see related changes. Not to mention, that we aren\u0027t using so much place on the change screen to the right of the change description. At very least, if you insist for other reasons (that I\u0027m missing?) not to start second (or even third column) right to the change description, it related change panel should come _before_ the file list panel, obviously.",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 62
+      },
+      "revId": "24a9271481eaf406410f74b76a7b569349bf89a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

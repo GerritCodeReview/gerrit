@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d937019_bdf63fa4",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:16:45Z",
+      "side": 1,
+      "message": "I would move this example after the paragraph at lines 189-190, since that\u0027s where multiple labels are mentioned.",
+      "revId": "d1a7ff6fb57b3ca10a1b72b6bb5dff297ce99d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fda13c5f_1c06556d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:16:45Z",
+      "side": 1,
+      "message": "It might be better to use Code-Review here, since it\u0027s one of the default labels?",
+      "range": {
+        "startLine": 186,
+        "startChar": 104,
+        "endLine": 186,
+        "endChar": 111
+      },
+      "revId": "d1a7ff6fb57b3ca10a1b72b6bb5dff297ce99d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

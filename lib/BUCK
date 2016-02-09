@@ -253,10 +253,10 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'javassist-3.17.1-GA',
+  name = 'javassist-3.18.0-GA',
   # The GWT version is still at 3.16.1-GA, so those do not match
-  id = 'org.javassist:javassist:3.17.1-GA',
-  sha1 = '30c30512115866b6e0123f1913bc7735b9f76d08',
+  id = 'org.javassist:javassist:3.18.0-GA',
+  sha1 = 'fbdd54ef493836f3ce32031cfe86d6ca8f15539f',
   license = 'DO_NOT_DISTRIBUTE',
 )
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_1fe523f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsFilePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-09T07:47:19Z",
+      "side": 1,
+      "message": "This is not the correct workaround, because in all recent schema version this fiel exist. The much better fix would be to get rid of this field existence query altogether: [1]. Unfortunately, quite some unit tests make assumption on this and must be re-written or just dropped.\n\n* [1] https://gerrit-review.googlesource.com/#/c/73877",
+      "revId": "bc81763cd3e411c14802bb698c0fd4f8c2567877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

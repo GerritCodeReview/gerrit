@@ -26,6 +26,7 @@ import com.google.inject.Provider;
 import org.junit.Test;
 
 import java.nio.file.Paths;
+import java.util.Collections;
 
 public class LibrariesTest {
   @Test
@@ -40,7 +41,7 @@ public class LibrariesTest {
       public LibraryDownloader get() {
         return new LibraryDownloader(ui, site);
       }
-    });
+    }, Collections.<String> emptyList(), false);
 
     assertNotNull(lib.bouncyCastleProvider);
     assertNotNull(lib.mysqlDriver);

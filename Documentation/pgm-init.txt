@@ -12,6 +12,8 @@ init - Initialize a new Gerrit server installation
 	[--list-plugins]
 	[--install-plugin=<PLUGIN_NAME>]
         [--dev]
+	[--skip-all-downloads]
+	[--skip-download=<LIBRARY_NAME>]
 --
 
 == DESCRIPTION
@@ -55,6 +57,14 @@ objects these SQL statements have to be executed manually.
 --dev::
 	Install in developer mode. Default configuration settings are
 	chosen to run the Gerrit server as a developer.
+
+--skip-all-downloads::
+	Do not automatically download and install required libraries. The
+	administrator must provision the required libraries in the lib/ folder.
+
+--skip-download::
+	Do not automatically download and install the library with the given name.
+	The administrator must provision the required library in the lib/ folder.
 
 == CONTEXT
 This command can only be run on a server which has direct

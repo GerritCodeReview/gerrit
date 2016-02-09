@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fda13c5f_dcff8d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-09T00:17:11Z",
+      "side": 1,
+      "message": "clearer",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "d1a7ff6fb57b3ca10a1b72b6bb5dff297ce99d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d937019_bdf63fa4",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1

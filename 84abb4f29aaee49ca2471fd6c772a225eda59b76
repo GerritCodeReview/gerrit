@@ -292,6 +292,24 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_b9efffa1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T16:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db840d6_d9503350",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_9946bb99",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 4
@@ -466,6 +484,54 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_3f6d8706",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T16:27:23Z",
+      "side": 1,
+      "message": "PUSH_TAG is how it is named in Gerrit\u0027s source code. Unless it is changed everywhere I wouldn\u0027t use a different name only in this test.",
+      "parentUuid": "5dd9683d_bf435788",
+      "range": {
+        "startLine": 62,
+        "startChar": 21,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_d9fcb361",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T16:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd9683d_9f469399",
+      "range": {
+        "startLine": 62,
+        "startChar": 55,
+        "endLine": 62,
+        "endChar": 59
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_bf4797fd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 4
@@ -511,6 +577,30 @@
       "writtenOn": "2016-02-09T13:54:18Z",
       "side": 1,
       "message": "What is your expectation? Should this succeed or fail? I think you should be required to use force to move the annotated tag but you are not using force and moreover you are not allowed to use force. So I think this is OK to fail.",
+      "range": {
+        "startLine": 114,
+        "startChar": 38,
+        "endLine": 114,
+        "endChar": 59
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_5f624b15",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-09T16:27:23Z",
+      "side": 1,
+      "message": "One of the purposes of this test is to find out if Push+force is needed to move an annotated tag :-)",
+      "parentUuid": "9db840d6_f94df7b4",
       "range": {
         "startLine": 114,
         "startChar": 38,

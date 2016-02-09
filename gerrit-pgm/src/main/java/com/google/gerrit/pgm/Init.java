@@ -40,6 +40,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** Initialize a new Gerrit installation. */
@@ -66,6 +67,12 @@ public class Init extends BaseInit {
   @Option(name = "--dev",
       usage = "Setup site with default options suitable for developers")
   private boolean dev;
+
+  @Option(name = "--skip-all-downloads", usage = "Don't download libraries")
+  private boolean skipAllDownloads;
+
+  @Option(name = "--skip-download", usage = "Don't download given library")
+  private List<String> skippedDownloads;
 
   @Inject
   Browser browser;
@@ -144,6 +151,18 @@ public class Init extends BaseInit {
   @Override
   protected boolean isDev() {
     return dev;
+  }
+
+  @Override
+  protected boolean skipAllDownloads() {
+    return skipAllDownloads;
+  }
+
+  @Override
+  protected List<String> getSkippedDownloads() {
+    return skippedDownloads != null
+        ? skippedDownloads
+        : Collections.<String> emptyList();
   }
 
   @Override

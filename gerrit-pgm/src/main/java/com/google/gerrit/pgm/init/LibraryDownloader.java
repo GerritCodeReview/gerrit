@@ -58,6 +58,7 @@ class LibraryDownloader {
   private Path dst;
   private boolean download; // download or copy
   private boolean exists;
+  private boolean skipDownload;
 
   @Inject
   LibraryDownloader(ConsoleUI ui, SitePaths site) {
@@ -87,6 +88,10 @@ class LibraryDownloader {
     needs.add(lib);
   }
 
+  void setSkipDownload(boolean skipDownload) {
+    this.skipDownload = skipDownload;
+  }
+
   void downloadRequired() {
     setRequired(true);
     download();
@@ -105,6 +110,10 @@ class LibraryDownloader {
   }
 
   private void download() {
+    if (skipDownload) {
+      return;
+    }
+
     if (jarUrl == null || !jarUrl.contains("/")) {
       throw new IllegalStateException("Invalid JarUrl for " + name);
     }

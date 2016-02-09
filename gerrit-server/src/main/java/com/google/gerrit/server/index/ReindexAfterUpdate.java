@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -49,6 +50,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeIndexer.Factory indexerFactory;
   private final IndexCollection indexes;
+  private final ChangeNotes.Factory notesFactory;
   private final ListeningExecutorService executor;
 
   @Inject
@@ -57,11 +59,13 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,
       IndexCollection indexes,
+      ChangeNotes.Factory notesFactory,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
     this.queryProvider = queryProvider;
     this.indexerFactory = indexerFactory;
     this.indexes = indexes;
+    this.notesFactory = notesFactory;
     this.executor = executor;
   }
 
@@ -145,7 +149,9 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
     protected Void impl(RequestContext ctx) throws OrmException, IOException {
       // Reload change, as some time may have passed since GetChanges.
       ReviewDb db = ctx.getReviewDbProvider().get();
-      Change c = db.changes().get(id);
+      Change c = notesFactory
+          .create(db, new Project.NameKey(event.getProjectName()), id)
+          .getChange();
       indexerFactory.create(executor, indexes).index(db, c);
       return null;
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_f91a575d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-02-09T23:13:09Z",
+      "side": 1,
+      "message": "Use Change-Id: Ib4c82bbcf so that is going to be rendered as hyperlink to the actual change.",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "50720f336625bb4e606d593e3d227bbda93188bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

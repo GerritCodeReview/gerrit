@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5dd9683d_5f3deb15",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "Sure we want to commit as admin?",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_04b2f64c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -19,6 +42,52 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_3f382727",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "Why doesn\u0027t this require create in refs/tags/*? It creates a ref there.",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 55
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_593d0316",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 38
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_e41fda04",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -30,6 +99,29 @@
       "writtenOn": "2016-02-08T17:38:06Z",
       "side": 1,
       "message": "This succeeds in both 2.10 and 2.11.\nThis means that 2.11 allows transport of new commits as a part of creation of an annotated tag even without the Push permission.\nHowever, it doesn\u0027t allow the same for lightweight tags as seen in the previous test.",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_7f42af88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 38
+      },
       "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +162,92 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_7942c788",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "sure the admin should be the tagger?",
+      "range": {
+        "startLine": 65,
+        "startChar": 53,
+        "endLine": 65,
+        "endChar": 69
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_d9503350",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "I would refrain from using the PushOneCommit helper class as we need to now in details what\u0027s going on here. Using JGit directly instead would make the test not very much more complicated but much more explicit what\u0027s going on here.",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_9946bb99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "why are you pushing through code review? Why not just \ncreate the tag as in the TagCreateIT: \n\n  PushResult r \u003d push(git, \"HEAD:refs/tags/v1\");",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_b9437f88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "Why not directly push to the master branch? Why push the commit at all and not just via the tag?",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_9f42d3ee",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 4
@@ -104,6 +282,52 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_9f469399",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "Introducing a constant \n protected static final boolean FORCE \u003d true; \non the super class would improve the readability.",
+      "range": {
+        "startLine": 62,
+        "startChar": 55,
+        "endLine": 62,
+        "endChar": 59
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_bf435788",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "I think the name of this constant should be \nPUSH_ANNOTATED_TAG to avoid confusing it with PUSH on refs/tags/*",
+      "range": {
+        "startLine": 62,
+        "startChar": 21,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_bf4797fd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
         "patchSetId": 4
@@ -132,6 +356,98 @@
       "writtenOn": "2016-02-08T17:38:06Z",
       "side": 1,
       "message": "Fails in 2.11 with REJECTED_NONFASTSORWARD, which means: \"Push\" permission allows update of lightweight tags but doesn\u0027t allow update of annotated tags.\n\nFails in 2.10",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_f94df7b4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "What is your expectation? Should this succeed or fail? I think you should be required to use force to move the annotated tag but you are not using force and moreover you are not allowed to use force. So I think this is OK to fail.",
+      "range": {
+        "startLine": 114,
+        "startChar": 38,
+        "endLine": 114,
+        "endChar": 59
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_ff4ddfb4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "FORCE",
+      "range": {
+        "startLine": 120,
+        "startChar": 51,
+        "endLine": 120,
+        "endChar": 55
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_391f6fa6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "For which reason does this fail? You are using force but may not be using force as you are lacking the permission to use force?",
+      "range": {
+        "startLine": 170,
+        "startChar": 48,
+        "endLine": 170,
+        "endChar": 76
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_59142386",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-09T13:54:18Z",
+      "side": 1,
+      "message": "see above?",
+      "range": {
+        "startLine": 190,
+        "startChar": 48,
+        "endLine": 190,
+        "endChar": 76
+      },
       "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

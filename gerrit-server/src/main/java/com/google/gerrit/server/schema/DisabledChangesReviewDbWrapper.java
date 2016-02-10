@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
@@ -33,6 +34,7 @@ import com.google.gwtorm.server.ResultSet;
 public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
   private static final String MSG = "This table has been migrated to notedb";
 
+  private final DisabledChangeAccess changes;
   private final DisabledPatchSetApprovalAccess patchSetApprovals;
   private final DisabledChangeMessageAccess changeMessages;
   private final DisabledPatchSetAccess patchSets;
@@ -40,6 +42,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
 
   DisabledChangesReviewDbWrapper(ReviewDb db) {
     super(db);
+    changes = new DisabledChangeAccess(delegate.changes());
     patchSetApprovals =
         new DisabledPatchSetApprovalAccess(delegate.patchSetApprovals());
     changeMessages = new DisabledChangeMessageAccess(delegate.changeMessages());
@@ -50,6 +53,11 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
 
   public ReviewDb unsafeGetDelegate() {
     return delegate;
+  }
+
+  @Override
+  public ChangeAccess changes() {
+    return changes;
   }
 
   @Override
@@ -70,6 +78,38 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
   @Override
   public PatchLineCommentAccess patchComments() {
     return patchComments;
+  }
+
+  private static class DisabledChangeAccess extends ChangeAccessWrapper {
+
+    protected DisabledChangeAccess(ChangeAccess delegate) {
+      super(delegate);
+    }
+
+    @Override
+    public ResultSet<Change> iterateAllEntities() {
+      throw new UnsupportedOperationException(MSG);
+    }
+
+    @Override
+    public CheckedFuture<Change, OrmException> getAsync(Change.Id key) {
+      throw new UnsupportedOperationException(MSG);
+    }
+
+    @Override
+    public ResultSet<Change> get(Iterable<Change.Id> keys) {
+      throw new UnsupportedOperationException(MSG);
+    }
+
+    @Override
+    public Change get(Change.Id id) throws OrmException {
+      throw new UnsupportedOperationException(MSG);
+    }
+
+    @Override
+    public ResultSet<Change> all() throws OrmException {
+      throw new UnsupportedOperationException(MSG);
+    }
   }
 
   private static class DisabledPatchSetApprovalAccess

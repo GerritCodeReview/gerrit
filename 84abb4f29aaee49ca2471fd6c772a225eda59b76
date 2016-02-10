@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_9fabf3e6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-10T10:02:48Z",
+      "side": 1,
+      "message": "Yes: this has to be consistent, either both succeed or both fail. Then we should make it explicit in the docs and secure with tests.\n\n@DavidP: Excuse me for repeating here what we already discussed per email. I will put that again here so that others can express their opinion.\n\nLooks like, for some people (maybe all except me?) the \"Push\" permission is a precondition for allowing of transport of new commits.\n\nFor me, the meaning of the \"Push\" was more like \"Update\". For example, if I push a commit to a branch and the commit is already available in Gerrit, then the \"Push\" permission actually just allows update of the target branch. If the pushed commit wasn\u0027t in Gerrit then it was first transported (subject to forge-author/committer and other checks) and then the target reference is updated. The transport step was more a necessary precondition than a part of the Push permission, for me.\n\nSo we have to agree on the meaning on the Push permission:\n\n1. Push is necessary for Update of the target ref\n2. Push is necessary for Uploading of new commits\n\nWe agree on 1.\nWe need to agree on 2.",
+      "parentUuid": "3dd5942a_96a50ccd",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd9683d_7f42af88",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4

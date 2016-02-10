@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_1b447b3d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T08:34:29Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "5e9578bdc3811eb482f8228c0b18150baf8eeb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

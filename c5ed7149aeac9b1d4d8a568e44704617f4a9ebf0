@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_5f3fab9f",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T07:20:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\n\n src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java\n\nThe difference to previous change, is that the BUCK file is located in the root of the project and not adjucent to the source files.",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 170,
+        "endChar": 29
+      },
+      "revId": "c5ed7149aeac9b1d4d8a568e44704617f4a9ebf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_195c6bf8",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T07:20:11Z",
+      "side": 1,
+      "message": "This looks worng: you\u0027ve excluded the source of flaky tests from QUERY_TESTS. You probably meant to use:\n\n  FLAKY_TEST_CASES\n\n?",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 1
+      },
+      "revId": "c5ed7149aeac9b1d4d8a568e44704617f4a9ebf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ddb0f80b_bbf0e746",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-10T14:25:20Z",
+      "side": 1,
+      "message": "move this outside of if to reduce duplication?\n\nMultimap\u003cProject.NameKey, Change\u003e m \u003d ArrayListMultimap.create();\nif (migration.readChanges()) {\n for...\n} else {\n for...\n}\nreturn ImmutableListMultimap.copyOf(m);",
+      "range": {
+        "startLine": 110,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 71
+      },
+      "revId": "cda3bafe8aa6b675b433d51e4151627e51898061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb0f80b_fbe66f91",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeAccess.java",
         "patchSetId": 2

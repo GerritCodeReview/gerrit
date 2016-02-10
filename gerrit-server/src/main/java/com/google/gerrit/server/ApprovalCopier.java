@@ -16,10 +16,6 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.change.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
-import static com.google.gerrit.server.change.ChangeKind.NO_CHANGE;
-import static com.google.gerrit.server.change.ChangeKind.NO_CODE_CHANGE;
-import static com.google.gerrit.server.change.ChangeKind.TRIVIAL_REBASE;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
@@ -173,10 +169,22 @@ public class ApprovalCopier {
       // may not be psId.get() - 1).
       return true;
     }
-    return (type.isCopyAllScoresOnMergeFirstParentUpdate() && kind == MERGE_FIRST_PARENT_UPDATE)
-        || (type.isCopyAllScoresOnTrivialRebase() && kind == TRIVIAL_REBASE)
-        || (type.isCopyAllScoresIfNoCodeChange() && kind == NO_CODE_CHANGE)
-        || (type.isCopyAllScoresIfNoChange() && kind == NO_CHANGE);
+    switch (kind) {
+      case MERGE_FIRST_PARENT_UPDATE:
+        return type.isCopyAllScoresOnMergeFirstParentUpdate();
+      case NO_CODE_CHANGE:
+        return type.isCopyAllScoresIfNoCodeChange();
+      case TRIVIAL_REBASE:
+        return type.isCopyAllScoresOnTrivialRebase();
+      case NO_CHANGE:
+        return type.isCopyAllScoresIfNoChange()
+            || type.isCopyAllScoresOnTrivialRebase()
+            || type.isCopyAllScoresOnMergeFirstParentUpdate()
+            || type.isCopyAllScoresIfNoCodeChange();
+      case REWORK:
+      default:
+        return false;
+    }
   }
 
   private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {

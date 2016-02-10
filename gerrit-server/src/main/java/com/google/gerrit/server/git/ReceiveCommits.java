@@ -2073,8 +2073,6 @@ public class ReceiveCommits {
               "(W) No changes between prior commit %s and new commit %s",
               reader.abbreviate(priorCommit).name(),
               reader.abbreviate(newCommit).name()));
-          reject(inputCommand, "no changes made");
-          return false;
         } else {
           StringBuilder msg = new StringBuilder();
           msg.append("(W) ");

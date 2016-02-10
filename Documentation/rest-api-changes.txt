@@ -15,8 +15,8 @@ link:rest-api.html[REST API].
 
 The change info link:#change-info[ChangeInfo] entity must be provided in the
 request body. Only the following attributes are honored: `project`,
-`branch`, `subject`, `status` and `topic`. The first three attributes are
-mandatory. Valid values for status are: `DRAFT` and `NEW`.
+`branch`, `subject`, `status`, `topic` and `newBranch`. The first three
+attributes are mandatory. Valid values for status are: `DRAFT` and `NEW`.
 
 .Request
 ----
@@ -4019,6 +4019,9 @@ problems with this change. Only set if link:#check[CHECK] is set.
 |`base_change`        |optional|
 A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation. Only used for the link:#create-change[CreateChange] endpoint.
+|`newBranch`          |optional, default to `false`|
+Only used in link:#create-change[CreateChange] request,
+allow creating a new branch when set to `true`.
 |==================================
 
 [[change-message-info]]

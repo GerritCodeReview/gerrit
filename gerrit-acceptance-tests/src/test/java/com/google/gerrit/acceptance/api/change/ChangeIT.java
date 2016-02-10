@@ -981,6 +981,24 @@ public class ChangeIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void createEmptyChangeOnNonExistingBranch() throws Exception {
+    ChangeInfo in = new ChangeInfo();
+    in.branch = "foo";
+    in.subject = "Create a change on new branch from the API";
+    in.project = project.get();
+    in.newBranch = true;
+    ChangeInfo info = gApi
+        .changes()
+        .create(in)
+        .get();
+    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.branch).isEqualTo(in.branch);
+    assertThat(info.subject).isEqualTo(in.subject);
+    assertThat(Iterables.getOnlyElement(info.messages).message)
+        .isEqualTo("Uploaded patch set 1.");
+  }
+
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {
     return Iterables.transform(r, new Function<AccountInfo, Account.Id>() {

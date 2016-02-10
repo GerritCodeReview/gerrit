@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -178,24 +179,32 @@ public class CreateChange implements
         groups = ps.getGroups();
       } else {
         Ref destRef = git.getRefDatabase().exactRef(refName);
-        if (destRef == null) {
-          throw new UnprocessableEntityException(String.format(
-              "Branch %s does not exist.", refName));
+        if (destRef != null) {
+          parentCommit = destRef.getObjectId();
+        } else {
+          if (input.newBranch == Boolean.TRUE) {
+            parentCommit = null;
+          } else {
+            throw new UnprocessableEntityException(String.format(
+                "Branch %s does not exist.", refName));
+          }
         }
-        parentCommit = destRef.getObjectId();
         groups = Collections.emptyList();
       }
-      RevCommit mergeTip = rw.parseCommit(parentCommit);
+      RevCommit mergeTip =
+          parentCommit == null ? null : rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
 
-      ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
-          mergeTip, author, author, input.subject);
-      String commitMessage = ChangeIdUtil.insertId(input.subject, id);
-
       try (ObjectInserter oi = git.newObjectInserter()) {
+        ObjectId treeId =
+            mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
+        ObjectId id = ChangeIdUtil.computeChangeId(treeId,
+            mergeTip, author, author, input.subject);
+        String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
 
         Change.Id changeId = new Change.Id(seq.nextChangeId());
@@ -227,8 +236,12 @@ public class CreateChange implements
       PersonIdent authorIdent, RevCommit mergeTip, String commitMessage)
       throws IOException {
     CommitBuilder commit = new CommitBuilder();
-    commit.setTreeId(mergeTip.getTree().getId());
-    commit.setParentId(mergeTip);
+    if (mergeTip == null) {
+      commit.setTreeId(emptyTreeId(oi));
+    } else {
+      commit.setTreeId(mergeTip.getTree().getId());
+      commit.setParentId(mergeTip);
+    }
     commit.setAuthor(authorIdent);
     commit.setCommitter(authorIdent);
     commit.setMessage(commitMessage);
@@ -241,5 +254,10 @@ public class CreateChange implements
     ObjectId id = inserter.insert(commit);
     inserter.flush();
     return id;
+  }
+
+  private static ObjectId emptyTreeId(ObjectInserter inserter)
+      throws IOException {
+    return inserter.insert(new TreeFormatter());
   }
 }

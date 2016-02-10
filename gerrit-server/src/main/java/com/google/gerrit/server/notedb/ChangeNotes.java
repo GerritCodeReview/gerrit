@@ -59,6 +59,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -185,7 +186,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes create(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
-      Change change = db.changes().get(changeId);
+      Change change = unwrap(db).changes().get(changeId);
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
       return new ChangeNotes(repoManager, migration, allUsersProvider, project,
@@ -215,7 +216,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         ReviewDb db, Change.Id changeId) throws OrmException {
     checkState(!migration.readChanges(), "do not call"
         + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
-      Change change = db.changes().get(changeId);
+      Change change = unwrap(db).changes().get(changeId);
       return new ChangeNotes(repoManager, migration, allUsersProvider,
           change.getProject(), change).load();
     }
@@ -237,7 +238,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         final ListeningExecutorService executorService, final ReviewDb db,
         final Project.NameKey project, final Change.Id changeId) {
       return Futures.makeChecked(
-          Futures.transformAsync(db.changes().getAsync(changeId),
+          Futures.transformAsync(unwrap(db).changes().getAsync(changeId),
               new AsyncFunction<Change, ChangeNotes>() {
                 @Override
                 public ListenableFuture<ChangeNotes> apply(
@@ -277,7 +278,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return notes;
       }
 
-      for (Change c : db.changes().get(changeIds)) {
+      for (Change c : unwrap(db).changes().get(changeIds)) {
         notes.add(createFromChangeOnlyWhenNotedbDisabled(c));
       }
       return notes;
@@ -297,7 +298,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return notes;
       }
 
-      for (Change c : db.changes().get(changeIds)) {
+      for (Change c : unwrap(db).changes().get(changeIds)) {
         if (c != null && project.equals(c.getDest().getParentKey())) {
           ChangeNotes cn = createFromChangeOnlyWhenNotedbDisabled(c);
           if (predicate.apply(cn)) {
@@ -323,7 +324,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           }
         }
       } else {
-        for (Change change : db.changes().all()) {
+        for (Change change : unwrap(db).changes().all()) {
           ChangeNotes notes = createFromChangeOnlyWhenNotedbDisabled(change);
           if (predicate.apply(notes)) {
             m.put(change.getProject(), notes);
@@ -349,7 +350,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // A batch size of N may overload get(Iterable), so use something smaller,
       // but still >1.
       for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
-        for (Change change : db.changes().get(batch)) {
+        for (Change change : unwrap(db).changes().get(batch)) {
           notes.add(createFromChangeOnlyWhenNotedbDisabled(change));
         }
       }
@@ -377,6 +378,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       }
       return ids;
+    }
+
+    private static ReviewDb unwrap(ReviewDb db) {
+      if (db instanceof DisabledChangesReviewDbWrapper) {
+        db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+      }
+      return db;
     }
   }
 

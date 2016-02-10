@@ -20,9 +20,11 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -61,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -74,7 +77,7 @@ import java.util.TimeZone;
 
 @Singleton
 public class CreateChange implements
-    RestModifyView<TopLevelResource, ChangeInfo> {
+    RestModifyView<TopLevelResource, ChangeInput> {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -117,7 +120,7 @@ public class CreateChange implements
   }
 
   @Override
-  public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInfo input)
+  public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException,
       RestApiException, UpdateException {
     if (Strings.isNullOrEmpty(input.project)) {
@@ -178,24 +181,37 @@ public class CreateChange implements
         groups = ps.getGroups();
       } else {
         Ref destRef = git.getRefDatabase().exactRef(refName);
-        if (destRef == null) {
-          throw new UnprocessableEntityException(String.format(
-              "Branch %s does not exist.", refName));
+        if (destRef != null) {
+          if (Boolean.TRUE.equals(input.newBranch)) {
+            throw new ResourceConflictException(String.format(
+                "Branch %s already exists.", refName));
+          } else {
+            parentCommit = destRef.getObjectId();
+          }
+        } else {
+          if (Boolean.TRUE.equals(input.newBranch)) {
+            parentCommit = null;
+          } else {
+            throw new UnprocessableEntityException(String.format(
+                "Branch %s does not exist.", refName));
+          }
         }
-        parentCommit = destRef.getObjectId();
         groups = Collections.emptyList();
       }
-      RevCommit mergeTip = rw.parseCommit(parentCommit);
+      RevCommit mergeTip =
+          parentCommit == null ? null : rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
 
-      ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
-          mergeTip, author, author, input.subject);
-      String commitMessage = ChangeIdUtil.insertId(input.subject, id);
-
       try (ObjectInserter oi = git.newObjectInserter()) {
+        ObjectId treeId =
+            mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
+        ObjectId id = ChangeIdUtil.computeChangeId(treeId,
+            mergeTip, author, author, input.subject);
+        String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
 
         Change.Id changeId = new Change.Id(seq.nextChangeId());
@@ -227,8 +243,12 @@ public class CreateChange implements
       PersonIdent authorIdent, RevCommit mergeTip, String commitMessage)
       throws IOException {
     CommitBuilder commit = new CommitBuilder();
-    commit.setTreeId(mergeTip.getTree().getId());
-    commit.setParentId(mergeTip);
+    if (mergeTip == null) {
+      commit.setTreeId(emptyTreeId(oi));
+    } else {
+      commit.setTreeId(mergeTip.getTree().getId());
+      commit.setParentId(mergeTip);
+    }
     commit.setAuthor(authorIdent);
     commit.setCommitter(authorIdent);
     commit.setMessage(commitMessage);
@@ -239,6 +259,13 @@ public class CreateChange implements
       CommitBuilder commit) throws IOException,
       UnsupportedEncodingException {
     ObjectId id = inserter.insert(commit);
+    inserter.flush();
+    return id;
+  }
+
+  private static ObjectId emptyTreeId(ObjectInserter inserter)
+      throws IOException {
+    ObjectId id = inserter.insert(new TreeFormatter());
     inserter.flush();
     return id;
   }

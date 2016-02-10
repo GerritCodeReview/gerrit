@@ -43,7 +43,6 @@ public class ChangeInfo {
   public Integer insertions;
   public Integer deletions;
 
-  public String baseChange;
   public int _number;
 
   public AccountInfo owner;

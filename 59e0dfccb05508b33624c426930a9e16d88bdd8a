@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_b6292883",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2439,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-10T14:30:06Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right, something else is wrong in the BatchUpdate/ChangeUpdate here.\n\nIf we return false from updateChange below. then:\n\n* BatchUpdate should not save the Change entity (db.changes().update(...))\n* psUtil.setGroups won\u0027t call update.setGroups, so the ChangeUpdate should be empty and it shouldn\u0027t write a new commit into the metadata graph.\n\nSo the problem is either:\n\n* ChangeUpdate is misbehaving and writing a new commit *at all* when it shouldn\u0027t be. Giving this commit a different timestamp just masks the problem, OR\n* GroupCollector is coming up with a different set of groups for this change than it should be, causing updateChange to return true when it should return false",
+      "revId": "59e0dfccb05508b33624c426930a9e16d88bdd8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

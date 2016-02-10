@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_99423be5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-10T10:17:34Z",
+      "side": 1,
+      "message": "I will fix all minor comments later.\n\nDon\u0027t want to create new patch-sets and spread the discussion across many of them.",
+      "parentUuid": "9db840d6_f995f7f5",
+      "revId": "630586a1337b11d7358bddf75cd34621605db22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_1962abe6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 5
@@ -76,6 +94,30 @@
       "writtenOn": "2016-02-10T06:59:15Z",
       "side": 1,
       "message": "This test succeeds in 2.10 but fails in 2.11.\n\nThis is an issue for us because we have users of a 2.10-based installation and rely on this to be working. We can\u0027t upgrade them to 2.11 because their use case would break.\n\nTheir scenario is simple: they directly push a commit that is not related to any branch but is tagged.\n\nAlso, we can\u0027t grant them Push on refs/tags/* as this would allow to update a tag. But they require their tags to be immutable.\n\nI can\u0027t comment on what is wrong or right here but it is sure that Gerrit got more restrictive in 2.11, which is incompatible.",
+      "parentUuid": "9db840d6_39676ff7",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 59
+      },
+      "revId": "630586a1337b11d7358bddf75cd34621605db22a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_3f5bc7d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-10T10:17:34Z",
+      "side": 1,
+      "message": "In 2.10 this worked. In 2.11 this fails.\n\nThe documentation is not explicit about this, both interpretations are possible.\n\nA difference between 2.10 and 2.11 is when upload of new commits is allowed. In 2.10, we didn\u0027t require \"Push\" permission in order to create a new ref on a new commit, the \"Create Reference\" permission was enough. See also my reply in PS4 for more details!\n\nIn 2.11 one cannot upload new commits without the \"Push\" permission. The \"Create Reference\" permission is more an option of the \"Push\" permission than a permission on its own in 2.11.",
       "parentUuid": "9db840d6_39676ff7",
       "range": {
         "startLine": 26,

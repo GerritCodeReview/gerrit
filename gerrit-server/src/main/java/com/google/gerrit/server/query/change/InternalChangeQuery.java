@@ -122,6 +122,15 @@ public class InternalChangeQuery {
     return query(new LegacyChangeIdPredicate(id));
   }
 
+  public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids)
+      throws OrmException {
+    List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
+    for (Change.Id id : ids) {
+      preds.add(new LegacyChangeIdPredicate(id));
+    }
+    return query(or(preds));
+  }
+
   public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
       throws OrmException {
     return query(and(

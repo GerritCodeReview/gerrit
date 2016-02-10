@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_79556798",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T10:30:51Z",
+      "side": 1,
+      "message": "This name doesn\u0027t reflect now what happens.",
+      "range": {
+        "startLine": 173,
+        "startChar": 31,
+        "endLine": 173,
+        "endChar": 69
+      },
+      "revId": "66ff040a5ca00efa9cc7cb0ab76f5e555b1e28a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_df63bb82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T10:30:51Z",
+      "side": 1,
+      "message": "You missed the check for the branch here:\n\n  c.getDest().equals(branch)",
+      "range": {
+        "startLine": 199,
+        "startChar": 12,
+        "endLine": 199,
+        "endChar": 62
+      },
+      "revId": "66ff040a5ca00efa9cc7cb0ab76f5e555b1e28a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

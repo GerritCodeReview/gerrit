@@ -22,6 +22,30 @@
       "revId": "0507931c89c7d4f37d958e93055cd16960855f27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_f90177e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-10T00:49:33Z",
+      "side": 1,
+      "message": "Read https://gerrit-review.googlesource.com/74460 for context\n\nI considered saying something like \"fixed up change that was partially submitted\" but then figured everybody will be happier all around if we just pretended it worked the first time.",
+      "parentUuid": "ddb0f80b_bbb6a7b8",
+      "range": {
+        "startLine": 427,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 44
+      },
+      "revId": "0507931c89c7d4f37d958e93055cd16960855f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_768f10e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T07:32:25Z",
+      "side": 1,
+      "message": "also need to exclude the flaky ones here otherwise it just gets added in others.",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "714ca63a4d04efabf80055fa1fb3e3c36415e7eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

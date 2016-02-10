@@ -42,7 +42,6 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;

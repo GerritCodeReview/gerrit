@@ -217,7 +217,7 @@ public class CreateChange implements
           bu.execute();
         }
         ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
-        return Response.created(json.format(project, changeId));
+        return Response.created(json.format(ins.getChange()));
       }
 
     }

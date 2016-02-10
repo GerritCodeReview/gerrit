@@ -38,6 +38,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -98,7 +99,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   @Override
   public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
       throws EmailException, OrmException, UpdateException, RestApiException,
-      IOException {
+      IOException, NoSuchChangeException {
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
@@ -297,7 +298,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     @Override
     public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
         throws EmailException, OrmException, UpdateException, RestApiException,
-        IOException {
+        IOException, NoSuchChangeException {
       PatchSet ps =
           rebase.dbProvider.get().patchSets()
               .get(rsrc.getChange().currentPatchSetId());

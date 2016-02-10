@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ChangeAccess;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
@@ -57,7 +58,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
@@ -189,7 +189,7 @@ public abstract class AbstractDaemonTest {
   protected NotesMigration notesMigration;
 
   @Inject
-  protected ChangeNotes.Factory notesFactory;
+  protected ChangeAccess changeAccess;
 
   @Rule
   public ExpectedException exception = ExpectedException.none();

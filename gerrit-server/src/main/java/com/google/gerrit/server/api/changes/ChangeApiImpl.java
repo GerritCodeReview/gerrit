@@ -54,6 +54,7 @@ import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -219,7 +220,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (OrmException | IOException | UpdateException e) {
+    } catch (OrmException | IOException | UpdateException
+        | NoSuchChangeException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }

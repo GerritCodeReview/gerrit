@@ -59,6 +59,7 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -214,7 +215,8 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
       return changes.id(rebase.apply(revision, in)._number);
-    } catch (OrmException | EmailException | UpdateException | IOException e) {
+    } catch (OrmException | EmailException | UpdateException | IOException
+        | NoSuchChangeException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
   }

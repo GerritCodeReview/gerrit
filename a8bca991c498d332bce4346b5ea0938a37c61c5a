@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_02b22c11",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-10T21:17:48Z",
+      "side": 1,
+      "message": "Right, but I do not have a better idea how to do it better. And since it shouldn\u0027t matter in real usecases, I think we can keep it this way.",
+      "parentUuid": "ddb0f80b_7b97ffc0",
+      "revId": "a8bca991c498d332bce4346b5ea0938a37c61c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb0f80b_9b91abcf",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-10T21:08:04Z",
       "side": 1,
       "message": "This seems to make more sense in _pathChanged",
+      "revId": "a8bca991c498d332bce4346b5ea0938a37c61c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_d96d9342",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-10T21:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb0f80b_9b91abcf",
       "revId": "a8bca991c498d332bce4346b5ea0938a37c61c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

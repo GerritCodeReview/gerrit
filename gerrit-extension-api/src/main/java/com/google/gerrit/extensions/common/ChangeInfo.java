@@ -60,4 +60,6 @@ public class ChangeInfo {
   public Boolean _moreChanges;
 
   public List<ProblemInfo> problems;
+
+  public Boolean newBranch;
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -131,6 +132,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes createForNew(Change change) throws OrmException {
+      return new ChangeNotes(repoManager, migration, allUsersProvider,
+          change.getProject(), change).load();
+    }
+
+    // TODO(dborowitz): Remove when deleting index schemas <27.
+    public ChangeNotes createFromIdOnlyWhenNotedbDisabled(
+        ReviewDb db, Change.Id changeId) throws OrmException {
+    checkState(!migration.readChanges(), "do not call"
+        + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
+      Change change = db.changes().get(changeId);
       return new ChangeNotes(repoManager, migration, allUsersProvider,
           change.getProject(), change).load();
     }

@@ -381,7 +381,7 @@ public class ChangeJson {
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
-          cd = changeDataFactory.create(cd.db(), cd.getProject(), cd.getId());
+          cd = changeDataFactory.create(cd.db(), cd.project(), cd.getId());
           break;
         }
       }

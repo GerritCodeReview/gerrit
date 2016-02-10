@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ddb0f80b_bba0e7bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T00:20:41Z",
+      "side": 1,
+      "message": "I think the failure is correct: we shouldn\u0027t allow to push new commits without the Push permission.",
+      "parentUuid": "31fdc0c1_04b2f64c",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd9683d_3f382727",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -177,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "3dd5942a_96a50ccd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T00:20:41Z",
+      "side": 1,
+      "message": "If we fail in the previous test, then we should also fail here.",
+      "parentUuid": "31fdc0c1_e41fda04",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd9683d_7f42af88",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -217,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "3dd5942a_76ab90a0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T00:20:41Z",
+      "side": 1,
+      "message": "I think this is correct. It succeeds because we have both Push and Create Reference.",
+      "parentUuid": "91410cda_df485b12",
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_ff4d1f1f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -250,6 +304,29 @@
         "startChar": 53,
         "endLine": 65,
         "endChar": 69
+      },
+      "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd5942a_b6a008bd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T00:20:41Z",
+      "side": 1,
+      "message": "Optional: This could all be inlined into a single statement and the TagCommand instance isn\u0027t needed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 78
       },
       "revId": "84abb4f29aaee49ca2471fd6c772a225eda59b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ddb0f80b_1bbfdb83",
+        "filename": "lib/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T06:03:22Z",
+      "side": 1,
+      "message": "The reason it was named like this is because previously GWT depended on a different version.  This is no longer the case, and they are both the same.\n\nI\u0027ve fixed it in a followup.  Arguably it should be done in this commit, but...",
+      "parentUuid": "ddb0f80b_7bc81f1f",
+      "range": {
+        "startLine": 256,
+        "startChar": 19,
+        "endLine": 256,
+        "endChar": 29
+      },
+      "revId": "91001913034e1d86197a249ab0212ad30878a3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_790d6717",
         "filename": "lib/powermock/BUCK",
         "patchSetId": 5

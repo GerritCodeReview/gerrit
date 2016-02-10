@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_bbb6a7b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T00:48:09Z",
+      "side": 1,
+      "message": "I don\u0027t know how often these best effort guesses are wrong (because somebody pushed directly without Gerrit, or the submit type was changed on the project or otherwise), so maybe we want to mark it as \"best guess\" actually?\n\nor reword it as \"has been integrated already using a different change or direct push\" ?",
+      "range": {
+        "startLine": 427,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 44
+      },
+      "revId": "0507931c89c7d4f37d958e93055cd16960855f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

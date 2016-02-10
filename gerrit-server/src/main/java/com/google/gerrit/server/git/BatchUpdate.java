@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -612,7 +613,7 @@ public class BatchUpdate implements AutoCloseable {
   private ChangeContext newChangeContext(Change.Id id) throws Exception {
     Change c = newChanges.get(id);
     if (c == null) {
-      c = db.changes().get(id);
+      c = unwrap(db).changes().get(id);
     }
     // Pass in preloaded change to controlFor, to avoid:
     //  - reading from a db that does not belong to this update
@@ -628,5 +629,12 @@ public class BatchUpdate implements AutoCloseable {
     for (Op op : ops.values()) {
       op.postUpdate(ctx);
     }
+  }
+
+  private static ReviewDb unwrap(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
   }
 }

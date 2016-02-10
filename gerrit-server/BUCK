@@ -163,21 +163,35 @@ java_test(
   ],
 )
 
+FLAKY_QUERY_TEST_CASES = ['src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java']
+
 QUERY_TESTS = glob(
   ['src/test/java/com/google/gerrit/server/query/**/*.java'],
+  excludes = FLAKY_QUERY_TEST_CASES
 )
+
+QUERY_TEST_DEPS = TESTUTIL_DEPS + [
+  ':testutil',
+  '//gerrit-antlr:query_exception',
+  '//gerrit-antlr:query_parser',
+  '//gerrit-common:annotations',
+  '//gerrit-server/src/main/prolog:common',
+  '//lib/antlr:java_runtime',
+]
 
 java_test(
   name = 'query_tests',
+  labels = ['query'],
   srcs = QUERY_TESTS,
-  deps = TESTUTIL_DEPS + [
-    ':testutil',
-    '//gerrit-antlr:query_exception',
-    '//gerrit-antlr:query_parser',
-    '//gerrit-common:annotations',
-    '//gerrit-server/src/main/prolog:common',
-    '//lib/antlr:java_runtime',
-  ],
+  deps = QUERY_TEST_DEPS,
+  source_under_test = [':server'],
+)
+
+java_test(
+  name = 'query_tests_flaky',
+  labels = ['query', 'flaky'],
+  srcs = FLAKY_QUERY_TEST_CASES,
+  deps = QUERY_TEST_DEPS,
   source_under_test = [':server'],
 )
 
@@ -186,7 +200,7 @@ java_test(
   labels = ['server'],
   srcs = glob(
     ['src/test/java/**/*.java'],
-    excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
+    excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS + FLAKY_QUERY_TEST_CASES
   ),
   deps = TESTUTIL_DEPS + [
     ':testutil',

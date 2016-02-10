@@ -15,8 +15,11 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-confirm-rebase-dialog.html">
+<link rel="import" href="gr-overlay.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-change-actions">
@@ -27,6 +30,7 @@ limitations under the License.
       }
       .primary {
         background-color: #448aff;
+        border-color: #448aff;
         color: #fff;
       }
       button:before {
@@ -40,16 +44,22 @@ limitations under the License.
         font: inherit;
         padding: .5em .75em;
       }
+      button[loading],
+      button[disabled] {
+        opacity: .75;
+      }
       button[loading] {
         cursor: wait;
-        opacity: .5;
       }
       button[loading]:before {
         content: attr(data-loading-label);
       }
       button[disabled] {
-        background-color: #555961;
-        opacity: .5;
+        cursor: default;
+      }
+      button[loading],
+      button[loading][disabled] {
+        cursor: wait;
       }
     </style>
     <gr-ajax id="actionsXHR"
@@ -75,6 +85,13 @@ limitations under the License.
             on-tap="_handleActionTap"></button>
       </template>
     </div>
+    <gr-overlay id="overlay" with-backdrop>
+      <gr-confirm-rebase-dialog id="confirmRebase"
+          class="confirmDialog"
+          on-confirm="_handleRebaseConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          hidden></gr-confirm-rebase-dialog>
+    </gr-overlay>
   </template>
   <script>
   (function() {
@@ -88,6 +105,7 @@ limitations under the License.
 
     // TODO(andybons): Add the rest of the revision actions.
     var RevisionActions = {
+      REBASE: 'rebase',
       SUBMIT: 'submit',
     };
 
@@ -110,9 +128,7 @@ limitations under the License.
           type: Boolean,
           value: true,
         },
-        _revisionActions: {
-          type: Object,
-        },
+        _revisionActions: Object,
       },
 
       behaviors: [
@@ -131,7 +147,9 @@ limitations under the License.
       },
 
       _actionsChanged: function(actions, revisionActions) {
-        this.hidden = revisionActions.submit == null &&
+        this.hidden =
+            revisionActions.rebase == null &&
+            revisionActions.submit == null &&
             actions.abandon == null &&
             actions.restore == null;
       },
@@ -160,6 +178,7 @@ limitations under the License.
 
       _computeLoadingLabel: function(action) {
         return {
+          'rebase': 'Rebasing...',
           'submit': 'Submitting...',
         }[action];
       },
@@ -173,10 +192,43 @@ limitations under the License.
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
         if (this._getValuesFor(RevisionActions).indexOf(key) > -1) {
+          if (key == RevisionActions.REBASE) {
+            this._showRebaseDialog();
+            return;
+          }
           this._fireRevisionAction('/' + key, this._revisionActions[key]);
         } else {
           this._fireChangeAction('/' + key, this.actions[key]);
         }
+      },
+
+      _handleConfirmDialogCancel: function() {
+        var dialogEls =
+            Polymer.dom(this.root).querySelectorAll('.confirmDialog');
+        for (var i = 0; i < dialogEls.length; i++) {
+          dialogEls[i].hidden = true;
+        }
+        this.$.overlay.close();
+      },
+
+      _handleRebaseConfirm: function() {
+        var payload = {};
+        var el = this.$.confirmRebase;
+        if (el.clearParent) {
+          // There is a subtle but important difference between setting the base
+          // to an empty string and omitting it entirely from the payload. An
+          // empty string implies that the parent should be cleared and the
+          // change should be rebased on top of the target branch. Leaving out
+          // the base implies that it should be rebased on top of its current
+          // parent.
+          payload.base = '';
+        } else if (el.base && el.base.length > 0) {
+          payload.base = el.base;
+        }
+        this.$.overlay.close();
+        el.hidden = false;
+        this._fireRevisionAction('/rebase', this._revisionActions.rebase,
+            payload);
       },
 
       _fireChangeAction: function(endpoint, action) {
@@ -190,23 +242,31 @@ limitations under the License.
           });
       },
 
-      _fireRevisionAction: function(endpoint, action) {
+      _fireRevisionAction: function(endpoint, action, opt_payload) {
         var buttonEl = this.$$('[data-action-key="' + action.__key + '"]');
         buttonEl.setAttribute('loading', true);
         buttonEl.disabled = true;
+        function enableButton() {
+          buttonEl.removeAttribute('loading');
+          buttonEl.disabled = false;
+        }
 
-        this._send(action.method, {}, endpoint, true).then(
+        this._send(action.method, opt_payload, endpoint, true).then(
           function() {
             this.fire('reload-change', null, {bubbles: false});
-            buttonEl.setAttribute('loading', false);
-            buttonEl.disabled = false;
+            enableButton();
           }.bind(this)).catch(function(err) {
+            // TODO(andybons): Handle merge conflict (409 status);
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');
-            buttonEl.setAttribute('loading', false);
-            buttonEl.disabled = false;
+            enableButton();
             throw err;
           });
+      },
+
+      _showRebaseDialog: function() {
+        this.$.confirmRebase.hidden = false;
+        this.$.overlay.open();
       },
 
       _send: function(method, payload, actionEndpoint, revisionAction) {

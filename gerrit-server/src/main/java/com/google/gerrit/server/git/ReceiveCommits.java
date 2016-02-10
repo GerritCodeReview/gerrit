@@ -2435,10 +2435,15 @@ public class ReceiveCommits {
     }
 
     private void updateGroups(RequestState state)
-        throws RestApiException, UpdateException {
+        throws RestApiException, UpdateException, OrmException {
+      // Updating the groups is a no-op and must not change the last modified
+      // timestamp.
+      Timestamp when = notesFactory
+          .create(db, magicBranch.dest.getParentKey(), psId.getParentKey())
+          .getChange().getLastUpdatedOn();
       try (ObjectInserter oi = repo.newObjectInserter();
           BatchUpdate bu = batchUpdateFactory.create(state.db,
-              magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
+              magicBranch.dest.getParentKey(), user, when)) {
         bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
           @Override
           public boolean updateChange(ChangeContext ctx) throws OrmException {

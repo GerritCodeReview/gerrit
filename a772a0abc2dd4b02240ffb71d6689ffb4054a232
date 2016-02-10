@@ -22,6 +22,30 @@
       "revId": "a772a0abc2dd4b02240ffb71d6689ffb4054a232",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_9b576bf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T08:13:39Z",
+      "side": 1,
+      "message": "It was removed on stable-2.11\n\nhttps://gerrit-review.googlesource.com/#/c/74687/5/gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+      "parentUuid": "5dd9683d_9f9693c3",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "a772a0abc2dd4b02240ffb71d6689ffb4054a232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

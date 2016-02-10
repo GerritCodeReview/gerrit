@@ -45,8 +45,12 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -58,6 +62,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
@@ -106,15 +111,47 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
     private final AllUsersNameProvider allUsersProvider;
+    private final Provider<InternalChangeQuery> queryProvider;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
-        AllUsersNameProvider allUsersProvider) {
+        AllUsersNameProvider allUsersProvider,
+        Provider<InternalChangeQuery> queryProvider) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsersProvider = allUsersProvider;
+      this.queryProvider = queryProvider;
+    }
+
+    public ChangeNotes createChecked(ReviewDb db, Change c)
+        throws OrmException, NoSuchChangeException {
+      ChangeNotes notes = create(db, c.getProject(), c.getId());
+      if (notes.getChange() == null) {
+        throw new NoSuchChangeException(c.getId());
+      }
+      return notes;
+    }
+
+    public ChangeNotes createChecked(ReviewDb db, Project.NameKey project,
+        Change.Id changeId) throws OrmException, NoSuchChangeException {
+      ChangeNotes notes = create(db, project, changeId);
+      if (notes.getChange() == null) {
+        throw new NoSuchChangeException(changeId);
+      }
+      return notes;
+    }
+
+    public ChangeNotes createChecked(Change.Id changeId)
+        throws OrmException, NoSuchChangeException {
+      InternalChangeQuery query =
+          queryProvider.get().setRequestedFields(ImmutableSet.<String> of());
+      List<ChangeData> changes = query.byLegacyChangeId(changeId);
+      if (changes.size() != 1) {
+        throw new NoSuchChangeException(changeId);
+      }
+      return changes.get(0).notes();
     }
 
     public ChangeNotes create(ReviewDb db, Project.NameKey project,

@@ -419,13 +419,12 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c = notesFactory
-              .create(db.get(), change.getProject(), psId.getParentKey())
-              .getChange();
-          if (c == null || !c.getDest().equals(change.getDest())) {
+          Change c = notesFactory.createChecked(
+              db.get(), change.getProject(), psId.getParentKey()).getChange();
+          if (!c.getDest().equals(change.getDest())) {
             continue;
           }
-        } catch (OrmException e) {
+        } catch (OrmException | NoSuchChangeException e) {
           warn(e);
           // Include this patch set; should cause an error below, which is good.
         }
@@ -586,12 +585,8 @@ public class ConsistencyChecker {
     try {
       db.changes().beginTransaction(cid);
       try {
-        ChangeNotes notes = notesFactory.create(db, project, cid);
+        ChangeNotes notes = notesFactory.createChecked(db, project, cid);
         Change c = notes.getChange();
-        if (c == null) {
-          throw new OrmException("Change missing: " + cid);
-        }
-
         if (psId.equals(c.currentPatchSetId())) {
           List<PatchSet> all = Lists.newArrayList(db.patchSets().byChange(cid));
           if (all.size() == 1 && all.get(0).getId().equals(psId)) {
@@ -631,7 +626,8 @@ public class ConsistencyChecker {
       } finally {
         db.rollback();
       }
-    } catch (PatchSetInfoNotAvailableException | OrmException e) {
+    } catch (PatchSetInfoNotAvailableException | OrmException
+        | NoSuchChangeException e) {
       String msg = "Error deleting patch set";
       log.warn(msg + ' ' + psId, e);
       p.status = Status.FIX_FAILED;

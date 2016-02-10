@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -263,7 +264,7 @@ public class PushOneCommit {
 
     public void assertChange(Change.Status expectedStatus,
         String expectedTopic, TestAccount... expectedReviewers)
-        throws OrmException {
+        throws OrmException, NoSuchChangeException {
       Change c = getChange().change();
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
@@ -272,9 +273,9 @@ public class PushOneCommit {
     }
 
     private void assertReviewers(Change c, TestAccount... expectedReviewers)
-        throws OrmException {
+        throws OrmException, NoSuchChangeException {
       Iterable<Account.Id> actualIds = approvalsUtil
-          .getReviewers(db, notesFactory.create(db, c.getProject(), c.getId()))
+          .getReviewers(db, notesFactory.createChecked(db, c))
           .values();
       assertThat(actualIds).containsExactlyElementsIn(
           Sets.newHashSet(TestAccount.ids(expectedReviewers)));

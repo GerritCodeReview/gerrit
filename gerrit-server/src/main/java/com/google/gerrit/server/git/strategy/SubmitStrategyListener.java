@@ -106,6 +106,7 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
         case CLEAN_MERGE:
         case CLEAN_REBASE:
         case CLEAN_PICK:
+        case SKIPPED_IDENTICAL_TREE:
           break; // Merge strategy accepted this change.
 
         case ALREADY_MERGED:

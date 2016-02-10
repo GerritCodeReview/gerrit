@@ -265,22 +265,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
           // corresponding to the merge result. This results in a different
           // ChangeMergedEvent in the fixup case, but we'll just live with that.
           : alreadyMerged;
-      String txt = s.getMessage();
-
-      ChangeMessage msg;
-      if (s == CommitMergeStatus.CLEAN_MERGE) {
-        msg = message(ctx, commit.getPatchsetId(), txt + getByAccountName());
-      } else if (s == CommitMergeStatus.CLEAN_REBASE
-          || s == CommitMergeStatus.CLEAN_PICK) {
-        msg = message(ctx, commit.getPatchsetId(),
-            txt + " as " + commit.name() + getByAccountName());
-      } else if (s == CommitMergeStatus.ALREADY_MERGED) {
-        msg = null;
-      } else {
-        throw new IllegalStateException("unexpected status " + s +
-            " for change " + c.getId() + "; expected to previously fail fast");
-      }
-      setMerged(ctx, msg);
+      setMerged(ctx, message(ctx, commit, s));
     } catch (OrmException err) {
       String msg = "Error updating change status for " + id;
       log.error(msg, err);
@@ -423,6 +408,39 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       return " by " + account.getFullName();
     }
     return "";
+  }
+
+  private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit,
+      CommitMergeStatus s) {
+    String txt = s.getMessage();
+    if (s == CommitMergeStatus.CLEAN_MERGE) {
+      return message(ctx, commit.getPatchsetId(), txt + getByAccountName());
+    } else if (s == CommitMergeStatus.CLEAN_REBASE
+        || s == CommitMergeStatus.CLEAN_PICK) {
+      return message(ctx, commit.getPatchsetId(),
+          txt + " as " + commit.name() + getByAccountName());
+    } else if (s == CommitMergeStatus.SKIPPED_IDENTICAL_TREE) {
+      return message(ctx, commit.getPatchsetId(), txt);
+    } else if (s == CommitMergeStatus.ALREADY_MERGED) {
+      // Best effort to mimic the message that would have happened had this
+      // succeeded the first time around.
+      switch (args.submitType) {
+        case FAST_FORWARD_ONLY:
+        case MERGE_ALWAYS:
+        case MERGE_IF_NECESSARY:
+          return message(ctx, commit, CommitMergeStatus.CLEAN_MERGE);
+        case CHERRY_PICK:
+          return message(ctx, commit, CommitMergeStatus.CLEAN_PICK);
+        case REBASE_IF_NECESSARY:
+          return message(ctx, commit, CommitMergeStatus.CLEAN_REBASE);
+        default:
+          return message(ctx, commit, null);
+      }
+    } else {
+      throw new IllegalStateException("unexpected status " + s
+          + " for change " + commit.change().getId()
+          + "; expected to previously fail fast");
+    }
   }
 
   private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId,

@@ -25,11 +25,11 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -269,6 +269,31 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitIdenticalTree() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "a");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "a");
+
+    submit(change1.getChangeId());
+    RevCommit oldHead = getRemoteHead();
+    assertThat(oldHead.getShortMessage()).isEqualTo("Change 1");
+
+    // Don't check merge result, since ref isn't updated.
+    submit(change2.getChangeId(), new SubmitInput(), null, null, false);
+
+    assertThat(getRemoteHead()).isEqualTo(oldHead);
+
+    ChangeInfo info2 = get(change2.getChangeId());
+    assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(Iterables.getLast(info2.messages).message)
+        .isEqualTo(CommitMergeStatus.SKIPPED_IDENTICAL_TREE.getMessage());
+  }
+
+  @Test
   public void repairChangeStateAfterFailure() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
@@ -292,7 +317,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
     assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
     assertThat(getPatchSet(psId2)).isNull();
-    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
 
     ObjectId rev2;
     try (Repository repo = repoManager.openRepository(project);
@@ -320,7 +344,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(ps2).isNotNull();
     assertThat(ps2.getRevision().get()).isEqualTo(rev2.name());
     assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo(lastMessage.message);
+        .isEqualTo("Change has been successfully cherry-picked as "
+            + rev2.name() + " by Administrator");
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef("refs/heads/master").getObjectId())

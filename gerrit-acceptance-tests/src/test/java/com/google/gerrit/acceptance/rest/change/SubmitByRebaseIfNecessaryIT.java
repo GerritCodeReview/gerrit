@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -187,7 +186,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
     assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
     assertThat(getPatchSet(psId2)).isNull();
-    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
 
     ObjectId rev2;
     try (Repository repo = repoManager.openRepository(project);
@@ -215,7 +213,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertThat(ps2).isNotNull();
     assertThat(ps2.getRevision().get()).isEqualTo(rev2.name());
     assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo(lastMessage.message);
+        .isEqualTo("Change has been successfully rebased as "
+            + rev2.name() + " by Administrator");
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef("refs/heads/master").getObjectId())

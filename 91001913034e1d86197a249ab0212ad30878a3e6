@@ -22,6 +22,47 @@
       "revId": "91001913034e1d86197a249ab0212ad30878a3e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_9ffa1324",
+        "filename": "lib/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T05:33:14Z",
+      "side": 1,
+      "message": "Well the change owner hasn\u0027t introduced this problem. It was already wrong before this change.",
+      "parentUuid": "ddb0f80b_1bfa3b63",
+      "range": {
+        "startLine": 256,
+        "startChar": 19,
+        "endLine": 256,
+        "endChar": 29
+      },
+      "revId": "91001913034e1d86197a249ab0212ad30878a3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_790d6717",
+        "filename": "lib/powermock/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T05:33:14Z",
+      "side": 1,
+      "message": "This line would not need to be updated if there wasn\u0027t a bug in the naming of javassist artifact (never ever use version in artifact names. This rule applies for each and every build toolchain, I\u0027m aware of).",
+      "revId": "91001913034e1d86197a249ab0212ad30878a3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

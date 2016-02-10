@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_d91113e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-10T14:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dd5942a_36475846",
+      "range": {
+        "startLine": 28,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "f0d57b1546046a2878b213bf924f2f97b511540b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb0f80b_5b21e393",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_f90ed7bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-10T14:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb0f80b_5b21e393",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "f0d57b1546046a2878b213bf924f2f97b511540b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dd5942a_16445c3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-02-10T14:01:25Z",
       "side": 1,
       "message": "unused import",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 51
+      },
+      "revId": "f0d57b1546046a2878b213bf924f2f97b511540b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_19cb8b98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-10T14:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dd5942a_16445c3d",
       "range": {
         "startLine": 100,
         "startChar": 0,

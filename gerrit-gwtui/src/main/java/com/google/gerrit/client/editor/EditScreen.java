@@ -240,10 +240,7 @@ public class EditScreen extends Screen {
   public void registerKeys() {
     super.registerKeys();
     KeyMap localKeyMap = KeyMap.create();
-    localKeyMap
-        .on("Ctrl-L", gotoLine())
-        .on("Cmd-L", gotoLine())
-        .on("Cmd-S", save());
+    localKeyMap.on("Cmd-S", save());
 
     // TODO(davido): Find a better way to prevent key maps collisions
     if (prefs.keyMapType() != KeyMapType.EMACS) {
@@ -251,28 +248,6 @@ public class EditScreen extends Screen {
     }
 
     cm.addKeyMap(localKeyMap);
-  }
-
-  private Runnable gotoLine() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        String n = Window.prompt(EditConstants.I.gotoLineNumber(), "");
-        if (n != null) {
-          try {
-            int line = Integer.parseInt(n);
-            line--;
-            if (line >= 0) {
-              cm.scrollToLine(line);
-            }
-          } catch (NumberFormatException e) {
-            // ignore non valid numbers
-            // We don't want to popup another ugly dialog just to say
-            // "The number you've provided is invalid, try again"
-          }
-        }
-      }
-    };
   }
 
   @Override

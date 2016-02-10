@@ -248,8 +248,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       if (!expectedExceptionType.isAssignableFrom(e.getClass())
           || !e.getMessage().equals(expectedExceptionMsg)) {
         throw new AssertionError("Expected exception of type "
-            + expectedExceptionType.getSimpleName() + " with message: "
-            + expectedExceptionMsg, e);
+            + expectedExceptionType.getSimpleName() + " with message: \""
+            + expectedExceptionMsg + "\" but got exception of type "
+            + e.getClass().getSimpleName() + " with message \""
+            + e.getMessage() + "\"", e);
       }
       return;
     }

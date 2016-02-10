@@ -47,6 +47,7 @@ import com.google.gerrit.server.index.ReindexAfterUpdate;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -227,11 +228,18 @@ public class RebuildNotedb extends SiteProgram {
     Multimap<Project.NameKey, Change> changesByProject =
         ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
-      for (Change c : db.changes().all()) {
+      for (Change c : unwrap(db).changes().all()) {
         changesByProject.put(c.getProject(), c);
       }
       return changesByProject;
     }
+  }
+
+  private static ReviewDb unwrap(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
   }
 
   private static class RebuildListener implements Runnable {

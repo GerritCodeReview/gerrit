@@ -14,12 +14,19 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -27,18 +34,30 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
 import java.util.List;
 
 @Singleton
 public class ChangeAccess {
+  private final NotesMigration migration;
   private final ChangeNotes.Factory notesFactory;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final ProjectCache projectCache;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  ChangeAccess(ChangeNotes.Factory notesFactory,
-      Provider<InternalChangeQuery> queryProvider) {
+  ChangeAccess(NotesMigration migration,
+      ChangeNotes.Factory notesFactory,
+      Provider<InternalChangeQuery> queryProvider,
+      ProjectCache projectCache,
+      GitRepositoryManager repoManager) {
+    this.migration = migration;
     this.notesFactory = notesFactory;
     this.queryProvider = queryProvider;
+    this.projectCache = projectCache;
+    this.repoManager = repoManager;
   }
 
   public Change get(ReviewDb db, Change c)
@@ -83,5 +102,25 @@ public class ChangeAccess {
       throw new NoSuchChangeException(changeId);
     }
     return changes.get(0).notes();
+  }
+
+  public Multimap<Project.NameKey, Change> allByProject(ReviewDb db)
+      throws IOException, OrmException {
+    if (migration.readChanges()) {
+      Multimap<Project.NameKey, Change> m = ArrayListMultimap.create();
+      for (Project.NameKey project : projectCache.all()) {
+        try (Repository repo = repoManager.openRepository(project)) {
+          m.putAll(project, ScanningChangeCacheImpl.scanNotedb(
+              notesFactory, repo, db, project));
+        }
+      }
+      return ImmutableListMultimap.copyOf(m);
+    }
+
+    Multimap<Project.NameKey, Change> m = ArrayListMultimap.create();
+    for (Change change : db.changes().all()) {
+      m.put(change.getProject(), change);
+    }
+    return m;
   }
 }

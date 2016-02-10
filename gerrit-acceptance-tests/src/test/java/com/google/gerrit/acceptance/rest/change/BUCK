@@ -5,8 +5,10 @@ SUBMIT_UTIL_SRCS = [
   'AbstractSubmitByMerge.java',
 ]
 
-SUBMIT_TESTS = glob(['Submit*IT.java'])
-OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS)
+FLAKY_TEST_CASES = ['SubmitByMergeIfNecessaryIT.java']
+
+SUBMIT_TESTS = glob(['Submit*IT.java'], excludes = FLAKY_TEST_CASES)
+OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS + FLAKY_TEST_CASES)
 
 acceptance_tests(
   group = 'rest-change-other',
@@ -25,6 +27,15 @@ acceptance_tests(
     ':submit_util',
   ],
   labels = ['rest'],
+)
+
+acceptance_tests(
+  group = 'rest-change-submit-flaky',
+  srcs = FLAKY_TEST_CASES,
+  deps = [
+    ':submit_util',
+  ],
+  labels = ['rest', 'flaky'],
 )
 
 java_library(

@@ -74,6 +74,7 @@ public class ModeInfo extends JavaScriptObject {
       Modes.I.sql(),
       Modes.I.stex(),
       Modes.I.swift(),
+      Modes.I.tcl(),
       Modes.I.velocity(),
       Modes.I.verilog(),
       Modes.I.vhdl(),

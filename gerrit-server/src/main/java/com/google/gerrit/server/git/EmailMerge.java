@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -48,6 +49,7 @@ public class EmailMerge implements Runnable, RequestContext {
   private final MergedSender.Factory mergedSenderFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private final Project.NameKey project;
   private final Change.Id changeId;
@@ -59,6 +61,7 @@ public class EmailMerge implements Runnable, RequestContext {
       MergedSender.Factory mergedSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter) {
@@ -66,6 +69,7 @@ public class EmailMerge implements Runnable, RequestContext {
     this.mergedSenderFactory = mergedSenderFactory;
     this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.project = project;
     this.changeId = changeId;
     this.submitter = submitter;
@@ -102,6 +106,10 @@ public class EmailMerge implements Runnable, RequestContext {
 
   @Override
   public CurrentUser getUser() {
+    if (submitter != null) {
+      return identifiedUserFactory.create(
+          getReviewDbProvider(), submitter).getRealUser();
+    }
     throw new OutOfScopeException("No user on email thread");
   }
 

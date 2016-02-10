@@ -10,7 +10,6 @@ gerrit ls-groups - List groups visible to caller
   [--user <NAME> | -u <NAME>]
   [--owned]
   [--visible-to-all]
-  [--type {internal | system}]
   [-q <GROUP>]
   [--verbose | -v]
 --
@@ -66,15 +65,6 @@ This option can't be used together with the '--project' option.
 	Displays only groups that are visible to all registered users
 	(groups that are explicitly marked as visible to all registered
 	users).
-
---type::
-	Display only groups of the specified type. If not specified,
-	groups of all types are displayed. Supported types:
-+
---
-`internal`:: Any group defined within Gerrit.
-`system`:: Any system defined and managed group.
---
 
 -q::
 	Group that should be inspected. The `-q` option can be specified

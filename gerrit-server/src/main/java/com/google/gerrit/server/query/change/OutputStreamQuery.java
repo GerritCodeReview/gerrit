@@ -293,6 +293,10 @@ public class OutputStreamQuery {
           eventFactory.addPatchSetFileNames(c.currentPatchSet,
               d.change(), d.currentPatchSet());
         }
+        if (includeComments) {
+          eventFactory.addPatchSetComments(c.currentPatchSet,
+              d.publishedComments());
+        }
       }
     }
 
@@ -301,7 +305,7 @@ public class OutputStreamQuery {
       if (includePatchSets) {
         eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
             includeApprovals ? d.approvals().asMap() : null,
-            labelTypes);
+            includeFiles, d.notes(), labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {
           eventFactory.addPatchSetComments(
               attribute, d.publishedComments());

@@ -376,6 +376,16 @@ menu on the change screen.
 Plugins can refer to groups so that when they are renamed, the project
 config will also be updated in this section.
 
+* API
+
+** Allow to use `CurrentSchemaVersion`.
+
+** Allow to use `InternalChangeQuery.query()`.
+
+** Allow to use `JdbcUtil.port()`.
+
+** Allow to use GWTORM `Key` classes.
+
 
 Other
 ~~~~~
@@ -479,6 +489,65 @@ version 2.15.1 of the Jenkins Gerrit Trigger plugin].
 Users who are unable to upgrade the plugin may instead change the
 trigger's branch configuration to type `Path` with a pattern like
 `refs/*/master` instead of `Plain` and `master`.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3714[Issue 3714]:
+Improve visibility of comments on dark themes.
+
+* Fix highlighting of search results and trailing whitespaces in intraline
+diff chunks.
+
+* Fix server error when listing annotated/signed tag that has no tagger info.
+
+* Don't create new account when claimed OAuth identity is unknown.
++
+The Claimed Identity feature was enabled to support old Google OpenID accounts,
+that cannot be activated anymore. In some corner cases, when for example the URL
+is not from the production Gerrit site, for example on a staging instance, the
+OpenID identity may deviate from the original one. In case of mismatch, the lookup
+of the user for the claimed identity would fail, causing a new account to be
+created.
+
+* Suggest to upgrade installed plugins per default during site initialization
+to new Gerrit version.
++
+The default was 'No' which resulted in some sites not upgrading core
+plugins and running the wrong versions.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3698[Issue 3698]:
+Fix creation of the administrator user on databases with pre-allocated
+auto-increment column values.
++
+When using a database configuration where auto-increment column values are
+pre-allocated, it was possible that the 'Administrators' group was created
+with an ID other than `1`. In this case, the created admin user was not added
+to the correct group, and did not have the correct admin permissions.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3018[Issue 3018]:
+Fix query for changes using a label with a group operator.
++
+The `group` operator was being ignored when searching for changes with labels
+because the search index does not contain group information.
+
+* Fix online reindexing of changes that don't already exist in the index.
++
+Changes are now always reloaded from the database during online reindex.
+
+* Fix reading of plugin documentation.
++
+Under some circumstances it was possible to fail with an IO error.
+
+Documentation Updates
+---------------------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=412[Issue 412]:
+Update documentation of `commentlink.match` regular expression to clarify
+that the expression is applied to the rendered HTML.
+
+* Remove warning about unstable change edit REST API endpoints.
++
+These endpoints should be considered stable since version 2.11.
+
+* Document that `ldap.groupBase` and `ldap.accountBase` are repeatable.
 
 Upgrades
 --------

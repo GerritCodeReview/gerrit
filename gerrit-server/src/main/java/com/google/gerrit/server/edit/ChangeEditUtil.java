@@ -247,7 +247,7 @@ public class ChangeEditUtil {
     PatchSetInserter inserter =
         patchSetInserterFactory.create(ctl, psId, squashed);
 
-    StringBuilder message = new StringBuilder("Patch set ")
+    StringBuilder message = new StringBuilder("Patch Set ")
       .append(inserter.getPatchSetId().get())
       .append(": ");
 

@@ -216,8 +216,10 @@ public class RebaseIfNecessary extends SubmitStrategy {
   static boolean dryRun(SubmitDryRun.Arguments args,
       CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
+    // Test for merge instead of cherry pick to avoid false negatives
+    // on commit chains.
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
-        && args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip,
-            args.rw, toMerge);
+        && args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
+             toMerge);
   }
 }

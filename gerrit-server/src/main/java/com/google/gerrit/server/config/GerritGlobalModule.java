@@ -277,8 +277,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
-    DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);
     DynamicSet.setOf(binder(), EventListener.class);
+    DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);

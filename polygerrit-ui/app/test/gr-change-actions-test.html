@@ -78,30 +78,34 @@ limitations under the License.
           ')]}\'\n{}',  // The response is not used by the element.
         ]
       );
-    });
 
-    test('submit button shows', function(done) {
+      server.respondWith(
+        'POST',
+        '/changes/42/revisions/2/rebase',
+        [
+          200,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n{}',  // The response is not used by the element.
+        ]
+      );
+
       element.changeNum = '42';
       element.patchNum = '2';
       element.reload();
 
       server.respond();
+    });
 
+    test('submit and rebase buttons show', function(done) {
       element.async(function() {
         var buttonEls = Polymer.dom(element.root).querySelectorAll('button');
-        assert.equal(buttonEls.length, 1);
+        assert.equal(buttonEls.length, 2);
         assert.isFalse(element.hidden);
         done();
       }, 1);
     });
 
     test('submit change', function(done) {
-      element.changeNum = '42';
-      element.patchNum = '2';
-      element.reload();
-
-      server.respond();
-
       element.async(function() {
         var submitButton = element.$$('button[data-action-key="submit"]');
         assert.ok(submitButton);
@@ -114,5 +118,38 @@ limitations under the License.
         });
       }, 1);
     });
+
+    test('rebase change', function(done) {
+      element.async(function() {
+        var rebaseButton = element.$$('button[data-action-key="rebase"]');
+        MockInteractions.tap(rebaseButton);
+
+        element.$.confirmRebase.base = '1234';
+        element._handleRebaseConfirm();
+        server.respond();
+        var lastRequest = server.requests[server.requests.length - 1];
+        assert.equal(lastRequest.requestBody, '{"base":"1234"}');
+
+        element.$.confirmRebase.base = '';
+        element._handleRebaseConfirm();
+        server.respond();
+        lastRequest = server.requests[server.requests.length - 1];
+        assert.equal(lastRequest.requestBody, '{}');
+
+        element.$.confirmRebase.base = 'does not matter';
+        element.$.confirmRebase.clearParent = true;
+        element._handleRebaseConfirm();
+        server.respond();
+        lastRequest = server.requests[server.requests.length - 1];
+        assert.equal(lastRequest.requestBody, '{"base":""}');
+
+        // Upon each request success it should fire the reload-change event.
+        var numEvents = 0;
+        element.addEventListener('reload-change', function(e) {
+          if (++numEvents == 3) { done(); }
+        });
+      }, 1);
+    });
+
   });
 </script>

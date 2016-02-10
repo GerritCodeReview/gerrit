@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_5b17a367",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T00:42:05Z",
+      "side": 1,
+      "message": "Is that a way of saying we cannot use\n\n    submit(change2.getChangeId());\n\nnor submitWithConflict(...) because the assertions in submit(String) are too strict as what we do here?",
+      "range": {
+        "startLine": 286,
+        "startChar": 5,
+        "endLine": 286,
+        "endChar": 57
+      },
+      "revId": "57d09a2facb6a464723aeb23dd0e9fe9a038f898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd5942a_16fa1c63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T00:42:05Z",
+      "side": 1,
+      "message": "I think I am to blame for double-using the ALREADY_MERGED state as it is unclear.\n\nTo improve would it make sense to add text here?\n(\"Change was already merged independent of Gerrit. git push direct maybe?\")\n\nAs I cannot come up with a precise description, I cannot tell what this state is actually.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "57d09a2facb6a464723aeb23dd0e9fe9a038f898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_1b111b71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T00:42:05Z",
+      "side": 1,
+      "message": "Could this be the result from another merge strategy as well? (REBASE_IF_NECESSARY should also be able to recreate such a situation)",
+      "range": {
+        "startLine": 40,
+        "startChar": 37,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "57d09a2facb6a464723aeb23dd0e9fe9a038f898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

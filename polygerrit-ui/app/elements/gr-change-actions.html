@@ -42,14 +42,18 @@ limitations under the License.
       }
       button[loading] {
         cursor: wait;
-        opacity: .5;
+        opacity: .75;
       }
       button[loading]:before {
         content: attr(data-loading-label);
       }
       button[disabled] {
-        background-color: #555961;
-        opacity: .5;
+        opacity: .75;
+        cursor: default;
+      }
+      .bottomButtonsContainer {
+        display: flex;
+        justify-content: space-between;
       }
     </style>
     <gr-ajax id="actionsXHR"
@@ -60,6 +64,7 @@ limitations under the License.
       <template is="dom-repeat" items="[[_computeActionValues(actions, 'change')]]" as="action">
         <button title$="[[action.title]]"
             class$="[[_computeButtonClass(action.__key)]]"
+            title$="[[action.title]]"
             hidden$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
             data-label$="[[action.label]]"
@@ -68,6 +73,7 @@ limitations under the License.
       <template is="dom-repeat" items="[[_computeActionValues(_revisionActions, 'revision')]]" as="action">
         <button title$="[[action.title]]"
             class$="[[_computeButtonClass(action.__key)]]"
+            title$="[[action.title]]"
             disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
             data-label$="[[action.label]]"
@@ -75,6 +81,14 @@ limitations under the License.
             on-tap="_handleActionTap"></button>
       </template>
     </div>
+    <gr-overlay id="overlay" with-backdrop>
+      <div id="confirmRebase" hidden>
+        <div class="bottomButtonsContainer">
+          <button on-tap="_handleRebaseTap">Rebase</button>
+          <button on-tap="_handleOverlayCancelTap">Cancel</button>
+        </div>
+      </div>
+    </gr-overlay>
   </template>
   <script>
   (function() {
@@ -88,6 +102,8 @@ limitations under the License.
 
     // TODO(andybons): Add the rest of the revision actions.
     var RevisionActions = {
+      CHERRY_PICK: 'cherrypick',
+      REBASE: 'rebase',
       SUBMIT: 'submit',
     };
 
@@ -160,6 +176,7 @@ limitations under the License.
 
       _computeLoadingLabel: function(action) {
         return {
+          'rebase': 'Rebasing...',
           'submit': 'Submitting...',
         }[action];
       },
@@ -179,6 +196,11 @@ limitations under the License.
         }
       },
 
+      _handleOverlayCancelTap: function(e) {
+        // TODO: Hide all components...
+        this.$.overlay.close();
+      },
+
       _fireChangeAction: function(endpoint, action) {
         this._send(action.method, {}, endpoint).then(
           function() {
@@ -194,19 +216,36 @@ limitations under the License.
         var buttonEl = this.$$('[data-action-key="' + action.__key + '"]');
         buttonEl.setAttribute('loading', true);
         buttonEl.disabled = true;
+        function enableButton() {
+          buttonEl.setAttribute('loading', false);
+          buttonEl.disabled = false;
+        }
 
-        this._send(action.method, {}, endpoint, true).then(
+        var payload = {};
+        if (action.__key == RevisionActions.REBASE) {
+          if (!this._confirmRebase(payload)) {
+            enableButton();
+            return;
+          }
+        }
+
+        this._send(action.method, payload, endpoint, true).then(
           function() {
             this.fire('reload-change', null, {bubbles: false});
-            buttonEl.setAttribute('loading', false);
-            buttonEl.disabled = false;
+            enableButton();
           }.bind(this)).catch(function(err) {
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');
-            buttonEl.setAttribute('loading', false);
-            buttonEl.disabled = false;
+            enableButton();
             throw err;
           });
+      },
+
+      _confirmRebase: function(payload) {
+        this.$.confirmRebase.hidden = false;
+        this.$.overlay.open();
+        payload.base = 'parent';
+        return false;
       },
 
       _send: function(method, payload, actionEndpoint, revisionAction) {

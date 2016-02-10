@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_f63440c5",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T21:52:48Z",
+      "side": 1,
+      "message": "Usually we pass that as a List or collection in Gerrit.\n\nAt the callsite, you do ImmutableList.of(....)",
+      "range": {
+        "startLine": 429,
+        "startChar": 39,
+        "endLine": 429,
+        "endChar": 58
+      },
+      "revId": "191663960b6116abdfb87ba44b20db8e07f5dd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd5942a_d66024af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T21:52:48Z",
+      "side": 1,
+      "message": "We don\u0027t use the mergeable result here, so get rid of it completely.\n(The `\u003d\u003dnull` check is just to make sure we fail in case of error. But we can do so in the ChangeSet.isMergeable as well)\n\nWhile doing so, please transfer the comment to ChangeSet.isMergeable.",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 9
+      },
+      "revId": "191663960b6116abdfb87ba44b20db8e07f5dd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd5942a_f65b2000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T21:52:48Z",
+      "side": 1,
+      "message": "I like this approach to have the ChangeSet be responsible for mergeability checking, (that should reduce the problemsForSubmitting in submit.java even more than by the lines I pointed out there.)\n\nHowever this is not complete yet, as a change set can consist of changes targeting multiple branches or even projects by having the changes combined via the submitWholeTopic feature\n(all changes of the same topic are submitted together, and by setting one topic across project boundaries, you get a set of changes submitted across projects)\n\n\nConsider if the commit graphs from the two test cases you have in SubmitResolvingMergeCommitIT to be submitted together within one change set. And order of them is random, so you cannot know if you\u0027ll be iterating through another unrelated commit to cause problems until you have done it.\n\nSo I\u0027d rather use an algorithm like this:\n\n    Paint all commits red\n    For each commit that is mergable or a merge commit:\n        Paint it (and its ancestors?) green\n    Check that no commit is still painted red.\n\nLooking at the algorithm proposed here, I think it would do the trick for one target branch/project, so another algorithm would be\n\n    For (targetbranch : changesByBranch().keySet())\n        Run the algorithm as below for changesByBranch().get(targetBranch)\n    If none of the targetbranches failed, we\u0027re good",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 65
+      },
+      "revId": "191663960b6116abdfb87ba44b20db8e07f5dd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd5942a_1630dcc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-10T21:52:48Z",
+      "side": 1,
+      "message": "I don\u0027t think we can short cut here.\n\nEdit: see above",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 7
+      },
+      "revId": "191663960b6116abdfb87ba44b20db8e07f5dd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

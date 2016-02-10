@@ -225,8 +225,6 @@ import javax.security.auth.login.LoginException;
         try {
           account = findAccount(schema, ctx, username, false);
         } catch (AccountException e) {
-          LdapRealm.log.warn("Account " + username +
-              " not found, assuming empty group membership");
           return Collections.emptySet();
         }
       }
@@ -248,8 +246,6 @@ import javax.security.auth.login.LoginException;
         try {
           account = findAccount(schema, ctx, username, true);
         } catch (AccountException e) {
-          LdapRealm.log.warn("Account " + username +
-              " not found, assuming empty group membership");
           return Collections.emptySet();
         }
       }

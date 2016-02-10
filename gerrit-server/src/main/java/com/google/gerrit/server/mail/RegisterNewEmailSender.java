@@ -50,11 +50,6 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected boolean shouldSendMessage() {
-    return true;
-  }
-
-  @Override
   protected void format() throws EmailException {
     appendText(velocifyFile("RegisterNewEmail.vm"));
   }
@@ -69,5 +64,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
           tokenVerifier.encode(user.getAccountId(), addr), "token");
     }
     return emailToken;
+  }
+
+  public boolean isAllowed() {
+    return args.emailSender.canEmail(addr);
   }
 }

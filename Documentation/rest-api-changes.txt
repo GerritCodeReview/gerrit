@@ -13,10 +13,9 @@ link:rest-api.html[REST API].
 'POST /changes'
 --
 
-The change info link:#change-info[ChangeInfo] entity must be provided in the
-request body. Only the following attributes are honored: `project`,
-`branch`, `subject`, `status` and `topic`. The first three attributes are
-mandatory. Valid values for status are: `DRAFT` and `NEW`.
+The change input link:#change-input[ChangeInput] entity must be provided in the
+request body. The mandatory attributes are: `project`, `branch` and `subject`.
+Valid values for `status` are: `DRAFT` and `NEW`.
 
 .Request
 ----
@@ -3921,6 +3920,29 @@ the commit message within a change edit.
 |`message`     ||New commit message.
 |===========================
 
+[[change-input]]
+=== ChangeInput
+The `ChangeInput` entity contains information about creating a new change.
+
+[options="header",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`project`            ||The name of the project.
+|`branch`             ||
+The name of the target branch. +
+The `refs/heads/` prefix is omitted.
+|`subject`            ||
+The subject of the change (header line of the commit message).
+|`topic`              |optional|The topic to which this change belongs.
+|`status`             ||
+The status of the change (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
+|`base_change`        |optional|
+A link:#change-id[\{change-id\}] that identifies the base change for a create
+change operation.
+|`newBranch`          |optional, default to `false`|
+Allow creating a new branch when set to `true`.
+|==================================
+
 [[change-info]]
 === ChangeInfo
 The `ChangeInfo` entity contains information about a change.
@@ -4016,9 +4038,6 @@ Only set on the last change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
-|`base_change`        |optional|
-A link:#change-id[\{change-id\}] that identifies the base change for a create
-change operation. Only used for the link:#create-change[CreateChange] endpoint.
 |==================================
 
 [[change-message-info]]

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1454670870 +0100\nnonce AO+Zq7jzBNV7iCwWoai1jXS7jXEwJClnj+AxTV61vmSPY/d2+1VzmP+uceR3drH7/fYYDMbdej+d\n\n0000000000000000000000000000000000000000 341baf22a0756b73ba36caec87fcb740061e332f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWtIQWAAoJEFG1/Zeg0O9R+LEIAJ16hHIufq0AhbMzyGL/gS6v\nbwUCvCJQqWoRPNsLn7iP7YRzmoqKuN0iV9cqxSCxitLsVWIRtI3Vk8zAtOznfU9K\nZLz8yNjHCBL2oo/1JeOMf8ApcV04k+Q0zEBeURsQ885jqQX1dyq0rW05UazKXF5u\nqx69chCumU9k+tCxSuaT7PT+Ab5tKbZQoctcHDJImZFwPkaeWUPe+J8+W8HBBAVK\nmr+4RD0aXzExvpTWwJnDuE0MPPIFCdEtjzT47VbpDVm14layP38hP7fWFMxY0YF1\ncRTMUfBFxBQpoZTFqCZj8rpcY0SMmFNg5VUgUVPgubQa77XSl/59JAA6jz7EQNo\u003d\n\u003dItJY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_b6f00847",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-10T16:45:43Z",
+      "side": 1,
+      "message": "This breaks when running this version of the code against schema v26 (e.g. during an online upgrade), since the project field is not present.\n\nI think we need to keep the constructor that just takes Change.Id (give it a scary name).",
+      "revId": "341baf22a0756b73ba36caec87fcb740061e332f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_7b97ffc0",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-10T21:08:04Z",
+      "side": 1,
+      "message": "There is a race here where the user may load the page and toggle through to another change before loggedIn gets set, which may be fine because the time it would take to do that would basically mean they couldn’t have reviewed the change in that time. That said, the race is there.",
+      "revId": "a8bca991c498d332bce4346b5ea0938a37c61c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_9b91abcf",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-10T21:08:04Z",
+      "side": 1,
+      "message": "This seems to make more sense in _pathChanged",
+      "revId": "a8bca991c498d332bce4346b5ea0938a37c61c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

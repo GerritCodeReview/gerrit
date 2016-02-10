@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.auto.value.AutoValue;
@@ -275,6 +276,9 @@ public class ChangeData {
     ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id);
     ChangeData create(ReviewDb db, Change c);
     ChangeData create(ReviewDb db, ChangeControl c);
+
+    // TODO(dborowitz): Remove when deleting index schemas <27.
+    ChangeData createOnlyWhenNotedbDisabled(ReviewDb db, Change.Id id);
   }
 
   /**
@@ -309,8 +313,8 @@ public class ChangeData {
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
   private final Change.Id legacyId;
-  private final Project.NameKey project;
   private ChangeDataSource returnedBySource;
+  private Project.NameKey project;
   private Change change;
   private ChangeNotes notes;
   private String commitMessage;
@@ -444,6 +448,43 @@ public class ChangeData {
     project = notes.getProjectName();
   }
 
+  @AssistedInject
+  private ChangeData(
+      GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Assisted ReviewDb db,
+      @Assisted Change.Id id) {
+    checkState(!notesMigration.readChanges(),
+        "do not call createOnlyWhenNotedbDisabled when notedb is enabled");
+    this.db = db;
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.legacyId = id;
+    this.project = null;
+  }
+
   public ReviewDb db() {
     return db;
   }
@@ -545,7 +586,12 @@ public class ChangeData {
     return legacyId;
   }
 
-  public Project.NameKey getProject() {
+  public Project.NameKey project() throws OrmException {
+    if (project == null) {
+      checkState(!notesMigration.readChanges(), "should not have created "
+          + " ChangeData without a project when notedb is enabled");
+      project = change().getProject();
+    }
     return project;
   }
 
@@ -580,7 +626,7 @@ public class ChangeData {
         changeControl = changeControlFactory.controlFor(db, change, user);
       } else {
         changeControl =
-            changeControlFactory.controlFor(db, project, legacyId, user);
+            changeControlFactory.controlFor(db, project(), legacyId, user);
       }
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
@@ -605,7 +651,11 @@ public class ChangeData {
   }
 
   public Change reloadChange() throws OrmException {
-    notes = notesFactory.create(db, project, legacyId);
+    if (project == null) {
+      notes = notesFactory.createFromIdOnlyWhenNotedbDisabled(db, legacyId);
+    } else {
+      notes = notesFactory.create(db, project, legacyId);
+    }
     change = notes.getChange();
     if (change == null) {
       throw new OrmException("Unable to load change " + legacyId);
@@ -615,7 +665,7 @@ public class ChangeData {
 
   public ChangeNotes notes() throws OrmException {
     if (notes == null) {
-      notes = notesFactory.create(db, project, legacyId);
+      notes = notesFactory.create(db, project(), legacyId);
     }
     return notes;
   }
@@ -698,7 +748,7 @@ public class ChangeData {
       return false;
     }
     String sha1 = ps.getRevision().get();
-    try (Repository repo = repoManager.openRepository(project);
+    try (Repository repo = repoManager.openRepository(project());
         RevWalk walk = new RevWalk(repo)) {
       RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
       commitMessage = c.getFullMessage();
@@ -821,7 +871,7 @@ public class ChangeData {
         if (ps == null || !changeControl().isPatchVisible(ps, db)) {
           return null;
         }
-        try (Repository repo = repoManager.openRepository(project)) {
+        try (Repository repo = repoManager.openRepository(project())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
           SubmitTypeRecord str = submitTypeRecord();
           if (!str.isOk()) {
@@ -830,7 +880,7 @@ public class ChangeData {
             return false;
           }
           String mergeStrategy = mergeUtilFactory
-              .create(projectCache.get(project))
+              .create(projectCache.get(project()))
               .mergeStrategyName();
           mergeable = mergeabilityCache.get(
               ObjectId.fromString(ps.getRevision().get()),
@@ -851,7 +901,7 @@ public class ChangeData {
       }
       editsByUser = new HashSet<>();
       Change.Id id = change.getId();
-      try (Repository repo = repoManager.openRepository(project)) {
+      try (Repository repo = repoManager.openRepository(project())) {
         for (String ref
             : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).keySet()) {
           if (Change.Id.fromEditRefPart(ref).equals(id)) {

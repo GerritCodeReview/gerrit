@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1455109333 +0100\nnonce AO+Zq7h2XIu2VNeJhgX1hJXcKbWW2exhR64DLzt3mt6TYo3sKQwXyHKwc8uJ08+MZC1/9IR5APQP\n\n0000000000000000000000000000000000000000 b5c07fc917fa526fe1fa83e58b2d58c3cc077c67 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWuzTVAAoJEHFVO370GiZWHwoH/2GoNFmWwmr9szFpuhAmLOg7\nRTkSh14LzaU75Rld06xqieQyblsGOsWFnHZLw0htJUPHBXfrmE4cGXp5BOHgiFdC\nZeVABW0rkAfgx4al6+ePABwZNvRVLyaqhLrn2RbOy4FROhSZQnpQq5Lt3vIoSmcs\nCbhCoMke2pc0NarGDFIqsd5vYAtzE9N+vh/lIbdI/ptsyrvpFOi1ncEv8ZdCUy54\nTf1bDs+FXdlW2bmxSGvHCU8Z1CA6IY84D+ZEeOmXthCM/DLXXlZIxUXfu7/4i/BK\n8Pq3dyNxZlqswFkfhGMvsICiOnA23Xj9efif14cRxrEEbPSWWuLTWA3Hmm/LM+s\u003d\n\u003dnlhv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_df11fbe2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-10T13:26:36Z",
+      "side": 1,
+      "message": "Now, that you have added ChangeAccess in: [1], it can be easily extracted into this class.\n\n* [1] https://gerrit-review.googlesource.com/74797",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 69
+      },
+      "revId": "b5c07fc917fa526fe1fa83e58b2d58c3cc077c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

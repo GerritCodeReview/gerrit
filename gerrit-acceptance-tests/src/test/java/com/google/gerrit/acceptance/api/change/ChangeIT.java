@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -585,7 +586,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createEmptyChange() throws Exception {
-    ChangeInfo in = new ChangeInfo();
+    ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;
     in.subject = "Create a change from the API";
     in.project = project.get();
@@ -979,6 +980,39 @@ public class ChangeIT extends AbstractDaemonTest {
           .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
       assertThat(commitChangeCreation.getParentCount()).isEqualTo(0);
     }
+  }
+
+  @Test
+  public void createEmptyChangeOnNonExistingBranch() throws Exception {
+    ChangeInput in = new ChangeInput();
+    in.branch = "foo";
+    in.subject = "Create a change on new branch from the API";
+    in.project = project.get();
+    in.newBranch = true;
+    ChangeInfo info = gApi
+        .changes()
+        .create(in)
+        .get();
+    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.branch).isEqualTo(in.branch);
+    assertThat(info.subject).isEqualTo(in.subject);
+    assertThat(Iterables.getOnlyElement(info.messages).message)
+        .isEqualTo("Uploaded patch set 1.");
+  }
+
+  @Test
+  public void createEmptyChangeOnExistingBranchWithNewBranch() throws Exception {
+    ChangeInput in = new ChangeInput();
+    in.branch = Constants.MASTER;
+    in.subject = "Create a change on new branch from the API";
+    in.project = project.get();
+    in.newBranch = true;
+
+    exception.expect(ResourceConflictException.class);
+    ChangeInfo info = gApi
+        .changes()
+        .create(in)
+        .get();
   }
 
   private static Iterable<Account.Id> getReviewers(

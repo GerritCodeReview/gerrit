@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -90,7 +91,7 @@ class ChangesImpl implements Changes {
   }
 
   @Override
-  public ChangeApi create(ChangeInfo in) throws RestApiException {
+  public ChangeApi create(ChangeInput in) throws RestApiException {
     try {
       ChangeInfo out = createChange.apply(
           TopLevelResource.INSTANCE, in).value();

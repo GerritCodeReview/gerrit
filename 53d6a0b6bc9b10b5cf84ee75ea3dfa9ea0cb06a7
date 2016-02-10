@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_5fa32bd8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-10T15:52:19Z",
+      "side": 1,
+      "message": "even when we always ad \"diff type\" parameter for merge commits then you would have this null check for regular commits. For now I would stick to this solution and improve this later on.",
+      "parentUuid": "91410cda_3f9dc726",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "53d6a0b6bc9b10b5cf84ee75ea3dfa9ea0cb06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31fdc0c1_64964a11",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-07T13:26:33Z",
       "side": 1,
       "message": "How about removing this method completely? The only one reference I can find is in com.google.gerrit.client.editor.EditScreen:185 and can be easily refactored:\n-DiffApi.diff(revision, path)\n+DiffApi.diff(revision, null, path)",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 59
+      },
+      "revId": "53d6a0b6bc9b10b5cf84ee75ea3dfa9ea0cb06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_39b76f21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-10T15:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31fdc0c1_64964a11",
       "range": {
         "startLine": 55,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9db840d6_f9e5f71f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-10T15:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91410cda_5f968b10",
+      "range": {
+        "startLine": 303,
+        "startChar": 32,
+        "endLine": 303,
+        "endChar": 53
+      },
+      "revId": "53d6a0b6bc9b10b5cf84ee75ea3dfa9ea0cb06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_7f934f1f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 9
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_1f99a3a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-10T15:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91410cda_7f934f1f",
+      "range": {
+        "startLine": 935,
+        "startChar": 52,
+        "endLine": 935,
+        "endChar": 73
+      },
+      "revId": "53d6a0b6bc9b10b5cf84ee75ea3dfa9ea0cb06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91410cda_1fa0035e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 9
@@ -105,6 +201,30 @@
       "writtenOn": "2016-02-07T13:26:33Z",
       "side": 1,
       "message": "a possibility to remove this constructor exists, we could consider it",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "53d6a0b6bc9b10b5cf84ee75ea3dfa9ea0cb06a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_19b2ab30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-02-10T15:52:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91410cda_1fa0035e",
       "range": {
         "startLine": 62,
         "startChar": 0,

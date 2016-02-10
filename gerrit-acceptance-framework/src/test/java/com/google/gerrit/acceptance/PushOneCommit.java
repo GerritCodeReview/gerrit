@@ -26,7 +26,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.ChangeAccess2;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -108,7 +109,7 @@ public class PushOneCommit {
     }
   }
 
-  private final ChangeNotes.Factory notesFactory;
+  private final ChangeAccess2 changeAccess;
   private final ApprovalsUtil approvalsUtil;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ReviewDb db;
@@ -124,18 +125,18 @@ public class PushOneCommit {
   private final TestRepository<?>.CommitBuilder commitBuilder;
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
+  PushOneCommit(ChangeAccess2 changeAccess,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider,
+    this(changeAccess, approvalsUtil, queryProvider,
         db, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
+  PushOneCommit(ChangeAccess2 changeAccess,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
@@ -144,12 +145,12 @@ public class PushOneCommit {
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider,
+    this(changeAccess, approvalsUtil, queryProvider,
         db, i, testRepo, subject, fileName, content, null);
   }
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
+  PushOneCommit(ChangeAccess2 changeAccess,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
@@ -161,7 +162,7 @@ public class PushOneCommit {
       @Nullable @Assisted("changeId") String changeId) throws Exception {
     this.db = db;
     this.testRepo = testRepo;
-    this.notesFactory = notesFactory;
+    this.changeAccess = changeAccess;
     this.approvalsUtil = approvalsUtil;
     this.queryProvider = queryProvider;
     this.subject = subject;
@@ -263,7 +264,7 @@ public class PushOneCommit {
 
     public void assertChange(Change.Status expectedStatus,
         String expectedTopic, TestAccount... expectedReviewers)
-        throws OrmException {
+        throws OrmException, NoSuchChangeException {
       Change c = getChange().change();
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
@@ -272,9 +273,9 @@ public class PushOneCommit {
     }
 
     private void assertReviewers(Change c, TestAccount... expectedReviewers)
-        throws OrmException {
+        throws OrmException, NoSuchChangeException {
       Iterable<Account.Id> actualIds = approvalsUtil
-          .getReviewers(db, notesFactory.create(db, c.getProject(), c.getId()))
+          .getReviewers(db, changeAccess.get(db, c))
           .values();
       assertThat(actualIds).containsExactlyElementsIn(
           Sets.newHashSet(TestAccount.ids(expectedReviewers)));

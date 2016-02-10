@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.ChangeFinder;
+import com.google.gerrit.server.ChangeAccess2;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -48,16 +48,16 @@ public class ChangeControl {
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
     private final ChangeNotes.Factory notesFactory;
-    private final ChangeFinder changeFinder;
+    private final ChangeAccess2 changeAccess;
 
     @Inject
     GenericFactory(
         ProjectControl.GenericFactory p,
         ChangeNotes.Factory n,
-        ChangeFinder f) {
+        ChangeAccess2 a) {
       projectControl = p;
       notesFactory = n;
-      changeFinder = f;
+      changeAccess = a;
     }
 
     public ChangeControl controlFor(ReviewDb db, Project.NameKey project,
@@ -92,13 +92,12 @@ public class ChangeControl {
 
     public ChangeControl validateFor(ReviewDb db, Change.Id changeId,
         CurrentUser user) throws NoSuchChangeException, OrmException {
-      ChangeControl ctl = changeFinder.findOne(changeId, user);
-      return validateFor(db, ctl.getChange(), user);
+      return validateFor(db, changeAccess.get(changeId), user);
     }
 
-    public ChangeControl validateFor(ReviewDb db, Change change,
+    public ChangeControl validateFor(ReviewDb db, ChangeNotes notes,
         CurrentUser user) throws NoSuchChangeException, OrmException {
-      ChangeControl c = controlFor(db, change, user);
+      ChangeControl c = controlFor(notes, user);
       if (!c.isVisible(db)) {
         throw new NoSuchChangeException(c.getId());
       }

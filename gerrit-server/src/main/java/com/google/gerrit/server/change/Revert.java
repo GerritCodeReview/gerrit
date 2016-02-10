@@ -58,7 +58,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   @Override
   public ChangeInfo apply(ChangeResource req, RevertInput input)
       throws IOException, OrmException, RestApiException,
-      UpdateException {
+      UpdateException, NoSuchChangeException {
     RefControl refControl = req.getControl().getRefControl();
     Change change = req.getChange();
     if (!refControl.canUpload()) {

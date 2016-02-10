@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeAccess2;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -120,7 +121,7 @@ public class ConsistencyChecker {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeIndexer indexer;
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final ChangeNotes.Factory notesFactory;
+  private final ChangeAccess2 changeAccess;
   private final ChangeUpdate.Factory changeUpdateFactory;
 
   private FixInput fix;
@@ -146,7 +147,7 @@ public class ConsistencyChecker {
       BatchUpdate.Factory updateFactory,
       ChangeIndexer indexer,
       ChangeControl.GenericFactory changeControlFactory,
-      ChangeNotes.Factory notesFactory,
+      ChangeAccess2 changeAccess,
       ChangeUpdate.Factory changeUpdateFactory) {
     this.db = db;
     this.repoManager = repoManager;
@@ -158,7 +159,7 @@ public class ConsistencyChecker {
     this.updateFactory = updateFactory;
     this.indexer = indexer;
     this.changeControlFactory = changeControlFactory;
-    this.notesFactory = notesFactory;
+    this.changeAccess = changeAccess;
     this.changeUpdateFactory = changeUpdateFactory;
     reset();
   }
@@ -419,13 +420,13 @@ public class ConsistencyChecker {
           continue;
         }
         try {
-          Change c = notesFactory
-              .create(db.get(), change.getProject(), psId.getParentKey())
+          Change c = changeAccess
+              .get(db.get(), change.getProject(), psId.getParentKey())
               .getChange();
-          if (c == null || !c.getDest().equals(change.getDest())) {
+          if (!c.getDest().equals(change.getDest())) {
             continue;
           }
-        } catch (OrmException e) {
+        } catch (OrmException | NoSuchChangeException e) {
           warn(e);
           // Include this patch set; should cause an error below, which is good.
         }
@@ -586,12 +587,8 @@ public class ConsistencyChecker {
     try {
       db.changes().beginTransaction(cid);
       try {
-        ChangeNotes notes = notesFactory.create(db, project, cid);
+        ChangeNotes notes = changeAccess.get(db, project, cid);
         Change c = notes.getChange();
-        if (c == null) {
-          throw new OrmException("Change missing: " + cid);
-        }
-
         if (psId.equals(c.currentPatchSetId())) {
           List<PatchSet> all = Lists.newArrayList(db.patchSets().byChange(cid));
           if (all.size() == 1 && all.get(0).getId().equals(psId)) {
@@ -631,7 +628,8 @@ public class ConsistencyChecker {
       } finally {
         db.rollback();
       }
-    } catch (PatchSetInfoNotAvailableException | OrmException e) {
+    } catch (PatchSetInfoNotAvailableException | OrmException
+        | NoSuchChangeException e) {
       String msg = "Error deleting patch set";
       log.warn(msg + ' ' + psId, e);
       p.status = Status.FIX_FAILED;

@@ -187,16 +187,16 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-    ChangeNotes notes = notesFactory.create(db, project, c1);
+    Change c = changeAccess.get(db, project, c1);
     PatchSet ps1 = getPatchSet(new PatchSet.Id(c1, 1));
 
     // Admin's edit is not visible.
     setApiUser(admin);
-    editModifier.createEdit(notes.getChange(), ps1);
+    editModifier.createEdit(c, ps1);
 
     // User's edit is visible.
     setApiUser(user);
-    editModifier.createEdit(notes.getChange(), ps1);
+    editModifier.createEdit(c, ps1);
 
     assertRefs(
         "HEAD",
@@ -214,12 +214,12 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
       allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-      ChangeNotes notes = notesFactory.create(db, project, c1);
+      Change c = changeAccess.get(db, project, c1);
       PatchSet ps1 = getPatchSet(new PatchSet.Id(c1, 1));
       setApiUser(admin);
-      editModifier.createEdit(notes.getChange(), ps1);
+      editModifier.createEdit(c, ps1);
       setApiUser(user);
-      editModifier.createEdit(notes.getChange(), ps1);
+      editModifier.createEdit(c, ps1);
 
       assertRefs(
           // Change 1 is visible due to accessDatabase capability, even though

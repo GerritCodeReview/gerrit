@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -219,13 +220,14 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
-      throws OrmException {
+      throws OrmException, NoSuchChangeException {
     ChangeNotes notes =
-        notesFactory.create(db, project, patchSetId.getParentKey()).load();
+        changeAccess.getNotes(db, project, patchSetId.getParentKey()).load();
     return approvalsUtil.getSubmitter(db, notes, patchSetId);
   }
 
-  private void assertSubmitApproval(PatchSet.Id patchSetId) throws OrmException {
+  private void assertSubmitApproval(PatchSet.Id patchSetId)
+      throws OrmException, NoSuchChangeException {
     PatchSetApproval a = getSubmitter(patchSetId);
     assertThat(a.isSubmit()).isTrue();
     assertThat(a.getValue()).isEqualTo((short) 1);

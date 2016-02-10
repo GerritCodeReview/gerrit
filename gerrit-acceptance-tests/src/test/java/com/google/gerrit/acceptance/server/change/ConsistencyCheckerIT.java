@@ -223,7 +223,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Deleted patch set");
 
-    c = notesFactory.create(db, project, c.getId()).getChange();
+    c = changeAccess.get(db, c);
     assertThat(c.currentPatchSetId().get()).isEqualTo(1);
     assertThat(getPatchSet(ps1.getId())).isNotNull();
     assertThat(getPatchSet(ps2.getId())).isNull();
@@ -271,7 +271,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Deleted patch set");
 
-    c = notesFactory.create(db, project, c.getId()).getChange();
+    c = changeAccess.get(db, c);
     assertThat(c.currentPatchSetId().get()).isEqualTo(3);
     assertThat(getPatchSet(ps1.getId())).isNotNull();
     assertThat(getPatchSet(ps2.getId())).isNull();
@@ -299,7 +299,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.outcome)
         .isEqualTo("Cannot delete patch set; no patch sets would remain");
 
-    c = notesFactory.create(db, project, c.getId()).getChange();
+    c = changeAccess.get(db, c);
     assertThat(c.currentPatchSetId().get()).isEqualTo(1);
     assertThat(getPatchSet(ps1.getId())).isNotNull();
   }
@@ -387,7 +387,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Marked change as merged");
 
-    c = notesFactory.create(db, project, c.getId()).getChange();
+    c = changeAccess.get(db, c);
     assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
     assertProblems(c);
   }
@@ -476,7 +476,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Inserted as patch set 2");
 
-    c = notesFactory.create(db, project, c.getId()).getChange();
+    c = changeAccess.get(db, c);
     PatchSet.Id psId2 = new PatchSet.Id(c.getId(), 2);
     assertThat(c.currentPatchSetId()).isEqualTo(psId2);
     assertThat(getPatchSet(psId2).getRevision().get())
@@ -518,7 +518,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Inserted as patch set 2");
 
-    c  = notesFactory.create(db, project, c.getId()).getChange();
+    c = changeAccess.get(db, c);
     PatchSet.Id psId2 = new PatchSet.Id(c.getId(), 2);
     assertThat(c.currentPatchSetId()).isEqualTo(psId2);
     assertThat(getPatchSet(psId2).getRevision().get())

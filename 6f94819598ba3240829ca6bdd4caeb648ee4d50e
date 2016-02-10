@@ -16,6 +16,24 @@
       "revId": "6f94819598ba3240829ca6bdd4caeb648ee4d50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_db7f3387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-10T06:41:21Z",
+      "side": 1,
+      "message": "OK, I\u0027ll update the commit message later.\n\nAccording to the comments on that issue, the master branch of gwt-test-utils is working.\n\nIf it\u0027s not maintained, though, maybe we can deploy it on either the google maven bucket or on central under com.google.gerrit.",
+      "parentUuid": "9db840d6_79448723",
+      "revId": "6f94819598ba3240829ca6bdd4caeb648ee4d50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

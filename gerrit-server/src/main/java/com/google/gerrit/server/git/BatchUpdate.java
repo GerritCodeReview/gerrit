@@ -229,6 +229,12 @@ public class BatchUpdate implements AutoCloseable {
     public void updateRepo(RepoContext ctx) throws Exception {
     }
 
+    /**
+     * Override this method to modify a change.
+     *
+     * @return whether anything was changed that might require a write to
+     * the metadata storage.
+     */
     @SuppressWarnings("unused")
     public boolean updateChange(ChangeContext ctx) throws Exception {
       return false;

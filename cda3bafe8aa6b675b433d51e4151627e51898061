@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455113068 +0100\nnonce AO+Zq7js/sJPriG+AJjsOb8Fsjn1QbGBOEl+hZ1+cm2/k8RrXE4MCCD6hq/nlYBFDBu9u0mJQ4GM\n\n0000000000000000000000000000000000000000 f9b7dfcd55fbd74f7c83b3d8eda3c364ba88001c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWu0NsAAoJEFG1/Zeg0O9Rq0oH/2pY9hjwnzX6WL4WqR7Zs7Sy\nymkRuM9dM+yDmQcipQQU2n4VsmcoafbxoSzAkZ8gdzhP28UrWzFzqTeTPdqURDE7\nJ1yCxFh1s3D5QZyihHvhizdgj7QWpxkh8T2dXABlTrxce1SqBhE7DKTRMtTBWQpd\n8PgYLx2SnQWXHifuFc9EUHmBpY1SkrinEZdYZBtAxN/xbpU+cE6PuYhYRQBeTsUA\nCKoBgcOarfMv5ay/xLkquing58SXhXji4QOQlYdETk4C4Vt9dpqfAZlW6AFgCoRp\n7Bmj2Z/vxETAoD3mQY8VT0thgfyyziifBTnHJYXcCgRRf+/E385gNjcFQcGviTU\u003d\n\u003dgQwd\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_fbe66f91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-10T14:22:19Z",
+      "side": 1,
+      "message": "Why do you return an immutable list here but not at line 124?",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "cda3bafe8aa6b675b433d51e4151627e51898061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

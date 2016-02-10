@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_563ad4cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-10T13:31:38Z",
+      "side": 1,
+      "message": "[optional] no line wrap",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 87,
+        "endChar": 60
+      },
+      "revId": "2c63a631448383bc62ca6e56e99e40f505223c6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

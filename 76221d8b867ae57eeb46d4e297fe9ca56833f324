@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddb0f80b_bb3ea7a1",
+        "filename": "polygerrit-ui/app/test/gr-file-list-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-10T18:47:36Z",
+      "side": 1,
+      "message": "i think this will fit on one line",
+      "revId": "76221d8b867ae57eeb46d4e297fe9ca56833f324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5942a_16021cec",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-10T18:18:42Z",
+      "side": 1,
+      "message": "checked\u003d should be checked$\u003d",
+      "revId": "3215cec4989690ee74c7c99b8f3f2d6602f412d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_fb342fc5",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-10T18:18:42Z",
+      "side": 1,
+      "message": "handlers are typically named something like `_handleReviewedChange`",
+      "revId": "3215cec4989690ee74c7c99b8f3f2d6602f412d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_db3973bd",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-10T18:18:42Z",
+      "side": 1,
+      "message": "you want Polymer.dom(e).rootTarget for good measure.",
+      "revId": "3215cec4989690ee74c7c99b8f3f2d6602f412d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

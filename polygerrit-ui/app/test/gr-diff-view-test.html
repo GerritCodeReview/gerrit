@@ -36,6 +36,7 @@ limitations under the License.
 <script>
   suite('gr-diff-view tests', function() {
     var element;
+    var server;
 
     setup(function() {
       element = fixture('basic');
@@ -43,6 +44,31 @@ limitations under the License.
       element.$.filesXHR.auto = false;
       element.$.configXHR.auto = false;
       element.$.diff.auto = false;
+
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'PUT',
+        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
+        [
+          201,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          '""',
+        ]
+      );
+      server.respondWith(
+        'DELETE',
+        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
+        [
+          204,
+          {'Content-Type': 'application/json'},
+          '',
+        ]
+      );
+    });
+
+    teardown(function() {
+      server.restore();
     });
 
     test('keyboard shortcuts', function() {
@@ -181,6 +207,47 @@ limitations under the License.
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
       assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/glados.txt');
       assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
+    });
+
+    test('file review status', function(done) {
+      element._loggedIn = true;
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '1',
+        patchNum: '2',
+      };
+      element._fileList = ['/COMMIT_MSG'];
+      element._path = '/COMMIT_MSG';
+
+      server.respond();
+
+      element.async(function() {
+        var commitMsg = Polymer.dom(element.root).querySelector(
+            'input[type="checkbox"]');
+
+        assert.isTrue(commitMsg.checked);
+
+        MockInteractions.tap(commitMsg);
+        server.respond();
+        element._xhrPromise.then(function(req) {
+          assert.isFalse(commitMsg.checked);
+          assert.equal(req.status, 204);
+          assert.equal(req.url,
+              '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
+
+          MockInteractions.tap(commitMsg);
+          server.respond();
+        }).then(function() {
+          element._xhrPromise.then(function(req) {
+            assert.isTrue(commitMsg.checked);
+            assert.equal(req.status, 201);
+            assert.equal(req.url,
+                '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
+
+            done();
+          });
+        });
+      }, 1);
     });
   });
 </script>

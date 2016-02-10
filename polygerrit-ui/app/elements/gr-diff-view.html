@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff.html">
+<link rel="import" href="gr-request.html">
 
 <dom-module id="gr-diff-view">
   <template>
@@ -99,6 +100,8 @@ limitations under the License.
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> —
+      <input id="reviewed" type="checkbox" on-change="_handleReviewedChange"
+          hidden$="[[!_loggedIn]]" hidden>
       <div class="jumpToFileContainer">
         <button class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
           <span>[[_path]]</span>
@@ -177,6 +180,7 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        _xhrPromise: Object,  // Used for testing.
       },
 
       behaviors: [
@@ -187,6 +191,9 @@ limitations under the License.
       ready: function() {
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
+          if (this._loggedIn) {
+            this._setReviewed(true);
+          }
         }.bind(this));
       },
 
@@ -199,6 +206,23 @@ limitations under the License.
 
       detached: function() {
         window.removeEventListener('resize', this._boundWindowResizeHandler);
+      },
+
+      _handleReviewedChange: function(e) {
+        this._setReviewed(Polymer.dom(e).rootTarget.checked);
+      },
+
+      _setReviewed: function(reviewed) {
+        this.$.reviewed.checked = reviewed;
+        var method = reviewed ? 'PUT' : 'DELETE';
+        var url = this.changeBaseURL(this._changeNum,
+            this._patchRange.patchNum) + '/files/' +
+            encodeURIComponent(this._path) + '/reviewed';
+        this._send(method, url).catch(function(err) {
+          alert('Couldn’t change file review status. Check the console ' +
+              'and contact the PolyGerrit team for assistance.');
+          throw err;
+        }.bind(this));
       },
 
       _handleKey: function(e) {
@@ -277,6 +301,10 @@ limitations under the License.
 
         this.set('changeViewState.selectedFileIndex',
             this._fileList.indexOf(path));
+
+        if (this._loggedIn) {
+          this._setReviewed(true);
+        }
       },
 
       _computeDiffURL: function(changeNum, patchRange, path) {
@@ -343,6 +371,15 @@ limitations under the License.
 
       _showDropdownTapHandler: function(e) {
         this.$.dropdown.open();
+      },
+
+      _send: function(method, url) {
+        var xhr = document.createElement('gr-request');
+        this._xhrPromise = xhr.send({
+          method: method,
+          url: url,
+        });
+        return this._xhrPromise;
       },
     });
   })();

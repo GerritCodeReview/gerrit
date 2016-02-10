@@ -22,6 +22,53 @@
       "revId": "869cc585f12b38ac77f8b1ae1394e8b43fbe0c7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_d9ce73d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-10T09:21:02Z",
+      "side": 1,
+      "message": "I partially agree. Yes, there is only one persistent cache backend.\n\nThe reason for the \"h2\" prefix was that I wanted to make it more explicit that this setting has nothing to do with the size of our persistent caches but is H2 specific and limits the amount of memory H2 uses for its own caching.",
+      "parentUuid": "5dd9683d_1f7b639e",
+      "range": {
+        "startLine": 531,
+        "startChar": 8,
+        "endLine": 531,
+        "endChar": 19
+      },
+      "revId": "869cc585f12b38ac77f8b1ae1394e8b43fbe0c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_7fb70f4e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-10T09:21:02Z",
+      "side": 1,
+      "message": "this has to be changed to:\n\nThe size of the H2 database cache, in bytes,",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 533,
+        "endChar": 44
+      },
+      "revId": "869cc585f12b38ac77f8b1ae1394e8b43fbe0c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

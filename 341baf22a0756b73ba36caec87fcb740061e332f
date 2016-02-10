@@ -17,6 +17,24 @@
       "revId": "341baf22a0756b73ba36caec87fcb740061e332f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd5942a_96f50c37",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-10T17:47:48Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/74786 but it ain\u0027t pretty",
+      "parentUuid": "3dd5942a_b6f00847",
+      "revId": "341baf22a0756b73ba36caec87fcb740061e332f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

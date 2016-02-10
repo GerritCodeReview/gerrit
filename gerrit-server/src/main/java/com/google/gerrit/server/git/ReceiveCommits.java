@@ -2448,7 +2448,7 @@ public class ReceiveCommits {
               if (groups == null) {
                 return false;
               }
-            } else if (Sets.newHashSet(oldGroups).equals(groups)) {
+            } else if (sameGroups(oldGroups, groups)) {
               return false;
             }
             psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
@@ -2457,6 +2457,10 @@ public class ReceiveCommits {
         });
         bu.execute();
       }
+    }
+
+    private boolean sameGroups(List<String> a, List<String> b) {
+      return Sets.newHashSet(a).equals(Sets.newHashSet(b));
     }
 
     CheckedFuture<Void, RestApiException> updateGroups() {

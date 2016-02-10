@@ -281,7 +281,7 @@ limitations under the License.
               actions="[[_change.actions]]"
               change-num="[[_changeNum]]"
               patch-num="[[_patchNum]]"
-              on-reload-change="_reload"></gr-change-actions>
+              on-reload-change="_reloadLatestPatchSet"></gr-change-actions>
         </div>
         <div class="changeInfo-column commitMessage">
           <h4>Commit message</h4>
@@ -594,6 +594,10 @@ limitations under the License.
             page.show('/');
             break;
         }
+      },
+
+      _reloadLatestPatchSet: function() {
+        page.show(this._computeChangePath(this._changeNum));
       },
 
       _reload: function() {

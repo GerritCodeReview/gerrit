@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -34,6 +35,57 @@ public interface FileApi {
   DiffInfo diff(String base) throws RestApiException;
 
   /**
+   * Creates a request to retrieve the diff. On the returned request formatting
+   * options for the diff can be set.
+   */
+  DiffRequest diffRequest() throws RestApiException;
+
+  public abstract class DiffRequest {
+    private String base;
+    private Integer context;
+    private Boolean intraline;
+    private Whitespace whitespace;
+
+    public abstract DiffInfo get() throws RestApiException;
+
+    public DiffRequest withBase(String base) {
+      this.base = base;
+      return this;
+    }
+
+    public DiffRequest withContext(int context) {
+      this.context = context;
+      return this;
+    }
+
+    public DiffRequest withIntraline(boolean intraline) {
+      this.intraline = intraline;
+      return this;
+    }
+
+    public DiffRequest withWhitespace(Whitespace whitespace) {
+      this.whitespace = whitespace;
+      return this;
+    }
+
+    public String getBase() {
+      return base;
+    }
+
+    public Integer getContext() {
+      return context;
+    }
+
+    public Boolean getIntraline() {
+      return intraline;
+    }
+
+    public Whitespace getWhitespace() {
+      return whitespace;
+    }
+  }
+
+  /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
@@ -50,6 +102,11 @@ public interface FileApi {
 
     @Override
     public DiffInfo diff(String base) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffRequest diffRequest() throws RestApiException {
       throw new NotImplementedException();
     }
   }

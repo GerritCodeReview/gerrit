@@ -74,4 +74,35 @@ class FileApiImpl implements FileApi {
       throw new RestApiException("Cannot retrieve diff", e);
     }
   }
+
+  @Override
+  public DiffRequest diffRequest() {
+    return new DiffRequest() {
+      @Override
+      public DiffInfo get() throws RestApiException {
+        return FileApiImpl.this.get(this);
+      }
+    };
+  }
+
+  private DiffInfo get(DiffRequest r) throws RestApiException {
+    GetDiff diff = getDiff.get();
+    if (r.getBase() != null) {
+      diff.setBase(r.getBase());
+    }
+    if (r.getContext() != null) {
+      diff.setContext(r.getContext());
+    }
+    if (r.getIntraline() != null) {
+      diff.setIntraline(r.getIntraline());
+    }
+    if (r.getWhitespace() != null) {
+      diff.setWhitespace(r.getWhitespace());
+    }
+    try {
+      return diff.apply(file).value();
+    } catch (IOException | InvalidChangeOperationException | OrmException e) {
+      throw new RestApiException("Cannot retrieve diff", e);
+    }
+  }
 }

@@ -69,7 +69,6 @@ java_test(
     '//lib:junit',
     '//lib/gwt:dev',
     '//lib/gwt:user',
-    '//lib/gwt:gwt-test-utils',
   ],
   source_under_test = [':ui_module'],
   vm_args = ['-Xmx512m'],

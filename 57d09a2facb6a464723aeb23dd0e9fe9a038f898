@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3dd5942a_d60a6442",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-10T00:45:14Z",
+      "side": 1,
+      "message": "No, see the place in SubmitStrategyOp where we set this status, there is a long explanation there. There is no text here because we never use this text to generate a message.",
+      "parentUuid": "3dd5942a_16fa1c63",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "57d09a2facb6a464723aeb23dd0e9fe9a038f898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb0f80b_1b111b71",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CommitMergeStatus.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2016-02-10T00:42:05Z",
       "side": 1,
       "message": "Could this be the result from another merge strategy as well? (REBASE_IF_NECESSARY should also be able to recreate such a situation)",
+      "range": {
+        "startLine": 40,
+        "startChar": 37,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "57d09a2facb6a464723aeb23dd0e9fe9a038f898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb0f80b_fbac2f6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-10T00:45:14Z",
+      "side": 1,
+      "message": "Not as it is currently, the only place this is set (or MergeIdenticalTreeException thrown) is in CherryPick.java",
+      "parentUuid": "ddb0f80b_1b111b71",
       "range": {
         "startLine": 40,
         "startChar": 37,

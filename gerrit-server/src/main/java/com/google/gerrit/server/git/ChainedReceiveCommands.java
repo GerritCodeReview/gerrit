@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -78,21 +79,30 @@ public class ChainedReceiveCommands {
    * @param repo repository to read from, if result is not cached.
    * @param refName name of the ref.
    * @return value of the ref, taking into account commands that have already
-   *     been added to this instance.
+   *     been added to this instance. Null if the ref is deleted, matching the
+   *     behavior of {@link Repository#exactRef(String)}.
    */
   public ObjectId getObjectId(Repository repo, String refName)
       throws IOException {
     ReceiveCommand cmd = commands.get(refName);
     if (cmd != null) {
-      return cmd.getNewId();
+      return zeroToNull(cmd.getNewId());
     }
     ObjectId old = oldIds.get(refName);
     if (old != null) {
-      return old;
+      return zeroToNull(old);
     }
     Ref ref = repo.exactRef(refName);
     ObjectId id = ref != null ? ref.getObjectId() : null;
-    oldIds.put(refName, id);
+    // Cache missing ref as zeroId to match value in commands map.
+    oldIds.put(refName, firstNonNull(id, ObjectId.zeroId()));
+    return id;
+  }
+
+  private static ObjectId zeroToNull(ObjectId id) {
+    if (id == null || id.equals(ObjectId.zeroId())) {
+      return null;
+    }
     return id;
   }
 

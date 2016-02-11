@@ -17,6 +17,24 @@
       "revId": "cbd7bea87191854fc8eb58445d8def158b99cc0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_8219dcbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-11T09:24:56Z",
+      "side": 1,
+      "message": "OK, I see your point. removing the get methods for changes then.\n\nDone.",
+      "parentUuid": "ddb0f80b_fb0d4f1b",
+      "revId": "cbd7bea87191854fc8eb58445d8def158b99cc0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

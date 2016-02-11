@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_04f796a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:46:17Z",
+      "side": 1,
+      "message": "I spoke too early, as putting boolean into a Map doesn\u0027t work, sorry for the noise.",
+      "parentUuid": "fdfcdcc6_840a666f",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 133,
+        "endChar": 27
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdfcdcc6_a4056261",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 3

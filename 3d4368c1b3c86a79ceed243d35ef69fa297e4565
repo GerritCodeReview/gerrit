@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdfcdcc6_642e4ad9",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-02-11T22:55:02Z",
+      "side": 1,
+      "message": "strict \u003d\u003d\u003d ?",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 34
+      },
+      "revId": "3d4368c1b3c86a79ceed243d35ef69fa297e4565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_442b4ec7",
+        "filename": "polygerrit-ui/app/elements/gr-overlay.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-02-11T22:55:02Z",
+      "side": 1,
+      "message": "should you use a paper-elevation mixin here?",
+      "revId": "3d4368c1b3c86a79ceed243d35ef69fa297e4565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_242852c8",
+        "filename": "polygerrit-ui/app/elements/gr-overlay.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-02-11T22:55:02Z",
+      "side": 1,
+      "message": "do you want to add a detached lifecycle hook to reset the enabled state?",
+      "revId": "3d4368c1b3c86a79ceed243d35ef69fa297e4565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

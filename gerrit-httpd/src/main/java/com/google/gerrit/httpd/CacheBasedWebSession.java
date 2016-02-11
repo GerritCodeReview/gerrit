@@ -208,12 +208,19 @@ public abstract class CacheBasedWebSession implements WebSession {
         path = "/";
       }
     }
+     
 
     if (outCookie != null) {
       throw new IllegalStateException("Cookie " + ACCOUNT_COOKIE + " was set");
     }
 
     outCookie = new Cookie(ACCOUNT_COOKIE, token);
+
+    String domain = authConfig.getCookieDomain();
+    if (domain != null && !domain.isEmpty()) {
+      outCookie.setDomain(domain);
+    }
+
     outCookie.setSecure(isSecure(request));
     outCookie.setPath(path);
     outCookie.setMaxAge(ageSeconds);

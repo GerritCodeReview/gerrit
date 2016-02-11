@@ -217,6 +217,14 @@ limitations under the License.
       },
 
       reload: function(changeNum, patchRange, path) {
+        // If a diff takes a considerable amount of time to render, the previous
+        // diff can end up showing up while the DOM is constructed. Clear the
+        // content on a reload to prevent this.
+        this._diff = {
+          leftSide: [],
+          rightSide: [],
+        };
+
         var promises = [
           this._prefsReady,
           this.$.diffXHR.generateRequest().completes

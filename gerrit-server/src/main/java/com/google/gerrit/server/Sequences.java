@@ -37,12 +37,8 @@ public class Sequences {
       AllProjectsName allProjects) {
     this.db = db;
     this.migration = migration;
-    if (migration.readChanges()) {
-      changeSeq = new RepoSequence(
-          repoManager, allProjects, "changes", ReviewDb.FIRST_CHANGE_ID, 100);
-    } else {
-      changeSeq = null;
-    }
+    changeSeq = new RepoSequence(
+        repoManager, allProjects, "changes", ReviewDb.FIRST_CHANGE_ID, 100);
   }
 
   @SuppressWarnings("deprecation")

@@ -24,20 +24,20 @@ import com.google.inject.Singleton;
 @Singleton
 public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
   private final SchemaFactory<ReviewDb> delegate;
-  private final boolean disableChangesTables;
+  private final NotesMigration migration;
 
   @Inject
   NotesMigrationSchemaFactory(
       @ReviewDbFactory SchemaFactory<ReviewDb> delegate,
       NotesMigration migration) {
     this.delegate = delegate;
-    disableChangesTables = migration.readChanges();
+    this.migration = migration;
   }
 
   @Override
   public ReviewDb open() throws OrmException {
     ReviewDb db = delegate.open();
-    if (!disableChangesTables) {
+    if (!migration.readChanges()) {
       return db;
     }
     return new DisabledChangesReviewDbWrapper(db);

@@ -45,15 +45,18 @@ limitations under the License.
       }
       .headerContainer {
         height: 4.1em;
+        margin-bottom: .5em;
       }
       .header {
         align-items: center;
         background-color: var(--view-background-color);
+        border-bottom: 1px solid #ddd;
         display: flex;
         padding: 1em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
       }
       .header.pinned {
+        border-bottom-color: transparent;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         position: fixed;
         top: 0;
@@ -98,6 +101,9 @@ limitations under the License.
         margin-top: 0;
         padding-top: 0;
       }
+      .changeInfo-column:not(:last-of-type) {
+        margin-right: 2em;
+      }
       table {
         border-collapse: collapse;
       }
@@ -107,9 +113,6 @@ limitations under the License.
       }
       gr-reviewer-list {
         min-width: 25em;
-      }
-      .changeMetadata {
-        margin-right: 1em;
       }
       .changeMetadata-label {
         font-weight: bold;
@@ -134,7 +137,6 @@ limitations under the License.
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
-        margin-right: 2em;
         max-width: 72ch;
       }
       .commitMessage h4 {
@@ -150,17 +152,17 @@ limitations under the License.
         .changeInfo {
           flex-wrap: wrap;
         }
+        .changeInfo-column {
+          margin-right: 0;
+        }
+        .changeInfo-column:not(:first-of-type) {
+          margin-top: .5em;
+        }
       }
       @media screen and (max-width: 60em) {
         .changeInfo {
           flex-direction: column;
           flex-wrap: nowrap;
-        }
-        .changeMetadata,
-        .commitMessage,
-        gr-related-changes-list {
-          margin-right: 0;
-          margin-top: .25em;
         }
         .commitMessage {
           max-width: none;
@@ -214,7 +216,7 @@ limitations under the License.
         </div>
       </div>
       <section class="changeInfo">
-        <div class="changeMetadata">
+        <div class="changeInfo-column changeMetadata">
           <table>
             <tr>
               <td class="changeMetadata-label">Owner</td>
@@ -281,16 +283,18 @@ limitations under the License.
               patch-num="[[_patchNum]]"
               on-reload-change="_reload"></gr-change-actions>
         </div>
-        <div class="commitMessage">
+        <div class="changeInfo-column commitMessage">
           <h4>Commit message</h4>
           <gr-linked-text pre
               content="[[_commitInfo.message]]"
               config="[[_projectConfig.commentlinks]]"></gr-linked-text>
         </div>
-        <gr-related-changes-list id="relatedChanges"
-            change="[[_change]]"
-            server-config="[[serverConfig]]"
-            patch-num="[[_patchNum]]"></gr-related-changes-list>
+        <div class="changeInfo-column">
+          <gr-related-changes-list id="relatedChanges"
+              change="[[_change]]"
+              server-config="[[serverConfig]]"
+              patch-num="[[_patchNum]]"></gr-related-changes-list>
+        </div>
       </section>
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"

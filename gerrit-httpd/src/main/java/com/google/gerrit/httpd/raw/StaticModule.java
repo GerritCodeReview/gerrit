@@ -120,6 +120,8 @@ public class StaticModule extends ServletModule {
     Paths p = getPaths();
     if (p.warFs != null) {
       return new WarDocServlet(cache, p.warFs);
+    } else if (p.unpackedWar != null && !p.isDev()) {
+      return new DirectoryDocServlet(cache, p.unpackedWar);
     } else {
       return new HttpServlet() {
         private static final long serialVersionUID = 1L;

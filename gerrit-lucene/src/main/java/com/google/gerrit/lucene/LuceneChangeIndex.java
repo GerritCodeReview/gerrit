@@ -230,7 +230,7 @@ public class LuceneChangeIndex implements ChangeIndex {
             CUSTOM_CHAR_MAPPING);
     queryBuilder = new QueryBuilder(analyzer);
 
-    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "defaultMaxClauseCount",
+    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
         BooleanQuery.getMaxClauseCount()));
 
     GerritIndexWriterConfig openConfig =

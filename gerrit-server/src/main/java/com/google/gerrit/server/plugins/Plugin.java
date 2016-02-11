@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.plugins;
 
-import static com.google.gerrit.common.FileUtil.lastModified;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
@@ -171,6 +169,6 @@ public abstract class Plugin {
   protected abstract boolean canReload();
 
   boolean isModified(Path jar) {
-    return snapshot.lastModified() != lastModified(jar);
+    return snapshot.isModified(jar.toFile());
   }
 }

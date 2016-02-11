@@ -159,7 +159,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
-            "Patch set 3: Published edit on patch set 2."));
+            "Patch Set 3: Published edit on patch set 2."));
   }
 
   @Test
@@ -179,7 +179,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
-            "Patch set 3: Published edit on patch set 2."));
+            "Patch Set 3: Published edit on patch set 2."));
   }
 
   @Test
@@ -357,7 +357,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
-            "Patch set 3: Commit message was updated."));
+            "Patch Set 3: Commit message was updated."));
   }
 
   @Test
@@ -384,7 +384,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
-            "Patch set 3: Commit message was updated."));
+            "Patch Set 3: Commit message was updated."));
   }
 
   @Test

@@ -798,7 +798,7 @@ public class ReceiveCommits {
         } catch (RestApiException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
-              "Cannot add patch set to %d of %s",
+              "Cannot add patch set to change %d in project %s",
               e.getKey().get(), project.getName()), err);
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
@@ -2169,6 +2169,9 @@ public class ReceiveCommits {
             try (RequestState state = requestState(caller)) {
               return insertPatchSet(state);
             }
+          } catch (OrmException | IOException  e) {
+            log.error("Failed to insert patch set", e);
+            throw e;
           } finally {
             synchronizedIncrement(replaceProgress);
           }

@@ -109,12 +109,12 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
 
     TagsTable() {
       table.setWidth("");
-      table.setText(0, 0, Util.C.columnTagName());
-      table.setText(0, 1, Util.C.columnBranchRevision());
+      table.setText(0, 1, Util.C.columnTagName());
+      table.setText(0, 2, Util.C.columnBranchRevision());
 
       FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void display(List<TagInfo> tags) {
@@ -135,18 +135,18 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     }
 
     void populate(int row, TagInfo k) {
-      table.setWidget(row, 0, new InlineHTML(highlight(k.getShortName(), match)));
+      table.setWidget(row, 1, new InlineHTML(highlight(k.getShortName(), match)));
 
       if (k.revision() != null) {
-        table.setText(row, 1, k.revision());
+        table.setText(row, 2, k.revision());
       } else {
-        table.setText(row, 1, "");
+        table.setText(row, 2, "");
       }
 
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
-      fmt.addStyleName(row, 0, dataCellStyle);
       fmt.addStyleName(row, 1, dataCellStyle);
+      fmt.addStyleName(row, 2, dataCellStyle);
 
       setRowItem(row, k);
     }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdfcdcc6_a413229e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T22:20:30Z",
+      "side": 1,
+      "message": "Would it make sense to derive from AbstractSubmit here?\n\n(It offers some more createChange methods already builtin)",
+      "range": {
+        "startLine": 44,
+        "startChar": 50,
+        "endLine": 44,
+        "endChar": 68
+      },
+      "revId": "706221b9cc2668543038971fed23f103db7a0491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_c41e1ea8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T22:20:30Z",
+      "side": 1,
+      "message": "Instead of setting the underlying test project, we could use the createChange method from AbstractSubmit which includes a project as a parameter. That way we\u0027ll see at each change where it is created, instead of needing to track when we switch to different projects.",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 3
+      },
+      "revId": "706221b9cc2668543038971fed23f103db7a0491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_e4191ac2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T22:20:30Z",
+      "side": 1,
+      "message": "I think we don\u0027t need the iteration over separate projects and then by branches here (we have no project spcific code in here), so I\u0027d think iterating over cbb.keySet() would yield all the branches there, no need for 2 loops. (Although the computational overhead is the same, just for readability)",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 53
+      },
+      "revId": "706221b9cc2668543038971fed23f103db7a0491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -128,6 +128,24 @@
       "revId": "6bf1ae172c5b20dd9cec083b0b3841049b61dde4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_62005820",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-11T13:31:33Z",
+      "side": 1,
+      "message": "Yes, I also wanted to propose using default preferences in this case and logging an error.",
+      "parentUuid": "9db840d6_dc558127",
+      "revId": "6bf1ae172c5b20dd9cec083b0b3841049b61dde4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

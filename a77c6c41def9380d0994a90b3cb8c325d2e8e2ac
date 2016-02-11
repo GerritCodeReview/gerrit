@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_e20b4676",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T19:49:24Z",
+      "side": 1,
+      "message": "Note to reviewers: We need this to know what kind of action it is: change or revision. For one, we have the same action key (\u0027/\u0027) for core actions, for another later, that we support generic plugin actions, we don\u0027t know the actions and cannot differentiate if it\u0027s change or revision action.",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "a77c6c41def9380d0994a90b3cb8c325d2e8e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_23e3aaee",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T19:49:24Z",
+      "side": 1,
+      "message": "Note to reviewers: we need this differentiation, because we can\u0027t reload the change that was deleted. The same applies below in _fireRevisionAction().",
+      "range": {
+        "startLine": 203,
+        "startChar": 14,
+        "endLine": 203,
+        "endChar": 29
+      },
+      "revId": "a77c6c41def9380d0994a90b3cb8c325d2e8e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

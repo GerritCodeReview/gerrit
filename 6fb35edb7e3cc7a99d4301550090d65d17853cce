@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_421194a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:35:13Z",
+      "side": 1,
+      "message": "Wau! Do we have a overview/TODOs of missing or disabled Notedb features? If not may be add a tracking issue or a wiki page for that?",
+      "revId": "6fb35edb7e3cc7a99d4301550090d65d17853cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

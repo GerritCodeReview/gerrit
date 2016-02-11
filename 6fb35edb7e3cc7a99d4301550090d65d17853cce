@@ -16,6 +16,29 @@
       "revId": "6fb35edb7e3cc7a99d4301550090d65d17853cce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_5cefb1d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-11T08:01:55Z",
+      "side": 1,
+      "message": "Would \u0027405 Method Not Allowed\u0027 [1] be more suitable here?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_405_method_not_allowed",
+      "range": {
+        "startLine": 71,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 41
+      },
+      "revId": "6fb35edb7e3cc7a99d4301550090d65d17853cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

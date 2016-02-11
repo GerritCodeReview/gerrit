@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_e51916c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T20:45:08Z",
+      "side": 1,
+      "message": "I forgot about that, also we return null below, so we better keep it around!",
+      "parentUuid": "1dfe10bd_e5323648",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 131,
+        "endChar": 16
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_05f792a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 3
@@ -136,6 +160,29 @@
         "startChar": 20,
         "endLine": 133,
         "endChar": 27
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_054e72b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T20:45:08Z",
+      "side": 1,
+      "message": "Oh right, here we return null to indicate CLICK_FAILURE_TOOLTIP, makes sense!",
+      "range": {
+        "startLine": 162,
+        "startChar": 12,
+        "endLine": 162,
+        "endChar": 24
       },
       "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

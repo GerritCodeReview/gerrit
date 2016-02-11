@@ -16,15 +16,16 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 
 <dom-module id="gr-overlay">
-  <style>
-    :host {
-      background: #fff;
-      box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      }
+    </style>
     <content></content>
   </template>
   <script>
@@ -33,9 +34,31 @@ limitations under the License.
 
     Polymer({
       is: 'gr-overlay',
+
       behaviors: [
         Polymer.IronOverlayBehavior,
       ],
+
+      detached: function() {
+        // For good measure.
+        Gerrit.KeyboardShortcutBehavior.enabled = true;
+      },
+
+      open: function() {
+        Gerrit.KeyboardShortcutBehavior.enabled = false;
+        Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
+      },
+
+      close: function() {
+        Gerrit.KeyboardShortcutBehavior.enabled = true;
+        Polymer.IronOverlayBehaviorImpl.close.apply(this, arguments);
+      },
+
+      cancel: function() {
+        Gerrit.KeyboardShortcutBehavior.enabled = true;
+        Polymer.IronOverlayBehaviorImpl.cancel.apply(this, arguments);
+      },
+
     });
   })();
   </script>

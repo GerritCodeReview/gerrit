@@ -105,6 +105,24 @@
       "revId": "42f2728faf69483d268d71a8d9be69bc4d3a8da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_e30b5276",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T19:55:06Z",
+      "side": 1,
+      "message": "Strange, today afternoon, last char was rendered as emoticon. Today evening it is broken?",
+      "parentUuid": "fdfcdcc6_64abeaa0",
+      "revId": "42f2728faf69483d268d71a8d9be69bc4d3a8da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

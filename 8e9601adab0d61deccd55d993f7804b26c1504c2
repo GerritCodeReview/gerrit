@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_9c2dc9dd",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/DiffType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-02-11T11:15:22Z",
+      "side": 1,
+      "message": "Nit-picking: Wrong indentation.",
+      "revId": "8e9601adab0d61deccd55d993f7804b26c1504c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_62621816",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-02-11T11:15:22Z",
+      "side": 1,
+      "message": "Is the trailing white space intended here?",
+      "revId": "8e9601adab0d61deccd55d993f7804b26c1504c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_a25b405c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/PatchLineCommentAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-02-11T11:15:22Z",
+      "side": 1,
+      "message": "I guess this unrelated formatting change should be reverted.",
+      "revId": "8e9601adab0d61deccd55d993f7804b26c1504c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

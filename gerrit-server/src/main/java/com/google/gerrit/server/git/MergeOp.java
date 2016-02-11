@@ -558,7 +558,7 @@ public class MergeOp implements AutoCloseable {
       checkState(cs.ids().contains(change.getId()),
           "change %s missing from %s", change.getId(), cs);
       this.commits = new CommitStatus(cs);
-      reloadChanges(cs);
+      MergeSuperSet.reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
@@ -577,13 +577,6 @@ public class MergeOp implements AutoCloseable {
     } catch (IOException e) {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
-    }
-  }
-
-  private static void reloadChanges(ChangeSet cs) throws OrmException {
-    // Reload changes in case index was stale.
-    for (ChangeData cd : cs.changes()) {
-      cd.reloadChange();
     }
   }
 

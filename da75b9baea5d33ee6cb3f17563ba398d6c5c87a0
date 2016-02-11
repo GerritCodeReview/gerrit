@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_64d9aa3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd9683d_e2e2a8e7",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_7cbd55dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_850a626f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Because I don\u0027t need that, and am not sure if anyone needs that :)\n\nI need it in the API, that\u0027s why I added it to the API, but I\u0027m not sure if people will find it useful in the UI. If someone want it in the UI, they can implement it I guess?",
+      "parentUuid": "5dd9683d_02e06cdd",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_3cc3dd56",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -71,6 +107,30 @@
       "writtenOn": "2016-02-11T06:04:10Z",
       "side": 1,
       "message": "Mention here newBranch as well and exlain its purpose. BTW, baseChange is missing here as well.",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_44d6ae0c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db840d6_3cc3dd56",
       "range": {
         "startLine": 17,
         "startChar": 14,
@@ -111,6 +171,24 @@
       "writtenOn": "2016-02-11T06:04:10Z",
       "side": 1,
       "message": "Unit test is missing. Adding something like this in ChangeIT should work:\n\n  @Test\n  public void createEmptyChangeOnNonExistingBranch() throws Exception {\n    ChangeInfo in \u003d new ChangeInfo();\n    in.branch \u003d \"foo\";\n    in.subject \u003d \"Create a change on new branch from the API\";\n    in.project \u003d project.get();\n    in.newBranch \u003d true;\n    ChangeInfo info \u003d gApi\n        .changes()\n        .create(in)\n        .get();\n    assertThat(info.project).isEqualTo(in.project);\n    assertThat(info.branch).isEqualTo(in.branch);\n    assertThat(info.subject).isEqualTo(in.subject);\n    assertThat(Iterables.getOnlyElement(info.messages).message)\n        .isEqualTo(\"Uploaded patch set 1.\");\n  }",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_45fd8a82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "9db840d6_9cd1491e",
       "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -164,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_c4105ea5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd9683d_a22d00dd",
+      "range": {
+        "startLine": 185,
+        "startChar": 14,
+        "endLine": 185,
+        "endChar": 29
+      },
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_1cbe19de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 2
@@ -175,6 +277,24 @@
       "writtenOn": "2016-02-11T06:04:10Z",
       "side": 1,
       "message": "Too long line.",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_6500864e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db840d6_1cbe19de",
       "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -198,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_24e3b2ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd9683d_a2d8a039",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd9683d_c2d5a400",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 2
@@ -209,6 +347,24 @@
       "writtenOn": "2016-02-11T06:04:10Z",
       "side": 1,
       "message": "Too long line.",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_04e0b6dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-11T19:14:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd9683d_c2d5a400",
       "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

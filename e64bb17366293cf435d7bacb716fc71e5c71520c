@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_e5323648",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-11T20:16:07Z",
+      "side": 1,
+      "message": "If I remove null return here then Submit\u0027s CLICK_FAILURE_TOOLTIP will be unused. I can remove it if you confirm that it\u0027s ok!",
+      "parentUuid": "fdfcdcc6_44fd8e82",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 131,
+        "endChar": 16
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_05f792a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-11T19:38:35Z",
       "side": 1,
       "message": "Just looking at the source code, not remembering our discussion at this change people will be confused why we\u0027d want to \"Paint all changes red\" ;) My suggestion was too visual I guess.\n\nAlso the variable name could be named not after the paint example, but maybe `mergeableCommitsMap` or `mergeabilityConsideringGitRelations` or similar but shorter.",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_c5373a36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-11T20:16:07Z",
+      "side": 1,
+      "message": "Done. I liked the imagery though!",
+      "parentUuid": "1dfe10bd_05f792a2",
       "range": {
         "startLine": 132,
         "startChar": 4,
@@ -106,6 +154,30 @@
       "writtenOn": "2016-02-11T19:38:35Z",
       "side": 1,
       "message": "I think this is a bit overcomplicated as it mixes both algorithms (painting and finding the last commit in a chain)\n\nInstead of just setting the hasMergeableMergeCommitAtEndOfChain here and later depending on it, you could do it here and loop through `targetBranch` and set their paint value to true. (You\u0027d save one long named boolean variable)",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 11
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_a53c3e1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-11T20:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdfcdcc6_a4056261",
       "range": {
         "startLine": 166,
         "startChar": 0,

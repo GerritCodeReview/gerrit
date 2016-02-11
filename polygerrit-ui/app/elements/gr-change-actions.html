@@ -50,6 +50,7 @@ limitations under the License.
             primary$="[[_computePrimary(action.__key)]]"
             hidden$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
+            data-action-type$="[[action.__type]]"
             data-label$="[[action.label]]"
             on-tap="_handleActionTap"></gr-button>
       </template>
@@ -58,6 +59,7 @@ limitations under the License.
             primary$="[[_computePrimary(action.__key)]]"
             disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
+            data-action-type$="[[action.__type]]"
             data-label$="[[action.label]]"
             data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
             on-tap="_handleActionTap"></gr-button>
@@ -78,11 +80,14 @@ limitations under the License.
     // TODO(davido): Add the rest of the change actions.
     var ChangeActions = {
       ABANDON: 'abandon',
+      DELETE: '/',
       RESTORE: 'restore',
     };
 
     // TODO(andybons): Add the rest of the revision actions.
     var RevisionActions = {
+      DELETE: '/',
+      PUBLISH: 'publish',
       REBASE: 'rebase',
       SUBMIT: 'submit',
     };
@@ -128,6 +133,7 @@ limitations under the License.
         this.hidden =
             revisionActions.rebase == null &&
             revisionActions.submit == null &&
+            revisionActions.publish == null &&
             actions.abandon == null &&
             actions.restore == null;
       },
@@ -142,13 +148,14 @@ limitations under the License.
         });
       },
 
-      _computeActionValues: function(actions, k) {
+      _computeActionValues: function(actions, type) {
         var result = [];
         var values = this._getValuesFor(
-            k == 'change' ? ChangeActions : RevisionActions);
+            type == 'change' ? ChangeActions : RevisionActions);
         for (var a in actions) {
           if (values.indexOf(a) == -1) { continue; }
           actions[a].__key = a;
+          actions[a].__type = type;
           result.push(actions[a]);
         }
         return result;
@@ -166,22 +173,32 @@ limitations under the License.
       },
 
       _computeButtonClass: function(action) {
-        return action == 'submit' ? 'primary' : '';
+        if ([RevisionActions.SUBMIT,
+            RevisionActions.PUBLISH].indexOf(action) != -1) {
+          return 'primary';
+        }
+        return '';
       },
 
       _handleActionTap: function(e) {
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
-        if (this._getValuesFor(RevisionActions).indexOf(key) > -1) {
+        var type = el.getAttribute('data-action-type');
+        if (type == 'revision') {
           if (key == RevisionActions.REBASE) {
             this._showRebaseDialog();
             return;
           }
-          this._fireRevisionAction('/' + key, this._revisionActions[key]);
+          this._fireRevisionAction(this._prependSlash(key),
+              this._revisionActions[key]);
         } else {
-          this._fireChangeAction('/' + key, this.actions[key]);
+          this._fireChangeAction(this._prependSlash(key), this.actions[key]);
         }
+      },
+
+      _prependSlash: function(key) {
+        return key == '/' ? key : '/' + key;
       },
 
       _handleConfirmDialogCancel: function() {
@@ -216,7 +233,12 @@ limitations under the License.
       _fireChangeAction: function(endpoint, action) {
         this._send(action.method, {}, endpoint).then(
           function() {
-            this.fire('reload-change', null, {bubbles: false});
+            // We can’t reload a change that was deleted.
+            if (endpoint == ChangeActions.DELETE) {
+              page.show('/');
+            } else {
+              this.fire('reload-change', null, {bubbles: false});
+            }
           }.bind(this)).catch(function(err) {
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');

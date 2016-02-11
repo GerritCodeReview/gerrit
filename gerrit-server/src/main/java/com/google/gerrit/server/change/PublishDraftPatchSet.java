@@ -126,6 +126,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   public UiAction.Description getDescription(RevisionResource rsrc) {
     try {
       return new UiAction.Description()
+        .setLabel("Publish")
         .setTitle(String.format("Publish revision %d",
             rsrc.getPatchSet().getPatchSetId()))
         .setVisible(rsrc.getPatchSet().isDraft()

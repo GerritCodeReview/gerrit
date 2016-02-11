@@ -184,6 +184,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     try {
       int psCount = psUtil.byChange(db.get(), rsrc.getNotes()).size();
       return new UiAction.Description()
+        .setLabel("Delete")
         .setTitle(String.format("Delete draft revision %d",
             rsrc.getPatchSet().getPatchSetId()))
         .setVisible(allowDrafts

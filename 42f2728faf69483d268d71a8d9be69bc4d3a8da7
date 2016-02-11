@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_43a8e6a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T15:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdfcdcc6_a4a0c2bc",
+      "revId": "42f2728faf69483d268d71a8d9be69bc4d3a8da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_45a8eaa1",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2016-02-11T15:38:27Z",
       "side": 1,
       "message": "throughout the code flexbox is used instead of floats as it leads to less confusion, though I’m in this code as well working on the revision actions (rebase, etc.) so I can clean this up (I’ll send you the review for learning purposes).",
+      "revId": "42f2728faf69483d268d71a8d9be69bc4d3a8da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_63abe2a0",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T15:44:12Z",
+      "side": 1,
+      "message": "Thanks. Letting it as is for know, then.",
+      "parentUuid": "1dfe10bd_45a8eaa1",
       "revId": "42f2728faf69483d268d71a8d9be69bc4d3a8da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

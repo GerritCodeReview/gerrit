@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 
@@ -177,9 +178,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     final Project project = projectCtl.getProject();
     try {
       final Set<Change.Id> visibleChanges = new HashSet<>();
-      for (Change change : changeCache.get(project.getNameKey())) {
-        if (projectCtl.controlFor(reviewDb, change).isVisible(reviewDb)) {
-          visibleChanges.add(change.getId());
+      for (ChangeNotes notes : changeCache.get(project.getNameKey())) {
+        if (projectCtl.controlFor(notes).isVisible(reviewDb)) {
+          visibleChanges.add(notes.getChangeId());
         }
       }
       return visibleChanges;

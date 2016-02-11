@@ -16,11 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.SearchingChangeCacheImpl.ID_CACHE;
 
-import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -63,23 +61,23 @@ public class ScanningChangeCacheImpl implements ChangeCache {
         bind(ChangeCache.class).to(ScanningChangeCacheImpl.class);
         cache(ID_CACHE,
             Project.NameKey.class,
-            new TypeLiteral<List<Change>>() {})
+            new TypeLiteral<List<ChangeNotes>>() {})
           .maximumWeight(0)
           .loader(Loader.class);
       }
     };
   }
 
-  private final LoadingCache<Project.NameKey, List<Change>> cache;
+  private final LoadingCache<Project.NameKey, List<ChangeNotes>> cache;
 
   @Inject
   ScanningChangeCacheImpl(
-      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<Change>> cache) {
+      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<ChangeNotes>> cache) {
     this.cache = cache;
   }
 
   @Override
-  public List<Change> get(Project.NameKey name) {
+  public List<ChangeNotes> get(Project.NameKey name) {
     try {
       return cache.get(name);
     } catch (ExecutionException e) {
@@ -88,7 +86,7 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     }
   }
 
-  static class Loader extends CacheLoader<Project.NameKey, List<Change>> {
+  static class Loader extends CacheLoader<Project.NameKey, List<ChangeNotes>> {
     private final GitRepositoryManager repoManager;
     private final NotesMigration notesMigration;
     private final ChangeNotes.Factory notesFactory;
@@ -106,7 +104,7 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     }
 
     @Override
-    public List<Change> load(Project.NameKey key) throws Exception {
+    public List<ChangeNotes> load(Project.NameKey key) throws Exception {
       try (Repository repo = repoManager.openRepository(key);
           ManualRequestContext ctx = requestContext.open()) {
         return scan(notesMigration, notesFactory, repo,
@@ -115,18 +113,18 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     }
   }
 
-  public static List<Change> scan(NotesMigration notesMigration,
+  public static List<ChangeNotes> scan(NotesMigration notesMigration,
       ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
       Project.NameKey project) throws OrmException, IOException {
     if (!notesMigration.readChanges()) {
-      return scanDb(repo, db);
+      return scanDb(notesFactory, repo, db);
     }
 
-    return scanChangesFromNotedb(notesFactory, repo, db, project);
+    return scanNotedb(notesFactory, repo, db, project);
   }
 
-  public static List<Change> scanDb(Repository repo, ReviewDb db)
-      throws OrmException, IOException {
+  private static List<ChangeNotes> scanDb(ChangeNotes.Factory notesFactory,
+      Repository repo, ReviewDb db) throws OrmException, IOException {
     Map<String, Ref> refs =
         repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
     Set<Change.Id> ids = new LinkedHashSet<>();
@@ -136,26 +134,16 @@ public class ScanningChangeCacheImpl implements ChangeCache {
         ids.add(id);
       }
     }
-    List<Change> changes = new ArrayList<>(ids.size());
+    List<ChangeNotes> notes = new ArrayList<>(ids.size());
     // A batch size of N may overload get(Iterable), so use something smaller,
     // but still >1.
     for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
-      Iterables.addAll(changes, db.changes().get(batch));
-    }
-    return changes;
-  }
-
-  // TODO(ekempin): Remove this method and convert ChangeCache to ChangeNotes
-  private static List<Change> scanChangesFromNotedb(
-      ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
-      Project.NameKey project) throws OrmException, IOException {
-    List<ChangeNotes> changeNotes = scanNotedb(notesFactory, repo, db, project);
-    return Lists.transform(changeNotes, new Function<ChangeNotes, Change>() {
-      @Override
-      public Change apply(ChangeNotes notes) {
-        return notes.getChange();
+      for (Change change : db.changes().get(batch)) {
+        notes.add(notesFactory
+            .createFromChangeOnlyWhenNotedbDisabled(change));
       }
-    });
+    }
+    return notes;
   }
 
   public static List<ChangeNotes> scanNotedb(ChangeNotes.Factory notesFactory,

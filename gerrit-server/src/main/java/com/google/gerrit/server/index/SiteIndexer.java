@@ -257,8 +257,9 @@ public class SiteIndexer {
         try (Repository repo = repoManager.openRepository(project);
             ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          for (Change c : ScanningChangeCacheImpl.scan(notesMigration,
+          for (ChangeNotes cn : ScanningChangeCacheImpl.scan(notesMigration,
               notesFactory, repo, db, project)) {
+            Change c = cn.getChange();
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));

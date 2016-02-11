@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455182683 +0100\nnonce AO+Zq7hBB/rFwduENdS9Pi/8j6zPICDTfCYex77ldNDOLGW/T0bkMuuoBThXGqZ+SuKZhSdKwpcX\n\n0000000000000000000000000000000000000000 db12677ec59be0af821a92056331ee806c4210e5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWvFNbAAoJEFG1/Zeg0O9RrlAH/08//gLvZIyezT+OdB68bPpI\nYOoBdmMV7eEByfEsybPnHrvlmkmYjGuClix8YYeYRnqxSh1T6A0rPARTUg9AP+wC\nq2anRCu8/a/MzcazClUZJuIizeLqDMXlEDvxuKi7JwdXyOdyJgEGP4QXyXUGURQy\n3nte8m5UB08cK4jynxPjukPE5uWNszNsiVC8oFH93D8WZXoKeibKkf8uXzv2rOrf\nps7NzqmNDy70MHaJ7Wf5es0oPsnRQw27fDQ/HKzkUciqGy7WhKcbEToc1KdMk/25\np0h9DYsTuEsiqZ1rT8OpA2nFXjW4/A55PnqE7Ig/X4fu7GH20bMPrrwC1Y6+yTA\u003d\n\u003dn5XC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_0225ccee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T09:37:35Z",
+      "side": 1,
+      "message": "Can we find unique name not to collide with the existing file? If all attempts fail, name it ChangeAccess2. like it was done with ChangeScreen2, that was renamed back to ChangeScreen when the old change screen was removed.\n\n  ./gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ChangeAccess.java",
+      "revId": "db12677ec59be0af821a92056331ee806c4210e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

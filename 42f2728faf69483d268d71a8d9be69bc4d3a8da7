@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_3ceafdc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T08:05:44Z",
+      "side": 1,
+      "message": "Here is the screenshot for draft revision with right allignment of Delete \u0026 Publish buttons, rendred as primary buttons: [1]. Note also that the DRAFT status is missing, for the reasons explained below in the commit message. To compare, here is the same change rendered on the old UI, with correct DRAFT status and with only Publish button rendered as primary button. Delete revision is still grey: [2]. This change can be amended to do the same: [3], with\n\n  if ([\u0027submit\u0027, \u0027publish\u0027].indexOf(action) !\u003d -1) {\n    return \u0027primary\u0027;\n  }\n\n* [1] http://imgur.com/lsfLf4o\n* [2] http://imgur.com/FBsFpCA\n* [3] http://imgur.com/EW0dtRE",
+      "revId": "42f2728faf69483d268d71a8d9be69bc4d3a8da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

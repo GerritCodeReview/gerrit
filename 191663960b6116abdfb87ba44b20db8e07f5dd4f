@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_e40b5a76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:38:35Z",
+      "side": 1,
+      "message": "We had this one before:\n\nA \u003c- B \u003c- C\n \\    \\\n  E \u003c- F \u003c- G\n\nwhere G clashes with C, and F resolves the clashes between E and B. Let\u0027s set a topic \"foo\" to G and K, whereas\n\nH \u003c- I\n \\    \\\n  J \u003c- K\n\nK is the last merge commit resolving all problems.\n\nNote: A-G are in project 1, whereas H-K are in project 2,\nthe only connection between those is the same topic.\n\nTo get that test, you\u0027d\n\n  assume().that(isSubmitWholeTopicEnabled()).isTrue();\n\nfirst like in AbstractSubmit.submitWholeTopic() and then setup the commits for different projects like in SubmitByMergeIfNecessary.submitChangesAcrossRepos().",
+      "parentUuid": "1dfe10bd_85bca2e2",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 65
+      },
+      "revId": "191663960b6116abdfb87ba44b20db8e07f5dd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dd5942a_1630dcc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 2

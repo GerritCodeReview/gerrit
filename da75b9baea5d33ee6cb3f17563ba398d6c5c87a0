@@ -140,6 +140,30 @@
     },
     {
       "key": {
+        "uuid": "5dd9683d_a22d00dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T09:10:33Z",
+      "side": 1,
+      "message": "Forgot to mention that the NPE only occurs when the line\n\n in.newBranch \u003d true;\n\nin the unit test is removed.",
+      "parentUuid": "9db840d6_fcb1650d",
+      "range": {
+        "startLine": 185,
+        "startChar": 14,
+        "endLine": 185,
+        "endChar": 29
+      },
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db840d6_1cbe19de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 2

@@ -46,6 +46,30 @@
       "revId": "cc656ec6ca2c45dc7cc5bf28e0c10192c6375b13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_02c3ca56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-11T16:26:29Z",
+      "side": 1,
+      "message": "\u003e That why it\u0027s a good idea to write down \"Test Plan\"\n\n+1",
+      "parentUuid": "bd342467_42b23213",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "cc656ec6ca2c45dc7cc5bf28e0c10192c6375b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

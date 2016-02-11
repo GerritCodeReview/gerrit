@@ -15,7 +15,7 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
@@ -60,7 +60,7 @@ public class GerritServerTests extends GerritBaseTests {
 
   public void beforeTest() throws Exception {
     if (isNoteDbTestEnabled()) {
-      NotesMigration.setAllEnabledConfig(config);
+      ConfigNotesMigration.setAllEnabledConfig(config);
     }
   }
 

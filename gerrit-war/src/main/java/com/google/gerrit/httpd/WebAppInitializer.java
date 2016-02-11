@@ -51,6 +51,7 @@ import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
@@ -284,6 +285,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     }
     modules.add(new SchemaModule());
     modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(new ConfigNotesMigration.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

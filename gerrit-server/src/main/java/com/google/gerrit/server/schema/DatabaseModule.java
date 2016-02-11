@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Key;
@@ -33,7 +32,6 @@ public class DatabaseModule extends FactoryModule {
     TypeLiteral<Database<ReviewDb>> database =
         new TypeLiteral<Database<ReviewDb>>() {};
 
-    bind(NotesMigration.class);
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
     bind(Key.get(schemaFactory, ReviewDbFactory.class))
         .to(database)

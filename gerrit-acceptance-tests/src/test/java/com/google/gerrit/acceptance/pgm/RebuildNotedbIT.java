@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.Files;
 import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.testutil.TempFileUtil;
 
 import org.junit.After;
@@ -46,7 +46,7 @@ public class RebuildNotedbIT {
   @Test
   public void rebuildEmptySite() throws Exception {
     initSite();
-    Files.append(NotesMigration.allEnabledConfig().toText(),
+    Files.append(ConfigNotesMigration.allEnabledConfig().toText(),
         new File(sitePath.toString(), "etc/gerrit.config"),
         UTF_8);
     runGerrit("RebuildNotedb", "-d", sitePath.toString(),

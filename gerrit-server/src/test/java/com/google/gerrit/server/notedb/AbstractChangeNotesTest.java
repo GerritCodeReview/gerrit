@@ -77,7 +77,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
-  private static final NotesMigration MIGRATION = NotesMigration.allEnabled();
+  private static final NotesMigration MIGRATION = ConfigNotesMigration.allEnabled();
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;

@@ -58,6 +58,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
@@ -254,7 +255,7 @@ public abstract class AbstractDaemonTest {
       GerritServer.Description.forTestMethod(description, configName);
 
     if (isNoteDbTestEnabled()) {
-      NotesMigration.setAllEnabledConfig(baseConfig);
+      ConfigNotesMigration.setAllEnabledConfig(baseConfig);
     }
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());

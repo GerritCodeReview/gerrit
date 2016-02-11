@@ -50,6 +50,8 @@ import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -159,6 +161,7 @@ public class InMemoryModule extends FactoryModule {
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class)
         .in(SINGLETON);
+    bind(NotesMigration.class).to(ConfigNotesMigration.class);
 
     bind(DataSourceType.class)
       .to(InMemoryH2Type.class);

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_64476a97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-11T21:46:41Z",
+      "side": 1,
+      "message": "Ew, I have no idea why Eclipse\u0027s inline method refactoring produced this result. Should have checked it manually. Done.",
+      "parentUuid": "bd342467_e2326648",
+      "revId": "4cf5309dad0788f5c51b3b2f687a0dbe030da1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_a3055a61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-02-11T20:32:36Z",
       "side": 1,
       "message": "Why not just:\n\n  rw.parseCommit(inserter.insert(mergeCommit));",
+      "revId": "4cf5309dad0788f5c51b3b2f687a0dbe030da1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_44446e90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-11T21:46:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf718e0_a3055a61",
       "revId": "4cf5309dad0788f5c51b3b2f687a0dbe030da1b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

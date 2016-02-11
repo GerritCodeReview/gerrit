@@ -70,6 +70,30 @@
       "revId": "cc656ec6ca2c45dc7cc5bf28e0c10192c6375b13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_42e0f2de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T19:49:24Z",
+      "side": 1,
+      "message": "Fixed. PTAL.",
+      "parentUuid": "ddf718e0_83bc9ee2",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "cc656ec6ca2c45dc7cc5bf28e0c10192c6375b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,6 +32,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeAccess2;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -257,7 +257,7 @@ public class SiteIndexer {
         try (Repository repo = repoManager.openRepository(project);
             ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          for (ChangeNotes cn : ScanningChangeCacheImpl.scan(notesMigration,
+          for (ChangeNotes cn : ChangeAccess2.scan(notesMigration,
               notesFactory, repo, db, project)) {
             Change c = cn.getChange();
             Ref r = refs.get(c.currentPatchSetId().toRefName());

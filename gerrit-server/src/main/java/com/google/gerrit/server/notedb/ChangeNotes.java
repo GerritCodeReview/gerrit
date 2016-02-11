@@ -145,6 +145,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(repoManager, migration, allUsersProvider,
           change.getProject(), change).load();
     }
+
+    // TODO(ekempin): Remove when database backend is deleted
+    /**
+     * Instantiate ChangeNotes for a change that has been loaded by a batch read
+     * from the database.
+     */
+    public ChangeNotes createFromChangeOnlyWhenNotedbDisabled(Change change)
+        throws OrmException {
+      checkState(!migration.readChanges(), "do not call"
+          + " createFromChangeWhenNotedbDisabled when notedb is enabled");
+      return new ChangeNotes(repoManager, migration, allUsersProvider,
+          change.getProject(), change).load();
+    }
   }
 
   private final Project.NameKey project;

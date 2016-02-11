@@ -90,25 +90,27 @@ public class ChangeAccess2 {
     return changes.get(0).notes();
   }
 
-  public ListMultimap<Project.NameKey, Change> byProject(ReviewDb db,
-      Predicate<Change> predicate) throws IOException, OrmException {
-    ListMultimap<Project.NameKey, Change> m = ArrayListMultimap.create();
+  public ListMultimap<Project.NameKey, ChangeNotes> byProject(ReviewDb db,
+      Predicate<ChangeNotes> predicate) throws IOException, OrmException {
+    ListMultimap<Project.NameKey, ChangeNotes> m = ArrayListMultimap.create();
     if (migration.readChanges()) {
       for (Project.NameKey project : projectCache.all()) {
         try (Repository repo = repoManager.openRepository(project)) {
-          List<Change> changes = ScanningChangeCacheImpl.scanNotedb(
+          List<ChangeNotes> notes = ScanningChangeCacheImpl.scanNotedb(
               notesFactory, repo, db, project);
-          for (Change change : changes) {
-            if (predicate.apply(change)) {
-              m.put(project, change);
+          for (ChangeNotes cn : notes) {
+            if (predicate.apply(cn)) {
+              m.put(project, cn);
             }
           }
         }
       }
     } else {
       for (Change change : db.changes().all()) {
-        if (predicate.apply(change)) {
-          m.put(change.getProject(), change);
+        ChangeNotes notes =
+            notesFactory.createFromChangeOnlyWhenNotedbDisabled(change);
+        if (predicate.apply(notes)) {
+          m.put(change.getProject(), notes);
         }
       }
     }

@@ -28,6 +28,7 @@ limitations under the License.
       .primary {
         background-color: #448aff;
         color: #fff;
+        float: right;
       }
       button:before {
         content: attr(data-label);
@@ -62,6 +63,7 @@ limitations under the License.
             class$="[[_computeButtonClass(action.__key)]]"
             hidden$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
+            data-action-type$="[[action.__type]]"
             data-label$="[[action.label]]"
             on-tap="_handleActionTap"></button>
       </template>
@@ -70,6 +72,7 @@ limitations under the License.
             class$="[[_computeButtonClass(action.__key)]]"
             disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
+            data-action-type$="[[action.__type]]"
             data-label$="[[action.label]]"
             data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
             on-tap="_handleActionTap"></button>
@@ -83,11 +86,14 @@ limitations under the License.
     // TODO(davido): Add the rest of the change actions.
     var ChangeActions = {
       ABANDON: 'abandon',
+      DELETE: '/',
       RESTORE: 'restore',
     };
 
     // TODO(andybons): Add the rest of the revision actions.
     var RevisionActions = {
+      DELETE: '/',
+      PUBLISH: 'publish',
       SUBMIT: 'submit',
     };
 
@@ -132,6 +138,7 @@ limitations under the License.
 
       _actionsChanged: function(actions, revisionActions) {
         this.hidden = revisionActions.submit == null &&
+            revisionActions.publish == null &&
             actions.abandon == null &&
             actions.restore == null;
       },
@@ -153,6 +160,7 @@ limitations under the License.
         for (var a in actions) {
           if (values.indexOf(a) == -1) { continue; }
           actions[a].__key = a;
+          actions[a].__type = k;
           result.push(actions[a]);
         }
         return result;
@@ -165,24 +173,37 @@ limitations under the License.
       },
 
       _computeButtonClass: function(action) {
-        return action == 'submit' ? 'primary' : '';
+        if (['submit', 'publish'].indexOf(action) != -1) {
+          return 'primary';
+        }
+        return '';
       },
 
       _handleActionTap: function(e) {
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
-        if (this._getValuesFor(RevisionActions).indexOf(key) > -1) {
-          this._fireRevisionAction('/' + key, this._revisionActions[key]);
+        var type = el.getAttribute('data-action-type');
+        if (type == 'revision') {
+          this._fireRevisionAction(this._prependSlash(key),
+              this._revisionActions[key]);
         } else {
-          this._fireChangeAction('/' + key, this.actions[key]);
+          this._fireChangeAction(this._prependSlash(key), this.actions[key]);
         }
+      },
+
+      _prependSlash: function(key) {
+        return key == '/' ? key : '/' + key;
       },
 
       _fireChangeAction: function(endpoint, action) {
         this._send(action.method, {}, endpoint).then(
           function() {
-            this.fire('reload-change', null, {bubbles: false});
+            if (endpoint == '/') {
+              page.show('/');
+            } else {
+              this.fire('reload-change', null, {bubbles: false});
+            }
           }.bind(this)).catch(function(err) {
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');
@@ -197,9 +218,13 @@ limitations under the License.
 
         this._send(action.method, {}, endpoint, true).then(
           function() {
-            this.fire('reload-change', null, {bubbles: false});
-            buttonEl.setAttribute('loading', false);
-            buttonEl.disabled = false;
+            if (endpoint == '/') {
+              page.show('/');
+            } else {
+              this.fire('reload-change', null, {bubbles: false});
+              buttonEl.setAttribute('loading', false);
+              buttonEl.disabled = false;
+            }
           }.bind(this)).catch(function(err) {
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');

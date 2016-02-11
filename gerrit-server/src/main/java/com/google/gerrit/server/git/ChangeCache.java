@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.notedb.ChangeNotes;
 
 import java.util.List;
 
 public interface ChangeCache {
-  List<Change> get(Project.NameKey name);
+  List<ChangeNotes> get(Project.NameKey name);
 }

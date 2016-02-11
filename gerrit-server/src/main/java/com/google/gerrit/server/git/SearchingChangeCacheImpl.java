@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -52,23 +55,23 @@ public class SearchingChangeCacheImpl
         bind(ChangeCache.class).to(SearchingChangeCacheImpl.class);
         cache(ID_CACHE,
             Project.NameKey.class,
-            new TypeLiteral<List<Change>>() {})
+            new TypeLiteral<List<ChangeNotes>>() {})
           .maximumWeight(0)
           .loader(Loader.class);
       }
     };
   }
 
-  private final LoadingCache<Project.NameKey, List<Change>> cache;
+  private final LoadingCache<Project.NameKey, List<ChangeNotes>> cache;
 
   @Inject
   SearchingChangeCacheImpl(
-      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<Change>> cache) {
+      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<ChangeNotes>> cache) {
     this.cache = cache;
   }
 
   @Override
-  public List<Change> get(Project.NameKey name) {
+  public List<ChangeNotes> get(Project.NameKey name) {
     try {
       return cache.get(name);
     } catch (ExecutionException e) {
@@ -84,22 +87,31 @@ public class SearchingChangeCacheImpl
     }
   }
 
-  static class Loader extends CacheLoader<Project.NameKey, List<Change>> {
+  static class Loader extends CacheLoader<Project.NameKey, List<ChangeNotes>> {
     private final OneOffRequestContext requestContext;
     private final Provider<InternalChangeQuery> queryProvider;
+    private final ChangeNotes.Factory notesFactory;
 
     @Inject
     Loader(OneOffRequestContext requestContext,
-        Provider<InternalChangeQuery> queryProvider) {
+        Provider<InternalChangeQuery> queryProvider,
+        ChangeNotes.Factory notesFactory) {
       this.requestContext = requestContext;
       this.queryProvider = queryProvider;
+      this.notesFactory = notesFactory;
     }
 
     @Override
-    public List<Change> load(Project.NameKey key) throws Exception {
+    public List<ChangeNotes> load(Project.NameKey key) throws Exception {
       try (AutoCloseable ctx = requestContext.open()) {
-        return Collections.unmodifiableList(
-            ChangeData.asChanges(queryProvider.get().byProject(key)));
+        return Collections.unmodifiableList(Lists.transform(
+            ChangeData.asChanges(queryProvider.get().byProject(key)),
+            new Function<Change, ChangeNotes>() {
+              @Override
+              public ChangeNotes apply(Change change) {
+                return notesFactory.createFromIndexedChange(change);
+              }
+            }));
       }
     }
   }

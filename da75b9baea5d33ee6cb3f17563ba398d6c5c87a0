@@ -1,4 +1,193 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1455146156 -0800\npushee rpc://gerrit/gerrit\nnonce AO+Zq7iJR+gVA/IHL0WnbzojCJRKqyhVBJAC6T/vJVYEPWsDsUg8tUnD9bhpCfsMPhxTKxcsZRPf\n\n0000000000000000000000000000000000000000 da75b9baea5d33ee6cb3f17563ba398d6c5c87a0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWu8SsAAoJELOGKwXbr+wP0/sP/id9ZMxYkMMCYhD/RqPU/L9z\n9rs2CBOCba3coDkPVT0ZAZibq2PF2qMFzp/snZlLKVJ1PHn9qZdWoIDqth7EBVbp\nLsOtA46rLQi/FVe3ybhDjKvhy/zPPMTxPHUqfLqCTf25XOLfGsCR0gywZ8OWsECz\nMtDpWMsGQgUeSA4iqRNPgFcT6MTYMb459m4zaEspxqBl//qbB3XGRfAe2C1LFSMF\nQGKhEf7O0ay/E3Vx2w4fqF+uCx6RRzttaxgvHAb7CezdBwILW66evszdBhYLCIuU\nKDU/kG+oZ1xXtIHsqbtJTAGKZ1QUkW3mzdz7JdGHx8gneZmTyHHZSS28NrYbmSWd\nVm5i7nNdqd4YbWHSBRWB7Uq4yLG/G5VpLriz05Irw8bayi5RTM5Ostl77daUVeQ2\nLFTV5KRf4Xvpuia3dxkl/lxlTM3RaTtYZhPYQkimAi6OfzP7poptVKcImlXKN77m\nJCtrED9cpkCvKqqV9sOCRec/0owQfj+i7S3jqHffP0qs3fMBbi7DvJgouKHETjsa\nzDTgfqIjYFopBB+LpdXrWPXTGELyqFWqbUjpqSH4mw5Gqgs+4LL3totw5EbDq7yu\nL9CaOXPOgG0KDz/qDyE9wgeHaxnWV2Lmr6jZDMNG8nKBuv1ohY1yrxbLXGqLpzyD\nGGya4bQ49P6AuZgCnTka\n\u003dW8d1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd9683d_e2e2a8e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "We normally don\u0027t use bracket for regular changes in subject. May be just:\n\n  CreateChange: ...",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_7cbd55dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Arguably, when we are going to create another dozen attributes that are only create change specific we should rather decouple its input from ChangeInfo. But we already added baseChange there, for follow-up change, though.",
+      "range": {
+        "startLine": 13,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_02e06cdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Are you going to extend the current UI to offer this new field and to allow new branch to be created from the UI in a follow-up change? Mention it here, why it\u0027s not done here?",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_3cc3dd56",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Mention here newBranch as well and exlain its purpose. BTW, baseChange is missing here as well.",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_5cb891ee",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "[Optional] Add an example creating non existing branch.",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_9cd1491e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Unit test is missing. Adding something like this in ChangeIT should work:\n\n  @Test\n  public void createEmptyChangeOnNonExistingBranch() throws Exception {\n    ChangeInfo in \u003d new ChangeInfo();\n    in.branch \u003d \"foo\";\n    in.subject \u003d \"Create a change on new branch from the API\";\n    in.project \u003d project.get();\n    in.newBranch \u003d true;\n    ChangeInfo info \u003d gApi\n        .changes()\n        .create(in)\n        .get();\n    assertThat(info.project).isEqualTo(in.project);\n    assertThat(info.branch).isEqualTo(in.branch);\n    assertThat(info.subject).isEqualTo(in.subject);\n    assertThat(Iterables.getOnlyElement(info.messages).message)\n        .isEqualTo(\"Uploaded patch set 1.\");\n  }",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_fcb1650d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Null  check is missing. The new test mentioned above results in a NPE.",
+      "range": {
+        "startLine": 185,
+        "startChar": 14,
+        "endLine": 185,
+        "endChar": 29
+      },
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_1cbe19de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Too long line.",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_a2d8a039",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Too long line.",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_c2d5a400",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T06:04:10Z",
+      "side": 1,
+      "message": "Too long line.",
+      "revId": "da75b9baea5d33ee6cb3f17563ba398d6c5c87a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

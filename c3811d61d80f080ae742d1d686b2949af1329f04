@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9db840d6_1ce539f6",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T07:23:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t work for draft revisions: [1]. The reason for it is that you can\u0027t fetch draft changes or draft revisions with \"anonymous http\" scheme. It\u0027s not there. Here is the screenshot from the debugger, that only list http and ssh schemes for this draft ref: [2].\n\n* [1] http://paste.openstack.org/show/486651\n* [2] http://imgur.com/Fmfz8UL",
+      "range": {
+        "startLine": 176,
+        "startChar": 25,
+        "endLine": 176,
+        "endChar": 79
+      },
+      "revId": "c3811d61d80f080ae742d1d686b2949af1329f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -140,6 +140,30 @@
       "revId": "b38097a71fe6fde1d3d3ad0b5c595e560e611ea4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db840d6_fcf6c5a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-11T10:18:43Z",
+      "side": 1,
+      "message": "This is correct. However, we could have made the condition\n\n  pctFailed \u003e\u003d 10\n\nwhich would then make a difference in only a single point: exactly 10%.",
+      "parentUuid": "ddb0f80b_fbbd4fe1",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 25
+      },
+      "revId": "b38097a71fe6fde1d3d3ad0b5c595e560e611ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

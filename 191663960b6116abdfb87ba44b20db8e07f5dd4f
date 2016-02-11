@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_45446a90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-11T20:17:48Z",
+      "side": 1,
+      "message": "Thank you! I\u0027ll finish this test before uploading a new patch set.",
+      "parentUuid": "fdfcdcc6_e40b5a76",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 65
+      },
+      "revId": "191663960b6116abdfb87ba44b20db8e07f5dd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dd5942a_1630dcc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 2

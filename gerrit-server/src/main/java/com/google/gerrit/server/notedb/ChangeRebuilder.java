@@ -279,7 +279,9 @@ public class ChangeRebuilder {
       ChainedReceiveCommands cmds) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
     ObjectId old = cmds.getObjectId(repo, refName);
-    cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));
+    if (old != null) {
+      cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));
+    }
   }
 
   private static long round(Date when) {

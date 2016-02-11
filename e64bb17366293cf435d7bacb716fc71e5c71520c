@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdfcdcc6_44fd8e82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:38:35Z",
+      "side": 1,
+      "message": "This could return boolean?",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 131,
+        "endChar": 16
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_05f792a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:38:35Z",
+      "side": 1,
+      "message": "Just looking at the source code, not remembering our discussion at this change people will be confused why we\u0027d want to \"Paint all changes red\" ;) My suggestion was too visual I guess.\n\nAlso the variable name could be named not after the paint example, but maybe `mergeableCommitsMap` or `mergeabilityConsideringGitRelations` or similar but shorter.",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_840a666f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:38:35Z",
+      "side": 1,
+      "message": "We put only \"true\" and \"false\" inside the `paint` bucket, so a \n\n  Map\u003cChangeData, boolean\u003e\n\nwould also do (notice the small b, for the native boolean type, as compared to the objectified boxed Boolean type, which can be null additionally. But as we never put `null` in the bucket, we can use the native type)",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 133,
+        "endChar": 27
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_a4056261",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:38:35Z",
+      "side": 1,
+      "message": "I think this is a bit overcomplicated as it mixes both algorithms (painting and finding the last commit in a chain)\n\nInstead of just setting the hasMergeableMergeCommitAtEndOfChain here and later depending on it, you could do it here and loop through `targetBranch` and set their paint value to true. (You\u0027d save one long named boolean variable)",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 11
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_64008a4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-11T19:38:35Z",
+      "side": 1,
+      "message": "This would become \n\n  !paint.values().contains(false)\n\nafter switching from Boolean to boolean.",
+      "range": {
+        "startLine": 179,
+        "startChar": 11,
+        "endLine": 179,
+        "endChar": 51
+      },
+      "revId": "e64bb17366293cf435d7bacb716fc71e5c71520c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

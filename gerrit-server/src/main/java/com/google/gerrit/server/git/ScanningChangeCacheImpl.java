@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeAccess2;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
@@ -78,18 +77,15 @@ public class ScanningChangeCacheImpl implements ChangeCache {
 
   static class Loader extends CacheLoader<Project.NameKey, List<ChangeNotes>> {
     private final GitRepositoryManager repoManager;
-    private final NotesMigration notesMigration;
-    private final ChangeNotes.Factory notesFactory;
+    private final ChangeAccess2 changeAccess;
     private final OneOffRequestContext requestContext;
 
     @Inject
     Loader(GitRepositoryManager repoManager,
-        NotesMigration notesMigration,
-        ChangeNotes.Factory notesFactory,
+        ChangeAccess2 changeAccess,
         OneOffRequestContext requestContext) {
       this.repoManager = repoManager;
-      this.notesMigration = notesMigration;
-      this.notesFactory = notesFactory;
+      this.changeAccess = changeAccess;
       this.requestContext = requestContext;
     }
 
@@ -97,8 +93,7 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     public List<ChangeNotes> load(Project.NameKey key) throws Exception {
       try (Repository repo = repoManager.openRepository(key);
           ManualRequestContext ctx = requestContext.open()) {
-        return ChangeAccess2.scan(notesMigration, notesFactory, repo,
-            ctx.getReviewDbProvider().get(), key);
+        return changeAccess.scan(repo, ctx.getReviewDbProvider().get(), key);
       }
     }
   }

@@ -102,8 +102,7 @@ public class ChangeAccess2 {
     if (migration.readChanges()) {
       for (Project.NameKey project : projectCache.all()) {
         try (Repository repo = repoManager.openRepository(project)) {
-          List<ChangeNotes> notes =
-              scanNotedb(notesFactory, repo, db, project);
+          List<ChangeNotes> notes = scanNotedb(repo, db, project);
           for (ChangeNotes cn : notes) {
             if (predicate.apply(cn)) {
               m.put(project, cn);
@@ -123,18 +122,17 @@ public class ChangeAccess2 {
     return ImmutableListMultimap.copyOf(m);
   }
 
-  public static List<ChangeNotes> scan(NotesMigration notesMigration,
-      ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
+  public List<ChangeNotes> scan(Repository repo, ReviewDb db,
       Project.NameKey project) throws OrmException, IOException {
-    if (!notesMigration.readChanges()) {
-      return scanDb(notesFactory, repo, db);
+    if (!migration.readChanges()) {
+      return scanDb(repo, db);
     }
 
-    return scanNotedb(notesFactory, repo, db, project);
+    return scanNotedb(repo, db, project);
   }
 
-  private static List<ChangeNotes> scanDb(ChangeNotes.Factory notesFactory,
-      Repository repo, ReviewDb db) throws OrmException, IOException {
+  private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
+      throws OrmException, IOException {
     Map<String, Ref> refs =
         repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
     Set<Change.Id> ids = new LinkedHashSet<>();
@@ -156,9 +154,8 @@ public class ChangeAccess2 {
     return notes;
   }
 
-  private static List<ChangeNotes> scanNotedb(ChangeNotes.Factory notesFactory,
-      Repository repo, ReviewDb db, Project.NameKey project)
-          throws OrmException, IOException {
+  private List<ChangeNotes> scanNotedb(Repository repo, ReviewDb db,
+      Project.NameKey project) throws OrmException, IOException {
     Map<String, Ref> refs =
         repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
     List<ChangeNotes> changeNotes = new ArrayList<>(refs.size());

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_82a83aa3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-11T16:06:05Z",
+      "side": 1,
+      "message": "!Strings.isNullOrEmpty(domain)",
+      "range": {
+        "startLine": 219,
+        "startChar": 8,
+        "endLine": 219,
+        "endChar": 43
+      },
+      "revId": "b60cd15d17b2246c1d00bf694953605d44f99106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_62abb6a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-11T16:06:05Z",
+      "side": 1,
+      "message": "This need to be documented in Documentation/config-gerrit.txt",
+      "revId": "b60cd15d17b2246c1d00bf694953605d44f99106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

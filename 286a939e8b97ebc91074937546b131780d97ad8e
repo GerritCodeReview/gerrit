@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_622e56d9",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T22:36:46Z",
+      "side": 1,
+      "message": "You don\u0027t add revisionActions.rebase here? One issue Sasa found in my delete/publish draft change, was that the container was hidden, even though it shouldn\u0027t be. So basically for now, before all buttons are rendered (when a user is logged on) we need intersection of arrays: for one we have the names of the actions we want to render and for another we have two arrays of actions (change and revision) we have read from REST handler. Bur there is no performant array intersection in JS.\n\nThis is a non-issue for this change, though, because when rebase is visible, then Abandon is visible too. That why it worked for you.",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 8
+      },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

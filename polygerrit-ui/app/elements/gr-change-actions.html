@@ -28,6 +28,7 @@ limitations under the License.
       .primary {
         background-color: #448aff;
         color: #fff;
+        float: right;
       }
       button:before {
         content: attr(data-label);
@@ -88,6 +89,8 @@ limitations under the License.
 
     // TODO(andybons): Add the rest of the revision actions.
     var RevisionActions = {
+      DELETE: '/',
+      PUBLISH: 'publish',
       SUBMIT: 'submit',
     };
 
@@ -165,7 +168,10 @@ limitations under the License.
       },
 
       _computeButtonClass: function(action) {
-        return action == 'submit' ? 'primary' : '';
+        if (['submit', 'publish'].indexOf(action) != -1) {
+          return 'primary';
+        }
+        return '';
       },
 
       _handleActionTap: function(e) {

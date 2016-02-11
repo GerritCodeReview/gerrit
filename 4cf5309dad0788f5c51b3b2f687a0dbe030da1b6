@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_0238aa26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T20:32:36Z",
+      "side": 1,
+      "message": "Nice story!",
+      "revId": "4cf5309dad0788f5c51b3b2f687a0dbe030da1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e2326648",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T20:32:36Z",
+      "side": 1,
+      "message": "Why not just:\n\n  return rw.parseCommit(inserter.insert(mergeCommit));",
+      "revId": "4cf5309dad0788f5c51b3b2f687a0dbe030da1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_a3055a61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T20:32:36Z",
+      "side": 1,
+      "message": "Why not just:\n\n  rw.parseCommit(inserter.insert(mergeCommit));",
+      "revId": "4cf5309dad0788f5c51b3b2f687a0dbe030da1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

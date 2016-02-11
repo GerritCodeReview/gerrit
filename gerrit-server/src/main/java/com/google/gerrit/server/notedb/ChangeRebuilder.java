@@ -133,7 +133,7 @@ public class ChangeRebuilder {
     Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
 
-    Repository changeMetaRepo = manager.getChangeRepo();
+    Repository changeMetaRepo = manager.getChangeRepo(change.getProject());
     events.addAll(getHashtagsEvents(change, manager));
 
     // Delete ref only after hashtags have been read
@@ -225,7 +225,7 @@ public class ChangeRebuilder {
       NoteDbUpdateManager manager) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
     ObjectId old = manager.getChangeCommands()
-        .getObjectId(manager.getChangeRepo(), refName);
+        .getObjectId(manager.getChangeRepo(change.getProject()), refName);
     if (old == null) {
       return Collections.emptyList();
     }
@@ -279,7 +279,9 @@ public class ChangeRebuilder {
       ChainedReceiveCommands cmds) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
     ObjectId old = cmds.getObjectId(repo, refName);
-    cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));
+    if (old != null) {
+      cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));
+    }
   }
 
   private static long round(Date when) {

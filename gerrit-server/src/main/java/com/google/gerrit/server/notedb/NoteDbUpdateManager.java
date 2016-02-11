@@ -40,6 +40,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 public class NoteDbUpdateManager {
   private static class OpenRepo implements AutoCloseable {
@@ -95,18 +96,18 @@ public class NoteDbUpdateManager {
     return this;
   }
 
-  Repository getChangeRepo() throws IOException {
-    initChangeRepo();
+  Repository getChangeRepo(Project.NameKey project) throws IOException {
+    initChangeRepo(project);
     return changeRepo.repo;
   }
 
   RevWalk getChangeRevWalk() throws IOException {
-    initChangeRepo();
+    initChangeRepo(null);
     return changeRepo.rw;
   }
 
   ChainedReceiveCommands getChangeCommands() throws IOException {
-    initChangeRepo();
+    initChangeRepo(null);
     return changeRepo.cmds;
   }
 
@@ -127,12 +128,26 @@ public class NoteDbUpdateManager {
     return allUsersRepo.cmds;
   }
 
-  private void initChangeRepo() throws IOException {
+  private void initChangeRepo(Project.NameKey project) throws IOException {
     if (changeRepo == null) {
-      checkState(!changeUpdates.isEmpty());
-      changeRepo =
-          openRepo(changeUpdates.values().iterator().next().getProjectName());
+      Project.NameKey fromUpdates = projectFromUpdates(changeUpdates.values());
+      if (project == null) {
+        checkArgument(!changeUpdates.isEmpty(),
+            "either one update or a project name is required");
+        project = fromUpdates;
+      } else if (!changeUpdates.isEmpty()) {
+        checkArgument(project.equals(fromUpdates),
+            "project %s does not match project %s from update list",
+            project, fromUpdates);
+      }
+      changeRepo = openRepo(project);
     }
+  }
+
+  private static Project.NameKey projectFromUpdates(
+      Iterable<ChangeUpdate> updates) {
+    Iterator<ChangeUpdate> it = updates.iterator();
+    return it.hasNext() ? it.next().getProjectName() : null;
   }
 
   private void initAllUsersRepo() throws IOException {
@@ -183,7 +198,7 @@ public class NoteDbUpdateManager {
       return;
     }
     try {
-      initChangeRepo();
+      initChangeRepo(null);
       if (!draftUpdates.isEmpty()) {
         initAllUsersRepo();
       }

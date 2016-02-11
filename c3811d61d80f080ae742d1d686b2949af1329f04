@@ -22,6 +22,30 @@
       "revId": "c3811d61d80f080ae742d1d686b2949af1329f04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd9683d_c2fcc48a",
+        "filename": "polygerrit-ui/app/elements/gr-download-dialog.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-11T07:54:06Z",
+      "side": 1,
+      "message": "And this condition is the reason, why it\u0027s not there: [1].\n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java#L1008-L1011",
+      "parentUuid": "9db840d6_1ce539f6",
+      "range": {
+        "startLine": 176,
+        "startChar": 25,
+        "endLine": 176,
+        "endChar": 79
+      },
+      "revId": "c3811d61d80f080ae742d1d686b2949af1329f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

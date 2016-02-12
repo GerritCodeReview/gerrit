@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_02342a91",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T22:00:35Z",
+      "side": 1,
+      "message": "Wasn\u0027t clear that this stays for kind? Done.",
+      "parentUuid": "fdfcdcc6_c4b17ec4",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdfcdcc6_a4b682b8",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-12T21:30:02Z",
       "side": 1,
       "message": "use the enum values here.",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_e3b7d24e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T22:00:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdfcdcc6_a4b682b8",
       "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_a238de87",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T22:00:35Z",
+      "side": 1,
+      "message": "Em, we don\u0027t have enum for that? We are passing revision/change from template code, like:\n\n  template is\u003d\"dom-repeat\" items\u003d\"[[_computeActionValues(_revisionActions, \u0027revision\u0027)]]",
+      "parentUuid": "1dfe10bd_459eaa2d",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_25abae4f",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-12T21:30:02Z",
       "side": 1,
       "message": "Full sentence with period.\n\nWe can’t reload a change that was deleted.",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_c23de276",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T22:00:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dfe10bd_25abae4f",
       "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

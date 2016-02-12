@@ -23,6 +23,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -107,6 +108,11 @@ public class InternalChangeQuery {
 
   public InternalChangeQuery setRequestedFields(Set<String> fields) {
     qp.setRequestedFields(fields);
+    return this;
+  }
+
+  public InternalChangeQuery noFields() {
+    qp.setRequestedFields(ImmutableSet.<String> of());
     return this;
   }
 

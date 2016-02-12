@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
@@ -47,6 +48,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -112,6 +114,7 @@ public class ConsistencyChecker {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final NotesMigration notesMigration;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
   private final ProjectControl.GenericFactory projectControlFactory;
@@ -138,6 +141,7 @@ public class ConsistencyChecker {
   @Inject
   ConsistencyChecker(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
+      NotesMigration notesMigration,
       Provider<CurrentUser> user,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ProjectControl.GenericFactory projectControlFactory,
@@ -149,6 +153,7 @@ public class ConsistencyChecker {
       ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory changeUpdateFactory) {
     this.db = db;
+    this.notesMigration = notesMigration;
     this.repoManager = repoManager;
     this.user = user;
     this.serverIdent = serverIdent;
@@ -206,6 +211,8 @@ public class ConsistencyChecker {
   }
 
   private void checkImpl() {
+    checkState(!notesMigration.readChanges(),
+        "ConsistencyChecker for notedb not yet implemented");
     checkOwner();
     checkCurrentPatchSetEntity();
 

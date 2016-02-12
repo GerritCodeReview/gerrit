@@ -18,9 +18,12 @@ import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -29,21 +32,27 @@ import java.util.EnumSet;
 
 public class Check implements RestReadView<ChangeResource>,
     RestModifyView<ChangeResource, FixInput> {
+  private final NotesMigration notesMigration;
   private final ChangeJson.Factory jsonFactory;
 
   @Inject
-  Check(ChangeJson.Factory json) {
+  Check(NotesMigration notesMigration,
+      ChangeJson.Factory json) {
+    this.notesMigration = notesMigration;
     this.jsonFactory = json;
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc)
+      throws RestApiException, OrmException {
+    checkEnabled();
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
-      throws AuthException, OrmException {
+      throws RestApiException, OrmException {
+    checkEnabled();
     ChangeControl ctl = rsrc.getControl();
     if (!ctl.isOwner()
         && !ctl.getProjectControl().isOwner()
@@ -55,5 +64,11 @@ public class Check implements RestReadView<ChangeResource>,
 
   private ChangeJson newChangeJson() {
     return jsonFactory.create(EnumSet.of(ListChangesOption.CHECK));
+  }
+
+  private void checkEnabled() throws NotImplementedException {
+    if (notesMigration.readChanges()) {
+      throw new NotImplementedException("check not implemented for notedb");
+    }
   }
 }

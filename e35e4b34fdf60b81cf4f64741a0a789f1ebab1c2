@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "7d3e2c4b_207feab4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4022,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-12T22:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf718e0_83601edc",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_024e6a66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 3
@@ -91,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_04a8b64e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-12T22:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd342467_024e6a66",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_638f62e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 3
@@ -102,6 +138,24 @@
       "writtenOn": "2016-02-12T09:33:24Z",
       "side": 1,
       "message": "Not sure if this makes a difference, but the PatchListLoader#emptyTree method creates an empty tree like this:\n\n  inserter.insert(Constants.OBJ_TREE, new byte[] {});",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_24abb24f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-12T22:14:30Z",
+      "side": 1,
+      "message": "From the code I think they did the same thing.",
+      "parentUuid": "ddf718e0_638f62e8",
       "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

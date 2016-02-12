@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
@@ -121,9 +123,10 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     public boolean updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
       change = ctx.getChange();
+      checkNotNull(change);
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
-      if (change == null || !change.getStatus().isOpen()) {
+      if (!change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + status(change));
       } else if (change.getStatus() == Change.Status.DRAFT) {
         throw new ResourceConflictException(

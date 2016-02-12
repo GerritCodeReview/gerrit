@@ -16,6 +16,24 @@
       "revId": "352e521ab515d14c1e3a06b4fc6a9c6c5a43fc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_7fcfcf76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-12T08:43:36Z",
+      "side": 1,
+      "message": "I thought so too, but the tests are all passing. Which of course could mean that the tests are not fully exercising the code...",
+      "parentUuid": "bd342467_628f36e8",
+      "revId": "352e521ab515d14c1e3a06b4fc6a9c6c5a43fc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

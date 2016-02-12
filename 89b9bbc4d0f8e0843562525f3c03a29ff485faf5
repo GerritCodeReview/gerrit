@@ -39,6 +39,24 @@
       "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_e467da24",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-12T00:11:55Z",
+      "side": 1,
+      "message": "Never mind.  This line gets replaced in 74862.",
+      "parentUuid": "1dfe10bd_057c32bc",
+      "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_03966e01",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4022,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T09:42:15Z",
+      "side": 1,
+      "message": "That\u0027s not true. Have you missed my comment from the first patch in the commit message? Quoting it here:\n\n\"\nArguably, when we are going to create another dozen attributes that are only create change specific we should rather decouple its input from ChangeInfo. But we already added baseChange there, for follow-up change, though.\n\"\n\nWe have baseChange. It\u0027s used from Follow-Up change handler. Go to this change and click on Follow-up button, to activate this code path. We haven\u0027t added CreateChangeInput then but we definitely can/should do it now (or later, when we add third field ;-)",
+      "parentUuid": "ddf718e0_a3843acc",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_024e6a66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 3

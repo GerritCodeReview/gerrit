@@ -65,3 +65,13 @@ If you need to pass additional arguments to `wct`:
 ```sh
 WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 ```
+
+Development:
+
+We suggest to use [WebStorm](https://www.jetbrains.com/webstorm/) IDE. This is
+non free IDE, but the Open Source license can be requested.
+
+Style guide:
+
+We don't follow all [Google JS](https://google.github.io/styleguide/javascriptguide.xml?showone)
+style guide, but some are followed.

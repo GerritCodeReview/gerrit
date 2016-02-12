@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdfcdcc6_c4b17ec4",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T21:30:02Z",
+      "side": 1,
+      "message": "`k` is a to ambiguous of a name. maybe `type`?",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_a4b682b8",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T21:30:02Z",
+      "side": 1,
+      "message": "use the enum values here.",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_459eaa2d",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T21:30:02Z",
+      "side": 1,
+      "message": "enum value.",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_25abae4f",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T21:30:02Z",
+      "side": 1,
+      "message": "Full sentence with period.\n\nWe can’t reload a change that was deleted.",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

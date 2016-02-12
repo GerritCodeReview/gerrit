@@ -46,16 +46,16 @@ final class AdminQueryShell extends SshCommand {
   protected void run() throws Failure {
     try {
       checkPermission();
-
-      final QueryShell shell = factory.create(in, out);
-      shell.setOutputFormat(format);
-      if (query != null) {
-        shell.execute(query);
-      } else {
-        shell.run();
-      }
     } catch (PermissionDeniedException err) {
       throw new UnloggedFailure("fatal: " + err.getMessage());
+    }
+
+    QueryShell shell = factory.create(in, out);
+    shell.setOutputFormat(format);
+    if (query != null) {
+      shell.execute(query);
+    } else {
+      shell.run();
     }
   }
 

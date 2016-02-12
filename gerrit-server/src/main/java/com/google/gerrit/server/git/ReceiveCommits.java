@@ -1782,10 +1782,9 @@ public class ReceiveCommits {
       final List<FooterLine> footerLines = commit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
       Map<String, Short> approvals = new HashMap<>();
-      if (magicBranch != null) {
-        recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.labels;
-      }
+      checkNotNull(magicBranch);
+      recipients.add(magicBranch.getMailRecipients());
+      approvals = magicBranch.labels;
       recipients.add(getRecipientsFromFooters(
           accountResolver, magicBranch.draft, footerLines));
       recipients.remove(me);
@@ -1802,28 +1801,26 @@ public class ReceiveCommits {
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
             .setUpdateRef(true));
-        if (magicBranch != null) {
+        bu.addOp(
+            changeId,
+            hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
+              .setRunHooks(false));
+        if (!Strings.isNullOrEmpty(magicBranch.topic)) {
           bu.addOp(
               changeId,
-              hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
-                .setRunHooks(false));
-          if (!Strings.isNullOrEmpty(magicBranch.topic)) {
-            bu.addOp(
-                changeId,
-                new BatchUpdate.Op() {
-                  @Override
-                  public boolean updateChange(ChangeContext ctx) {
-                    ctx.getUpdate(psId).setTopic(magicBranch.topic);
-                    return true;
-                  }
-                });
-          }
+              new BatchUpdate.Op() {
+                @Override
+                public boolean updateChange(ChangeContext ctx) {
+                  ctx.getUpdate(psId).setTopic(magicBranch.topic);
+                  return true;
+                }
+              });
         }
         bu.execute();
       }
       change = ins.getChange();
 
-      if (magicBranch != null && magicBranch.submit) {
+      if (magicBranch.submit) {
         submit(projectControl.controlFor(state.db, change), ins.getPatchSet());
       }
     }

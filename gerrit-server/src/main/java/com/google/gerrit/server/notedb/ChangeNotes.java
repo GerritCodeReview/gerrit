@@ -224,7 +224,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = repoManager.openRepository(project)) {
-            List<ChangeNotes> changes = scanNotedb(this, repo, db, project);
+            List<ChangeNotes> changes = scanNotedb(repo, db, project);
             for (ChangeNotes cn : changes) {
               if (predicate.apply(cn)) {
                 m.put(project, cn);
@@ -243,18 +243,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return ImmutableListMultimap.copyOf(m);
     }
 
-    public static List<ChangeNotes> scan(NotesMigration notesMigration,
-        ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
+    public List<ChangeNotes> scan(Repository repo, ReviewDb db,
         Project.NameKey project) throws OrmException, IOException {
-      if (!notesMigration.readChanges()) {
-        return scanDb(notesFactory, repo, db);
+      if (!migration.readChanges()) {
+        return scanDb(repo, db);
       }
 
-      return scanNotedb(notesFactory, repo, db, project);
+      return scanNotedb(repo, db, project);
     }
 
-    private static List<ChangeNotes> scanDb(ChangeNotes.Factory notesFactory,
-        Repository repo, ReviewDb db) throws OrmException, IOException {
+    private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
+        throws OrmException, IOException {
       Map<String, Ref> refs =
           repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
       Set<Change.Id> ids = new LinkedHashSet<>();
@@ -269,23 +268,21 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // but still >1.
       for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
         for (Change change : db.changes().get(batch)) {
-          notes.add(notesFactory
-              .createFromChangeOnlyWhenNotedbDisabled(change));
+          notes.add(createFromChangeOnlyWhenNotedbDisabled(change));
         }
       }
       return notes;
     }
 
-    private static List<ChangeNotes> scanNotedb(ChangeNotes.Factory notesFactory,
-        Repository repo, ReviewDb db, Project.NameKey project)
-            throws OrmException, IOException {
+    private List<ChangeNotes> scanNotedb(Repository repo, ReviewDb db,
+        Project.NameKey project) throws OrmException, IOException {
       Map<String, Ref> refs =
           repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
       List<ChangeNotes> changeNotes = new ArrayList<>(refs.size());
       for (Ref r : refs.values()) {
         Change.Id id = Change.Id.fromRef(r.getName());
         if (id != null) {
-          changeNotes.add(notesFactory.create(db, project, id));
+          changeNotes.add(create(db, project, id));
         }
       }
       return changeNotes;

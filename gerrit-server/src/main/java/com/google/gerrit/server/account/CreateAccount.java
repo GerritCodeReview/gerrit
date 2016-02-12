@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -37,6 +38,7 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateAccount.Input;
+import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -48,6 +50,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -74,6 +77,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
+  private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final String username;
   private final AuditService auditService;
 
@@ -82,6 +86,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
+      DynamicSet<AccountExternalIdCreator> externalIdCreators,
       @Assisted String username, AuditService auditService) {
     this.db = db;
     this.currentUser = currentUser;
@@ -90,6 +95,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
+    this.externalIdCreators = externalIdCreators;
     this.username = username;
     this.auditService = auditService;
   }
@@ -137,8 +143,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       }
     }
 
+    LinkedList<AccountExternalId> externalIds = new LinkedList<>();
+    externalIds.add(extUser);
+    for (AccountExternalIdCreator c : externalIdCreators) {
+      externalIds.addAll(c.create(id, username, input.email));
+    }
+
     try {
-      db.accountExternalIds().insert(Collections.singleton(extUser));
+      db.accountExternalIds().insert(externalIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");

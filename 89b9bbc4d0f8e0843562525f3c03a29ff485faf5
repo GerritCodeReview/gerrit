@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_03faee62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T07:43:12Z",
+      "side": 1,
+      "message": "2013 seems to be okay, since this code is just copied from the 2013 NotesMigration class.",
+      "parentUuid": "1dfe10bd_257f2eb5",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_057c32bc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 1
@@ -54,6 +78,23 @@
       "side": 1,
       "message": "Never mind.  This line gets replaced in 74862.",
       "parentUuid": "1dfe10bd_057c32bc",
+      "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_e3059232",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T07:43:12Z",
+      "side": 1,
+      "message": "Do we need this in Daemon too?",
       "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

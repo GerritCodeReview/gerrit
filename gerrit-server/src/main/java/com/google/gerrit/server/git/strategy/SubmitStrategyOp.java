@@ -412,6 +412,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
   private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit,
       CommitMergeStatus s) {
+    checkNotNull(s, "CommitMergeStatus may not be null");
     String txt = s.getMessage();
     if (s == CommitMergeStatus.CLEAN_MERGE) {
       return message(ctx, commit.getPatchsetId(), txt + getByAccountName());
@@ -434,7 +435,10 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         case REBASE_IF_NECESSARY:
           return message(ctx, commit, CommitMergeStatus.CLEAN_REBASE);
         default:
-          return message(ctx, commit, null);
+          throw new IllegalStateException("unexpected submit type "
+              + args.submitType.toString()
+              + " for change "
+              + commit.change().getId());
       }
     } else {
       throw new IllegalStateException("unexpected status " + s

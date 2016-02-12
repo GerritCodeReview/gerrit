@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1455315252 -0800\npushee rpc://gerrit/gerrit\nnonce AO+Zq7iWL6UCrDKJJl7Nv9xEC1Gycmjf9iIi6TZjTcTnQ04gNT2fbTCkESukSoXv8Mob3Rpeh0ss\n\n0000000000000000000000000000000000000000 5b080bab9aa42635762587b5dab3b80ad8c66352 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWvlk0AAoJELOGKwXbr+wPVO0P/3y0ctnmLAIHm6F+u8DGbQb3\nXGS/NGK/MAa2GGeu1VI23CfbgxRIVItFWloMyn++RKzfkBj2BBc1XmMTHIoGsbkD\nnl54AmgQQ4y169X6r9aqRoqG9Vh3kB9HngeupIrld6zifNBKDFeJ+c4paPW5Viuf\n/AXPdCuslj+YP3xiBkuoZ9WaIbX5H/jU1G4EM6j0oLW0jvWcGBEqW65aa03xP/p3\nvBHulqXjvIq8GAB42yIMKw1V4XMJuOnfL79xJRzYQGqNWCr/AuHPuRauqLfaSfve\n7pDmQXWbggNQo8t4vxnDKKeeL1pdp252Cfj+H8cZ22+uAKFuhlWGkyJW0XUFI9lx\nFxjJgeUkZ22wp/OFnhnufnhV71skR+3ByJ1duWdDJYdYCe7LX3uFqakOi8lsHWz8\nI3Lt6wqEYegCt9Yyzzq4l8qjIIDxsurZwx5gl+cVA3tux2eH4sb9PYMorf5k4xTD\nbHhMiRwCQrS2un7ginUZ4VoEt/Ldm+75OrPk7hDa7ozPn8oNA8pVI/jNaZvFphOZ\n7AKO+s6EEj4VcrZ6TuXfjizLSPuTn+nZbUxnuQ06aTH5ksRcJC/tfu6Pq0slrlw9\npGL/JYySp1S+bm1Lo7RYWHqyuj/BO8PTsCUIOVghvwxoQLDzsdNNu9Xr+A1QZAGS\nXqaWUG7nDaNo+T03fa1t\n\u003dDpP/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_8267da90",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3942,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T23:04:11Z",
+      "side": 1,
+      "message": "I think we need here underscore_naming_convention, like with base_change above.",
+      "range": {
+        "startLine": 3942,
+        "startChar": 2,
+        "endLine": 3942,
+        "endChar": 11
+      },
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_2264ce8a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T23:04:11Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e2fca6d6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T23:04:11Z",
+      "side": 1,
+      "message": "Is this empty line to mark optional attributes? But status is not optional in documentation.",
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

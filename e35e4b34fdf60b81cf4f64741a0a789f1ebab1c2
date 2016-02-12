@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_a35b1a2f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4022,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:47:51Z",
+      "side": 1,
+      "message": "I have indeed missed this comment on the first patch set.\n\nYou are right that there is already the baseChange field. I\u0027m not insisting on creating the change-input object right now, but I think it\u0027s better done sooner than later.",
+      "parentUuid": "ddf718e0_03966e01",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_024e6a66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 3

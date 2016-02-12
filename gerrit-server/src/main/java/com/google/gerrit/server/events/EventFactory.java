@@ -384,6 +384,7 @@ public class EventFactory {
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles, ChangeNotes notes, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
+      checkNotNull(notes, "notes may not be null");
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
         PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, notes, p);
@@ -391,7 +392,7 @@ public class EventFactory {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
         ca.patchSets.add(psa);
-        if (includeFiles && notes != null) {
+        if (includeFiles) {
           addPatchSetFileNames(psa, notes.getChange(), p);
         }
       }

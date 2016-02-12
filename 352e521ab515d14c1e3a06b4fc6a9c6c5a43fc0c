@@ -34,6 +34,24 @@
       "revId": "352e521ab515d14c1e3a06b4fc6a9c6c5a43fc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_63c8821f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:04:22Z",
+      "side": 1,
+      "message": "Okay, here it really cannot be null, or we would fail much earlier.",
+      "parentUuid": "5d4168d6_7fcfcf76",
+      "revId": "352e521ab515d14c1e3a06b4fc6a9c6c5a43fc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_62fbb62a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-12T10:38:31Z",
+      "side": 1,
+      "message": "Sorry, I missed this place in the previous review.\n\nCan we also make this place tolerant to the ConfigInvalidException? Instead of failing can we simply set the default for that user?\n\nWith \u003e10K of accounts in the database we don\u0027t want to stop for each account with broken preferences.",
+      "range": {
+        "startLine": 155,
+        "startChar": 12,
+        "endLine": 155,
+        "endChar": 35
+      },
+      "revId": "92afed46fd395889de61ef6587a3f536d693a883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

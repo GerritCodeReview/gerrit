@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_e2dee6f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T05:30:01Z",
+      "side": 0,
+      "message": "Theoretically, asPatchSetAttribute() impl could do null check and do some magic when notes would be null.",
+      "range": {
+        "startLine": 389,
+        "startChar": 65,
+        "endLine": 389,
+        "endChar": 70
+      },
+      "revId": "e698b827a396007aaec91b9aa9346b027b87bf6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

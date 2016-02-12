@@ -16,9 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.audit.GsqlAuditEvent;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -48,7 +52,10 @@ import java.util.TreeMap;
 /** Simple interactive SQL query tool. */
 public class QueryShell {
   public interface Factory {
-    QueryShell create(@Assisted InputStream in, @Assisted OutputStream out);
+    QueryShell create(@Assisted InputStream in,
+        @Assisted OutputStream out,
+        @Nullable @Assisted IdentifiedUser user,
+        @Nullable @Assisted AuditService auditService);
   }
 
   public static enum OutputFormat {
@@ -58,6 +65,8 @@ public class QueryShell {
   private final BufferedReader in;
   private final PrintWriter out;
   private final SchemaFactory<ReviewDb> dbFactory;
+  private final IdentifiedUser user;
+  private final AuditService auditService;
   private OutputFormat outputFormat = OutputFormat.PRETTY;
 
   private ReviewDb db;
@@ -66,10 +75,15 @@ public class QueryShell {
 
   @Inject
   QueryShell(final SchemaFactory<ReviewDb> dbFactory,
-      @Assisted final InputStream in, @Assisted final OutputStream out) {
+      @Assisted final InputStream in,
+      @Assisted final OutputStream out,
+      @Nullable @Assisted IdentifiedUser user,
+      @Nullable @Assisted AuditService auditService) {
     this.dbFactory = dbFactory;
     this.in = new BufferedReader(new InputStreamReader(in, UTF_8));
     this.out = new PrintWriter(new OutputStreamWriter(out, UTF_8));
+    this.user = user;
+    this.auditService = auditService;
   }
 
   public void setOutputFormat(OutputFormat fmt) {
@@ -348,10 +362,13 @@ public class QueryShell {
         try (ResultSet rs = statement.getResultSet()) {
           showResultSet(rs, false, start);
         }
-
       } else {
         final int updateCount = statement.getUpdateCount();
         final long ms = TimeUtil.nowMs() - start;
+        String prettyResult = "UPDATE " + updateCount + "; " + ms + " ms";
+        if (auditService != null) {
+          auditService.dispatch(new GsqlAuditEvent(user, sql, start, prettyResult));
+        }
         switch (outputFormat) {
           case JSON_SINGLE:
           case JSON: {
@@ -365,7 +382,7 @@ public class QueryShell {
 
           case PRETTY:
           default:
-            println("UPDATE " + updateCount + "; " + ms + " ms");
+            println(prettyResult);
             break;
         }
       }

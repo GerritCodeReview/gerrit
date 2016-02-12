@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -36,6 +37,9 @@ final class AdminQueryShell extends SshCommand {
   @Inject
   private IdentifiedUser currentUser;
 
+  @Inject
+  private AuditService auditService;
+
   @Option(name = "--format", usage = "Set output format")
   private QueryShell.OutputFormat format = QueryShell.OutputFormat.PRETTY;
 
@@ -50,7 +54,7 @@ final class AdminQueryShell extends SshCommand {
       throw new UnloggedFailure("fatal: " + err.getMessage());
     }
 
-    QueryShell shell = factory.create(in, out);
+    QueryShell shell = factory.create(in, out, currentUser, auditService);
     shell.setOutputFormat(format);
     if (query != null) {
       shell.execute(query);

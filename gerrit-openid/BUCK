@@ -19,8 +19,8 @@ java_library(
     '//lib/commons:codec',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
-    '//lib/jgit:jgit',
     '//lib/log:api',
+    '@jgit//:jgit',
   ],
   visibility = ['PUBLIC'],
 )

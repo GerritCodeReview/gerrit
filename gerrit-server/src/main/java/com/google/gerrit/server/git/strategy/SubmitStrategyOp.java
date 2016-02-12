@@ -249,29 +249,31 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
     Change c = ctx.getChange();
     Change.Id id = c.getId();
-    try {
-      CodeReviewCommit commit = args.commits.get(id);
-      CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
-      logDebug("Status of change {} ({}) on {}: {}", id, commit.name(),
-          c.getDest(), s);
-      checkState(s != null,
-          "status not set for change %s; expected to previously fail fast",
-          id);
-      setApproval(ctx, args.caller);
+    CodeReviewCommit commit = args.commits.get(id);
+    if (commit != null) {
+      try {
+        CommitMergeStatus s = commit.getStatusCode();
+        checkNotNull(s,
+            "status not set for change " + id
+            + " expected to previously fail fast");
+        logDebug("Status of change {} ({}) on {}: {}", id, commit.name(),
+            c.getDest(), s);
+        setApproval(ctx, args.caller);
 
-      mergeResultRev = alreadyMerged == null
-          ? args.mergeTip.getMergeResults().get(commit)
-          // Our fixup code is not smart enough to find a merge commit
-          // corresponding to the merge result. This results in a different
-          // ChangeMergedEvent in the fixup case, but we'll just live with that.
-          : alreadyMerged;
-      setMerged(ctx, message(ctx, commit, s));
-    } catch (OrmException err) {
-      String msg = "Error updating change status for " + id;
-      log.error(msg, err);
-      args.commits.logProblem(id, msg);
-      // It's possible this happened before updating anything in the db, but
-      // it's hard to know for sure, so just return true below to be safe.
+        mergeResultRev = alreadyMerged == null
+            ? args.mergeTip.getMergeResults().get(commit)
+            // Our fixup code is not smart enough to find a merge commit
+            // corresponding to the merge result. This results in a different
+            // ChangeMergedEvent in the fixup case, but we'll just live with that.
+            : alreadyMerged;
+        setMerged(ctx, message(ctx, commit, s));
+      } catch (OrmException err) {
+        String msg = "Error updating change status for " + id;
+        log.error(msg, err);
+        args.commits.logProblem(id, msg);
+        // It's possible this happened before updating anything in the db, but
+        // it's hard to know for sure, so just return true below to be safe.
+      }
     }
     updatedChange = c;
     return true;

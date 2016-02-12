@@ -16,9 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -48,7 +50,9 @@ import java.util.TreeMap;
 /** Simple interactive SQL query tool. */
 public class QueryShell {
   public interface Factory {
-    QueryShell create(@Assisted InputStream in, @Assisted OutputStream out);
+    QueryShell create(@Assisted InputStream in,
+        @Assisted OutputStream out,
+        @Nullable @Assisted IdentifiedUser user);
   }
 
   public static enum OutputFormat {
@@ -58,6 +62,7 @@ public class QueryShell {
   private final BufferedReader in;
   private final PrintWriter out;
   private final SchemaFactory<ReviewDb> dbFactory;
+  private final IdentifiedUser user;
   private OutputFormat outputFormat = OutputFormat.PRETTY;
 
   private ReviewDb db;
@@ -66,10 +71,13 @@ public class QueryShell {
 
   @Inject
   QueryShell(final SchemaFactory<ReviewDb> dbFactory,
-      @Assisted final InputStream in, @Assisted final OutputStream out) {
+      @Assisted final InputStream in,
+      @Assisted final OutputStream out,
+      @Nullable @Assisted IdentifiedUser user) {
     this.dbFactory = dbFactory;
     this.in = new BufferedReader(new InputStreamReader(in, UTF_8));
     this.out = new PrintWriter(new OutputStreamWriter(out, UTF_8));
+    this.user = user;
   }
 
   public void setOutputFormat(OutputFormat fmt) {
@@ -670,6 +678,7 @@ public class QueryShell {
   private void showBanner() {
     if (outputFormat == OutputFormat.PRETTY) {
       println("Welcome to Gerrit Code Review " + Version.getVersion());
+      println("User: " + (user == null ? "UNKNOWN" : user.getUserName()));
       try {
         print("(");
         print(connection.getMetaData().getDatabaseProductName());

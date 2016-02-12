@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_a2e8de9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T05:34:51Z",
+      "side": 1,
+      "message": "Hm. When something shouldn\u0027t hapen, then failing it earlier with \"groups may not be null\" is correct thing to do.",
+      "revId": "e698b827a396007aaec91b9aa9346b027b87bf6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

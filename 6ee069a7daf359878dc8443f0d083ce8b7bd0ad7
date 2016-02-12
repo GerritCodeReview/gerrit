@@ -34,6 +34,24 @@
       "revId": "6ee069a7daf359878dc8443f0d083ce8b7bd0ad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_c28962e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T08:39:27Z",
+      "side": 1,
+      "message": "Yes, just asking if this would be better.",
+      "parentUuid": "5d4168d6_9fb733fe",
+      "revId": "6ee069a7daf359878dc8443f0d083ce8b7bd0ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

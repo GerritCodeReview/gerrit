@@ -2730,10 +2730,14 @@ public class ReceiveCommits {
 
     Change change =
         notesFactory.create(db, project.getNameKey(), cid).getChange();
+    if (change == null) {
+      log.warn(project.getName() + " change " + cid + " is missing");
+      return null;
+    }
     ChangeControl ctl = projectControl.controlFor(db, change);
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psi);
-    if (change == null || ps == null) {
-      log.warn(project.getName() + " " + psi + " is missing");
+    if (ps == null) {
+      log.warn(project.getName() + " patch set " + psi + " is missing");
       return null;
     }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_df0b7b76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-12T10:15:51Z",
+      "side": 1,
+      "message": "missing \"ctl.\" here.",
+      "range": {
+        "startLine": 217,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "ed969bfc6c23a5b0a35998f60bde1dc7fd56ef85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

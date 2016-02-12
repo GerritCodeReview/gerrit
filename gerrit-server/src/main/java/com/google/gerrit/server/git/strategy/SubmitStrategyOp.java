@@ -454,7 +454,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     }
     ChangeMessage m = new ChangeMessage(
         new ChangeMessage.Key(psId.getParentKey(), uuid),
-        null, ctx.getWhen(), psId);
+        ctx.getUser().getAccountId(), ctx.getWhen(), psId);
     m.setMessage(body);
     return m;
   }

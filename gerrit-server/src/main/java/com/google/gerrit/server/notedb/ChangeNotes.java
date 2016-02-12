@@ -20,7 +20,9 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -28,6 +30,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -45,7 +48,9 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -57,6 +62,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
@@ -116,17 +122,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final NotesMigration migration;
     private final AllUsersNameProvider allUsersProvider;
     private final Provider<InternalChangeQuery> queryProvider;
+    private final ProjectCache projectCache;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
         AllUsersNameProvider allUsersProvider,
-        Provider<InternalChangeQuery> queryProvider) {
+        Provider<InternalChangeQuery> queryProvider,
+        ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsersProvider = allUsersProvider;
       this.queryProvider = queryProvider;
+      this.projectCache = projectCache;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
@@ -189,6 +198,31 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Change change = db.changes().get(changeId);
       return new ChangeNotes(repoManager, migration, allUsersProvider,
           change.getProject(), change).load();
+    }
+
+    public ListMultimap<Project.NameKey, Change> byProject(ReviewDb db,
+        Predicate<Change> predicate) throws IOException, OrmException {
+      ListMultimap<Project.NameKey, Change> m = ArrayListMultimap.create();
+      if (migration.readChanges()) {
+        for (Project.NameKey project : projectCache.all()) {
+          try (Repository repo = repoManager.openRepository(project)) {
+            List<Change> changes = ScanningChangeCacheImpl.scanNotedb(
+                this, repo, db, project);
+            for (Change change : changes) {
+              if (predicate.apply(change)) {
+                m.put(project, change);
+              }
+            }
+          }
+        }
+      } else {
+        for (Change change : db.changes().all()) {
+          if (predicate.apply(change)) {
+            m.put(change.getProject(), change);
+          }
+        }
+      }
+      return ImmutableListMultimap.copyOf(m);
     }
   }
 

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "bd342467_2247ee45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:50:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf718e0_c3e976d3",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "e28b38ce39b2daec589ed479d6585ca0a66a9cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdfcdcc6_8466e625",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -73,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_e36112e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:50:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdfcdcc6_8466e625",
+      "range": {
+        "startLine": 149,
+        "startChar": 30,
+        "endLine": 149,
+        "endChar": 76
+      },
+      "revId": "e28b38ce39b2daec589ed479d6585ca0a66a9cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdfcdcc6_84bca6e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -84,6 +132,24 @@
       "writtenOn": "2016-02-11T16:59:36Z",
       "side": 1,
       "message": "I would distinguish the 0 and \u003e1 cases. The former is just not found, the latter is a serious issue we probably want to log.",
+      "revId": "e28b38ce39b2daec589ed479d6585ca0a66a9cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_c36616f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:50:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdfcdcc6_84bca6e2",
       "revId": "e28b38ce39b2daec589ed479d6585ca0a66a9cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -123,5 +123,57 @@ limitations under the License.
       selectEl.value = '1';
       element.fire('change', {}, {node: selectEl});
     });
+
+    test('change status new', function() {
+      element._changeNum = '1';
+      element._patchNum = 1;
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+      };
+      var status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, '');
+    });
+
+    test('change status draft', function() {
+      element._changeNum = '1';
+      element._patchNum = 1;
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'DRAFT',
+        labels: {},
+      };
+      var status = element._computeChangeStatus(element._change, '1');
+      assert.equal(status, '(draft)');
+    });
+
+    test('revision status draft', function() {
+      element._changeNum = '1';
+      element._patchNum = 2;
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {
+            _number: 2,
+            draft: true,
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+      };
+      var status = element._computeChangeStatus(element._change, '2');
+      assert.equal(status, '(draft)');
+    });
   });
 </script>

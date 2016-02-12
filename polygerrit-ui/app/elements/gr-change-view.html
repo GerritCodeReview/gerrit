@@ -235,7 +235,7 @@ limitations under the License.
             <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
             <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
-            <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>
+            <span class="changeStatus">[[_computeChangeStatus(_change, _patchNum)]]</span>
           </span>
           <span class="header-actions">
             <gr-reply-dropdown id="replyDropdown"
@@ -548,9 +548,13 @@ limitations under the License.
         return '/' + changeNum;
       },
 
-      _computeChangeStatus: function(status) {
+      _computeChangeStatus: function(change, patchNum) {
+        var status = change.status;
         if (status == this.ChangeStatus.NEW) {
-          return '';
+          var rev = this._getRevisionNumber(change, patchNum);
+          // TODO(davido): Figure out, why sometimes revision is not there
+          if (rev == undefined || !rev.draft) { return ''; }
+          status = this.ChangeStatus.DRAFT;
         }
         return '(' + status.toLowerCase() + ')';
       },
@@ -592,6 +596,14 @@ limitations under the License.
         return patchNums.sort(function(a, b) {
           return a - b;
         });
+      },
+
+      _getRevisionNumber: function(change, patchNum) {
+        for (var rev in change.revisions) {
+          if (change.revisions[rev]._number == patchNum) {
+            return change.revisions[rev];
+          }
+        }
       },
 
       _computePatchIndexIsSelected: function(index, patchNum) {

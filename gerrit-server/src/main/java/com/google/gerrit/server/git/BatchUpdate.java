@@ -188,6 +188,7 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ReviewDb getDb() {
+      checkNotNull(dbWrapper);
       return dbWrapper;
     }
 
@@ -202,15 +203,20 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     public ChangeNotes getNotes() {
-      return ctl.getNotes();
+      ChangeNotes n = ctl.getNotes();
+      checkNotNull(n);
+      return n;
     }
 
     public ChangeControl getControl() {
+      checkNotNull(ctl);
       return ctl;
     }
 
     public Change getChange() {
-      return ctl.getChange();
+      Change c = getChange();
+      checkNotNull(c);
+      return c;
     }
 
     public void saveChange() {

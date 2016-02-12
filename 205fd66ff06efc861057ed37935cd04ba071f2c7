@@ -34,6 +34,24 @@
       "revId": "205fd66ff06efc861057ed37935cd04ba071f2c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_e5ac766c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-12T19:52:41Z",
+      "side": 1,
+      "message": "There are no events in between all references to the ChangeApi usage, so unlikely yes.\n\nHow would you cherry-pick in the test suite without the ChangeApi ? (I was inspired by the cherry pick tests using this api)",
+      "parentUuid": "5d0c08c0_a7a0cabc",
+      "revId": "205fd66ff06efc861057ed37935cd04ba071f2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

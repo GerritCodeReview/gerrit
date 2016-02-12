@@ -128,8 +128,9 @@ public class ChangeData {
     if (missing.isEmpty()) {
       return;
     }
-    for (Change change : first.db.changes().get(missing.keySet())) {
-      missing.get(change.getId()).change = change;
+    for (ChangeNotes notes : first.notesFactory.create(
+        first.db, missing.keySet())) {
+      missing.get(notes.getChangeId()).change = notes.getChange();
     }
   }
 

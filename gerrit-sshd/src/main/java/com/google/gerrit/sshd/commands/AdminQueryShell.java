@@ -50,7 +50,7 @@ final class AdminQueryShell extends SshCommand {
       throw new UnloggedFailure("fatal: " + err.getMessage());
     }
 
-    QueryShell shell = factory.create(in, out);
+    QueryShell shell = factory.create(in, out, currentUser);
     shell.setOutputFormat(format);
     if (query != null) {
       shell.execute(query);

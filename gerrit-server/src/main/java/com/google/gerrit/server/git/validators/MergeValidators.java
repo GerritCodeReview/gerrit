@@ -99,7 +99,6 @@ public class MergeValidators {
     private final AllProjectsName allProjectsName;
     private final ReviewDb db;
     private final ProjectCache projectCache;
-    private final IdentifiedUser.GenericFactory identifiedUserFactory;
     private final ApprovalsUtil approvalsUtil;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
@@ -110,13 +109,11 @@ public class MergeValidators {
     @Inject
     public ProjectConfigValidator(AllProjectsName allProjectsName,
         ReviewDb db, ProjectCache projectCache,
-        IdentifiedUser.GenericFactory iuf,
         ApprovalsUtil approvalsUtil,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
       this.allProjectsName = allProjectsName;
       this.db = db;
       this.projectCache = projectCache;
-      this.identifiedUserFactory = iuf;
       this.approvalsUtil = approvalsUtil;
       this.pluginConfigEntries = pluginConfigEntries;
     }
@@ -150,9 +147,7 @@ public class MergeValidators {
               if (psa == null) {
                 throw new MergeValidationException(SET_BY_ADMIN);
               }
-              final IdentifiedUser submitter =
-                  identifiedUserFactory.create(psa.getAccountId());
-              if (!submitter.getCapabilities().canAdministrateServer()) {
+              if (!caller.getCapabilities().canAdministrateServer()) {
                 throw new MergeValidationException(SET_BY_ADMIN);
               }
 

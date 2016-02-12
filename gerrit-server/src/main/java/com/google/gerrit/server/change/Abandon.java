@@ -123,7 +123,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
-      if (change == null || !change.getStatus().isOpen()) {
+      if (!change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + status(change));
       } else if (change.getStatus() == Change.Status.DRAFT) {
         throw new ResourceConflictException(

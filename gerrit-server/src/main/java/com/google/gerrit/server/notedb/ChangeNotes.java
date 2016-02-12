@@ -231,6 +231,26 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           change.getProject(), change).load();
     }
 
+    public List<ChangeNotes> create(ReviewDb db,
+        Collection<Change.Id> changeIds) throws OrmException {
+      List<ChangeNotes> notes = new ArrayList<>();
+      if (migration.enabled()) {
+        for (Change.Id changeId : changeIds) {
+          try {
+            notes.add(createChecked(changeId));
+          } catch (NoSuchChangeException e) {
+            // Ignore missing changes to match Access#get(Iterable) behavior.
+          }
+        }
+        return notes;
+      }
+
+      for (Change c : db.changes().get(changeIds)) {
+        notes.add(createFromChangeOnlyWhenNotedbDisabled(c));
+      }
+      return notes;
+    }
+
     public List<ChangeNotes> create(ReviewDb db, Project.NameKey project,
         Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
             throws OrmException {

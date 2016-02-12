@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_22cfeece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T19:44:03Z",
+      "side": 1,
+      "message": "For the record:\n\n  buck build api\n\ndoesn\u0027t work against current JGit tree. That\u0027s because\n\n* @jgit//:jgit and \n* @jgit//:junit\n\nin JGit Buck driven build were implemented as java_library with exported_deps only, and as such, they don\u0027t have output file associated with them, so that $(location :foo) macro used in javadoc api rule can\u0027t work and is failing as expected with this scary error message: [1].\n\nThere are three trivial work arounds, though:\n\n* A. Drop javadocs from the API dependencies in Gerrit: [2]\n* B. Apply this patch: [3] to JGit to use prebuilt_jar() instead of java_library() that only references exported dependencies\n* C. Use export_file() instead of prebuilt_jar() in B. The patch for this option is left as an exercise for the reader\n\nEither way `buck build api` should just work with hijacked JGit cell. Thanks to Sasa for reporting this issue.\n\n* [1] http://paste.openstack.org/show/486878\n* [2] http://paste.openstack.org/show/486880\n* [3] http://paste.openstack.org/show/486876",
+      "revId": "17bb3dbfe837c2195383827fdf955f5e1e463272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

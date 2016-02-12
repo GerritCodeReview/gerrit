@@ -74,7 +74,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -308,15 +308,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
         throws OrmException, IOException {
-      Map<String, Ref> refs =
-          repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-      Set<Change.Id> ids = new LinkedHashSet<>();
-      for (Ref r : refs.values()) {
-        Change.Id id = Change.Id.fromRef(r.getName());
-        if (id != null) {
-          ids.add(id);
-        }
-      }
+      Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> notes = new ArrayList<>(ids.size());
       // A batch size of N may overload get(Iterable), so use something smaller,
       // but still >1.
@@ -330,16 +322,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private List<ChangeNotes> scanNotedb(Repository repo, ReviewDb db,
         Project.NameKey project) throws OrmException, IOException {
+      Set<Change.Id> ids = scan(repo);
+      List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
+      for (Change.Id id : ids) {
+        changeNotes.add(create(db, project, id));
+      }
+      return changeNotes;
+    }
+
+    public static Set<Change.Id> scan(Repository repo) throws IOException {
       Map<String, Ref> refs =
           repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-      List<ChangeNotes> changeNotes = new ArrayList<>(refs.size());
+      Set<Change.Id> ids = new HashSet<>(refs.size());
       for (Ref r : refs.values()) {
         Change.Id id = Change.Id.fromRef(r.getName());
         if (id != null) {
-          changeNotes.add(create(db, project, id));
+          ids.add(id);
         }
       }
-      return changeNotes;
+      return ids;
     }
   }
 

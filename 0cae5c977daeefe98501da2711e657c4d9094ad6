@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455279887 +0100\nnonce AO+Zq7hHBt7PQ+4utgmAUjHnUaVK+kpwUYYjrA4TjhXiuUzcbzrQ0kizeiCPHP9VSHKNKG5AW8fy\n\n0000000000000000000000000000000000000000 1131292755ebbf064a55129df969b5e264f724a7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWvc8PAAoJEFG1/Zeg0O9RUWgH/33rqgK5/03ZhT3fFNNAqH1T\nXK+7kmUTvOk+fOjNQdMljDV+K7vZ9iZWJQzh17wAjk1rNKsJxit+3elJZvnFXERO\ndPhFoVP5lPbT8oXZTctBpUrY27Ns9Ix/bMxfL+FS6lOipWY0Hlh3147by8dV2UmA\n3HD3AuI4UScDNas1kVIqKHnxDgbzSwU6QyvveflHYvLZmlf6dMiEaL/8E1jgpysf\nz6PWy8yl6Nsqb8BQQbKZx7HMKNRNp9Se0RhzsEUqlqPjmVIrT7z0xI+up5zpIRVr\nUOsuYpEIzTRFSz7jKqm/a2k//syZyM4Nda2nCAK/YEx7tmF7UcFvBot7j+htS2I\u003d\n\u003dwx9A\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_62297666",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T12:32:44Z",
+      "side": 1,
+      "message": "unintended submodule update",
+      "revId": "0cae5c977daeefe98501da2711e657c4d9094ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

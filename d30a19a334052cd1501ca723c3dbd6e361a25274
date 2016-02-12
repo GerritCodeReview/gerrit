@@ -46,6 +46,30 @@
       "revId": "d30a19a334052cd1501ca723c3dbd6e361a25274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_6329a266",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T13:56:08Z",
+      "side": 1,
+      "message": "OK, which name do you suggest then?",
+      "parentUuid": "bd342467_224a8e26",
+      "range": {
+        "startLine": 247,
+        "startChar": 54,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "d30a19a334052cd1501ca723c3dbd6e361a25274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

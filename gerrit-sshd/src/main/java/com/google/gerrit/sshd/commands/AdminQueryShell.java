@@ -46,7 +46,6 @@ final class AdminQueryShell extends SshCommand {
   protected void run() throws Failure {
     try {
       checkPermission();
-
     } catch (PermissionDeniedException err) {
       throw new UnloggedFailure("fatal: " + err.getMessage());
     }
@@ -66,7 +65,8 @@ final class AdminQueryShell extends SshCommand {
    * As the @RequireCapability guards at various entry points of internal
    * commands implicitly add administrators (which we want to avoid), we also
    * check permissions within QueryShell and grant access only to those who
-   * canPerformRawQuery, regardless of whether they are administrators or not.
+   * can access the database, regardless of whether they are administrators or
+   * not.
    *
    * @throws PermissionDeniedException
    */

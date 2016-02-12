@@ -193,7 +193,7 @@ limitations under the License.
             <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
             <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
-            <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>
+            <span class="changeStatus">[[_computeChangeStatus(_change, _patchNum)]]</span>
           </span>
           <gr-reply-dropdown id="replyDropdown"
               change-num="[[_changeNum]]"
@@ -361,6 +361,10 @@ limitations under the License.
           type: Array,
           computed: '_computeAllPatchSets(_change)',
         },
+        _patchNumToRevisions: {
+          type: Object,
+          computed: '_computePatchNumToRevisions(_change)',
+        },
         _loggedIn: {
           type: Boolean,
           value: false,
@@ -504,9 +508,14 @@ limitations under the License.
         return '/' + changeNum;
       },
 
-      _computeChangeStatus: function(status) {
+      _computeChangeStatus: function(change, patchNum) {
+        var status = change.status;
         if (status == this.ChangeStatus.NEW) {
-          return '';
+          var revision = this._patchNumToRevisions[patchNum];
+          if (!change.revisions[revision].draft) {
+            return '';
+          }
+          status = this.ChangeStatus.DRAFT;
         }
         return '(' + status.toLowerCase() + ')';
       },
@@ -546,6 +555,14 @@ limitations under the License.
           patchNums.push(change.revisions[rev]._number);
         }
         return patchNums.sort();
+      },
+
+      _computePatchNumToRevisions: function(change) {
+        var revisions = {};
+        for (var rev in change.revisions) {
+          revisions[change.revisions[rev]._number] = rev;
+        }
+        return revisions;
       },
 
       _computePatchIndexIsSelected: function(index, patchNum) {

@@ -38,7 +38,6 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -117,7 +116,6 @@ public class SiteIndexer {
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
-  private final NotesMigration notesMigration;
   private final ChangeNotes.Factory notesFactory;
   private final ThreeWayMergeStrategy mergeStrategy;
 
@@ -132,7 +130,6 @@ public class SiteIndexer {
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
-      NotesMigration notesMigration,
       ChangeNotes.Factory notesFactory,
       @GerritServerConfig Config config) {
     this.schemaFactory = schemaFactory;
@@ -140,7 +137,6 @@ public class SiteIndexer {
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
-    this.notesMigration = notesMigration;
     this.notesFactory = notesFactory;
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
   }
@@ -256,8 +252,7 @@ public class SiteIndexer {
         try (Repository repo = repoManager.openRepository(project);
             ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          for (ChangeNotes cn : ChangeNotes.Factory.scan(notesMigration,
-              notesFactory, repo, db, project)) {
+          for (ChangeNotes cn : notesFactory.scan(repo, db, project)) {
             Change c = cn.getChange();
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {

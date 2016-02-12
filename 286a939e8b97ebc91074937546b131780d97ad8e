@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "bd342467_a2521e09",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-12T10:00:55Z",
+      "side": 1,
+      "message": "This is duplicated now, see two lines above.",
+      "range": {
+        "startLine": 73,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_83893ee6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-12T10:00:55Z",
+      "side": 1,
+      "message": "This is duplicated now, see two lines above.",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 37
+      },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_622e56d9",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 3
@@ -36,6 +82,70 @@
       "writtenOn": "2016-02-12T07:26:25Z",
       "side": 1,
       "message": "I tested this series and found two issues:\n\n* 1. After clicking on Rebase button and selecting to rebase to the tip of the current branch, the rebasing works as expected, the change is reloaded, but the Rebase button disappears. After manually reloading the change with Ctrl-r in this state, Rebase button appears again, as disabled.\n* 2. With follow-up change after publish draft revision, Rebase button preserves \"Rebasing...\" state. Not sure, if this is an issue of the follow up change, though.\n\n* [1] https://gerrit-review.googlesource.com/74823",
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_437346b8",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-12T10:00:55Z",
+      "side": 1,
+      "message": "I can reproduce 1 also. Button appears correctly again when only reloading change view (by clicking change number at top left).",
+      "parentUuid": "ddf718e0_43f0e682",
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_622416a6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-12T10:00:55Z",
+      "side": 1,
+      "message": "Convention: this._revisionActions.rebase",
+      "range": {
+        "startLine": 224,
+        "startChar": 44,
+        "endLine": 224,
+        "endChar": 75
+      },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_c25722f8",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-12T10:00:55Z",
+      "side": 1,
+      "message": "Naming: \u0027optPayload\u0027?",
+      "range": {
+        "startLine": 239,
+        "startChar": 54,
+        "endLine": 239,
+        "endChar": 65
+      },
       "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

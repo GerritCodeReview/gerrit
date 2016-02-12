@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7d3e2c4b_40c9ce6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-12T07:45:58Z",
+      "side": 1,
+      "message": "OK, but the date on NotesMigration was changed to 2016 although most of the remaining content in that file is unchanged.",
+      "parentUuid": "ddf718e0_03faee62",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_057c32bc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 1

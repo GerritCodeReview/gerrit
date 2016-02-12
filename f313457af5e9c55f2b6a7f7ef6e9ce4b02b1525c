@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_02618ab0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-12T13:24:39Z",
+      "side": 1,
+      "message": "Let\u0027s mention H2 here as well so that the reader can related the h2CacheSize to this.",
+      "range": {
+        "startLine": 522,
+        "startChar": 39,
+        "endLine": 522,
+        "endChar": 64
+      },
+      "revId": "f313457af5e9c55f2b6a7f7ef6e9ce4b02b1525c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e25b4600",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-12T13:24:39Z",
+      "side": 1,
+      "message": "unrelated: two blanks",
+      "range": {
+        "startLine": 524,
+        "startChar": 49,
+        "endLine": 524,
+        "endChar": 51
+      },
+      "revId": "f313457af5e9c55f2b6a7f7ef6e9ce4b02b1525c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_e30d921b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-12T13:24:39Z",
+      "side": 1,
+      "message": "I think the multiple levels of caching (this is 3rd level, actually) will be confusing for the users and we should give some more context here:\n\nSome caches of Gerrit are persistent and are backed by an H2 database. H2 uses memory to cache it\u0027s database content. The parameter \u0027h2CacheSize\u0027 allows to limit the memory used by H2.",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 533,
+        "endChar": 76
+      },
+      "revId": "f313457af5e9c55f2b6a7f7ef6e9ce4b02b1525c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

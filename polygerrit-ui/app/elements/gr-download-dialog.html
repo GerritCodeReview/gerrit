@@ -160,14 +160,15 @@ limitations under the License.
         _schemes: {
           type: Array,
           value: function() { return []; },
-          computed: '_computeSchemes(config.schemes)',
+          computed: '_computeSchemes(change, patchNum)',
+          observer: '_schemesChanged',
         },
         _selectedScheme: String,
       },
 
-      behaviors: [ Gerrit.RESTClientBehavior ],
-
-      observers: [ '_schemesChanged(config.schemes)' ],
+      behaviors: [
+        Gerrit.RESTClientBehavior,
+      ],
 
       _computeDownloadCommands: function(change, patchNum, _selectedScheme) {
         var commandObj;
@@ -212,12 +213,21 @@ limitations under the License.
       },
 
       _computeArchiveDownloadLink: function(change, patchNum, format) {
-        return this.changeBaseURL(change, patchNum) + '/archive?format=' +
-            format;
+        return this.changeBaseURL(change._number, patchNum) +
+            '/archive?format=' + format;
       },
 
-      _computeSchemes: function(schemes) {
-        return Object.keys(schemes).sort();
+      _computeSchemes: function(change, patchNum) {
+        for (var rev in change.revisions) {
+          if (change.revisions[rev]._number == patchNum) {
+            var fetch = change.revisions[rev].fetch;
+            if (fetch) {
+              return Object.keys(fetch).sort();
+            }
+            break;
+          }
+        }
+        return [];
       },
 
       _computeSchemeSelected: function(scheme, selectedScheme) {
@@ -242,8 +252,10 @@ limitations under the License.
       },
 
       _schemesChanged: function(schemes) {
-        if (Object.keys(schemes).length == 0) { return; }
-        this._selectedScheme = Object.keys(schemes).sort()[0];
+        if (schemes.length == 0) { return; }
+        if (schemes.indexOf(this._selectedScheme) == -1) {
+          this._selectedScheme = schemes.sort()[0];
+        }
       },
 
     });

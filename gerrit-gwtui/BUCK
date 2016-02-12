@@ -25,7 +25,6 @@ gwt_module(
   gwt_xml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
   resources = glob(['src/main/java/**/*']),
   deps = [
-    ':freebie_application_icon_set',
     ':silk_icons',
     '//gerrit-gwtui-common:diffy_logo',
     '//gerrit-gwtui-common:client',
@@ -37,14 +36,6 @@ gwt_module(
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
     '//Documentation:js_licenses.txt',
-  ],
-)
-
-java_library(
-  name = 'freebie_application_icon_set',
-  deps = [
-    '//lib:LICENSE-freebie_application_icon_set',
-    '//lib:LICENSE-CC-BY3.0',
   ],
 )
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_62ac16ff",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T21:35:34Z",
+      "side": 1,
+      "message": "How about to stay neutral but mention IDEs folks is using, so say what you just said: \"We don\u0027t have specific IDE recomendations, but some folks is using (in alphabetical order):\n\n* Eclipse\n* Sublime Text\n* WebStorm",
+      "parentUuid": "fdfcdcc6_0411d670",
+      "revId": "7e58ac0bd8a6576612e42dfd89768f498036d986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_65a1a66d",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 1

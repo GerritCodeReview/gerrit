@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1455217878 -0800\npushee rpc://gerrit/gerrit\nnonce AO+Zq7i+jdRRla4P3iELCfjRYDrAV4aKmlhdgx4VzyagxYNlIfwyLmnmnXEdFo67FUu+Lo8BtxCA\n\n0000000000000000000000000000000000000000 e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWvNzWAAoJELOGKwXbr+wPn8gP/icTjHPCm6vcJcOGBgSi/UHZ\nN43TN7GBpQILAia4IFh5g0uXSxJd/w6mkRNX1ar/tuzQd4EN+RzVzC2HPKh/59jL\nyrPu6cIuVrR1Ec87IdlgdqbFqBV69Dmm+S9AUsRgbh+sQ5+DmwnJanc4RZpJm0f9\n7dUWPl30pNhy3r5nJlpjno63Tewb1yu8SMLrFNYNTs1q7+4rjREoVZEEvuoOxK95\nE/tQaRztPst6WkiiGd3ICRsLFZbDkyUNnLSKKwsWXY9EHBUaL0dRYG4eQ7ctJLAV\n9shutXNt4mxk4CUbF6fq00sMD0JKHo3HEdHfIzzUpZSatSywuvjAgSzRIGOAT5AM\nN/qRTUcZO8q6ZyVMH7ioXzFU84krXYXqVH0SGW6WJT+qjQBtSTa03m11Bgn24ghu\nqlcElp7bMOiSVfDU+mf0JBQHgLyO6CYHzp3zcuNIE6ft8Vovp1ETDsK5w/TlR7Kk\n4fdoLa1oZ9s5b7M8uoEfj6A6k58mc4p9VzPTvP16wVBNs8HXWdaOSrEzBfhpgri4\nQX/ALcVRMbUjwtIm4Vul2EUdvJ0qMn+WE97Vu41OqEmBpZFgErEcHqBFPn25QdEB\nrvXHheHW9eGcp/0fwpq6kGbD3BbpZ69fgvDg1T5HbSP3uXU2CqLDXCXTZRNUSdMr\n+aSsxKUXBHV68Zdykkod\n\u003d475i\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf718e0_a3843acc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4022,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:33:24Z",
+      "side": 1,
+      "message": "The change-info object describes an existing change. In this context the new \u0027newBranch\u0027 field is not needed. Instead of extending change-info I would suggest to rather have a new change-input object. Having x-info and x-input objects is a common pattern throughout the REST API. So far we just didn\u0027t have an extra change-input object because there were no fields that were needed exclusively for the change creation, but now we get such a field, so it\u0027s time to add change-input.",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_024e6a66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:33:24Z",
+      "side": 1,
+      "message": "Should we fail if the \u0027newBranch\u0027 option was specified, but the branch exists already?",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_638f62e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:33:24Z",
+      "side": 1,
+      "message": "Not sure if this makes a difference, but the PatchListLoader#emptyTree method creates an empty tree like this:\n\n  inserter.insert(Constants.OBJ_TREE, new byte[] {});",
+      "revId": "e35e4b34fdf60b81cf4f64741a0a789f1ebab1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

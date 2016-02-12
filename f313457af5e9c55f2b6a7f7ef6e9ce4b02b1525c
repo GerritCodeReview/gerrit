@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bd342467_c25ac2fa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-12T13:30:15Z",
+      "side": 1,
+      "message": "I think this is tolerated in the documentation and commit message(s) for historical reasons. Both vi and emacs will usually format text with two blanks after dot because this was the format used in the early unix-based text processing tools.",
+      "parentUuid": "bd342467_e25b4600",
+      "range": {
+        "startLine": 524,
+        "startChar": 49,
+        "endLine": 524,
+        "endChar": 51
+      },
+      "revId": "f313457af5e9c55f2b6a7f7ef6e9ce4b02b1525c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_e30d921b",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

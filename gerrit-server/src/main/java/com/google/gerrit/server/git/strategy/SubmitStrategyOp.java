@@ -249,22 +249,23 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
     Change c = ctx.getChange();
     Change.Id id = c.getId();
-    try {
-      CodeReviewCommit commit = args.commits.get(id);
-      CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
-      logDebug("Status of change {} ({}) on {}: {}", id, commit.name(),
-          c.getDest(), s);
-      checkState(s != null,
-          "status not set for change %s; expected to previously fail fast",
-          id);
-      setApproval(ctx, args.caller);
+    CodeReviewCommit commit = args.commits.get(id);
+    checkNotNull(commit, "missing commit for change " + id);
+    CommitMergeStatus s = commit.getStatusCode();
+    checkNotNull(s,
+        "status not set for change " + id
+        + " expected to previously fail fast");
+    logDebug("Status of change {} ({}) on {}: {}", id, commit.name(),
+        c.getDest(), s);
+    setApproval(ctx, args.caller);
 
-      mergeResultRev = alreadyMerged == null
-          ? args.mergeTip.getMergeResults().get(commit)
-          // Our fixup code is not smart enough to find a merge commit
-          // corresponding to the merge result. This results in a different
-          // ChangeMergedEvent in the fixup case, but we'll just live with that.
-          : alreadyMerged;
+    mergeResultRev = alreadyMerged == null
+        ? args.mergeTip.getMergeResults().get(commit)
+        // Our fixup code is not smart enough to find a merge commit
+        // corresponding to the merge result. This results in a different
+        // ChangeMergedEvent in the fixup case, but we'll just live with that.
+        : alreadyMerged;
+    try {
       setMerged(ctx, message(ctx, commit, s));
     } catch (OrmException err) {
       String msg = "Error updating change status for " + id;

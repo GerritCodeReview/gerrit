@@ -15,7 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -55,8 +54,7 @@ public class ChangeFinder {
       throws OrmException {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
-    InternalChangeQuery query = queryProvider.get()
-        .setRequestedFields(ImmutableSet.<String> of());
+    InternalChangeQuery query = queryProvider.get().noFields();
 
     // Try legacy id
     if (!id.isEmpty() && id.charAt(0) != '0') {
@@ -96,8 +94,7 @@ public class ChangeFinder {
       throws OrmException {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
-    InternalChangeQuery query = queryProvider.get()
-        .setRequestedFields(ImmutableSet.<String> of());
+    InternalChangeQuery query = queryProvider.get().noFields();
     return asChangeControls(query.byLegacyChangeId(id), user);
   }
 

@@ -34,6 +34,24 @@
       "revId": "ad8245bf11c0e0850c6a1c0b6b8edfbb68de5cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_82211a97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-12T09:54:57Z",
+      "side": 1,
+      "message": "Yes, at least then we cover all callers at once.",
+      "parentUuid": "7d3e2c4b_e0326248",
+      "revId": "ad8245bf11c0e0850c6a1c0b6b8edfbb68de5cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

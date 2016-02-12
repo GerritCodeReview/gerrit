@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
@@ -42,13 +43,13 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -62,6 +63,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -70,8 +72,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
@@ -219,8 +224,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = repoManager.openRepository(project)) {
-            List<ChangeNotes> changes =
-                ScanningChangeCacheImpl.scanNotedb(this, repo, db, project);
+            List<ChangeNotes> changes = scanNotedb(this, repo, db, project);
             for (ChangeNotes cn : changes) {
               if (predicate.apply(cn)) {
                 m.put(project, cn);
@@ -237,6 +241,54 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       }
       return ImmutableListMultimap.copyOf(m);
+    }
+
+    public static List<ChangeNotes> scan(NotesMigration notesMigration,
+        ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
+        Project.NameKey project) throws OrmException, IOException {
+      if (!notesMigration.readChanges()) {
+        return scanDb(notesFactory, repo, db);
+      }
+
+      return scanNotedb(notesFactory, repo, db, project);
+    }
+
+    private static List<ChangeNotes> scanDb(ChangeNotes.Factory notesFactory,
+        Repository repo, ReviewDb db) throws OrmException, IOException {
+      Map<String, Ref> refs =
+          repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+      Set<Change.Id> ids = new LinkedHashSet<>();
+      for (Ref r : refs.values()) {
+        Change.Id id = Change.Id.fromRef(r.getName());
+        if (id != null) {
+          ids.add(id);
+        }
+      }
+      List<ChangeNotes> notes = new ArrayList<>(ids.size());
+      // A batch size of N may overload get(Iterable), so use something smaller,
+      // but still >1.
+      for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
+        for (Change change : db.changes().get(batch)) {
+          notes.add(notesFactory
+              .createFromChangeOnlyWhenNotedbDisabled(change));
+        }
+      }
+      return notes;
+    }
+
+    private static List<ChangeNotes> scanNotedb(ChangeNotes.Factory notesFactory,
+        Repository repo, ReviewDb db, Project.NameKey project)
+            throws OrmException, IOException {
+      Map<String, Ref> refs =
+          repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+      List<ChangeNotes> changeNotes = new ArrayList<>(refs.size());
+      for (Ref r : refs.values()) {
+        Change.Id id = Change.Id.fromRef(r.getName());
+        if (id != null) {
+          changeNotes.add(notesFactory.create(db, project, id));
+        }
+      }
+      return changeNotes;
     }
   }
 

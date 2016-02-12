@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "5d4168d6_bf18f7ba",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T15:51:33Z",
+      "side": 1,
+      "message": "Why not use ChangeAction.DELETE here?",
+      "revId": "a77c6c41def9380d0994a90b3cb8c325d2e8e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_23e3aaee",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 3
@@ -42,6 +59,41 @@
         "endLine": 203,
         "endChar": 29
       },
+      "revId": "a77c6c41def9380d0994a90b3cb8c325d2e8e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_a4e8c29d",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T15:51:33Z",
+      "side": 1,
+      "message": "If you’re adding a note to reviewers, it probably warrants a comment in the code explaining it as well.",
+      "parentUuid": "ddf718e0_23e3aaee",
+      "revId": "a77c6c41def9380d0994a90b3cb8c325d2e8e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d3e2c4b_802b56c6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T15:51:33Z",
+      "side": 1,
+      "message": "RevisionAction.DELETE?",
       "revId": "a77c6c41def9380d0994a90b3cb8c325d2e8e2ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -73,6 +73,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -228,6 +229,31 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
       return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change).load();
+    }
+
+    public List<ChangeNotes> create(ReviewDb db, Project.NameKey project,
+        Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
+            throws OrmException {
+      List<ChangeNotes> notes = new ArrayList<>();
+      if (migration.enabled()) {
+        for (Change.Id cid : changeIds) {
+          ChangeNotes cn = create(db, project, cid);
+          if (cn.getChange() != null && predicate.apply(cn)) {
+            notes.add(cn);
+          }
+        }
+        return notes;
+      }
+
+      for (Change c : db.changes().get(changeIds)) {
+        if (c != null && project.equals(c.getDest().getParentKey())) {
+          ChangeNotes cn = createFromChangeOnlyWhenNotedbDisabled(c);
+          if (predicate.apply(cn)) {
+            notes.add(cn);
+          }
+        }
+      }
+      return notes;
     }
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(ReviewDb db,

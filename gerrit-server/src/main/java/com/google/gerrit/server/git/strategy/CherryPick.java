@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
@@ -151,7 +151,7 @@ public class CherryPick extends SubmitStrategy {
           && toMerge.getStatusCode() == SKIPPED_IDENTICAL_TREE) {
         return null;
       }
-      checkState(newCommit != null,
+      checkNotNull(newCommit,
           "no new commit produced by CherryPick of %s, expected to fail fast",
           toMerge.change().getId());
       PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());

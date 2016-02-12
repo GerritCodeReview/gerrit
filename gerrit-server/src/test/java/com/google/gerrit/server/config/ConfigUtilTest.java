@@ -67,9 +67,7 @@ public class ConfigUtilTest {
       i.bd = true;
       i.s = "foo";
       i.sd = "bar";
-      // This line is not needed, as it's null per default.
-      // Put it here to be explicit.
-      i.nd = null;
+      // i.nd = null; // Don't need to explicitly set it; it's null by default
       i.t = Theme.DEFAULT;
       i.td = Theme.DEFAULT;
       return i;

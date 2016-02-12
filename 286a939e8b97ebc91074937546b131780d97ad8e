@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_05faf262",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T17:07:35Z",
+      "side": 1,
+      "message": "1 was due to an issue with the way _reload works. It reloads the current patchset always (even if a new one has been created). This is fixed in the latest patch.",
+      "parentUuid": "ddf718e0_43f0e682",
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_622416a6",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 3

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455280469 +0100\nnonce AO+Zq7jGDaD/vYwpdSTVtBtLShK1Q2EH6O5koS0vEd8QHKrlKiuTbNVYEhlG6PM7qtn1PNNCW8IG\n\n0000000000000000000000000000000000000000 d30a19a334052cd1501ca723c3dbd6e361a25274 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWvdFVAAoJEFG1/Zeg0O9Rbl0H/3Z7uT5rjU17AalHG/lHNgr4\nY6mIw3s0I8YRn+UQg9zxQTd9V/VAnpYNFRLBJGZYJ4PObMv5dPtbiut+HrRi1idf\nA39ulRt0xKWIvT1ayR2tfhiE0t6xLo7zzCrH5urr0RVR1FU1/cg3fXMULH7rbg/z\nPECeuc9S4607V750bOt+6FjnItGlKMiCi+CXgQQnsFT9ichJtLIKUzbfeyOjBxaG\nUA2GxvOqgIAS0aX68C6asWHnPG6HlmUSaYR5c48Mo9JVXmpXQA6huM1R7XwLbvIy\ntEypxlCP5h2mWO0DkK/KSRI5PG5U/iQiGuA389ao8V9UtAzJCP926oMk0BsgahU\u003d\n\u003d5wmX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf718e0_c33976bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T13:54:22Z",
+      "side": 1,
+      "message": "This method could be called byProject()",
+      "range": {
+        "startLine": 222,
+        "startChar": 29,
+        "endLine": 222,
+        "endChar": 35
+      },
+      "revId": "d30a19a334052cd1501ca723c3dbd6e361a25274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_224a8e26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T13:54:22Z",
+      "side": 1,
+      "message": "I find this name confusing. I understand that you meant the returned key. I would expect that a method that is named byProject expects project argument. For example, ApprovalsUtil has methods:\n\n* public Iterable\u003cPatchSetApproval\u003e byPatchSet()\n* public Iterable\u003cPatchSetApproval\u003e byPatchSetUser()",
+      "range": {
+        "startLine": 247,
+        "startChar": 54,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "d30a19a334052cd1501ca723c3dbd6e361a25274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

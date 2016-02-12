@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fdfcdcc6_c4d85ef6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T22:39:04Z",
+      "side": 1,
+      "message": "Yes you’re right.",
+      "parentUuid": "bd342467_a238de87",
+      "revId": "cffc752493927ed38f42bb45b1ce15aee48bc455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_25abae4f",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 7

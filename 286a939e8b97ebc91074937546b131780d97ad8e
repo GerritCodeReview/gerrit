@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7d3e2c4b_40254eed",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T16:28:46Z",
+      "side": 1,
+      "message": "Good catch. Thanks.",
+      "parentUuid": "bd342467_a2521e09",
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_83893ee6",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 3
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7d3e2c4b_e08022ec",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T16:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf718e0_83893ee6",
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_622e56d9",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 3
@@ -65,6 +101,24 @@
         "endLine": 155,
         "endChar": 8
       },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_7f2b4fc7",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T16:28:46Z",
+      "side": 1,
+      "message": "added anyway.",
+      "parentUuid": "bd342467_622e56d9",
       "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -123,6 +177,24 @@
         "endLine": 224,
         "endChar": 75
       },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_64f3ea91",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T16:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd342467_622416a6",
       "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -194,6 +266,24 @@
         "endLine": 239,
         "endChar": 65
       },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_5f2e8bd8",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T16:28:46Z",
+      "side": 1,
+      "message": "opt_ is convention in the project per the Google JS style guide. We don’t follow every single convention, but this one is followed. https://google.github.io/styleguide/javascriptguide.xml?showone\u003dNaming#Naming",
+      "parentUuid": "bd342467_c25722f8",
       "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

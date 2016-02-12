@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_a5cd5e32",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3942,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-12T23:21:00Z",
+      "side": 1,
+      "message": "Done.\n\nI think this is just how gwt work? I mean for base_change it\u0027s baseChange in Java, but I guess gwt will auto convert base_change in json to baseChange in Java?",
+      "parentUuid": "bd342467_8267da90",
+      "range": {
+        "startLine": 3942,
+        "startChar": 2,
+        "endLine": 3942,
+        "endChar": 11
+      },
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_2264ce8a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
         "patchSetId": 4
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_65c8861f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-12T23:21:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd342467_2264ce8a",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_e2fca6d6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
         "patchSetId": 4
@@ -60,6 +108,24 @@
       "writtenOn": "2016-02-12T23:04:11Z",
       "side": 1,
       "message": "Is this empty line to mark optional attributes? But status is not optional in documentation.",
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dfe10bd_85d262d0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-12T23:21:00Z",
+      "side": 1,
+      "message": "Yes it\u0027s to mark optional attributes, and the documentation says: \"The mandatory attributes are: `project`, `branch` and `subject`\". The code is also totally cool with status being null.",
+      "parentUuid": "bd342467_e2fca6d6",
       "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

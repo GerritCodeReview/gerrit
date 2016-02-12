@@ -149,6 +149,30 @@
       "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_a263fea7",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-12T16:22:08Z",
+      "side": 1,
+      "message": "+1\n\nFor the record, on GWT UI code, for JSNI part we used underscore_naming_convention. Last year it was migrated to CamelCaseNamingConvention. I would prefer to stick with CamelCase.",
+      "parentUuid": "bd342467_c25722f8",
+      "range": {
+        "startLine": 239,
+        "startChar": 54,
+        "endLine": 239,
+        "endChar": 65
+      },
+      "revId": "286a939e8b97ebc91074937546b131780d97ad8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

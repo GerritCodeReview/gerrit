@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1dfe10bd_a5e8be9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-12T15:12:25Z",
+      "side": 1,
+      "message": "That\u0027s because I used Extract Superclass in Eclipse, giving the superclass a temp name (AbstractNotesMigration), then renamed NotesMigration to ConfigNotesMigration, then renamed AbstractNotesMigration to NotesMigration.\n\nI can change it if you want.",
+      "parentUuid": "7d3e2c4b_40c9ce6e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_057c32bc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 1

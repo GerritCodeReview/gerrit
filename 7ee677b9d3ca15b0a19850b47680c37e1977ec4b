@@ -22,6 +22,30 @@
       "revId": "7ee677b9d3ca15b0a19850b47680c37e1977ec4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdfcdcc6_e4debaf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-12T15:17:07Z",
+      "side": 1,
+      "message": "I bisected to find which commit in sshd broke the scp command and it turns out that the same commit is breaking the connectivity checks.\n\nI suspect that when issue https://issues.apache.org/jira/browse/SSHD-626 is fixed, we will be able to revert this commit.",
+      "parentUuid": "3dd5942a_f6bd60e1",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "7ee677b9d3ca15b0a19850b47680c37e1977ec4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

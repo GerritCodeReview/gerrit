@@ -16,9 +16,11 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.SearchingChangeCacheImpl.ID_CACHE;
 
+import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -120,7 +122,7 @@ public class ScanningChangeCacheImpl implements ChangeCache {
       return scanDb(repo, db);
     }
 
-    return scanNotedb(notesFactory, repo, db, project);
+    return scanChangesFromNotedb(notesFactory, repo, db, project);
   }
 
   public static List<Change> scanDb(Repository repo, ReviewDb db)
@@ -143,18 +145,30 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     return changes;
   }
 
-  public static List<Change> scanNotedb(ChangeNotes.Factory notesFactory,
+  private static List<Change> scanChangesFromNotedb(
+      ChangeNotes.Factory notesFactory, Repository repo, ReviewDb db,
+      Project.NameKey project) throws OrmException, IOException {
+    List<ChangeNotes> changeNotes = scanNotedb(notesFactory, repo, db, project);
+    return Lists.transform(changeNotes, new Function<ChangeNotes, Change>() {
+      @Override
+      public Change apply(ChangeNotes notes) {
+        return notes.getChange();
+      }
+    });
+  }
+
+  public static List<ChangeNotes> scanNotedb(ChangeNotes.Factory notesFactory,
       Repository repo, ReviewDb db, Project.NameKey project)
           throws OrmException, IOException {
     Map<String, Ref> refs =
         repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-    List<Change> changes = new ArrayList<>(refs.size());
+    List<ChangeNotes> changeNotes = new ArrayList<>(refs.size());
     for (Ref r : refs.values()) {
       Change.Id id = Change.Id.fromRef(r.getName());
       if (id != null) {
-        changes.add(notesFactory.create(db, project, id).getChange());
+        changeNotes.add(notesFactory.create(db, project, id));
       }
     }
-    return changes;
+    return changeNotes;
   }
 }

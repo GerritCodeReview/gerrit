@@ -37,7 +37,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
-import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListLoader;
@@ -257,8 +256,9 @@ public class SiteIndexer {
         try (Repository repo = repoManager.openRepository(project);
             ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          for (Change c : ScanningChangeCacheImpl.scan(notesMigration,
+          for (ChangeNotes cn : ChangeNotes.Factory.scan(notesMigration,
               notesFactory, repo, db, project)) {
+            Change c = cn.getChange();
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));

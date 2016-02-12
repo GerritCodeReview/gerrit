@@ -200,25 +200,39 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           change.getProject(), change).load();
     }
 
-    public ListMultimap<Project.NameKey, Change> byProject(ReviewDb db,
-        Predicate<Change> predicate) throws IOException, OrmException {
-      ListMultimap<Project.NameKey, Change> m = ArrayListMultimap.create();
+    // TODO(ekempin): Remove when database backend is deleted
+    /**
+     * Instantiate ChangeNotes for a change that has been loaded by a batch read
+     * from the database.
+     */
+    public ChangeNotes createFromChangeOnlyWhenNotedbDisabled(Change change)
+        throws OrmException {
+      checkState(!migration.readChanges(), "do not call"
+          + " createFromChangeWhenNotedbDisabled when notedb is enabled");
+      return new ChangeNotes(repoManager, migration, allUsersProvider,
+          change.getProject(), change).load();
+    }
+
+    public ListMultimap<Project.NameKey, ChangeNotes> byProject(ReviewDb db,
+        Predicate<ChangeNotes> predicate) throws IOException, OrmException {
+      ListMultimap<Project.NameKey, ChangeNotes> m = ArrayListMultimap.create();
       if (migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = repoManager.openRepository(project)) {
-            List<Change> changes = ScanningChangeCacheImpl.scanNotedb(
-                this, repo, db, project);
-            for (Change change : changes) {
-              if (predicate.apply(change)) {
-                m.put(project, change);
+            List<ChangeNotes> changes =
+                ScanningChangeCacheImpl.scanNotedb(this, repo, db, project);
+            for (ChangeNotes cn : changes) {
+              if (predicate.apply(cn)) {
+                m.put(project, cn);
               }
             }
           }
         }
       } else {
         for (Change change : db.changes().all()) {
-          if (predicate.apply(change)) {
-            m.put(change.getProject(), change);
+          ChangeNotes notes = createFromChangeOnlyWhenNotedbDisabled(change);
+          if (predicate.apply(notes)) {
+            m.put(change.getProject(), notes);
           }
         }
       }

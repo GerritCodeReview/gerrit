@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdfcdcc6_a4cd6232",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-12T22:39:04Z",
+      "side": 1,
+      "message": "!\u003d should go on previous line. You could also do\n\nif ([RevisionActions.SUBMIT, \n     RevisionActions.PUBLISH].indexOf(action) !\u003d 1) {\n  \n}",
+      "revId": "abbe716c8b0f0dfd7ca8e357a603b5f0b994b079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

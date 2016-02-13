@@ -23,6 +23,7 @@
 
   // TODO(andybons): Add the rest of the revision actions.
   var RevisionActions = {
+    CHERRYPICK: 'cherrypick',
     DELETE: '/',
     PUBLISH: 'publish',
     REBASE: 'rebase',
@@ -44,6 +45,7 @@
       },
       changeNum: String,
       patchNum: String,
+      commitMessage: String,
       _loading: {
         type: Boolean,
         value: true,
@@ -67,12 +69,7 @@
     },
 
     _actionsChanged: function(actions, revisionActions) {
-      this.hidden =
-          revisionActions.rebase == null &&
-          revisionActions.submit == null &&
-          revisionActions.publish == null &&
-          actions.abandon == null &&
-          actions.restore == null;
+      this.hidden = actions.length == 0 && revisionActions.length == 0;
     },
 
     _computeRevisionActionsPath: function(changeNum, patchNum) {
@@ -100,6 +97,7 @@
 
     _computeLoadingLabel: function(action) {
       return {
+        'cherrypick': 'Cherry-Picking...',
         'rebase': 'Rebasing...',
         'submit': 'Submitting...',
       }[action];
@@ -124,7 +122,10 @@
       var type = el.getAttribute('data-action-type');
       if (type == 'revision') {
         if (key == RevisionActions.REBASE) {
-          this._showRebaseDialog();
+          this._showActionDialog(this.$.confirmRebase);
+          return;
+        } else if (key == RevisionActions.CHERRYPICK) {
+          this._showActionDialog(this.$.confirmCherrypick);
           return;
         }
         this._fireRevisionAction(this._prependSlash(key),
@@ -167,6 +168,28 @@
           payload);
     },
 
+    _handleCherrypickConfirm: function() {
+      var el = this.$.confirmCherrypick;
+      if (!el.branch) {
+        // TODO(davido): Fix error handling
+        alert('The destination branch can’t be empty.');
+        return;
+      }
+      if (!el.message) {
+        alert('The commit message can’t be empty.');
+        return;
+      }
+      this.$.overlay.close();
+      el.hidden = false;
+      this._fireRevisionAction('/cherrypick',
+          this._revisionActions.cherrypick,
+          {
+            destination: el.branch,
+            message: el.message,
+          }
+      );
+    },
+
     _fireChangeAction: function(endpoint, action) {
       this._send(action.method, {}, endpoint).then(
         function() {
@@ -193,8 +216,12 @@
       }
 
       this._send(action.method, opt_payload, endpoint, true).then(
-        function() {
-          this.fire('reload-change', null, {bubbles: false});
+        function(req) {
+          if (action.__key == RevisionActions.CHERRYPICK) {
+            page.show(this.changePath(req.response._number));
+          } else {
+            this.fire('reload-change', null, {bubbles: false});
+          }
           enableButton();
         }.bind(this)).catch(function(err) {
           // TODO(andybons): Handle merge conflict (409 status);
@@ -205,8 +232,8 @@
         });
     },
 
-    _showRebaseDialog: function() {
-      this.$.confirmRebase.hidden = false;
+    _showActionDialog: function(dialog) {
+      dialog.hidden = false;
       this.$.overlay.open();
     },
 

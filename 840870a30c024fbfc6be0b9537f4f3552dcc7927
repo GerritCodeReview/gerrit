@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_2364ca8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-13T10:43:54Z",
+      "side": 1,
+      "message": "Labels are hard coded for core actions on GWT UI: [1].\n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml#L385-L405",
+      "parentUuid": "bd342467_62189609",
+      "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_a34f9a08",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-13T10:36:55Z",
       "side": 1,
       "message": "When deleting a draft revision, you could just reload the change and show the last available revision.",
+      "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_420f92bc",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-13T10:43:54Z",
+      "side": 1,
+      "message": "I was afraid, that by deleting last draft revision, the change would be deleted as well. But probably in this case, there wouldn\u0027t be a delete revision button, but delete change button?",
+      "parentUuid": "ddf718e0_a34f9a08",
       "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

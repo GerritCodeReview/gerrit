@@ -16,6 +16,24 @@
       "revId": "17bb3dbfe837c2195383827fdf955f5e1e463272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e2234641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-02-13T10:08:03Z",
+      "side": 1,
+      "message": "Pushed your proposal B here https://git.eclipse.org/r/#/c/66547/.\n\nThis works with current Gerrit master so\n \n $buck build gerrit\n $buck build api\n\nboth work. But now building gerrit on\nhttps://gerrit-review.googlesource.com/#/c/72891/4\nis broken:\n\n$ buck build gerrit\nNot using buckd because watchman isn\u0027t installed.\n[-] PROCESSING BUCK FILES...FINISHED 2.2s [100%]\n[+] DOWNLOADING... (0.00 B/S, TOTAL: 0.00 B, 0 Artifacts)\n[+] BUILDING...2.3s [15%] (126/699 JOBS, 113 UPDATED, 0.0% CACHE MISS)\n |\u003d\u003e IDLE\n |\u003d\u003e //:gerrit...  0.3s (running genrule[0.1s])\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\n |\u003d\u003e IDLE\nTraceback (most recent call last):\n  File \".bootstrap/_pex/pex.py\", line 320, in execute\n  File \".bootstrap/_pex/pex.py\", line 253, in _wrap_coverage\n  File \".bootstrap/_pex/pex.py\", line 285, in _wrap_profiling\n  File \".bootstrap/_pex/pex.py\", line 363, in _execute\n  File \".bootstrap/_pex/pex.py\", line 421, in execute_entry\n  File \".bootstrap/_pex/pex.py\", line 426, in execute_module\n  File \"/Users/d029788/src/git/homebrew/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py\", line 180, in run_module\n    fname, loader, pkg_name)\n  File \"/Users/d029788/src/git/homebrew/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py\", line 72, in _run_code\n    exec code in run_globals\n  File \"tools/pack_war.py\", line 56, in \u003cmodule\u003e\n  File \"tools/pack_war.py\", line 53, in link_jars\nOSError: [Errno 17] File exists\n\nbuilding the api works",
+      "parentUuid": "bd342467_22cfeece",
+      "revId": "17bb3dbfe837c2195383827fdf955f5e1e463272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

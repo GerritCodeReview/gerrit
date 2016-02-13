@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_bf8f9717",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-13T03:10:34Z",
+      "side": 1,
+      "message": "s/is/are/",
+      "range": {
+        "startLine": 71,
+        "startChar": 59,
+        "endLine": 71,
+        "endChar": 61
+      },
+      "revId": "55141b5cc066d4b1dfce61898e4b0609859f754b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_5f752bd2",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-13T03:10:34Z",
+      "side": 1,
+      "message": "no Vim :) ?",
+      "revId": "55141b5cc066d4b1dfce61898e4b0609859f754b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

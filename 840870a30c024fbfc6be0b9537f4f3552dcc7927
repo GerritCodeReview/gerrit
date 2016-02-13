@@ -69,6 +69,24 @@
       "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_a3067ab2",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-13T10:51:45Z",
+      "side": 1,
+      "message": "I have just tested that: if there is only one (last) revision around, only the delete change button is displayed.",
+      "parentUuid": "bd342467_420f92bc",
+      "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

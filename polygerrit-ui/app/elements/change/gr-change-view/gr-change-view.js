@@ -116,10 +116,10 @@
       var currentPatchNum =
           this._change.revisions[this._change.current_revision]._number;
       if (patchNum == currentPatchNum) {
-        page.show(this._computeChangePath(this._changeNum));
+        page.show(this.changePath(this._changeNum));
         return;
       }
-      page.show(this._computeChangePath(this._changeNum) + '/' + patchNum);
+      page.show(this.changePath(this._changeNum) + '/' + patchNum);
     },
 
     _handleReplyTap: function(e) {
@@ -204,10 +204,6 @@
 
       var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title: title});
-    },
-
-    _computeChangePath: function(changeNum) {
-      return '/c/' + changeNum;
     },
 
     _computeChangePermalink: function(changeNum) {
@@ -321,7 +317,7 @@
     },
 
     _handleReloadChange: function() {
-      page.show(this._computeChangePath(this._changeNum));
+      page.show(this.changePath(this._changeNum));
     },
 
     _reload: function() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf718e0_83549e9d",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-13T10:34:21Z",
+      "side": 1,
+      "message": "This cannot work on recent master. JGit ist its own cell, andt it cannot references rules outside, That\u0027s because this would resolve  (in tree) to:\n\n  lib/jgit/lib:json\n\nSo the file lib/jgit/lib/BUCK exists, to make license machiners work, but there is no gson library there. So may be it can be dropped and added always where jgit-lfs-server itself used.",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 17
+      },
+      "revId": "124a395f82e6bacdc57d95ba7749f1d30b1563a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

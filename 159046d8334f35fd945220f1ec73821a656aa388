@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_c222c23b",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-13T10:39:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a new headline? It\u0027s not related to the paragraph \"Running Tests\" IMHO.",
+      "revId": "159046d8334f35fd945220f1ec73821a656aa388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_82159ad0",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-13T10:39:54Z",
+      "side": 1,
+      "message": "NIT: Is this parameter of any use?",
+      "range": {
+        "startLine": 71,
+        "startChar": 101,
+        "endLine": 71,
+        "endChar": 109
+      },
+      "revId": "159046d8334f35fd945220f1ec73821a656aa388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

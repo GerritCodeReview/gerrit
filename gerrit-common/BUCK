@@ -46,7 +46,7 @@ java_library(
     '//lib:guava',
     '//lib/joda:joda-time',
     '//lib/log:api',
-    '@jgit//:jgit',
+    '@jgit//org.eclipse.jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )

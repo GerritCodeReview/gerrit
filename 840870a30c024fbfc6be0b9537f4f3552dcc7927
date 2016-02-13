@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_62189609",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-13T10:36:55Z",
+      "side": 1,
+      "message": "Just wondering: Why weren\u0027t these labels necessary for the GWT UI?",
+      "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_a34f9a08",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-13T10:36:55Z",
+      "side": 1,
+      "message": "When deleting a draft revision, you could just reload the change and show the last available revision.",
+      "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

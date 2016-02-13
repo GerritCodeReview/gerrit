@@ -9,7 +9,7 @@ java_library(
     '//lib:h2',
     '//lib/guice:guice',
     '//lib/log:api',
-    '@jgit//:jgit',
+    '@jgit//org.eclipse.jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )

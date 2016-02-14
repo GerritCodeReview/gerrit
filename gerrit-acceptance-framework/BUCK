@@ -85,8 +85,8 @@ java_doc(
     '//lib/guice:guice-servlet',
     '//lib/guice:javax-inject',
     '//lib:gwtorm_client',
-    '//lib:junit__jar',
-    '//lib:truth__jar',
+    '//lib:junit',
+    '//lib:truth',
   ],
   visibility = ['PUBLIC'],
 )

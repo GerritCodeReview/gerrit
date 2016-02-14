@@ -29,7 +29,7 @@ def java_doc(
       '-sourcepath ',
       ':'.join(sourcepath),
       ' -classpath ',
-      ':'.join(['$(location %s)' % n for n in deps]),
+      ':'.join(['$(classpath %s)' % n for n in deps]),
       '-d $TMP',
     ]) + ';jar cf $OUT -C $TMP .',
     srcs = srcs,

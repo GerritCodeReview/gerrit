@@ -497,7 +497,7 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
    * editor for a comment that is not a reply.
    */
   protected void createCommentEditor(final int suggestRow, final int column,
-      final int line, final short file) {
+      final int line, final short file, final DiffType diffType) {
     if (Gerrit.isSignedIn()) {
       if (R_HEAD <= line) {
         final Patch.Key parentKey;
@@ -509,12 +509,12 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
               side = (short) 0;
             } else {
               parentKey = new Patch.Key(idSideA, patchKey.get());
-              side = (short) 1;
+              side = diffType != null ? diffType.side : (short) 1;
             }
             break;
           case 1:
             parentKey = new Patch.Key(idSideB, patchKey.get());
-            side = (short) 1;
+            side = diffType != null ? diffType.side : (short) 1;
             break;
           default:
             throw new RuntimeException("unexpected file id " + file);

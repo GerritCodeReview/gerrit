@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -22,16 +23,18 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
+import org.kohsuke.args4j.Option;
 import java.util.List;
 import java.util.Map;
 
-@Singleton
 public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   protected final Provider<CommentJson> commentJson;
   protected final PatchLineCommentsUtil plcUtil;
+
+  @Option(name = "--diff-type")
+  DiffType diffType;
 
   @Inject
   ListRevisionDrafts(Provider<ReviewDb> db,
@@ -45,7 +48,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
     return plcUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
-        rsrc.getAccountId(), rsrc.getNotes());
+        rsrc.getAccountId(), rsrc.getNotes(), diffType);
   }
 
   protected boolean includeAuthorInfo() {

@@ -54,6 +54,7 @@ public class CommentDetail {
         break;
 
       case 1:
+      case 2:
         if (idA != null && idA.equals(psId)) {
           a.add(p);
           return true;

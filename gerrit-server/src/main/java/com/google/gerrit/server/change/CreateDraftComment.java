@@ -18,6 +18,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -41,11 +42,11 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+
+import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
 
-@Singleton
 public class CreateDraftComment implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
@@ -53,6 +54,9 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final PatchLineCommentsUtil plcUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
+
+  @Option(name = "--diff-type")
+  DiffType diffType = DiffType.AUTO_MERGE;
 
   @Inject
   CreateDraftComment(Provider<ReviewDb> db,
@@ -119,7 +123,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
               ChangeUtil.messageUUID(ctx.getDb())),
           line, ctx.getUser().getAccountId(), Url.decode(in.inReplyTo),
           ctx.getWhen());
-      comment.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
+      comment.setSide(in.side == Side.PARENT ? (short) 0 : diffType.side);
       comment.setMessage(in.message.trim());
       comment.setRange(in.range);
       setCommentRevId(

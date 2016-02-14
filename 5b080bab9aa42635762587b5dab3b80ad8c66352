@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5d4168d6_3f7ce7bc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3937,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-14T06:23:17Z",
+      "side": 1,
+      "message": "Ah I see what you mean. Missed that. Fixed. Thanks.",
+      "parentUuid": "bd342467_62f176f7",
+      "range": {
+        "startLine": 3937,
+        "startChar": 0,
+        "endLine": 3937,
+        "endChar": 24
+      },
+      "revId": "5b080bab9aa42635762587b5dab3b80ad8c66352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_8267da90",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

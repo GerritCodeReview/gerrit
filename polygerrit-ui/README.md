@@ -65,3 +65,9 @@ If you need to pass additional arguments to `wct`:
 ```sh
 WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 ```
+
+## Style guide
+
+We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
+with a few exceptions. When in doubt, remain consistent with the code around you.
+

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_828a7a45",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-14T13:14:55Z",
+      "side": 1,
+      "message": "This seems to cause errors when switching between changes (e.g. switch to a related change). \u0027_computePatchNumToRevision\u0027 is called after this method which leads in accessing \u0027_patchNumToRevision\u0027 with the new \u0027patchNum\u0027 while \u0027_patchNumToRevision\u0027 contains the old revisions.",
+      "revId": "fbdecb620cf07c5925e8b47b6b68e42bfede3277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

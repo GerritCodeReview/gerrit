@@ -65,6 +65,7 @@ java_doc(
     ':plugin-api',
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcpkix',
   ],
   visibility = ['PUBLIC'],
   do_it_wrong = True,

@@ -136,15 +136,6 @@ public class KeyCommandSet implements KeyPressHandler {
     if (mask == 0) {
       mask = event.getNativeEvent().getKeyCode();
     }
-    if (event.isAltKeyDown()) {
-      mask |= KeyCommand.M_ALT;
-    }
-    if (event.isControlKeyDown()) {
-      mask |= KeyCommand.M_CTRL;
-    }
-    if (event.isMetaKeyDown()) {
-      mask |= KeyCommand.M_META;
-    }
     return mask;
   }
 }

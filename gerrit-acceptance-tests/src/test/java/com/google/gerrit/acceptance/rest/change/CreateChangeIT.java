@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -61,7 +62,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {
-    ChangeInfo ci = new ChangeInfo();
+    ChangeInput ci = new ChangeInput();
     ci.project = project.get();
     assertCreateFails(ci, BadRequestException.class,
         "branch must be non-empty");
@@ -69,7 +70,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createEmptyChange_MissingMessage() throws Exception {
-    ChangeInfo ci = new ChangeInfo();
+    ChangeInput ci = new ChangeInput();
     ci.project = project.get();
     ci.branch = "master";
     assertCreateFails(ci, BadRequestException.class,
@@ -78,26 +79,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createEmptyChange_InvalidStatus() throws Exception {
-    ChangeInfo ci = newChangeInfo(ChangeStatus.MERGED);
+    ChangeInput ci = newChangeInput(ChangeStatus.MERGED);
     assertCreateFails(ci, BadRequestException.class,
         "unsupported change status");
   }
 
   @Test
   public void createNewChange() throws Exception {
-    assertCreateSucceeds(newChangeInfo(ChangeStatus.NEW));
+    assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
   }
 
   @Test
   public void createDraftChange() throws Exception {
     assume().that(isAllowDrafts()).isTrue();
-    assertCreateSucceeds(newChangeInfo(ChangeStatus.DRAFT));
+    assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));
   }
 
   @Test
   public void createDraftChangeNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
-    ChangeInfo ci = newChangeInfo(ChangeStatus.DRAFT);
+    ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
     assertCreateFails(ci, MethodNotAllowedException.class,
         "draft workflow is disabled");
   }
@@ -106,7 +107,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void notedbCommit() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
-    ChangeInfo c = assertCreateSucceeds(newChangeInfo(ChangeStatus.NEW));
+    ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     try (Repository repo = repoManager.openMetadataRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(
@@ -126,8 +127,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     }
   }
 
-  private ChangeInfo newChangeInfo(ChangeStatus status) {
-    ChangeInfo in = new ChangeInfo();
+  private ChangeInput newChangeInput(ChangeStatus status) {
+    ChangeInput in = new ChangeInput();
     in.project = project.get();
     in.branch = "master";
     in.subject = "Empty change";
@@ -136,7 +137,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     return in;
   }
 
-  private ChangeInfo assertCreateSucceeds(ChangeInfo in) throws Exception {
+  private ChangeInfo assertCreateSucceeds(ChangeInput in) throws Exception {
     ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.branch).isEqualTo(in.branch);
     assertThat(out.subject).isEqualTo(in.subject);
@@ -149,7 +150,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     return out;
   }
 
-  private void assertCreateFails(ChangeInfo in,
+  private void assertCreateFails(ChangeInput in,
       Class<? extends RestApiException> errType, String errSubstring)
       throws Exception {
     exception.expect(errType);

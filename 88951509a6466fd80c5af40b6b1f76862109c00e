@@ -22,6 +22,30 @@
       "revId": "88951509a6466fd80c5af40b6b1f76862109c00e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_66d2d022",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-15T14:52:32Z",
+      "side": 0,
+      "message": "Because a non-static inner class cannot have static methods.",
+      "parentUuid": "bd342467_857284ea",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "88951509a6466fd80c5af40b6b1f76862109c00e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -51,10 +51,6 @@ public class ChangeResource implements RestResource, HasETag {
     this.control = control;
   }
 
-  protected ChangeResource(ChangeResource copy) {
-    this.control = copy.control;
-  }
-
   public ChangeControl getControl() {
     return control;
   }

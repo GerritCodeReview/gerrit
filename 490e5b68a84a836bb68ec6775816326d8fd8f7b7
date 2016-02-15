@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5d1a4804_37b2d812",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-15T05:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd342467_426b122d",
+      "range": {
+        "startLine": 26,
+        "startChar": 66,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "490e5b68a84a836bb68ec6775816326d8fd8f7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_059c3486",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2016-02-15T05:01:39Z",
       "side": 1,
       "message": "Mention, that the API method signature was changed and plugins that used them must be adjusted?",
+      "revId": "490e5b68a84a836bb68ec6775816326d8fd8f7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_d7bd9ce1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-15T05:09:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd342467_059c3486",
       "revId": "490e5b68a84a836bb68ec6775816326d8fd8f7b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,30 @@
       "revId": "f8fc548fb82c6035b224fb02a7b7adb5e8d4f7d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_46cfd476",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-15T14:54:57Z",
+      "side": 1,
+      "message": "Many other REST endpoints have those Op classes, so I would just do the same here and not inline it.",
+      "parentUuid": "ddf718e0_86bcace2",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 11
+      },
+      "revId": "f8fc548fb82c6035b224fb02a7b7adb5e8d4f7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

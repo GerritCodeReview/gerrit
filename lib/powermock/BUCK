@@ -1,12 +1,12 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '1.6.2' # When bumping VERSION, make sure to also move
+VERSION = '1.6.4' # When bumping VERSION, make sure to also move
 # easymock to a compatible version
 
 maven_jar(
   name = 'powermock-module-junit4',
   id = 'org.powermock:powermock-module-junit4:' + VERSION,
-  sha1 = 'dff58978da716e000463bc1b08013d6a7cf3d696',
+  sha1 = '8692eb1d9bb8eb1310ffe8a20c2da7ee6d1b5994',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':powermock-module-junit4-common',
@@ -17,7 +17,7 @@ maven_jar(
 maven_jar(
   name = 'powermock-module-junit4-common',
   id = 'org.powermock:powermock-module-junit4-common:' + VERSION,
-  sha1 = '48dd7406e11a14fe2ae4ab641e1f27510e896640',
+  sha1 = 'b0b578da443794ceb8224bd5f5f852aaf40f1b81',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':powermock-reflect',
@@ -28,7 +28,7 @@ maven_jar(
 maven_jar(
   name = 'powermock-reflect',
   id = 'org.powermock:powermock-reflect:' + VERSION,
-  sha1 = '1af1bbd1207c3ecdcf64973e6f9d57dcd17cc145',
+  sha1 = '5532f4e7c42db4bca4778bc9f1afcd4b0ee0b893',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     '//lib:junit',
@@ -39,7 +39,7 @@ maven_jar(
 maven_jar(
   name = 'powermock-api-easymock',
   id = 'org.powermock:powermock-api-easymock:' + VERSION,
-  sha1 = 'addd25742ac9fe3e0491cbd68e2515e3b06c77fd',
+  sha1 = '5c385a0d8c13f84b731b75c6e90319c532f80b45',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':powermock-api-support',
@@ -50,7 +50,7 @@ maven_jar(
 maven_jar(
   name = 'powermock-api-support',
   id = 'org.powermock:powermock-api-support:' + VERSION,
-  sha1 = '93b21413b4ee99b7bc0dd34e1416fdca96866aaf',
+  sha1 = '314daafb761541293595630e10a3699ebc07881d',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':powermock-core',
@@ -62,7 +62,7 @@ maven_jar(
 maven_jar(
   name = 'powermock-core',
   id = 'org.powermock:powermock-core:' + VERSION,
-  sha1 = 'ea04e79244e19dcf0c3ccf6863c5b028b4b58c9c',
+  sha1 = '85fb32e9ccba748d569fc36aef92e0b9e7f40b87',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':powermock-reflect',

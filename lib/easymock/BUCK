@@ -2,9 +2,9 @@ include_defs('//lib/maven.defs')
 
 maven_jar(
   name = 'easymock',
-  id = 'org.easymock:easymock:3.3.1', # When bumping the version
+  id = 'org.easymock:easymock:3.4', # When bumping the version
   # number, make sure to also move powermock to a compatible version
-  sha1 = 'a497d7f00c9af78b72b6d8f24762d9210309148a',
+  sha1 = '9fdeea183a399f25c2469497612cad131e920fa3',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':cglib-2_2',
@@ -22,8 +22,8 @@ maven_jar(
 
 maven_jar(
   name = 'objenesis',
-  id = 'org.objenesis:objenesis:2.1',
-  sha1 = '87c0ea803b69252868d09308b4618f766f135a96',
+  id = 'org.objenesis:objenesis:2.2',
+  sha1 = '3fb533efdaa50a768c394aa4624144cf8df17845',
   license = 'DO_NOT_DISTRIBUTE',
   visibility = ['//lib/powermock:powermock-reflect'],
   attach_source = False,

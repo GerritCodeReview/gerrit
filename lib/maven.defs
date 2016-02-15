@@ -132,7 +132,6 @@ def maven_jar(
       deps = deps + license,
       binary_jar = ':%s__download_bin' % name,
       source_jar = ':%s__download_src' % name if srcjar else None,
-      visibility = visibility,
     )
     java_library(
       name = name,

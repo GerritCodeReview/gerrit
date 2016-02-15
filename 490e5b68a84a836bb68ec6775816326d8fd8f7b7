@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_426b122d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-15T05:01:39Z",
+      "side": 1,
+      "message": "\"Cannot be applied\" or \"must be omitted\". The column wouldn\u0027t be there, so this statement would always fail.",
+      "range": {
+        "startLine": 26,
+        "startChar": 66,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "490e5b68a84a836bb68ec6775816326d8fd8f7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_059c3486",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-15T05:01:39Z",
+      "side": 1,
+      "message": "Mention, that the API method signature was changed and plugins that used them must be adjusted?",
+      "revId": "490e5b68a84a836bb68ec6775816326d8fd8f7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

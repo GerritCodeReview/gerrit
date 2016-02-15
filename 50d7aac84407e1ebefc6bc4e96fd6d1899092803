@@ -17,6 +17,24 @@
       "revId": "50d7aac84407e1ebefc6bc4e96fd6d1899092803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_a6a0c8bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-15T10:52:06Z",
+      "side": 1,
+      "message": "Done by squashing the follow-up change.",
+      "parentUuid": "fdfcdcc6_c40a9e42",
+      "revId": "50d7aac84407e1ebefc6bc4e96fd6d1899092803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

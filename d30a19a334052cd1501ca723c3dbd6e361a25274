@@ -94,6 +94,30 @@
       "revId": "d30a19a334052cd1501ca723c3dbd6e361a25274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e51910c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-15T10:35:18Z",
+      "side": 1,
+      "message": "Renamed to \u0027create\u0027 in:\n  https://gerrit-review.googlesource.com/74798",
+      "parentUuid": "ddf718e0_835a5ef9",
+      "range": {
+        "startLine": 247,
+        "startChar": 54,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "d30a19a334052cd1501ca723c3dbd6e361a25274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "fbdecb620cf07c5925e8b47b6b68e42bfede3277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_45c9dc6e",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-15T08:09:29Z",
+      "side": 1,
+      "message": "So, I looked into it and was trying to understand, what happens, by simplifying the code.\n\nI removed the attribute, and am relying only on the computation of the fly. I works as expected when loading new change from the change list view.\n\nHowever, the revision retrieval (and this revision based change status computation) is still broken when loading a change through related changes.\n\nIt appears, that the order of events is broken: _computeChangeStatus() is called, when property _patchNum is updated. This can be seen from stack trace:\n\n  Polymer._getRev(), gr-change-view.html:557\n  Polymer._computeChangeStatus(), gr-change-view.html:510\n  Polymer.Base.extend._annotatedComputationEffect(), polymer.html:1653\n  Polymer.Bind._modelApi._effectEffects(), polymer.html:1461\n  Polymer.Bind._modelApi._propertySetter(), polymer.html:1445\n  Polymer._paramsChanged(), gr-change-view.html:457\n\nAlso when this statement was executed:\n\n  this._patchNum \u003d value.patchNum;\n\n*but*, at this point the change itself, wasn\u0027t updated yet, so it has still the stale content of previous active change and not the change that is loaded through related changes tab. This can be seen on this debugger screen shot: [1].\n\nAnd the number 3 or 4 patch set correspond to stale data: i was trying to load from draft change (with 3 patch sets): [2] another change with 4 patch sets: [3]. It looks like reloading of related changes is currently broken.\n\nI adapted this change to react on it, and added a TODO.\n\n\n* [1] http://imgur.com/wQGkOZp\n* [2] http://imgur.com/fj8FPyq\n* [3] http://imgur.com/zcJ9Ut6",
+      "parentUuid": "bd342467_828a7a45",
+      "revId": "fbdecb620cf07c5925e8b47b6b68e42bfede3277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

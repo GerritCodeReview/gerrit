@@ -74,6 +74,7 @@ import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -1463,9 +1464,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       throws Exception {
     List<ChangeInfo> result = query.get();
     Iterable<Integer> ids = ids(result);
-    assertThat(ids).named(query.getQuery())
+    assertThat(ids).named(format(query, changes))
         .containsExactlyElementsIn(ids(changes)).inOrder();
     return result;
+  }
+
+  private String format(QueryRequest query, Change... changes)
+      throws OrmException {
+    StringBuilder b = new StringBuilder();
+    b.append("query '").append(query.getQuery())
+        .append("' with expected changes [");
+    for (int i = 0; i < changes.length; i++) {
+      Change c = changes[i];
+      c = notesFactory.create(db, c.getProject(), c.getId()).getChange();
+      b.append("{").append(c.getId().id).append(" (").append(c.getKey())
+          .append("), ").append("dest=").append(c.getDest()).append(", ")
+          .append("status=").append(c.getStatus()).append(", ")
+          .append("lastUpdated=").append(c.getLastUpdatedOn().getTime())
+          .append("}");
+      if (i < changes.length - 1) {
+        b.append(", ");
+      }
+    }
+    b.append("]");
+    return b.toString();
   }
 
   protected static Iterable<Integer> ids(Change... changes) {

@@ -276,6 +276,7 @@ public class ChangeData {
   public interface Factory {
     ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id);
     ChangeData create(ReviewDb db, Change c);
+    ChangeData create(ReviewDb db, ChangeNotes cn);
     ChangeData create(ReviewDb db, ChangeControl c);
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
@@ -409,6 +410,43 @@ public class ChangeData {
     legacyId = c.getId();
     change = c;
     project = c.getProject();
+  }
+
+  @AssistedInject
+  private ChangeData(
+      GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Assisted ReviewDb db,
+      @Assisted ChangeNotes cn) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    legacyId = cn.getChangeId();
+    change = cn.getChange();
+    project = cn.getProjectName();
+    notes = cn;
   }
 
   @AssistedInject

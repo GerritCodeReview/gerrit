@@ -82,6 +82,24 @@
       "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_9705e461",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-15T07:23:41Z",
+      "side": 1,
+      "message": "\u003e The former already exists in createEmptyChange().\n\nAh yes.  I missed that.\n\n\u003e Added the latter.\n\nThanks.",
+      "parentUuid": "3d311483_d6960468",
+      "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

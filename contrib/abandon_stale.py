@@ -135,7 +135,7 @@ def _main():
         query_terms = ["status:new", "age:%s" % options.age]
         if options.branches:
             query_terms += ["branch:%s" % b for b in options.branches]
-        elif options.exclude_branch:
+        elif options.exclude_branches:
             query_terms += ["-branch:%s" % b for b in options.exclude_branches]
         if options.projects:
             query_terms += ["project:%s" % p for p in options.projects]

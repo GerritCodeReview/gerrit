@@ -100,6 +100,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -157,7 +158,7 @@ public class ChangeJson {
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
-  private final ChangeNotes.Factory changeNotesFactory;
+  private final ChangeNotes.Factory notesFactory;
 
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
@@ -183,7 +184,7 @@ public class ChangeJson {
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
-      ChangeNotes.Factory changeNotesFactory,
+      ChangeNotes.Factory notesFactory,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -203,7 +204,7 @@ public class ChangeJson {
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.gpgApi = gpgApi;
-    this.changeNotesFactory = changeNotesFactory;
+    this.notesFactory = notesFactory;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -223,17 +224,17 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id)
-      throws OrmException {
-    ChangeNotes notes;
+      throws OrmException, NoSuchChangeException {
+    Change c;
     try {
-      notes = changeNotesFactory.create(db.get(), project, id);
-    } catch (OrmException e) {
+      c = notesFactory.createChecked(db.get(), project, id).getChange();
+    } catch (OrmException | NoSuchChangeException e) {
       if (!has(CHECK)) {
         throw e;
       }
       return checkOnly(changeDataFactory.create(db.get(), project, id));
     }
-    return format(changeDataFactory.create(db.get(), notes.getChange()));
+    return format(changeDataFactory.create(db.get(), c));
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {

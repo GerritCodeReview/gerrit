@@ -215,7 +215,7 @@ public class InternalChangeQuery {
         }), new Function<ChangeNotes, ChangeData>() {
           @Override
           public ChangeData apply(ChangeNotes notes) {
-            return changeDataFactory.create(db, notes.getChange());
+            return changeDataFactory.create(db, notes);
           }
         });
   }

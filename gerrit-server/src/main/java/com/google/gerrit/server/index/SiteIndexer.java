@@ -29,7 +29,6 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -253,10 +252,9 @@ public class SiteIndexer {
             ReviewDb db = schemaFactory.open()) {
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           for (ChangeNotes cn : notesFactory.scan(repo, db, project)) {
-            Change c = cn.getChange();
-            Ref r = refs.get(c.currentPatchSetId().toRefName());
+            Ref r = refs.get(cn.getChange().currentPatchSetId().toRefName());
             if (r != null) {
-              byId.put(r.getObjectId(), changeDataFactory.create(db, c));
+              byId.put(r.getObjectId(), changeDataFactory.create(db, cn));
             }
           }
           new ProjectIndexer(indexer,

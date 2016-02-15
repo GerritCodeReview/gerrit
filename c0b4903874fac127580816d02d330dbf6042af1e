@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1455430941 -0800\npushee rpc://gerrit/gerrit\nnonce AO+Zq7gAwKkGQ5gnrPv9popc85+clMXMVSin2RK9Rmb6WUoNxVcR6ZJQV9AJMe7E1XAleodWp6gf\n\n0000000000000000000000000000000000000000 c0b4903874fac127580816d02d330dbf6042af1e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWwB0dAAoJELOGKwXbr+wPshIP/3/fn8OfV3je2iJ5zVVQahwt\nIxgZ6w8OCf0B9frGowgDZB9pLPhWeTgT7jYG+HKI4khtGmZeffpNRU4HokvtN+y7\nEOp4vlnhRovz4ng4ecq3MYocoz7fLjvRGoJs0W+T5VlRHtu7LvDWKt1ZbIa43yUM\nevp9PRbaHcxk8BdoOz1yNlaK/ETPxof6peFbrpJTfUa4cW8+tsaYF+0uYZV1JLCl\nogExZW/77rZYKfHNzT4kP3BTiVVVh58tvOVaqRQxtKMkjoAS+hU4lPsHKFMvEF3J\nK0QT99RMlwBCiLwr08T7LkB61eK6HUEJ058S2S9TOsSoiZ2joU8+8cMys4YS5vCq\nyZr9LvpiiWeh+bo+Byar8FPtOj/86mOHMg3UfJD3rGcdoUP997vOHTLZnpNgCoRF\ntJbELxQWrf6d3Yf/eC6hjVH+cJk6uMWZ6Drn3G0b8IwbPclENIuo30wAdzcRJ6k2\n8RmxJvlbcBgmTiYaWtcjc1Xmbd8hwr8P51ImJITN4O3MG0V8iMzXcgFvhJYLV68N\n8bfmyHsYedw2l2005odlPWndjWGs0dmcAU9mIqYxdZ/lcrYvKYuIgafjtz6nZe4N\nXLFUww0u8rg8wuLPBBdIo3/+/EwOZZvPmHozUyrpqiCsvEn1LtoCbUWH2FWs6ikk\n8aLJqd3Pc+fUFYVQHyZG\n\u003dod4t\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_ffe3dfbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-15T01:35:22Z",
+      "side": 1,
+      "message": "non-existent",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_b7a588cc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-15T01:35:22Z",
+      "side": 1,
+      "message": "What about a test for the case where newBranch is false (or with newBranch unset, which is implicitly false)?\n\nAlso, for the case where newBranch is true but the branch already exists?",
+      "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

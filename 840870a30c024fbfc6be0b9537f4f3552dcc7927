@@ -87,6 +87,24 @@
       "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_65d2e022",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-15T07:16:20Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "ddf718e0_a3067ab2",
+      "revId": "840870a30c024fbfc6be0b9537f4f3552dcc7927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

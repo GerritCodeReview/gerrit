@@ -1009,8 +1009,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.newBranch = true;
 
     exception.expect(ResourceConflictException.class);
-    ChangeInfo info = gApi
-        .changes()
+    gApi.changes()
         .create(in)
         .get();
   }

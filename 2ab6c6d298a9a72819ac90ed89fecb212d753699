@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_25e378ee",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-15T08:13:40Z",
+      "side": 1,
+      "message": "Yes, better to do it in follow-up change.",
+      "parentUuid": "bd342467_02b74a20",
+      "revId": "2ab6c6d298a9a72819ac90ed89fecb212d753699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_63f1a2f7",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-02-13T12:23:07Z",
       "side": 1,
       "message": "length",
+      "range": {
+        "startLine": 165,
+        "startChar": 61,
+        "endLine": 165,
+        "endChar": 66
+      },
+      "revId": "2ab6c6d298a9a72819ac90ed89fecb212d753699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_43c34672",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-15T08:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf718e0_63f1a2f7",
       "range": {
         "startLine": 165,
         "startChar": 61,

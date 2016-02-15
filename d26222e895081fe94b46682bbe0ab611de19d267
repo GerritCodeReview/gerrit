@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "bd342467_e5e4b0fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-15T08:14:39Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me which url segements are static and which are variable here. Why not use placeholders like\n\n\u003cbaseUrl\u003e/\u003cproject\u003e/info/lfs/*\n\n(don\u0027t know if this would be correct).",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "d26222e895081fe94b46682bbe0ab611de19d267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_05eaf4c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-15T08:14:39Z",
+      "side": 1,
+      "message": "Temporarily, this",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 4
+      },
+      "revId": "d26222e895081fe94b46682bbe0ab611de19d267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_85d6040a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/lfs/LfsApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-15T08:14:39Z",
+      "side": 1,
+      "message": "We might want to handle the case when there is no LargeFileRepository registered. E.g. we could by default register a NOP-LargeFileRepository that does appropriate handling to indicate that LFS is not supported.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "d26222e895081fe94b46682bbe0ab611de19d267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_45e0fcde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-02-15T08:14:39Z",
+      "side": 1,
+      "message": "We might register a default (NOP-LargeFileRepository) here.",
+      "range": {
+        "startLine": 306,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 60
+      },
+      "revId": "d26222e895081fe94b46682bbe0ab611de19d267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_83d93e70",
         "filename": "lib/jgit/org.eclipse.jgit.lfs/BUCK",
         "patchSetId": 5

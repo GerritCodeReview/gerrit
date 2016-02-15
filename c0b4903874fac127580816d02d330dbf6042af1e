@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5d1a4804_b7bca8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-15T07:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4168d6_ffe3dfbf",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_b7a588cc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -37,6 +61,24 @@
       "writtenOn": "2016-02-15T01:35:22Z",
       "side": 1,
       "message": "What about a test for the case where newBranch is false (or with newBranch unset, which is implicitly false)?\n\nAlso, for the case where newBranch is true but the branch already exists?",
+      "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d311483_d6960468",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-15T07:20:53Z",
+      "side": 1,
+      "message": "The former already exists in createEmptyChange(). Added the latter.",
+      "parentUuid": "5d1a4804_b7a588cc",
       "revId": "c0b4903874fac127580816d02d330dbf6042af1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

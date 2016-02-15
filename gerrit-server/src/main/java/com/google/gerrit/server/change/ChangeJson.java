@@ -225,16 +225,16 @@ public class ChangeJson {
 
   public ChangeInfo format(Project.NameKey project, Change.Id id)
       throws OrmException, NoSuchChangeException {
-    Change c;
+    ChangeNotes notes;
     try {
-      c = notesFactory.createChecked(db.get(), project, id).getChange();
+      notes = notesFactory.createChecked(db.get(), project, id);
     } catch (OrmException | NoSuchChangeException e) {
       if (!has(CHECK)) {
         throw e;
       }
       return checkOnly(changeDataFactory.create(db.get(), project, id));
     }
-    return format(changeDataFactory.create(db.get(), c));
+    return format(changeDataFactory.create(db.get(), notes));
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {

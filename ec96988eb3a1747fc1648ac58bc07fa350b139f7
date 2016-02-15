@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455533507 +0100\nnonce AO+Zq7hytN157LHn/PGSUybnHNfOglqFf9rEaILyTS1bn8N5Ht+A8RbELkv27WzADet12AdX5VqB\n\n0000000000000000000000000000000000000000 ec96988eb3a1747fc1648ac58bc07fa350b139f7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWwa3DAAoJEFG1/Zeg0O9RyzIH/jj0XiJrZ/s5pz1YlYRxKV3v\nlWY4IKDn6IAqkJkBwzbKhDwB7XxPPVAtb4K2LWCtClvthXPK92snsWBE7ype/v/w\nRVwFrs3BGMDUWYjnQtjw6zNimnZ9xvMlfhEx9oD51+mC3GdEbqXqE9A5Akq38i45\n1QLZwZEd14Bq7zXMEydYY6xQkPVYlFjLH8wd1nXPLnMjCrjuTAeBNrdQEE5+5tX5\nlE7DE6ouD9uBhBSG+0f1aL6ckkhzSXYdbdkpPesfjdYs/z3d8azruNRVbMKh5yH0\nDOdtZzCRyEJCUgwr4S3+XsZFplB7gNkZHS7CiVdO9L71ZUc8GekGJZvv1rnIASg\u003d\n\u003dVmay\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_252858c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-15T11:16:56Z",
+      "side": 1,
+      "message": "Bad rebase, these were supposed to be non-static now.",
+      "revId": "ec96988eb3a1747fc1648ac58bc07fa350b139f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

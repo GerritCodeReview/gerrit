@@ -607,7 +607,10 @@ public class MergeOp implements AutoCloseable {
       openRepos(projects);
       for (Branch.NameKey branch : branches) {
         OpenRepo or = getRepo(branch.getParentKey());
-        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+        BranchBatch bb = validateChangeList(or, cbb.get(branch));
+        if (bb != null) {
+          toSubmit.put(branch, bb);
+        }
       }
       failFast(cs); // Done checks that don't involve running submit strategies.
 
@@ -798,6 +801,11 @@ public class MergeOp implements AutoCloseable {
       }
       commit.add(or.canMergeFlag);
       toSubmit.add(cd);
+    }
+    if (!commits.isOk()) {
+      logDebug("{} problems occured during commit validation",
+          commits.problems.size());
+      return null;
     }
     logDebug("Submitting on this run: {}", toSubmit);
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);

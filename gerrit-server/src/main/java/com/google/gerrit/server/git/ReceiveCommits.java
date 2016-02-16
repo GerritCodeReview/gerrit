@@ -20,7 +20,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -81,7 +80,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -91,8 +89,6 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
-import com.google.gerrit.server.change.ChangeKind;
-import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -110,10 +106,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -130,7 +124,6 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
@@ -172,7 +165,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -292,19 +284,14 @@ public class ReceiveCommits {
   private final ReviewDb db;
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
-  private final ChangeUpdate.Factory updateFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
   private final CmdLineParser.Factory optionParserFactory;
   private final MergedSender.Factory mergedSenderFactory;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
-  private final ApprovalsUtil approvalsUtil;
-  private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final GitRepositoryManager repoManager;
@@ -318,14 +305,13 @@ public class ReceiveCommits {
   private final ExecutorService sendEmailExecutor;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
-  private final ChangeIndexer indexer;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
   private final DynamicSet<ReceivePackInitializer> initializers;
-  private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
+  private final ReplaceOp.Factory replaceOpFactory;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -367,18 +353,13 @@ public class ReceiveCommits {
       final Sequences seq,
       final Provider<InternalChangeQuery> queryProvider,
       final SchemaFactory<ReviewDb> schemaFactory,
-      final ChangeData.Factory changeDataFactory,
       final ChangeNotes.Factory notesFactory,
-      final ChangeUpdate.Factory updateFactory,
       final AccountResolver accountResolver,
       final CmdLineParser.Factory optionParserFactory,
       final MergedSender.Factory mergedSenderFactory,
-      final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final GitReferenceUpdated gitRefUpdated,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
-      final ApprovalsUtil approvalsUtil,
-      final ApprovalCopier approvalCopier,
       final ChangeMessagesUtil cmUtil,
       final PatchSetUtil psUtil,
       final ProjectCache projectCache,
@@ -393,7 +374,6 @@ public class ReceiveCommits {
       @SendEmailExecutor final ExecutorService sendEmailExecutor,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
-      final ChangeIndexer indexer,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
       ReceiveConfig receiveConfig,
@@ -405,29 +385,24 @@ public class ReceiveCommits {
       final Provider<SubmoduleOp> subOpProvider,
       final Provider<Submit> submitProvider,
       final Provider<MergeOp> mergeOpProvider,
-      final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
-      final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
+      final SetHashtagsOp.Factory hashtagsFactory,
+      final ReplaceOp.Factory replaceOpFactory) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
     this.queryProvider = queryProvider;
-    this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
-    this.updateFactory = updateFactory;
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
     this.optionParserFactory = optionParserFactory;
     this.mergedSenderFactory = mergedSenderFactory;
-    this.replacePatchSetFactory = replacePatchSetFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
-    this.approvalsUtil = approvalsUtil;
-    this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
@@ -441,14 +416,13 @@ public class ReceiveCommits {
     this.sendEmailExecutor = sendEmailExecutor;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
-    this.indexer = indexer;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = receiveConfig;
     this.initializers = initializers;
-    this.changeKindCache = changeKindCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
+    this.replaceOpFactory = replaceOpFactory;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1157,7 +1131,7 @@ public class ReceiveCommits {
     }
   }
 
-  private static class MagicBranchInput {
+  static class MagicBranchInput {
     private static final Splitter COMMAS = Splitter.on(',').omitEmptyStrings();
 
     final ReceiveCommand cmd;
@@ -1956,7 +1930,6 @@ public class ReceiveCommits {
     final ObjectId newCommitId;
     final ReceiveCommand inputCommand;
     final boolean checkMergedInto;
-    final Timestamp createdOn;
     Change change;
     ChangeControl changeCtl;
     BiMap<RevCommit, PatchSet.Id> revisions;
@@ -1964,8 +1937,6 @@ public class ReceiveCommits {
     ReceiveCommand prev;
     ReceiveCommand cmd;
     PatchSetInfo info;
-    ChangeMessage msg;
-    String mergedIntoRef;
     boolean skip;
     private PatchSet.Id priorPatchSet;
     List<String> groups = ImmutableList.of();
@@ -1976,7 +1947,6 @@ public class ReceiveCommits {
       this.newCommitId = newCommit.copy();
       this.inputCommand = cmd;
       this.checkMergedInto = checkMergedInto;
-      createdOn = TimeUtil.nowTs();
 
       revisions = HashBiMap.create();
       for (Ref ref : refs(toChange)) {
@@ -2177,54 +2147,6 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private ChangeMessage newChangeMessage(ReviewDb db, ChangeKind changeKind,
-        Map<String, Short> approvals)
-        throws OrmException {
-      msg =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-              .messageUUID(db)), user.getAccountId(), createdOn, psId);
-
-      msg.setMessage(renderMessageWithApprovals(psId.get(),
-          changeKindMessage(changeKind), approvals, scanLabels(db, approvals)));
-
-      return msg;
-    }
-
-    private String changeKindMessage(ChangeKind changeKind) {
-      switch (changeKind) {
-        case MERGE_FIRST_PARENT_UPDATE:
-        case TRIVIAL_REBASE:
-        case NO_CHANGE:
-          return ": Patch Set " + priorPatchSet.get() + " was rebased";
-        case NO_CODE_CHANGE:
-          return ": Commit message was updated";
-        case REWORK:
-        default:
-          return null;
-      }
-    }
-
-    private Map<String, PatchSetApproval> scanLabels(ReviewDb db,
-        Map<String, Short> approvals)
-        throws OrmException {
-      Map<String, PatchSetApproval> current = new HashMap<>();
-      // We optimize here and only retrieve current when approvals provided
-      if (!approvals.isEmpty()) {
-        for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-            db, changeCtl, priorPatchSet, user.getAccountId())) {
-          if (a.isSubmit()) {
-            continue;
-          }
-
-          LabelType lt = labelTypes.byLabel(a.getLabelId());
-          if (lt != null) {
-            current.put(lt.getName(), a);
-          }
-        }
-      }
-      return current;
-    }
-
     PatchSet.Id upsertEdit() {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
@@ -2234,187 +2156,41 @@ public class ReceiveCommits {
 
     PatchSet.Id insertPatchSet(RequestState state)
         throws OrmException, IOException, RestApiException, UpdateException {
-      ReviewDb db = state.db;
-      Repository repo = state.repo;
-      final RevCommit newCommit = state.rw.parseCommit(newCommitId);
+      RevCommit newCommit = state.rw.parseCommit(newCommitId);
       state.rw.parseBody(newCommit);
-      final Account.Id me = user.getAccountId();
-      final List<FooterLine> footerLines = newCommit.getFooterLines();
-      final MailRecipients recipients = new MailRecipients();
-      final PatchSet newPatchSet;
 
-      Map<String, Short> approvals = new HashMap<>();
-      ChangeUpdate update = updateFactory.create(changeCtl, createdOn);
-      update.setSubjectForCommit("Create patch set " + psId.get());
-      update.setPatchSetId(psId);
+      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
-      if (magicBranch != null) {
-        recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.labels;
-        Set<String> hashtags = magicBranch.hashtags;
-        ChangeNotes notes = changeCtl.getNotes().load();
-        if (!hashtags.isEmpty()) {
-          hashtags.addAll(notes.getHashtags());
-          update.setHashtags(hashtags);
-        }
-        if (magicBranch.topic != null
-            && !magicBranch.topic.equals(notes.getChange().getTopic())) {
-          update.setTopic(magicBranch.topic);
-        }
+      ReplaceOp replaceOp = replaceOpFactory.create(requestScopePropagator,
+          projectControl, checkMergedInto, priorPatchSet, priorCommit, psId,
+          newCommit, info, groups, magicBranch, rp.getPushCertificate());
+      try (BatchUpdate bu = batchUpdateFactory.create(state.db, project.getNameKey(),
+          user, TimeUtil.nowTs())) {
+        bu.setRepository(state.repo, state.rw, state.ins);
+        bu.addOp(change.getId(), replaceOp);
+        bu.execute();
       }
 
-      db.changes().beginTransaction(change.getId());
-      ChangeKind changeKind = ChangeKind.REWORK;
-      try {
-        change = db.changes().get(change.getId());
-        if (change == null || change.getStatus().isClosed()) {
-          reject(inputCommand, "change is closed");
-          return null;
-        }
-
-        List<String> newGroups = groups;
-        if (newGroups.isEmpty()) {
-          PatchSet prevPs = psUtil.current(db, update.getChangeNotes());
-          newGroups = prevPs != null
-              ? prevPs.getGroups()
-              : ImmutableList.<String> of();
-        }
-
-        boolean draft = magicBranch != null && magicBranch.draft;
-        newPatchSet = psUtil.insert(
-            db, state.rw, update, psId, newCommit, draft, newGroups,
-            rp.getPushCertificate() != null
-              ? rp.getPushCertificate().toTextWithSignature()
-              : null);
-
-        if (checkMergedInto) {
-          final Ref mergedInto = findMergedInto(change.getDest().get(), newCommit);
-          mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
-        }
-
-        recipients.add(getRecipientsFromFooters(
-            accountResolver, draft, footerLines));
-        recipients.remove(me);
-        ChangeData cd = changeDataFactory.create(db, changeCtl);
-        MailRecipients oldRecipients =
-            getRecipientsFromReviewers(cd.reviewers());
-        approvalCopier.copy(db, changeCtl, newPatchSet);
-        approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
-            info, recipients.getReviewers(), oldRecipients.getAll());
-        approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet,
-            changeCtl, approvals);
-        recipients.add(oldRecipients);
-
-        RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
-        changeKind = changeKindCache.getChangeKind(
-            projectControl.getProjectState(), repo, priorCommit, newCommit);
-
-        cmUtil.addChangeMessage(db, update, newChangeMessage(db, changeKind,
-            approvals));
-
-        if (mergedIntoRef == null) {
-          // Change should be new, so it can go through review again.
-          //
-          change =
-              db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-                @Override
-                public Change update(Change change) {
-                  if (change.getStatus().isClosed()) {
-                    return null;
-                  }
-
-                  if (!change.currentPatchSetId().equals(priorPatchSet)) {
-                    return change;
-                  }
-
-                  if (magicBranch != null && magicBranch.topic != null) {
-                    change.setTopic(magicBranch.topic);
-                  }
-                  if (change.getStatus() == Change.Status.DRAFT && newPatchSet.isDraft()) {
-                    // Leave in draft status.
-                  } else {
-                    change.setStatus(Change.Status.NEW);
-                  }
-                  change.setCurrentPatchSet(info);
-
-                  final List<String> idList = newCommit.getFooterLines(CHANGE_ID);
-                  if (idList.isEmpty()) {
-                    change.setKey(new Change.Key("I" + newCommit.name()));
-                  } else {
-                    change.setKey(new Change.Key(idList.get(idList.size() - 1).trim()));
-                  }
-
-                  ChangeUtil.updated(change);
-                  return change;
-                }
-              });
-          if (change == null) {
-            db.patchSets().delete(Collections.singleton(newPatchSet));
-            db.changeMessages().delete(Collections.singleton(msg));
-            reject(inputCommand, "change is closed");
-            return null;
-          }
-        }
-
-        db.commit();
-      } finally {
-        db.rollback();
+      if (replaceOp.getRejectMessage() != null) {
+        reject(inputCommand, replaceOp.getRejectMessage());
+        return null;
       }
-      update.commit();
+      groups = replaceOp.getGroups();
 
-      if (mergedIntoRef != null) {
+      //TODO(ekempin): mark changes as merged inside of ReplaceOp
+      if (replaceOp.getMergedIntoRef() != null) {
         // Change was already submitted to a branch, close it.
         //
-        markChangeMergedByPush(db, info, mergedIntoRef);
+        markChangeMergedByPush(db, info, replaceOp.getMergedIntoRef());
       }
 
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      indexer.index(db, change);
-      if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-        sendEmailExecutor.submit(requestScopePropagator.wrap(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              ReplacePatchSetSender cm = replacePatchSetFactory
-                  .create(project.getNameKey(), change.getId());
-              cm.setFrom(me);
-              cm.setPatchSet(newPatchSet, info);
-              cm.setChangeMessage(msg);
-              if (magicBranch != null) {
-                cm.setNotify(magicBranch.notify);
-              }
-              cm.addReviewers(recipients.getReviewers());
-              cm.addExtraCC(recipients.getCcOnly());
-              cm.send();
-            } catch (Exception e) {
-              log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-            }
-            if (mergedIntoRef != null) {
-              sendMergedEmail(newPatchSet, info);
-            }
-          }
 
-          @Override
-          public String toString() {
-            return "send-email newpatchset";
-          }
-        }));
-      }
-
+      PatchSet newPatchSet = replaceOp.getPatchSet();
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
-      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
-      if (mergedIntoRef != null) {
-        hooks.doChangeMergedHook(
-            change, user.getAccount(), newPatchSet, db, newCommit.getName());
-      }
-
-      if (!approvals.isEmpty()) {
-        hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
-            null, approvals, db);
-      }
 
       if (magicBranch != null && magicBranch.submit) {
         submit(changeCtl, newPatchSet);
@@ -2547,33 +2323,6 @@ public class ReceiveCommits {
     } else {
       return a.equals(b);
     }
-  }
-
-  private Ref findMergedInto(final String first, final RevCommit commit) {
-    try {
-      final Map<String, Ref> all = repo.getRefDatabase().getRefs(ALL);
-      Ref firstRef = all.get(first);
-      if (firstRef != null && isMergedInto(commit, firstRef)) {
-        return firstRef;
-      }
-      for (Ref ref : all.values()) {
-        if (isHead(ref)) {
-          if (isMergedInto(commit, ref)) {
-            return ref;
-          }
-        }
-      }
-      return null;
-    } catch (IOException e) {
-      log.warn("Can't check for already submitted change", e);
-      return null;
-    }
-  }
-
-  private boolean isMergedInto(final RevCommit commit, final Ref ref)
-      throws IOException {
-    final RevWalk rw = rp.getRevWalk();
-    return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
   }
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
@@ -2843,10 +2592,6 @@ public class ReceiveCommits {
   private void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(REJECTED_OTHER_REASON, why);
     commandProgress.update(1);
-  }
-
-  private static boolean isHead(final Ref ref) {
-    return ref.getName().startsWith(Constants.R_HEADS);
   }
 
   private static boolean isHead(final ReceiveCommand cmd) {

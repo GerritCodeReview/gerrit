@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-button.html">
 
 <dom-module id="gr-confirm-dialog">
   <template>
@@ -35,25 +36,12 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
       }
-      button {
-        background-color: #f1f2f3;
-        border: 1px solid #aaa;
-        border-radius: 2px;
-        cursor: pointer;
-        font: inherit;
-        padding: .5em .75em;
-      }
-      .confirm {
-        background-color: #448aff;
-        border-color: #448aff;
-        color: #fff;
-      }
     </style>
     <div class="header"><content select=".header"></content></div>
     <div class="mainContent"><content select=".main"></content></div>
     <div class="footer">
-      <button class="confirm" on-tap="_handleConfirmTap">[[confirmLabel]]</button>
-      <button class="cancel" on-tap="_handleCancelTap">Cancel</button>
+      <gr-button primary on-tap="_handleConfirmTap">[[confirmLabel]]</gr-button>
+      <gr-button on-tap="_handleCancelTap">Cancel</gr-button>
     </div>
   </template>
   <script>

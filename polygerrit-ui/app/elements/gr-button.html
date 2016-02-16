@@ -15,18 +15,24 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 
 <dom-module id="gr-button">
   <template strip-whitespace>
     <style>
       :host {
-        background: transparent;
-        border-radius: 3px;
+        background-color: #fff;
+        border: 1px solid #d1d2d3;
+        border-radius: 2px;
         box-sizing: border-box;
+        color: #333;
         cursor: pointer;
         display: inline-block;
-        font: inherit;
+        font-family: var(--font-family);
+        font-size: 13px;
+        font-weight: bold;
         outline-width: 0;
+        padding: .3em .65em;
         position: relative;
         text-align: center;
         -moz-user-select: none;
@@ -34,18 +40,60 @@ limitations under the License.
         -webkit-user-select: none;
         user-select: none;
       }
+      :host([hidden]) {
+        display: none;
+      }
       :host([primary]) {
-
+        background-color: #4d90fe;
+        border-color: #3079ed;
+        color: #fff;
       }
       :host([small]) {
-
+        font-size: 12px;
       }
       :host([link]) {
+        background-color: transparent;
+        border: none;
         color: #00f;
+        font-size: inherit;
+        font-weight: normal;
+        padding: 0;
         text-decoration: underline;
       }
+      :host([loading]),
       :host([disabled]) {
-
+        background-color: #efefef;
+        color: #aaa;
+      }
+      :host([disabled]) {
+        cursor: default;
+        pointer-events: none;
+      }
+      :host([loading]),
+      :host([loading][disabled]) {
+        cursor: wait;
+      }
+      :host(:focus),
+      :host(:hover) {
+        border-color: #666;
+      }
+      :host(:active) {
+        border-color: #d1d2d3;
+        color: #aaa;
+      }
+      :host([primary]:focus),
+      :host([primary]:hover) {
+        border-color: #00F;
+      }
+      :host([primary]:active) {
+        border-color: #0c2188;
+        color: #fff;
+      }
+      :host([primary][loading]),
+      :host([primary][disabled]) {
+        background-color: #7caeff;
+        border-color: transparent;
+        color: #fff;
       }
     </style>
     <content></content>
@@ -58,7 +106,40 @@ limitations under the License.
       is: 'gr-button',
 
       properties: {
+        disabled: {
+          type: Boolean,
+          observer: '_disabledChanged',
+          reflectToAttribute: true,
+        },
+        _enabledTabindex: {
+          type: String,
+          value: '0',
+        },
+      },
 
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
+      ],
+
+      hostAttributes: {
+        role: 'button',
+        tabindex: '0',
+      },
+
+      _disabledChanged: function(disabled) {
+        if (disabled) {
+          this._enabledTabindex = this.getAttribute('tabindex');
+        }
+        this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
+      },
+
+      _handleKey: function(e) {
+        switch (e.keyCode) {
+          case 32:  // 'spacebar'
+          case 13:  // 'enter'
+            e.preventDefault();
+            this.click();
+        }
       },
     });
   })();

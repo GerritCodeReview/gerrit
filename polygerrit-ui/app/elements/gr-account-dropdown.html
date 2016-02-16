@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="gr-button.html">
 
 <dom-module id="gr-account-dropdown">
   <style>
@@ -23,8 +24,7 @@ limitations under the License.
       display: inline-block;
     }
     .dropdown-trigger {
-      color: #00e;
-      cursor: pointer;
+      text-decoration: none;
     }
     .dropdown-content {
       background-color: #fff;
@@ -58,8 +58,8 @@ limitations under the License.
     }
   </style>
   <template>
-    <button class="dropdown-trigger" id="trigger"
-        on-tap="_showDropdownTapHandler">[[account.name]]</button>
+    <gr-button link class="dropdown-trigger" id="trigger"
+        on-tap="_showDropdownTapHandler">[[account.name]]</gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"
         vertical-offset="25"

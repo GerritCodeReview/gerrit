@@ -123,7 +123,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     Change.Id revertedChangeId;
     try {
       revertedChangeId = revert(req.getControl(),
-            change.currentPatchSetId(),
             Strings.emptyToNull(input.message));
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
@@ -132,12 +131,13 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
         revertedChangeId);
   }
 
-  private Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
-      String message) throws NoSuchChangeException, OrmException,
-          MissingObjectException, IncorrectObjectTypeException, IOException,
-          RestApiException, UpdateException {
-    Change.Id changeIdToRevert = patchSetId.getParentKey();
-    PatchSet patch = psUtil.get(db.get(), ctl.getNotes(), patchSetId);
+  private Change.Id revert(ChangeControl ctl, String message)
+      throws NoSuchChangeException, OrmException, MissingObjectException,
+      IncorrectObjectTypeException, IOException, RestApiException,
+      UpdateException {
+    Change.Id changeIdToRevert = ctl.getChange().getId();
+    PatchSet patch = psUtil.get(db.get(), ctl.getNotes(),
+        ctl.getChange().currentPatchSetId());
     if (patch == null) {
       throw new NoSuchChangeException(changeIdToRevert);
     }

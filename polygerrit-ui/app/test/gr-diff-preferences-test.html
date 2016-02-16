@@ -68,8 +68,8 @@ limitations under the License.
       Promise.all([savePromise, cancelPromise]).then(function() {
         done();
       });
-      MockInteractions.tap(element.$$('button.primary'));
-      MockInteractions.tap(element.$$('.cancel button'));
+      MockInteractions.tap(element.$$('gr-button[primary]'));
+      MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
   });
 </script>

@@ -265,8 +265,6 @@ public class CreateChange implements
 
   private static ObjectId emptyTreeId(ObjectInserter inserter)
       throws IOException {
-    ObjectId id = inserter.insert(new TreeFormatter());
-    inserter.flush();
-    return id;
+    return inserter.insert(new TreeFormatter());
   }
 }

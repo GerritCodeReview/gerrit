@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-reviewer-list">
@@ -76,12 +77,12 @@ limitations under the License.
 
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]"></gr-account-link>
-        <a class="remove"
-            href="#"
+        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
+        <gr-button link
+            class="remove"
             data-account-id$="[[reviewer._account_id]]"
             on-tap="_handleRemoveTap"
-            hidden$="[[_computeCannotRemoveReviewer(reviewer, mutable)]]">remove</a>
+            hidden$="[[_computeCannotRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
       </div>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
@@ -89,7 +90,7 @@ limitations under the License.
         <div class="inputContainer">
           <input is="iron-input" id="input"
               bind-value="{{_inputVal}}" disabled$="[[disabled]]">
-          <a href="#" class="cancel" on-tap="_handleCancelTap">×</a>
+          <gr-button link class="cancel" on-tap="_handleCancelTap">×</gr-button>
         </div>
         <div class="dropdown" hidden$="[[_hideAutocomplete]]">
           <template is="dom-repeat" items="[[_autocompleteData]]" as="reviewer">
@@ -109,8 +110,8 @@ limitations under the License.
           </template>
         </div>
       </div>
-      <a href="#" id="addReviewer" class="addReviewer" on-tap="_handleAddTap"
-          hidden$="[[_showInput]]">Add reviewer</a>
+      <gr-button link id="addReviewer" class="addReviewer" on-tap="_handleAddTap"
+          hidden$="[[_showInput]]">Add reviewer</gr-button>
     </div>
   </template>
   <script>

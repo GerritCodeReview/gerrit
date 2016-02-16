@@ -122,6 +122,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final Path basePath;
+  private final NotesMigration notesMigration;
   private final Path noteDbPath;
   private final Lock namesUpdateLock;
   private volatile SortedSet<Project.NameKey> names;
@@ -130,17 +131,14 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   LocalDiskRepositoryManager(SitePaths site,
       @GerritServerConfig Config cfg,
       NotesMigration notesMigration) {
+    this.notesMigration = notesMigration;
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
 
-    if (notesMigration.enabled()) {
-      noteDbPath = site.resolve(MoreObjects.firstNonNull(
-          cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
-    } else {
-      noteDbPath = null;
-    }
+    noteDbPath = site.resolve(MoreObjects.firstNonNull(
+        cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     namesUpdateLock = new ReentrantLock(true /* fair */);
     names = list();
   }
@@ -201,7 +199,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     Repository repo = createRepository(basePath, name);
-    if (noteDbPath != null && !noteDbPath.equals(basePath)) {
+    if (notesMigration.writeChanges() && !noteDbPath.equals(basePath)) {
       createRepository(noteDbPath, name);
     }
     return repo;
@@ -266,7 +264,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public Repository openMetadataRepository(Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
-    checkState(noteDbPath != null, "notedb disabled");
+    checkState(notesMigration.readChanges(), "notedb disabled");
     try {
       return openRepository(noteDbPath, name);
     } catch (RepositoryNotFoundException e) {

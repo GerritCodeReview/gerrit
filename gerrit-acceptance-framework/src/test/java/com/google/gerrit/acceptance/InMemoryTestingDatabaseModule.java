@@ -36,6 +36,7 @@ import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -76,7 +77,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
 
-    bind(NotesMigration.class);
+    bind(NotesMigration.class).to(TestNotesMigration.class);
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);

@@ -58,13 +58,13 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
+import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -186,7 +186,7 @@ public abstract class AbstractDaemonTest {
   protected Project.NameKey project;
 
   @Inject
-  protected NotesMigration notesMigration;
+  protected TestNotesMigration notesMigration;
 
   @Inject
   protected ChangeNotes.Factory notesFactory;
@@ -253,9 +253,6 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
       GerritServer.Description.forTestMethod(description, configName);
 
-    if (isNoteDbTestEnabled()) {
-      NotesMigration.setAllEnabledConfig(baseConfig);
-    }
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());
     if (classDesc.equals(methodDesc)) {
@@ -268,6 +265,7 @@ public abstract class AbstractDaemonTest {
     }
 
     server.getTestInjector().injectMembers(this);
+    notesMigration.setAllEnabled(isNoteDbTestEnabled());
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
     admin = accounts.admin();

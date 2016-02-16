@@ -63,7 +63,6 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -114,7 +113,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
-  @Inject protected NotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected ProjectControl.GenericFactory projectControlFactory;

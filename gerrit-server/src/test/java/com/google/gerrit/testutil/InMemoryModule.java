@@ -50,6 +50,7 @@ import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -103,13 +104,15 @@ public class InMemoryModule extends FactoryModule {
   }
 
   private final Config cfg;
+  private final TestNotesMigration notesMigration;
 
   public InMemoryModule() {
-    this(newDefaultConfig());
+    this(newDefaultConfig(), new TestNotesMigration());
   }
 
-  public InMemoryModule(Config cfg) {
+  public InMemoryModule(Config cfg, TestNotesMigration notesMigration) {
     this.cfg = cfg;
+    this.notesMigration = notesMigration;
   }
 
   public void inject(Object instance) {
@@ -159,6 +162,7 @@ public class InMemoryModule extends FactoryModule {
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class)
         .in(SINGLETON);
+    bind(NotesMigration.class).toInstance(notesMigration);
 
     bind(DataSourceType.class)
       .to(InMemoryH2Type.class);

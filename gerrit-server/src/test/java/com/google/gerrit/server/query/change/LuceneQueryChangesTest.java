@@ -30,7 +30,8 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
-    return Guice.createInjector(new InMemoryModule(luceneConfig));
+    return Guice.createInjector(
+        new InMemoryModule(luceneConfig, notesMigration));
   }
 
   @Test

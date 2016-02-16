@@ -52,6 +52,7 @@ import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
@@ -77,7 +78,8 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
-  private static final NotesMigration MIGRATION = NotesMigration.allEnabled();
+  private static final NotesMigration MIGRATION =
+      new TestNotesMigration().setAllEnabled(true);
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;

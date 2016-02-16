@@ -56,6 +56,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final RebaseUtil rebaseUtil;
+  private final ChangeResource.Factory changeResourceFactory;
 
   private final ChangeControl ctl;
   private final PatchSet originalPatchSet;
@@ -77,12 +78,14 @@ public class RebaseChangeOp extends BatchUpdate.Op {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       RebaseUtil rebaseUtil,
+      ChangeResource.Factory changeResourceFactory,
       @Assisted ChangeControl ctl,
       @Assisted PatchSet originalPatchSet,
       @Assisted @Nullable String baseCommitish) {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
+    this.changeResourceFactory = changeResourceFactory;
     this.ctl = ctl;
     this.originalPatchSet = originalPatchSet;
     this.baseCommitish = baseCommitish;
@@ -138,7 +141,8 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     RevId baseRevId = new RevId((baseCommitish != null) ? baseCommitish
         : ObjectId.toString(baseCommit.getId()));
     Base base = rebaseUtil.parseBase(
-        new RevisionResource(new ChangeResource(ctl), originalPatchSet),
+        new RevisionResource(
+            changeResourceFactory.create(ctl), originalPatchSet),
         baseRevId.get());
 
     rebasedPatchSetId = ChangeUtil.nextPatchSetId(

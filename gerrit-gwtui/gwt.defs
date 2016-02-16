@@ -32,6 +32,7 @@ def gwt_genrule(module, deps, suffix = ""):
   dbg = 'ui_dbg' + suffix
   opt = 'ui_opt' + suffix
   soyc = 'ui_soyc' + suffix
+  module_dep = ':ui_module' + suffix
   args = GWT_COMPILER_ARGS_RELEASE_MODE if suffix == "_r" else GWT_COMPILER_ARGS
 
   genrule(
@@ -51,7 +52,7 @@ def gwt_genrule(module, deps, suffix = ""):
   gwt_binary(
     name = opt,
     modules = [module],
-    module_deps = [':ui_module'],
+    module_deps = [module_dep],
     deps = deps + ([':' + dbg] if CPU_COUNT < 8 else []),
     local_workers = CPU_COUNT,
     strict = True,
@@ -64,7 +65,7 @@ def gwt_genrule(module, deps, suffix = ""):
     modules = [module],
     style = 'PRETTY',
     optimize = 0,
-    module_deps = [':ui_module'],
+    module_deps = [module_dep],
     deps = deps,
     local_workers = CPU_COUNT,
     strict = True,
@@ -76,7 +77,7 @@ def gwt_genrule(module, deps, suffix = ""):
   gwt_binary(
     name = soyc,
     modules = [module],
-    module_deps = [':ui_module'],
+    module_deps = [module_dep],
     deps = deps + [':' + dbg],
     local_workers = CPU_COUNT,
     strict = True,

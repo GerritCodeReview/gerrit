@@ -111,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "ddf718e0_46fd9482",
+        "filename": "lib/jgit/org.eclipse.jgit.lfs/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-02-16T00:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf718e0_83d93e70",
+      "revId": "d26222e895081fe94b46682bbe0ab611de19d267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf718e0_a3d43a36",
         "filename": "lib/jgit/org.eclipse.jgit.lfs/BUCK",
         "patchSetId": 5
@@ -146,6 +164,30 @@
       "side": 1,
       "message": "when rebasing this change on patchset 3 of the dependent change I hit the following error\n\n$ buck build gerrit\nNot using buckd because watchman isn\u0027t installed.\n[+] PROCESSING BUCK FILES...1.2s [100%]\nBUILD FAILED: Couldn\u0027t get dependency \u0027//org.eclipse.jgit:jgit\u0027 of target \u0027//gerrit-pgm:pgm\u0027:\nParse error for build file /Users/d029788/src/git/gerrit/lib/jgit/org.eclipse.jgit/BUCK:   File \"/Users/d029788/src/git/gerrit/lib/jgit/org.eclipse.jgit/BUCK\", line 2, in \u003cmodule\u003e\n    include_defs(\u0027//lib/JGIT_VERSION\u0027)\n  File \"/Users/d029788/src/git/gerrit/buck-out/tmp/buck_run.d8BMyp/buck4896140974677187402.py\", line 521, in _include_defs\n    implicit_includes\u003dimplicit_includes)\n  File \"/Users/d029788/src/git/gerrit/buck-out/tmp/buck_run.d8BMyp/buck4896140974677187402.py\", line 622, in _process_include\n    implicit_includes\u003dimplicit_includes)\n  File \"/Users/d029788/src/git/gerrit/buck-out/tmp/buck_run.d8BMyp/buck4896140974677187402.py\", line 604, in _process\n    code \u003d compile(contents, path, \u0027exec\u0027, future_features, 1)\n  File \"/Users/d029788/src/git/gerrit/lib/jgit/lib/JGIT_VERSION\", line 1\n    ../../JGIT_VERSION\n    ^\nSyntaxError: invalid syntax",
       "parentUuid": "ddf718e0_a3d43a36",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 28
+      },
+      "revId": "d26222e895081fe94b46682bbe0ab611de19d267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddf718e0_6600904e",
+        "filename": "lib/jgit/org.eclipse.jgit.lfs/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-02-16T00:32:29Z",
+      "side": 1,
+      "message": "this was my fault, I had stashed configuration of local jgit path in .buckconfig",
+      "parentUuid": "bd342467_c5edecac",
       "range": {
         "startLine": 2,
         "startChar": 14,

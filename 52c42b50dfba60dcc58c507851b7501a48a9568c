@@ -16,6 +16,24 @@
       "revId": "52c42b50dfba60dcc58c507851b7501a48a9568c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_e810f3a4",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-16T18:29:41Z",
+      "side": 1,
+      "message": "What happend ist, you commented on non current patch set, I hit \"Fix\" button and created a change edit on stale patch set; when published, the last patch set was lost. Restored.",
+      "parentUuid": "5d1a4804_57766ca9",
+      "revId": "52c42b50dfba60dcc58c507851b7501a48a9568c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

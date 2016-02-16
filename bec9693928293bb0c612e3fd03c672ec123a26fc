@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf718e0_c6e3c4c0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-02-16T11:28:26Z",
+      "side": 1,
+      "message": "An alternative would be to not print anything if we don\u0027t have a user.",
+      "range": {
+        "startLine": 681,
+        "startChar": 5,
+        "endLine": 681,
+        "endChar": 73
+      },
+      "revId": "bec9693928293bb0c612e3fd03c672ec123a26fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

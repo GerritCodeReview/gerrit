@@ -34,6 +34,24 @@
       "revId": "7d05d8139d133db0217d7d1ba7c7ac3be89120f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_9ff09347",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T14:34:36Z",
+      "side": 1,
+      "message": "Maybe the comment should be expanded:\n\n // Ignore missing changes to match Access#get(Iterable) behavior.",
+      "parentUuid": "bd342467_e5e6f091",
+      "revId": "7d05d8139d133db0217d7d1ba7c7ac3be89120f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "123103313b90e5c8205263e23f40f9907ec5a8b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_c5bbaca1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-16T07:32:38Z",
+      "side": 1,
+      "message": "It already printed the ids of the actual changes with the normal error message, but having details for them too, might be better.\n\nDone",
+      "parentUuid": "5d1a4804_9713a49e",
+      "revId": "123103313b90e5c8205263e23f40f9907ec5a8b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

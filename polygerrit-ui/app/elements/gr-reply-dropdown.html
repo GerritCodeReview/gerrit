@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-reply-dropdown">
@@ -37,14 +38,6 @@ limitations under the License.
       background-color: #fff;
       box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       width: 40em;
-    }
-    button {
-      background-color: #f1f2f3;
-      border: 1px solid #aaa;
-      border-radius: 2px;
-      cursor: pointer;
-      font: inherit;
-      padding: .2em .5em;
     }
     section {
       border-top: 1px solid #ddd;
@@ -73,25 +66,18 @@ limitations under the License.
     iron-selector {
       display: inline-flex;
     }
-    iron-selector > button {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-left: none;
-      padding: .25em 0;
-      cursor: pointer;
-      width: 3em;
-      text-align: center;
+    iron-selector > gr-button {
+      margin-right: .25em;
     }
-    iron-selector > button:first-of-type {
+    iron-selector > gr-button:first-of-type {
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
-      border-left: 1px solid #ddd;
     }
-    iron-selector > button:last-of-type {
+    iron-selector > gr-button:last-of-type {
       border-top-right-radius: 2px;
       border-bottom-right-radius: 2px;
     }
-    iron-selector > button.iron-selected {
+    iron-selector > gr-button.iron-selected {
       background-color: #ddd;
     }
     .draftsContainer h3 {
@@ -99,22 +85,18 @@ limitations under the License.
     }
     .actionsContainer {
       display: flex;
+      justify-content: space-between;
     }
     .action:link,
     .action:visited {
       color: #00e;
-    }
-    .danger {
-      display: flex;
-      flex: 1;
-      justify-content: flex-end;
     }
   </style>
   <template>
     <gr-ajax id="draftsXHR"
         url="[[_computeDraftsURL(changeNum)]]"
         last-response="{{_drafts}}"></gr-ajax>
-    <button id="trigger" on-tap="_showPopupTapHandler">Reply</button>
+    <gr-button id="trigger" on-tap="_showPopupTapHandler">Reply</gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"
         vertical-offset="25"
@@ -139,7 +121,7 @@ limitations under the License.
                 <template is="dom-repeat"
                     items="[[_computePermittedLabelValues(permittedLabels, label)]]"
                     as="value">
-                  <button data-value$="[[value]]">[[value]]</button>
+                  <gr-button data-value$="[[value]]">[[value]]</gr-button>
                 </template>
               </iron-selector>
             </div>
@@ -153,10 +135,8 @@ limitations under the License.
               patch-num="[[patchNum]]"></gr-comment-list>
         </section>
         <section class="actionsContainer">
-          <button class="action send" on-tap="_sendTapHandler">Send</button>
-          <div class="danger">
-            <button class="action cancel" on-tap="_cancelTapHandler">Cancel</button>
-          </div>
+          <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
+          <gr-button class="action cancel" on-tap="_cancelTapHandler">Cancel</gr-button>
         </section>
       </div>
     </iron-dropdown>

@@ -21,13 +21,18 @@ limitations under the License.
   <template strip-whitespace>
     <style>
       :host {
-        background: transparent;
-        border-radius: 3px;
+        background-color: #fff;
+        border: 1px solid #d1d2d3;
+        border-radius: 2px;
         box-sizing: border-box;
+        color: #333;
         cursor: pointer;
         display: inline-block;
-        font: inherit;
+        font-family: var(--font-family);
+        font-size: 13px;
+        font-weight: bold;
         outline-width: 0;
+        padding: .3em .65em;
         position: relative;
         text-align: center;
         -moz-user-select: none;
@@ -36,17 +41,50 @@ limitations under the License.
         user-select: none;
       }
       :host([primary]) {
-
+        background-color: #4d90fe;
+        border-color: #3079ed;
+        color: #fff;
       }
       :host([small]) {
-
+        font-size: 12px;
       }
       :host([link]) {
+        background-color: transparent;
+        border: none;
         color: #00f;
+        font-size: inherit;
+        font-weight: normal;
+        padding: 0;
         text-decoration: underline;
       }
+      :host([loading]),
       :host([disabled]) {
-
+        background-color: #efefef;
+        color: #aaa;
+      }
+      :host([disabled]) {
+        cursor: default;
+        pointer-events: none;
+      }
+      :host([loading]),
+      :host([loading][disabled]) {
+        cursor: wait;
+      }
+      :host(:focus),
+      :host(:hover) {
+        border-color: #666;
+      }
+      :host(:active) {
+        border-color: #d1d2d3;
+        color: #aaa;
+      }
+      :host([primary]:focus),
+      :host([primary]:hover) {
+        border-color: #00F;
+      }
+      :host([primary]:active) {
+        border-color: #0c2188;
+        color: #fff;
       }
     </style>
     <content></content>
@@ -59,7 +97,21 @@ limitations under the License.
       is: 'gr-button',
 
       properties: {
+        disabled: {
+          type: Boolean,
+          observer: '_disabledChanged',
+          reflectToAttribute: true,
+        },
+      },
 
+      hostAttributes: {
+        role: 'button',
+        tabindex: '0',
+      },
+
+      _disabledChanged: function(disabled) {
+        console.log('wat')
+        this.setAttribute('tabindex', disabled ? '-1' : '0');
       },
     });
   })();

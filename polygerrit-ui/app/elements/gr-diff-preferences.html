@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="gr-button.html">
 
 <dom-module id="gr-diff-preferences">
   <template>
@@ -27,26 +28,12 @@ limitations under the License.
         opacity: .5;
         pointer-events: none;
       }
-      button,
       input,
       select {
         font: inherit;
       }
       input[type="number"] {
         width: 4em;
-      }
-      button {
-        background-color: #f1f2f3;
-        border: 1px solid #aaa;
-        border-radius: 2px;
-        cursor: pointer;
-        font: inherit;
-        padding: .2em .75em;
-      }
-      button.primary {
-        background: #448aff;
-        border: none;
-        color: #fff;
       }
       .header,
       .actions {
@@ -75,11 +62,7 @@ limitations under the License.
       .actions {
         border-top: 1px solid #ddd;
         display: flex;
-      }
-      .cancel {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
+        justify-content: space-between;
       }
     </style>
     <div class="header">
@@ -119,10 +102,8 @@ limitations under the License.
       </div>
     </div>
     <div class="actions">
-      <button class="primary" on-tap="_handleSave">Save</button>
-      <div class="cancel">
-        <button on-tap="_handleCancel">Cancel</button>
-      </div>
+      <gr-button primary on-tap="_handleSave">Save</gr-button>
+      <gr-button on-tap="_handleCancel">Cancel</gr-button>
     </div>
   </template>
   <script>

@@ -1,0 +1,210 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-button.html">
+
+<dom-module id="gr-keyboard-shortcuts-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      header{
+        padding: 1em;
+      }
+      main {
+        display: flex;
+        padding: 0 2em 2em;
+      }
+      header {
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+      }
+      table:last-of-type {
+        margin-left: 3em;
+      }
+      td {
+        padding: .2em 0;
+      }
+      td:first-child {
+        padding-right: .5em;
+        text-align: right;
+      }
+      .header {
+        font-weight: bold;
+        padding-top: 1em;
+      }
+      .key {
+        display: inline-block;
+        font-weight: bold;
+        border-radius: 3px;
+        background-color: #f1f2f3;
+        padding: .1em .5em;
+        text-align: center;
+      }
+    </style>
+    <header>
+      <h3>Keyboard shortcuts</h3>
+      <gr-button link on-tap="_handleCloseTap">Close</gr-button>
+    </header>
+    <main>
+      <table>
+        <tbody>
+          <tr>
+            <td></td><td class="header">Everywhere</td>
+          </tr>
+          <tr>
+            <td><span class="key">/</span></td>
+            <td>Search</td>
+          </tr>
+          <tr>
+            <td><span class="key">?</span></td>
+            <td>Show this dialog</td>
+          </tr>
+        </tbody>
+        <tbody hidden$="[[!_computeInView(view, 'gr-change-view')]]" hidden>
+          <tr>
+            <td></td><td class="header">Navigation</td>
+          </tr>
+          <tr>
+            <td><span class="key">]</span></td>
+            <td>Show first file</td>
+          </tr>
+          <tr>
+            <td><span class="key">[</span></td>
+            <td>Show last file</td>
+          </tr>
+          <tr>
+            <td><span class="key">u</span></td>
+            <td>Up to change list</td>
+          </tr>
+        </tbody>
+        <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
+          <tr>
+            <td></td><td class="header">Navigation</td>
+          </tr>
+          <tr>
+            <td><span class="key">]</span></td>
+            <td>Show next file</td>
+          </tr>
+          <tr>
+            <td><span class="key">[</span></td>
+            <td>Show previous file</td>
+          </tr>
+          <tr>
+            <td><span class="key">u</span></td>
+            <td>Up to change</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <tbody hidden$="[[!_computeInChangeListView(view)]]" hidden>
+          <tr>
+            <td></td><td class="header">Change list</td>
+          </tr>
+          <tr>
+            <td><span class="key">j</span></td>
+            <td>Select next change</td>
+          </tr>
+          <tr>
+            <td><span class="key">k</span></td>
+            <td>Show previous change</td>
+          </tr>
+          <tr>
+            <td><span class="key">Enter</span> or <span class="key">o</span></td>
+            <td>Show selected change</td>
+          </tr>
+        </tbody>
+        <tbody hidden$="[[!_computeInView(view, 'gr-change-view')]]" hidden>
+          <tr>
+            <td></td><td class="header">Actions</td>
+          </tr>
+          <tr>
+            <td><span class="key">a</span></td>
+            <td>Review and publish comments</td>
+          </tr>
+          <tr>
+            <td></td><td class="header">File list</td>
+          </tr>
+          <tr>
+            <td><span class="key">j</span></td>
+            <td>Select next file</td>
+          </tr>
+          <tr>
+            <td><span class="key">k</span></td>
+            <td>Select previous file</td>
+          </tr>
+          <tr>
+            <td><span class="key">Enter</span> or <span class="key">o</span></td>
+            <td>Show selected file</td>
+          </tr>
+        </tbody>
+        <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
+          <tr>
+            <td></td><td class="header">Actions</td>
+          </tr>
+          <tr>
+            <td><span class="key">a</span></td>
+            <td>Review and publish comments</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+    <footer></footer>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-keyboard-shortcuts-dialog',
+
+      /**
+       * Fired when the user presses the close button.
+       *
+       * @event close
+       */
+
+      properties: {
+        view: String,
+      },
+
+      hostAttributes: {
+        role: 'dialog',
+      },
+
+      _computeInView: function(currentView, view) {
+        return view == currentView;
+      },
+
+      _computeInChangeListView: function(currentView) {
+        return currentView == 'gr-change-list-view' ||
+            currentView == 'gr-dashboard-view';
+      },
+
+      _handleCloseTap: function(e) {
+        e.preventDefault();
+        this.fire('close', null, {bubbles: false});
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

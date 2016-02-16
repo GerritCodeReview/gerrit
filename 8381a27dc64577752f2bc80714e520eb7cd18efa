@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_df693b8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:00:37Z",
+      "side": 1,
+      "message": "This is a bug in ReadOnlyRepository. Guard the last two setters with if (!r.isBare())",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

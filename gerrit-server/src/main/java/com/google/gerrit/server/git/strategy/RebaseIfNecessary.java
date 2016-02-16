@@ -161,7 +161,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
     }
 
     @Override
-    public void postUpdateImpl(Context ctx) throws OrmException {
+    public void postUpdateImpl(Context ctx) throws OrmException, IOException {
       if (rebaseOp != null) {
         rebaseOp.postUpdate(ctx);
       }

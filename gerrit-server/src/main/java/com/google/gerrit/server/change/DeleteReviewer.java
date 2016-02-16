@@ -21,10 +21,11 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -32,15 +33,15 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
 import java.util.List;
 
 @Singleton
@@ -49,44 +50,55 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeIndexer indexer;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
   DeleteReviewer(Provider<ReviewDb> dbProvider,
-      ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      ChangeIndexer indexer,
+      BatchUpdate.Factory batchUpdateFactory,
       IdentifiedUser.GenericFactory userFactory) {
     this.dbProvider = dbProvider;
-    this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.indexer = indexer;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.userFactory = userFactory;
   }
 
   @Override
   public Response<?> apply(ReviewerResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException,
-      IOException {
-    ChangeControl control = rsrc.getControl();
-    Change.Id changeId = rsrc.getChangeId();
-    ReviewDb db = dbProvider.get();
-    ChangeUpdate update = updateFactory.create(rsrc.getControl());
+      throws RestApiException, UpdateException {
+    try (BatchUpdate bu = batchUpdateFactory.create(dbProvider.get(),
+        rsrc.getChangeResource().getProject(),
+        rsrc.getChangeResource().getUser(), TimeUtil.nowTs())) {
+      Op op = new Op(rsrc.getReviewerUser().getAccountId());
+      bu.addOp(rsrc.getChange().getId(), op);
+      bu.execute();
+    }
 
-    StringBuilder msg = new StringBuilder();
-    db.changes().beginTransaction(changeId);
-    try {
+    return Response.none();
+  }
+
+  private class Op extends BatchUpdate.Op {
+    private final Account.Id reviewerId;
+
+    Op(Account.Id reviewerId) {
+      this.reviewerId = reviewerId;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx)
+        throws AuthException, ResourceNotFoundException, OrmException {
+      PatchSet.Id currPs = ctx.getChange().currentPatchSetId();
+      StringBuilder msg = new StringBuilder();
       List<PatchSetApproval> del = Lists.newArrayList();
-      for (PatchSetApproval a : approvals(db, rsrc)) {
-        if (control.canRemoveReviewer(a)) {
+      for (PatchSetApproval a : approvals(ctx, reviewerId)) {
+        if (ctx.getControl().canRemoveReviewer(a)) {
           del.add(a);
-          if (a.getPatchSetId().equals(control.getChange().currentPatchSetId())
+          if (a.getPatchSetId().equals(currPs)
               && a.getValue() != 0) {
             if (msg.length() == 0) {
               msg.append("Removed the following votes:\n\n");
@@ -103,48 +115,40 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       if (del.isEmpty()) {
         throw new ResourceNotFoundException();
       }
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChangeId(), db);
-      db.patchSetApprovals().delete(del);
-      update.removeReviewer(rsrc.getReviewerUser().getAccountId());
+      ctx.getDb().patchSetApprovals().delete(del);
+      ChangeUpdate update = ctx.getUpdate(currPs);
+      update.removeReviewer(reviewerId);
 
       if (msg.length() > 0) {
         ChangeMessage changeMessage =
-            new ChangeMessage(new ChangeMessage.Key(rsrc.getChangeId(),
-                ChangeUtil.messageUUID(db)),
-                control.getUser().getAccountId(),
-                TimeUtil.nowTs(), rsrc.getChange().currentPatchSetId());
+            new ChangeMessage(new ChangeMessage.Key(ctx.getChange().getId(),
+                ChangeUtil.messageUUID(ctx.getDb())),
+                ctx.getUser().getAccountId(),
+                TimeUtil.nowTs(), currPs);
         changeMessage.setMessage(msg.toString());
-        cmUtil.addChangeMessage(db, update, changeMessage);
+        cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
       }
-
-      db.commit();
-    } finally {
-      db.rollback();
+      return true;
     }
-    update.commit();
-    indexer.index(db, rsrc.getChange());
-    return Response.none();
-  }
 
-  private static String formatLabelValue(short value) {
-    if (value > 0) {
-      return "+" + value;
-    } else {
-      return Short.toString(value);
+    private Iterable<PatchSetApproval> approvals(ChangeContext ctx,
+        final Account.Id accountId) throws OrmException {
+      return Iterables.filter(
+          approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values(),
+          new Predicate<PatchSetApproval>() {
+            @Override
+            public boolean apply(PatchSetApproval input) {
+              return accountId.equals(input.getAccountId());
+            }
+          });
     }
-  }
 
-  private Iterable<PatchSetApproval> approvals(ReviewDb db,
-      ReviewerResource rsrc) throws OrmException {
-    final Account.Id user = rsrc.getReviewerUser().getAccountId();
-    return Iterables.filter(
-        approvalsUtil.byChange(db, rsrc.getChangeResource().getNotes())
-            .values(),
-        new Predicate<PatchSetApproval>() {
-          @Override
-          public boolean apply(PatchSetApproval input) {
-            return user.equals(input.getAccountId());
-          }
-        });
+    private String formatLabelValue(short value) {
+      if (value > 0) {
+        return "+" + value;
+      } else {
+        return Short.toString(value);
+      }
+    }
   }
 }

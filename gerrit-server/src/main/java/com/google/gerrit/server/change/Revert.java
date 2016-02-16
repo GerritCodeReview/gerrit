@@ -50,8 +50,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -122,26 +120,19 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       throw new ResourceConflictException("change is " + status(change));
     }
 
-    Change.Id revertedChangeId;
-    try {
-      revertedChangeId = revert(req.getControl(),
-            Strings.emptyToNull(input.message));
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
-    }
+    Change.Id revertedChangeId =
+        revert(req.getControl(), Strings.emptyToNull(input.message));
     return json.create(ChangeJson.NO_OPTIONS).format(req.getProject(),
         revertedChangeId);
   }
 
   private Change.Id revert(ChangeControl ctl, String message)
-      throws NoSuchChangeException, OrmException, MissingObjectException,
-      IncorrectObjectTypeException, IOException, RestApiException,
-      UpdateException {
+      throws OrmException, IOException, RestApiException, UpdateException {
     Change.Id changeIdToRevert = ctl.getChange().getId();
     PatchSet.Id patchSetId = ctl.getChange().currentPatchSetId();
     PatchSet patch = psUtil.get(db.get(), ctl.getNotes(), patchSetId);
     if (patch == null) {
-      throw new NoSuchChangeException(changeIdToRevert);
+      throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
     Change changeToRevert = db.get().changes().get(changeIdToRevert);
 
@@ -228,7 +219,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
       return changeId;
     } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeIdToRevert, e);
+      throw new ResourceNotFoundException(changeIdToRevert.toString(), e);
     }
   }
 

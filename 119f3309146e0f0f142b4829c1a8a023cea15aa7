@@ -22,6 +22,30 @@
       "revId": "119f3309146e0f0f142b4829c1a8a023cea15aa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_371bb864",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:38:10Z",
+      "side": 1,
+      "message": "failFast doesn\u0027t take a BranchBatch, nor do we have one available at all call sites.",
+      "parentUuid": "5d1a4804_3744183e",
+      "range": {
+        "startLine": 620,
+        "startChar": 8,
+        "endLine": 622,
+        "endChar": 24
+      },
+      "revId": "119f3309146e0f0f142b4829c1a8a023cea15aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

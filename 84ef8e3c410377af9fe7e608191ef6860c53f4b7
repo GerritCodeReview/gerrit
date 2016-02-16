@@ -70,6 +70,24 @@
       "revId": "84ef8e3c410377af9fe7e608191ef6860c53f4b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_1fa1e31b",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-02-16T17:23:03Z",
+      "side": 1,
+      "message": "yeah it is the same, however the \u003d\u003d false is a bit more explicit when reading... \n\nswitching to a strict \u003d\u003d\u003d would be best :) but I know that is not inline with the rest of the project",
+      "parentUuid": "5d1a4804_1799d432",
+      "revId": "84ef8e3c410377af9fe7e608191ef6860c53f4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

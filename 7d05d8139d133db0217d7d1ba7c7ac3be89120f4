@@ -16,6 +16,24 @@
       "revId": "7d05d8139d133db0217d7d1ba7c7ac3be89120f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e5e6f091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-16T12:13:36Z",
+      "side": 1,
+      "message": "I was thinking about this and I decided to ignore it because it is also ignored when we load from database below.\n\nThe javadoc for Access.get(Iterable\u003cK\u003e keys) which we use below says for the return value: \"collection of all matching entities; this may be a smaller result than the keys supplied if one or more of the keys does not match an existing entity.\"\n\nSo I think it\u0027s consistent.",
+      "parentUuid": "5d1a4804_b7ed88ad",
+      "revId": "7d05d8139d133db0217d7d1ba7c7ac3be89120f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

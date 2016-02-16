@@ -52,6 +52,24 @@
       "revId": "5042ed31093aee83670c9708b666785aa0379892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_3f6dc7cf",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-16T11:26:35Z",
+      "side": 0,
+      "message": "\u003e This change hasn\u0027t fixed keyboard navigation (yet) when Codemirror has the focus\n\nThis is already mentioned in the commit message.",
+      "parentUuid": "bd342467_456d5cce",
+      "revId": "5042ed31093aee83670c9708b666785aa0379892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

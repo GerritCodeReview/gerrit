@@ -73,7 +73,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private static final Logger log = LoggerFactory.getLogger(Revert.class);
 
   private final Provider<ReviewDb> db;
-  private final Provider<CurrentUser> user;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -87,7 +86,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
   @Inject
   Revert(Provider<ReviewDb> db,
-      Provider<CurrentUser> user,
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
@@ -99,7 +97,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       ChangeJson.Factory json,
       @GerritPersonIdent PersonIdent myIdent) {
     this.db = db;
-    this.user = user;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
     this.cmUtil = cmUtil;
@@ -150,12 +147,13 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     Change changeToRevert = db.get().changes().get(changeIdToRevert);
 
     Project.NameKey project = ctl.getProject().getNameKey();
+    CurrentUser user = ctl.getUser();
     try (Repository git = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(git)) {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
-      PersonIdent authorIdent = user.get().asIdentifiedUser()
+      PersonIdent authorIdent = user.asIdentifiedUser()
           .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
 
       if (commitToRevert.getParentCount() == 0) {
@@ -199,7 +197,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
         ChangeMessage changeMessage = new ChangeMessage(
             new ChangeMessage.Key(
                 patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
-                user.get().getAccountId(), TimeUtil.nowTs(), patchSetId);
+                user.getAccountId(), TimeUtil.nowTs(), patchSetId);
         StringBuilder msgBuf = new StringBuilder();
         msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
         msgBuf.append("\n\n");
@@ -212,7 +210,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
         ins.setMessage("Uploaded patch set 1.");
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), project, ctl.getUser(),
+            db.get(), project, user,
             TimeUtil.nowTs())) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
@@ -222,7 +220,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
       try {
         RevertedSender cm = revertedSenderFactory.create(project, changeId);
-        cm.setFrom(user.get().getAccountId());
+        cm.setFrom(user.getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
       } catch (Exception err) {

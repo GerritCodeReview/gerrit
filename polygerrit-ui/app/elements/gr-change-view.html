@@ -243,9 +243,9 @@ limitations under the License.
               <td class="changeMetadata-label">Topic</td>
               <td>[[_change.topic]]</td>
             </tr>
-            <tr>
+            <tr hidden$="[[_computeHideStrategy(_change)]]" hidden>
               <td class="changeMetadata-label">Strategy</td>
-              <td></td>
+              <td>[[_computeStrategy(_change)]]</td>
             </tr>
             <tr>
               <td class="changeMetadata-label">Updated</td>
@@ -316,6 +316,14 @@ limitations under the License.
   <script>
   (function() {
     'use strict';
+
+    var SubmitTypeLabel = {
+      FAST_FORWARD_ONLY: 'Fast Forward Only',
+      MERGE_IF_NECESSARY: 'Merge if Necessary',
+      REBASE_IF_NECESSARY: 'Rebase if Necessary',
+      MERGE_ALWAYS: 'Always Merge',
+      CHERRY_PICK: 'Cherry Pick',
+    };
 
     Polymer({
       is: 'gr-change-view',
@@ -546,6 +554,18 @@ limitations under the License.
 
       _computePatchIndexIsSelected: function(index, patchNum) {
         return this._allPatchSets[index] == patchNum;
+      },
+
+      _computeHideStrategy: function(change) {
+        var open = change.status == this.ChangeStatus.NEW ||
+            change.status == this.ChangeStatus.DRAFT;
+        var current = !this._patchNum ||
+            change.revisions[change.current_revision]._number == this._patchNum;
+        return !(open && current);
+      },
+
+      _computeStrategy: function(change) {
+        return SubmitTypeLabel[change.submit_type];
       },
 
       _computeLabelNames: function(labels) {

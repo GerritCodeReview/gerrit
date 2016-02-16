@@ -29,6 +29,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -40,6 +41,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -90,6 +92,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @Ignore
@@ -1463,9 +1466,48 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       throws Exception {
     List<ChangeInfo> result = query.get();
     Iterable<Integer> ids = ids(result);
-    assertThat(ids).named(query.getQuery())
+    assertThat(ids).named(format(query, ids, changes))
         .containsExactlyElementsIn(ids(changes)).inOrder();
     return result;
+  }
+
+  private String format(QueryRequest query, Iterable<Integer> actualIds,
+      Change... expectedChanges) throws RestApiException {
+    StringBuilder b = new StringBuilder();
+    b.append("query '").append(query.getQuery())
+     .append("' with expected changes ");
+    b.append(format(Iterables.transform(Arrays.asList(expectedChanges),
+        new Function<Change, Integer>() {
+          @Override
+          public Integer apply(Change change) {
+            return change.getChangeId();
+          }
+        })));
+    b.append(" and result ");
+    b.append(format(actualIds));
+    return b.toString();
+  }
+
+  private String format(Iterable<Integer> changeIds) throws RestApiException {
+    StringBuilder b = new StringBuilder();
+    b.append("[");
+    Iterator<Integer> it = changeIds.iterator();
+    while (it.hasNext()) {
+      int id = it.next();
+      ChangeInfo c = gApi.changes().id(id).get();
+      b.append("{").append(id).append(" (").append(c.changeId)
+          .append("), ").append("dest=").append(
+              new Branch.NameKey(
+                  new Project.NameKey(c.project), c.branch)).append(", ")
+          .append("status=").append(c.status).append(", ")
+          .append("lastUpdated=").append(c.updated.getTime())
+          .append("}");
+      if (it.hasNext()) {
+        b.append(", ");
+      }
+    }
+    b.append("]");
+    return b.toString();
   }
 
   protected static Iterable<Integer> ids(Change... changes) {

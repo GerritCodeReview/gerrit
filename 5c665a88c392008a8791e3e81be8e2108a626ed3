@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_651ae093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-16T06:02:53Z",
+      "side": 1,
+      "message": "Given the following:\n\n* this is the last problem that prevents Gerrit Code Review tool to be used by keyboard navigation only\n* mostly west european keyboard layouts are affected\n* this wasn\u0027t fixed for years\n\n/me personally wouldn\u0027t have any problem with binding other keyboard shortcut as \u0027[\u0027, \u0027]\u0027 for file navigation in side by side diff sceen.\n\nSo it was late yesterday, and i already broke another change in another project before (just to give you some context here ;-), but I tried different combinations, even obscure ones, like \u0027.\u0027 for \u0027[\u0027, \u0027-\u0027 for \u0027]\u0027, and different ones with simple uppercase letters, but all attempts havn\u0027t worked (I refreshed the browser, the GWT was recompiled and I even cleaned the browser cached, but, ... nothing worked).\n\n* [1] https://gerrit.libreoffice.org/22379",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "5c665a88c392008a8791e3e81be8e2108a626ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

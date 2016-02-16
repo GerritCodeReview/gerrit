@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_c5040c35",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-16T06:02:53Z",
+      "side": 0,
+      "message": "I tried to verify this change on german keyboard, on Linux (SuSE 42.1), on FF 44.0 and Chrome 49.0.2623.47. This diff hasn\u0027t fixed it here.\n\nI noticed, that the \u0027[\u0027, \u0027]\u0027 work as expected on german keyboard even without this change, when header on dif screen is in focus (I click with left mouse key inide header, and then hit \u0027[\u0027, \u0027]\u0027 keys; when next diff screen is opened, CM is again is already in focus and then \u0027[\u0027, \u0027]\u0027 not working again). Only when Codemirror is in focus, they don\u0027t work. So it seems, that Codemirror somehow copntributes to the problem. This shoud probably be mentioned in the commit message.",
+      "revId": "5042ed31093aee83670c9708b666785aa0379892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

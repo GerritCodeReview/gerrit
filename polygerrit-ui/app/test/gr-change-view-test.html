@@ -59,6 +59,15 @@ limitations under the License.
       server.restore();
     });
 
+    test('computed fields', function() {
+      assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
+          'Cherry Pick');
+      assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'},
+          {submit_type: 'MERGE_IF_NECESSARY'}), 'Cherry Pick');
+      assert.equal(element._computeStrategy({},
+          {submit_type: 'MERGE_IF_NECESSARY'}), 'Merge if Necessary');
+    });
+
     test('keyboard shortcuts', function() {
       var showStub = sinon.stub(page, 'show');
 

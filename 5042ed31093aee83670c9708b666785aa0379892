@@ -16,6 +16,24 @@
       "revId": "5042ed31093aee83670c9708b666785aa0379892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_25ab784f",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1024297
+      },
+      "writtenOn": "2016-02-16T10:25:14Z",
+      "side": 0,
+      "message": "That\u0027s true. This diff doesn\u0027t fix the problem, when your focus is inside of CM. I also think, that CM contributes to this issue. But if your focus is outside of CM, this diff fix the problem. This diff also fix the navigation on the other pages, where \"[\", \"]\" are used.\n\nOn Linux, the shortcut \"[\", \"]\" already work, because the value for the attributes ctrlKey and altKey of KeyboardEvent (native JavaScript event) is false. But in OSX and Windows these attributes have the value \"true\".\n\nSo this fix only affects Windows and OSX.\n\nI was not able to debug CM, because the code of CM was obfuscated. I don\u0027t know how to force Buck to use a not obfuscated version of CM.",
+      "parentUuid": "bd342467_c5040c35",
+      "revId": "5042ed31093aee83670c9708b666785aa0379892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

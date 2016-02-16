@@ -111,9 +111,6 @@ limitations under the License.
         padding: 2px 5px 2px 0;
         vertical-align: top;
       }
-      gr-reviewer-list {
-        min-width: 25em;
-      }
       .changeMetadata-label {
         font-weight: bold;
       }
@@ -221,8 +218,7 @@ limitations under the License.
             <tr>
               <td class="changeMetadata-label">Owner</td>
               <td>
-                <gr-account-link account="[[_change.owner]]"
-                    show-email></gr-account-link>
+                <gr-account-link account="[[_change.owner]]"></gr-account-link>
               </td>
             </tr>
             <tr>
@@ -268,8 +264,7 @@ limitations under the License.
                     <div class="labelValue">
                       <span class$="[[label.className]]">
                         <span>[[label.value]]</span>
-                        <gr-account-link account="[[label.account]]"
-                            show-email></gr-account-link>
+                        <gr-account-link account="[[label.account]]"></gr-account-link>
                       </span>
                     </div>
                   </template>

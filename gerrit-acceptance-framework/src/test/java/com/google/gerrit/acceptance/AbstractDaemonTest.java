@@ -197,6 +197,9 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected ChangeNoteUtil changeNoteUtil;
 
+  @Inject
+  protected ChangeResource.Factory changeResourceFactory;
+
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
   protected TestAccount admin;
@@ -736,6 +739,6 @@ public abstract class AbstractDaemonTest {
     List<ChangeControl> ctls = changeFinder.find(
         changeId, atrScope.get().getUser());
     assertThat(ctls).hasSize(1);
-    return new ChangeResource(ctls.get(0));
+    return changeResourceFactory.create(ctls.get(0));
   }
 }

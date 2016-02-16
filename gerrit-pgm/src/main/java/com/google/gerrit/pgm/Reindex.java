@@ -19,11 +19,13 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.index.Index;
@@ -129,6 +131,12 @@ public class Reindex extends SiteProgram {
     // will have just deleted the old (possibly corrupt) index.
     modules.add(ScanningChangeCacheImpl.module());
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
+    modules.add(new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(ChangeResource.Factory.class);
+      }
+    });
 
     return dbInjector.createChildInjector(modules);
   }

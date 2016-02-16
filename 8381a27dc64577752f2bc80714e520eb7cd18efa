@@ -16,6 +16,194 @@
       "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_bf68f784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "Set RequestScopePropagator here?\n\nIf these two are always set, why not pass them in the constructor?",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_5f7e8b42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "I think it would be less setter boilerplate in ReplaceOp if this were just setMagicBranch(magicBranch).\n\nYeah it\u0027s leaking MagicBranch outside of this class but ReplaceOp is so tightly coupled already.",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_7f7b4f51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "Why? Can groups change from the original value we passed in?",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_1770f4a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "Not public",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 6
+      },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_376df8cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "addRecipients",
+      "range": {
+        "startLine": 193,
+        "startChar": 19,
+        "endLine": 193,
+        "endChar": 33
+      },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_9f63b3a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "I might be missing something but I don\u0027t think this is ever called?",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_d7483c5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_3f75c758",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "I guess you just copied this so you don\u0027t have to fix it now. But this is really wasteful no repos with lots of changes. Instead we should getRefs(Constants.R_HEADS) and do a separate random lookup for firstRef in the corner case where it\u0027s not a branch (e.g. refs/meta/config).",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_f74d406a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "This name is not great, how about isBranch",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_1f780352",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T18:16:24Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "range": {
+        "startLine": 496,
+        "startChar": 32,
+        "endLine": 496,
+        "endChar": 37
+      },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

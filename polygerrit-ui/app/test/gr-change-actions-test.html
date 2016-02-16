@@ -98,7 +98,7 @@ limitations under the License.
 
     test('submit and rebase buttons show', function(done) {
       element.async(function() {
-        var buttonEls = Polymer.dom(element.root).querySelectorAll('button');
+        var buttonEls = Polymer.dom(element.root).querySelectorAll('gr-button');
         assert.equal(buttonEls.length, 2);
         assert.isFalse(element.hidden);
         done();
@@ -107,7 +107,7 @@ limitations under the License.
 
     test('submit change', function(done) {
       element.async(function() {
-        var submitButton = element.$$('button[data-action-key="submit"]');
+        var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
         server.respond();
@@ -121,7 +121,7 @@ limitations under the License.
 
     test('rebase change', function(done) {
       element.async(function() {
-        var rebaseButton = element.$$('button[data-action-key="rebase"]');
+        var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
 
         element.$.confirmRebase.base = '1234';

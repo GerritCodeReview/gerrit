@@ -126,9 +126,11 @@ limitations under the License.
         }
         element.draft = 'I wholeheartedly disapprove';
         MockInteractions.tap(element.$$(
-            'iron-selector[data-label="Code-Review"] > button[data-value="-1"]'));
+            'iron-selector[data-label="Code-Review"] > ' +
+            'gr-button[data-value="-1"]'));
         MockInteractions.tap(element.$$(
-            'iron-selector[data-label="Verified"] > button[data-value="-1"]'));
+            'iron-selector[data-label="Verified"] > ' +
+            'gr-button[data-value="-1"]'));
 
         // This is needed on non-Blink engines most likely due to the ways in
         // which the dom-repeat elements are stamped.

@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-diff.html">
 <link rel="import" href="gr-request.html">
 
@@ -32,6 +33,11 @@ limitations under the License.
       h3 {
         margin-top: 1em;
         padding: .75em var(--default-horizontal-margin);
+      }
+      .reviewed {
+        display: inline-block;
+        margin: 0 .25em;
+        vertical-align: .15em;
       }
       .jumpToFileContainer {
         display: inline-block;
@@ -77,11 +83,10 @@ limitations under the License.
         background-color: #fff;
         color: #000;
       }
-      button {
-        background: none;
-        border: none;
+      gr-button {
         font: inherit;
         padding: .3em 0;
+        text-decoration: none;
       }
     </style>
     <gr-ajax id="changeDetailXHR"
@@ -100,13 +105,16 @@ limitations under the License.
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> —
-      <input id="reviewed" type="checkbox" on-change="_handleReviewedChange"
+      <input id="reviewed"
+          class="reviewed"
+          type="checkbox"
+          on-change="_handleReviewedChange"
           hidden$="[[!_loggedIn]]" hidden>
       <div class="jumpToFileContainer">
-        <button class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
+        <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
           <span>[[_path]]</span>
           <span class="downArrow">&#9660;</span>
-        </button>
+        </gr-button>
         <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
           <div class="dropdown-content">
             <template is="dom-repeat" items="[[_fileList]]" as="path">

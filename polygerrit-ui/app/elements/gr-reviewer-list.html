@@ -76,7 +76,7 @@ limitations under the License.
 
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
+        <gr-account-link account="[[reviewer]]"></gr-account-link>
         <a class="remove"
             href="#"
             data-account-id$="[[reviewer._account_id]]"

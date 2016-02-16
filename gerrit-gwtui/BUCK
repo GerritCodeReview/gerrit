@@ -19,25 +19,29 @@ gwt_user_agent_permutations(
   visibility = ['//:'],
 )
 
-gwt_module(
-  name = 'ui_module',
-  srcs = glob(['src/main/java/**/*.java']),
-  gwt_xml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
-  resources = glob(['src/main/java/**/*']),
-  deps = [
-    ':silk_icons',
-    '//gerrit-gwtui-common:diffy_logo',
-    '//gerrit-gwtui-common:client',
-    '//gerrit-gwtexpui:CSS',
-    '//lib/codemirror:codemirror',
-    '//lib/gwt:user',
-  ],
-  visibility = [
-    '//tools/eclipse:classpath',
-    '//Documentation:licenses.txt',
-    '//Documentation:js_licenses.txt',
-  ],
-)
+def gen_ui_module(name, suffix = ""):
+  gwt_module(
+    name = name + suffix,
+    srcs = glob(['src/main/java/**/*.java']),
+    gwt_xml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
+    resources = glob(['src/main/java/**/*']),
+    deps = [
+      ':silk_icons',
+      '//gerrit-gwtui-common:diffy_logo',
+      '//gerrit-gwtui-common:client',
+      '//gerrit-gwtexpui:CSS',
+      '//lib/codemirror:codemirror' + suffix,
+      '//lib/gwt:user',
+    ],
+    visibility = [
+      '//tools/eclipse:classpath',
+      '//Documentation:licenses.txt',
+      '//Documentation:js_licenses.txt',
+    ],
+  )
+
+gen_ui_module(name = 'ui_module')
+gen_ui_module(name = 'ui_module', suffix = '_r')
 
 java_library(
   name = 'silk_icons',

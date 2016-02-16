@@ -89,6 +89,16 @@ for n in CM_MODES:
   )
 
 prebuilt_jar(
+  name = 'codemirror_r',
+  binary_jar = ':jar_r',
+  deps = [
+    ':jar_r',
+    '//lib:LICENSE-codemirror',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+prebuilt_jar(
   name = 'codemirror',
   binary_jar = ':jar',
   deps = [
@@ -99,13 +109,28 @@ prebuilt_jar(
 )
 
 genrule(
-  name = 'jar',
+  name = 'jar_r',
   cmd = ';'.join([
     'cd $TMP',
     'mkdir -p net/codemirror/{lib,mode,theme}',
     'cp $(location :css) net/codemirror/lib',
     'cp $(location :js) net/codemirror/lib']
     + ['cp $(location :mode_%s_js) net/codemirror/mode/%s.js' % (n, n)
+       for n in CM_MODES]
+    + ['cp $(location :theme_%s) net/codemirror/theme/%s.css' % (n, n)
+       for n in CM_THEMES]
+    + ['zip -qr $OUT net/codemirror/{lib,mode,theme}']),
+  out = 'codemirror_r.jar',
+)
+
+genrule(
+  name = 'jar',
+  cmd = ';'.join([
+    'cd $TMP',
+    'mkdir -p net/codemirror/{lib,mode,theme}',
+    'cp $(location :css) net/codemirror/lib',
+    'cp $(location :cm-verbose) net/codemirror/lib/cm.js']
+    + ['cp $(location :mode_%s_src) net/codemirror/mode/%s.js' % (n, n)
        for n in CM_MODES]
     + ['cp $(location :theme_%s) net/codemirror/theme/%s.css' % (n, n)
        for n in CM_THEMES]

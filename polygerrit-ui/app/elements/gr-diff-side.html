@@ -312,9 +312,11 @@ limitations under the License.
       },
 
       _contentChanged: function(diff) {
+        var now = new Date();
         this._clearChildren(this.$.numbers);
         this._clearChildren(this.$.content);
         this._render(diff, 0, diff.length - 1);
+        console.log('Render took', (new Date()) - now, 'ms');
       },
 
       _computeContainerClass: function(canComment) {

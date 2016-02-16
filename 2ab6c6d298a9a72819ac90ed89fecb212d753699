@@ -81,6 +81,23 @@
       "revId": "2ab6c6d298a9a72819ac90ed89fecb212d753699",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_778cd0f1",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-16T17:18:16Z",
+      "side": 1,
+      "message": "Complete sentences for error dialogs.\n\nAlso, make it a bit more human. I know these errors are seen by programmers but it helps to take into account the beginner’s mind. Something like “The destination branch can’t be empty.”",
+      "revId": "2ab6c6d298a9a72819ac90ed89fecb212d753699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

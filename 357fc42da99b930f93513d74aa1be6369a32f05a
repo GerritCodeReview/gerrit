@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_ff343fdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T14:23:50Z",
+      "side": 1,
+      "message": "Now that we have multiple anonymous ops, do you mind factoring them out into named classes to make this method a little less ridiculous?",
+      "revId": "357fc42da99b930f93513d74aa1be6369a32f05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

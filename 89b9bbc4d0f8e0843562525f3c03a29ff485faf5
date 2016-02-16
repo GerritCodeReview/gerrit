@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "5d1a4804_f7b1c0c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T15:03:09Z",
+      "side": 1,
+      "message": "If it didn\u0027t require rebasing the whole series I probably would have made the change, but as it is I\u0027m just going to submit :)",
+      "parentUuid": "5d1a4804_97a084bd",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "89b9bbc4d0f8e0843562525f3c03a29ff485faf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_057c32bc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 1

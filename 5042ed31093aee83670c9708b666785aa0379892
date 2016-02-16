@@ -34,6 +34,24 @@
       "revId": "5042ed31093aee83670c9708b666785aa0379892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_456d5cce",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-16T10:43:38Z",
+      "side": 0,
+      "message": "Then you should mention these both facts in the commit message to make the life of reviewers simpler:\n\n* This change hasn\u0027t fixed keyboard navigation (yet) when Codemirror has the focus\n* This change doesn\u0027t have any effect on Linux\n\n \u003e I was not able to debug CM, because the code of CM was obfuscated.\nI don\u0027t know how to force Buck to use a not obfuscated version of CM.\n\nI can upload a change (later today) to disable Codemirror obfuscation in Buck toolchain, when it helps.",
+      "parentUuid": "bd342467_25ab784f",
+      "revId": "5042ed31093aee83670c9708b666785aa0379892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

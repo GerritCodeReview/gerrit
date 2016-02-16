@@ -151,15 +151,14 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
         RevWalk revWalk = new RevWalk(git)) {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+      if (commitToRevert.getParentCount() == 0) {
+        throw new ResourceConflictException("Cannot revert initial commit");
+      }
 
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent = new PersonIdent(serverIdent, now);
       PersonIdent authorIdent = user.asIdentifiedUser()
           .newCommitterIdent(now, committerIdent.getTimeZone());
-
-      if (commitToRevert.getParentCount() == 0) {
-        throw new ResourceConflictException("Cannot revert initial commit");
-      }
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
       revWalk.parseHeaders(parentToCommitToRevert);

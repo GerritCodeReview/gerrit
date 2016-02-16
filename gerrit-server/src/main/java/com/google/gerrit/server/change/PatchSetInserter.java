@@ -34,6 +34,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.PatchSetCreated;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -83,6 +84,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final PatchSetCreated psCreated;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -118,6 +120,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
+      PatchSetCreated psCreated,
       @Assisted RefControl refControl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
@@ -130,6 +133,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.psUtil = psUtil;
+    this.psCreated = psCreated;
 
     this.refControl = refControl;
     this.psId = psId;
@@ -257,7 +261,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws OrmException, IOException {
     if (sendMail) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
@@ -276,6 +280,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
     if (runHooks) {
       hooks.doPatchsetCreatedHook(change, patchSet, ctx.getDb());
+      psCreated.fire(ctx.getProject(), change, patchSet, ctx.getRevWalk());
     }
   }
 

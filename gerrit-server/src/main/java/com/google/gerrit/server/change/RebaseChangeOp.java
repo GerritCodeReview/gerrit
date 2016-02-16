@@ -159,7 +159,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws OrmException, IOException {
     patchSetInserter.postUpdate(ctx);
   }
 

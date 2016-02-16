@@ -36,6 +36,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.PatchSetCreated;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -90,6 +91,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ExecutorService sendEmailExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final PatchSetCreated psCreated;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -129,6 +131,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       CreateChangeSender.Factory createChangeSenderFactory,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       CommitValidators.Factory commitValidatorsFactory,
+      PatchSetCreated psCreated,
       @Assisted Change.Id changeId,
       @Assisted RevCommit commit,
       @Assisted String refName) {
@@ -141,6 +144,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.sendEmailExecutor = sendEmailExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.psCreated = psCreated;
 
     this.changeId = changeId;
     this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
@@ -355,7 +359,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws OrmException, IOException {
     if (sendMail) {
       Runnable sender = new Runnable() {
         @Override
@@ -389,6 +393,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (runHooks) {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
+      psCreated.fire(ctx.getProject(), change, patchSet, ctx.getRevWalk());
       if (approvals != null && !approvals.isEmpty()) {
         hooks.doCommentAddedHook(change,
             ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,

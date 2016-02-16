@@ -105,6 +105,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.PatchSetCreated;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -326,6 +327,7 @@ public class ReceiveCommits {
   private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
+  private final PatchSetCreated psCreated;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -410,7 +412,8 @@ public class ReceiveCommits {
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
-      final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
+      final SetHashtagsOp.Factory hashtagsFactory,
+      PatchSetCreated psCreated) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -449,6 +452,7 @@ public class ReceiveCommits {
     this.changeKindCache = changeKindCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
+    this.psCreated = psCreated;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -2406,6 +2410,7 @@ public class ReceiveCommits {
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      psCreated.fire(state.project, change, newPatchSet, state.rw);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
             change, user.getAccount(), newPatchSet, db, newCommit.getName());
@@ -2873,7 +2878,7 @@ public class ReceiveCommits {
   private RequestState requestState(Thread caller)
       throws OrmException, IOException {
     if (caller == Thread.currentThread()) {
-      return new RequestState(db, repo, rp.getRevWalk());
+      return new RequestState(db, repo, rp.getRevWalk(), project.getNameKey());
     } else {
       return new RequestState(project.getNameKey());
     }
@@ -2881,21 +2886,25 @@ public class ReceiveCommits {
 
   @SuppressWarnings("hiding")
   private class RequestState implements AutoCloseable {
+    private final Project.NameKey project;
     private final ReviewDb db;
     private final Repository repo;
     private final RevWalk rw;
     private final ObjectInserter ins;
     private final boolean close;
 
-    RequestState(ReviewDb db, Repository repo, RevWalk rw) {
+    RequestState(
+        ReviewDb db, Repository repo, RevWalk rw, Project.NameKey project) {
       this.db = db;
       this.repo = repo;
       this.rw = rw;
+      this.project = project;
       close = false;
       ins = repo.newObjectInserter();
     }
 
     RequestState(Project.NameKey projectName) throws OrmException, IOException {
+      this.project = projectName;
       repo = repoManager.openRepository(projectName);
       try {
         db = schemaFactory.open();

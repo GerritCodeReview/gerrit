@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="gr-account-link.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-comment-list.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-linked-text.html">
@@ -91,9 +92,6 @@ limitations under the License.
       .replyContainer {
         padding: .5em 0 1em;
       }
-      .reply {
-        padding: .2em .6em .3em;
-      }
     </style>
     <div class$="[[_computeClass(expanded, showAvatar)]]">
       <gr-avatar account="[[message.author]]" image-size="100"></gr-avatar>
@@ -115,7 +113,7 @@ limitations under the License.
         </a>
       </div>
       <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-        <button class="reply" on-tap="_handleReplyTap">Reply</button>
+        <gr-button small on-tap="_handleReplyTap">Reply</gr-button>
       </div>
     </div>
   </template>

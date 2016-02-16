@@ -45,8 +45,8 @@ limitations under the License.
       element.addEventListener('confirm', handler);
       element.addEventListener('cancel', handler);
 
-      MockInteractions.tap(element.$$('.confirm'));
-      MockInteractions.tap(element.$$('.cancel'));
+      MockInteractions.tap(element.$$('gr-button[primary]'));
+      MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
 
   });

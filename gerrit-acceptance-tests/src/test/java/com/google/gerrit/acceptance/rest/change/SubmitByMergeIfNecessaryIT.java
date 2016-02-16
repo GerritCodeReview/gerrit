@@ -26,7 +26,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
-    assertThat(head.getId()).isEqualTo(change.getCommitId());
+    assertThat(head.getId()).isEqualTo(change.getCommit());
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());

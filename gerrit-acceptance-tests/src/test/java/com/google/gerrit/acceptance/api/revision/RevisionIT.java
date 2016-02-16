@@ -634,7 +634,7 @@ public class RevisionIT extends AbstractDaemonTest {
         Locale.US);
     String date = df.format(rev.commit.author.date);
     assertThat(res).isEqualTo(
-        String.format(PATCH, r.getCommitId().name(), date, r.getChangeId()));
+        String.format(PATCH, r.getCommit().name(), date, r.getChangeId()));
   }
 
   @Test

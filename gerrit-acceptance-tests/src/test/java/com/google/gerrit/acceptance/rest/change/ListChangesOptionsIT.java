@@ -95,6 +95,6 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
   }
 
   private String commitId(int i) {
-    return results.get(i).getCommitId().name();
+    return results.get(i).getCommit().name();
   }
 }

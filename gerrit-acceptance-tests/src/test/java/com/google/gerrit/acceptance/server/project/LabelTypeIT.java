@@ -365,7 +365,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     revision(r).submit();
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(
-          r.getCommitId());
+          r.getCommit());
     }
   }
 

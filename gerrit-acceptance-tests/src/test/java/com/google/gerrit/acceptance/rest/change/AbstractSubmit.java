@@ -138,7 +138,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitToEmptyRepo() throws Exception {
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
+    assertThat(getRemoteHead().getId()).isEqualTo(change.getCommit());
   }
 
   @Test

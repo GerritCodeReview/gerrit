@@ -112,18 +112,18 @@ public class TagsIT extends AbstractDaemonTest {
 
     TagInfo t = result.get(0);
     assertThat(t.ref).isEqualTo(Constants.R_TAGS + tag1.name);
-    assertThat(t.revision).isEqualTo(r1.getCommitId().getName());
+    assertThat(t.revision).isEqualTo(r1.getCommit().getName());
 
     t = result.get(1);
     assertThat(t.ref).isEqualTo(Constants.R_TAGS + tag2.name);
-    assertThat(t.object).isEqualTo(r2.getCommitId().getName());
+    assertThat(t.object).isEqualTo(r2.getCommit().getName());
     assertThat(t.message).isEqualTo(tag2.message);
     assertThat(t.tagger.name).isEqualTo(tag2.tagger.getName());
     assertThat(t.tagger.email).isEqualTo(tag2.tagger.getEmailAddress());
 
     t = result.get(2);
     assertThat(t.ref).isEqualTo(tag3Ref);
-    assertThat(t.object).isEqualTo(r2.getCommitId().getName());
+    assertThat(t.object).isEqualTo(r2.getCommit().getName());
     assertThat(t.message).isEqualTo(tag2.message);
     assertThat(t.tagger.name).isEqualTo(tag2.tagger.getName());
     assertThat(t.tagger.email).isEqualTo(tag2.tagger.getEmailAddress());
@@ -207,15 +207,15 @@ public class TagsIT extends AbstractDaemonTest {
     List<TagInfo> result = getTags().get();
     assertThat(result).hasSize(2);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
-    assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
+    assertThat(result.get(0).revision).isEqualTo(r1.getCommit().getName());
     assertThat(result.get(1).ref).isEqualTo("refs/tags/" + tag2.name);
-    assertThat(result.get(1).revision).isEqualTo(r2.getCommitId().getName());
+    assertThat(result.get(1).revision).isEqualTo(r2.getCommit().getName());
 
     blockRead("refs/heads/hidden");
     result = getTags().get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
-    assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
+    assertThat(result.get(0).revision).isEqualTo(r1.getCommit().getName());
   }
 
   @Test
@@ -232,7 +232,7 @@ public class TagsIT extends AbstractDaemonTest {
 
     TagInfo tagInfo = getTag(tag1.name);
     assertThat(tagInfo.ref).isEqualTo("refs/tags/" + tag1.name);
-    assertThat(tagInfo.revision).isEqualTo(r1.getCommitId().getName());
+    assertThat(tagInfo.revision).isEqualTo(r1.getCommit().getName());
   }
 
   private void createTags() throws Exception {

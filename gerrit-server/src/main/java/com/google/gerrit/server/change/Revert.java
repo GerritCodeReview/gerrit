@@ -37,11 +37,11 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
@@ -77,7 +77,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeUpdate.Factory changeUpdateFactory;
   private final BatchUpdate.Factory updateFactory;
   private final Sequences seq;
   private final PatchSetUtil psUtil;
@@ -90,7 +89,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
-      ChangeUpdate.Factory changeUpdateFactory,
       BatchUpdate.Factory updateFactory,
       Sequences seq,
       PatchSetUtil psUtil,
@@ -101,7 +99,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
     this.cmUtil = cmUtil;
-    this.changeUpdateFactory = changeUpdateFactory;
     this.updateFactory = updateFactory;
     this.seq = seq;
     this.psUtil = psUtil;
@@ -175,44 +172,50 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
             changeToRevert.getSubject(), patch.getRevision().get());
       }
 
-      ObjectId computedChangeId =
+      final ObjectId computedChangeId =
           ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),
               commitToRevert, authorIdent, committerIdent, message);
       revertCommitBuilder.setMessage(
           ChangeIdUtil.insertId(message, computedChangeId, true));
 
-      RevCommit revertCommit;
       ChangeInserter ins;
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       try (ObjectInserter oi = git.newObjectInserter()) {
         ObjectId id = oi.insert(revertCommitBuilder);
         oi.flush();
-        revertCommit = revWalk.parseCommit(id);
+        RevCommit revertCommit = revWalk.parseCommit(id);
 
         ins = changeInserterFactory.create(
             changeId, revertCommit, ctl.getChange().getDest().get())
             .setValidatePolicy(CommitValidators.Policy.GERRIT)
             .setTopic(changeToRevert.getTopic());
-
-        ChangeMessage changeMessage = new ChangeMessage(
-            new ChangeMessage.Key(
-                patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
-                user.getAccountId(), now, patchSetId);
-        StringBuilder msgBuf = new StringBuilder();
-        msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
-        msgBuf.append("\n\n");
-        msgBuf.append("This patchset was reverted in change: ")
-              .append("I").append(computedChangeId.name());
-        changeMessage.setMessage(msgBuf.toString());
-        ChangeUpdate update = changeUpdateFactory.create(ctl, now);
-        cmUtil.addChangeMessage(db.get(), update, changeMessage);
-        update.commit();
-
         ins.setMessage("Uploaded patch set 1.");
+
         try (BatchUpdate bu = updateFactory.create(
             db.get(), project, user, now)) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
+          bu.addOp(changeToRevert.getId(), new BatchUpdate.Op() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) throws Exception {
+              Change change = ctx.getChange();
+              PatchSet.Id patchSetId = change.currentPatchSetId();
+              ChangeMessage changeMessage = new ChangeMessage(
+                  new ChangeMessage.Key(change.getId(),
+                      ChangeUtil.messageUUID(db.get())),
+                  ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
+              StringBuilder msgBuf = new StringBuilder();
+              msgBuf.append("Patch Set ").append(patchSetId.get())
+                  .append(": Reverted");
+              msgBuf.append("\n\n");
+              msgBuf.append("This patchset was reverted in change: ")
+                  .append("I").append(computedChangeId.name());
+              changeMessage.setMessage(msgBuf.toString());
+              cmUtil.addChangeMessage(db.get(), ctx.getUpdate(patchSetId),
+                  changeMessage);
+              return true;
+            }
+          });
           bu.execute();
         }
       }

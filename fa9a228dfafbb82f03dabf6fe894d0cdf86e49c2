@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d688870_c7e4fefb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T22:28:19Z",
+      "side": 1,
+      "message": "This is not the behavior of the GWT UI. It just assumes that submit_type is always present; see ChangeScreen.java:1248. Why does that work for GWT and not for PolyGerrit?",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,7 +31,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -281,26 +280,6 @@ public class ChangeUtil {
       return changeId;
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeIdToRevert, e);
-    }
-  }
-
-  public String getMessage(ChangeNotes notes)
-      throws NoSuchChangeException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException {
-    Change.Id changeId = notes.getChangeId();
-    PatchSet ps = psUtil.current(db.get(), notes);
-    if (ps == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    try (Repository git =
-          gitManager.openRepository(notes.getProjectName());
-        RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commit = revWalk.parseCommit(
-          ObjectId.fromString(ps.getRevision().get()));
-      return commit.getFullMessage();
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
     }
   }
 

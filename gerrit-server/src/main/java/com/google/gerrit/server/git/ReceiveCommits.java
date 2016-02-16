@@ -2158,7 +2158,7 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
         public PatchSet.Id call() throws OrmException, IOException,
-            RestApiException {
+            RestApiException, UpdateException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
@@ -2233,7 +2233,7 @@ public class ReceiveCommits {
     }
 
     PatchSet.Id insertPatchSet(RequestState state)
-        throws OrmException, IOException, RestApiException {
+        throws OrmException, IOException, RestApiException, UpdateException {
       ReviewDb db = state.db;
       Repository repo = state.repo;
       final RevCommit newCommit = state.rw.parseCommit(newCommitId);
@@ -2365,7 +2365,7 @@ public class ReceiveCommits {
       if (mergedIntoRef != null) {
         // Change was already submitted to a branch, close it.
         //
-        markChangeMergedByPush(db, info, mergedIntoRef, changeCtl);
+        markChangeMergedByPush(db, info, mergedIntoRef);
       }
 
       if (cmd.getResult() == NOT_ATTEMPTED) {
@@ -2715,13 +2715,14 @@ public class ReceiveCommits {
       }
     } catch (RestApiException e) {
       log.error("Can't insert patchset", e);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | UpdateException e) {
       log.error("Can't scan for changes to close", e);
     }
   }
 
   private Change.Key closeChange(ReceiveCommand cmd, PatchSet.Id psi,
-      ObjectId commitId) throws OrmException, IOException {
+      ObjectId commitId)
+          throws OrmException, IOException, UpdateException, RestApiException {
     String refName = cmd.getRefName();
     Change.Id cid = psi.getParentKey();
 
@@ -2750,7 +2751,7 @@ public class ReceiveCommits {
     RevCommit commit = rp.getRevWalk().parseCommit(commitId);
     rp.getRevWalk().parseBody(commit);
     PatchSetInfo info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
-    markChangeMergedByPush(db, info, refName, ctl);
+    markChangeMergedByPush(db, info, refName);
     hooks.doChangeMergedHook(
         change, user.getAccount(), ps, db, commit.getName());
     sendMergedEmail(ps, info);
@@ -2767,57 +2768,49 @@ public class ReceiveCommits {
   }
 
   private void markChangeMergedByPush(ReviewDb db, final PatchSetInfo info,
-      String mergedIntoRef, ChangeControl control)
-      throws OrmException, IOException {
-    Change.Id id = info.getKey().getParentKey();
-    db.changes().beginTransaction(id);
-    Change change;
+      final String mergedIntoRef) throws UpdateException, RestApiException {
+    try (BatchUpdate bu = batchUpdateFactory.create(db, project.getNameKey(),
+        user, TimeUtil.nowTs())) {
+      bu.addOp(info.getKey().getParentKey(), new BatchUpdate.Op() {
+        @Override
+        public boolean updateChange(BatchUpdate.ChangeContext ctx) throws OrmException {
+          Change change = ctx.getChange();
+          ChangeUpdate update = ctx.getUpdate(info.getKey());
+          if (change.getStatus().isOpen()) {
+            change.setCurrentPatchSet(info);
+            change.setStatus(Change.Status.MERGED);
+            ctx.saveChange();
 
-    ChangeUpdate update;
-    try {
-      change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setCurrentPatchSet(info);
-              change.setStatus(Change.Status.MERGED);
-              ChangeUtil.updated(change);
-            }
-            return change;
+            // we cannot reconstruct the submit records for when this change was
+            // submitted, this is why we must fix the status
+            update.fixStatus(Change.Status.MERGED);
           }
-        });
 
-      StringBuilder msgBuf = new StringBuilder();
-      msgBuf.append("Change has been successfully pushed");
-      if (!mergedIntoRef.equals(change.getDest().get())) {
-        msgBuf.append(" into ");
-        if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
-          msgBuf.append("branch ");
-          msgBuf.append(Repository.shortenRefName(mergedIntoRef));
-        } else {
-          msgBuf.append(mergedIntoRef);
+          StringBuilder msgBuf = new StringBuilder();
+          msgBuf.append("Change has been successfully pushed");
+          if (!mergedIntoRef.equals(change.getDest().get())) {
+            msgBuf.append(" into ");
+            if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
+              msgBuf.append("branch ");
+              msgBuf.append(Repository.shortenRefName(mergedIntoRef));
+            } else {
+              msgBuf.append(mergedIntoRef);
+            }
+          }
+          msgBuf.append(".");
+          ChangeMessage msg = new ChangeMessage(
+              new ChangeMessage.Key(change.getId(),
+                  ChangeUtil.messageUUID(ctx.getDb())),
+              user.getAccountId(), ctx.getWhen(), info.getKey());
+          msg.setMessage(msgBuf.toString());
+          cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+
+          return true;
         }
-      }
-      msgBuf.append(".");
-      ChangeMessage msg = new ChangeMessage(
-          new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
-          user.getAccountId(), change.getLastUpdatedOn(),
-          info.getKey());
-      msg.setMessage(msgBuf.toString());
 
-      update = updateFactory.create(control, change.getLastUpdatedOn());
-
-      // we cannot reconstruct the submit records for when this change was
-      // submitted, this is why we must fix the status
-      update.fixStatus(Change.Status.MERGED);
-
-      cmUtil.addChangeMessage(db, update, msg);
-      db.commit();
-    } finally {
-      db.rollback();
+      });
+      bu.execute();
     }
-    indexer.index(db, change);
-    update.commit();
   }
 
   private void sendMergedEmail(final PatchSet ps, final PatchSetInfo info) {

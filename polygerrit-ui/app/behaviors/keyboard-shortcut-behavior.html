@@ -19,6 +19,8 @@ limitations under the License.
   'use strict';
 
   var KeyboardShortcutBehavior = {
+    enabled: true,
+
     properties: {
       keyEventTarget: {
         type: Object,
@@ -41,6 +43,7 @@ limitations under the License.
     },
 
     shouldSupressKeyboardShortcut: function(e) {
+      if (!KeyboardShortcutBehavior.enabled) { return true; }
       var getModifierState = e.getModifierState ?
           e.getModifierState.bind(e) :
           function() { return false; };

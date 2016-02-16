@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1455592655 -0800\npushee rpc://gerrit/gerrit\nnonce AO+Zq7i8+5Cex5Yx5Z9CJ1H9WEVHv7K4bX9d+s20WHX6HBMYJsuIIQsKDJEVGHyuBN+vpMlYjXCO\n\n0000000000000000000000000000000000000000 6edcbd332c7fe9a886a37ae240e8f9b7c46eee59 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWwpTPAAoJELOGKwXbr+wPsbYP/jKeNj1Vb2FVw0j1oAOYeTIq\nEmvT0FeZIhNcuC53OVSt5Vuhph+2M7FDvkRcNskUBRftxxzS3Wv2zKKdoaazkxil\n9L3tnEGQdIwgLgmhuc14muuG2pO3aXjRuYtspRIqFNhv/C88f87Td1SdMi98V1fO\ngJsLZIDF8JeKPRDshViFJ4hqOERP8PQTc9ybDeK1OloCoCllPB5aZnzRJMFG6OgH\noSoJvHgEP0bynmW4Q8Wymcb8DWzpVDeDUg+FM4usugSVUI1IfndSnHKZ0+/GlYu/\n29CbpEivovv7MWskvYV3YyuTPtJQHvN6axZERgV5/UJUSWNAkX1dpFg40ifck+D8\nwj6TM4vsIut7GW9t1LtjPlfef8u0Oov8ptXHWOZlPQWkTtm/tYbBgVKTS0x2oFmT\nH5W3ftK+8ufl8nuIRKUYLEhI/QNQwq50tW+ovUr/f5VCV/OOXW2asGMPHKE27vfp\nFnqJ0dtS8kKBddfXjK7g6fEfoSkwtQC+aCLjqXl6aIRw89oOIY9so8UGWIXLDURE\nUdIEaYJluqs19BPjqvG5eCQs8EWQRxpHeeEJT2V5xL8U8ImIDqpQhG1HxObUWYbI\nky8YzK5TfrqHGBeKiOOjcsVFpg51QzWaY8arD+TWuBa9M0jOWRtXhhQwASD8/gre\nlD42fN6dzv8DiQ4UNQ/J\n\u003dnB9S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_4519dc58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-16T13:57:55Z",
+      "side": 1,
+      "message": "This looks like a rework of what Martin and I started ([1], [2] and [3]) during the last Hackathon?\nUnfortunately, we didn\u0027t continue working on this topic after the hackathon... but I guess you are aware of these changes?\n\nWhat is your plan? Do you want to continue with other listeners?\n\n[1] https://gerrit-review.googlesource.com/72215\n[2] https://gerrit-review.googlesource.com/72232\n[3] https://gerrit-review.googlesource.com/72338",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "6edcbd332c7fe9a886a37ae240e8f9b7c46eee59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e534b0c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-16T13:57:55Z",
+      "side": 1,
+      "message": "In [1] we just fire the new event changeAbandoned.fire.\nAnd in the ChangeHookApiListener.onChangeAbandoned [2] we invoke\nthe hooks.doChangeAbandonedHook. This way the change hooks\nare moved into event listeners. Since event listeners are extension points [3], the hooks can eventually be moved into a plugin.\nCould you do the same in this change? Or is it out of your focus\nat the moment?\n\n[1] https://gerrit-review.googlesource.com/#/c/72338/7/gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java\n[2] https://gerrit-review.googlesource.com/#/c/72338/7/gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java\n[3] https://gerrit-review.googlesource.com/#/c/72232/18/gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 46
+      },
+      "revId": "6edcbd332c7fe9a886a37ae240e8f9b7c46eee59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

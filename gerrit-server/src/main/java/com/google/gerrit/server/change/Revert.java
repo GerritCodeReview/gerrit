@@ -82,7 +82,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
-  private final PersonIdent myIdent;
+  private final PersonIdent serverIdent;
 
   @Inject
   Revert(Provider<ReviewDb> db,
@@ -95,7 +95,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      @GerritPersonIdent PersonIdent myIdent) {
+      @GerritPersonIdent PersonIdent serverIdent) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
@@ -106,7 +106,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.psUtil = psUtil;
     this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
-    this.myIdent = myIdent;
+    this.serverIdent = serverIdent;
   }
 
   @Override
@@ -125,8 +125,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     try {
       revertedChangeId = revert(req.getControl(),
             change.currentPatchSetId(),
-            Strings.emptyToNull(input.message),
-            new PersonIdent(myIdent, TimeUtil.nowTs()));
+            Strings.emptyToNull(input.message));
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
@@ -135,10 +134,9 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   }
 
   private Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
-      String message, PersonIdent myIdent)
-      throws NoSuchChangeException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException,
-      RestApiException, UpdateException {
+      String message) throws NoSuchChangeException, OrmException,
+          MissingObjectException, IncorrectObjectTypeException, IOException,
+          RestApiException, UpdateException {
     Change.Id changeIdToRevert = patchSetId.getParentKey();
     PatchSet patch = psUtil.get(db.get(), ctl.getNotes(), patchSetId);
     if (patch == null) {
@@ -153,8 +151,9 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
+      PersonIdent committerIdent = new PersonIdent(serverIdent, TimeUtil.nowTs());
       PersonIdent authorIdent = user.asIdentifiedUser()
-          .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+          .newCommitterIdent(committerIdent.getWhen(), committerIdent.getTimeZone());
 
       if (commitToRevert.getParentCount() == 0) {
         throw new ResourceConflictException("Cannot revert initial commit");
@@ -177,7 +176,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
       ObjectId computedChangeId =
           ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),
-              commitToRevert, authorIdent, myIdent, message);
+              commitToRevert, authorIdent, committerIdent, message);
       revertCommitBuilder.setMessage(
           ChangeIdUtil.insertId(message, computedChangeId, true));
 

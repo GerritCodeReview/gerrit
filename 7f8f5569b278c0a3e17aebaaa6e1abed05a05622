@@ -34,6 +34,24 @@
       "revId": "7f8f5569b278c0a3e17aebaaa6e1abed05a05622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_08fa278c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-16T18:42:02Z",
+      "side": 1,
+      "message": "https://code.google.com/p/gerrit/issues/detail?id\u003d3917",
+      "parentUuid": "5d1a4804_b72ee886",
+      "revId": "7f8f5569b278c0a3e17aebaaa6e1abed05a05622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

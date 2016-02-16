@@ -159,6 +159,7 @@ public class ChangeJson {
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
   private final ChangeNotes.Factory notesFactory;
+  private final ChangeResource.Factory changeResourceFactory;
 
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
@@ -185,6 +186,7 @@ public class ChangeJson {
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
       ChangeNotes.Factory notesFactory,
+      ChangeResource.Factory changeResourceFactory,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -205,6 +207,7 @@ public class ChangeJson {
     this.actionJson = actionJson;
     this.gpgApi = gpgApi;
     this.notesFactory = notesFactory;
+    this.changeResourceFactory = changeResourceFactory;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -954,7 +957,7 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(out,
-          new RevisionResource(new ChangeResource(ctl), in));
+          new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 
     if (has(PUSH_CERTIFICATES)) {

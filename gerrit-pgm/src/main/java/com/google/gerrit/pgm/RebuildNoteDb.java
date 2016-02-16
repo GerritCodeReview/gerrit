@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.FormatUtil;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -36,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -50,7 +52,6 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -207,7 +208,7 @@ public class RebuildNoteDb extends SiteProgram {
   }
 
   private Injector createSysInjector() {
-    return dbInjector.createChildInjector(new AbstractModule() {
+    return dbInjector.createChildInjector(new FactoryModule() {
       @Override
       public void configure() {
         install(dbInjector.getInstance(BatchProgramModule.class));
@@ -215,6 +216,7 @@ public class RebuildNoteDb extends SiteProgram {
         DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(
             ReindexAfterUpdate.class);
         install(new DummyIndexModule());
+        factory(ChangeResource.Factory.class);
       }
     });
   }

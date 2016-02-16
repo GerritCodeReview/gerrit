@@ -46,6 +46,30 @@
       "revId": "2391ad78be31f68e92502cbf20091437e7387538",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_47d24e22",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-16T21:12:43Z",
+      "side": 0,
+      "message": "It will, but as the name suggests, it\u0027s WHITESPACE_ONLY :)\nSee:\nhttp://closure-compiler.appspot.com/home#code%3D%252F%252F%2520%253D%253DClosureCompiler%253D%253D%250A%252F%252F%2520%2540compilation_level%2520WHITESPACE_ONLY%250A%252F%252F%2520%2540output_file_name%2520default.js%250A%252F%252F%2520%2540formatting%2520pretty_print%250A%252F%252F%2520%253D%253D%252FClosureCompiler%253D%253D%250A%250A%252F%252F%2520ADD%2520YOUR%2520CODE%2520HERE%250Afunction%2520hello(name)%2520%257B%250A%2520%2520alert(\u0027Hello%252C%2520\u0027%2520%252B%2520name)%253B%250A%257D%250Ahello(\u0027New%2520user\u0027)%253B%250A%250A",
+      "parentUuid": "bd342467_65c500ad",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "2391ad78be31f68e92502cbf20091437e7387538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

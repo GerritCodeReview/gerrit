@@ -65,6 +65,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 
 @Singleton
@@ -73,7 +74,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private static final Logger log = LoggerFactory.getLogger(Revert.class);
 
   private final Provider<ReviewDb> db;
-  private final Provider<CurrentUser> user;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -83,11 +83,10 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
-  private final PersonIdent myIdent;
+  private final PersonIdent serverIdent;
 
   @Inject
   Revert(Provider<ReviewDb> db,
-      Provider<CurrentUser> user,
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
@@ -97,9 +96,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      @GerritPersonIdent PersonIdent myIdent) {
+      @GerritPersonIdent PersonIdent serverIdent) {
     this.db = db;
-    this.user = user;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
     this.cmUtil = cmUtil;
@@ -109,7 +107,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.psUtil = psUtil;
     this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
-    this.myIdent = myIdent;
+    this.serverIdent = serverIdent;
   }
 
   @Override
@@ -128,8 +126,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     try {
       revertedChangeId = revert(req.getControl(),
             change.currentPatchSetId(),
-            Strings.emptyToNull(input.message),
-            new PersonIdent(myIdent, TimeUtil.nowTs()));
+            Strings.emptyToNull(input.message));
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
@@ -138,10 +135,9 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   }
 
   private Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
-      String message, PersonIdent myIdent)
-      throws NoSuchChangeException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException,
-      RestApiException, UpdateException {
+      String message) throws NoSuchChangeException, OrmException,
+          MissingObjectException, IncorrectObjectTypeException, IOException,
+          RestApiException, UpdateException {
     Change.Id changeIdToRevert = patchSetId.getParentKey();
     PatchSet patch = psUtil.get(db.get(), ctl.getNotes(), patchSetId);
     if (patch == null) {
@@ -150,17 +146,19 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     Change changeToRevert = db.get().changes().get(changeIdToRevert);
 
     Project.NameKey project = ctl.getProject().getNameKey();
+    CurrentUser user = ctl.getUser();
     try (Repository git = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(git)) {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
-
-      PersonIdent authorIdent = user.get().asIdentifiedUser()
-          .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
-
       if (commitToRevert.getParentCount() == 0) {
         throw new ResourceConflictException("Cannot revert initial commit");
       }
+
+      Timestamp now = TimeUtil.nowTs();
+      PersonIdent committerIdent = new PersonIdent(serverIdent, now);
+      PersonIdent authorIdent = user.asIdentifiedUser()
+          .newCommitterIdent(now, committerIdent.getTimeZone());
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
       revWalk.parseHeaders(parentToCommitToRevert);
@@ -179,7 +177,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
       ObjectId computedChangeId =
           ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),
-              commitToRevert, authorIdent, myIdent, message);
+              commitToRevert, authorIdent, committerIdent, message);
       revertCommitBuilder.setMessage(
           ChangeIdUtil.insertId(message, computedChangeId, true));
 
@@ -199,21 +197,20 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
         ChangeMessage changeMessage = new ChangeMessage(
             new ChangeMessage.Key(
                 patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
-                user.get().getAccountId(), TimeUtil.nowTs(), patchSetId);
+                user.getAccountId(), now, patchSetId);
         StringBuilder msgBuf = new StringBuilder();
         msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
         msgBuf.append("\n\n");
         msgBuf.append("This patchset was reverted in change: ")
               .append("I").append(computedChangeId.name());
         changeMessage.setMessage(msgBuf.toString());
-        ChangeUpdate update = changeUpdateFactory.create(ctl, TimeUtil.nowTs());
+        ChangeUpdate update = changeUpdateFactory.create(ctl, now);
         cmUtil.addChangeMessage(db.get(), update, changeMessage);
         update.commit();
 
         ins.setMessage("Uploaded patch set 1.");
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), project, ctl.getUser(),
-            TimeUtil.nowTs())) {
+            db.get(), project, user, now)) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
           bu.execute();
@@ -222,7 +219,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
       try {
         RevertedSender cm = revertedSenderFactory.create(project, changeId);
-        cm.setFrom(user.get().getAccountId());
+        cm.setFrom(user.getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
       } catch (Exception err) {

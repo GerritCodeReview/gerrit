@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-diff-preferences.html">
 <link rel="import" href="gr-diff-side.html">
 <link rel="import" href="gr-overlay.html">
@@ -77,11 +78,11 @@ limitations under the License.
             change-num="[[changeNum]]"
             patch-range="[[patchRange]]"
             available-patches="[[availablePatches]]"></gr-patch-range-select>
-        <a class="prefsButton"
-           href="#"
+        <gr-button link
+           class="prefsButton"
            on-tap="_handlePrefsTap"
            hidden$="[[!prefs]]"
-           hidden>Diff View Preferences</a>
+           hidden>Diff View Preferences</gr-button>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>
         <gr-diff-preferences

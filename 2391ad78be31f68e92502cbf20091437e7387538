@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d688870_87b7e6fd",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-16T21:03:42Z",
+      "side": 0,
+      "message": "Instead of removing the calls to js_minify(), I propose changing these to:\n\nCLOSURE_COMPILER_ARGS \u003d[\n  \u0027--compilation_level\u003dWHITESPACE_ONLY\u0027,\n  \u0027--formatting\u003dPRETTY_PRINT\u0027,\n]\n\nAs seen in:\nhttps://github.com/bazelbuild/bazel/blob/master/tools/build_rules/closure/closure_js_binary.bzl#L40-L47",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "2391ad78be31f68e92502cbf20091437e7387538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

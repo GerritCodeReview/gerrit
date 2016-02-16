@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="gr-account-dropdown.html">
 <link rel="import" href="gr-ajax.html">
@@ -22,6 +23,8 @@ limitations under the License.
 <link rel="import" href="gr-change-view.html">
 <link rel="import" href="gr-dashboard-view.html">
 <link rel="import" href="gr-diff-view.html">
+<link rel="import" href="gr-keyboard-shortcuts-dialog.html">
+<link rel="import" href="gr-overlay.html">
 <link rel="import" href="gr-search-bar.html">
 
 <script src="../bower_components/page/page.js"></script>
@@ -139,6 +142,9 @@ limitations under the License.
         PolyGerrit Feedback
       </a>
     </footer>
+    <gr-overlay id="keyboardShortcuts" with-backdrop>
+      <gr-keyboard-shortcuts-dialog></gr-keyboard-shortcuts-dialog>
+    </gr-overlay>
   </template>
   <script>
   (function() {
@@ -178,6 +184,10 @@ limitations under the License.
         },
         version: String,
         params: Object,
+        keyEventTarget: {
+          type: Object,
+          value: function() { return document.body; },
+        },
 
         _diffPreferences: Object,
         _showChangeListView: Boolean,
@@ -193,6 +203,10 @@ limitations under the License.
 
       observers: [
         '_viewChanged(params.view)',
+      ],
+
+      behaviors: [
+        Gerrit.KeyboardShortcutBehavior,
       ],
 
       get loggedIn() {
@@ -272,6 +286,17 @@ limitations under the License.
           document.title = e.detail.title + ' · Gerrit Code Review';
         } else {
           document.title = '';
+        }
+      },
+
+      _handleKey: function(e) {
+        if (this.shouldSupressKeyboardShortcut(e)) { return; }
+
+        switch (e.keyCode) {
+          case 191:  // '/' or '?' with shift key.
+            // TODO(andybons): Localization using e.key/keypress event.
+            if (!e.shiftKey) { break; }
+            this.$.keyboardShortcuts.open();
         }
       },
 

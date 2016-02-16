@@ -38,6 +38,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -178,14 +179,13 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       revertCommitBuilder.setMessage(
           ChangeIdUtil.insertId(message, computedChangeId, true));
 
-      ChangeInserter ins;
-      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      final Change.Id changeId = new Change.Id(seq.nextChangeId());
       try (ObjectInserter oi = git.newObjectInserter()) {
         ObjectId id = oi.insert(revertCommitBuilder);
         oi.flush();
         RevCommit revertCommit = revWalk.parseCommit(id);
 
-        ins = changeInserterFactory.create(
+        final ChangeInserter ins = changeInserterFactory.create(
             changeId, revertCommit, ctl.getChange().getDest().get())
             .setValidatePolicy(CommitValidators.Policy.GERRIT)
             .setTopic(changeToRevert.getTopic());
@@ -195,6 +195,20 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
             db.get(), project, user, now)) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
+          bu.addOp(changeId, new BatchUpdate.Op() {
+            @Override
+            public void postUpdate(Context ctx) throws Exception {
+              try {
+                RevertedSender cm =
+                    revertedSenderFactory.create(ctx.getProject(), changeId);
+                cm.setFrom(ctx.getUser().getAccountId());
+                cm.setChangeMessage(ins.getChangeMessage());
+                cm.send();
+              } catch (Exception err) {
+                log.error("Cannot send email for revert change " + changeId, err);
+              }
+            }
+          });
           bu.addOp(changeToRevert.getId(), new BatchUpdate.Op() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws Exception {
@@ -219,16 +233,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
           bu.execute();
         }
       }
-
-      try {
-        RevertedSender cm = revertedSenderFactory.create(project, changeId);
-        cm.setFrom(user.getAccountId());
-        cm.setChangeMessage(ins.getChangeMessage());
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email for revert change " + changeId, err);
-      }
-
       return changeId;
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeIdToRevert, e);

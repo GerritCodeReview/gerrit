@@ -35,13 +35,16 @@ import java.util.Map;
 @Singleton
 public class ActionJson {
   private final Revisions revisions;
+  private final ChangeResource.Factory changeResourceFactory;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
 
   @Inject
   ActionJson(
       Revisions revisions,
+      ChangeResource.Factory changeResourceFactory,
       DynamicMap<RestView<ChangeResource>> changeViews) {
     this.revisions = revisions;
+    this.changeResourceFactory = changeResourceFactory;
     this.changeViews = changeViews;
   }
 
@@ -69,7 +72,7 @@ public class ActionJson {
     Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
     for (UiAction.Description d : UiActions.from(
         changeViews,
-        new ChangeResource(ctl),
+        changeResourceFactory.create(ctl),
         userProvider)) {
       out.put(d.getId(), new ActionInfo(d));
     }

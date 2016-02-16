@@ -57,7 +57,7 @@ public class Gsql extends SiteProgram {
         manager.stop();
       }
     });
-    final QueryShell shell = shellFactory().create(System.in, System.out, null);
+    final QueryShell shell = shellFactory().create(System.in, System.out, null, null);
     shell.setOutputFormat(format);
     if (query != null) {
       shell.execute(query);

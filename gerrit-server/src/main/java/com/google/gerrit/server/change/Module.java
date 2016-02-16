@@ -135,5 +135,6 @@ public class Module extends RestApiModule {
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetHashtagsOp.Factory.class);
+    factory(ChangeResource.Factory.class);
   }
 }

@@ -65,6 +65,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 
 @Singleton
@@ -151,9 +152,10 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
-      PersonIdent committerIdent = new PersonIdent(serverIdent, TimeUtil.nowTs());
+      Timestamp now = TimeUtil.nowTs();
+      PersonIdent committerIdent = new PersonIdent(serverIdent, now);
       PersonIdent authorIdent = user.asIdentifiedUser()
-          .newCommitterIdent(committerIdent.getWhen(), committerIdent.getTimeZone());
+          .newCommitterIdent(now, committerIdent.getTimeZone());
 
       if (commitToRevert.getParentCount() == 0) {
         throw new ResourceConflictException("Cannot revert initial commit");
@@ -196,21 +198,20 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
         ChangeMessage changeMessage = new ChangeMessage(
             new ChangeMessage.Key(
                 patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
-                user.getAccountId(), TimeUtil.nowTs(), patchSetId);
+                user.getAccountId(), now, patchSetId);
         StringBuilder msgBuf = new StringBuilder();
         msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
         msgBuf.append("\n\n");
         msgBuf.append("This patchset was reverted in change: ")
               .append("I").append(computedChangeId.name());
         changeMessage.setMessage(msgBuf.toString());
-        ChangeUpdate update = changeUpdateFactory.create(ctl, TimeUtil.nowTs());
+        ChangeUpdate update = changeUpdateFactory.create(ctl, now);
         cmUtil.addChangeMessage(db.get(), update, changeMessage);
         update.commit();
 
         ins.setMessage("Uploaded patch set 1.");
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), project, user,
-            TimeUtil.nowTs())) {
+            db.get(), project, user, now)) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
           bu.execute();

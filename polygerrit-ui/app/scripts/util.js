@@ -30,11 +30,12 @@ util.htmlEntityMap = {
   '>': '&gt;',
   '"': '&quot;',
   '\'': '&#39;',
-  '/': '&#x2F;'
+  '/': '&#x2F;',
+  '`': '&#96;',
 };
 
 util.escapeHTML = function(str) {
-  return str.replace(/[&<>"'\/]/g, function(s) {
+  return str.replace(/[&<>"'`\/]/g, function(s) {
     return util.htmlEntityMap[s];
   });
 };

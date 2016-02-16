@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455607890 +0100\nnonce AO+Zq7gtsMxdg6c/J0JuannoDgxzscDTbB/YrxOnQUtDKpoNmhp+NvsAQTpE3gzElkGBuYWdWWfL\n\n0000000000000000000000000000000000000000 8be4274a364063552da13139a5137a6e2b67da3a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWwtBSAAoJEFG1/Zeg0O9RHXAH/jWZlQr44L1L3lyUYVB0Y5xc\nrTHXOtwSExOyjF2re1eJ0WAJ9r+RDISZPp9pJZeo6hghVp+iakN/FK+2X/IrCMbS\nmhYzOkM7whq7SvrlrC2ztq2cLPuc+U3HNivDYqwmnB5wQuwlZsnFx9iz3voWjVWr\nI+gtAF3HKqR0tB93qLrif8VW/tpFbxxPPSFFfhco5+Pgi116S9tuyBo3p95iUcJz\nPUV1/EdOpT1y4bGgArsO9lqp8B09yruPjpsbF/I0eqhRmTuNGXFp/g5MTtjULlOU\nQGZc5ksdpXjQ78BCGkwmETXGqE5Svw3u/uYYvqrSsuz7Orju8zMoGI7ZDrYYWDU\u003d\n\u003dBXwl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_5f8f6be7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-16T08:19:20Z",
+      "side": 1,
+      "message": "[optional] if there is any way to convert expectedChanges into an Iterator, then this loop and the one at line 1493 would be the same and be possible to factor out to a separate utility method.",
+      "revId": "8be4274a364063552da13139a5137a6e2b67da3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

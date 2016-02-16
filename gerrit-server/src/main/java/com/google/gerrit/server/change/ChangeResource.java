@@ -30,6 +30,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -45,9 +47,14 @@ public class ChangeResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<ChangeResource>> CHANGE_KIND =
       new TypeLiteral<RestView<ChangeResource>>() {};
 
+  public interface Factory {
+    ChangeResource create(ChangeControl ctl);
+  }
+
   private final ChangeControl control;
 
-  public ChangeResource(ChangeControl control) {
+  @AssistedInject
+  ChangeResource(@Assisted ChangeControl control) {
     this.control = control;
   }
 

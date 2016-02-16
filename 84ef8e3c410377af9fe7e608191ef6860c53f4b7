@@ -16,6 +16,24 @@
       "revId": "84ef8e3c410377af9fe7e608191ef6860c53f4b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d4168d6_5f50cbd7",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-16T16:44:39Z",
+      "side": 1,
+      "message": "I prefer not to nest entire blocks of function code and handle conditions that can be bailed on early. Like this: https://github.com/golang/go/wiki/CodeReviewComments#indent-error-flow",
+      "parentUuid": "5d4168d6_3f02a7ec",
+      "revId": "84ef8e3c410377af9fe7e608191ef6860c53f4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

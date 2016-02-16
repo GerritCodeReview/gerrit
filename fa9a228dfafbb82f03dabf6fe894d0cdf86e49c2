@@ -16,6 +16,24 @@
       "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_e5b7d04e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-16T22:39:49Z",
+      "side": 1,
+      "message": "\u003e This is not the behavior of the GWT UI. It just assumes that submit_type is always present;\n\nThe condition on line 1248 queries the change status, not the presence of submit_type:\n\n  if (current \u0026\u0026 info.status().isOpen()) {\n      quickApprove.set(info, revision, replyAction);\n      renderSubmitType(info.status(), isSubmittable(info), info.submitType());\n    } else {\n      quickApprove.setVisible(false);\n    }\n\nAnd as the matter of fact, on merged changes, the submit type is not get rendered, e.g.: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/57781",
+      "parentUuid": "5d688870_c7e4fefb",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,14 +55,6 @@ limitations under the License.
                   'Pull': 'git pull ssh://andybons@localhost:29418/test-project refs/changes/05/5/1'
                 }
               },
-              'anonymous http': {
-                commands: {
-                  'Checkout': 'git fetch http://localhost:8080/test-project refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                  'Cherry Pick': 'git fetch http://localhost:8080/test-project refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                  'Format Patch': 'git fetch http://localhost:8080/test-project refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD',
-                  'Pull': 'git pull http://localhost:8080/test-project refs/changes/05/5/1'
-                }
-              },
               http: {
                 commands: {
                   'Checkout': 'git fetch http://andybons@localhost:8080/a/test-project refs/changes/05/5/1 && git checkout FETCH_HEAD',
@@ -94,10 +86,12 @@ limitations under the License.
 
       element.set('config.archives', []);
       assert.isTrue(element.$$('.archivesContainer').hasAttribute('hidden'));
+    });
 
-      element.set('config.schemes', {});
-      assert.isTrue(element.$$('.commands').hasAttribute('hidden'));
-      assert.isTrue(element.$$('.archivesContainer').hasAttribute('hidden'));
+    test('computed fields', function() {
+      assert.equal(element._computeArchiveDownloadLink(
+          {_number: 123}, 2, 'tgz'),
+          '/changes/123/revisions/2/archive?format=tgz');
     });
 
     test('close event', function(done) {
@@ -109,9 +103,9 @@ limitations under the License.
 
     test('tab selection', function() {
       flushAsynchronousOperations();
-      var el = element.$$('[data-scheme="anonymous http"]').parentElement;
+      var el = element.$$('[data-scheme="http"]').parentElement;
       assert.isTrue(el.hasAttribute('selected'));
-      ['http', 'repo', 'ssh'].forEach(function(scheme) {
+      ['repo', 'ssh'].forEach(function(scheme) {
         var el = element.$$('[data-scheme="' + scheme + '"]').parentElement;
         assert.isFalse(el.hasAttribute('selected'));
       });
@@ -119,7 +113,7 @@ limitations under the License.
       MockInteractions.tap(element.$$('[data-scheme="ssh"]'));
       el = element.$$('[data-scheme="ssh"]').parentElement;
       assert.isTrue(el.hasAttribute('selected'));
-      ['anonymous http', 'http', 'repo'].forEach(function(scheme) {
+      ['http', 'repo'].forEach(function(scheme) {
         var el = element.$$('[data-scheme="' + scheme + '"]').parentElement;
         assert.isFalse(el.hasAttribute('selected'));
       });

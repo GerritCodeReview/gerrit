@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4168d6_3f02a7ec",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-16T15:17:44Z",
+      "side": 1,
+      "message": "I must be missing some JS idiom here...why \u003d\u003d false instead of just if (enabled)?",
+      "revId": "84ef8e3c410377af9fe7e608191ef6860c53f4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

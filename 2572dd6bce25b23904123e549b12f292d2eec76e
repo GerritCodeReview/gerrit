@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5d4168d6_ff60bfae",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-16T16:42:13Z",
+      "side": 1,
+      "message": "It is possible to do via a behavior in a sort of hacky way — you could define a property that reflects as an attribute and select on that, but I see that as being more overhead since you’d have to look at two different files to see what was going on exactly.",
+      "parentUuid": "5d4168d6_5f220b8c",
+      "revId": "2572dd6bce25b23904123e549b12f292d2eec76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_7f1fcf40",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-16T15:33:44Z",
       "side": 1,
       "message": "Comment here about what the confusingly different values mean?",
+      "revId": "2572dd6bce25b23904123e549b12f292d2eec76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_b78908e6",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-16T16:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4168d6_7f1fcf40",
       "revId": "2572dd6bce25b23904123e549b12f292d2eec76e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "5d4168d6_9f55f3cb",
+        "filename": "polygerrit-ui/app/elements/gr-confirm-rebase-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-16T16:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_57c8ac1e",
+      "revId": "2572dd6bce25b23904123e549b12f292d2eec76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_b7d268d0",
         "filename": "polygerrit-ui/app/elements/gr-confirm-rebase-dialog.html",
         "patchSetId": 6
@@ -76,6 +130,24 @@
         "endLine": 68,
         "endChar": 25
       },
+      "revId": "2572dd6bce25b23904123e549b12f292d2eec76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_578f4ce7",
+        "filename": "polygerrit-ui/app/elements/gr-confirm-rebase-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-16T16:42:13Z",
+      "side": 1,
+      "message": "I’m using the same terminology as the documentation: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#rebase-input\n\n“Empty string is used for rebasing directly on top of the target branch”",
+      "parentUuid": "5d1a4804_b7d268d0",
       "revId": "2572dd6bce25b23904123e549b12f292d2eec76e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

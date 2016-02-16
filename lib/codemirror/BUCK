@@ -50,7 +50,7 @@ for n in CM_THEMES:
   )
 
 genrule(
-  name = 'cm-verbose',
+  name = 'js',
   cmd = ';'.join([
       "echo '/** @license' >$OUT",
       'unzip -p $(location :zip) %s/LICENSE >>$OUT' % TOP,
@@ -60,32 +60,19 @@ genrule(
     ['unzip -p $(location :zip) %s/addon/%s >>$OUT' % (TOP, n)
      for n in CM_ADDONS]
   ),
-  out = 'cm-verbose.js',
-)
-
-js_minify(
-  name = 'js',
-  generated = [':cm-verbose'],
-  compiler_args = CLOSURE_COMPILER_ARGS,
-  out = 'cm.js'
+  out = 'cm.js',
 )
 
 for n in CM_MODES:
   genrule (
-    name = 'mode_%s_src' % n,
+    name = 'mode_%s_js' % n,
     cmd = ';'.join([
       "echo '/** @license' >$OUT",
       'unzip -p $(location :zip) %s/LICENSE >>$OUT' % TOP,
       "echo '*/' >>$OUT",
       'unzip -p $(location :zip) %s/mode/%s/%s.js >>$OUT' % (TOP, n, n),
       ]),
-    out = 'mode_%s_src.js' %n,
-  )
-  js_minify(
-    name = 'mode_%s_js' % n,
-    generated = [':mode_%s_src' % n],
-    compiler_args = CLOSURE_COMPILER_ARGS,
-    out = 'mode_%s.js' % n,
+    out = 'mode_%s.js' %n,
   )
 
 prebuilt_jar(

@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
@@ -62,15 +63,19 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final ProjectControl.GenericFactory projectControlFactory;
   private final Provider<CurrentUser> currentUser;
   private final Provider<PutConfig> putConfig;
+  private final AllProjectsName allProjects;
   private final String name;
 
   @Inject
   CreateProject(PerformCreateProject.Factory performCreateProjectFactory,
       Provider<ProjectsCollection> projectsCollection,
-      Provider<GroupsCollection> groupsCollection, ProjectJson json,
+      Provider<GroupsCollection> groupsCollection,
+      ProjectJson json,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       ProjectControl.GenericFactory projectControlFactory,
-      Provider<CurrentUser> currentUser, Provider<PutConfig> putConfig,
+      Provider<CurrentUser> currentUser,
+      Provider<PutConfig> putConfig,
+      AllProjectsName allProjects,
       @Assisted String name) {
     this.createProjectFactory = performCreateProjectFactory;
     this.projectsCollection = projectsCollection;
@@ -80,6 +85,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.projectControlFactory = projectControlFactory;
     this.currentUser = currentUser;
     this.putConfig = putConfig;
+    this.allProjects = allProjects;
     this.name = name;
   }
 
@@ -97,9 +103,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     final CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);
-    if (!Strings.isNullOrEmpty(input.parent)) {
-      args.newParent = projectsCollection.get().parse(input.parent).getControl();
-    }
+    String parentName = MoreObjects.firstNonNull(
+        Strings.emptyToNull(input.parent), allProjects.get());
+    args.newParent = projectsCollection.get().parse(parentName).getControl();
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);

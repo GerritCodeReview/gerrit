@@ -287,10 +287,10 @@ bower_component(
 bower_component(
   name = 'polymer',
   package = 'polymer/polymer',
-  version = '1.2.2',
+  version = '1.2.4',
   deps = [':webcomponentsjs'],
   license = 'polymer',
-  sha1 = '7f4033438425584d8912a80614d1a4f754438e15',
+  sha1 = 'bcc1356d8e7da1a2e339b953e4e056cc13b58bd4',
 )
 
 bower_component(
@@ -305,10 +305,9 @@ bower_component(
 bower_component(
   name = 'test-fixture',
   package = 'polymerelements/test-fixture',
-  version = '1.0.3',
-  semver = '^1.0.0',
+  version = '1.1.0',
   license = 'DO_NOT_DISTRIBUTE',
-  sha1 = '21192d554ff6ad7eea894ca751c73b6bc46867dc',
+  sha1 = '4afc8998ae42b0421847906a7550b997c6fdc088',
 )
 
 bower_component(
@@ -322,7 +321,7 @@ bower_component(
 bower_component(
   name = 'webcomponentsjs',
   package = 'webcomponentsjs',
-  version = '0.7.17',
+  version = '0.7.20',
   license = 'polymer',
-  sha1 = '36e29cfe21caa71322a0b5026d7d423c33c0426f',
+  sha1 = '95bb33be5aee6af2f49b5d8ca5cfcb4989e89ba8',
 )

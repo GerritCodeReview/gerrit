@@ -81,7 +81,7 @@ limitations under the License.
 
     test('element visibility', function() {
       assert.isFalse(element.$$('ul').hasAttribute('hidden'));
-      assert.isFalse(element.$$('.commands').hasAttribute('hidden'));
+      assert.isFalse(element.$$('main').hasAttribute('hidden'));
       assert.isFalse(element.$$('.archivesContainer').hasAttribute('hidden'));
 
       element.set('config.archives', []);

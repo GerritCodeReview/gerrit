@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1a4804_5750acd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-17T03:25:55Z",
+      "side": 1,
+      "message": "Yes, if possible, this would be better.",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "bd6a427f890166dd1ddcbdbeffaba55160cc08c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

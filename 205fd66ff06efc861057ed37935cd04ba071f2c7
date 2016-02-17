@@ -88,6 +88,24 @@
       "revId": "205fd66ff06efc861057ed37935cd04ba071f2c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_c4e4fefb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-17T18:41:47Z",
+      "side": 1,
+      "message": "We\u0027d still need to add a .current() after id(cherryId) as we need to operate on RevisionApi instead of ChangeApi, it becomes\n\n    String cherryId \u003d orig.current().cherryPick(in).id();\n    gApi.changes().id(cherryId).current().review(ReviewInput.approve());\n    gApi.changes().id(cherryId).current().submit();",
+      "parentUuid": "5d1a4804_57ac2cfe",
+      "revId": "205fd66ff06efc861057ed37935cd04ba071f2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

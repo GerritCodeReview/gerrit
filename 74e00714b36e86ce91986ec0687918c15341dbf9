@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1a4804_f73460dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:08:20Z",
+      "side": 1,
+      "message": "Extending AbstractSubmit ends up doing extra work because of the @Test methods in the base class.\n\nI realize you want the helper methods from the base class, but I don\u0027t want to get into refactoring this hierarchy in a stable branch.\n\nTwo options.\n\nOne, which I would prefer, just put these methods in SubmitByMergeIfNecessaryIT. I have no problem with these test classes growing more and more methods; there is a lot of overhead in spinning up the test server, but once that\u0027s done, additional methods are cheaper.\n\n\nTwo, leave a few @Ignore methods in here with a TODO for me to fix them:\n\n // TODO(dborowitz): Refactor AbstractSubmit hierarchy to make helper methods\n // available without running extra tests.\n @Override\n @Ignore\n @Test\n public void submitToEmptyRepo() {}\n\n @Override\n @Ignore\n @Test\n public void submitWholeTopic() {}",
+      "range": {
+        "startLine": 44,
+        "startChar": 50,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_77213094",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:08:20Z",
+      "side": 1,
+      "message": "In general you need to wrap per-test global resource names with name(...). This makes sure that resources aren\u0027t used across multiple test methods, which all share a single running server instance.\n\nSo this would be something like:\n\n Project.NameKey project1 \u003d name(\"Project1\");\n gApi.projects().create(project1);\n ...\n\nYou could also get away with saying project1 \u003d project and just creating project2.",
+      "range": {
+        "startLine": 185,
+        "startChar": 27,
+        "endLine": 185,
+        "endChar": 37
+      },
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_171eb453",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:08:20Z",
+      "side": 1,
+      "message": "Merge l and check that everything is submitted?",
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_c7963e68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:08:20Z",
+      "side": 1,
+      "message": "Merge l and check that everything is submitted?",
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

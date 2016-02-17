@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dfe10bd_45c58a03",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-17T16:28:03Z",
+      "side": 1,
+      "message": "Can we use a more descriptive suffix instead of \"_r\"?",
+      "range": {
+        "startLine": 92,
+        "startChar": 20,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "6541487aef5f67b1ce553e4b8907d711edf454cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

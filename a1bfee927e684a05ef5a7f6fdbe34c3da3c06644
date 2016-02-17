@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455711933 +0100\nnonce AO+Zq7g8tshK3RGDcztd7laX+ndedUOdFfw478i4zWu/4mdE6jCCJp7EOeXyJHw2JbJFSKDAu8BU\n\n0000000000000000000000000000000000000000 64310757afdf8240d96ecdd337cc8b8415e2f01d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWxGa9AAoJEFG1/Zeg0O9R3RAIAMFcN/dN9GukB5Tw2iRXM0W4\nWNtJAjG3kcEuNeoJBCOkdIA4xPN5i1i2jAMLGXeNeQXc+W3AqYPWT0QbUp596FtU\nENCunmjtooCe48cWTKhzsxrcnZtb9pS5EWDE3WXLlOSt9xSwJEYiGFtpTUFQce/w\nEEVHq121Jkd0RlFpejwxbfWz3IlNB1KDhRpWJlUhISecxUcykS3Djy3TEw1kcdMX\nm8GZpN0lzJpMuVNA6lXPTmXQ3Q00KBKiZ9UE+hwowlAJ9DQs1HDGlAXVFDS6PV1K\nNcoXbPF8KD/gvL64JYOAtUFt/5bkX7K1V3L3PF/eR4Y5jijcnkaLc/Hi8blL4Uc\u003d\n\u003dLnnA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd585ce7_c4963e68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T17:20:28Z",
+      "side": 1,
+      "message": "This constructor is kind of ridiculous. On balance I still think it\u0027s worth it to get it out of ReceiveCommits.",
+      "revId": "a1bfee927e684a05ef5a7f6fdbe34c3da3c06644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

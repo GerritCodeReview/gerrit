@@ -134,7 +134,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     if (patch == null) {
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
-    Change changeToRevert = db.get().changes().get(changeIdToRevert);
 
     Project.NameKey project = ctl.getProject().getNameKey();
     CurrentUser user = ctl.getUser();
@@ -160,6 +159,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       revertCommitBuilder.setAuthor(authorIdent);
       revertCommitBuilder.setCommitter(authorIdent);
 
+      Change changeToRevert = ctl.getChange();
       if (message == null) {
         message = MessageFormat.format(
             ChangeMessages.get().revertChangeDefaultMessage,

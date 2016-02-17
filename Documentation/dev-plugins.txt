@@ -1200,20 +1200,16 @@ public Object apply(RevisionResource rcrs, Input in) {
   [...]
   // update change
   ReviewDb db = dbProvider.get();
-  db.changes().beginTransaction(change.getId());
-  try {
-    change = db.changes().atomicUpdate(
-      change.getId(),
-      new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          ChangeUtil.updated(change);
-          return change;
-        }
-      });
-    db.commit();
-  } finally {
-    db.rollback();
+  try (BatchUpdate bu = batchUpdateFactory.create(
+      db, project.getNameKey(), user, TimeUtil.nowTs())) {
+    bu.addOp(change.getId(), new BatchUpdate.Op() {
+      @Override
+      public boolean updateChange(BatchUpdate.ChangeContext ctx) {
+        ctx.saveChange();
+        return true;
+      }
+    });
+    bu.execute();
   }
   [...]
 }

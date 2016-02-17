@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -85,10 +84,6 @@ public class ChangeUtil {
     if (c != null) {
       db.changes().update(Collections.singleton(c));
     }
-  }
-
-  public static void updated(Change c) {
-    c.setLastUpdatedOn(TimeUtil.nowTs());
   }
 
   public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,

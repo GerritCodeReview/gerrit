@@ -34,6 +34,24 @@
       "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_2847eb1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-17T19:49:06Z",
+      "side": 1,
+      "message": "It\u0027s really strange. I have a setup where \u0027Cherry Pick\u0027 is used  and there is no \u0027submit_type\u0027 available in the change-info (in REST-response). But still, the GWT UI shows \u0027Cherry Pick\u0027 as strategy. Do you have any idea which code does this?",
+      "parentUuid": "5d688870_c7e4fefb",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

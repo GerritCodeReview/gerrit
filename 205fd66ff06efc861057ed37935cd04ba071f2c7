@@ -70,6 +70,24 @@
       "revId": "205fd66ff06efc861057ed37935cd04ba071f2c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_57ac2cfe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:01:51Z",
+      "side": 1,
+      "message": "You use the same API, just don\u0027t hold onto references:\n\n String cherryId \u003d orig.current().cherryPick(in).id();\n gApi.changes().id(cherryId).review(ReviewInput.approve());\n gApi.changes().id(cherryId).submit();\n\nIMHO cherryPick should not be returning a ChangeApi and should just return the ID, but we can\u0027t change that now.",
+      "parentUuid": "1dfe10bd_e5ac766c",
+      "revId": "205fd66ff06efc861057ed37935cd04ba071f2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

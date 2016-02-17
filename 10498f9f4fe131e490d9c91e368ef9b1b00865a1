@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5d688870_c7d39ed7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "I see this method as re-usable outside of Submit, but I can move it into Submit if you confirm to me that it belongs there.",
+      "parentUuid": "5d688870_471a4e93",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d688870_67175268",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-17T16:32:10Z",
       "side": 1,
       "message": "This assignment is unused, just declare the variable where you assign it below.",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_37f898d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done, I did a similar change to the other boolean",
+      "parentUuid": "5d688870_67175268",
       "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9de3e049_a19bde8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_5743ccea",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_d7559c9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-17T16:32:10Z",
       "side": 1,
       "message": "Shorter: boolean isMergeCommit \u003d commit.getParentCount() \u003e 1;",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_d7235c41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_d7559c9c",
       "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "fd585ce7_24c95270",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_f75a20cc",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_974f2409",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 6
@@ -115,6 +205,24 @@
       "writtenOn": "2016-02-17T16:32:10Z",
       "side": 1,
       "message": "Every call to name() allocates a new 40-char string. RevCommit extends ObjectId which has a highly optimized implementation of equals, so you should just do parent.equals(commitToCheck)\n\nAt which point this becomes equivalent to:\n\n if (commit.getParents().contains(commitToCheck)) {\n   return true;\n }",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_c8bc23e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_974f2409",
       "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

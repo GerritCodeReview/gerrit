@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_c57e4cf2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T12:57:46Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/74993",
+      "parentUuid": "5d1a4804_37fad863",
+      "revId": "0e4d6bf80ccd153b6b93b99aa03b454ed86449a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_df2ffb85",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-16T14:22:28Z",
       "side": 1,
       "message": "So I think it is possible to move most of this into the body of a BatchUpdate.Op. I\u0027m just not sure it\u0027s worth it.\n\nHere\u0027s a sketch of what you\u0027d have to do:\n\n* change BatchUpdate to not eagerly call op.createChange from insertChange, and instead just keep track of a map of Change.Id -\u003e InsertChangeOp\n* change ChangeInserter to not take the commit in the constructor, and instead use a setter.\n* move the Op for changeToRevert before the op for the new change (recall ops are executed in the order we first see the change ID). Give it a pointer to the ChangeInserter\n* move most of this stuff into updateRepo of the revert op, and call the setter on the ChangeInserter to set the commit once you have it\n* updateChange of the revert op also needs to set the topic on the ChangeInserter\n* by the time ChangeInserter needs to call createChange (right before its updateChange is called?), it has the commit available and can use it to get the change key.\n\nWhat this buys us:\n* patch set revision is read in a transaction (not actually important)\n* topic is read in a transaction (theoretically nice, not really important in practice)\n* less work outside an op feels cleaner\n\nBut it doesn\u0027t actually buy us any performance improvement in terms of repository operations, because we have the proper setRepository call below. And it\u0027s not necessary in order to remove the db.changes() call above. So like I said, not sure it\u0027s worth it.",
+      "revId": "0e4d6bf80ccd153b6b93b99aa03b454ed86449a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_e8eb1359",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T12:57:46Z",
+      "side": 1,
+      "message": "Thanks for suggesting. I\u0027m also not convinced that this is worth the effort, but we can keep it in mind for later. For now we still have more important stuff to do.",
+      "parentUuid": "5d4168d6_df2ffb85",
       "revId": "0e4d6bf80ccd153b6b93b99aa03b454ed86449a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

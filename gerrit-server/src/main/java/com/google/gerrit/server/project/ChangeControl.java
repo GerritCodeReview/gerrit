@@ -122,6 +122,19 @@ public class ChangeControl {
           notesFactory.create(db, project, changeId));
     }
 
+    /**
+     * Create a change control for a change that was loaded from index. This
+     * method should only be used when database access is harmful and potentially
+     * stale data from the index is acceptable.
+     *
+     * @param refControl ref control
+     * @param change change loaded from secondary index
+     * @return change control
+     */
+    ChangeControl createForIndexedChange(RefControl refControl, Change change) {
+      return create(refControl, notesFactory.createFromIndexedChange(change));
+    }
+
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
       return new ChangeControl(changeDataFactory, approvalsUtil, refControl,
           notes);

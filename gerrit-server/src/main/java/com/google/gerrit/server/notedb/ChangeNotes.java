@@ -180,6 +180,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           change).load();
     }
 
+    /**
+     * Create change notes for a change that was loaded from index. This method
+     * should only be used when database access is harmful and potentially stale
+     * data from the index is acceptable.
+     *
+     * @param change change loaded from secondary index
+     * @return change notes
+     */
     public ChangeNotes createFromIndexedChange(Change change) {
       return new ChangeNotes(repoManager, migration, allUsersProvider,
           change.getProject(), change);

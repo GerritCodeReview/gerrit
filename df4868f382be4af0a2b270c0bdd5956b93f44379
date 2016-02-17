@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455697667 +0100\nnonce AO+Zq7jEkq2uR40gt8/yu+AIp53rd8bNp99rco32hqtZ4hw6yBKslfjqxkjlvNZ12TO6pr1i8qIY\n\n0000000000000000000000000000000000000000 df4868f382be4af0a2b270c0bdd5956b93f44379 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWxC8DAAoJEFG1/Zeg0O9RltoIAJFp6WhJJYTPyLAdlOmGQzjD\n9rHRPlu0JELAY4H7NzcNsM8YXDIc4P0TPTxla+iccAI/jO7qWB8TDlZAQ9/nKgfC\nFHjTPIuWKgr+JZyKlWXVXDlsqtrtaG0UjRGY3h+faO2ktmX6Un5rFRvLmFGheeFF\nUh+8ic0jCD85cY/J0CBAyTCJ799wbfwJ/z8J+0qEpHulajjdtDFgovnCaJRkGw05\nPp1jHn0Io45H7AzJZZmgvAX88hWQRMfV6d5Nw6T7LppuKkZ+wOjy/swm+JpZeSNN\nQRzsn1ye9C3O7ihGJXYGurPrlfEpeE01cJejCfaitKhpoKOb5Zh4na9LpMV7Svg\u003d\n\u003dZqrO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1a4804_37cc18d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:36:30Z",
+      "side": 1,
+      "message": "I wonder if we shouldn\u0027t go one step further and use this directly within VisibleRefFilter, not just in tests.",
+      "revId": "df4868f382be4af0a2b270c0bdd5956b93f44379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

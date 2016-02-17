@@ -23,6 +23,23 @@
       "revId": "7af13491c3fd5468d44b53ad433b9949482b5af7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_c7de3ef9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:57:35Z",
+      "side": 1,
+      "message": "This line was added with, I think, the same intent as this change. So maybe this line is no longer needed? (I think the tests passing will be sufficient proof that it\u0027s not needed, since I added it in the first place to make the repair tests pass.)",
+      "revId": "7af13491c3fd5468d44b53ad433b9949482b5af7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

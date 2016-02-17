@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
+<link rel="import" href="gr-button.html">
 
 <dom-module id="gr-download-dialog">
   <template>
@@ -34,7 +35,7 @@ limitations under the License.
         margin: 0;
         padding: 0;
       }
-      li a {
+      li gr-button {
         margin-right: 1em;
       }
       label,
@@ -50,7 +51,7 @@ limitations under the License.
         margin-bottom: .5em;
         width: 60em;
       }
-      li[selected] a {
+      li[selected] gr-button {
         color: #000;
         font-weight: bold;
         text-decoration: none;
@@ -91,14 +92,14 @@ limitations under the License.
       <ul hidden$="[[!_schemes.length]]" hidden>
         <template is="dom-repeat" items="[[_schemes]]" as="scheme">
           <li selected$="[[_computeSchemeSelected(scheme, _selectedScheme)]]">
-            <a href="#" data-scheme$="[[scheme]]" on-tap="_handleSchemeTap">
+            <gr-button link data-scheme$="[[scheme]]" on-tap="_handleSchemeTap">
               [[scheme]]
-            </a>
+            </gr-button>
           </li>
         </template>
       </ul>
       <span class="closeButtonContainer">
-        <a href="#" on-tap="_handleCloseTap">Close</a>
+        <gr-button link on-tap="_handleCloseTap">Close</gr-button>
       </span>
     </div>
     <div class="commands" hidden$="[[!_schemes.length]]" hidden>

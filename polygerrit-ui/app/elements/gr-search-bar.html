@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="gr-button.html">
 
 <dom-module id="gr-search-bar">
   <template>
@@ -28,17 +29,16 @@ limitations under the License.
         display: flex;
         margin-left: 3em;
       }
-      input,
-      button {
-        border: 1px solid #aaa;
-        font: inherit;
-        padding: .2em .5em;
+      input {
+        border: 1px solid #d1d2d3;
+        outline: none;
       }
       input {
         flex: 1;
+        font: inherit;
         border-radius: 2px 0 0 2px;
       }
-      button {
+      gr-button {
         background-color: #f1f2f3;
         border-radius: 0 2px 2px 0;
         border-left-width: 0;
@@ -46,7 +46,7 @@ limitations under the License.
     </style>
     <form>
       <input is="iron-input" id="searchInput" bind-value="{{_inputVal}}">
-      <button type="submit" id="searchButton">Search</button>
+      <gr-button id="searchButton">Search</gr-button>
     </form>
   </template>
   <script>

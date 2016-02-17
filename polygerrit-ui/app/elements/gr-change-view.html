@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-change-actions.html">
 <link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
@@ -199,7 +200,7 @@ limitations under the License.
               permitted-labels="[[_change.permitted_labels]]"
               on-send="_handleReplySent"
               hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
-          <a class="download" href="#" on-tap="_handleDownloadTap">Download</a>
+          <gr-button link class="download" on-tap="_handleDownloadTap">Download</gr-button>
           <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
           <select id="patchSetSelect" on-change="_handlePatchChange">
             <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">

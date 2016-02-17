@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-request.html">
@@ -70,9 +71,7 @@ limitations under the License.
         padding-top: 0;
       }
       .action {
-        cursor: pointer;
         margin-right: .5em;
-        padding: .2em .6em .3em;
       }
       .danger {
         display: flex;
@@ -137,15 +136,15 @@ limitations under the License.
           content="[[comment.message]]"
           config="[[projectConfig.commentlinks]]"></gr-linked-text>
       <div class="actions" hidden$="[[!showActions]]">
-        <button class="action reply" on-tap="_handleReply">Reply</button>
-        <button class="action quote" on-tap="_handleQuote">Quote</button>
-        <button class="action done" on-tap="_handleDone">Done</button>
-        <button class="action edit" on-tap="_handleEdit">Edit</button>
-        <button class="action save" on-tap="_handleSave"
-            disabled$="[[_computeSaveDisabled(_editDraft)]]">Save</button>
-        <button class="action cancel" on-tap="_handleCancel" hidden>Cancel</button>
+        <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>
+        <gr-button class="action quote" on-tap="_handleQuote">Quote</gr-button>
+        <gr-button class="action done" on-tap="_handleDone">Done</gr-button>
+        <gr-button class="action edit" on-tap="_handleEdit">Edit</gr-button>
+        <gr-button class="action save" on-tap="_handleSave"
+            disabled$="[[_computeSaveDisabled(_editDraft)]]">Save</gr-button>
+        <gr-button class="action cancel" on-tap="_handleCancel" hidden>Cancel</gr-button>
         <div class="danger">
-          <button class="action discard" on-tap="_handleDiscard">Discard</button>
+          <gr-button class="action discard" on-tap="_handleDiscard">Discard</gr-button>
         </div>
       </div>
     </div>

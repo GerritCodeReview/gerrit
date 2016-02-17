@@ -23,6 +23,8 @@ import com.google.inject.Provider;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -35,6 +37,8 @@ public class AliasCommand extends BaseCommand {
   private final Provider<CurrentUser> currentUser;
   private final CommandName command;
   private final AtomicReference<Command> atomicCmd;
+  private static final Logger log =
+      LoggerFactory.getLogger(AliasCommand.class);
 
   AliasCommand(@CommandName(Commands.ROOT) DispatchCommandProvider root,
       Provider<CurrentUser> currentUser, CommandName command) {
@@ -95,7 +99,11 @@ public class AliasCommand extends BaseCommand {
   public void destroy() {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
-        cmd.destroy();
+        try {
+          cmd.destroy();
+        } catch (Exception e) {
+          log.error("Unable to destroy command", e);
+        }
     }
   }
 

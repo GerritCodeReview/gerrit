@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d688870_471a4e93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "It seems like a lot of extra work to convert this to an assisted factory just so you can call isMergeable exactly once, from Submit. I think it would be simpler to just add a method Boolean isMergeable(ChangeSet) in Submit itself.",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_67175268",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "This assignment is unused, just declare the variable where you assign it below.",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_5743ccea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "Calling findCommit like this repeatedly is wasteful, it reopens the repository and allocates a new RevWalk each time.\n\nInstead you can take advantage of the fact that the ChangeDatas you got back from the index in ChangeSuperSet already have their patch sets populated, and you can structure it something like this:\n\n try (Repository repo \u003d repoManager.openRepository(...);\n     RevWalk rw \u003d new RevWalk(repo)) {\n   ...\n   RevCommit commit \u003d rw.parseCommit(ObjectId.fromString(cd.currentPatchSet().getRevision().get());\n }",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_d7559c9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "Shorter: boolean isMergeCommit \u003d commit.getParentCount() \u003e 1;",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_07145660",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "Optional: instead you could mergeabilityMap.remove(c), since the important check is that it doesn\u0027t contain false. But this is a minor optimization at a slight readability cost, which is why I say it\u0027s optional.",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_f75a20cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "Not sure I like this quadratic behavior, maybe you could precompute a map.",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_974f2409",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:32:10Z",
+      "side": 1,
+      "message": "Every call to name() allocates a new 40-char string. RevCommit extends ObjectId which has a highly optimized implementation of equals, so you should just do parent.equals(commitToCheck)\n\nAt which point this becomes equivalent to:\n\n if (commit.getParents().contains(commitToCheck)) {\n   return true;\n }",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

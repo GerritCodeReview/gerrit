@@ -33,6 +33,9 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -49,6 +52,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -72,6 +76,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
@@ -123,6 +128,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final AllUsersNameProvider allUsersProvider;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
+    private final WorkQueue workQueue;
 
     @VisibleForTesting
     @Inject
@@ -130,12 +136,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         NotesMigration migration,
         AllUsersNameProvider allUsersProvider,
         Provider<InternalChangeQuery> queryProvider,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        WorkQueue workQueue) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsersProvider = allUsersProvider;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
+      this.workQueue = workQueue;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
@@ -219,6 +227,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
       return new ChangeNotes(repoManager, migration, allUsersProvider,
           change.getProject(), change).load();
+    }
+
+    public CheckedFuture<ChangeNotes, OrmException> createAsync(
+        final ReviewDb db, final Project.NameKey project,
+        final Change.Id changeId) {
+      return Futures.makeChecked(
+          MoreExecutors.listeningDecorator(workQueue.getDefaultQueue())
+              .submit(new Callable<ChangeNotes>() {
+                @Override
+                public ChangeNotes call() throws Exception {
+                  return create(db, project, changeId);
+                }
+              }),
+          new Function<Exception, OrmException>() {
+            @Override
+            public OrmException apply(Exception e) {
+              return new OrmException(e);
+            }
+          });
     }
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(ReviewDb db,

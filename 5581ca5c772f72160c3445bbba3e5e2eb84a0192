@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd342467_28ccaf7f",
+        "filename": "tools/download_all.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-17T18:06:49Z",
+      "side": 1,
+      "message": "For the record, this is the second bug, that is related here: [1].\n\n* [2] https://github.com/facebook/buck/issues/658",
+      "revId": "5581ca5c772f72160c3445bbba3e5e2eb84a0192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

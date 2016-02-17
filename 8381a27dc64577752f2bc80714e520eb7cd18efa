@@ -341,6 +341,24 @@
     },
     {
       "key": {
+        "uuid": "7d654c95_a8575bf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T11:00:52Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/74992",
+      "parentUuid": "7d654c95_0870e7a8",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_f74d406a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 1

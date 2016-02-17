@@ -35,6 +35,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -78,6 +83,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
@@ -229,6 +235,38 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
       return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change).load();
+    }
+
+    public CheckedFuture<ChangeNotes, OrmException> createAsync(
+        final ListeningExecutorService executorService, final ReviewDb db,
+        final Project.NameKey project, final Change.Id changeId) {
+      return Futures.makeChecked(
+          Futures.transformAsync(db.changes().getAsync(changeId),
+              new AsyncFunction<Change, ChangeNotes>() {
+                @Override
+                public ListenableFuture<ChangeNotes> apply(
+                    final Change change) {
+                  return executorService.submit(new Callable<ChangeNotes>() {
+                    @Override
+                    public ChangeNotes call() throws Exception {
+                      checkArgument(change.getProject().equals(project),
+                          "passed project %s when creating ChangeNotes for %s,"
+                              + " but actual project is %s",
+                          project, changeId, change.getProject());
+                      return new ChangeNotes(repoManager, migration,
+                          allUsers, project, change).load();
+                    }
+                  });
+                }
+              }), new Function<Exception, OrmException>() {
+                @Override
+                public OrmException apply(Exception e) {
+                  if (e instanceof OrmException) {
+                    return (OrmException) e;
+                  }
+                  return new OrmException(e);
+                }
+              });
     }
 
     public List<ChangeNotes> create(ReviewDb db,

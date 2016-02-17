@@ -1886,15 +1886,16 @@ public class ReceiveCommits {
   }
 
   private void readChangesForReplace() throws OrmException {
-    List<CheckedFuture<Change, OrmException>> futures =
+    List<CheckedFuture<ChangeNotes, OrmException>> futures =
         Lists.newArrayListWithCapacity(replaceByChange.size());
     for (ReplaceRequest request : replaceByChange.values()) {
-      futures.add(db.changes().getAsync(request.ontoChange));
+      futures.add(notesFactory.createAsync(changeUpdateExector, db,
+          project.getNameKey(), request.ontoChange));
     }
-    for (CheckedFuture<Change, OrmException> f : futures) {
-      Change c = f.checkedGet();
-      if (c != null) {
-        replaceByChange.get(c.getId()).change = c;
+    for (CheckedFuture<ChangeNotes, OrmException> f : futures) {
+      ChangeNotes notes = f.checkedGet();
+      if (notes.getChange() != null) {
+        replaceByChange.get(notes.getChangeId()).change = notes.getChange();
       }
     }
   }

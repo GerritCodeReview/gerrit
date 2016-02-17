@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "5d688870_a7046a33",
+        "filename": "polygerrit-ui/app/elements/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:19:49Z",
+      "side": 1,
+      "message": "In that case, in _disabledChanged you need to use the tabindex from the attribute rather than hard-coding 0",
+      "parentUuid": "5d688870_e70a6242",
+      "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_97b1645c",
         "filename": "polygerrit-ui/app/elements/gr-button.html",
         "patchSetId": 5
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Do you mean will click() maintain the modifier keys on the event object?",
       "parentUuid": "5d1a4804_97b1645c",
+      "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_174d5414",
+        "filename": "polygerrit-ui/app/elements/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:19:49Z",
+      "side": 1,
+      "message": "Something like that. I just want \u003ctab\u003e\u003cC-enter\u003e to open a link in a background tab if it\u0027s a \"link\" (and behave the same as \u003ctab\u003e\u003center\u003e if not).",
+      "parentUuid": "5d1a4804_774050dd",
       "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

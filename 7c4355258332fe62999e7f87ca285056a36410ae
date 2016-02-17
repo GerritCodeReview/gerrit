@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1a4804_57f18cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Maybe this could take a ListeningExecutorService so ReceiveCommits can use the ChangeUpdateExecutor instead of the default queue?",
+      "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_87b606b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:48:18Z",
+      "side": 1,
+      "message": "This is suboptimal for the non-notedb case as it ties up a thread in the default work queue rather than taking advantage of any native async implementations in the gwtorm layer. I think instead you want to transform the actual getAsync future.",
+      "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_e7b102c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:48:18Z",
+      "side": 1,
+      "message": "Don\u0027t wrap if it\u0027s an OrmException",
+      "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

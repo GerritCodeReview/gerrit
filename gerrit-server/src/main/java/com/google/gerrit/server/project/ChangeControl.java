@@ -122,6 +122,10 @@ public class ChangeControl {
           notesFactory.create(db, project, changeId));
     }
 
+    ChangeControl createForIndexedChange(RefControl refControl, Change change) {
+      return create(refControl, notesFactory.createFromIndexedChange(change));
+    }
+
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
       return new ChangeControl(changeDataFactory, approvalsUtil, refControl,
           notes);

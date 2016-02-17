@@ -200,6 +200,11 @@ public class ProjectControl {
         change.getProject(), change.getId());
   }
 
+  public ChangeControl controlForIndexedChange(Change change) {
+    return changeControlFactory
+        .createForIndexedChange(controlForRef(change.getDest()), change);
+  }
+
   public ChangeControl controlFor(ChangeNotes notes) {
     return changeControlFactory
         .create(controlForRef(notes.getChange().getDest()), notes);

@@ -25,9 +25,9 @@
 
 == Project Management
 . link:project-configuration.html[Project Configuration]
-. link:access-control.html[Access Controls]
 .. link:config-labels.html[Review Labels]
-.. link:config-project-config.html[Access Controls Configuration Format]
+.. link:config-project-config.html[Project Configuration File Format]
+. link:access-control.html[Access Controls]
 . Multi-project management
 .. link:user-submodules.html[Submodules]
 .. link:https://source.android.com/source/using-repo.html[Repo] (external)

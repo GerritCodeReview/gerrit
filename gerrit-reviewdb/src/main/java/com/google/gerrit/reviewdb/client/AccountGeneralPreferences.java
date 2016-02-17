@@ -162,6 +162,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 20, length = 30, notNull = false)
   protected String emailStrategy;
 
+  @Column(id = 21)
+  protected boolean publishDraftCommentsOnPush;
+
   public AccountGeneralPreferences() {
   }
 
@@ -342,6 +345,15 @@ public final class AccountGeneralPreferences {
     this.muteCommonPathPrefixes = muteCommonPathPrefixes;
   }
 
+  public boolean isPublishDraftCommentsOnPush() {
+    return publishDraftCommentsOnPush;
+  }
+
+  public void setPublishDraftCommentsOnPush(
+      boolean publishDraftCommentsOnPush) {
+    this.publishDraftCommentsOnPush = publishDraftCommentsOnPush;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -357,5 +369,6 @@ public final class AccountGeneralPreferences {
     legacycidInChangeTable = false;
     muteCommonPathPrefixes = true;
     emailStrategy = null;
+    publishDraftCommentsOnPush = false;
   }
 }

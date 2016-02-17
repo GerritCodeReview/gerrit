@@ -74,6 +74,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -86,6 +87,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
@@ -307,6 +309,7 @@ public class ReceiveCommits {
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final PatchLineCommentsUtil plcUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -381,6 +384,7 @@ public class ReceiveCommits {
       final ApprovalCopier approvalCopier,
       final ChangeMessagesUtil cmUtil,
       final PatchSetUtil psUtil,
+      final PatchLineCommentsUtil plcUtil,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
@@ -430,6 +434,7 @@ public class ReceiveCommits {
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
+    this.plcUtil = plcUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -2232,12 +2237,53 @@ public class ReceiveCommits {
       return psId;
     }
 
+    private void addChangeMessage(ChangeKind changeKind,
+        Map<String, Short> approvals, ChangeData cd, ChangeUpdate update)
+        throws OrmException {
+      ChangeMessage cmsg = newChangeMessage(db, changeKind, approvals);
+
+      Account acc = changeCtl.getUser().asIdentifiedUser().getAccount();
+      if (acc.getGeneralPreferences().isPublishDraftCommentsOnPush()) {
+        List<PatchLineComment> plcs = new ArrayList<>();
+        StringBuilder msgbuilder = new StringBuilder();
+        List<PatchLineComment> plcByPs = plcUtil.draftByChangeAuthor(
+            db, cd.notes(), acc.getId());
+        boolean firstComment = true;
+        for (PatchSet ps : cd.patchSets()) {
+          int countPerPs = 0;
+          for (PatchLineComment c : plcByPs) {
+            if (c.getStatus() == PatchLineComment.Status.DRAFT &&
+                c.getKey().getParentKey().getParentKey().get() == ps.getId().get()) {
+              c.setStatus(PatchLineComment.Status.PUBLISHED);
+              c.setRevId(ps.getRevision());
+              update.updateComment(c);
+              countPerPs ++;
+              plcs.add(c);
+            }
+          }
+          if (countPerPs > 0) {
+            msgbuilder.append(firstComment ? " " : ", ");
+            msgbuilder.append("Patch Set " + ps.getId().get()
+              + ": (" + countPerPs + " comments)");
+            firstComment = false;
+          }
+        }
+        if (!plcs.isEmpty()) {
+          plcUtil.updateComments(db, update, plcs);
+        }
+        cmsg.setMessage(cmsg.getMessage() + msgbuilder.toString());
+      }
+
+      cmUtil.addChangeMessage(db, update, cmsg);
+    }
+
     PatchSet.Id insertPatchSet(RequestState state)
         throws OrmException, IOException, RestApiException, UpdateException {
       ReviewDb db = state.db;
       Repository repo = state.repo;
       final RevCommit newCommit = state.rw.parseCommit(newCommitId);
       state.rw.parseBody(newCommit);
+
       final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -2309,8 +2355,7 @@ public class ReceiveCommits {
         changeKind = changeKindCache.getChangeKind(
             projectControl.getProjectState(), repo, priorCommit, newCommit);
 
-        cmUtil.addChangeMessage(db, update, newChangeMessage(db, changeKind,
-            approvals));
+        addChangeMessage(changeKind, approvals, cd, update);
 
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.

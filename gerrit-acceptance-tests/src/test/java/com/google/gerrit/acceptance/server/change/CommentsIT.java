@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -25,11 +26,13 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -45,6 +48,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@NoHttpd
+//@NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
   @Inject
   private Provider<ChangesCollection> changes;
@@ -463,6 +467,34 @@ public class CommentsIT extends AbstractDaemonTest {
         + "\n"
         + "\n"
         + "-- \n");
+  }
+
+  @Test
+  public void publishDraftCommentsOnPush() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.publishDraftCommentsOnPush = true;
+    RestResponse r = adminSession.put("/accounts/" + admin.email + "/preferences", i);
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    GeneralPreferencesInfo o =
+        newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
+    assertThat(o.publishDraftCommentsOnPush).isEqualTo(Boolean.TRUE);
+
+    r = adminSession.get("/accounts/" + admin.email + "/preferences");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    o = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
+    assertThat(o.publishDraftCommentsOnPush).isEqualTo(Boolean.TRUE);
+
+    PushOneCommit.Result change = createChange();
+    String changeId = change.getChangeId();
+    String revId = change.getCommit().getName();
+    DraftInput comment = newDraft("file1", Side.REVISION, 1, "comment 1");
+    addDraft(changeId, revId, comment);
+
+    amendChange(changeId).assertOkStatus();
+
+    // TODO(sbeller): this fails for unknown reasons:
+    assertThat(getDraftComments(changeId, revId)).hasSize(0);
+    assertThat(getPublishedComments(changeId, revId)).hasSize(1);
   }
 
   private void addComment(PushOneCommit.Result r, String message)

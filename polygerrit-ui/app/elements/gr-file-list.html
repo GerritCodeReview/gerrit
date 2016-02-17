@@ -57,9 +57,22 @@ limitations under the License.
       .status {
         width: 20px;
       }
+      .reviewed input[type="checkbox"] {
+        display: inline-block;
+        vertical-align: baseline;
+      }
       .drafts {
         color: #C62828;
         font-weight: bold;
+      }
+      @media screen and (max-width: 60em) {
+        tr[selected] {
+          background-color: transparent;
+        }
+        .positionIndicator,
+        .stats {
+          display: none;
+        }
       }
     </style>
     <gr-ajax id="filesXHR"
@@ -75,12 +88,12 @@ limitations under the License.
     <div class="tableContainer">
       <table>
         <tr>
-          <th></th>
+          <th class="positionIndicator"></th>
           <th></th>
           <th hidden$="[[!_loggedIn]]" hidden></th>
           <th>Path</th>
           <th>Comments</th>
-          <th>Stats</th>
+          <th class="stats">Stats</th>
         </tr>
         <template is="dom-repeat" items="{{files}}" as="file">
           <tr class="fileRow" selected$="[[_computeFileSelected(index, selectedIndex)]]">
@@ -98,7 +111,7 @@ limitations under the License.
               <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
               <span class="comments">[[_computeCommentsString(comments, patchNum, file.__path)]]</span>
             </td>
-            <td>
+            <td class="stats">
               +<span>[[file.lines_inserted]]</span> lines,
               -<span>[[file.lines_deleted]]</span> lines
             </td>

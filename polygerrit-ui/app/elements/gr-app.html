@@ -47,8 +47,9 @@ limitations under the License.
         padding: .5rem 1.25rem;
       }
       header {
-        display: flex;
         align-items: center;
+        display: flex;
+        overflow: hidden;
       }
       main {
         flex: 1;
@@ -67,6 +68,7 @@ limitations under the License.
         justify-content: flex-end;
       }
       gr-search-bar {
+        margin-left: .5em;
         width: 500px;
       }
       .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
@@ -79,9 +81,24 @@ limitations under the License.
         align-items: center;
         display: flex;
         margin-left: var(--default-horizontal-margin);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .feedback {
         color: #b71c1c;
+      }
+      @media screen and (max-width: 60em) {
+        .bigTitle {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        gr-search-bar {
+          width: auto;
+        }
+        .accountContainer {
+          margin-left: .5em !important;
+        }
       }
     </style>
     <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>

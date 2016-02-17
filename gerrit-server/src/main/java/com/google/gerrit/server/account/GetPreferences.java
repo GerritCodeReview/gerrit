@@ -209,6 +209,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
       p.sizeBarInChangeTable = a.isSizeBarInChangeTable();
       p.legacycidInChangeTable = a.isLegacycidInChangeTable();
       p.muteCommonPathPrefixes = a.isMuteCommonPathPrefixes();
+      p.publishDraftCommentsOnPush = a.isPublishDraftCommentsOnPush();
       p.reviewCategoryStrategy = ReviewCategoryStrategy.valueOf(
           a.getReviewCategoryStrategy().name());
       p.diffView = DiffView.valueOf(a.getDiffView().name());
@@ -224,6 +225,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     p.relativeDateInChangeTable = b(p.relativeDateInChangeTable);
     p.legacycidInChangeTable = b(p.legacycidInChangeTable);
     p.muteCommonPathPrefixes = b(p.muteCommonPathPrefixes);
+    p.publishDraftCommentsOnPush = b(p.publishDraftCommentsOnPush);
     p.sizeBarInChangeTable = b(p.sizeBarInChangeTable);
     return p;
   }

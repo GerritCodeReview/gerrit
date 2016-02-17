@@ -58,7 +58,8 @@ public class SetPreferences implements
         || i.legacycidInChangeTable != null
         || i.muteCommonPathPrefixes != null
         || i.reviewCategoryStrategy != null
-        || i.emailStrategy != null) {
+        || i.emailStrategy != null
+        || i.publishDraftCommentsOnPush != null) {
       throw new BadRequestException("unsupported option");
     }
 

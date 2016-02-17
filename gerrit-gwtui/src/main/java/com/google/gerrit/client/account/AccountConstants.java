@@ -42,6 +42,7 @@ public interface AccountConstants extends Constants {
   String showSizeBarInChangeTable();
   String showLegacycidInChangeTable();
   String muteCommonPathPrefixes();
+  String publishDraftCommentsOnPush();
   String myMenu();
   String myMenuInfo();
   String myMenuName();

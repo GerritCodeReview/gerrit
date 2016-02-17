@@ -263,6 +263,9 @@ public class SetPreferences implements
     if (i.muteCommonPathPrefixes != null) {
       p.muteCommonPathPrefixes = i.muteCommonPathPrefixes;
     }
+    if (i.publishDraftCommentsOnPush != null) {
+      p.publishDraftCommentsOnPush = i.publishDraftCommentsOnPush;
+    }
     if (i.reviewCategoryStrategy != null) {
       p.reviewCategoryStrategy = i.reviewCategoryStrategy;
     }
@@ -296,6 +299,7 @@ public class SetPreferences implements
     a.setSizeBarInChangeTable(b(i.sizeBarInChangeTable));
     a.setLegacycidInChangeTable(b(i.legacycidInChangeTable));
     a.setMuteCommonPathPrefixes(b(i.muteCommonPathPrefixes));
+    a.setPublishDraftCommentsOnPush(b(i.publishDraftCommentsOnPush));
     a.setReviewCategoryStrategy(ReviewCategoryStrategy.valueOf(
         i.getReviewCategoryStrategy().name()));
     a.setDiffView(DiffView.valueOf(i.getDiffView().name()));

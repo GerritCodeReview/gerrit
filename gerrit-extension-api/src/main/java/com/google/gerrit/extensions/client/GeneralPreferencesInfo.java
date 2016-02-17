@@ -119,6 +119,7 @@ public class GeneralPreferencesInfo {
   public Boolean legacycidInChangeTable;
   public ReviewCategoryStrategy reviewCategoryStrategy;
   public Boolean muteCommonPathPrefixes;
+  public Boolean publishDraftCommentsOnPush;
   public List<MenuItem> my;
   public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
@@ -178,6 +179,7 @@ public class GeneralPreferencesInfo {
     p.sizeBarInChangeTable = true;
     p.legacycidInChangeTable = false;
     p.muteCommonPathPrefixes = true;
+    p.publishDraftCommentsOnPush = false;
     return p;
   }
 }

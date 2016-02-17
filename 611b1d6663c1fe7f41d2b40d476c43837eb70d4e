@@ -23,6 +23,30 @@
       "revId": "611b1d6663c1fe7f41d2b40d476c43837eb70d4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_858a8445",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T12:26:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d654c95_2844cb3d",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 221,
+        "endChar": 11
+      },
+      "revId": "611b1d6663c1fe7f41d2b40d476c43837eb70d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

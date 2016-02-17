@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5d688870_a7bb0aa2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done, I chose the first option",
+      "parentUuid": "5d1a4804_f73460dc",
+      "range": {
+        "startLine": 44,
+        "startChar": 50,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_77213094",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-17T16:08:20Z",
       "side": 1,
       "message": "In general you need to wrap per-test global resource names with name(...). This makes sure that resources aren\u0027t used across multiple test methods, which all share a single running server instance.\n\nSo this would be something like:\n\n Project.NameKey project1 \u003d name(\"Project1\");\n gApi.projects().create(project1);\n ...\n\nYou could also get away with saying project1 \u003d project and just creating project2.",
+      "range": {
+        "startLine": 185,
+        "startChar": 27,
+        "endLine": 185,
+        "endChar": 37
+      },
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_679e722e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done, interesting",
+      "parentUuid": "5d1a4804_77213094",
       "range": {
         "startLine": 185,
         "startChar": 27,
@@ -76,6 +124,24 @@
       "writtenOn": "2016-02-17T16:08:20Z",
       "side": 1,
       "message": "Merge l and check that everything is submitted?",
+      "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_07abf64e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-17T18:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d688870_c7963e68",
       "revId": "74e00714b36e86ce91986ec0687918c15341dbf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

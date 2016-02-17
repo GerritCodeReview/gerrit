@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9de3e049_61b27613",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-02-17T21:50:24Z",
+      "side": 1,
+      "message": "No I was not aware of them.\n\nNow I see this is basically just a subset what you was doing before, I think it makes more sense to finish these 3 changes instead of this one.\n\nWhat\u0027s the status of the changes? Are they just need reviewers/+2\u0027s, or do they still need some more work?",
+      "parentUuid": "bd342467_4519dc58",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "6edcbd332c7fe9a886a37ae240e8f9b7c46eee59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_e534b0c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 2

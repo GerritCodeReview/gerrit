@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d688870_475c8e54",
+        "filename": "polygerrit-ui/app/elements/gr-account-dropdown.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:51:29Z",
+      "side": 1,
+      "message": "Would this make more sense as a different button type?",
+      "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_67599263",
+        "filename": "polygerrit-ui/app/elements/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:51:29Z",
+      "side": 1,
+      "message": "Eventually we will support this as a property rather than hard-coding 0, right?",
+      "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_97b1645c",
+        "filename": "polygerrit-ui/app/elements/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:51:29Z",
+      "side": 1,
+      "message": "Does this also support ctrl-enter and shift-enter without any additional work? Like, click() will take into account those modifiers?",
+      "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_b7b6e84f",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:51:29Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "9f289b8dac733592a38168708e49a3e97a49f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

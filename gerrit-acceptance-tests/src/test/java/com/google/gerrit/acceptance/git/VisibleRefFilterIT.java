@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
@@ -271,7 +272,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       ProjectControl ctl = projectControlFactory.controlFor(project,
           identifiedUserFactory.create(Providers.of(db), user.getId()));
       VisibleRefFilter filter = new VisibleRefFilter(
-          tagCache, changeCache, repo, ctl, db, true);
+          tagCache, changeCache, repo, ctl, new DisabledReviewDb(), true);
       Map<String, Ref> all = repo.getAllRefs();
       assertThat(filter.filter(all, false).keySet())
           .containsExactlyElementsIn(expected);

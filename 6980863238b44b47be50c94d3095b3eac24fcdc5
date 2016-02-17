@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1454538672 -0800\nnonce ALmjDBWz1HE4bmdGhTHaDa0aDvYKmurEcOmYaxgBKRXuy81kCI0PJmP7Xp8N0YQC7wvhmxqYKZGh\n\n0000000000000000000000000000000000000000 6980863238b44b47be50c94d3095b3eac24fcdc5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWsn+wAAoJEGt7+xNJsB0bRG4IAJAlc9WH0xJ1xxcGOQ0/aFJt\ncSH19SZeuyXtWAVets/5CP2Tlw0RVCc4Zp6evrEQ4qc1QePcbUJplmaSTJv82zj3\n1+rtyQOYx72wAi/lJECCJaK4SvUoWSGuAU+Zg0L1yjw/816QII2bEtGrH1NWAbFc\nu0zZztdbAfeDpRb7ZaGUV4Ojo/VogXCCFHmhWXua2Um93KtuPUCMQIUKEGUy1Gha\nLpi9ufvmMpyijcUJqZs3UhSumqsnU/DeR9JDBaDP6fTVa8P6jMVVu4Vt1Va1xqWI\nFHwQkl/hUSP32ZPP6QKtcXEDmJvITjmhLVJ1+G4XO3lI/Mt+PhI/WFJfzMxQ3VM\u003d\n\u003dhA1O\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1a4804_17a6b41c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T16:04:02Z",
+      "side": 1,
+      "message": "It\u0027s not a server config, it\u0027s a project config. But yes you can\u0027t set that through the extension API. You have to modify the ProjectConfig directly; see LabelTypeIT for an example.\n\nActually, a simpler way is to add the field to TestProjectInput and then use that annotation so the project is originally created with that option set.",
+      "revId": "6980863238b44b47be50c94d3095b3eac24fcdc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

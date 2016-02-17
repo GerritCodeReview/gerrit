@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "bd342467_656ae05d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T08:28:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d688870_a78f8a17",
+      "range": {
+        "startLine": 125,
+        "startChar": 18,
+        "endLine": 125,
+        "endChar": 40
+      },
+      "revId": "d52f00baa49c259f1b7167257275f8e39a7b92a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d688870_2725daee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 1

@@ -39,11 +39,15 @@ class ReadOnlyRepository extends Repository {
 
   private static BaseRepositoryBuilder<?, ?> builder(Repository r) {
     checkNotNull(r);
-    return new BaseRepositoryBuilder<>()
+    BaseRepositoryBuilder<?, ?> builder = new BaseRepositoryBuilder<>()
         .setFS(r.getFS())
-        .setGitDir(r.getDirectory())
-        .setWorkTree(r.getWorkTree())
-        .setIndexFile(r.getIndexFile());
+        .setGitDir(r.getDirectory());
+
+    if (!r.isBare()) {
+      builder.setWorkTree(r.getWorkTree())
+          .setIndexFile(r.getIndexFile());
+    }
+    return builder;
   }
 
   private final Repository delegate;

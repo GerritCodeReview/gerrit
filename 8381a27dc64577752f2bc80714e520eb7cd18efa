@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_05b75420",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Thanks. Fixed by\n  https://gerrit-review.googlesource.com/74991",
+      "parentUuid": "5d4168d6_df693b8c",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_bf68f784",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-16T18:16:24Z",
       "side": 1,
       "message": "Set RequestScopePropagator here?\n\nIf these two are always set, why not pass them in the constructor?",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_450f9cbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "\u003e Set RequestScopePropagator here?\n\nEh, that was my last minute change after I realized that I cannot get it injected in ReplaceOp...\n\nDone.\n\n \u003e If these two are always set, why not pass them in the \n \u003e constructor?\n\nDone.",
+      "parentUuid": "5d4168d6_bf68f784",
       "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_a5d46836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4168d6_5f7e8b42",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_7f7b4f51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "bd342467_e5ca7093",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Yes, if the passed in groups are empty, we use the groups from previous/current patch set in ReplaceOp. In this case they differ from the groups that have been passed in.",
+      "parentUuid": "5d4168d6_7f7b4f51",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_1770f4a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 1
@@ -81,6 +153,30 @@
       "writtenOn": "2016-02-16T18:16:24Z",
       "side": 1,
       "message": "Not public",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 6
+      },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_c5d96c6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "But then I cannot bind the factory in GerritGlobalModule and trying to bind it somewhere else (GitModule) results in lots of injection errors... :(",
+      "parentUuid": "5d1a4804_1770f4a8",
       "range": {
         "startLine": 72,
         "startChar": 0,
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "bd342467_65df4052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "5d1a4804_376df8cf",
+      "range": {
+        "startLine": 193,
+        "startChar": 19,
+        "endLine": 193,
+        "endChar": 33
+      },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_9f63b3a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 1
@@ -127,6 +247,24 @@
       "writtenOn": "2016-02-16T18:16:24Z",
       "side": 1,
       "message": "I might be missing something but I don\u0027t think this is ever called?",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_85dcc45c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4168d6_9f63b3a8",
       "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "7d654c95_4876dfa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_d7483c5d",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_3f75c758",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 1
@@ -161,6 +317,24 @@
       "writtenOn": "2016-02-16T18:16:24Z",
       "side": 1,
       "message": "I guess you just copied this so you don\u0027t have to fix it now. But this is really wasteful no repos with lots of changes. Instead we should getRefs(Constants.R_HEADS) and do a separate random lookup for firstRef in the corner case where it\u0027s not a branch (e.g. refs/meta/config).",
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_0870e7a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Yes, this code was just copied. Will address this in a follow-up change.",
+      "parentUuid": "5d4168d6_3f75c758",
       "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +375,48 @@
         "endLine": 496,
         "endChar": 37
       },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_45e6bc2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4168d6_1f780352",
+      "range": {
+        "startLine": 496,
+        "startChar": 32,
+        "endLine": 496,
+        "endChar": 37
+      },
+      "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_6873a3b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T10:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_f74d406a",
       "revId": "8381a27dc64577752f2bc80714e520eb7cd18efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

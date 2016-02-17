@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -56,6 +55,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -439,16 +439,17 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   private Ref findMergedInto(ChangeContext ctx, String first, RevCommit commit) {
     try {
-      Map<String, Ref> all = ctx.getRepository().getRefDatabase().getRefs(ALL);
-      Ref firstRef = all.get(first);
-      if (firstRef != null && isMergedInto(ctx.getRevWalk(), commit, firstRef)) {
+      RefDatabase refDatabase = ctx.getRepository().getRefDatabase();
+
+      Ref firstRef = refDatabase.getRef(first);
+      if (firstRef != null
+          && isMergedInto(ctx.getRevWalk(), commit, firstRef)) {
         return firstRef;
       }
-      for (Ref ref : all.values()) {
-        if (isBranch(ref)) {
-          if (isMergedInto(ctx.getRevWalk(), commit, ref)) {
-            return ref;
-          }
+
+      for (Ref ref : refDatabase.getRefs(Constants.R_HEADS).values()) {
+        if (isMergedInto(ctx.getRevWalk(), commit, ref)) {
+          return ref;
         }
       }
       return null;
@@ -461,9 +462,5 @@ public class ReplaceOp extends BatchUpdate.Op {
   private static boolean isMergedInto(RevWalk rw, RevCommit commit, Ref ref)
       throws IOException {
     return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
-  }
-
-  private static boolean isBranch(Ref ref) {
-    return ref.getName().startsWith(Constants.R_HEADS);
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5d688870_67443291",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-17T02:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_97ff244f",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "3323d7f41b2a403bbd04c1fd738940d2ced55a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d4168d6_5f244ba5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-16T14:24:59Z",
       "side": 1,
       "message": "ResourceNotFoundException",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "3323d7f41b2a403bbd04c1fd738940d2ced55a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1a4804_f760e0ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-17T02:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d4168d6_5f244ba5",
       "range": {
         "startLine": 11,
         "startChar": 2,

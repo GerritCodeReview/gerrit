@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1a4804_d7b7dc4e",
+        "filename": "polygerrit-ui/app/elements/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T15:45:22Z",
+      "side": 1,
+      "message": "Is there a reason you need to link to the bug here? IIUC that\u0027s just requesting the feature, which is now implemented, released, and documented: https://www.polymer-project.org/1.0/docs/devguide/local-dom.html#strip-whitespace",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 53
+      },
+      "revId": "e3f6ae2318078c863df962fd122322940ed5a072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

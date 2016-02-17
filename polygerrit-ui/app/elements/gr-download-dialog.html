@@ -56,16 +56,16 @@ limitations under the License.
         font-weight: bold;
         text-decoration: none;
       }
-      .topRow {
+      header {
         display: flex;
         justify-content: space-between;
       }
-      .commands {
+      main {
         border-bottom: 1px solid #ddd;
         border-top: 1px solid #ddd;
         padding: .5em;
       }
-      .bottomRow {
+      footer {
         display: flex;
         justify-content: space-between;
         padding-top: .75em;
@@ -88,7 +88,7 @@ limitations under the License.
         margin-right: 0;
       }
     </style>
-    <div class="topRow">
+    <header>
       <ul hidden$="[[!_schemes.length]]" hidden>
         <template is="dom-repeat" items="[[_schemes]]" as="scheme">
           <li selected$="[[_computeSchemeSelected(scheme, _selectedScheme)]]">
@@ -101,8 +101,8 @@ limitations under the License.
       <span class="closeButtonContainer">
         <gr-button link on-tap="_handleCloseTap">Close</gr-button>
       </span>
-    </div>
-    <div class="commands" hidden$="[[!_schemes.length]]" hidden>
+    </header>
+    <main hidden$="[[!_schemes.length]]" hidden>
       <template is="dom-repeat"
           items="[[_computeDownloadCommands(change, patchNum, _selectedScheme)]]"
           as="command">
@@ -115,8 +115,8 @@ limitations under the License.
               readonly>
         </div>
       </template>
-    </div>
-    <div class="bottomRow">
+    </main>
+    <footer>
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
@@ -138,7 +138,7 @@ limitations under the License.
           </template>
         </div>
       </div>
-    </div>
+    </footer>
   </template>
   <script>
   (function() {
@@ -165,6 +165,10 @@ limitations under the License.
           observer: '_schemesChanged',
         },
         _selectedScheme: String,
+      },
+
+      hostAttributes: {
+        role: 'dialog',
       },
 
       behaviors: [

@@ -23,26 +23,26 @@ limitations under the License.
       :host {
         display: block;
       }
-      .header {
+      header {
         border-bottom: 1px solid #ddd;
         font-weight: bold;
       }
-      .header,
-      .mainContent,
-      .footer {
+      header,
+      main,
+      footer {
         padding: .5em .65em;
       }
-      .footer {
+      footer {
         display: flex;
         justify-content: space-between;
       }
     </style>
-    <div class="header"><content select=".header"></content></div>
-    <div class="mainContent"><content select=".main"></content></div>
-    <div class="footer">
+    <header><content select=".header"></content></header>
+    <main><content select=".main"></content></main>
+    <footer>
       <gr-button primary on-tap="_handleConfirmTap">[[confirmLabel]]</gr-button>
       <gr-button on-tap="_handleCancelTap">Cancel</gr-button>
-    </div>
+    </footer>
   </template>
   <script>
   (function() {
@@ -68,6 +68,10 @@ limitations under the License.
           type: String,
           value: 'Confirm',
         }
+      },
+
+      hostAttributes: {
+        role: 'dialog',
       },
 
       _handleConfirmTap: function(e) {

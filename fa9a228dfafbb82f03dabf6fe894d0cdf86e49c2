@@ -88,6 +88,24 @@
       "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de3e049_41abf29f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-17T20:48:32Z",
+      "side": 1,
+      "message": "We should mimic GWT UI behavior in both the open and closed cases.\n\nIn the open case, no submit_type means there was an error computing it (bad prolog rule or something).\n\nIn the closed case, we don\u0027t know what submit_type was at the time the submit button was clicked, because the project config may have changed. So we bail and show nothing rather than showing something that was possibly wrong. (We could in theory try to reconstruct this from the git history, or stamp it at submit time like we do with approvals, but we don\u0027t currently.)\n\nIn neither case is it correct to read from the project config.",
+      "parentUuid": "7d654c95_a8919bce",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

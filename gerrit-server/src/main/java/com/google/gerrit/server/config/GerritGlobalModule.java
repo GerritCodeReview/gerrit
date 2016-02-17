@@ -85,6 +85,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.ReplaceOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
@@ -316,6 +317,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
     factory(SubmoduleSectionParser.Factory.class);
+    factory(ReplaceOp.Factory.class);
 
     bind(AccountManager.class);
     factory(ChangeUserName.Factory.class);

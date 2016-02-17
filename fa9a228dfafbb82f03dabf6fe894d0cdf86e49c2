@@ -124,6 +124,24 @@
       "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_8a9b4b90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-17T21:11:32Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for your explanation. I need to look into my setup why this field is not sent.",
+      "parentUuid": "fd585ce7_e4101aa5",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

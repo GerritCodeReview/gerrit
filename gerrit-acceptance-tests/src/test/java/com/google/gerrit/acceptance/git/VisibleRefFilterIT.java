@@ -15,12 +15,8 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -33,11 +29,17 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.edit.ChangeEditModifier;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
@@ -45,11 +47,21 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @NoHttpd
 public class VisibleRefFilterIT extends AbstractDaemonTest {
   @Inject
   private ChangeEditModifier editModifier;
+
+  @Inject
+  private ProjectControl.GenericFactory projectControlFactory;
+
+  @Inject
+  private ChangeCache changeCache;
+
+  @Inject
+  private TagCache tagCache;
 
   private AccountGroup.UUID admins;
 
@@ -242,27 +254,27 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   /**
    * Assert that refs seen by a non-admin user match expected.
    *
-   * @param expected expected refs, in order. If notedb is disabled by the
-   *     configuration, any notedb refs (i.e. ending in "/meta") are removed
+   * @param expectedWithMeta expected refs, in order. If notedb is disabled by
+   *     the configuration, any notedb refs (i.e. ending in "/meta") are removed
    *     from the expected list before comparing to the actual results.
    * @throws Exception
    */
-  private void assertRefs(String... expected) throws Exception {
-    String out = sshSession.exec(String.format(
-        "gerrit ls-user-refs -p %s -u %s",
-        project.get(), user.getId().get()));
-    assert_().withFailureMessage(sshSession.getError())
-      .that(sshSession.hasError()).isFalse();
-
-    List<String> filtered = new ArrayList<>(expected.length);
-    for (String r : expected) {
+  private void assertRefs(String... expectedWithMeta) throws Exception {
+    List<String> expected = new ArrayList<>(expectedWithMeta.length);
+    for (String r : expectedWithMeta) {
       if (notesMigration.writeChanges() || !r.endsWith(RefNames.META_SUFFIX)) {
-        filtered.add(r);
+        expected.add(r);
       }
     }
 
-    Splitter s = Splitter.on(CharMatcher.whitespace()).omitEmptyStrings();
-    assertThat(filtered).containsExactlyElementsIn(
-        Ordering.natural().sortedCopy(s.split(out))).inOrder();
+    try (Repository repo = repoManager.openRepository(project)) {
+      ProjectControl ctl = projectControlFactory.controlFor(project,
+          identifiedUserFactory.create(Providers.of(db), user.getId()));
+      VisibleRefFilter filter = new VisibleRefFilter(
+          tagCache, changeCache, repo, ctl, db, true);
+      Map<String, Ref> all = repo.getAllRefs();
+      assertThat(filter.filter(all, false).keySet())
+          .containsExactlyElementsIn(expected);
+    }
   }
 }

@@ -17,6 +17,24 @@
       "revId": "df4868f382be4af0a2b270c0bdd5956b93f44379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_e812333b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T16:03:04Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "5d1a4804_37cc18d7",
+      "revId": "df4868f382be4af0a2b270c0bdd5956b93f44379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

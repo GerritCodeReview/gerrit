@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5d688870_e71022a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-17T01:23:23Z",
+      "side": 1,
+      "message": "Issue 3741",
+      "revId": "119f3309146e0f0f142b4829c1a8a023cea15aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1a4804_3744183e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

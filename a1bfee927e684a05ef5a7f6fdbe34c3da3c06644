@@ -17,6 +17,24 @@
       "revId": "a1bfee927e684a05ef5a7f6fdbe34c3da3c06644",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_68d2b722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-17T17:27:08Z",
+      "side": 1,
+      "message": "I know :( but it\u0027s really hard to pull out stuff from ReceiveCommits. Would be nicer if we could just use PatchSetInserter, but at the moment ReceiveCommits is doing too much special stuff. Having this op as a separate class may make it a little easier to see the difference to PatchSetInserter and work on unifying them later.",
+      "parentUuid": "fd585ce7_c4963e68",
+      "revId": "a1bfee927e684a05ef5a7f6fdbe34c3da3c06644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

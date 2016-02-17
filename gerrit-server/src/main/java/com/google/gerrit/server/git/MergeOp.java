@@ -51,23 +51,20 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
-import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -308,10 +305,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private final ChangeControl.GenericFactory changeControlFactory;
-  private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeUpdate.Factory changeUpdateFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final GitRepositoryManager repoManager;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -343,10 +337,7 @@ public class MergeOp implements AutoCloseable {
   private SubmitInput submitInput;
 
   @Inject
-  MergeOp(ChangeControl.GenericFactory changeControlFactory,
-      ChangeIndexer indexer,
-      ChangeMessagesUtil cmUtil,
-      ChangeUpdate.Factory changeUpdateFactory,
+  MergeOp(ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       GitRepositoryManager repoManager,
       IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -356,10 +347,7 @@ public class MergeOp implements AutoCloseable {
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider) {
-    this.changeControlFactory = changeControlFactory;
-    this.indexer = indexer;
     this.cmUtil = cmUtil;
-    this.changeUpdateFactory = changeUpdateFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.repoManager = repoManager;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -884,55 +872,43 @@ public class MergeOp implements AutoCloseable {
   private void abandonAllOpenChanges(Project.NameKey destProject) {
     try {
       for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
-        abandonOneChange(cd.change());
+        //TODO: Use InternalUser instead of change owner
+        try (BatchUpdate bu = batchUpdateFactory.create(db, destProject,
+            identifiedUserFactory.create(cd.change().getOwner()),
+            TimeUtil.nowTs())) {
+          bu.addOp(cd.getId(), new BatchUpdate.Op() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) throws OrmException {
+              Change change = ctx.getChange();
+              if (!change.getStatus().isOpen()) {
+                return false;
+              }
+
+              change.setStatus(Change.Status.ABANDONED);
+
+              ChangeMessage msg = new ChangeMessage(
+                  new ChangeMessage.Key(change.getId(),
+                      ChangeUtil.messageUUID(ctx.getDb())),
+                  null, change.getLastUpdatedOn(), change.currentPatchSetId());
+              msg.setMessage("Project was deleted.");
+              cmUtil.addChangeMessage(ctx.getDb(),
+                  ctx.getUpdate(change.currentPatchSetId()), msg);
+
+              ctx.saveChange();
+              return true;
+            }
+          });
+          try {
+            bu.execute();
+          } catch (UpdateException | RestApiException e) {
+            logWarn("Cannot abandon changes for deleted project " + destProject,
+                e);
+          }
+        }
       }
-    } catch (NoSuchChangeException | IOException | OrmException e) {
+    } catch (OrmException e) {
       logWarn("Cannot abandon changes for deleted project " + destProject, e);
     }
-  }
-
-  private void abandonOneChange(Change change) throws OrmException,
-      NoSuchChangeException, IOException {
-    db.changes().beginTransaction(change.getId());
-
-    //TODO(dborowitz): support InternalUser in ChangeUpdate
-    ChangeControl control = changeControlFactory.controlFor(db, change,
-        identifiedUserFactory.create(change.getOwner()));
-    // TODO(dborowitz): Convert to BatchUpdate.
-    ChangeUpdate update = changeUpdateFactory.create(control);
-    try {
-      change = db.changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
-              return change;
-            }
-            return null;
-          }
-        });
-
-      if (change != null) {
-        ChangeMessage msg = new ChangeMessage(
-            new ChangeMessage.Key(
-                change.getId(),
-                ChangeUtil.messageUUID(db)),
-            null,
-            change.getLastUpdatedOn(),
-            change.currentPatchSetId());
-        msg.setMessage("Project was deleted.");
-
-        //TODO(yyonas): atomic change is not propagated.
-        cmUtil.addChangeMessage(db, update, msg);
-        db.commit();
-        indexer.index(db, change);
-      }
-    } finally {
-      db.rollback();
-    }
-    update.commit();
   }
 
   private void logDebug(String msg, Object... args) {

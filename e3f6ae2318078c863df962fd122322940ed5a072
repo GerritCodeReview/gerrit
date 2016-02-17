@@ -22,6 +22,24 @@
       "revId": "e3f6ae2318078c863df962fd122322940ed5a072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d688870_47f32e91",
+        "filename": "polygerrit-ui/app/elements/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-17T16:10:01Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "5d1a4804_d7b7dc4e",
+      "revId": "e3f6ae2318078c863df962fd122322940ed5a072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

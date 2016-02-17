@@ -70,6 +70,30 @@
       "revId": "2391ad78be31f68e92502cbf20091437e7387538",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d654c95_a8667b25",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-17T07:00:54Z",
+      "side": 0,
+      "message": "As the developer why on earth would i will be ineterested to wait for years for those no-effect changes on library with 1k files different, that when reported upstream would only cause confusion, because of potential line number mismatch with the original?\n\nNot to mention, that the whole toolchain includin compiler would need to be downloaded ans set uped to work properly.\n\nThe correct approach is: in developer mode no obfuscation of any kind. The original code is just let as is. Obviously.",
+      "parentUuid": "5d688870_47d24e22",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "2391ad78be31f68e92502cbf20091437e7387538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

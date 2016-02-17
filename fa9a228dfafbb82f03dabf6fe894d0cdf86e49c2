@@ -70,6 +70,24 @@
       "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd342467_48e013df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-17T20:46:24Z",
+      "side": 1,
+      "message": "Okay, now I see a difference: In my test setup, the \u0027submit_type\u0027 is not included in the change-info, but an extra REST resource to \u0027/changes/x/revisions/xxx/submit_type\u0027 is issued... Do you have any idea where this call is issued? This extra call is not issued on gerrit-review.googlesource.com where \u0027submit_type\u0027 is included in the change-info.",
+      "parentUuid": "7d654c95_a8919bce",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

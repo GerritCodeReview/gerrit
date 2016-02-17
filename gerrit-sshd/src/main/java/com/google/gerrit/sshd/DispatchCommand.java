@@ -28,6 +28,8 @@ import com.google.inject.assistedinject.Assisted;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -47,6 +49,9 @@ final class DispatchCommand extends BaseCommand {
   private final Provider<CurrentUser> currentUser;
   private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
+  private static final Logger log =
+      LoggerFactory.getLogger(DispatchCommand.class);
+
 
   @Argument(index = 0, required = false, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
@@ -133,7 +138,11 @@ final class DispatchCommand extends BaseCommand {
   public void destroy() {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
-        cmd.destroy();
+        try {
+          cmd.destroy();
+        } catch (Exception e) {
+          log.error("Unable to destroy command " + commandName, e);
+        }
     }
   }
 

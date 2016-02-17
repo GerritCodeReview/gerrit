@@ -30,6 +30,8 @@ import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.SocketAddress;
@@ -53,6 +55,9 @@ public final class SuExec extends BaseCommand {
   private Provider<SshSession> session;
   private IdentifiedUser.GenericFactory userFactory;
   private SshScope.Context callingContext;
+  private static final Logger log =
+      LoggerFactory.getLogger(SuExec.class);
+
 
   @Option(name = "--as", required = true)
   private Account.Id accountId;
@@ -151,7 +156,11 @@ public final class SuExec extends BaseCommand {
   public void destroy() {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
-        cmd.destroy();
+        try {
+          cmd.destroy();
+        } catch (Exception e) {
+          log.error("Unable to destroy SuExec command", e);
+        }
     }
   }
 }

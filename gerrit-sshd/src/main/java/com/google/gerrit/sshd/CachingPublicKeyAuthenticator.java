@@ -19,7 +19,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class CachingPublicKeyAuthenticator
-    extends org.apache.sshd.server.auth.CachingPublicKeyAuthenticator {
+    extends org.apache.sshd.server.auth.pubkey.CachingPublicKeyAuthenticator {
 
   @Inject
   public CachingPublicKeyAuthenticator(DatabasePubKeyAuth authenticator) {

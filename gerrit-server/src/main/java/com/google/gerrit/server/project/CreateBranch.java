@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -251,6 +250,17 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       log.error("Repository \"" + repo.getDirectory()
           + "\" may be corrupt; suggest running git fsck", err);
       throw new InvalidRevisionException();
+    }
+  }
+
+  /** Error indicating the revision is invalid as supplied. */
+  private static class InvalidRevisionException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public static final String MESSAGE = "Invalid Revision";
+
+    public InvalidRevisionException() {
+      super(MESSAGE);
     }
   }
 }

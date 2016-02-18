@@ -307,6 +307,10 @@ public class IdentifiedUser extends CurrentUser {
     return validEmails;
   }
 
+  public String getName() {
+    return new AccountInfo(getAccount()).getName(anonymousCowardName);
+  }
+
   public String getNameEmail() {
     return getAccount().getNameEmail(anonymousCowardName);
   }

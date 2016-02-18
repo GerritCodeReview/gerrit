@@ -87,7 +87,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail";
   private static final String CLICK_FAILURE_OTHER_TOOLTIP =
-      "Clicking the button would fail for other changes";
+      "See \"Submitted Together\" tab for problems";
 
   public static class Output {
     transient Change change;

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.project.SetParent;
 
 import org.apache.http.HttpStatus;
@@ -49,6 +50,19 @@ public class SetParentIT extends AbstractDaemonTest {
     String newParent =
         newGson().fromJson(r.getReader(), String.class);
     assertThat(newParent).isEqualTo(parent);
+    r.consume();
+
+    // When the parent name is not explicitly set, it should be
+    // set to "All-Projects".
+    r = adminSession.put("/projects/" + project.get() + "/parent",
+          newParentInput(null));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
+
+    r = adminSession.get("/projects/" + project.get() + "/parent");
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    newParent = newGson().fromJson(r.getReader(), String.class);
+    assertThat(newParent).isEqualTo(AllProjectsNameProvider.DEFAULT);
     r.consume();
   }
 

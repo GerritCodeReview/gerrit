@@ -3655,23 +3655,6 @@ Set to 0 to disable this check.
 [[suggest]]
 === Section suggest
 
-[[suggest.accounts]]suggest.accounts::
-+
-If `true`, visible user accounts (according to the value of
-`accounts.visibility`) will be offered as completion suggestions
-when adding a reviewer to a change, or a user to a group.
-+
-If `false`, account suggestion is disabled.
-+
-Older configurations may also have one of the `accounts.visibility`
-values for this field, including `OFF` as a synonym for `NONE`. If
-`accounts.visibility` is also set, that value overrides this one;
-otherwise, this value applies to both `suggest.accounts` and
-`accounts.visibility`.
-+
-New configurations should prefer the boolean value for this field
-and an enum value for `accounts.visibility`.
-
 [[suggest.maxSuggestedReviewers]]suggest.maxSuggestedReviewers::
 +
 The maximum numbers of reviewers suggested.

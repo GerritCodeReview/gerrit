@@ -22,6 +22,30 @@
       "revId": "5d10307ceadeebad4647c421c761a89932e2abf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_ef412184",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T20:09:09Z",
+      "side": 1,
+      "message": "Wasn\u0027t reported as a bug. Will rephrase.",
+      "parentUuid": "fd585ce7_0451b651",
+      "range": {
+        "startLine": 12,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "5d10307ceadeebad4647c421c761a89932e2abf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

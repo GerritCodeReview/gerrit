@@ -15,11 +15,15 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,8 +37,8 @@ import java.util.Map;
  */
 public class ChainedReceiveCommands {
   private final Map<String, ReceiveCommand> commands = new LinkedHashMap<>();
+  private final Map<String, ObjectId> oldIds = new HashMap<>();
 
-  /** @return true if no commands have been added. */
   public boolean isEmpty() {
     return commands.isEmpty();
   }
@@ -65,6 +69,34 @@ public class ChainedReceiveCommands {
   }
 
   /**
+   * Get the latest value of a ref according to this sequence of commands.
+   * <p>
+   * Once the value for a ref is read once, it is cached in this instance, so
+   * that multiple callers using this instance for lookups see a single
+   * consistent snapshot.
+   *
+   * @param repo repository to read from, if result is not cached.
+   * @param refName name of the ref.
+   * @return value of the ref, taking into account commands that have already
+   *     been added to this instance.
+   */
+  public ObjectId getObjectId(Repository repo, String refName)
+      throws IOException {
+    ReceiveCommand cmd = commands.get(refName);
+    if (cmd != null) {
+      return cmd.getNewId();
+    }
+    ObjectId old = oldIds.get(refName);
+    if (old != null) {
+      return old;
+    }
+    Ref ref = repo.exactRef(refName);
+    ObjectId id = ref != null ? ref.getObjectId() : null;
+    oldIds.put(refName, id);
+    return id;
+  }
+
+  /**
    * Add commands from this instance to a native JGit batch update.
    * <p>
    * Exactly one command per ref will be added to the update. The old SHA-1 will
@@ -74,7 +106,6 @@ public class ChainedReceiveCommands {
    * @param bru batch update
    */
   public void addTo(BatchRefUpdate bru) {
-    checkState(!isEmpty(), "no commands to add");
     for (ReceiveCommand cmd : commands.values()) {
       bru.addCommand(cmd);
     }

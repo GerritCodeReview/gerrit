@@ -16,6 +16,24 @@
       "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_2a297f67",
+        "filename": "polygerrit-ui/.jscsrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-18T21:21:45Z",
+      "side": 1,
+      "message": "There are quite some files with lines longer than 80 chars at the moment. If you like, I can change these lines in a follow-up change and update this setting. I don\u0027t like to let this change grow that much.",
+      "parentUuid": "5d57a8e9_4f514d51",
+      "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

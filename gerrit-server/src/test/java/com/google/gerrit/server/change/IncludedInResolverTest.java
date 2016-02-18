@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.data.IncludedInDetail;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -138,7 +136,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
   @Test
   public void resolveLatestCommit() throws Exception {
     // Check tip commit
-    IncludedInDetail detail = resolve(commit_v2_5);
+    IncludedInResolver.Result detail = resolve(commit_v2_5);
 
     // Check that only tags and branches which refer the tip are returned
     expTags.add(TAG_2_5);
@@ -152,7 +150,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
   @Test
   public void resolveFirstCommit() throws Exception {
     // Check first commit
-    IncludedInDetail detail = resolve(commit_initial);
+    IncludedInResolver.Result detail = resolve(commit_initial);
 
     // Check whether all tags and branches are returned
     expTags.add(TAG_1_0);
@@ -176,7 +174,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
   @Test
   public void resolveBetwixtCommit() throws Exception {
     // Check a commit somewhere in the middle
-    IncludedInDetail detail = resolve(commit_v1_3);
+    IncludedInResolver.Result detail = resolve(commit_v1_3);
 
     // Check whether all succeeding tags and branches are returned
     expTags.add(TAG_1_3);
@@ -190,7 +188,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
     assertEquals(expBranches, detail.getBranches());
   }
 
-  private IncludedInDetail resolve(RevCommit commit) throws Exception {
+  private IncludedInResolver.Result resolve(RevCommit commit) throws Exception {
     return IncludedInResolver.resolve(db, revWalk, commit);
   }
 

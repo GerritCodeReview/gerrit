@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -62,7 +61,7 @@ public class ChangeNoteUtil {
   public static PersonIdent newIdent(Account author, Date when,
       PersonIdent serverIdent, String anonymousCowardName) {
     return new PersonIdent(
-        new AccountInfo(author).getName(anonymousCowardName),
+        author.getName(anonymousCowardName),
         author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
         when, serverIdent.getTimeZone());
   }

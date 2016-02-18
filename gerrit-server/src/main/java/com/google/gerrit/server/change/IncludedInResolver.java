@@ -18,7 +18,6 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.IncludedInDetail;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -47,7 +46,7 @@ public class IncludedInResolver {
   private static final Logger log = LoggerFactory
       .getLogger(IncludedInResolver.class);
 
-  public static IncludedInDetail resolve(final Repository repo,
+  public static Result resolve(final Repository repo,
       final RevWalk rw, final RevCommit commit) throws IOException {
     RevFlag flag = newFlag(rw);
     try {
@@ -87,7 +86,7 @@ public class IncludedInResolver {
     this.containsTarget = containsTarget;
   }
 
-  private IncludedInDetail resolve() throws IOException {
+  private Result resolve() throws IOException {
     RefDatabase refDb = repo.getRefDatabase();
     Collection<Ref> tags = refDb.getRefs(Constants.R_TAGS).values();
     Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
@@ -98,7 +97,7 @@ public class IncludedInResolver {
     parseCommits(allTagsAndBranches);
     Set<String> allMatchingTagsAndBranches = includedIn(tipsByCommitTime, 0);
 
-    IncludedInDetail detail = new IncludedInDetail();
+    Result detail = new Result();
     detail
         .setBranches(getMatchingRefNames(allMatchingTagsAndBranches, branches));
     detail.setTags(getMatchingRefNames(allMatchingTagsAndBranches, tags));
@@ -227,5 +226,31 @@ public class IncludedInResolver {
         return c1.getCommitTime() - c2.getCommitTime();
       }
     });
+  }
+
+  public static class Result {
+    private List<String> branches;
+    private List<String> tags;
+
+    public Result() {
+    }
+
+    public void setBranches(final List<String> b) {
+      Collections.sort(b);
+      branches = b;
+    }
+
+    public List<String> getBranches() {
+      return branches;
+    }
+
+    public void setTags(final List<String> t) {
+      Collections.sort(t);
+      tags = t;
+    }
+
+    public List<String> getTags() {
+      return tags;
+    }
   }
 }

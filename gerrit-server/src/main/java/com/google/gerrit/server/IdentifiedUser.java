@@ -18,7 +18,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -308,12 +307,8 @@ public class IdentifiedUser extends CurrentUser {
     return validEmails;
   }
 
-  public String getName() {
-    return new AccountInfo(getAccount()).getName(anonymousCowardName);
-  }
-
   public String getNameEmail() {
-    return new AccountInfo(getAccount()).getNameEmail(anonymousCowardName);
+    return getAccount().getNameEmail(anonymousCowardName);
   }
 
   @Override

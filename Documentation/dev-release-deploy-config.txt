@@ -143,7 +143,14 @@ deployable to the `gerrit-maven` storage bucket:
 ----
 
 
-* Add this to the `pom.xml` to enable the wagon provider:
+* Add these two snippets to the `pom.xml` to enable the wagon provider:
+
+----
+  <pluginRepository>
+    <id>google-storage</id>
+    <url>https://console.developers.google.com/storage/browser/gerrit-maven/</url>
+  </pluginRepository>
+----
 
 ----
   <build>

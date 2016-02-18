@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd585ce7_44a1ee6c",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T13:43:05Z",
+      "side": 1,
+      "message": "unofficial",
+      "range": {
+        "startLine": 3,
+        "startChar": 52,
+        "endLine": 3,
+        "endChar": 62
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_0fd9053d",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T13:43:05Z",
+      "side": 1,
+      "message": "\"snapshot release\"?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 7
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_2fd6c90b",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T13:43:05Z",
+      "side": 1,
+      "message": "its own",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_649e6a2e",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T13:43:05Z",
+      "side": 1,
+      "message": "do not push",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_04abf64e",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T13:43:05Z",
+      "side": 1,
+      "message": "Does this work out of the box for JGit without altering the pom.xml?\n\nAnd are we doing this in a standalone JGit workspace, or in the Gerrit tree?",
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

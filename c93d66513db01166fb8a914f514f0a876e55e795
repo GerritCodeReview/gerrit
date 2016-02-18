@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd7c47d_aae60f90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-18T14:38:16Z",
+      "side": 0,
+      "message": "In addition to setting nameTxt and currentEmail, this method was also doing\n\n  save.setEnabled(false);\n  new OnEditEnabler(save, nameTxt);\n\nIs this missed in the new code?",
+      "revId": "c93d66513db01166fb8a914f514f0a876e55e795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

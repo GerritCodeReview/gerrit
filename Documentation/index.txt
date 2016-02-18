@@ -74,6 +74,7 @@
 == Maintainer
 . link:dev-release.html[Making a Gerrit Release]
 . link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
+. link:dev-release-jgit.html[Making a Release of JGit]
 
 == Resources
 * link:licenses.html[Licenses and Notices]

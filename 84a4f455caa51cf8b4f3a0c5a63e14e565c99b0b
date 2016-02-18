@@ -16,6 +16,57 @@
       "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_a4d222d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T14:28:21Z",
+      "side": 1,
+      "message": "I really don\u0027t want to add such a simple method like this as a non-static method in ChangeUtil. This introduces a huge number of dependencies into ChangeSet, making it much harder to write small tests for.\n\nChangeUtil is already a kitchen sink class, but if you look at recent history, we\u0027ve been trying to move stuff *out* of here.",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_e4d81af6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T14:28:21Z",
+      "side": 1,
+      "message": "Don\u0027t use ChangeDatas as map keys, they don\u0027t hash.\n\nI also think you want to create a Repository and RevWalk in this method rather than calling out somewhere else.",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_84cda632",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T14:28:21Z",
+      "side": 1,
+      "message": "The thing I wanted to avoid was iterating over this whole collection once per iteration of the ChangeData loop above.\n\nThis method should be:\n\n private boolean isParentOfAnotherCommit(RevCommit commitToCheck,\n     Set\u003cObjectId\u003e allCommits) {\n   for (RevCommit parent : commit.getParents()) {\n     if (allCommits.contains(parent)) {\n       return true;\n     }\n   }\n   return false;\n }\n\nAnd then the thing you precompute above is the allCommits set.",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

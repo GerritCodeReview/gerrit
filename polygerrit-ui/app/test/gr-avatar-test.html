@@ -47,18 +47,21 @@ limitations under the License.
     });
 
     test('dom for existing account', function() {
-      assert.isTrue(element.hasAttribute('hidden'), 'element not hidden initially');
+      assert.isTrue(element.hasAttribute('hidden'),
+          'element not hidden initially');
       element.hidden = false;
       element.imageSize = 64;
       element.account = {
         _account_id: 123
       };
       assert.isFalse(element.hasAttribute('hidden'), 'element hidden');
-      assert.isTrue(element.style.backgroundImage.indexOf('/accounts/123/avatar?s=64') > -1);
+      assert.isTrue(element.style.backgroundImage.indexOf(
+          '/accounts/123/avatar?s=64') > -1);
     });
 
     test('dom for non available account', function() {
-      assert.isTrue(element.hasAttribute('hidden'), 'element not hidden initially');
+      assert.isTrue(element.hasAttribute('hidden'),
+          'element not hidden initially');
       element.account = undefined;
       assert.isTrue(element.hasAttribute('hidden'), 'element not hidden');
     });

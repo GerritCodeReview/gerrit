@@ -1,0 +1,5 @@
+{
+  "preset": "google",
+  "requireCamelCaseOrUpperCaseIdentifiers": null,
+  "excludeFiles": ["node_modules/**"]
+}

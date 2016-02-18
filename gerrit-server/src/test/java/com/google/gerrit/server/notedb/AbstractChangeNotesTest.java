@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.inject.Scopes.SINGLETON;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
@@ -61,13 +62,13 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
@@ -94,6 +95,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   protected TestRepository<InMemoryRepository> tr;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected Provider<NoteDbUpdateManager> updateManagerProvider;
 
   private Injector injector;
   private String systemTimeZone;
@@ -183,9 +185,6 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
       throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(
         injector, repoManager, MIGRATION, c, allUsers, user);
-    try (Repository repo = repoManager.openMetadataRepository(c.getProject())) {
-      update.load(repo);
-    }
     return update;
   }
 

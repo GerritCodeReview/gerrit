@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.group;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;
 
 import java.util.Map;

@@ -52,7 +52,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertThat(head.getParentCount()).isEqualTo(2);
     assertThat(head.getParent(0)).isEqualTo(oldHead);
-    assertThat(head.getParent(1)).isEqualTo(change2.getCommitId());
+    assertThat(head.getParent(1)).isEqualTo(change2.getCommit());
   }
 
   @Test
@@ -66,14 +66,14 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     submit(change2.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    testRepo.reset(change.getCommitId());
+    testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     RevCommit head = getRemoteHead();
     assertThat(head.getParentCount()).isEqualTo(2);
     assertThat(head.getParent(0)).isEqualTo(oldHead);
-    assertThat(head.getParent(1)).isEqualTo(change3.getCommitId());
+    assertThat(head.getParent(1)).isEqualTo(change3.getCommit());
   }
 
   @Test
@@ -104,7 +104,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange();
     approve(change1.getChangeId());
     submit(change2.getChangeId());
-    assertThat(getRemoteHead().getId()).isEqualTo(change2.getCommitId());
+    assertThat(getRemoteHead().getId()).isEqualTo(change2.getCommit());
   }
 
   @Test

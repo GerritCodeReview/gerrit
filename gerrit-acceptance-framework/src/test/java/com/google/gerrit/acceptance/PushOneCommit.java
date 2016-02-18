@@ -37,7 +37,6 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -252,10 +251,6 @@ public class PushOneCommit {
 
     public String getChangeId() {
       return changeId;
-    }
-
-    public ObjectId getCommitId() {
-      return commit;
     }
 
     public RevCommit getCommit() {

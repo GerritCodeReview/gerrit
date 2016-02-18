@@ -96,8 +96,8 @@ public class GetCommitIT extends AbstractDaemonTest {
         .to("refs/for/master");
     r.assertOkStatus();
 
-    CommitInfo info = getCommit(r.getCommitId());
-    assertThat(info.commit).isEqualTo(r.getCommitId().name());
+    CommitInfo info = getCommit(r.getCommit());
+    assertThat(info.commit).isEqualTo(r.getCommit().name());
     assertThat(info.subject).isEqualTo("test commit");
     assertThat(info.message).isEqualTo(
         "test commit\n\nChange-Id: " + r.getChangeId() + "\n");
@@ -119,7 +119,7 @@ public class GetCommitIT extends AbstractDaemonTest {
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), testRepo)
         .to("refs/for/master");
     r.assertOkStatus();
-    assertNotFound(r.getCommitId());
+    assertNotFound(r.getCommit());
   }
 
   private void unblockRead() throws Exception {

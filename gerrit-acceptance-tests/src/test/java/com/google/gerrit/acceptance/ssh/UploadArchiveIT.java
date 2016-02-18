@@ -55,7 +55,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   public void zipFormat() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = r.getCommitId().abbreviate(8).name();
+    String abbreviated = r.getCommit().abbreviate(8).name();
     String c = command(r, abbreviated);
 
     InputStream out =
@@ -98,7 +98,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
 
   private void archiveNotPermitted() throws Exception {
     PushOneCommit.Result r = createChange();
-    String abbreviated = r.getCommitId().abbreviate(8).name();
+    String abbreviated = r.getCommit().abbreviate(8).name();
     String c = command(r, abbreviated);
 
     InputStream out =

@@ -89,7 +89,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submit(change2.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    testRepo.reset(change.getCommitId());
+    testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
@@ -121,7 +121,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         "upload the rebased commit for review.");
 
     assertThat(getRemoteHead()).isEqualTo(oldHead);
-    assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
+    assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());
     assertNoSubmitter(change2.getChangeId(), 1);
   }
 
@@ -166,7 +166,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         "upload the rebased commit for review.");
 
     assertThat(getRemoteHead()).isEqualTo(oldHead);
-    assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
+    assertCurrentRevision(change3.getChangeId(), 1, change3.getCommit());
     assertNoSubmitter(change3.getChangeId(), 1);
   }
 

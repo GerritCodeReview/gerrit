@@ -49,7 +49,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
-    assertThat(head.getId()).isEqualTo(change.getCommitId());
+    assertThat(head.getId()).isEqualTo(change.getCommit());
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change.getChangeId());
     assertCurrentRevision(change.getChangeId(), 1, head);
@@ -130,7 +130,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     submit(change2.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
-    testRepo.reset(change.getCommitId());
+    testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
@@ -158,7 +158,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     submitWithConflict(change2.getChangeId(), "Merge Conflict");
     RevCommit head = getRemoteHead();
     assertThat(head).isEqualTo(oldHead);
-    assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
+    assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());
     assertNoSubmitter(change2.getChangeId(), 1);
   }
 

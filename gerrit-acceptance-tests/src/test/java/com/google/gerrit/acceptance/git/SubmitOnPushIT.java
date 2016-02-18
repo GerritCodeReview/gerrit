@@ -190,7 +190,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     git().push()
-        .setRefSpecs(new RefSpec(r.getCommitId().name() + ":refs/heads/master"))
+        .setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master"))
         .call();
     assertCommit(project, "refs/heads/master");
     assertThat(getSubmitter(r.getPatchSetId())).isNull();

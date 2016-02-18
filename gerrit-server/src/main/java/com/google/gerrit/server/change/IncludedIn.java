@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -80,7 +79,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
         throw new ResourceConflictException(err.getMessage());
       }
 
-      IncludedInDetail d = IncludedInResolver.resolve(r, rw, rev);
+      IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       Map<String, Collection<String>> external = new HashMap<>();
       for (DynamicMap.Entry<ExternalIncludedIn> i : includedIn) {
         external.put(i.getExportName(),
@@ -96,7 +95,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
     Collection<String> tags;
     Map<String, Collection<String>> external;
 
-    IncludedInInfo(IncludedInDetail in, Map<String, Collection<String>> e) {
+    IncludedInInfo(IncludedInResolver.Result in, Map<String, Collection<String>> e) {
       branches = in.getBranches();
       tags = in.getTags();
       external = e;

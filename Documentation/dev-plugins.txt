@@ -628,6 +628,48 @@ public class SampleOperator
 }
 ----
 
+[[search_operands]]
+=== Search Operands ===
+
+Plugins can define new search operands to extend change searching
+by implementing one of the `ChangeQueryBuilder.ChangeOperandFactory`
+interfaces (e.g., ChangeQueryBuilder.ChangeHasOperandFactory) and
+registering it to an operand name in the plugin module's
+`configure()` method.  The operand search element is defined during
+registration via the DynamicMap annotation mechanism.  The plugin
+name will get appended to the element name, with an underscore
+in between, leading to the final element name.  An example
+registration looks like this:
+
+    bind(ChangeHasOperandFactory.class)
+       .annotatedWith(Exports.named("sample"))
+       .to(SampleHasFactory.class);
+
+If this is registered in the `myplugin` plugin, then the resulting
+operand will be named `sample_myplugin` (.e.g. has:sample_myplugin).
+
+The search operand itself is implemented by ensuring that the
+`create()` method of the class implementing the
+`ChangeQueryBuilder.ChangeOperatorFactory` interface returns a
+`Predicate<ChangeData>`.  Here is a sample `has` operand
+defintion which creates a `test` element:
+
+[source,java]
+----
+  @Singleton
+  public class SampleHasOperand implements ChangeQueryBuilder.ChangeHasOperandFactory {
+    public static class HasTestPredicate extends OperatorPredicate<ChangeData> {
+      ...
+    }
+
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder)
+      throws QueryParseException {
+    return new HasTestPredicate(value);
+  }
+}
+----
+
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
 

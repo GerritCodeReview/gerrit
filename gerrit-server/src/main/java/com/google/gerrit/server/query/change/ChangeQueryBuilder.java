@@ -87,6 +87,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       extends OperatorFactory<ChangeData, ChangeQueryBuilder> {
   }
 
+  /**
+   * Converts a value string passed to a change search operand into
+   * a {@link Predicate}.
+   */
+  private interface ChangeOperandFactory {
+    Predicate<ChangeData> create(ChangeQueryBuilder builder)
+        throws QueryParseException;
+  }
+
+  public interface ChangeHasOperandFactory extends ChangeOperandFactory {
+  }
+
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
@@ -153,6 +165,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<InternalChangeQuery> queryProvider;
     final IndexRewriter rewriter;
     final DynamicMap<ChangeOperatorFactory> opFactories;
+	final DynamicMap<ChangeHasOperandFactory> hasOperandFactories;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
@@ -181,6 +194,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<InternalChangeQuery> queryProvider,
         IndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
+		DynamicMap<ChangeHasOperandFactory> hasOperandFactories,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -201,8 +215,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         @GerritServerConfig Config cfg) {
-      this(db, queryProvider, rewriter, opFactories, userFactory, self,
-          capabilityControlFactory, changeControlGenericFactory,
+      this(db, queryProvider, rewriter, opFactories, hasOperandFactories, userFactory,
+          self, capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitStrategyFactory,
@@ -216,6 +230,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<InternalChangeQuery> queryProvider,
         IndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
+		DynamicMap<ChangeHasOperandFactory> hasOperandFactories,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -240,6 +255,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.queryProvider = queryProvider;
      this.rewriter = rewriter;
      this.opFactories = opFactories;
+	 this.hasOperandFactories = hasOperandFactories;
      this.userFactory = userFactory;
      this.self = self;
      this.capabilityControlFactory = capabilityControlFactory;
@@ -263,8 +279,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     Arguments asUser(CurrentUser otherUser) {
-      return new Arguments(db, queryProvider, rewriter, opFactories, userFactory,
-          Providers.of(otherUser),
+      return new Arguments(db, queryProvider, rewriter, opFactories, hasOperandFactories,
+	      userFactory, Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
@@ -412,6 +428,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if ("edit".equalsIgnoreCase(value)) {
       return new EditByPredicate(self());
     }
+
+    // for plugins the operand will be exportName_pluginName
+    String[] names = value.split("_");;
+    if (names.length == 2) {
+      ChangeHasOperandFactory f = args.hasOperandFactories.get(names[1], names[0]);
+      if (f != null) {
+        return f.create(this);
+      }
+    }
+
     throw new IllegalArgumentException();
   }
 

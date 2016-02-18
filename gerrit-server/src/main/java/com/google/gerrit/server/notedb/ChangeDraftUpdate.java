@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -32,18 +31,16 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,14 +80,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
-      MetaDataUpdate.User updateFactory,
       DraftCommentNotes.Factory draftNotesFactory,
       AllUsersName allUsers,
       CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
       @Assisted Date when) throws OrmException {
-    super(migration, repoManager, updateFactory, ctl, serverIdent,
-        anonymousCowardName, when);
+    super(migration, repoManager, ctl, serverIdent, anonymousCowardName, when);
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
     checkState(ctl.getUser().isIdentifiedUser(),
@@ -107,7 +102,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   public void insertComment(PatchLineComment c) throws OrmException {
     verifyComment(c);
-    checkArgument(c.getStatus() == Status.DRAFT,
+    checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
         "Cannot insert a published comment into a ChangeDraftUpdate");
     if (migration.readChanges()) {
       checkArgument(!changeNotes.containsComment(c),
@@ -119,14 +114,14 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   public void upsertComment(PatchLineComment c) {
     verifyComment(c);
-    checkArgument(c.getStatus() == Status.DRAFT,
+    checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
         "Cannot upsert a published comment into a ChangeDraftUpdate");
     upsertComments.add(c);
   }
 
   public void updateComment(PatchLineComment c) throws OrmException {
     verifyComment(c);
-    checkArgument(c.getStatus() == Status.DRAFT,
+    checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
         "Cannot update a published comment into a ChangeDraftUpdate");
     // Here, we check to see if this comment existed previously as a draft.
     // However, this could cause a race condition if there is a delete and an
@@ -178,12 +173,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   /** @return the tree id for the updated tree */
-  private ObjectId storeCommentsInNotes(AtomicBoolean removedAllComments)
-      throws OrmException, IOException {
-    if (isEmpty()) {
-      return null;
-    }
-
+  private ObjectId storeCommentsInNotes(ObjectInserter inserter,
+      AtomicBoolean removedAllComments) throws OrmException, IOException {
     NoteMap noteMap = draftNotes.load().getNoteMap();
     if (noteMap == null) {
       noteMap = NoteMap.newEmptyMap();
@@ -238,31 +229,21 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     return noteMap.writeTree(inserter);
   }
 
-  public RevCommit commit() throws IOException {
-    BatchMetaDataUpdate batch = openUpdate();
-    try {
-      writeCommit(batch);
-      return batch.commit();
-    } catch (OrmException e) {
-      throw new IOException(e);
-    } finally {
-      batch.close();
-    }
-  }
-
   @Override
-  public void writeCommit(BatchMetaDataUpdate batch)
+  protected Status applyImpl(CommitBuilder cb, ObjectInserter ins)
       throws OrmException, IOException {
-    CommitBuilder builder = new CommitBuilder();
-    if (migration.writeChanges()) {
-      AtomicBoolean removedAllComments = new AtomicBoolean();
-      ObjectId treeId = storeCommentsInNotes(removedAllComments);
-      if (removedAllComments.get()) {
-        batch.removeRef(getRefName());
-      } else if (treeId != null) {
-        builder.setTreeId(treeId);
-        batch.write(builder);
-      }
+    cb.setAuthor(newIdent(getUser().getAccount(), when));
+    cb.setCommitter(new PersonIdent(serverIdent, when));
+    cb.setMessage("Update draft comments");
+    AtomicBoolean removedAllComments = new AtomicBoolean();
+    ObjectId treeId = storeCommentsInNotes(ins, removedAllComments);
+    if (removedAllComments.get()) {
+      return Status.DELETE_REF;
+    } else if (treeId != null) {
+      cb.setTreeId(treeId);
+      return Status.OK;
+    } else {
+      return Status.EMPTY;
     }
   }
 
@@ -274,18 +255,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   @Override
   protected String getRefName() {
     return RefNames.refsDraftComments(accountId, ctl.getId());
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
-    if (isEmpty()) {
-      return false;
-    }
-    commit.setAuthor(newIdent(getUser().getAccount(), when));
-    commit.setCommitter(new PersonIdent(serverIdent, when));
-    commit.setMessage("Update draft comments");
-    return true;
   }
 
   @Override

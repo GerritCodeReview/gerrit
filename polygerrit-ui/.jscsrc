@@ -1,0 +1,7 @@
+{
+  "preset": "google",
+  "requireCamelCaseOrUpperCaseIdentifiers": null,
+  "excludeFiles": [
+    "app/scripts/ba-linkify.js"
+  ]
+}

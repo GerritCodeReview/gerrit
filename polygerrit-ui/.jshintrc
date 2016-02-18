@@ -1,0 +1,32 @@
+{
+  "node": true,
+  "browser": true,
+  "bitwise": false,
+  "camelcase": false,
+  "curly": true,
+  "eqeqeq": false,
+  "shadow": true,
+  "loopfunc": true,
+  "-W041": false,
+  "indent": 2,
+  "latedef": true,
+  "noarg": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": "vars",
+  "globals": {
+    "wrap": true,
+    "unwrap": true,
+    "Polymer": true,
+    "Platform": true,
+    "page": true,
+    "alert": true,
+    "Promise": true,
+    "Gerrit": true,
+    "app": true,
+    "util": true,
+    "linkify": true,
+    "GrLinkTextParser": true,
+    "Changes": true
+  }
+}

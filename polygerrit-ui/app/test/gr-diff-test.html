@@ -359,6 +359,7 @@ limitations under the License.
         }
       ]);
 
+      // jscs:disable maximumLineLength
       content = [
         '        this._path = value.path;',
         '',
@@ -367,6 +368,7 @@ limitations under the License.
         '        // the top-level change info view) and therefore undefined in `params`.',
         '        if (!this._patchRange.patchNum) {',
       ];
+      // jscs:enable maximumLineLength
       highlights = [
         [14, 17],
         [11, 70],

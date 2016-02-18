@@ -17,7 +17,7 @@
 /**
  * A stub of the global gr-app element. Use this for testing.
  */
-var app = {
+var app = { /* exported app */ // required by JSHint
   accountReady: {
     then: function(cb) { cb(); },
   },

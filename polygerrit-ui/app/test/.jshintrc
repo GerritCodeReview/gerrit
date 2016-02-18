@@ -1,0 +1,15 @@
+{
+  "extends": "../../.jshintrc",
+  "globals": {
+    "suite": true,
+    "fixture": true,
+    "test": true,
+    "assert": true,
+    "setup": true,
+    "sinon": true,
+    "teardown": true,
+    "WCT": true,
+    "MockInteractions": true,
+    "flushAsynchronousOperations": true
+  }
+}

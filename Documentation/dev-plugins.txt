@@ -1950,6 +1950,32 @@ MySecureStore(@SitePath java.io.File sitePath) {
 No Guice bindings or modules are required. Gerrit will automatically
 discover and bind the implementation.
 
+[[accountcreation]]
+== Account Creation
+
+Plugins can hook into the
+link:rest-api-accounts.html#create-account[account creation] REST API and
+inject additional external identifiers for an account that represents a user
+in some external user store. For that, an implementation of the extension
+point `com.google.gerrit.server.api.accounts.AccountExternalIdCreator`
+must be registered.
+
+[source,java]
+----
+class MyExternalIdCreator implements AccountExternalIdCreator {
+  @Override
+  public List<AccountExternalId> create(Account.Id id, String username,
+      String email) {
+    // your code
+  }
+}
+
+bind(AccountExternalIdCreator.class)
+  .annotatedWith(UniqueAnnotations.create())
+  .to(MyExternalIdCreator.class);
+}
+----
+
 [[download-commands]]
 == Download Commands
 

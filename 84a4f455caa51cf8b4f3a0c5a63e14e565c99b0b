@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fd585ce7_64c50a04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-18T15:44:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd4087d_871ea6a6",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd585ce7_a4d222d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-18T14:28:21Z",
       "side": 1,
       "message": "I really don\u0027t want to add such a simple method like this as a non-static method in ChangeUtil. This introduces a huge number of dependencies into ChangeSet, making it much harder to write small tests for.\n\nChangeUtil is already a kitchen sink class, but if you look at recent history, we\u0027ve been trying to move stuff *out* of here.",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_24bf1284",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-18T15:44:23Z",
+      "side": 1,
+      "message": "I\u0027ll move it into Submit",
+      "parentUuid": "fd585ce7_a4d222d0",
       "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5d57a8e9_cf053d61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-18T15:44:23Z",
+      "side": 1,
+      "message": "Done. I moved \"findCommits\" into Submit so I think the second comment doesn\u0027t apply anymore",
+      "parentUuid": "fd585ce7_e4d81af6",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd585ce7_84cda632",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-18T14:28:21Z",
       "side": 1,
       "message": "The thing I wanted to avoid was iterating over this whole collection once per iteration of the ChangeData loop above.\n\nThis method should be:\n\n private boolean isParentOfAnotherCommit(RevCommit commitToCheck,\n     Set\u003cObjectId\u003e allCommits) {\n   for (RevCommit parent : commit.getParents()) {\n     if (allCommits.contains(parent)) {\n       return true;\n     }\n   }\n   return false;\n }\n\nAnd then the thing you precompute above is the allCommits set.",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_c47abe99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-18T15:44:23Z",
+      "side": 1,
+      "message": "The algorithm you provided wouldn\u0027t check if \"commitToCheck\" is the parent of another commit, it instead checks if one of its parents are present in the set.\n\nThe correct algorithm would be:\n\n[...]\nfor (RevCommit commit : allCommits) {\n    if (commit.getParents().contains(commitToCheck) {\n        return true;\n    }\n}\nreturn false;\n[...]\n\nThe issue is that getParents returns a static array, but either way it would have the same complexity.\n\nThere is also the possibility that I\u0027m completely missing the point here, too. :P",
+      "parentUuid": "fd585ce7_84cda632",
       "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

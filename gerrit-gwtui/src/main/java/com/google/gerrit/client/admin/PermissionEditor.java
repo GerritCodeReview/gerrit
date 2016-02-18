@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.SuggestUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupInfo;
@@ -241,14 +241,16 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
       // If the oracle didn't get to complete a UUID, resolve it now.
       //
       addRule.setEnabled(false);
-      SuggestUtil.SVC.suggestAccountGroupForProject(
-          projectName, ref.getName(), 1,
-          new GerritCallback<List<GroupReference>>() {
+      GroupMap.suggestAccountGroupForProject(
+          projectName.get(), ref.getName(), 1,
+          new GerritCallback<GroupMap>() {
             @Override
-            public void onSuccess(List<GroupReference> result) {
+            public void onSuccess(GroupMap result) {
               addRule.setEnabled(true);
-              if (result.size() == 1) {
-                addGroup(result.get(0));
+              if (result.values().length() == 1) {
+                addGroup(new GroupReference(
+                    result.values().get(0).getGroupUUID(),
+                    result.values().get(0).name()));
               } else {
                 groupToAdd.setFocus(true);
               }

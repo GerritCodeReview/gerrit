@@ -23,6 +23,7 @@ limitations under the License.
       :host,
       .container {
         display: flex;
+        flex: 0 0 auto;
       }
       .lineNum:before,
       .code:before {
@@ -45,9 +46,6 @@ limitations under the License.
       .canComment .lineNum:hover {
         background-color: #ccc;
       }
-      .code {
-        white-space: pre;
-      }
       .lightHighlight {
         background-color: var(--light-highlight-color);
       }
@@ -66,6 +64,10 @@ limitations under the License.
         color: #C62828;
         /* >> character */
         content: '\00BB';
+      }
+      .numbers,
+      .content {
+        white-space: pre;
       }
       .numbers .filler {
         background-color: #eee;

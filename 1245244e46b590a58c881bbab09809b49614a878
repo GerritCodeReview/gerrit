@@ -22,6 +22,30 @@
       "revId": "1245244e46b590a58c881bbab09809b49614a878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_24115271",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T09:11:20Z",
+      "side": 1,
+      "message": "This line doesn\u0027t exist on stable-2.12 and should have been removed in the merge conflict resolution.\n\nDone.",
+      "parentUuid": "5dd4087d_47530e42",
+      "range": {
+        "startLine": 78,
+        "startChar": 47,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "1245244e46b590a58c881bbab09809b49614a878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -238,7 +238,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .rebase();
 
     // Second change should have 2 patch sets
-    assertThat(r2.getPatchSetId().get()).isEqualTo(2);
+    ChangeInfo c2 = gApi.changes().id(r2.getChangeId()).get();
+    assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
 
     // ...and the committer should be correct
     ChangeInfo info = gApi.changes()

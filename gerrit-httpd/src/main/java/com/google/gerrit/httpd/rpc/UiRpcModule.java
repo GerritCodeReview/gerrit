@@ -27,7 +27,6 @@ public class UiRpcModule extends RpcServletModule {
 
   @Override
   protected void configureServlets() {
-    rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
 
     install(new AccountModule());

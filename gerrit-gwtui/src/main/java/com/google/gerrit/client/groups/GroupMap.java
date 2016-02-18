@@ -38,6 +38,21 @@ public class GroupMap extends NativeMap<GroupInfo> {
     call.get(NativeMap.copyKeysIntoChildren(cb));
   }
 
+  public static void suggestAccountGroupForProject(String project, String query,
+      int limit, AsyncCallback<GroupMap> cb) {
+    RestApi call = groups();
+    if (project != null) {
+      call.addParameter("p", project);
+    }
+    if (query != null) {
+      call.addParameter("s", query);
+    }
+    if (limit > 0) {
+      call.addParameter("n", limit);
+    }
+    call.get(NativeMap.copyKeysIntoChildren(cb));
+  }
+
   public static void myOwned(AsyncCallback<GroupMap> cb) {
     myOwnedGroups().get(NativeMap.copyKeysIntoChildren(cb));
   }

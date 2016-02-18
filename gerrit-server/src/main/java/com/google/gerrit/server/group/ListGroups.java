@@ -127,7 +127,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.matchSubstring = matchSubstring;
   }
 
-  @Option(name = "--suggest", usage = "to get a suggestion of groups")
+  @Option(name = "--suggest", aliases = {"-s"},
+      usage = "to get a suggestion of groups")
   public void setSuggest(String suggest) {
     this.suggest = suggest;
   }

@@ -14,16 +14,16 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.RpcStatus;
+import com.google.gerrit.client.groups.GroupInfo;
+import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /** Suggestion Oracle for AccountGroup entities. */
@@ -34,26 +34,20 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   @Override
   public void _onRequestSuggestions(final Request req, final Callback callback) {
-    RpcStatus.hide(new Runnable() {
-      @Override
-      public void run() {
-        SuggestUtil.SVC.suggestAccountGroupForProject(
-            projectName, req.getQuery(), req.getLimit(),
-            new GerritCallback<List<GroupReference>>() {
-              @Override
-              public void onSuccess(final List<GroupReference> result) {
-                priorResults.clear();
-                final ArrayList<AccountGroupSuggestion> r =
-                    new ArrayList<>(result.size());
-                for (final GroupReference p : result) {
-                  r.add(new AccountGroupSuggestion(p));
-                  priorResults.put(p.getName(), p.getUUID());
-                }
-                callback.onSuggestionsReady(req, new Response(r));
-              }
-            });
-      }
-    });
+    GroupMap.suggestAccountGroupForProject(
+        projectName.get(), req.getQuery(), req.getLimit(),
+        new GerritCallback<GroupMap>() {
+          @Override
+          public void onSuccess(GroupMap result) {
+            priorResults.clear();
+            ArrayList<AccountGroupSuggestion> r = new ArrayList<>(result.size());
+            for (GroupInfo group : Natives.asList(result.values())) {
+              r.add(new AccountGroupSuggestion(group));
+              priorResults.put(group.name(), group.getGroupUUID());
+            }
+            callback.onSuggestionsReady(req, new Response(r));
+          }
+        });
   }
 
   public void setProject(Project.NameKey projectName) {
@@ -62,20 +56,20 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   private static class AccountGroupSuggestion implements
       SuggestOracle.Suggestion {
-    private final GroupReference info;
+    private final GroupInfo info;
 
-    AccountGroupSuggestion(final GroupReference k) {
+    AccountGroupSuggestion(final GroupInfo k) {
       info = k;
     }
 
     @Override
     public String getDisplayString() {
-      return info.getName();
+      return info.name();
     }
 
     @Override
     public String getReplacementString() {
-      return info.getName();
+      return info.name();
     }
   }
 

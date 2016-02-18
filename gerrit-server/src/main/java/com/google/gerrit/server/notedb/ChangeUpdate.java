@@ -46,14 +46,12 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -63,6 +61,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -99,16 +98,20 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
-  private String commitSubject;
-  private String subject;
+  private final CommentsInNotesUtil commentsUtil;
+  private final ChangeDraftUpdate.Factory draftUpdateFactory;
+  private final NoteDbUpdateManager.Factory updateManagerFactory;
+
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
+
+  private String commitSubject;
+  private String subject;
   private String changeId;
   private String branch;
   private Change.Status status;
   private List<SubmitRecord> submitRecords;
   private String submissionId;
-  private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
   private String topic;
   private ObjectId commit;
@@ -119,7 +122,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Iterable<String> groups;
   private String pushCert;
 
-  private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private ChangeDraftUpdate draftUpdate;
 
   @AssistedInject
@@ -129,13 +131,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
-      MetaDataUpdate.User updateFactory,
+      NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftUpdateFactory,
+        updateManagerFactory, draftUpdateFactory,
         projectCache, ctl, serverIdent.getWhen(), commentsUtil);
   }
 
@@ -146,14 +148,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
-      MetaDataUpdate.User updateFactory,
+      NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftUpdateFactory, ctl,
+        updateManagerFactory, draftUpdateFactory, ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         commentsUtil);
@@ -170,17 +172,19 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
-      MetaDataUpdate.User updateFactory,
+      NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       CommentsInNotesUtil commentsUtil) {
-    super(migration, repoManager, updateFactory, ctl, serverIdent,
+    super(migration, repoManager, ctl, serverIdent,
         anonymousCowardName, when);
-    this.draftUpdateFactory = draftUpdateFactory;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
+    this.draftUpdateFactory = draftUpdateFactory;
+    this.updateManagerFactory = updateManagerFactory;
+
     this.approvals = TreeBasedTable.create(
         labelNameComparator,
         Ordering.natural().onResultOf(new Function<Account.Id, Integer>() {
@@ -191,6 +195,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         }));
     this.reviewers = Maps.newLinkedHashMap();
     this.comments = Lists.newArrayList();
+  }
+
+  public ObjectId commit() throws IOException, OrmException {
+    NoteDbUpdateManager updateManager =
+        updateManagerFactory.create(getProjectName());
+    updateManager.add(this);
+    updateManager.execute();
+    return getResult();
   }
 
   public void setChangeId(String changeId) throws OrmException {
@@ -259,7 +271,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void insertComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == Status.DRAFT) {
+    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
       insertDraftComment(comment);
     } else {
       insertPublishedComment(comment);
@@ -267,7 +279,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void upsertComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == Status.DRAFT) {
+    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
       upsertDraftComment(comment);
     } else {
       deleteDraftCommentIfPresent(comment);
@@ -276,7 +288,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void updateComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == Status.DRAFT) {
+    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
       updateDraftComment(comment);
     } else {
       deleteDraftCommentIfPresent(comment);
@@ -285,7 +297,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void deleteComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == Status.DRAFT) {
+    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
       deleteDraftComment(comment);
     } else {
       throw new IllegalArgumentException("Cannot delete a published comment.");
@@ -369,7 +381,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void verifyComment(PatchLineComment c) {
     checkArgument(c.getRevId() != null);
-    checkArgument(c.getStatus() == Status.PUBLISHED,
+    checkArgument(c.getStatus() == PatchLineComment.Status.PUBLISHED,
         "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate"
         + " for draft comments");
     checkArgument(c.getAuthor().equals(getUser().getAccountId()),
@@ -418,7 +430,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /** @return the tree id for the updated tree */
-  private ObjectId storeRevisionNotes() throws OrmException, IOException {
+  private ObjectId storeRevisionNotes(ObjectInserter inserter)
+      throws OrmException, IOException {
     ChangeNotes notes = ctl.getNotes().load();
     NoteMap noteMap = notes.getNoteMap();
     if (noteMap == null) {
@@ -457,45 +470,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return b;
   }
 
-  public RevCommit commit() throws IOException {
-    BatchMetaDataUpdate batch = openUpdate();
-    try {
-      writeCommit(batch);
-      RevCommit c = batch.commit();
-      return c;
-    } catch (OrmException e) {
-      throw new IOException(e);
-    } finally {
-      batch.close();
-    }
-  }
-
-  @Override
-  public void writeCommit(BatchMetaDataUpdate batch) throws OrmException,
-      IOException {
-    CommitBuilder builder = new CommitBuilder();
-    if (migration.writeChanges()) {
-      ObjectId treeId = storeRevisionNotes();
-      if (treeId != null) {
-        builder.setTreeId(treeId);
-      }
-    }
-    batch.write(this, builder);
-    if (draftUpdate != null) {
-      draftUpdate.commit();
-    }
-  }
-
   @Override
   protected String getRefName() {
     return ChangeNoteUtil.changeRefName(ctl.getId());
   }
 
   @Override
-  protected boolean onSave(CommitBuilder cb) {
-    if (getRevision() != null && isEmpty()) {
-      return false;
-    }
+  protected CommitBuilder applyImpl(ObjectInserter ins)
+      throws OrmException, IOException {
+    CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(newIdent(getUser().getAccount(), when));
     cb.setCommitter(new PersonIdent(serverIdent, when));
 
@@ -599,7 +582,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     cb.setMessage(msg.toString());
-    return true;
+    ObjectId treeId = storeRevisionNotes(ins);
+    if (treeId != null) {
+      cb.setTreeId(treeId);
+    }
+    return cb;
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {
@@ -632,6 +619,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && commit == null
         && psState == null
         && groups == null;
+  }
+
+  ChangeDraftUpdate getDraftUpdate() {
+    return draftUpdate;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -102,6 +103,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final PersonIdent serverIdent;
   private final Provider<CurrentUser> currentUser;
   private final Provider<PutConfig> putConfig;
+  private final AllProjectsName allProjects;
   private final String name;
 
   @Inject
@@ -120,6 +122,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       @GerritPersonIdent PersonIdent serverIdent,
       Provider<CurrentUser> currentUser,
       Provider<PutConfig> putConfig,
+      AllProjectsName allProjects,
       @Assisted String name) {
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
@@ -137,6 +140,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.serverIdent = serverIdent;
     this.currentUser = currentUser;
     this.putConfig = putConfig;
+    this.allProjects = allProjects;
     this.name = name;
   }
 
@@ -152,12 +156,20 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       throw new BadRequestException("name must match URL");
     }
 
+<<<<<<< HEAD
     CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(ProjectUtil.stripGitSuffix(name));
 
     if (!Strings.isNullOrEmpty(input.parent)) {
       args.newParent = projectsCollection.get().parse(input.parent).getControl();
     }
+=======
+    final CreateProjectArgs args = new CreateProjectArgs();
+    args.setProjectName(name);
+    String parentName = MoreObjects.firstNonNull(
+        Strings.emptyToNull(input.parent), allProjects.get());
+    args.newParent = projectsCollection.get().parse(parentName).getControl();
+>>>>>>> stable-2.11
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455800162 +0100\nnonce AO+Zq7iJNm8i7cwUC1HGRlD7S2SxasMjdpXgnuqqQCmP6k6DoLqoZTXmZd148wrzJSR1J6ct+C3s\n\n0000000000000000000000000000000000000000 a0935d93cdf1bcc8689394ad7b1617a61bd9b92f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWxb9iAAoJEFG1/Zeg0O9R6GwH/2jj3NzJL4HYxfm2E0iXAwqS\ne7sVbLJoXpcfL560v+ye5JIApomnuy/APE/nUSYcwAL/u1/VFjCUbsQa/QXBHMN7\n6fyWA71fPL61kTSWHupMA27OoL56ojBMx8CspvFpIKjhi1rABj7djhO8LFb9hyWJ\nrcjZNhfJjYK3mY8dUH0ihAmbF52FMOY9rXE54fqEcoFiVXg6cCRnqD2P7vN+LlCk\nE6IKubLqp5TU61rTD5frQR+z4BAA1bdAGTVrV7Dci/PR2j6INeYMUFC4B5pWF2zV\nQ/dZg3t8dWVohXmAgtPFtl4rvBaYKm59q1smK70llgyLtdbQx/dUink3D3GykUc\u003d\n\u003dcGm3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d57a8e9_8f0b3577",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T14:36:28Z",
+      "side": 1,
+      "message": "My main remaining concern here is that this doesn\u0027t seem threadsafe, because the non-final ChangeNotes fields are assigned in a background thread, but I don\u0027t know that the originating thread is guaranteed to see the results of those writes.\n\nOr for that matter whether the background thread is guaranteed to see the results of the writes to non-final Change fields from the thread that executed the first future.\n\nEven if we could make all the ChangeNotes fields final, they refer to all kinds of reviewdb classes that are also completely not threadsafe.\n\nThis is bad. I don\u0027t know if we can ever pass ChangeNotes between threads in its current form.",
+      "revId": "5e27e74bc3446fba060b73adf7db04b500b43442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

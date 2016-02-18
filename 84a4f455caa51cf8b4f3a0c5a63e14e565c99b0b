@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd4087d_871ea6a6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-18T08:12:51Z",
+      "side": 1,
+      "message": "If this test doesn\u0027t use HTTPD, @NoHttpd annotation should be added.",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

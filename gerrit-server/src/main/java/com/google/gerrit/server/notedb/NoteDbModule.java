@@ -21,5 +21,6 @@ public class NoteDbModule extends FactoryModule {
   public void configure() {
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
+    factory(NoteDbUpdateManager.Factory.class);
   }
 }

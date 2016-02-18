@@ -22,43 +22,40 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.Date;
 
 /** A single delta related to a specific patch-set of a change. */
-public abstract class AbstractChangeUpdate extends VersionedMetaData {
+public abstract class AbstractChangeUpdate {
   protected final NotesMigration migration;
   protected final GitRepositoryManager repoManager;
-  protected final MetaDataUpdate.User updateFactory;
   protected final ChangeControl ctl;
   protected final String anonymousCowardName;
   protected final PersonIdent serverIdent;
   protected final Date when;
-  protected PatchSet.Id psId;
 
-  AbstractChangeUpdate(NotesMigration migration,
+  protected PatchSet.Id psId;
+  private ObjectId result;
+
+  protected AbstractChangeUpdate(NotesMigration migration,
       GitRepositoryManager repoManager,
-      MetaDataUpdate.User updateFactory, ChangeControl ctl,
+      ChangeControl ctl,
       PersonIdent serverIdent,
       String anonymousCowardName,
       Date when) {
     this.migration = migration;
     this.repoManager = repoManager;
-    this.updateFactory = updateFactory;
     this.ctl = ctl;
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
@@ -90,95 +87,10 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
     this.psId = psId;
   }
 
-  private void load() throws IOException {
-    if (migration.writeChanges() && getRevision() == null) {
-      try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
-        load(repo);
-      } catch (ConfigInvalidException e) {
-        throw new IOException(e);
-      }
-    }
-  }
-
-  public void setInserter(ObjectInserter inserter) {
-    this.inserter = inserter;
-  }
-
-  @Override
-  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
-    throw new UnsupportedOperationException("use openUpdate()");
-  }
-
-  public BatchMetaDataUpdate openUpdate() throws IOException {
-    return openUpdateInBatch(null);
-  }
-
-  public BatchMetaDataUpdate openUpdateInBatch(BatchRefUpdate bru)
-      throws IOException {
-    if (migration.writeChanges()) {
-      load();
-      Project.NameKey p = getProjectName();
-      MetaDataUpdate md = updateFactory.create(
-          p, repoManager.openMetadataRepository(p), getUser(), bru);
-      md.setAllowEmpty(true);
-      return super.openUpdate(md);
-    }
-    return new BatchMetaDataUpdate() {
-      @Override
-      public void write(CommitBuilder commit) {
-        // Do nothing.
-      }
-
-      @Override
-      public void write(VersionedMetaData config, CommitBuilder commit) {
-        // Do nothing.
-      }
-
-      @Override
-      public RevCommit createRef(String refName) {
-        return null;
-      }
-
-      @Override
-      public void removeRef(String refName) {
-        // Do nothing.
-      }
-
-      @Override
-      public RevCommit commit() {
-        return null;
-      }
-
-      @Override
-      public RevCommit commitAt(ObjectId revision) {
-        return null;
-      }
-
-      @Override
-      public void close() {
-        // Do nothing.
-      }
-    };
-  }
-
-  @Override
-  public RevCommit commit(MetaDataUpdate md) throws IOException {
-    throw new UnsupportedOperationException("use commit()");
-  }
-
-  @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
-    //Do nothing; just reads the current revision.
-  }
-
   protected PersonIdent newIdent(Account author, Date when) {
     return ChangeNoteUtil.newIdent(author, when, serverIdent,
         anonymousCowardName);
   }
-
-  /** Writes commit to a BatchMetaDataUpdate without committing the batch. */
-  public abstract void writeCommit(BatchMetaDataUpdate batch)
-      throws OrmException, IOException;
 
   /** Whether no updates have been done. */
   public abstract boolean isEmpty();
@@ -188,4 +100,71 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
    *    which is not necessarily the same as the change's project.
    */
   protected abstract Project.NameKey getProjectName();
+
+  protected abstract String getRefName();
+
+  /**
+   * Apply this update to the given inserter.
+   *
+   * @param rw walk for reading back any objects needed for the update.
+   * @param ins inserter to write to; callers should not flush.
+   * @param curr the current tip of the branch prior to this update.
+   * @return commit ID produced by inserting this update's commit, or null if
+   *     this update is a no-op and should be skipped. The zero ID is a valid
+   *     return value, and indicates the ref should be deleted.
+   * @throws OrmException if a Gerrit-level error occurred.
+   * @throws IOException if a lower-level error occurred.
+   */
+  final ObjectId apply(RevWalk rw, ObjectInserter ins, ObjectId curr)
+      throws OrmException, IOException {
+    if (isEmpty()) {
+      return null;
+    }
+    ObjectId z = ObjectId.zeroId();
+    CommitBuilder cb = applyImpl(ins);
+    if (cb == null) {
+      result = z;
+      return z; // Impl intends to delete the ref.
+    }
+    if (!curr.equals(z)) {
+      cb.setParentId(curr);
+    } else {
+      cb.setParentIds(); // Ref is currently nonexistent, commit has no parents.
+    }
+    if (cb.getTreeId() == null) {
+      if (curr.equals(z)) {
+        cb.setTreeId(emptyTree(ins)); // No parent, assume empty tree.
+      } else {
+        RevCommit p = rw.parseCommit(curr);
+        cb.setTreeId(p.getTree()); // Copy tree from parent.
+      }
+    }
+    result = ins.insert(cb);
+    return result;
+  }
+
+  /**
+   * Create a commit containing the contents of this update.
+   *
+   * @param ins inserter to write to; callers should not flush.
+   * @return a new commit builder representing this commit, or null to indicate
+   *     the meta ref should be deleted as a result of this update. The parent
+   *     field in the return value is always overwritten. The tree ID may be
+   *     unset by this method, which indicates to the caller that it should be
+   *     copied from the parent commit.
+   * @throws OrmException if a Gerrit-level error occurred.
+   * @throws IOException if a lower-level error occurred.
+   */
+  // TODO(dborowitz): ChangeUpdate needs to be able to reread its ChangeNotes at
+  // the old SHA-1, which would imply passing curr here.
+  protected abstract CommitBuilder applyImpl(ObjectInserter ins)
+      throws OrmException, IOException;
+
+  ObjectId getResult() {
+    return result;
+  }
+
+  private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
+    return ins.insert(Constants.OBJ_TREE, new byte[] {});
+  }
 }

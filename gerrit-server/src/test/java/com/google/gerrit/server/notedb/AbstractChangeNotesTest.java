@@ -67,7 +67,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
@@ -94,6 +93,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   protected TestRepository<InMemoryRepository> tr;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected NoteDbUpdateManager.Factory updateManagerFactory;
 
   private Injector injector;
   private String systemTimeZone;
@@ -126,6 +126,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
       @Override
       public void configure() {
         install(new GitModule());
+        factory(NoteDbUpdateManager.Factory.class);
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(NotesMigration.class).toInstance(MIGRATION);
         bind(GitRepositoryManager.class).toInstance(repoManager);
@@ -183,9 +184,6 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
       throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(
         injector, repoManager, MIGRATION, c, allUsers, user);
-    try (Repository repo = repoManager.openMetadataRepository(c.getProject())) {
-      update.load(repo);
-    }
     return update;
   }
 

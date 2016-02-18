@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "5dd4087d_4744ae3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-18T15:05:04Z",
+      "side": 1,
+      "message": "\u003e No I was not aware of them.\n\nThat was my impression too. That why I\u0027ve added Sasa and Martin as reviewer to this change.\n\nI would strongly suggest to continue the work started by Martin and Sasa during the last Hackathon.",
+      "parentUuid": "9de3e049_61b27613",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "6edcbd332c7fe9a886a37ae240e8f9b7c46eee59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd342467_e534b0c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 2

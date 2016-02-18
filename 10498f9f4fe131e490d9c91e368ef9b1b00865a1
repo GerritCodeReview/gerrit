@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5d57a8e9_4fe30ded",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T14:17:53Z",
+      "side": 1,
+      "message": "We\u0027ll move it if it\u0027s needed. For now, like I said, more code than it\u0027s worth.",
+      "parentUuid": "5d688870_c7d39ed7",
+      "revId": "10498f9f4fe131e490d9c91e368ef9b1b00865a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d688870_67175268",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 6

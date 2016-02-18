@@ -53,6 +53,19 @@ public class SetParentIT extends AbstractDaemonTest {
         newGson().fromJson(r.getReader(), String.class);
     assertThat(newParent).isEqualTo(parent);
     r.consume();
+
+    // When the parent name is not explicitly set, it should get
+    // set to "All-Projects".
+    r = adminSession.put("/projects/" + project.get() + "/parent",
+          newParentInput(null));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.consume();
+
+    r = adminSession.get("/projects/" + project.get() + "/parent");
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    newParent = newGson().fromJson(r.getReader(), String.class);
+    assertThat(newParent).isEqualTo("All-Projects");
+    r.consume();
   }
 
   @Test

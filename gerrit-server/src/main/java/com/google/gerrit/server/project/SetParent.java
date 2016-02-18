@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -64,21 +66,21 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       throws AuthException, ResourceConflictException,
       ResourceNotFoundException, UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
-    validateParentUpdate(ctl, input.parent, true);
+    String parentName = MoreObjects.firstNonNull(
+        Strings.emptyToNull(input.parent), allProjects.get());
+    validateParentUpdate(ctl, parentName, true);
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
     try {
       MetaDataUpdate md = updateFactory.create(rsrc.getNameKey());
       try {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
-        project.setParentName(Strings.emptyToNull(input.parent));
+        project.setParentName(parentName);
 
         String msg = Strings.emptyToNull(input.commitMessage);
         if (msg == null) {
           msg = String.format(
-              "Changed parent to %s.\n",
-              MoreObjects.firstNonNull(project.getParentName(),
-                  allProjects.get()));
+              "Changed parent to %s.\n", parentName);
         } else if (!msg.endsWith("\n")) {
           msg += "\n";
         }
@@ -87,8 +89,9 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
         config.commit(md);
         cache.evict(ctl.getProject());
 
-        Project.NameKey parentName = project.getParent(allProjects);
-        return parentName != null ? parentName.get() : "";
+        Project.NameKey parent = project.getParent(allProjects);
+        checkNotNull(parent);
+        return parent.get();
       } finally {
         md.close();
       }

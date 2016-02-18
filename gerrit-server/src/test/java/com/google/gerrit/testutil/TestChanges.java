@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -89,7 +88,7 @@ public class TestChanges {
 
   public static ChangeUpdate newUpdate(Injector injector,
       GitRepositoryManager repoManager, NotesMigration migration, Change c,
-      final AllUsersNameProvider allUsers, final IdentifiedUser user)
+      final AllUsersName allUsers, final IdentifiedUser user)
       throws Exception  {
     ChangeUpdate update = injector.createChildInjector(new FactoryModule() {
       @Override
@@ -97,7 +96,6 @@ public class TestChanges {
         factory(ChangeUpdate.Factory.class);
         factory(ChangeDraftUpdate.Factory.class);
         bind(IdentifiedUser.class).toInstance(user);
-        bind(AllUsersName.class).toProvider(allUsers);
       }
     }).getInstance(ChangeUpdate.Factory.class).create(
         stubChangeControl(repoManager, migration, c, allUsers, user),
@@ -131,9 +129,9 @@ public class TestChanges {
     }
   }
 
-  public static ChangeControl stubChangeControl(
+  private static ChangeControl stubChangeControl(
       GitRepositoryManager repoManager, NotesMigration migration,
-      Change c, AllUsersNameProvider allUsers,
+      Change c, AllUsersName allUsers,
       IdentifiedUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);

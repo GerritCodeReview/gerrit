@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -120,7 +119,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
-    private final AllUsersNameProvider allUsersProvider;
+    private final AllUsersName allUsers;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
 
@@ -128,12 +127,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
-        AllUsersNameProvider allUsersProvider,
+        AllUsersName allUsers,
         Provider<InternalChangeQuery> queryProvider,
         ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.migration = migration;
-      this.allUsersProvider = allUsersProvider;
+      this.allUsers = allUsers;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
     }
@@ -176,7 +175,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Change change = db.changes().get(changeId);
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
-      return new ChangeNotes(repoManager, migration, allUsersProvider, project,
+      return new ChangeNotes(repoManager, migration, allUsers, project,
           change).load();
     }
 
@@ -189,12 +188,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * @return change notes
      */
     public ChangeNotes createFromIndexedChange(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider,
+      return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change);
     }
 
     public ChangeNotes createForNew(Change change) throws OrmException {
-      return new ChangeNotes(repoManager, migration, allUsersProvider,
+      return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change).load();
     }
 
@@ -204,7 +203,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     checkState(!migration.readChanges(), "do not call"
         + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
       Change change = db.changes().get(changeId);
-      return new ChangeNotes(repoManager, migration, allUsersProvider,
+      return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change).load();
     }
 
@@ -217,7 +216,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throws OrmException {
       checkState(!migration.readChanges(), "do not call"
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
-      return new ChangeNotes(repoManager, migration, allUsersProvider,
+      return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change).load();
     }
 
@@ -270,10 +269,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersNameProvider allUsersProvider, Project.NameKey project,
+      AllUsersName allUsers, Project.NameKey project,
       Change change) {
     super(repoManager, migration, change != null ? change.getId() : null);
-    this.allUsers = allUsersProvider.get();
+    this.allUsers = allUsers;
     this.project = project;
     this.change = change != null ? new Change(change) : null;
   }

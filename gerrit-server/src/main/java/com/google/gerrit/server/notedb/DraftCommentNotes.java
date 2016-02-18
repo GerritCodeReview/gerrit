@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -51,10 +50,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
-        AllUsersNameProvider allUsers) {
+        AllUsersName allUsers) {
       this.repoManager = repoManager;
       this.migration = migration;
-      this.draftsProject = allUsers.get();
+      this.draftsProject = allUsers;
     }
 
     public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {

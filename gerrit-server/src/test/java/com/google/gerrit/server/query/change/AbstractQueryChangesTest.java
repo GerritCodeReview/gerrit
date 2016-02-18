@@ -40,6 +40,8 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -93,6 +95,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Ignore
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
@@ -845,12 +848,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
-    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
-    comment.line = 1;
-    comment.message = "inline";
+    ReviewInput.CommentInput commentInput = new ReviewInput.CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "inline";
     input.comments = ImmutableMap.<String, List<ReviewInput.CommentInput>> of(
-        Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput> of(comment));
+        Patch.COMMIT_MSG,
+        ImmutableList.<ReviewInput.CommentInput> of(commentInput));
     gApi.changes().id(change.getId().get()).current().review(input);
+
+    Map<String, List<CommentInfo>> comments =
+        gApi.changes().id(change.getId().get()).current().comments();
+    assertThat(comments).hasSize(1);
+    CommentInfo comment =
+        Iterables.getOnlyElement(comments.get(Patch.COMMIT_MSG));
+    assertThat(comment.message).isEqualTo(commentInput.message);
+    ChangeMessageInfo lastMsg = Iterables.getLast(
+        gApi.changes().id(change.getId().get()).get().messages, null);
+    assertThat(lastMsg.message)
+        .isEqualTo("Patch Set 1:\n\n(1 comment)\n\n" + input.message);
 
     assertQuery("comment:foo");
     assertQuery("comment:toplevel", change);

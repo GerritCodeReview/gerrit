@@ -17,6 +17,24 @@
       "revId": "5e27e74bc3446fba060b73adf7db04b500b43442",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_af371936",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-18T19:01:12Z",
+      "side": 1,
+      "message": "I\u0027m way overreacting. The originating thread is guaranteed to see the results of writes, because both submitting to an executor and calling get on a future incur sync points.\n\nI think this is fine.",
+      "parentUuid": "5d57a8e9_8f0b3577",
+      "revId": "5e27e74bc3446fba060b73adf7db04b500b43442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

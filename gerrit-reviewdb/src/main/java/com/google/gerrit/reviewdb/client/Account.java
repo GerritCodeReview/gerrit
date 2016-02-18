@@ -243,6 +243,49 @@ public final class Account {
     preferredEmail = addr;
   }
 
+  /**
+   * Formats an account name.
+   * <p>
+   * If the account has a full name, it returns only the full name. Otherwise it
+   * returns a longer form that includes the email address.
+   */
+  public String getName(String anonymousCowardName) {
+    if (fullName != null) {
+      return fullName;
+    }
+    if (preferredEmail != null) {
+      return preferredEmail;
+    }
+    return getNameEmail(anonymousCowardName);
+  }
+
+  /**
+   * Get the name and email address.
+   * <p>
+   * Example output:
+   * <ul>
+   * <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated</li>
+   * <li>{@code A U. Thor (12)}: missing email address</li>
+   * <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name</li>
+   * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
+   * </ul>
+   */
+  public String getNameEmail(String anonymousCowardName) {
+    String name = fullName != null ? fullName : anonymousCowardName;
+    StringBuilder b = new StringBuilder();
+    b.append(name);
+    if (preferredEmail != null) {
+      b.append(" <");
+      b.append(preferredEmail);
+      b.append(">");
+    } else if (accountId != null) {
+      b.append(" (");
+      b.append(accountId.get());
+      b.append(")");
+    }
+    return b.toString();
+  }
+
   /** Get the date and time the user first registered. */
   public Timestamp getRegisteredOn() {
     return registeredOn;

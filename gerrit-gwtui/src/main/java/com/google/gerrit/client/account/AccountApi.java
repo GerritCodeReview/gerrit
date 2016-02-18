@@ -68,6 +68,11 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("username").get(cb);
   }
 
+  /** Retrieve the account name */
+  public static void getName(String account, AsyncCallback<NativeString> cb) {
+    new RestApi("/accounts/").id(account).view("name").get(cb);
+  }
+
   /** Set the username */
   public static void setUsername(String account, String username,
       AsyncCallback<NativeString> cb) {

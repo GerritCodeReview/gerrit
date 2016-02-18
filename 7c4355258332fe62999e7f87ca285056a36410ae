@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdd7c47d_2af33f92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-18T09:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a4804_57f18cf6",
+      "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d688870_87b606b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bdd7c47d_0af0fb81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-18T09:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d688870_87b606b9",
+      "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d688870_e7b102c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-02-17T16:48:18Z",
       "side": 1,
       "message": "Don\u0027t wrap if it\u0027s an OrmException",
+      "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd4087d_c7ed3ead",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-18T09:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d688870_e7b102c4",
       "revId": "7c4355258332fe62999e7f87ca285056a36410ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

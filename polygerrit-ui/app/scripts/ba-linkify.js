@@ -45,6 +45,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+// jshint ignore:start
+// jscs:disable
+
 window.linkify = (function(){
   var
   SCHEME = "[a-z\\d.-]+://",

@@ -704,6 +704,7 @@ limitations under the License.
               numLines: maxNumLines,
               lineNum: ++ctx.left.lineNum,
               highlight: highlight,
+              /* jshint loopfunc:true */ // required by JSHint
               intraline: highlight && leftHighlights.filter(function(hl) {
                 return hl.contentIndex == i;
               }),
@@ -721,6 +722,7 @@ limitations under the License.
               numLines: maxNumLines,
               lineNum: ++ctx.right.lineNum,
               highlight: highlight,
+              /* jshint loopfunc:true */ // required by JSHint
               intraline: highlight && rightHighlights.filter(function(hl) {
                 return hl.contentIndex == i;
               }),

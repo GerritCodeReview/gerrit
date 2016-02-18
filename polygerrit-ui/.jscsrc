@@ -1,0 +1,8 @@
+{
+  "preset": "google",
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowTrailingWhitespace": null,
+  "maximumLineLength": 100,
+  "requireCamelCaseOrUpperCaseIdentifiers": null,
+  "excludeFiles": ["node_modules/**"]
+}

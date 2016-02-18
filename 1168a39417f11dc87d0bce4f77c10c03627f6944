@@ -52,6 +52,24 @@
       "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_0a263b95",
+        "filename": "polygerrit-ui/.jscsrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-18T21:43:45Z",
+      "side": 1,
+      "message": "Only JS is checked by these linters. Last time I have tried it, there were around 10 files with longer lines; mostly JS comments.",
+      "parentUuid": "fd585ce7_24963202",
+      "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -44,7 +44,6 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -169,7 +168,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
-    final AllUsersNameProvider allUsersName;
+    final AllUsersName allUsersName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
@@ -201,7 +200,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
-        AllUsersNameProvider allUsersName,
+        AllUsersName allUsersName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
@@ -239,7 +238,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
-        AllUsersNameProvider allUsersName,
+        AllUsersName allUsersName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
@@ -860,8 +859,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> query(String name) throws QueryParseException {
-    AllUsersName allUsers = args.allUsersName.get();
-    try (Repository git = args.repoManager.openRepository(allUsers)) {
+    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       VersionedAccountQueries q = VersionedAccountQueries.forUser(self());
       q.load(git);
       String query = q.getQueryList().getQuery(name);
@@ -870,7 +868,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     } catch (RepositoryNotFoundException e) {
       throw new QueryParseException("Unknown named query (no " +
-          allUsers.get() +" repo): " + name, e);
+          args.allUsersName + " repo): " + name, e);
     } catch (IOException | ConfigInvalidException e) {
       throw new QueryParseException("Error parsing named query: " + name, e);
     }
@@ -886,8 +884,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> destination(String name)
       throws QueryParseException {
-    AllUsersName allUsers = args.allUsersName.get();
-    try (Repository git = args.repoManager.openRepository(allUsers)) {
+    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       VersionedAccountDestinations d =
           VersionedAccountDestinations.forUser(self());
       d.load(git);
@@ -898,7 +895,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     } catch (RepositoryNotFoundException e) {
       throw new QueryParseException("Unknown named destination (no " +
-          allUsers.get() +" repo): " + name, e);
+          args.allUsersName + " repo): " + name, e);
     } catch (IOException | ConfigInvalidException e) {
       throw new QueryParseException("Error parsing named destination: " + name, e);
     }

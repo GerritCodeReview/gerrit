@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -97,7 +98,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   private Injector injector;
   private String systemTimeZone;
 
-  @Inject private AllUsersNameProvider allUsers;
+  @Inject private AllUsersName allUsers;
 
   @Before
   public void setUp() throws Exception {
@@ -125,6 +126,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
       @Override
       public void configure() {
         install(new GitModule());
+        bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(NotesMigration.class).toInstance(MIGRATION);
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
@@ -151,7 +153,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
     });
 
     injector.injectMembers(this);
-    repoManager.createRepository(allUsers.get());
+    repoManager.createRepository(allUsers);
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());
     otherUserId = otherUser.getAccountId();

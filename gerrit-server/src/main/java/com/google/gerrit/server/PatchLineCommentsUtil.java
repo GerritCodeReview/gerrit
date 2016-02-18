@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -122,11 +121,11 @@ public class PatchLineCommentsUtil {
 
   @Inject
   PatchLineCommentsUtil(GitRepositoryManager repoManager,
-      AllUsersNameProvider allUsersProvider,
+      AllUsersName allUsers,
       DraftCommentNotes.Factory draftFactory,
       NotesMigration migration) {
     this.repoManager = repoManager;
-    this.allUsers = allUsersProvider.get();
+    this.allUsers = allUsers;
     this.draftFactory = draftFactory;
     this.migration = migration;
   }

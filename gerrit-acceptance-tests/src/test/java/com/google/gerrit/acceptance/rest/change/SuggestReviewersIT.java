@@ -70,7 +70,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "suggest.accounts", value = "false")
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
   public void suggestReviewersNoResult1() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
@@ -80,8 +80,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfigs(
-      {@GerritConfig(name = "suggest.accounts", value = "true"),
-       @GerritConfig(name = "suggest.from", value = "1"),
+      {@GerritConfig(name = "suggest.from", value = "1"),
        @GerritConfig(name = "accounts.visibility", value = "NONE")
       })
   public void suggestReviewersNoResult2() throws Exception {

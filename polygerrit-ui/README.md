@@ -66,8 +66,13 @@ If you need to pass additional arguments to `wct`:
 WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 ```
 
+## Linters
+There are config files available for [JSHint](http://jshint.com) and
+[JSCS](http://jscs.info). Please make sure you enable these linters in your
+editor or IDE.
+
 ## Style guide
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
-with a few exceptions. When in doubt, remain consistent with the code around you.
-
+with a few exceptions. When in doubt, remain consistent with the code around you
+and enable [linters](#Linters).

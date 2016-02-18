@@ -47,6 +47,7 @@ limitations under the License.
                   repo: 'repo download test-project 5/1'
                 }
               },
+              // jscs:disable maximumLineLength
               ssh: {
                 commands: {
                   'Checkout': 'git fetch ssh://andybons@localhost:29418/test-project refs/changes/05/5/1 && git checkout FETCH_HEAD',
@@ -63,6 +64,7 @@ limitations under the License.
                   'Pull': 'git pull http://andybons@localhost:8080/a/test-project refs/changes/05/5/1'
                 }
               }
+              // jscs:enable maximumLineLength
             }
           }
         }

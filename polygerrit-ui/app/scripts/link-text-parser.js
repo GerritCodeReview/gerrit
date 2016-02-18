@@ -32,6 +32,7 @@ GrLinkTextParser.prototype.addHTML = function(html) {
 };
 
 GrLinkTextParser.prototype.parse = function(text) {
+  /* global linkify */ // required by JSHint
   linkify(text, {
     callback: this.parseChunk.bind(this)
   });

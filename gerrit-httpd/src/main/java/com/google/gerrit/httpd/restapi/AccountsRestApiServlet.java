@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.project;
+package com.google.gerrit.httpd.restapi;
 
-import com.google.gerrit.httpd.restapi.RestApiServlet;
-import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ProjectsRestApiServlet extends RestApiServlet {
+public class AccountsRestApiServlet extends RestApiServlet {
   private static final long serialVersionUID = 1L;
 
   @Inject
-  ProjectsRestApiServlet(RestApiServlet.Globals globals,
-      Provider<ProjectsCollection> projects) {
-    super(globals, projects);
+  AccountsRestApiServlet(RestApiServlet.Globals globals,
+      Provider<AccountsCollection> accounts) {
+    super(globals, accounts);
   }
 }

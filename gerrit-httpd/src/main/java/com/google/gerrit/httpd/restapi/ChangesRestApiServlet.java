@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.change;
+package com.google.gerrit.httpd.restapi;
 
-import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

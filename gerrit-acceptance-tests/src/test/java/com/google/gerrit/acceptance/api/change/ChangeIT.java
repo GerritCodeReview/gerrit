@@ -60,10 +60,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.lib.Constants;
@@ -73,6 +75,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -397,6 +400,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void addReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
+    ChangeResource rsrc = parseResource(r);
+    String oldETag = rsrc.getETag();
+    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes()
@@ -418,6 +425,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId)
         .isEqualTo(user.getId().get());
+
+    // Ensure ETag is updated but lastUpdatedOn isn't.
+    rsrc = parseResource(r);
+    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+    assertThat(rsrc.getChange().getLastUpdatedOn()).isEqualTo(oldTs);
   }
 
   @Test
@@ -1023,5 +1035,13 @@ public class ChangeIT extends AbstractDaemonTest {
         return new Account.Id(account._accountId);
       }
     });
+  }
+
+  private ChangeResource parseResource(PushOneCommit.Result r)
+      throws Exception {
+    List<ChangeControl> ctls = changeFinder.find(
+        r.getChangeId(), atrScope.get().getUser());
+    assertThat(ctls).hasSize(1);
+    return new ChangeResource(ctls.get(0));
   }
 }

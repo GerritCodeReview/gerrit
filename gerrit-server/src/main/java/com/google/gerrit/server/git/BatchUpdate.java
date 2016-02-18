@@ -589,24 +589,21 @@ public class BatchUpdate implements AutoCloseable {
           for (Op op : e.getValue()) {
             dirty |= op.updateChange(ctx);
           }
-          ctx.getChange().setLastUpdatedOn(ctx.getWhen());
-          Iterable<Change> changes = Collections.singleton(ctx.getChange());
+          if (!dirty) {
+            return;
+          }
           if (newChanges.containsKey(id)) {
-            db.changes().insert(changes);
+            db.changes().insert(bumpLastUpdatedOn(ctx));
           } else if (ctx.saved) {
-            db.changes().update(changes);
+            db.changes().update(bumpLastUpdatedOn(ctx));
           } else if (ctx.deleted) {
-            db.changes().delete(changes);
+            db.changes().delete(bumpLastUpdatedOn(ctx));
+          } else {
+            db.changes().update(bumpRowVersionNotLastUpdatedOn(ctx));
           }
-          if (dirty) {
-            db.commit();
-          }
+          db.commit();
         } finally {
           db.rollback();
-        }
-
-        if (!dirty) {
-          return;
         }
 
         if (ctx.deleted) {
@@ -634,6 +631,17 @@ public class BatchUpdate implements AutoCloseable {
       Throwables.propagateIfPossible(e, RestApiException.class);
       throw new UpdateException(e);
     }
+  }
+
+  private static Iterable<Change> bumpLastUpdatedOn(ChangeContext ctx) {
+    Change c = ctx.getChange();
+    c.setLastUpdatedOn(ctx.getWhen());
+    return Collections.singleton(c);
+  }
+
+  private static Iterable<Change> bumpRowVersionNotLastUpdatedOn(
+      ChangeContext ctx) {
+    return Collections.singleton(ctx.getChange());
   }
 
   private ChangeContext newChangeContext(Change.Id id) throws Exception {

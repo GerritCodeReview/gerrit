@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
@@ -174,6 +175,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected PatchSetUtil psUtil;
+
+  @Inject
+  protected ChangeFinder changeFinder;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;

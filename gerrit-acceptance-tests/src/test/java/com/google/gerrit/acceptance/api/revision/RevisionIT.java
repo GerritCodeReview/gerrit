@@ -52,7 +52,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
@@ -78,9 +77,6 @@ import java.util.Map;
 
 @NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
-
-  @Inject
-  private ChangeFinder changeFinder;
 
   @Inject
   private GetRevisionActions getRevisionActions;

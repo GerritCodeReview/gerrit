@@ -541,7 +541,9 @@ limitations under the License.
         for (var rev in change.revisions) {
           patchNums.push(change.revisions[rev]._number);
         }
-        return patchNums.sort();
+        return patchNums.sort(function(a, b) {
+          return a - b;
+        });
       },
 
       _computePatchIndexIsSelected: function(index, patchNum) {

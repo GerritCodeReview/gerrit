@@ -82,6 +82,7 @@ limitations under the License.
         revisions: {
           rev2: {_number: 2},
           rev1: {_number: 1},
+          rev13: {_number: 13},
           rev3: {_number: 3},
         },
         current_revision: 'rev3',
@@ -93,13 +94,14 @@ limitations under the License.
       assert.ok(selectEl);
       var optionEls =
           Polymer.dom(element.root).querySelectorAll('.header option');
-      assert.equal(optionEls.length, 3);
+      assert.equal(optionEls.length, 4);
       assert.isFalse(
           element.$$('.header option[value="1"]').hasAttribute('selected'));
       assert.isTrue(
           element.$$('.header option[value="2"]').hasAttribute('selected'));
       assert.isFalse(
           element.$$('.header option[value="3"]').hasAttribute('selected'));
+      assert.equal(optionEls[3].value, 13);
 
       var showStub = sinon.stub(page, 'show');
 

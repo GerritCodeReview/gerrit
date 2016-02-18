@@ -33,6 +33,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -44,6 +45,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RebaseChangeOp extends BatchUpdate.Op {
   public interface Factory {
@@ -125,10 +128,20 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     ObjectId newId = rebaseCommit(ctx, original, baseCommit);
     rebasedCommit = rw.parseCommit(newId);
 
+    List<String> baseCommitPatchSetGroups = new ArrayList<>();
+    RevId patchSetByRev = new RevId((baseCommitish != null) ? baseCommitish
+        : ObjectId.toString(baseCommit.getId()));
+    ResultSet<PatchSet> relatedPatchSets =
+        ctx.getDb().patchSets().byRevision(patchSetByRev);
+    for (PatchSet ps : relatedPatchSets) {
+      baseCommitPatchSetGroups.addAll(ps.getGroups());
+    }
+
     rebasedPatchSetId = ChangeUtil.nextPatchSetId(
         ctx.getRepository(), ctl.getChange().currentPatchSetId());
     patchSetInserter = patchSetInserterFactory
         .create(ctl.getRefControl(), rebasedPatchSetId, rebasedCommit)
+        .setGroups(baseCommitPatchSetGroups)
         .setDraft(originalPatchSet.isDraft())
         .setUploader(ctx.getUser().getAccountId())
         .setSendMail(false)

@@ -70,6 +70,30 @@
       "revId": "2d16a0309d9eb69206bc464a8b2166f979da0625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd4087d_c741be84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-18T08:03:57Z",
+      "side": 1,
+      "message": "I would have liked it more if this change would have eventually fixed the flaky test, rather than possibly ;-)",
+      "parentUuid": "fd585ce7_c4de3ef9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "2d16a0309d9eb69206bc464a8b2166f979da0625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

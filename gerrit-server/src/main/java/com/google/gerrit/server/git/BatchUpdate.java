@@ -64,7 +64,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -254,39 +253,6 @@ public class BatchUpdate implements AutoCloseable {
 
   public abstract static class InsertChangeOp extends Op {
     public abstract Change createChange(Context ctx);
-  }
-
-  private static class ChainedReceiveCommands {
-    private final Map<String, ReceiveCommand> commands = new LinkedHashMap<>();
-
-    private boolean isEmpty() {
-      return commands.isEmpty();
-    }
-
-    private void add(ReceiveCommand cmd) {
-      checkArgument(!cmd.getOldId().equals(cmd.getNewId()),
-          "ref update is a no-op: %s", cmd);
-      ReceiveCommand old = commands.get(cmd.getRefName());
-      if (old == null) {
-        commands.put(cmd.getRefName(), cmd);
-        return;
-      }
-      checkArgument(old.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED,
-          "cannot chain ref update %s after update %s with result %s",
-          cmd, old, old.getResult());
-      checkArgument(cmd.getOldId().equals(old.getNewId()),
-          "cannot chain ref update %s after update %s with different new ID",
-          cmd, old);
-      commands.put(cmd.getRefName(), new ReceiveCommand(
-          old.getOldId(), cmd.getNewId(), cmd.getRefName()));
-    }
-
-    private void addTo(BatchRefUpdate bru) {
-      checkState(!isEmpty(), "no commands to add");
-      for (ReceiveCommand cmd : commands.values()) {
-        bru.addCommand(cmd);
-      }
-    }
   }
 
   /**

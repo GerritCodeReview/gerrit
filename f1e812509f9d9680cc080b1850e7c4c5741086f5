@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd585ce7_a441c284",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T00:39:41Z",
+      "side": 1,
+      "message": "polymerelements/test-fixture is also updated. mention it here?",
+      "revId": "f1e812509f9d9680cc080b1850e7c4c5741086f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

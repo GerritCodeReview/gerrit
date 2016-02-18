@@ -52,7 +52,6 @@ import java.util.Set;
 
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
-  private final Provider<IdentifiedUser> currentUser;
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
   private final Provider<ChangeQueryBuilder> queryBuilder;
@@ -66,21 +65,10 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final Provider<ChangeQueryBuilder> queryBuilder,
       SetDiffPreferences setDiff) {
     super(schema, identifiedUser);
-    this.currentUser = identifiedUser;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
     this.queryBuilder = queryBuilder;
     this.setDiff = setDiff;
-  }
-
-  @Override
-  public void myAccount(final AsyncCallback<Account> callback) {
-    run(callback, new Action<Account>() {
-      @Override
-      public Account run(ReviewDb db) throws OrmException {
-        return db.accounts().get(currentUser.get().getAccountId());
-      }
-    });
   }
 
   @Override

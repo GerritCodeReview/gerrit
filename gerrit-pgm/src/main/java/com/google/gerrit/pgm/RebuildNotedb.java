@@ -121,9 +121,6 @@ public class RebuildNotedb extends SiteProgram {
       deleteRefs(RefNames.REFS_STARRED_CHANGES, allUsersRepo);
       for (final Project.NameKey project : changesByProject.keySet()) {
         try (Repository repo = repoManager.openMetadataRepository(project)) {
-          final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-          final BatchRefUpdate bruAllUsers =
-              allUsersRepo.getRefDatabase().newBatchUpdate();
           List<ListenableFuture<?>> futures = Lists.newArrayList();
 
           // Here, we elide the project name to 50 characters to ensure that
@@ -136,8 +133,8 @@ public class RebuildNotedb extends SiteProgram {
               mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
           for (final Change c : changesByProject.get(project)) {
-            final ListenableFuture<?> future = rebuilder.rebuildAsync(c,
-                executor, bru, bruAllUsers, repo, allUsersRepo);
+            final ListenableFuture<?> future =
+                rebuilder.rebuildAsync(c, executor, repo);
             futures.add(future);
             future.addListener(
                 new RebuildListener(c.getId(), future, ok, doneTask, failedTask),
@@ -149,8 +146,6 @@ public class RebuildNotedb extends SiteProgram {
                   @Override
                 public ListenableFuture<Void> apply(List<?> input)
                     throws Exception {
-                  execute(bru, repo);
-                  execute(bruAllUsers, allUsersRepo);
                   mpm.end();
                   return Futures.immediateFuture(null);
                 }

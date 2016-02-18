@@ -44,18 +44,15 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -410,17 +407,16 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void emptyChangeUpdate() throws Exception {
     Change c = newChange();
+    Ref initial = repo.exactRef(ChangeNoteUtil.changeRefName(c.getId()));
+    assertThat(initial).isNotNull();
 
-    // The initial empty update creates a commit which is needed to track the
-    // creation time of the change.
+    // Empty update doesn't create a new commit.
     ChangeUpdate update = newUpdate(c, changeOwner);
-    ObjectId revision = update.getRevision();
-    assertThat(revision).isNotNull();
-
-    // Any further empty update doesn't create a new commit.
-    update = newUpdate(c, changeOwner);
     update.commit();
-    assertThat(update.getRevision()).isEqualTo(revision);
+    assertThat(update.getResult()).isNull();
+
+    Ref updated = repo.exactRef(ChangeNoteUtil.changeRefName(c.getId()));
+    assertThat(updated.getObjectId()).isEqualTo(initial.getObjectId());
   }
 
   @Test
@@ -433,7 +429,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setHashtags(hashtags);
     update.commit();
     try (RevWalk walk = new RevWalk(repo)) {
-      RevCommit commit = walk.parseCommit(update.getRevision());
+      RevCommit commit = walk.parseCommit(update.getResult());
       walk.parseBody(commit);
       assertThat(commit.getFullMessage()).endsWith("Hashtags: tag1,tag2\n");
     }
@@ -840,12 +836,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.setSubjectForCommit("Create change");
-    update.commit();
-    assertThat(update.getRevision()).isNotNull();
+    assertThat(update.commit()).isNotNull();
   }
 
   @Test
-  public void multipleUpdatesInBatch() throws Exception {
+  public void multipleUpdatesInManager() throws Exception {
     Change c = newChange();
     ChangeUpdate update1 = newUpdate(c, changeOwner);
     update1.putApproval("Verified", (short) 1);
@@ -853,14 +848,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update2 = newUpdate(c, otherUser);
     update2.putApproval("Code-Review", (short) 2);
 
-    BatchMetaDataUpdate batch = update1.openUpdate();
-    try {
-      update1.writeCommit(batch);
-      update2.writeCommit(batch);
-      batch.commit();
-    } finally {
-      batch.close();
-    }
+    NoteDbUpdateManager updateManager = updateManagerProvider.get();
+    updateManager.add(update1);
+    updateManager.add(update2);
+    updateManager.execute();
 
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> psas =
@@ -887,29 +878,24 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range1 = new CommentRange(1, 1, 2, 1);
     Timestamp time1 = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
-    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-    BatchMetaDataUpdate batch = update1.openUpdateInBatch(bru);
+    NoteDbUpdateManager updateManager = updateManagerProvider.get();
     PatchLineComment comment1 = newPublishedComment(psId, "file1",
         uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update1.setPatchSetId(psId);
     update1.upsertComment(comment1);
-    update1.writeCommit(batch);
+    updateManager.add(update1);
+
     ChangeUpdate update2 = newUpdate(c, otherUser);
     update2.putApproval("Code-Review", (short) 2);
-    update2.writeCommit(batch);
+    updateManager.add(update2);
 
     RevCommit tipCommit;
-    try (RevWalk rw = new RevWalk(repo)) {
-      batch.commit();
-      bru.execute(rw, NullProgressMonitor.INSTANCE);
+    updateManager.execute();
 
-      ChangeNotes notes = newNotes(c);
-      ObjectId tip = notes.getRevision();
-      tipCommit = rw.parseCommit(tip);
-    } finally {
-      batch.close();
-    }
+    ChangeNotes notes = newNotes(c);
+    ObjectId tip = notes.getRevision();
+    tipCommit = rw.parseCommit(tip);
 
     RevCommit commitWithApprovals = tipCommit;
     assertThat(commitWithApprovals).isNotNull();
@@ -949,43 +935,30 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update2 = newUpdate(c2, otherUser);
     update2.putApproval("Code-Review", (short) 2);
 
-    BatchMetaDataUpdate batch1 = null;
-    BatchMetaDataUpdate batch2 = null;
+    Ref initial1 = repo.exactRef(update1.getRefName());
+    assertThat(initial1).isNotNull();
+    Ref initial2 = repo.exactRef(update2.getRefName());
+    assertThat(initial2).isNotNull();
 
-    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-    try {
-      batch1 = update1.openUpdateInBatch(bru);
-      update1.writeCommit(batch1);
-      batch1.commit();
-      assertThat(repo.exactRef(update1.getRefName())).isNotNull();
+    NoteDbUpdateManager updateManager = updateManagerProvider.get();
+    updateManager.add(update1);
+    updateManager.add(update2);
+    updateManager.execute();
 
-      batch2 = update2.openUpdateInBatch(bru);
-      update2.writeCommit(batch2);
-      batch2.commit();
-      assertThat(repo.exactRef(update2.getRefName())).isNotNull();
-    } finally {
-      if (batch1 != null) {
-        batch1.close();
-      }
-      if (batch2 != null) {
-        batch2.close();
-      }
-    }
+    Ref ref1 = repo.exactRef(update1.getRefName());
+    assertThat(ref1.getObjectId()).isEqualTo(update1.getResult());
+    assertThat(ref1.getObjectId()).isNotEqualTo(initial1.getObjectId());
+    Ref ref2 = repo.exactRef(update2.getRefName());
+    assertThat(ref2.getObjectId()).isEqualTo(update2.getResult());
+    assertThat(ref2.getObjectId()).isNotEqualTo(initial2.getObjectId());
 
-    List<ReceiveCommand> cmds = bru.getCommands();
-    assertThat(cmds).hasSize(2);
-    assertThat(cmds.get(0).getRefName()).isEqualTo(update1.getRefName());
-    assertThat(cmds.get(1).getRefName()).isEqualTo(update2.getRefName());
+    PatchSetApproval approval1 = newNotes(c1).getApprovals()
+        .get(c1.currentPatchSetId()).iterator().next();
+    assertThat(approval1.getLabel()).isEqualTo("Verified");
 
-    try (RevWalk rw = new RevWalk(repo)) {
-      bru.execute(rw, NullProgressMonitor.INSTANCE);
-    }
-
-    assertThat(cmds.get(0).getResult()).isEqualTo(ReceiveCommand.Result.OK);
-    assertThat(cmds.get(1).getResult()).isEqualTo(ReceiveCommand.Result.OK);
-
-    assertThat(repo.exactRef(update1.getRefName())).isNotNull();
-    assertThat(repo.exactRef(update2.getRefName())).isNotNull();
+    PatchSetApproval approval2 = newNotes(c2).getApprovals()
+        .get(c2.currentPatchSetId()).iterator().next();
+    assertThat(approval2.getLabel()).isEqualTo("Code-Review");
   }
 
   @Test

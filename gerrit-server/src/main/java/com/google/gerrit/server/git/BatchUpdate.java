@@ -36,17 +36,18 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeDelete;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -377,6 +378,7 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
+  private final Provider<NoteDbUpdateManager> updateManagerProvider;
   private final GitReferenceUpdated gitRefUpdated;
   private final NotesMigration notesMigration;
   private final PatchLineCommentsUtil plcUtil;
@@ -406,6 +408,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory changeNotesFactory,
       ChangeUpdate.Factory changeUpdateFactory,
+      Provider<NoteDbUpdateManager> updateManagerProvider,
       GitReferenceUpdated gitRefUpdated,
       NotesMigration notesMigration,
       PatchLineCommentsUtil plcUtil,
@@ -420,6 +423,7 @@ public class BatchUpdate implements AutoCloseable {
     this.changeControlFactory = changeControlFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateFactory = changeUpdateFactory;
+    this.updateManagerProvider = updateManagerProvider;
     this.gitRefUpdated = gitRefUpdated;
     this.notesMigration = notesMigration;
     this.plcUtil = plcUtil;
@@ -579,16 +583,11 @@ public class BatchUpdate implements AutoCloseable {
           indexFutures.add(indexer.deleteAsync(id));
         } else {
           if (notesMigration.writeChanges()) {
-            BatchMetaDataUpdate bmdu = null;
+            NoteDbUpdateManager manager = updateManagerProvider.get();
             for (ChangeUpdate u : ctx.updates.values()) {
-              if (bmdu == null) {
-                bmdu = u.openUpdate();
-              }
-              u.writeCommit(bmdu);
+              manager.add(u);
             }
-            if (bmdu != null) {
-              bmdu.commit();
-            }
+            manager.execute();
           }
           indexFutures.add(indexer.indexAsync(ctx.getProject(), id));
         }

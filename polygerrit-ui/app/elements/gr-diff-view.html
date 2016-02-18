@@ -42,6 +42,9 @@ limitations under the License.
       .jumpToFileContainer {
         display: inline-block;
       }
+      .mobileJumpToFileContainer {
+        display: none;
+      }
       .downArrow {
         display: inline-block;
         font-size: .6em;
@@ -88,6 +91,21 @@ limitations under the License.
         padding: .3em 0;
         text-decoration: none;
       }
+      @media screen and (max-width: 60em) {
+        .dash {
+          display: none;
+        }
+        .reviewed {
+          vertical-align: -.1em;
+        }
+        .jumpToFileContainer {
+          display: none;
+        }
+        .mobileJumpToFileContainer {
+          display: block;
+          width: 100%;
+        }
+      }
     </style>
     <gr-ajax id="changeDetailXHR"
         auto
@@ -104,7 +122,8 @@ limitations under the License.
         last-response="{{_projectConfig}}"></gr-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
-      <span>[[_change.subject]]</span> —
+      <span>[[_change.subject]]</span>
+      <span class="dash">—</span>
       <input id="reviewed"
           class="reviewed"
           type="checkbox"
@@ -125,6 +144,17 @@ limitations under the License.
             </template>
           </div>
         </iron-dropdown>
+      </div>
+      <div class="mobileJumpToFileContainer">
+        <select on-change="_handleMobileSelectChange">
+          <template is="dom-repeat" items="[[_fileList]]" as="path">
+            <option
+                value$="[[path]]"
+                selected$="[[_computeFileSelected(path, _path)]]">
+              [[path]]
+            </option>
+          </template>
+        </select>
       </div>
     </h3>
     <gr-diff id="diff"
@@ -371,6 +401,12 @@ limitations under the License.
 
       _handleFileTap: function(e) {
         this.$.dropdown.close();
+      },
+
+      _handleMobileSelectChange: function(e) {
+        var path = Polymer.dom(e).rootTarget.value;
+        page.show(
+            this._computeDiffURL(this._changeNum, this._patchRange, path));
       },
 
       _handleFilesResponse: function(e, req) {

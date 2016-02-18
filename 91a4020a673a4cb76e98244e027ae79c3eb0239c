@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd4087d_271a5a92",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-18T10:22:12Z",
+      "side": 1,
+      "message": "Yay! Thank you so much for tracking this down.",
+      "revId": "91a4020a673a4cb76e98244e027ae79c3eb0239c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -142,6 +142,10 @@ deployable to the `gerrit-maven` storage bucket:
   </distributionManagement>
 ----
 
+NOTE: In case of JGit the `pom.xml` already contains a distributionManagement
+section.  Replace the existing distributionManagement section with this snippet
+in order to deploy the artifacts only in the gerrit-maven repository.
+
 
 * Add these two snippets to the `pom.xml` to enable the wagon provider:
 

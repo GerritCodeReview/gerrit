@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -50,10 +49,6 @@ public class PageLinks {
   public static final String ADMIN_PLUGINS = "/admin/plugins/";
   public static final String MY_GROUPS = "/groups/self";
   public static final String DOCUMENTATION = "/Documentation/";
-
-  public static String toChange(final ChangeInfo c) {
-    return toChange(c.getId());
-  }
 
   public static String toChangeInEditMode(Change.Id c) {
     return "/c/" + c + ",edit/";

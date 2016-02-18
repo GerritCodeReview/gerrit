@@ -29,7 +29,7 @@ prebuilt_jar(
 
 genrule(
   name = 'jgit_edit_src',
-  cmd = 'unzip -qd $TMP $(location @jgit//:jgit_src) ' +
+  cmd = 'unzip -qd $TMP $(location @jgit//org.eclipse.jgit:jgit_src) ' +
     'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
@@ -46,7 +46,7 @@ java_library(
   ],
   deps = [
     '//lib:gson',
-    '@jgit//:jgit',
+    '@jgit//org.eclipse.jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )
@@ -57,7 +57,7 @@ java_test(
   deps = [
     ':server',
     '//lib:junit',
-    '@jgit//:jgit',
+    '@jgit//org.eclipse.jgit:jgit',
   ],
   source_under_test = [':server'],
   visibility = ['//tools/eclipse:classpath'],

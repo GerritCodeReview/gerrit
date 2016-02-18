@@ -35,7 +35,7 @@ java_library(
     '//lib/lucene:lucene-analyzers-common',
     '//lib/lucene:lucene-core-and-backward-codecs',
     '//lib/lucene:lucene-misc',
-    '@jgit//:jgit',
+    '@jgit//org.eclipse.jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )

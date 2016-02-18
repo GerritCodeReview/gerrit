@@ -70,8 +70,8 @@ java_library(
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',
     '//lib/prolog:runtime',
-    '@jgit//:jgit',
-    '@jgit//:jgit-archive',
+    '@jgit//org.eclipse.jgit:jgit',
+    '@jgit//org.eclipse.jgit.archive:jgit-archive',
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',
@@ -102,8 +102,8 @@ TESTUTIL_DEPS = [
   '//lib/log:api',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
-  '@jgit//:jgit',
-  '@jgit//:junit',
+  '@jgit//org.eclipse.jgit:jgit',
+  '@jgit//org.eclipse.jgit.junit:junit',
 ]
 
 TESTUTIL = glob([

@@ -17,7 +17,7 @@ BASE_JETTY_DEPS = [
   '//lib/guice:guice-servlet',
   '//lib/log:api',
   '//lib/log:log4j',
-  '@jgit//:jgit',
+  '@jgit//org.eclipse.jgit:jgit',
 ]
 
 DEPS = BASE_JETTY_DEPS + [
@@ -176,8 +176,8 @@ java_test(
     '//lib:junit',
     '//lib/easymock:easymock',
     '//lib/guice:guice',
-    '@jgit//:jgit',
-    '@jgit//:junit',
+    '@jgit//org.eclipse.jgit:jgit',
+    '@jgit//org.eclipse.jgit.junit:junit',
   ],
   source_under_test = [':pgm'],
 )

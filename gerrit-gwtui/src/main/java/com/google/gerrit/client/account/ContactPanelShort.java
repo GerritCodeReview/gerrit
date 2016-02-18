@@ -18,7 +18,9 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
@@ -194,36 +196,41 @@ class ContactPanelShort extends Composite {
     haveAccount = false;
     haveEmails = false;
 
-    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
+    CallbackGroup group = new CallbackGroup();
+    AccountApi.getName("self", group.add(new GerritCallback<NativeString>() {
+
       @Override
-      public void onSuccess(Account result) {
-        if (!isAttached()) {
-          return;
-        }
-        display(FormatUtil.asInfo(result));
+      public void onSuccess(NativeString result) {
+        nameTxt.setText(result.asString());
         haveAccount = true;
-        postLoad();
       }
-    });
-    AccountApi.getEmails("self", new GerritCallback<JsArray<EmailInfo>>() {
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    }));
+
+    AccountApi.getEmails("self", group.addFinal(new GerritCallback<JsArray<EmailInfo>>() {
       @Override
       public void onSuccess(JsArray<EmailInfo> result) {
-        if (!isAttached()) {
-          return;
-        }
         for (EmailInfo i : Natives.asList(result)) {
           emailPick.addItem(i.email());
+          if (i.isPreferred()) {
+            currentEmail = i.email();
+          }
         }
         haveEmails = true;
         postLoad();
       }
-    });
+    }));
   }
 
   private void postLoad() {
     if (haveAccount && haveEmails) {
       updateEmailList();
       registerNewEmail.setEnabled(true);
+      save.setEnabled(false);
+      new OnEditEnabler(save, nameTxt);
     }
     display();
   }

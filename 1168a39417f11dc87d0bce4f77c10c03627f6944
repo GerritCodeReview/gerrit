@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d57a8e9_4f514d51",
+        "filename": "polygerrit-ui/.jscsrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-18T21:15:01Z",
+      "side": 1,
+      "message": "80 chars is the max line length for JS. Is this intentional?",
+      "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -45,7 +45,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
-    RevCommit commit = parseCommit(update.getRevision());
+    RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
@@ -93,7 +93,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Subject: Change subject\n"
         + "Branch: refs/heads/master\n"
         + "Commit: " + update.getCommit().name() + "\n",
-        update.getRevision());
+        update.getResult());
   }
 
   @Test
@@ -115,7 +115,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Subject: Subject\n"
         + "Branch: refs/heads/master\n"
         + "Commit: " + commit.name() + "\n",
-        update.getRevision());
+        update.getResult());
   }
 
   @Test
@@ -129,7 +129,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Label: -Code-Review\n",
-        update.getRevision());
+        update.getResult());
   }
 
   @Test
@@ -147,7 +147,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
           submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 
-    RevCommit commit = parseCommit(update.getRevision());
+    RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals("Submit patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
@@ -185,7 +185,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.setChangeMessage("Comment on the change.");
     update.commit();
 
-    RevCommit commit = parseCommit(update.getRevision());
+    RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Comment on the change.\n"
@@ -214,7 +214,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Status: merged\n"
         + "Submission-id: 1-1453387607626-96fabc25\n"
         + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
-        update.getRevision());
+        update.getResult());
   }
 
   @Test
@@ -228,7 +228,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Reviewer: Change Owner <1@gerrit>\n",
-        update.getRevision());
+        update.getResult());
   }
 
   @Test
@@ -246,7 +246,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "\n"
         + "Patch-set: 1\n",
-        update.getRevision());
+        update.getResult());
   }
 
   @Test
@@ -269,7 +269,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Testing paragraph 3\n"
         + "\n"
         + "Patch-set: 1\n",
-        update.getRevision());
+        update.getResult());
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

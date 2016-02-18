@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1455719993 +0100\nnonce AO+Zq7gLQ0O6qmp0nszA6UI+NshHrpG2cFyHGIAxepZj8qkBbED8gYeL3MISvHF7B/WNPwtzl/ld\n\n0000000000000000000000000000000000000000 b886c5d099f8d00a91994d96c6b31bee68005d0d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWxIY5AAoJEFG1/Zeg0O9RhRIH/0Y/IzIzrXtznqiVfk7ufYa3\nckYqaYg+DT7mfPQ2NpOa5SNk6XRROFyAM4isa7m2klA0lHQaWSB8iGp4trfqWWRc\nZ5M+5ZNs0OCgnoTCjat4qmeIH3otVShz0xfZ2T3fNz9WYUkuyk5Ak8S8UDaSF/Ly\nbMVyHrQmjMngRO+DO0xycyCuXhX4VE18ZBqaDIoD05714SrS+KB7YmB+kjMAUrNt\nEIkSC5zu1GBHCuVUPI73VnzdGDsIE+N8v2PBHMEAfzWshciiFdTHsY19Iv/GLSgp\nGL3L0rkncfpF/pkr53mmQkKevunRkIFIm4RBcSNwc6hWkOCuX5DZOATOPbavb6k\u003d\n\u003d38YI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9de3e049_21d6ae0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-18T01:08:37Z",
+      "side": 1,
+      "message": "While we\u0027re in here, can we rename this to abandonAllOpenChangeForDeletedProject?\n\nWhich is a bit long, but would have saved me a bit of time wondering why mergeOp has such a method.",
+      "range": {
+        "startLine": 872,
+        "startChar": 15,
+        "endLine": 872,
+        "endChar": 36
+      },
+      "revId": "b886c5d099f8d00a91994d96c6b31bee68005d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

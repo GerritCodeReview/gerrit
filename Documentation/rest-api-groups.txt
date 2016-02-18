@@ -174,13 +174,12 @@ Query 25 groups starting from index 50.
 
 [[suggest-group]]
 ==== Suggest Group
-The `suggest` option indicates a user-entered string that
+The `suggest` or `s` option indicates a user-entered string that
 should be auto-completed to group names.
 If this option is set and `n` is not set, then `n` defaults to 10.
 
-When using this option,
-the `project` or `p` option can be used to name the current project,
-to allow context-dependent suggestions.
+When using this option, the `project` or `p` option can be used to
+name the current project, to allow context-dependent suggestions.
 
 Not compatible with `visible-to-all`, `owned`, `user`, `match`, `q`,
 or `S`.

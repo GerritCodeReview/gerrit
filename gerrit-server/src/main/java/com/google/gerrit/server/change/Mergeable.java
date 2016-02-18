@@ -101,34 +101,16 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     ChangeData cd = changeDataFactory.create(db.get(), resource.getControl());
-    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd)
-        .setPatchSet(ps)
-        .getSubmitType();
-    if (rec.status != SubmitTypeRecord.Status.OK) {
-      throw new OrmException("Submit type rule failed: " + rec);
-    }
-    result.submitType = rec.type;
+    result.submitType = getSubmitType(cd, ps);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = toId(ps);
-      if (commit == null) {
-        result.mergeable = false;
-        return result;
-      }
-
       Ref ref = git.getRefDatabase().exactRef(change.getDest().get());
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState)
           .mergeStrategyName();
-      Boolean old =
-          cache.getIfPresent(commit, ref, result.submitType, strategy);
-
-      if (old == null) {
-        result.mergeable = refresh(change, commit, ref, result.submitType,
-            strategy, git, old);
-      } else {
-        result.mergeable = old;
-      }
+      result.mergeable =
+          isMergable(git, change, commit, ref, result.submitType, strategy);
 
       if (otherBranches) {
         result.mergeableInto = new ArrayList<>();
@@ -151,6 +133,31 @@ public class Mergeable implements RestReadView<RevisionResource> {
       }
     }
     return result;
+  }
+
+  private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet)
+      throws OrmException {
+    SubmitTypeRecord rec =
+        new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
+    if (rec.status != SubmitTypeRecord.Status.OK) {
+      throw new OrmException("Submit type rule failed: " + rec);
+    }
+    return rec.type;
+  }
+
+  private boolean isMergable(Repository git, Change change, ObjectId commit,
+      Ref ref, SubmitType submitType, String strategy)
+          throws IOException, OrmException {
+    if (commit == null) {
+      return false;
+    }
+
+    Boolean old = cache.getIfPresent(commit, ref, submitType, strategy);
+    if (old != null) {
+      return old;
+    }
+    return refresh(change, commit, ref, submitType,
+          strategy, git, old);
   }
 
   private static ObjectId toId(PatchSet ps) {

@@ -72,8 +72,8 @@
 . link:i18n-readme.html[i18n Support]
 
 == Maintainer
-. link:dev-release.html[Developer Release]
-. link:dev-release-subproject.html[Developer Subproject Release]
+. link:dev-release.html[Making a Gerrit Release]
+. link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
 
 == Resources
 * link:licenses.html[Licenses and Notices]

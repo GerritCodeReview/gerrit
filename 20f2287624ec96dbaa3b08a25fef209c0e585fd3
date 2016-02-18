@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bdd7c47d_2a24dfa4",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-18T14:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd585ce7_44a1ee6c",
+      "range": {
+        "startLine": 3,
+        "startChar": 52,
+        "endLine": 3,
+        "endChar": 62
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_0fd9053d",
         "filename": "Documentation/dev-release-jgit.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-18T13:43:05Z",
       "side": 1,
       "message": "\"snapshot release\"?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 7
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_0a211b95",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-18T14:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_0fd9053d",
       "range": {
         "startLine": 4,
         "startChar": 0,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "5dd4087d_476dcece",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-18T14:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_2fd6c90b",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_6a1ed754",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-18T14:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd585ce7_649e6a2e",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd585ce7_04abf64e",
         "filename": "Documentation/dev-release-jgit.txt",
         "patchSetId": 1
@@ -105,6 +201,24 @@
       "writtenOn": "2016-02-18T13:43:05Z",
       "side": 1,
       "message": "Does this work out of the box for JGit without altering the pom.xml?\n\nAnd are we doing this in a standalone JGit workspace, or in the Gerrit tree?",
+      "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_4a1b1363",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-18T14:48:11Z",
+      "side": 1,
+      "message": "The pom.xml has to be altered as described in the linked deploy-configuration-subprojects.html document (line 26).\n\nHowever, if the pom.xml already contains a \u003cdistributionManagement\u003e section then it should be replaced with the snippet provided there. I will make this more explicit.\n\nThis has to be done from JGit workspace (standalone).",
+      "parentUuid": "fd585ce7_04abf64e",
       "revId": "20f2287624ec96dbaa3b08a25fef209c0e585fd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

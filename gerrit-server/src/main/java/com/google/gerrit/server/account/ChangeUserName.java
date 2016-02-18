@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;

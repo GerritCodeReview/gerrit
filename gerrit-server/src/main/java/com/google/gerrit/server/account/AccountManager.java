@@ -20,7 +20,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;

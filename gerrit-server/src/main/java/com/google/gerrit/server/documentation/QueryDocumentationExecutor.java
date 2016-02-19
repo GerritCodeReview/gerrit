@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.documentation;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -22,8 +23,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.simple.SimpleQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -45,8 +46,12 @@ public class QueryDocumentationExecutor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryDocumentationExecutor.class);
 
+  private static Map<String, Float> WEIGHTS = ImmutableMap.of(
+      Constants.TITLE_FIELD, 2.0f,
+      Constants.DOC_FIELD, 1.0f);
+
   private IndexSearcher searcher;
-  private QueryParser parser;
+  private SimpleQueryParser parser;
 
   public static class DocResult {
     public String title;
@@ -65,7 +70,7 @@ public class QueryDocumentationExecutor {
       }
       IndexReader reader = DirectoryReader.open(dir);
       searcher = new IndexSearcher(reader);
-      parser = new QueryParser(Constants.DOC_FIELD, new StandardAnalyzer());
+      parser = new SimpleQueryParser(new StandardAnalyzer(), WEIGHTS);
     } catch (IOException e) {
       log.error("Cannot initialize documentation full text index", e);
       searcher = null;
@@ -77,8 +82,8 @@ public class QueryDocumentationExecutor {
     if (!isAvailable()) {
       throw new DocQueryException("Documentation search not available");
     }
+    Query query = parser.parse(q);
     try {
-      Query query = parser.parse(q);
       // TODO(fishywang): Currently as we don't have much documentation, we just use MAX_VALUE here
       // and skipped paging. Maybe add paging later.
       TopDocs results = searcher.search(query, Integer.MAX_VALUE);
@@ -94,7 +99,7 @@ public class QueryDocumentationExecutor {
         out.add(result);
       }
       return out;
-    } catch (IOException | ParseException e) {
+    } catch (IOException e) {
       throw new DocQueryException(e);
     }
   }

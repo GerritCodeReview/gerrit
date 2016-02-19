@@ -108,44 +108,43 @@ public class RebuildNotedb extends SiteProgram {
     System.out.println("Rebuilding the notedb");
     ChangeRebuilder rebuilder = sysInjector.getInstance(ChangeRebuilder.class);
 
-    Multimap<Project.NameKey, Change> changesByProject = getChangesByProject();
-    final AtomicBoolean ok = new AtomicBoolean(true);
+    Multimap<Project.NameKey, Change.Id> changesByProject =
+        getChangesByProject();
+    AtomicBoolean ok = new AtomicBoolean(true);
     Stopwatch sw = Stopwatch.createStarted();
     GitRepositoryManager repoManager =
         sysInjector.getInstance(GitRepositoryManager.class);
-    final Project.NameKey allUsersName =
+    Project.NameKey allUsersName =
         sysInjector.getInstance(AllUsersName.class);
     try (Repository allUsersRepo =
         repoManager.openMetadataRepository(allUsersName)) {
       deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
       deleteRefs(RefNames.REFS_STARRED_CHANGES, allUsersRepo);
-      for (final Project.NameKey project : changesByProject.keySet()) {
-        try (Repository repo = repoManager.openMetadataRepository(project)) {
+      for (Project.NameKey project : changesByProject.keySet()) {
+        try {
           List<ListenableFuture<?>> futures = Lists.newArrayList();
 
           // Here, we elide the project name to 50 characters to ensure that
           // the whole monitor line for a project fits on one line (<80 chars).
           final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
               FormatUtil.elide(project.get(), 50));
-          final Task doneTask =
+          Task doneTask =
               mpm.beginSubTask("done", changesByProject.get(project).size());
-          final Task failedTask =
+          Task failedTask =
               mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
-          for (final Change c : changesByProject.get(project)) {
-            final ListenableFuture<?> future =
-                rebuilder.rebuildAsync(c, executor, repo);
+          for (Change.Id id : changesByProject.get(project)) {
+            ListenableFuture<?> future = rebuilder.rebuildAsync(id, executor);
             futures.add(future);
             future.addListener(
-                new RebuildListener(c.getId(), future, ok, doneTask, failedTask),
+                new RebuildListener(id, future, ok, doneTask, failedTask),
                 MoreExecutors.directExecutor());
           }
 
           mpm.waitFor(Futures.transformAsync(Futures.successfulAsList(futures),
               new AsyncFunction<List<?>, Void>() {
-                  @Override
-                public ListenableFuture<Void> apply(List<?> input)
-                    throws Exception {
+                @Override
+                public ListenableFuture<Void> apply(List<?> input) {
                   mpm.end();
                   return Futures.immediateFuture(null);
                 }
@@ -213,17 +212,17 @@ public class RebuildNotedb extends SiteProgram {
     }
   }
 
-  private Multimap<Project.NameKey, Change> getChangesByProject()
+  private Multimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {
     // Memorize all changes so we can close the db connection and allow
     // rebuilder threads to use the full connection pool.
     SchemaFactory<ReviewDb> schemaFactory = sysInjector.getInstance(Key.get(
         new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
-    Multimap<Project.NameKey, Change> changesByProject =
+    Multimap<Project.NameKey, Change.Id> changesByProject =
         ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
       for (Change c : db.changes().all()) {
-        changesByProject.put(c.getProject(), c);
+        changesByProject.put(c.getProject(), c.getId());
       }
       return changesByProject;
     }

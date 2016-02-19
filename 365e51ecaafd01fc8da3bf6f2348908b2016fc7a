@@ -34,6 +34,24 @@
       "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20fd976_a3a99aa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T17:13:40Z",
+      "side": 1,
+      "message": "\u003e \u003e Wouldn\u0027t it be better to just fix it now?\n \u003e \n \u003e Sure, I just think it\u0027s not that easy...\n\nI would go so far as to say we cannot check in a change that intentionally throws away data.\n\n \u003e The problem is that all the framework around notedb requires a user/account for making updates to the notes branch. E.g. to create a ChangeUpdate instance we need a ChangeControl instance, which we can only create for a user/account.\n\nNot true, ChangeControl accepts any CurrentUser.\n\n \u003e There is no user/account representation of Gerrit server yet.\n\nNor should there be. The proper fix is to make ChangeUpdate work with non-IdentifiedUsers. I think we can limit this to only the small subset of records (are there even any besides ChangeMessage?) that are allowed to have a null Account.Id. So for everything else, like ChangeUpdate#putApproval, we can continue blindly making the call to getAccountId() which will throw UnsupportedOperationException which is fine.",
+      "parentUuid": "31fdc0c1_e4459a51",
+      "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

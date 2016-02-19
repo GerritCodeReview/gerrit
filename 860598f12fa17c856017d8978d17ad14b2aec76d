@@ -22,6 +22,30 @@
       "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e26b592f_43a0c6bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-19T20:19:36Z",
+      "side": 1,
+      "message": "A \u003c- B \u003c- C\n^    ^\n|    |\nE \u003c- F* \u003c- G\n\nA is submitted, then B\nE and B has a conflict and merge F resolves any conflict\nC is then submitted, which creates a conflict with F\nF is not mergeable therefore G isn\u0027t either\n\nI can\u0027t think of any case where F would be mergeable but not G. If we make F mergeable by making it a child of C instead of B, G becomes mergeable since it\u0027s the last in the chain.\n\nI need help finding a case which would fail the test if \"isLastInChain\" is simply ignored (always true), I wish I could do this alone sorry for invoking so much help :p.",
+      "parentUuid": "e20fd976_0337ce39",
+      "range": {
+        "startLine": 409,
+        "startChar": 53,
+        "endLine": 409,
+        "endChar": 67
+      },
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

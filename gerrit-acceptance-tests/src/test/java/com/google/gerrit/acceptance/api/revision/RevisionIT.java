@@ -48,15 +48,10 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
-import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -80,9 +75,6 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Inject
   private GetRevisionActions getRevisionActions;
-
-  @Inject
-  private Revisions revisions;
 
   private TestAccount admin2;
 
@@ -684,17 +676,6 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private RevisionApi current(PushOneCommit.Result r) throws Exception {
     return gApi.changes().id(r.getChangeId()).current();
-  }
-
-  private RevisionResource parseRevisionResource(PushOneCommit.Result r)
-      throws Exception {
-    PatchSet.Id psId = r.getPatchSetId();
-    List<ChangeControl> ctls = changeFinder.find(
-        Integer.toString(psId.getParentKey().get()), atrScope.get().getUser());
-    assertThat(ctls).hasSize(1);
-    return revisions.parse(
-        new ChangeResource(ctls.get(0)),
-        IdString.fromDecoded(Integer.toString(psId.get())));
   }
 
   private String checkETag(ETagView<RevisionResource> view,

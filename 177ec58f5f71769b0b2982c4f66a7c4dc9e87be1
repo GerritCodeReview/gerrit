@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e26b592f_03bfaed9",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-19T21:14:02Z",
+      "side": 1,
+      "message": "indentation is off, here.",
+      "revId": "177ec58f5f71769b0b2982c4f66a7c4dc9e87be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e26b592f_23c4aa5d",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-19T21:14:02Z",
+      "side": 1,
+      "message": "s/_getRev/_getRevisionNumber",
+      "revId": "177ec58f5f71769b0b2982c4f66a7c4dc9e87be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -266,11 +266,15 @@ limitations under the License.
       _handleKey: function(e) {
         if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
+        // TODO(davido). Remove '8', '9' hack, once AltGraph is correctly
+        // detected on german keyboard and the AltGr+8, AltGr+9 work 
         switch (e.keyCode) {
+          case 56:  // '8'
           case 219:  // '['
             e.preventDefault();
             this._navToFile(this._fileList, -1);
             break;
+          case 57: // '9'
           case 221:  // ']'
             e.preventDefault();
             this._navToFile(this._fileList, 1);

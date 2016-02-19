@@ -2,13 +2,18 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 import java.util.List;
@@ -258,7 +263,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithOpenAncestorsOnOtherBranch() throws Exception {
-    PushOneCommit.Result change1 = createChange(testRepo,  "master",
+    PushOneCommit.Result change1 = createChange(testRepo, "master",
         "base commit",
         "a.txt", "1", "");
     submit(change1.getChangeId());
@@ -268,7 +273,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         .branch("branch")
         .create(new BranchInput());
 
-    PushOneCommit.Result change2 = createChange(testRepo,  "master",
+    PushOneCommit.Result change2 = createChange(testRepo, "master",
         "We want to commit this to master first",
         "a.txt", "2", "");
 
@@ -282,7 +287,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(tip2.getShortMessage()).isEqualTo(
         change1.getCommit().getShortMessage());
 
-    PushOneCommit.Result change3a = createChange(testRepo,  "branch",
+    PushOneCommit.Result change3a = createChange(testRepo, "branch",
         "This commit is based on change2 pending for master, "
         + "but is targeted itself at branch, which doesn't include it.",
         "a.txt", "3", "a-topic-here");
@@ -309,5 +314,104 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     RevCommit tipmaster = getRemoteLog(p3, "master").get(0);
     assertThat(tipmaster.getShortMessage()).isEqualTo(
         initialHead.getShortMessage());
+  }
+
+  @Test
+  public void testGerritWorkflow() throws Exception {
+    // We'll setup a master and a stable branch.
+    // Then we create a change to be applied to master, which is
+    // then cherry picked back to stable. The stable branch will
+    // be merged up into master again.
+    gApi.projects()
+        .name(project.get())
+        .branch("stable")
+        .create(new BranchInput());
+
+    // Push a change to master
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "small fix", "a.txt", "2");
+    PushOneCommit.Result change2result = change2.to("refs/for/master");
+    submit(change2result.getChangeId());
+    RevCommit tipmaster = getRemoteLog(project, "master").get(0);
+    assertThat(tipmaster.getShortMessage()).isEqualTo(
+        change2result.getCommit().getShortMessage());
+
+    // Now cherry pick to stable
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "stable";
+    in.message = "This goes to stable as well\n" + tipmaster.getFullMessage();
+    ChangeApi orig = gApi.changes()
+        .id(change2result.getChangeId());
+    String cherryId = orig.current().cherryPick(in).id();
+    gApi.changes().id(cherryId).current().review(ReviewInput.approve());
+    gApi.changes().id(cherryId).current().submit();
+
+    // Create the merge locally
+    RevCommit stable = getRemoteHead(project, "stable");
+    RevCommit master = getRemoteHead(project, "master");
+    testRepo.git().fetch().call();
+    testRepo.git()
+        .branchCreate()
+        .setName("stable")
+        .setStartPoint(stable)
+        .call();
+    testRepo.git()
+        .branchCreate()
+        .setName("master")
+        .setStartPoint(master)
+        .call();
+
+    RevCommit merge = testRepo.commit()
+        .parent(master)
+        .parent(stable)
+        .message("Merge stable into master")
+        .insertChangeId()
+        .create();
+
+    testRepo.branch("refs/heads/master").update(merge);
+    testRepo.git().push()
+        .setRefSpecs(new RefSpec("refs/heads/master:refs/for/master"))
+        .call();
+
+    String changeId = GitUtil.getChangeId(testRepo, merge).get();
+    approve(changeId);
+    submit(changeId);
+    tipmaster = getRemoteLog(project, "master").get(0);
+    assertThat(tipmaster.getShortMessage()).isEqualTo(merge.getShortMessage());
+  }
+
+  @Test
+  public void openChangeForTargetBranchPreventsMerge() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("stable")
+        .create(new BranchInput());
+
+    // Propose a change for master, but leave it open for master!
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo,
+            "small fix", "a.txt", "2");
+    PushOneCommit.Result change2result = change2.to("refs/for/master");
+
+    // Now cherry pick to stable
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "stable";
+    in.message = "it goes to stable branch";
+    ChangeApi orig = gApi.changes()
+        .id(change2result.getChangeId());
+    ChangeApi cherry = orig.current().cherryPick(in);
+    cherry.current().review(ReviewInput.approve());
+    cherry.current().submit();
+
+    // Create a commit locally
+    testRepo.git().fetch().setRefSpecs(new RefSpec("refs/heads/stable")).call();
+
+    PushOneCommit.Result change3 = createChange(testRepo, "stable",
+        "test","a.txt", "3", "");
+    submitWithConflict(change3.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n" +
+        "Change " + change3.getPatchSetId().getParentKey().get() +
+        ": depends on change that was not submitted");
   }
 }

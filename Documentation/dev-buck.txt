@@ -81,13 +81,15 @@ refreshed and missing dependency JARs can be downloaded:
 
 === Attaching Sources
 
-To save time and bandwidth source JARs are only downloaded by the buck
-build where necessary to compile Java source into JavaScript using the
-GWT compiler.  Additional sources may be obtained, allowing Eclipse to
-show documentation or dive into the implementation of a library JAR:
+Source JARs are downloaded by default. This allows Eclipse to show
+documentation or dive into the implementation of a library JAR.
+
+To save time and bandwidth, download of source JARs can be restricted
+to only those that are necessary to compile Java source into JavaScript
+using the GWT compiler:
 
 ----
-  tools/eclipse/project.py --src
+  tools/eclipse/project.py --no-src
 ----
 
 

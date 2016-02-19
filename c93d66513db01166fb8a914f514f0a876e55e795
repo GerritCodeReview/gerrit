@@ -16,6 +16,24 @@
       "revId": "c93d66513db01166fb8a914f514f0a876e55e795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_84292683",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-19T01:35:47Z",
+      "side": 0,
+      "message": "Done.",
+      "parentUuid": "bdd7c47d_aae60f90",
+      "revId": "c93d66513db01166fb8a914f514f0a876e55e795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

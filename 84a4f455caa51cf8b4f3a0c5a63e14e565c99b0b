@@ -139,6 +139,24 @@
       "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20fd976_039b4e90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T17:04:47Z",
+      "side": 1,
+      "message": "Right, sorry, I did get that wrong, and that confusion was obscuring the actual problem I want to solve.\n\nThe actual point is, I want to *not* do:\n\n // isMergeable\n for (ChangeData in all ChangeDatas) { // loop N times\n   isParentOfAnotherCommit(...)\n }\n\n // isParentOfAnotherCommit\n for (RevCommit in all commits) { // loop N times\n   doSomething\n }\n\nThat is what you have right now, and it means doing N^2 work. We sometimes see series with 100-200 changes, and 40k loop iterations starts to add up.\n\nSo what we need is to build some kind of data structure to make isParentOfAnotherCommit execute in constant time.\n\nPerhaps:\n\n Set\u003cObjectId\u003e allParents \u003d Sets.newHashSetWithExpectedSize(cs.size());\n for (RevCommit c : allCommits) {\n   for (RevCommit p : c.getParents()) {\n     allParents.add(p);\n   }\n }\n\nThen isParentOfAnotherCommit can just be allParents.contains(commitToCheck)",
+      "parentUuid": "fd585ce7_c47abe99",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

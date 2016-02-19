@@ -81,6 +81,14 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("name").get(cb);
   }
 
+  /** Set the account name */
+  public static void setName(String account, String name,
+      AsyncCallback<NativeString> cb) {
+    AccountNameInput input = AccountNameInput.create();
+    input.name(name);
+    new RestApi("/accounts/").id(account).view("name").put(input, cb);
+  }
+
   /** Retrieve email addresses */
   public static void getEmails(String account,
       AsyncCallback<JsArray<EmailInfo>> cb) {
@@ -93,6 +101,13 @@ public class AccountApi {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/accounts/").id(account).view("emails").id(email)
         .ifNoneMatch().put(in, cb);
+  }
+
+  /** Set preferred email address */
+  public static void setPreferredEmail(String account, String email,
+      AsyncCallback<NativeString> cb) {
+    new RestApi("/accounts/").id(account).view("emails")
+        .id(email).view("preferred").put(cb);
   }
 
   /** Retrieve SSH keys */
@@ -165,6 +180,17 @@ public class AccountApi {
     }
 
     protected UsernameInput() {
+    }
+  }
+
+  private static class AccountNameInput extends JavaScriptObject {
+    final native void name(String n) /*-{ if(u)this.name=n; }-*/;
+
+    static AccountNameInput create() {
+      return createObject().cast();
+    }
+
+    protected AccountNameInput() {
     }
   }
 

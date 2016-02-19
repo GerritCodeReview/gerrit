@@ -195,15 +195,15 @@ class ChangeNotesParser implements AutoCloseable {
     Timestamp ts =
         new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
+    boolean updateTs = commit.getParentCount() == 0;
     createdOn = ts;
-    if (lastUpdatedOn == null) {
-      lastUpdatedOn = ts;
-    }
     if (branch == null) {
       branch = parseBranch(commit);
+      updateTs |= branch != null;
     }
     if (status == null) {
       status = parseStatus(commit);
+      updateTs |= status != null;
     }
 
     PatchSet.Id psId = parsePatchSetId(commit);
@@ -221,6 +221,7 @@ class ChangeNotesParser implements AutoCloseable {
 
     if (changeId == null) {
       changeId = parseChangeId(commit);
+      updateTs |= changeId != null;
     }
 
     String currSubject = parseSubject(commit);
@@ -229,21 +230,28 @@ class ChangeNotesParser implements AutoCloseable {
         subject = currSubject;
       }
       originalSubject = currSubject;
+      updateTs = true;
     }
 
-    parseChangeMessage(psId, accountId, commit, ts);
+    updateTs |= parseChangeMessage(psId, accountId, commit, ts) != null;
     if (topic == null) {
       topic = parseTopic(commit);
+      updateTs |= topic != null;
     }
 
+    Set<String> oldHashtags = hashtags;
     parseHashtags(commit);
+    updateTs |= hashtags != oldHashtags;
+
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
+      updateTs |= submissionId != null;
     }
 
     ObjectId currRev = parseRevision(commit);
     if (currRev != null) {
       parsePatchSet(psId, currRev, accountId, ts);
+      updateTs = true;
     }
     parseGroups(psId, commit);
 
@@ -251,16 +259,24 @@ class ChangeNotesParser implements AutoCloseable {
       // Only parse the most recent set of submit records; any older ones are
       // still there, but not currently used.
       parseSubmitRecords(commit.getFooterLines(FOOTER_SUBMITTED_WITH));
+      updateTs |= !submitRecords.isEmpty();
     }
 
     for (String line : commit.getFooterLines(FOOTER_LABEL)) {
       parseApproval(psId, accountId, ts, line);
+      updateTs = true;
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLines(state.getFooterKey())) {
         parseReviewer(state, line);
       }
+      // Don't update timestamp when a reviewer was added, matching RevewDb
+      // behavior.
+    }
+
+    if (lastUpdatedOn == null && updateTs) {
+      lastUpdatedOn = ts;
     }
   }
 
@@ -418,20 +434,20 @@ class ChangeNotesParser implements AutoCloseable {
     throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
   }
 
-  private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
-      RevCommit commit, Timestamp ts) {
+  private ChangeMessage parseChangeMessage(PatchSet.Id psId,
+      Account.Id accountId, RevCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
     Charset enc = RawParseUtils.parseEncoding(raw);
 
     int subjectStart = RawParseUtils.commitMessage(raw, 0);
     if (subjectStart < 0 || subjectStart >= size) {
-      return;
+      return null;
     }
 
     int subjectEnd = RawParseUtils.endOfParagraph(raw, subjectStart);
     if (subjectEnd == size) {
-      return;
+      return null;
     }
 
     int changeMessageStart;
@@ -441,7 +457,7 @@ class ChangeNotesParser implements AutoCloseable {
     } else if (raw[subjectEnd] == '\r') {
       changeMessageStart = subjectEnd + 4; //\r\n\r\n ends paragraph
     } else {
-      return;
+      return null;
     }
 
     int ptr = size - 1;
@@ -461,7 +477,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     if (ptr <= changeMessageStart) {
-      return;
+      return null;
     }
 
     String changeMsgString = RawParseUtils.decode(enc, raw,
@@ -474,6 +490,7 @@ class ChangeNotesParser implements AutoCloseable {
     changeMessage.setMessage(changeMsgString);
     changeMessagesByPatchSet.put(psId, changeMessage);
     allChangeMessages.add(changeMessage);
+    return changeMessage;
   }
 
   private void parseNotes()

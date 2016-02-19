@@ -66,8 +66,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
@@ -90,7 +92,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail";
   private static final String CHANGES_NOT_MERGEABLE =
-      "See the \"Submitted Together\" tab for problems";
+      "See the \"Submitted Together\" tab for problems, specially see: ";
 
   public static class Output {
     transient Change change;
@@ -239,11 +241,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         MergeOp.checkSubmitRule(c);
       }
 
-      Boolean csIsMergeable = isPatchSetMergeable(cs);
-      if (csIsMergeable == null) {
+      Collection<ChangeData> unmergeable = unmergeableChanges(cs);
+      if (unmergeable == null) {
         return CLICK_FAILURE_TOOLTIP;
-      } else if (!csIsMergeable) {
-        return CHANGES_NOT_MERGEABLE;
+      } else if (!unmergeable.isEmpty()) {
+        StringBuilder builder = new StringBuilder();
+        for (ChangeData cd : unmergeable) {
+          builder.append(cd.getId().get());
+        }
+        return CHANGES_NOT_MERGEABLE + builder.toString();
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
@@ -382,10 +388,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
-  public Boolean isPatchSetMergeable(ChangeSet cs) throws OrmException, IOException {
-    Map<ChangeData, Boolean> mergeabilityMap = new HashMap<>();
+  public Collection<ChangeData> unmergeableChanges(ChangeSet cs)
+      throws OrmException, IOException {
+    Set<ChangeData> mergeabilityMap = new HashSet<>();
     for (ChangeData change : cs.changes()) {
-      mergeabilityMap.put(change, false);
+      mergeabilityMap.add(change);
     }
 
     Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
@@ -408,17 +415,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           // Skip whole check, cannot determine if mergeable
           return null;
         }
-        mergeabilityMap.put(change, mergeable);
+        if (mergeable) {
+          mergeabilityMap.remove(change);
+        }
 
         if (isLastInChain && isMergeCommit && mergeable) {
           for (ChangeData c : targetBranch) {
-            mergeabilityMap.put(c, true);
+            mergeabilityMap.remove(c);
           }
           break;
         }
       }
     }
-    return !mergeabilityMap.values().contains(Boolean.FALSE);
+    return mergeabilityMap;
   }
 
   public HashMap<Change.Id, RevCommit> findCommits(

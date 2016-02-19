@@ -293,7 +293,11 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
       boolean expected) throws MissingObjectException,
           IncorrectObjectTypeException, IOException, OrmException {
     ChangeSet cs = mergeSuperSet.completeChangeSet(db, change.change());
-    assertThat(submit.isPatchSetMergeable(cs)).isEqualTo(expected);
+    if (expected) {
+      assertThat(submit.unmergeableChanges(cs)).isEmpty();
+    } else {
+      assertThat(submit.unmergeableChanges(cs)).isNotEmpty();
+    }
   }
 
   private void assertMergeable(ChangeData change, boolean expected)

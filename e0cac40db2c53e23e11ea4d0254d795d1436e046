@@ -17,6 +17,24 @@
       "revId": "e0cac40db2c53e23e11ea4d0254d795d1436e046",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20fd976_a3007a4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-02-19T18:31:52Z",
+      "side": 1,
+      "message": "Never mind --- I missed the searcher.doc call.",
+      "parentUuid": "e20fd976_6307a26a",
+      "revId": "e0cac40db2c53e23e11ea4d0254d795d1436e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

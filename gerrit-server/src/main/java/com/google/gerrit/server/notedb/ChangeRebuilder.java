@@ -43,18 +43,18 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,7 +77,8 @@ public class ChangeRebuilder {
   private static final long TS_WINDOW_MS =
       TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS);
 
-  private final Provider<ReviewDb> dbProvider;
+  private final SchemaFactory<ReviewDb> schemaFactory;
+  private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory controlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PatchListCache patchListCache;
@@ -86,14 +87,16 @@ public class ChangeRebuilder {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
 
   @Inject
-  ChangeRebuilder(Provider<ReviewDb> dbProvider,
+  ChangeRebuilder(SchemaFactory<ReviewDb> schemaFactory,
+      GitRepositoryManager repoManager,
       ChangeControl.GenericFactory controlFactory,
       IdentifiedUser.GenericFactory userFactory,
       PatchListCache patchListCache,
       ChangeUpdate.Factory updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory) {
-    this.dbProvider = dbProvider;
+    this.schemaFactory = schemaFactory;
+    this.repoManager = repoManager;
     this.controlFactory = controlFactory;
     this.userFactory = userFactory;
     this.patchListCache = patchListCache;
@@ -102,34 +105,44 @@ public class ChangeRebuilder {
     this.updateManagerFactory = updateManagerFactory;
   }
 
-  public ListenableFuture<?> rebuildAsync(final Change change,
-      ListeningExecutorService executor, final Repository changeRepo) {
+  public ListenableFuture<?> rebuildAsync(final Change.Id id,
+      ListeningExecutorService executor) {
     return executor.submit(new Callable<Void>() {
         @Override
       public Void call() throws Exception {
-        rebuild(change, changeRepo);
+        try (ReviewDb db = schemaFactory.open()) {
+          rebuild(db, id);
+        }
         return null;
       }
     });
   }
 
-  public void rebuild(Change change, Repository changeRepo)
+  public void rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException {
-    ReviewDb db = dbProvider.get();
-    Change.Id changeId = change.getId();
+    Change change = db.changes().get(changeId);
+    if (change == null) {
+      return;
+    }
+    NoteDbUpdateManager manager =
+        updateManagerFactory.create(change.getProject());
+
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
     List<Event> events = Lists.newArrayList();
     Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
 
-    try (RevWalk rw = new RevWalk(changeRepo)) {
-      events.addAll(getHashtagsEvents(change, changeRepo, rw));
+    Repository changeMetaRepo = manager.getChangeRepo();
+    events.addAll(getHashtagsEvents(change, manager));
 
-      deleteRef(change, changeRepo);
+    // Delete ref only after hashtags have been read
+    deleteRef(change, changeMetaRepo, manager.getChangeCommands());
 
+    try (Repository codeRepo = repoManager.openRepository(change.getProject());
+        RevWalk codeRw = new RevWalk(codeRepo)) {
       for (PatchSet ps : db.patchSets().byChange(changeId)) {
-        events.add(new PatchSetEvent(change, ps, rw));
+        events.add(new PatchSetEvent(change, ps, codeRw));
         for (PatchLineComment c : db.patchComments().byPatchSet(ps.getId())) {
           PatchLineCommentEvent e =
               new PatchLineCommentEvent(c, change, ps, patchListCache);
@@ -153,16 +166,13 @@ public class ChangeRebuilder {
 
     Collections.sort(events);
     events.add(new FinalUpdatesEvent(change, notedbChange));
-    // TODO(dborowitz): share manager across changes.
-    NoteDbUpdateManager manager =
-        updateManagerFactory.create(change.getProject());
     ChangeUpdate update = null;
     for (Event e : events) {
       if (!sameUpdate(e, update)) {
         if (update != null) {
           manager.add(update);
         }
-        IdentifiedUser user = userFactory.create(dbProvider, e.who);
+        IdentifiedUser user = userFactory.create(Providers.of(db), e.who);
         update = updateFactory.create(
             controlFactory.controlFor(db, change, user), e.when);
         update.setPatchSetId(e.psId);
@@ -172,7 +182,7 @@ public class ChangeRebuilder {
     manager.add(update);
 
     for (Account.Id author : draftCommentEvents.keys()) {
-      IdentifiedUser user = userFactory.create(dbProvider, author);
+      IdentifiedUser user = userFactory.create(Providers.of(db), author);
       ChangeDraftUpdate draftUpdate = null;
       for (PatchLineCommentEvent e : draftCommentEvents.get(author)) {
         if (!sameUpdate(e, draftUpdate)) {
@@ -188,17 +198,16 @@ public class ChangeRebuilder {
       manager.add(draftUpdate);
     }
 
-    createStarredChangesRefs(changeId, manager.getAllUsersCommands(),
+    createStarredChangesRefs(db, changeId, manager.getAllUsersCommands(),
         manager.getAllUsersRepo());
     manager.execute();
   }
 
-  private void createStarredChangesRefs(Change.Id changeId,
+  private void createStarredChangesRefs(ReviewDb db, Change.Id changeId,
       ChainedReceiveCommands allUsersCmds, Repository allUsersRepo)
           throws IOException, OrmException {
     ObjectId emptyTree = emptyTree(allUsersRepo);
-    for (StarredChange starred : dbProvider.get().starredChanges()
-        .byChange(changeId)) {
+    for (StarredChange starred : db.starredChanges().byChange(changeId)) {
       allUsersCmds.add(new ReceiveCommand(ObjectId.zeroId(), emptyTree,
           RefNames.refsStarredChanges(starred.getAccountId(), changeId)));
     }
@@ -213,16 +222,18 @@ public class ChangeRebuilder {
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,
-      Repository changeRepo, RevWalk rw) throws IOException {
+      NoteDbUpdateManager manager) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
-    Ref ref = changeRepo.exactRef(refName);
-    if (ref == null) {
+    ObjectId old = manager.getChangeCommands()
+        .getObjectId(manager.getChangeRepo(), refName);
+    if (old == null) {
       return Collections.emptyList();
     }
 
+    RevWalk rw = manager.getChangeRevWalk();
     List<HashtagsEvent> events = new ArrayList<>();
     rw.reset();
-    rw.markStart(rw.parseCommit(ref.getObjectId()));
+    rw.markStart(rw.parseCommit(old));
     for (RevCommit commit : rw) {
       Account.Id authorId =
           ChangeNoteUtil.parseIdent(commit.getAuthorIdent());
@@ -264,28 +275,11 @@ public class ChangeRebuilder {
     return new PatchSet.Id(change.getId(), psId);
   }
 
-  private void deleteRef(Change change, Repository changeRepo)
-      throws IOException {
+  private void deleteRef(Change change, Repository repo,
+      ChainedReceiveCommands cmds) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
-    RefUpdate ru = changeRepo.updateRef(refName, true);
-    ru.setForceUpdate(true);
-    RefUpdate.Result result = ru.delete();
-    switch (result) {
-      case FORCED:
-      case NEW:
-      case NO_CHANGE:
-        break;
-      case FAST_FORWARD:
-      case IO_FAILURE:
-      case LOCK_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case RENAMED:
-      default:
-        throw new IOException(
-            String.format("Failed to delete ref %s: %s", refName, result));
-    }
+    ObjectId old = cmds.getObjectId(repo, refName);
+    cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));
   }
 
   private static long round(Date when) {

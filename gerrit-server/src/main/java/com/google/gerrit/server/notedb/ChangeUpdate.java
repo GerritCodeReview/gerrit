@@ -479,7 +479,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   protected CommitBuilder applyImpl(ObjectInserter ins)
       throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
-    cb.setAuthor(newIdent(getUser().getAccount(), when));
+    cb.setAuthor(newAuthorIdent());
     cb.setCommitter(new PersonIdent(serverIdent, when));
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();

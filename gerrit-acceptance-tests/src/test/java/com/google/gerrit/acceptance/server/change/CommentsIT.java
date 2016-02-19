@@ -39,7 +39,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -58,9 +57,6 @@ import java.util.Map;
 public class CommentsIT extends AbstractDaemonTest {
   @Inject
   private Provider<ChangesCollection> changes;
-
-  @Inject
-  private Provider<Revisions> revisions;
 
   @Inject
   private Provider<PostReview> postReview;
@@ -243,7 +239,7 @@ public class CommentsIT extends AbstractDaemonTest {
           changes.get().parse(TopLevelResource.INSTANCE,
               IdString.fromDecoded(changeId));
       RevisionResource revRsrc =
-          revisions.get().parse(changeRsrc, IdString.fromDecoded(revId));
+          revisions.parse(changeRsrc, IdString.fromDecoded(revId));
       postReview.get().apply(revRsrc, input, timestamp);
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();

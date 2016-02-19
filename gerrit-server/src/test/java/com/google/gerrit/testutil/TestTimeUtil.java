@@ -17,6 +17,10 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
@@ -63,11 +67,57 @@ public class TestTimeUtil {
         return clockMs.getAndAdd(clockStepMs);
       }
     });
+
+    SystemReader.setInstance(null);
+    final SystemReader defaultReader = SystemReader.getInstance();
+    SystemReader r = new SystemReader() {
+      @Override
+      public String getHostname() {
+        return defaultReader.getHostname();
+      }
+
+      @Override
+      public String getenv(String variable) {
+        return defaultReader.getenv(variable);
+      }
+
+      @Override
+      public String getProperty(String key) {
+        return defaultReader.getProperty(key);
+      }
+
+      @Override
+      public FileBasedConfig openUserConfig(Config parent, FS fs) {
+        return defaultReader.openUserConfig(parent, fs);
+      }
+
+      @Override
+      public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+        return defaultReader.openSystemConfig(parent, fs);
+      }
+
+      @Override
+      public long getCurrentTime() {
+        return clockMs.getAndAdd(clockStepMs);
+      }
+
+      @Override
+      public int getTimezone(long when) {
+        return defaultReader.getTimezone(when);
+      }
+    };
+    SystemReader.setInstance(r);
   }
 
-  /** Reset the clock to use the actual system clock. */
+  /**
+   * Reset the clock to use the actual system clock.
+   * <p>
+   * As a side effect, resets the {@link SystemReader} to the original default
+   * instance.
+   */
   public static synchronized void useSystemTime() {
     DateTimeUtils.setCurrentMillisSystem();
+    SystemReader.setInstance(null);
   }
 
   private TestTimeUtil() {

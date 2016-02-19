@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -104,6 +106,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   EventSource source;
 
   private EventListener eventListener;
+
+  private String systemTimeZone;
+
+  @Before
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+    System.setProperty("user.timezone", systemTimeZone);
+  }
 
   @Before
   public void setUp() throws Exception {

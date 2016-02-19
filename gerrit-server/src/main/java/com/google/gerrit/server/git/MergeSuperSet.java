@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeField;
@@ -90,21 +91,22 @@ public class MergeSuperSet {
     this.repoManager = repoManager;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, Change change)
+  public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
     ChangeData cd =
         changeDataFactory.create(db, change.getProject(), change.getId());
+    cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
+      return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
     } else {
-      return completeChangeSetWithoutTopic(db, new ChangeSet(cd));
+      return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
     }
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
+      CurrentUser user) throws MissingObjectException,
+      IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
 
     Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
@@ -113,6 +115,7 @@ public class MergeSuperSet {
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, project, cId);
+          cd.changeControl(user);
 
           SubmitTypeRecord str = cd.submitTypeRecord();
           if (!str.isOk()) {
@@ -169,11 +172,12 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changes) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException, OrmException {
+      ReviewDb db, ChangeSet changes, CurrentUser user)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+      OrmException {
     Set<String> topicsTraversed = new HashSet<>();
     boolean done = false;
-    ChangeSet newCs = completeChangeSetWithoutTopic(db, changes);
+    ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
       List<ChangeData> chgs = new ArrayList<>();
       done = true;
@@ -187,7 +191,7 @@ public class MergeSuperSet {
         }
       }
       changes = new ChangeSet(chgs);
-      newCs = completeChangeSetWithoutTopic(db, changes);
+      newCs = completeChangeSetWithoutTopic(db, changes, user);
     }
     return newCs;
   }

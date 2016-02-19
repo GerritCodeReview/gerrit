@@ -23,6 +23,30 @@
       "revId": "2fc47ee0a0d65433ba4be5f1fb38e9ca120d4bef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_2fc5e904",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T14:47:16Z",
+      "side": 1,
+      "message": "Huh wonder why Eclipse didn\u0027t warn me about that. Done.",
+      "parentUuid": "bdd7c47d_0ac2bba5",
+      "range": {
+        "startLine": 237,
+        "startChar": 22,
+        "endLine": 237,
+        "endChar": 29
+      },
+      "revId": "2fc47ee0a0d65433ba4be5f1fb38e9ca120d4bef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

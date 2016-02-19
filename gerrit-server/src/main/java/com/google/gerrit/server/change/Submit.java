@@ -91,8 +91,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "This change depends on other hidden changes which are not ready";
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail";
-  private static final String CLICK_FAILURE_OTHER_TOOLTIP =
-      "Clicking the button would fail for other changes";
+  private static final String CHANGES_NOT_MERGEABLE =
+      "See the \"Submitted Together\" tab for problems";
 
   public static class Output {
     transient Change change;
@@ -245,7 +245,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       if (csIsMergeable == null) {
         return CLICK_FAILURE_TOOLTIP;
       } else if (!csIsMergeable) {
-        return CLICK_FAILURE_OTHER_TOOLTIP;
+        return CHANGES_NOT_MERGEABLE;
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;

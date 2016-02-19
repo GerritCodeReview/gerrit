@@ -35,6 +35,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -608,6 +609,9 @@ public class MergeOp implements AutoCloseable {
         OpenRepo or = getRepo(branch.getParentKey());
         OpenBranch ob = or.getBranch(branch);
         BranchBatch submitting = toSubmit.get(branch);
+        checkNotNull(submitting.submitType(),
+            "null submit type for %s; expected to previously fail fast",
+            submitting);
         Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
         SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
@@ -687,7 +691,7 @@ public class MergeOp implements AutoCloseable {
 
   @AutoValue
   static abstract class BranchBatch {
-    abstract SubmitType submitType();
+    @Nullable abstract SubmitType submitType();
     abstract List<ChangeData> changes();
   }
 
@@ -708,6 +712,22 @@ public class MergeOp implements AutoCloseable {
         chg = cd.change();
       } catch (OrmException e) {
         commits.logProblem(changeId, e);
+        continue;
+      }
+
+      SubmitType st = getSubmitType(cd);
+      if (st == null) {
+        commits.logProblem(changeId, "No submit type for change");
+        continue;
+      }
+      if (submitType == null) {
+        submitType = st;
+        choseSubmitTypeFrom = cd;
+      } else if (st != submitType) {
+        commits.problem(changeId, String.format(
+            "Change has submit type %s, but previously chose submit type %s "
+            + "from change %s in the same batch",
+            st, submitType, choseSubmitTypeFrom.getId()));
         continue;
       }
       if (chg.currentPatchSetId() == null) {
@@ -770,22 +790,6 @@ public class MergeOp implements AutoCloseable {
             or.repo, commit, or.project, destBranch, ps.getId(), caller);
       } catch (MergeValidationException mve) {
         commits.problem(changeId, mve.getMessage());
-        continue;
-      }
-
-      SubmitType st = getSubmitType(cd);
-      if (st == null) {
-        commits.logProblem(changeId, "No submit type for change");
-        continue;
-      }
-      if (submitType == null) {
-        submitType = st;
-        choseSubmitTypeFrom = cd;
-      } else if (st != submitType) {
-        commits.problem(changeId, String.format(
-            "Change has submit type %s, but previously chose submit type %s "
-            + "from change %s in the same batch",
-            st, submitType, choseSubmitTypeFrom.getId()));
         continue;
       }
       commit.add(or.canMergeFlag);

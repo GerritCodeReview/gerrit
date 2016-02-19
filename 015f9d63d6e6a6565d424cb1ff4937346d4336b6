@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0215cd83_c4de5e21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T18:42:04Z",
+      "side": 1,
+      "message": "Ok, then say so.",
+      "parentUuid": "e20fd976_e3fa7289",
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0215cd83_44f38ec2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "\"A change was created to revert this patchset: \" would also be fine?\n\nBut I guess I leave the exact wording to a native speaker. :)",
       "parentUuid": "0215cd83_44f38ec2",
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20fd976_c3f776a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T18:42:04Z",
+      "side": 1,
+      "message": "Let\u0027s say a quorum of native speakers :\n\nAlthough I might prefer \"patch set\" rather than \"patchset\" regardless.",
+      "parentUuid": "0215cd83_84d46605",
       "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

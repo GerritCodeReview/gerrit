@@ -24,6 +24,9 @@ import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResu
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -38,6 +41,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class QueryDocumentationFilter implements Filter {
+  private final Logger log =
+      LoggerFactory.getLogger(QueryDocumentationFilter.class);
+
   private final QueryDocumentationExecutor searcher;
 
   @Inject
@@ -65,6 +71,7 @@ public class QueryDocumentationFilter implements Filter {
         Multimap<String, String> config = LinkedHashMultimap.create();
         RestApiServlet.replyJson(req, rsp, config, result);
       } catch (DocQueryException e) {
+        log.error("Doc search failed:", e);
         rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       }
     } else {

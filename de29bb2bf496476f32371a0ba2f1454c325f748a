@@ -22,6 +22,30 @@
       "revId": "de29bb2bf496476f32371a0ba2f1454c325f748a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ac25b5_1eb10d0e",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-02-19T21:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e26b592f_83d2be1f",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "de29bb2bf496476f32371a0ba2f1454c325f748a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

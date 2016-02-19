@@ -1,4 +1,170 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1455734115 -0800\nnonce AO+Zq7jF/RfHpWux/9GuElRr56leSIOhA3rFz4bDNQKxg//RyuO5ZDJ/BMEx3KCmEI424pd5gZXx\n\n0000000000000000000000000000000000000000 6613fab9d6524529256fb3beb1b30f49ab747855 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWxL1jAAoJEGt7+xNJsB0bCl8H/iRP/V1y4JIIy04xrhwsrBMz\n0M1kBqq4TMgovGwTYxzXqnYvlyTNwgfvTdzuFihm7onVeQ2mGijZIzZPSpkTHKDe\nNuxem4CJq48WziZ49I7jkwpllA2DCdIWQ7MTAkLG04gUNrR7j6rDaCR04EW6SyZX\ne6GqlFvG3t30ce5JOC4UIQArJqoWZrJ2KsanpGb1ZqGIicSvtuZ/5DRw4OjU8qbU\nF9m6UIAsc0NRkqszqP+LNFUr1DElbRQNyVXYHyLGM1SZD40vcEerYtuqZJlQVW47\nvA0qEM0J2zwYlzVTfyQo5wH9co+BUreDGpEFZsX8kP3O2flvxw0jN57ihn/voMY\u003d\n\u003dz4vW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d57a8e9_0f8f45e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "Don\u0027t use HTTP for this, inject a SetPreferences and use that directly.",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_6f961103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "This method is inaccurately named, it does more than just add the message.",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_2f8c09f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_8f6175e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "Extract the body of this if to a separate method.",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_4f994d32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_04a1b61b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "Reading long chains of getParentKey() is hard to follow and error prone. I would rather see a getPatchSetId method that returns PatchSet.Id, either as a static helper in this class or directly on PatchLineComment.",
+      "range": {
+        "startLine": 210,
+        "startChar": 61,
+        "endLine": 210,
+        "endChar": 63
+      },
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_cf5b7d2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "I think this is redundant with the call to updateComments below, and might be calling problems.",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d57a8e9_af6639f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "Nit: no space before++",
+      "range": {
+        "startLine": 214,
+        "startChar": 22,
+        "endLine": 214,
+        "endChar": 23
+      },
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_249e32db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T16:35:18Z",
+      "side": 1,
+      "message": "I don\u0027t recall...does this match the message format when you publish comments for multiple patch sets using the web UI? If not, should it?",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

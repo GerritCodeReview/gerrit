@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d57a8e9_0f7585d3",
+        "filename": "lib/lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-19T00:42:23Z",
+      "side": 0,
+      "message": "This is obviously wrong, but I\u0027m not sure why it didn\u0027t cause any build errors.\n\nHow did you find this problem?",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 20
+      },
+      "revId": "c9d2f5102323f9b428e43ddc6f0591c572b8541f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

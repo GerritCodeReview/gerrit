@@ -102,7 +102,7 @@ public class ReviewerSuggestionCache {
             });
   }
 
-  List<AccountInfo> search(String query, int n) throws IOException {
+  public List<AccountInfo> search(String query, int n) throws IOException {
     IndexSearcher searcher = get();
     if (searcher == null) {
       return Collections.emptyList();

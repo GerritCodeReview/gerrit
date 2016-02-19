@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bdd7c47d_eadac792",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-19T07:32:42Z",
+      "side": 1,
+      "message": "Maybe setting the timezone and resetting it should be done by TestTimeUtil as well? Of course this doesn\u0027t need to be done in this change.",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 55
+      },
+      "revId": "e6ebdeb22a8fbd6bec28e75b0f995138ec1cca49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd4087d_c75a5efa",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
         "patchSetId": 1

@@ -1,0 +1,41 @@
+= Making a Release of JGit
+
+This step is only necessary if we need to create an unofficial JGit
+snapshot release and publish it to the
+link:https://developers.google.com/storage/[Google Cloud Storage].
+
+
+[[prepare-release]]
+== Prepare the Release
+
+Since JGit has its own release process we do not push any release tags
+for JGit. Instead we will use the output of the `git describe` as the
+version of the current JGit snapshot.
+
+----
+  ./tools/version.sh --release $(git describe)
+----
+
+
+[[publish-release]]
+== Publish the Release
+
+* Make sure you have done the configuration needed for deployment:
+** link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
+Configuration in Maven `settings.xml`]
+** link:dev-release-deploy-config.html#deploy-configuration-subprojects[
+Configuration for Subprojects in `pom.xml`]
+
+* Deploy the new snapshot. From JGit workspace execute:
++
+----
+  mvn deploy
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

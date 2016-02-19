@@ -195,20 +195,21 @@ class ChangeNotesParser implements AutoCloseable {
     Timestamp ts =
         new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
+    boolean touchedChangeField = false;
     createdOn = ts;
-    if (lastUpdatedOn == null) {
-      lastUpdatedOn = ts;
-    }
     if (branch == null) {
       branch = parseBranch(commit);
+      touchedChangeField |= branch != null;
     }
     if (status == null) {
       status = parseStatus(commit);
+      touchedChangeField |= status != null;
     }
 
     PatchSet.Id psId = parsePatchSetId(commit);
     if (currentPatchSetId == null || psId.get() > currentPatchSetId.get()) {
       currentPatchSetId = psId;
+      touchedChangeField = true;
     }
 
     PatchSetState psState = parsePatchSetState(commit);
@@ -221,6 +222,7 @@ class ChangeNotesParser implements AutoCloseable {
 
     if (changeId == null) {
       changeId = parseChangeId(commit);
+      touchedChangeField |= changeId != null;
     }
 
     String currSubject = parseSubject(commit);
@@ -229,16 +231,22 @@ class ChangeNotesParser implements AutoCloseable {
         subject = currSubject;
       }
       originalSubject = currSubject;
+      touchedChangeField = true;
     }
 
     parseChangeMessage(psId, accountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
+      touchedChangeField |= topic != null;
     }
 
+    Set<String> oldHashtags = hashtags;
     parseHashtags(commit);
+    touchedChangeField |= hashtags != oldHashtags;
+
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
+      touchedChangeField |= submissionId != null;
     }
 
     ObjectId currRev = parseRevision(commit);
@@ -261,6 +269,10 @@ class ChangeNotesParser implements AutoCloseable {
       for (String line : commit.getFooterLines(state.getFooterKey())) {
         parseReviewer(state, line);
       }
+    }
+
+    if (lastUpdatedOn == null && touchedChangeField) {
+      lastUpdatedOn = ts;
     }
   }
 

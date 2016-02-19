@@ -571,16 +571,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    Timestamp lastUpdatedOn = notes.getChange().getLastUpdatedOn();
-    assertThat(lastUpdatedOn).isNotNull();
-    assertThat(lastUpdatedOn).isEqualTo(notes.getChange().getCreatedOn());
+    Timestamp ts1 = notes.getChange().getLastUpdatedOn();
+    assertThat(ts1).isEqualTo(notes.getChange().getCreatedOn());
 
     // An update creates a new lastUpdatedOn timestamp.
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setTopic("topic"); // Change something to get a new commit.
     update.commit();
-    assertThat(newNotes(c).getChange().getLastUpdatedOn())
-        .isGreaterThan(lastUpdatedOn);
+    Timestamp ts2 = notes.getChange().getLastUpdatedOn();
+    assertThat(ts2).isGreaterThan(ts1);
+
+    // Updates to non-Change entities do not create new timestamps.
+    update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Some message");
+    update.commit();
+    Timestamp ts3 = notes.getChange().getLastUpdatedOn();
+    assertThat(ts3).isEqualTo(ts2);
   }
 
   @Test

@@ -33,6 +33,24 @@
       "revId": "73808f29d79e0547ebdc836758c801646ac2d96f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ac25b5_9ebd1ddf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T21:57:05Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/75172\n\nI think this change should be rebased on that.",
+      "parentUuid": "0215cd83_049b5690",
+      "revId": "73808f29d79e0547ebdc836758c801646ac2d96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

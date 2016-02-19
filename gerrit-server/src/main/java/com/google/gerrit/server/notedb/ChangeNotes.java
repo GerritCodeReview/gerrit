@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
@@ -174,6 +175,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public ChangeNotes create(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
       Change change = db.changes().get(changeId);
+      checkArgument(change.getProject().equals(project),
+          "passed project %s when creating ChangeNotes for %s, but actual"
+          + " project is %s",
+          project, changeId, change.getProject());
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
       return new ChangeNotes(repoManager, migration, allUsersProvider, project,

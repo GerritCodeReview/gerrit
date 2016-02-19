@@ -618,6 +618,13 @@ public class ChangeData {
 
   public ChangeControl changeControl(CurrentUser user) throws OrmException {
     if (changeControl != null) {
+      CurrentUser oldUser = user;
+      // TODO(dborowitz): This is a hack; general CurrentUser equality would be
+      // better.
+      if (user.isIdentifiedUser() && oldUser.isIdentifiedUser()
+          && user.getAccountId().equals(oldUser.getAccountId())) {
+        return changeControl;
+      }
       throw new IllegalStateException(
           "user already specified: " + changeControl.getUser());
     }

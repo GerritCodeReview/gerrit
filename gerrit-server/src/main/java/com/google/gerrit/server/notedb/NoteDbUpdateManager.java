@@ -95,6 +95,21 @@ public class NoteDbUpdateManager {
     return this;
   }
 
+  Repository getChangeRepo() throws IOException {
+    initChangeRepo();
+    return changeRepo.repo;
+  }
+
+  RevWalk getChangeRevWalk() throws IOException {
+    initChangeRepo();
+    return changeRepo.rw;
+  }
+
+  ChainedReceiveCommands getChangeCommands() throws IOException {
+    initChangeRepo();
+    return changeRepo.cmds;
+  }
+
   public NoteDbUpdateManager setAllUsersRepo(Repository repo, RevWalk rw,
       ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(allUsersRepo == null, "allUsers repo already initialized");

@@ -48,7 +48,7 @@ import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
-import com.google.gerrit.server.change.SuggestReviewers;
+import com.google.gerrit.server.change.ChangeSuggestReviewers;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -70,7 +70,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Changes changeApi;
   private final Revisions revisions;
   private final RevisionApiImpl.Factory revisionApi;
-  private final Provider<SuggestReviewers> suggestReviewers;
+  private final Provider<ChangeSuggestReviewers> suggestReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
   private final Revert revert;
@@ -92,7 +92,7 @@ class ChangeApiImpl implements ChangeApi {
       Changes changeApi,
       Revisions revisions,
       RevisionApiImpl.Factory revisionApi,
-      Provider<SuggestReviewers> suggestReviewers,
+      Provider<ChangeSuggestReviewers> suggestReviewers,
       Abandon abandon,
       Revert revert,
       Restore restore,
@@ -257,7 +257,7 @@ class ChangeApiImpl implements ChangeApi {
   private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)
       throws RestApiException {
     try {
-      SuggestReviewers mySuggestReviewers = suggestReviewers.get();
+      ChangeSuggestReviewers mySuggestReviewers = suggestReviewers.get();
       mySuggestReviewers.setQuery(r.getQuery());
       mySuggestReviewers.setLimit(r.getLimit());
       return mySuggestReviewers.apply(change);

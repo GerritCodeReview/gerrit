@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd585ce7_2444f23d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-19T01:02:24Z",
+      "side": 1,
+      "message": "nit: name this accountCache to prevent churn later if we need to add some other cache.",
+      "range": {
+        "startLine": 88,
+        "startChar": 29,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "bd2a1383ef995ea7482218a343ac3a01cc9e06e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_04477645",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-19T01:02:24Z",
+      "side": 1,
+      "message": "[optional] Use the getNameEmail method from Account so it\u0027s not necessary to manually format the name and email address.\n\nIt\u0027ll mean this class needs to get the anonymousCowardName injected though, so maybe not worth it?",
+      "range": {
+        "startLine": 226,
+        "startChar": 14,
+        "endLine": 227,
+        "endChar": 47
+      },
+      "revId": "bd2a1383ef995ea7482218a343ac3a01cc9e06e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

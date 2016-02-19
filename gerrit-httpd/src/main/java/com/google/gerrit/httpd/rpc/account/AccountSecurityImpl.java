@@ -14,13 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -29,10 +27,8 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -46,10 +42,8 @@ import java.util.Set;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
-  private final Realm realm;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> user;
-  private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
 
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
@@ -62,18 +56,16 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
-      final Realm r, final Provider<IdentifiedUser> u,
+      final Provider<IdentifiedUser> u,
       final ProjectCache pc,
-      final AccountByEmailCache abec, final AccountCache uac,
+      final AccountCache uac,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final ChangeHooks hooks, final GroupCache groupCache,
       final AuditService auditService) {
     super(schema, currentUser);
-    realm = r;
     user = u;
     projectCache = pc;
-    byEmailCache = abec;
     accountCache = uac;
     this.auditService = auditService;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
@@ -91,41 +83,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
       final AsyncCallback<Set<AccountExternalId.Key>> callback) {
     deleteExternalIdsFactory.create(keys).to(callback);
-  }
-
-  @Override
-  public void updateContact(final String name, final String emailAddr,
-      final AsyncCallback<Account> callback) {
-    run(callback, new Action<Account>() {
-      @Override
-      public Account run(ReviewDb db) throws OrmException, Failure {
-        IdentifiedUser self = user.get();
-        final Account me = db.accounts().get(self.getAccountId());
-        final String oldEmail = me.getPreferredEmail();
-        if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
-          me.setFullName(Strings.emptyToNull(name));
-        }
-        if (!Strings.isNullOrEmpty(emailAddr)
-            && !self.hasEmailAddress(emailAddr)) {
-          throw new Failure(new PermissionDeniedException("Email address must be verified"));
-        }
-        me.setPreferredEmail(Strings.emptyToNull(emailAddr));
-        db.accounts().update(Collections.singleton(me));
-        if (!eq(oldEmail, me.getPreferredEmail())) {
-          byEmailCache.evict(oldEmail);
-          byEmailCache.evict(me.getPreferredEmail());
-        }
-        accountCache.evict(me.getId());
-        return me;
-      }
-    });
-  }
-
-  private static boolean eq(final String a, final String b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    return a != null && a.equals(b);
   }
 
   @Override

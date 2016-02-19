@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e20fd976_43a546cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T17:14:39Z",
+      "side": 1,
+      "message": "Throughout",
+      "revId": "73808f29d79e0547ebdc836758c801646ac2d96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0215cd83_049b5690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T17:14:39Z",
+      "side": 1,
+      "message": "Well, no, we shouldn\u0027t choose a random account, we need to special-case this instance as InternalUser, then have ChangeUpdate write out the GerritPersonIdent in that case.",
+      "revId": "73808f29d79e0547ebdc836758c801646ac2d96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -157,6 +157,24 @@
       "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0215cd83_a400824f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-19T19:02:38Z",
+      "side": 1,
+      "message": "Oh I understand now! Sorry for the confusion. :)\nI\u0027ll be pushing a patch set soon.",
+      "parentUuid": "e20fd976_039b4e90",
+      "revId": "84a4f455caa51cf8b4f3a0c5a63e14e565c99b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

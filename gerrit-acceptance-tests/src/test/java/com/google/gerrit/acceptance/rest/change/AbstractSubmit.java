@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -53,6 +54,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
@@ -101,6 +104,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
   private IdentifiedUser.GenericFactory factory;
+
+  @Inject
+  private Submit submitHandler;
 
   @Inject
   EventSource source;
@@ -250,6 +256,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       Class<? extends RestApiException> expectedExceptionType,
       String expectedExceptionMsg, boolean checkMergeResult) throws Exception {
     approve(changeId);
+    if (expectedExceptionType == null) {
+      assertSubmittable(changeId);
+    }
     try {
       gApi.changes().id(changeId).current().submit(input);
       if (expectedExceptionType != null) {
@@ -277,6 +286,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     if (checkMergeResult) {
       checkMergeResult(change);
     }
+  }
+
+  protected void assertSubmittable(String changeId) throws Exception {
+    assertThat(gApi.changes().id(changeId).info().submittable)
+        .named("submit bit on ChangeInfo")
+        .isEqualTo(true);
+    RevisionResource rsrc = parseCurrentRevisionResource(changeId);
+    UiAction.Description desc = submitHandler.getDescription(rsrc);
+    assertThat(desc.isVisible()).named("visible bit on submit action").isTrue();
+    assertThat(desc.isEnabled()).named("enabled bit on submit action").isTrue();
   }
 
   private void checkMergeResult(ChangeInfo change) throws Exception {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e20fd976_0337ce39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-19T19:36:36Z",
+      "side": 1,
+      "message": "Sorry again, but I believe I just accidentally found a hole in the tests. This always gives true since I\u0027m passing the change id instead of the commit id. When I pass in the commit id it works correctly but either way the tests pass. I\u0027ll write or modify a test before submitting a new patch set.",
+      "range": {
+        "startLine": 409,
+        "startChar": 53,
+        "endLine": 409,
+        "endChar": 67
+      },
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

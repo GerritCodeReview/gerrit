@@ -17,6 +17,24 @@
       "revId": "2f5e968b0029beced2d4dcb79fe189a6454b1e78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_2a185f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-19T15:11:03Z",
+      "side": 1,
+      "message": "I have no idea if it\u0027s an upstream issue or not :(",
+      "parentUuid": "bdd7c47d_8a286b1f",
+      "revId": "2f5e968b0029beced2d4dcb79fe189a6454b1e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

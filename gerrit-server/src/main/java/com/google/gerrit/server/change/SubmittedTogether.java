@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
@@ -74,7 +75,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       Change c = resource.getChange();
       List<ChangeData> cds;
       if (c.getStatus().isOpen()) {
-        cds = getForOpenChange(c);
+        cds = getForOpenChange(c, resource.getUser());
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
         cds = getForMergedChange(c);
       } else {
@@ -99,9 +100,9 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     }
   }
 
-  private List<ChangeData> getForOpenChange(Change c)
+  private List<ChangeData> getForOpenChange(Change c, CurrentUser user)
       throws OrmException, IOException {
-    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c);
+    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
     return cs.changes().asList();
   }
 

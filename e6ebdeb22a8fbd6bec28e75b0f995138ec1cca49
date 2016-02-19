@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5d57a8e9_0fc8251e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T14:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd7c47d_eadac792",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 55
+      },
+      "revId": "e6ebdeb22a8fbd6bec28e75b0f995138ec1cca49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd4087d_c75a5efa",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5d57a8e9_efd201d1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T14:47:10Z",
+      "side": 1,
+      "message": "Yes, we want defaultReader to be SystemReader.DEFAULT, which is not a public constant. AFAICT the only way to get it is by calling getInstance after setInstance(null)",
+      "parentUuid": "5dd4087d_c75a5efa",
+      "revId": "e6ebdeb22a8fbd6bec28e75b0f995138ec1cca49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd7c47d_aad0cf74",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-02-19T07:27:47Z",
       "side": 1,
       "message": "Is it correct that this timezone matches the timezone that is set in the tests, since this value comes from the \u0027user.timezone\u0027 property that is set by the test?",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 47
+      },
+      "revId": "e6ebdeb22a8fbd6bec28e75b0f995138ec1cca49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_8455a6cb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T14:47:10Z",
+      "side": 1,
+      "message": "Ok so I have no idea what this method actually means:\n\n\t/**\n\t * @param when TODO\n\t * @return the local time zone\n\t */\n\tpublic abstract int getTimezone(long when);\n\n\t/**\n\t * @return system time zone, possibly mocked for testing\n\t * @since 1.2\n\t */\n\tpublic TimeZone getTimeZone() {\n\t\treturn TimeZone.getDefault();\n\t}\n\ngetTimeZone uses the core Java TimeZone class, so it should respect the user.timezone property.\n\nWhat is getTimezone? No idea. But we\u0027re certainly keeping current behavior by delegating to defaultBehavior.",
+      "parentUuid": "bdd7c47d_aad0cf74",
       "range": {
         "startLine": 106,
         "startChar": 15,

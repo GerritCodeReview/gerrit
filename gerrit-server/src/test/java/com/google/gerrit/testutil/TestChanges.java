@@ -27,7 +27,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 
 import org.easymock.EasyMock;
 import org.eclipse.jgit.junit.TestRepository;
@@ -88,17 +90,20 @@ public class TestChanges {
 
   public static ChangeUpdate newUpdate(Injector injector,
       GitRepositoryManager repoManager, NotesMigration migration, Change c,
-      final AllUsersName allUsers, final IdentifiedUser user)
+      final AllUsersName allUsers, final CurrentUser user)
       throws Exception  {
+    PersonIdent sampleServerIdent = injector.getInstance(
+        Key.get(PersonIdent.class, GerritPersonIdent.class));
     ChangeUpdate update = injector.createChildInjector(new FactoryModule() {
       @Override
       public void configure() {
         factory(ChangeUpdate.Factory.class);
         factory(ChangeDraftUpdate.Factory.class);
-        bind(IdentifiedUser.class).toInstance(user);
+        bind(CurrentUser.class).toInstance(user);
       }
     }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(repoManager, migration, c, allUsers, user),
+        stubChangeControl(
+            repoManager, migration, c, allUsers, sampleServerIdent, user),
         TimeUtil.nowTs(), Ordering.<String> natural());
 
     ChangeNotes notes = update.getChangeNotes();
@@ -112,8 +117,8 @@ public class TestChanges {
     // first patch set, so create one.
     try (Repository repo = repoManager.openRepository(c.getProject())) {
       TestRepository<Repository> tr = new TestRepository<>(repo);
-      PersonIdent ident =
-          user.newCommitterIdent(update.getWhen(), TimeZone.getDefault());
+      PersonIdent ident = user.asIdentifiedUser()
+          .newCommitterIdent(update.getWhen(), TimeZone.getDefault());
       TestRepository<Repository>.CommitBuilder cb = tr.commit()
           .author(ident)
           .committer(ident)
@@ -131,15 +136,14 @@ public class TestChanges {
 
   private static ChangeControl stubChangeControl(
       GitRepositoryManager repoManager, NotesMigration migration,
-      Change c, AllUsersName allUsers,
-      IdentifiedUser user) throws OrmException {
+      Change c, AllUsersName allUsers, PersonIdent sampleServerIdent,
+      CurrentUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
     expect(ctl.getUser()).andStubReturn(user);
-    ChangeNotes notes =
-        new ChangeNotes(repoManager, migration, allUsers, c.getProject(), c)
-            .load();
+    ChangeNotes notes = new ChangeNotes(repoManager, migration, allUsers,
+        sampleServerIdent, c.getProject(), c).load();
     expect(ctl.getNotes()).andStubReturn(notes);
     expect(ctl.getId()).andStubReturn(c.getId());
     EasyMock.replay(ctl);

@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
@@ -120,6 +121,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
     private final AllUsersName allUsers;
+    private final PersonIdent sampleServerIdent;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
 
@@ -128,11 +130,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
         AllUsersName allUsers,
+        @GerritPersonIdent PersonIdent sampleServerIdent,
         Provider<InternalChangeQuery> queryProvider,
         ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsers = allUsers;
+      this.sampleServerIdent = sampleServerIdent;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
     }
@@ -175,8 +179,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Change change = db.changes().get(changeId);
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
-      return new ChangeNotes(repoManager, migration, allUsers, project,
-          change).load();
+      return new ChangeNotes(repoManager, migration, allUsers,
+          sampleServerIdent, project, change).load();
     }
 
     /**
@@ -189,12 +193,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      */
     public ChangeNotes createFromIndexedChange(Change change) {
       return new ChangeNotes(repoManager, migration, allUsers,
-          change.getProject(), change);
+          sampleServerIdent, change.getProject(), change);
     }
 
     public ChangeNotes createForNew(Change change) throws OrmException {
       return new ChangeNotes(repoManager, migration, allUsers,
-          change.getProject(), change).load();
+          sampleServerIdent, change.getProject(), change).load();
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
@@ -204,7 +208,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
       Change change = db.changes().get(changeId);
       return new ChangeNotes(repoManager, migration, allUsers,
-          change.getProject(), change).load();
+          sampleServerIdent, change.getProject(), change).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -217,7 +221,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       checkState(!migration.readChanges(), "do not call"
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
       return new ChangeNotes(repoManager, migration, allUsers,
-          change.getProject(), change).load();
+          sampleServerIdent, change.getProject(), change).load();
     }
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(ReviewDb db,
@@ -265,13 +269,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   Map<RevId, RevisionNote> revisionNotes;
 
   private final AllUsersName allUsers;
+  private final PersonIdent sampleServerIdent;
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersName allUsers, Project.NameKey project,
+  public ChangeNotes(
+      GitRepositoryManager repoManager,
+      NotesMigration migration,
+      AllUsersName allUsers,
+      PersonIdent sampleServerIdent,
+      Project.NameKey project,
       Change change) {
     super(repoManager, migration, change != null ? change.getId() : null);
+    this.sampleServerIdent = sampleServerIdent;
     this.allUsers = allUsers;
     this.project = project;
     this.change = change != null ? new Change(change) : null;
@@ -408,7 +418,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
     try (RevWalk walk = new RevWalk(reader);
         ChangeNotesParser parser = new ChangeNotesParser(project,
-            change.getId(), rev, walk, repoManager)) {
+            change.getId(), rev, walk, repoManager, sampleServerIdent)) {
       parser.parseAll();
 
       if (parser.status != null) {

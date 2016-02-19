@@ -232,7 +232,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   @Override
   protected Status applyImpl(CommitBuilder cb, ObjectInserter ins)
       throws OrmException, IOException {
-    cb.setAuthor(newIdent(getUser().getAccount(), when));
+    cb.setAuthor(newAuthorIdent());
     cb.setCommitter(new PersonIdent(serverIdent, when));
     cb.setMessage("Update draft comments");
     AtomicBoolean removedAllComments = new AtomicBoolean();

@@ -40,7 +40,9 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -80,6 +82,7 @@ public class ChangeRebuilder {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeControl.GenericFactory controlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final InternalUser.Factory internalUserFactory;
   private final PatchListCache patchListCache;
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
@@ -89,6 +92,7 @@ public class ChangeRebuilder {
   ChangeRebuilder(Provider<ReviewDb> dbProvider,
       ChangeControl.GenericFactory controlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      InternalUser.Factory internalUserFactory,
       PatchListCache patchListCache,
       ChangeUpdate.Factory updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -96,6 +100,7 @@ public class ChangeRebuilder {
     this.dbProvider = dbProvider;
     this.controlFactory = controlFactory;
     this.userFactory = userFactory;
+    this.internalUserFactory = internalUserFactory;
     this.patchListCache = patchListCache;
     this.updateFactory = updateFactory;
     this.draftUpdateFactory = draftUpdateFactory;
@@ -161,7 +166,9 @@ public class ChangeRebuilder {
         if (update != null) {
           manager.add(update);
         }
-        IdentifiedUser user = userFactory.create(dbProvider, e.who);
+        CurrentUser user = e.who != null
+            ? userFactory.create(dbProvider, e.who)
+            : internalUserFactory.create();
         update = updateFactory.create(
             controlFactory.controlFor(db, change, user), e.when);
         update.setPatchSetId(e.psId);

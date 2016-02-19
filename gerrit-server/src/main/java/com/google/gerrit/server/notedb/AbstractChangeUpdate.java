@@ -20,7 +20,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -57,6 +59,10 @@ public abstract class AbstractChangeUpdate {
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
     this.when = when;
+    checkArgument(
+        (ctl.getUser() instanceof IdentifiedUser)
+            || (ctl.getUser() instanceof InternalUser),
+        "user must be IdentifiedUser or InternalUser: %s", ctl.getUser());
   }
 
   public ChangeNotes getChangeNotes() {
@@ -71,8 +77,8 @@ public abstract class AbstractChangeUpdate {
     return when;
   }
 
-  public IdentifiedUser getUser() {
-    return ctl.getUser().asIdentifiedUser();
+  public CurrentUser getUser() {
+    return ctl.getUser();
   }
 
   public PatchSet.Id getPatchSetId() {
@@ -82,6 +88,17 @@ public abstract class AbstractChangeUpdate {
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null || psId.getParentKey().equals(ctl.getId()));
     this.psId = psId;
+  }
+
+  protected PersonIdent newAuthorIdent() {
+    CurrentUser u = getUser();
+    if (u instanceof IdentifiedUser) {
+      return ChangeNoteUtil.newIdent(u.asIdentifiedUser().getAccount(), when,
+          serverIdent, anonymousCowardName);
+    } else if (u instanceof InternalUser) {
+      return serverIdent;
+    }
+    throw new IllegalStateException();
   }
 
   protected PersonIdent newIdent(Account author, Date when) {

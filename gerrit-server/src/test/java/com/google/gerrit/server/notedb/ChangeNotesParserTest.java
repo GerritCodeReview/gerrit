@@ -381,6 +381,39 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Groups: d,e,f\n");
   }
 
+  @Test
+  public void parseServerIdent() throws Exception {
+    String msg = "Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "Subject: Change subject\n";
+    assertParseSucceeds(msg);
+    assertParseSucceeds(writeCommit(msg, serverIdent));
+
+    msg = "Update change\n"
+        + "\n"
+        + "With a message."
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "Subject: Change subject\n";
+    assertParseSucceeds(msg);
+    assertParseSucceeds(writeCommit(msg, serverIdent));
+
+    msg = "Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "Subject: Change subject\n"
+        + "Label: Label1=+1\n";
+    assertParseSucceeds(msg);
+    assertParseFails(writeCommit(msg, serverIdent));
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
@@ -404,7 +437,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private void assertParseSucceeds(String body) throws Exception {
-    try (ChangeNotesParser parser = newParser(writeCommit(body))) {
+    assertParseSucceeds(writeCommit(body));
+  }
+
+  private void assertParseSucceeds(RevCommit commit) throws Exception {
+    try (ChangeNotesParser parser = newParser(commit)) {
       parser.parseAll();
     }
   }
@@ -425,6 +462,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     Change c = newChange();
     return new ChangeNotesParser(c.getProject(), c.getId(), tip, walk,
-        repoManager);
+        repoManager, serverIdent);
   }
 }

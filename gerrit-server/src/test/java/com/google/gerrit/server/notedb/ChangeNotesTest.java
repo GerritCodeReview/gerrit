@@ -849,7 +849,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithComments = new ChangeNotesParser(project,
-          c.getId(), commitWithComments.copy(), rw, repoManager)) {
+          c.getId(), commitWithComments.copy(), rw, repoManager, serverIdent)) {
         notesWithComments.parseAll();
         ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
             notesWithComments.buildApprovals();
@@ -860,7 +860,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithApprovals = new ChangeNotesParser(project,
-          c.getId(), commitWithApprovals.copy(), rw, repoManager)) {
+          c.getId(), commitWithApprovals.copy(), rw, repoManager,
+          serverIdent)) {
         notesWithApprovals.parseAll();
         ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
             notesWithApprovals.buildApprovals();
@@ -1645,6 +1646,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
     assertThat(notes.getComments()).hasSize(2);
+  }
+
+  @Test
+  public void updateWithServerIdent() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, internalUser);
+    update.setChangeMessage("A message.");
+    update.commit();
+
+    ChangeMessage msg = Iterables.getLast(newNotes(c).getChangeMessages());
+    assertThat(msg.getMessage()).isEqualTo("A message.");
+    assertThat(msg.getAuthor()).isNull();
+
+    update = newUpdate(c, internalUser);
+    exception.expect(UnsupportedOperationException.class);
+    update.putApproval("Code-Review", (short) 1);
   }
 
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {

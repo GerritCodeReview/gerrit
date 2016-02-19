@@ -29,7 +29,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
-
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -479,7 +478,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   protected Status applyImpl(CommitBuilder cb, ObjectInserter ins)
       throws OrmException, IOException {
-    cb.setAuthor(newIdent(getUser().getAccount(), when));
+    cb.setAuthor(newAuthorIdent());
     cb.setCommitter(new PersonIdent(serverIdent, when));
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();

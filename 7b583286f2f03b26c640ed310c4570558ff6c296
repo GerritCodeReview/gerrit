@@ -51,6 +51,24 @@
       "revId": "7b583286f2f03b26c640ed310c4570558ff6c296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20fd976_c3b0160c",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-19T17:19:36Z",
+      "side": 1,
+      "message": "That’s more of a usability concern than a code one. I’d prefer we land and see how it behaves. As you can see it’s not a difficult change to revert.",
+      "parentUuid": "fd585ce7_848cc6b5",
+      "revId": "7b583286f2f03b26c640ed310c4570558ff6c296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

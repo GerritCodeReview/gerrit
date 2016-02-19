@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -47,7 +46,6 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -117,7 +115,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final GitRepositoryManager repoManager;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final MergeSuperSet mergeSuperSet;
@@ -137,7 +134,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       GitRepositoryManager repoManager,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       MergeSuperSet mergeSuperSet,
@@ -149,7 +145,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.repoManager = repoManager;
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
-    this.changeControlFactory = changeControlFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
@@ -233,19 +228,16 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   /**
    * @param cs set of changes to be submitted at once
-   * @param project the name of the project
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
   private String problemsForSubmittingChangeset(ChangeSet cs,
-      Project.NameKey project, IdentifiedUser identifiedUser) {
+      IdentifiedUser identifiedUser) {
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
-      for (PatchSet.Id psId : cs.patchIds()) {
-        ChangeControl changeControl = changeControlFactory
-            .controlFor(db, project, psId.getParentKey(), identifiedUser);
-        ChangeData c = changeDataFactory.create(db, changeControl);
+      for (ChangeData c : cs.changes()) {
+        ChangeControl changeControl = c.changeControl(identifiedUser);
 
         if (!changeControl.isVisible(db)) {
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
@@ -270,7 +262,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (NoSuchChangeException | OrmException e) {
+    } catch (OrmException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
@@ -329,7 +321,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.completeChangeSet(db, cd.change());
+      cs = mergeSuperSet.completeChangeSet(
+          db, cd.change(), resource.getControl().getUser());
     } catch (OrmException | IOException e) {
       throw new OrmRuntimeException("Could not determine complete set of " +
           "changes to be submitted", e);
@@ -343,8 +336,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && !Strings.isNullOrEmpty(topic)
         && topicSize > 1;
 
-    String submitProblems = problemsForSubmittingChangeset(cs,
-        resource.getProject(), resource.getUser());
+    String submitProblems =
+        problemsForSubmittingChangeset(cs, resource.getUser());
     if (submitProblems != null) {
       return new UiAction.Description()
         .setLabel(treatWithTopic

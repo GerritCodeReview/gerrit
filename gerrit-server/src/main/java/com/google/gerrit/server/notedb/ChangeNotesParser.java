@@ -217,7 +217,9 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     Account.Id accountId = parseIdent(commit);
-    ownerId = accountId;
+    if (accountId != null) {
+      ownerId = accountId;
+    }
 
     if (changeId == null) {
       changeId = parseChangeId(commit);
@@ -339,6 +341,10 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parsePatchSet(PatchSet.Id psId, ObjectId rev,
       Account.Id accountId, Timestamp ts) throws ConfigInvalidException {
+    if (accountId == null) {
+      throw parseException(
+          "patch set %s requires an identified user as uploader", psId.get());
+    }
     PatchSet ps = patchSets.get(psId);
     if (ps == null) {
       ps = new PatchSet(psId);
@@ -518,6 +524,10 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,
       Timestamp ts, String line) throws ConfigInvalidException {
+    if (accountId == null) {
+      throw parseException(
+          "patch set %s requires an identified user as uploader", psId.get());
+    }
     if (line.startsWith("-")) {
       parseRemoveApproval(psId, accountId, line);
     } else {
@@ -665,6 +675,14 @@ class ChangeNotesParser implements AutoCloseable {
 
   private Account.Id parseIdent(RevCommit commit)
       throws ConfigInvalidException {
+    // Check if the author name/email is the same as the committer name/email,
+    // i.e. was the server ident at the time this commit was made.
+    PersonIdent a = commit.getAuthorIdent();
+    PersonIdent c = commit.getCommitterIdent();
+    if (a.getName().equals(c.getName())
+        && a.getEmailAddress().equals(c.getEmailAddress())) {
+      return null;
+    }
     return parseIdent(commit.getAuthorIdent());
   }
 

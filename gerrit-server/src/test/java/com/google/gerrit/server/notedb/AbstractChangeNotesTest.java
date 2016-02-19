@@ -29,8 +29,10 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -88,6 +90,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   protected InMemoryRepository repo;
   protected InMemoryRepositoryManager repoManager;
   protected PersonIdent serverIdent;
+  protected InternalUser internalUser;
   protected Project.NameKey project;
   protected RevWalk rw;
   protected TestRepository<InMemoryRepository> tr;
@@ -158,6 +161,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());
     otherUserId = otherUser.getAccountId();
+    internalUser = new InternalUser(null);
   }
 
   private void setTimeForTesting() {
@@ -180,7 +184,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
     return c;
   }
 
-  protected ChangeUpdate newUpdate(Change c, IdentifiedUser user)
+  protected ChangeUpdate newUpdate(Change c, CurrentUser user)
       throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(
         injector, repoManager, MIGRATION, c, allUsers, user);

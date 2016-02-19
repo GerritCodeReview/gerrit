@@ -1702,6 +1702,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getComments()).hasSize(2);
   }
 
+  @Test
+  public void updateWithServerIdent() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, internalUser);
+    update.setChangeMessage("A message.");
+    update.commit();
+
+    ChangeMessage msg = Iterables.getLast(newNotes(c).getChangeMessages());
+    assertThat(msg.getMessage()).isEqualTo("A message.");
+    assertThat(msg.getAuthor()).isNull();
+
+    update = newUpdate(c, internalUser);
+    exception.expect(UnsupportedOperationException.class);
+    update.putApproval("Code-Review", (short) 1);
+  }
+
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
     ObjectId dataId = notes.getNoteMap().getNote(noteId).getData();
     return new String(

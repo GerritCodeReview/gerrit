@@ -52,6 +52,24 @@
       "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ac25b5_be9fb979",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-19T20:35:16Z",
+      "side": 1,
+      "message": "\u003e \u003e The problem is that all the framework around notedb requires a user/account for making updates to the notes branch. E.g. to create a ChangeUpdate instance we need a ChangeControl instance, which we can only create for a user/account.\n\n\u003e Not true, ChangeControl accepts any CurrentUser.\n\nAh, at least part of the issue is that BatchMetaDataUpdate requires an IdentifiedUser. Fortunately I just rewrote AbstractChangeUpdate to not be a VersionedMetaData, so that restriction no longer applies.",
+      "parentUuid": "e20fd976_a3a99aa7",
+      "revId": "365e51ecaafd01fc8da3bf6f2348908b2016fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

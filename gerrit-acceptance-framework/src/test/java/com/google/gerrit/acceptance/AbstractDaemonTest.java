@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -51,6 +52,9 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -59,6 +63,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -178,6 +183,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ChangeFinder changeFinder;
+
+  @Inject
+  protected Revisions revisions;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -652,5 +660,33 @@ public abstract class AbstractDaemonTest {
 
   protected IdentifiedUser user(TestAccount testAccount) {
     return identifiedUserFactory.create(Providers.of(db), testAccount.getId());
+  }
+
+  protected RevisionResource parseCurrentRevisionResource(String changeId)
+      throws Exception {
+    ChangeResource cr = parseChangeResource(changeId);
+    int psId = cr.getChange().currentPatchSetId().get();
+    return revisions.parse(cr,
+        IdString.fromDecoded(Integer.toString(psId)));
+  }
+
+  protected RevisionResource parseRevisionResource(String changeId, int n)
+      throws Exception {
+    return revisions.parse(parseChangeResource(changeId),
+        IdString.fromDecoded(Integer.toString(n)));
+  }
+
+  protected RevisionResource parseRevisionResource(PushOneCommit.Result r)
+      throws Exception {
+    PatchSet.Id psId = r.getPatchSetId();
+    return parseRevisionResource(psId.getParentKey().toString(), psId.get());
+  }
+
+  protected ChangeResource parseChangeResource(String changeId)
+      throws Exception {
+    List<ChangeControl> ctls = changeFinder.find(
+        changeId, atrScope.get().getUser());
+    assertThat(ctls).hasSize(1);
+    return new ChangeResource(ctls.get(0));
   }
 }

@@ -36,7 +36,10 @@ while not path.exists(path.join(ROOT, '.buckconfig')):
   ROOT = path.dirname(ROOT)
 
 opts = OptionParser()
-opts.add_option('--src', action='store_true')
+opts.add_option('--src', action='store_true',
+                help='(deprecated) attach sources')
+opts.add_option('--no-src', dest='no_src', action='store_true',
+                help='do not attach sources')
 opts.add_option('--plugins', help='create eclipse projects for plugins',
                 action='store_true')
 args, _ = opts.parse_args()
@@ -215,7 +218,7 @@ def gen_factorypath():
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
 try:
-  if args.src:
+  if not args.no_src:
     try:
       check_call([path.join(ROOT, 'tools', 'download_all.py'), '--src'])
     except CalledProcessError as err:

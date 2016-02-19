@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd7c47d_2a7e9f41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-19T06:08:11Z",
+      "side": 1,
+      "message": "Optional: Mention that this diff hasn\u0027t fixed Unified Diff Screen. Prettify is used there. There is also pending change to migrate Unified Diff Screen to CM.",
+      "revId": "efe36f91262a7e28efbef3e7c546f125071562a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

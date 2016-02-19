@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e20fd976_e3fa7289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-19T18:39:09Z",
+      "side": 1,
+      "message": "Yes, I took it directly from our internal bug tracker. By quoting I just want to point out it was not my idea, but rather I code-monkey\u0027d a trivial request.",
+      "parentUuid": "0215cd83_24e492fa",
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0215cd83_44f38ec2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-19T18:30:02Z",
       "side": 1,
       "message": "How about:\n\n\"A change was created that reverts this patch set\"?\n\nI\u0027d maybe also like to hear David Pursehouse\u0027s take, as our resident speaker of the Queen\u0027s English.",
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0215cd83_84d46605",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-19T18:39:09Z",
+      "side": 1,
+      "message": "\"A change was created to revert this patchset: \" would also be fine?\n\nBut I guess I leave the exact wording to a native speaker. :)",
+      "parentUuid": "0215cd83_44f38ec2",
       "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dd4087d_c75a5efa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-19T07:27:47Z",
+      "side": 1,
+      "message": "Is this needed when we set the instance to r below?",
+      "revId": "e6ebdeb22a8fbd6bec28e75b0f995138ec1cca49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd7c47d_aad0cf74",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-19T07:27:47Z",
+      "side": 1,
+      "message": "Is it correct that this timezone matches the timezone that is set in the tests, since this value comes from the \u0027user.timezone\u0027 property that is set by the test?",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 47
+      },
+      "revId": "e6ebdeb22a8fbd6bec28e75b0f995138ec1cca49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

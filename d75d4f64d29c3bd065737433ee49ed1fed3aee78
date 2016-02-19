@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5dd4087d_c7dffe80",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-19T13:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_4fab0d4e",
+      "revId": "d75d4f64d29c3bd065737433ee49ed1fed3aee78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_0fa1056e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 19
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5dd4087d_27c53aae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-19T13:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_0fa1056e",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 54
+      },
+      "revId": "d75d4f64d29c3bd065737433ee49ed1fed3aee78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_2f9ec92c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 19
@@ -53,6 +95,30 @@
       "writtenOn": "2016-02-19T13:41:19Z",
       "side": 1,
       "message": "r.assertOK();",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 54
+      },
+      "revId": "d75d4f64d29c3bd065737433ee49ed1fed3aee78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dd4087d_07c2b6a5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-19T13:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_2f9ec92c",
       "range": {
         "startLine": 191,
         "startChar": 4,

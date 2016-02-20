@@ -88,6 +88,24 @@
       "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2349568_a29f7e79",
+        "filename": "polygerrit-ui/.jscsrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-20T12:29:57Z",
+      "side": 1,
+      "message": "Done.\n\nI have removed this line. This way, it falls back to \"google\" preset [1] which limits to 80 chars, but allows longer lines for comments.\n\n[1] https://github.com/jscs-dev/node-jscs/blob/master/presets/google.json",
+      "parentUuid": "fd585ce7_e44d7a6a",
+      "revId": "1168a39417f11dc87d0bce4f77c10c03627f6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

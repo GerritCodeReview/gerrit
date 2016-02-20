@@ -81,12 +81,16 @@ limitations under the License.
         border-color: #d1d2d3;
         color: #aaa;
       }
-      :host([primary]:focus),
+      :host([primary]:focus) {
+        border-color: #fff;
+        box-shadow: 0 0 1px #00f;
+      }
       :host([primary]:hover) {
         border-color: #00F;
       }
       :host([primary]:active) {
         border-color: #0c2188;
+        box-shadow: none;
         color: #fff;
       }
       :host([primary][loading]),

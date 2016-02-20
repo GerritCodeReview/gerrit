@@ -169,6 +169,29 @@
       "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f0dddd_30b408fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-20T13:03:04Z",
+      "side": 1,
+      "message": "How about adding the canonical url to the change, rather than Change-Id which can end up referring to more than one change?",
+      "range": {
+        "startLine": 256,
+        "startChar": 11,
+        "endLine": 256,
+        "endChar": 53
+      },
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62f3e9ea_efbea1db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-20T21:36:59Z",
+      "side": 1,
+      "message": "SchemaModule has bind(AllUsersName.class).toProvider(AllUsersNameProvider.class)\n\nThat means if you @Inject an AllUsersName, it looks up the Provider\u003cAllUsersName\u003e in the injector\u0027s provider map, then calls get() on the resulting provider to get an instance.",
+      "parentUuid": "62f3e9ea_6faab19c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "6d79fd8d8116615ef09835957b5823b489baf60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_10b1040e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-20T13:14:21Z",
       "side": 1,
       "message": "It seems to be following the same pattern as AllProjectsNameProvider.\n\nWhat\u0027s the rationale for changing this one, but not AllProjectsNameProvider?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "6d79fd8d8116615ef09835957b5823b489baf60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_cfc3dd55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-20T21:36:59Z",
+      "side": 1,
+      "message": "Because I was working on code that used AllUsersName?\n\nAnyway this happens sometimes with AllProjectsName but it is more often injected directly:\n\n $ find g* -name \\*.java | xargs grep \u0027AllProjectsNameProvider \u0027 | wc -l\n 13\n $ find g* -name \\*.java | xargs grep \u0027AllProjectsName \u0027 | wc -l\n 44",
+      "parentUuid": "82f0dddd_10b1040e",
       "range": {
         "startLine": 10,
         "startChar": 0,

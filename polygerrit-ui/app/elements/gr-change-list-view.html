@@ -47,8 +47,13 @@ limitations under the License.
       nav a:first-of-type {
         margin-right: .5em;
       }
-      [hidden] {
-        display: none !important;
+      @media only screen and (max-width: 60em) {
+        :host {
+          margin: 0;
+        }
+        .loading {
+          padding: 0 1.25rem;
+        }
       }
     </style>
     <gr-ajax

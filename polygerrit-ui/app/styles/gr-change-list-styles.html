@@ -16,6 +16,19 @@ limitations under the License.
 <dom-module id="gr-change-list-styles">
   <template>
     <style>
+      .headerRow {
+        display: flex;
+      }
+      .topHeader,
+      .groupHeader {
+        border-bottom: 1px solid #eee;
+        font-weight: bold;
+        padding: .3em .5em;
+      }
+      .topHeader {
+        background-color: #ddd;
+        flex-shrink: 0;
+      }
       .keyboard,
       .star {
         align-items: center;
@@ -64,6 +77,42 @@ limitations under the License.
       }
       :host {
         font-size: 11px;
+      }
+      @media only screen and (max-width: 60em) {
+        :host {
+          font-size: 14px;
+        }
+        gr-change-list-item {
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: .25em .5em;
+        }
+        gr-change-list-item[selected] {
+          background-color: transparent;
+        }
+        .topHeader,
+        .keyboard,
+        .status,
+        .project,
+        .branch,
+        .updated,
+        .label {
+          display: none;
+        }
+        .star {
+          align-items: flex-start;
+          padding-left: .35em
+          padding-top: .4em;
+        }
+        .subject {
+          margin-bottom: .25em;
+          text-decoration: underline;
+          width: calc(100% - 2em);
+        }
+        .owner,
+        .size {
+          width: auto;
+        }
       }
       @media only screen and (min-width: 1240px) {
         :host {

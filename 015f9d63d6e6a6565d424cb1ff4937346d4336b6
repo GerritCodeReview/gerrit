@@ -55,6 +55,52 @@
     },
     {
       "key": {
+        "uuid": "82f0dddd_70aa909c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-20T13:00:51Z",
+      "side": 1,
+      "message": "Do we need this?  IIUC a revert can only be done on the latest patch set of a merged change.",
+      "range": {
+        "startLine": 252,
+        "startChar": 20,
+        "endLine": 252,
+        "endChar": 32
+      },
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_cf9abd8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-20T13:00:51Z",
+      "side": 1,
+      "message": "This should be removed if we don\u0027t want the implication that the revert has already been done.",
+      "range": {
+        "startLine": 253,
+        "startChar": 21,
+        "endLine": 253,
+        "endChar": 29
+      },
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0215cd83_44f38ec2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 1
@@ -102,6 +148,24 @@
       "side": 1,
       "message": "Let\u0027s say a quorum of native speakers :\n\nAlthough I might prefer \"patch set\" rather than \"patchset\" regardless.",
       "parentUuid": "0215cd83_84d46605",
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_af9f7979",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-20T13:00:51Z",
+      "side": 1,
+      "message": "The message is being added to the change as the user, so it might be better to say something like:  \"Uploaded a revert of this change\".",
+      "parentUuid": "e20fd976_c3f776a1",
       "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

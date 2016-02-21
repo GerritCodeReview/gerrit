@@ -16,9 +16,11 @@ package com.google.gerrit.server.config;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+@Singleton
 public class AllProjectsNameProvider implements Provider<AllProjectsName> {
   public static final String DEFAULT = "All-Projects";
 

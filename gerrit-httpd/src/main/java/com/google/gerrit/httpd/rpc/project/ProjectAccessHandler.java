@@ -32,7 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -56,7 +56,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private final ProjectControl.Factory projectControlFactory;
   protected final GroupBackend groupBackend;
   private final MetaDataUpdate.User metaDataUpdateFactory;
-  private final AllProjectsNameProvider allProjects;
+  private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
 
   protected final Project.NameKey projectName;
@@ -68,7 +68,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
   protected ProjectAccessHandler(ProjectControl.Factory projectControlFactory,
       GroupBackend groupBackend, MetaDataUpdate.User metaDataUpdateFactory,
-      AllProjectsNameProvider allProjects, Provider<SetParent> setParent,
+      AllProjectsName allProjects, Provider<SetParent> setParent,
       Project.NameKey projectName, ObjectId base,
       List<AccessSection> sectionList, Project.NameKey parentProjectName,
       String message, boolean checkIfOwner) {
@@ -129,12 +129,12 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       }
 
       boolean parentProjectUpdate = false;
-      if (!config.getProject().getNameKey().equals(allProjects.get()) &&
-          !config.getProject().getParent(allProjects.get()).equals(parentProjectName)) {
+      if (!config.getProject().getNameKey().equals(allProjects) &&
+          !config.getProject().getParent(allProjects).equals(parentProjectName)) {
         parentProjectUpdate = true;
         try {
           setParent.get().validateParentUpdate(projectControl,
-              MoreObjects.firstNonNull(parentProjectName, allProjects.get()).get(),
+              MoreObjects.firstNonNull(parentProjectName, allProjects).get(),
               checkIfOwner);
         } catch (AuthException e) {
           throw new UpdateParentFailedException(

@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,9 +32,9 @@ public class ProjectJson {
   private final WebLinks webLinks;
 
   @Inject
-  ProjectJson(AllProjectsNameProvider allProjectsNameProvider,
+  ProjectJson(AllProjectsName allProjectsName,
       WebLinks webLinks) {
-    this.allProjects = allProjectsNameProvider.get();
+    this.allProjects = allProjectsName;
     this.webLinks = webLinks;
   }
 

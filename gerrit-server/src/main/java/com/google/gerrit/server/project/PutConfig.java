@@ -32,7 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -86,7 +86,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
-  private final AllProjectsNameProvider allProjects;
+  private final AllProjectsName allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
   private final ChangeHooks hooks;
@@ -101,7 +101,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
-      AllProjectsNameProvider allProjects,
+      AllProjectsName allProjects,
       DynamicMap<RestView<ProjectResource>> views,
       ChangeHooks hooks,
       GitReferenceUpdated gitRefUpdated,

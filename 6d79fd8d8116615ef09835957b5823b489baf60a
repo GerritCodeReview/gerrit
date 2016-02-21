@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "82f0dddd_f0be80db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-21T12:59:04Z",
+      "side": 1,
+      "message": "OK, I see now.  Maybe explain this in the commit message?",
+      "parentUuid": "62f3e9ea_efbea1db",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "6d79fd8d8116615ef09835957b5823b489baf60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_10b1040e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Because I was working on code that used AllUsersName?\n\nAnyway this happens sometimes with AllProjectsName but it is more often injected directly:\n\n $ find g* -name \\*.java | xargs grep \u0027AllProjectsNameProvider \u0027 | wc -l\n 13\n $ find g* -name \\*.java | xargs grep \u0027AllProjectsName \u0027 | wc -l\n 44",
       "parentUuid": "82f0dddd_10b1040e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "6d79fd8d8116615ef09835957b5823b489baf60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f0dddd_d0c37c55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-21T12:59:04Z",
+      "side": 1,
+      "message": "\u003e Because I was working on code that used AllUsersName?\n\nFair enough :)",
+      "parentUuid": "62f3e9ea_cfc3dd55",
       "range": {
         "startLine": 10,
         "startChar": 0,

@@ -78,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "4248a5fd_de95c55d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T18:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f0dddd_70aa909c",
+      "range": {
+        "startLine": 252,
+        "startChar": 20,
+        "endLine": 252,
+        "endChar": 32
+      },
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62f3e9ea_cf9abd8b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 1
@@ -89,6 +113,30 @@
       "writtenOn": "2016-02-20T13:00:51Z",
       "side": 1,
       "message": "This should be removed if we don\u0027t want the implication that the revert has already been done.",
+      "range": {
+        "startLine": 253,
+        "startChar": 21,
+        "endLine": 253,
+        "endChar": 29
+      },
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_fe9a018b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T18:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62f3e9ea_cf9abd8b",
       "range": {
         "startLine": 253,
         "startChar": 21,
@@ -166,6 +214,24 @@
       "side": 1,
       "message": "The message is being added to the change as the user, so it might be better to say something like:  \"Uploaded a revert of this change\".",
       "parentUuid": "e20fd976_c3f776a1",
+      "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_9e9f3d7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T18:33:14Z",
+      "side": 1,
+      "message": "I liked this until I tried rewriting the commit message and\ngiving reasons for why this is better. I agree that we rather\ntalk about reverting changes than revisions, but the revert has not been \"uploaded\". By uploading I assume it was a local revert followed by a push. This revert however was generated using the Gerrit web UI, so how about \"Created a revert of this change\" ?",
+      "parentUuid": "62f3e9ea_af9f7979",
       "revId": "015f9d63d6e6a6565d424cb1ff4937346d4336b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

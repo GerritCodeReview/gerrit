@@ -16,6 +16,24 @@
       "revId": "7cb5c54c5e1d814d9e38103cfd33ae484fe873ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_046e76cb",
+        "filename": "polygerrit-ui/app/scripts/ba-linkify.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-22T19:42:41Z",
+      "side": 1,
+      "message": "This could be done for JSHint [1] and JSCS [2]. I have tried it and it works fine.\n\nI prefer to not do this since it is IMHO wrong to add such files to the our source tree. These external dependencies should be handled with a dependency management system (I\u0027m aware that there is no bower package for this library atm).\n\nI think we should keep these excludes as local as possible. Keep in mind that this file-header is already heavily modified by us (licence stuff added, documentation removed, changelog removed). So these two lines should not bother [3].\n\nI would also not start with a third-party folder since this would encourage people to add more such files to the source tree.\n\n[1] http://stackoverflow.com/a/14741346\n[2] https://github.com/jscs-dev/grunt-jscs/issues/85#issuecomment-89249921\n[3] https://raw.githubusercontent.com/cowboy/javascript-linkify/master/ba-linkify.js",
+      "parentUuid": "823e1d48_e095825d",
+      "revId": "7cb5c54c5e1d814d9e38103cfd33ae484fe873ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

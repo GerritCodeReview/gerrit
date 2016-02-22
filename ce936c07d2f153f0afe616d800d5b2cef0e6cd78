@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02fdcdc0_84f266bd",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T09:04:17Z",
+      "side": 1,
+      "message": "\"Fix keyboard shortcuts for non-US keyboards on Side-By-Side Diff screen. Please note, that keyboard navigation is still broken on Unified Diff screen on german keyboard layout.\"\n\nNothing causes more pain, frustration, and disappointment than unfulfilled expectations:\n\n* 1. Switch to german keyboard\n* 2. Open a change with number of changed files\n* 3. Open diff screen\n* 4. Open unified diff screen\n* 5. Click \u0027]\u0027\n\n... and nothing happens.",
+      "revId": "ce936c07d2f153f0afe616d800d5b2cef0e6cd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

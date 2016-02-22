@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "823e1d48_e095825d",
+        "filename": "polygerrit-ui/app/scripts/ba-linkify.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-22T01:23:25Z",
+      "side": 1,
+      "message": "Can you add this to the ignore list in the config? Ultimately we should have a third_party directory for this stuff but for now I don’t think we should have to alter a file not originally written by us for this purpose.",
+      "revId": "7cb5c54c5e1d814d9e38103cfd33ae484fe873ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -69,6 +69,30 @@
       "revId": "6541487aef5f67b1ce553e4b8907d711edf454cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_6f46319d",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T13:25:57Z",
+      "side": 1,
+      "message": "Instead of adding \"_r\" suffix for the release build, how about making the one in the development build have a \"_dev\" suffix?\n\nBut since \"_r\" is already used, maybe better to go with \"_r\" now and swap it around in a follow-up change? Or swap it in a separate change and rebase this one on top?",
+      "parentUuid": "02fdcdc0_0412f676",
+      "range": {
+        "startLine": 92,
+        "startChar": 20,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "6541487aef5f67b1ce553e4b8907d711edf454cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

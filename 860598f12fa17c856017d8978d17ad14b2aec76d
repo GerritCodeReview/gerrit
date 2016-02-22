@@ -94,6 +94,24 @@
       "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_ef7fc1b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-22T15:15:25Z",
+      "side": 1,
+      "message": "I tried implementing your idea and it passed the tests. Although, I am using \"rebase-if-necessary\" on my test-site and the original (manual) test case does not pass. Is it normal for it not to be mergeable in test-case \"resolvingMergeCommitAtEndOfChain\" (the first one) when the strategy being used is not a merging one?",
+      "parentUuid": "e26b592f_c3b3d615",
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

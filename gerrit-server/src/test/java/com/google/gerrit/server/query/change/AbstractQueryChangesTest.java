@@ -84,6 +84,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -93,6 +94,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Ignore
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
@@ -179,8 +181,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Before
   public void setTimeForTesting() {
+    resetTimeWithClockStep(1, MILLISECONDS);
+  }
+
+  private void resetTimeWithClockStep(long clockStep, TimeUnit clockStepUnit) {
     systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, MILLISECONDS);
+    // TODO(dborowitz): Figure out why tests fail when stubbing out
+    // SystemReader.
+    TestTimeUtil.resetWithClockStep(clockStep, clockStepUnit);
+    SystemReader.setInstance(null);
   }
 
   @After
@@ -676,7 +685,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updateOrder() throws Exception {
-    TestTimeUtil.resetWithClockStep(2, MINUTES);
+    resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     List<ChangeInserter> inserters = Lists.newArrayList();
     List<Change> changes = Lists.newArrayList();
@@ -701,7 +710,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updatedOrderWithMinuteResolution() throws Exception {
-    TestTimeUtil.resetWithClockStep(2, MINUTES);
+    resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo);
     Change change1 = insert(repo, ins1);
@@ -710,8 +719,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(lastUpdatedMs(change1)).isLessThan(lastUpdatedMs(change2));
     assertQuery("status:new", change2, change1);
 
-    gApi.changes().id(change1.getId().get()).current()
-        .review(new ReviewInput());
+    gApi.changes().id(change1.getId().get()).topic("new-topic");
     change1 = notesFactory.create(db, change1.getProject(), change1.getId())
         .getChange();
 
@@ -725,7 +733,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updatedOrderWithSubMinuteResolution() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    resetTimeWithClockStep(1, SECONDS);
 
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo);
@@ -736,8 +744,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("status:new", change2, change1);
 
-    gApi.changes().id(change1.getId().get()).current()
-        .review(new ReviewInput());
+    gApi.changes().id(change1.getId().get()).topic("new-topic");
     change1 = notesFactory.create(db, change1.getProject(), change1.getId())
         .getChange();
 
@@ -860,7 +867,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byAge() throws Exception {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
-    TestTimeUtil.resetWithClockStep(thirtyHoursInMs, MILLISECONDS);
+    resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -883,7 +890,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byBefore() throws Exception {
-    TestTimeUtil.resetWithClockStep(30, HOURS);
+    resetTimeWithClockStep(30, HOURS);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -903,7 +910,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAfter() throws Exception {
-    TestTimeUtil.resetWithClockStep(30, HOURS);
+    resetTimeWithClockStep(30, HOURS);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -1200,7 +1207,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewedBy() throws Exception {
-    TestTimeUtil.resetWithClockStep(2, MINUTES);
+    resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));

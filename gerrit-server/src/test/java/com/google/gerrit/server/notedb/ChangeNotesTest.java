@@ -26,6 +26,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -571,16 +572,70 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    Timestamp lastUpdatedOn = notes.getChange().getLastUpdatedOn();
-    assertThat(lastUpdatedOn).isNotNull();
-    assertThat(lastUpdatedOn).isEqualTo(notes.getChange().getCreatedOn());
+    Timestamp ts1 = notes.getChange().getLastUpdatedOn();
+    assertThat(ts1).isEqualTo(notes.getChange().getCreatedOn());
 
-    // An update creates a new lastUpdatedOn timestamp.
+    // Various kinds of updates that update the timestamp.
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setTopic("topic"); // Change something to get a new commit.
     update.commit();
-    assertThat(newNotes(c).getChange().getLastUpdatedOn())
-        .isGreaterThan(lastUpdatedOn);
+    Timestamp ts2 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts2).isGreaterThan(ts1);
+
+    update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Some message");
+    update.commit();
+    Timestamp ts3 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts3).isGreaterThan(ts2);
+
+    update = newUpdate(c, changeOwner);
+    update.setHashtags(ImmutableSet.of("foo"));
+    update.commit();
+    Timestamp ts4 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts4).isGreaterThan(ts3);
+
+    incrementPatchSet(c);
+    RevCommit commit = tr.commit().message("PS2").create();
+    update = newUpdate(c, changeOwner);
+    update.setCommit(rw, commit);
+    update.commit();
+    Timestamp ts5 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts5).isGreaterThan(ts4);
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.commit();
+    Timestamp ts6 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts6).isGreaterThan(ts5);
+
+    update = newUpdate(c, changeOwner);
+    update.setStatus(Change.Status.ABANDONED);
+    update.commit();
+    Timestamp ts7 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts7).isGreaterThan(ts6);
+
+    // Updates that should not touch the timestamp.
+    update = newUpdate(c, changeOwner);
+    update.putReviewer(otherUser.getAccountId(), ReviewerStateInternal.REVIEWER);
+    update.commit();
+    Timestamp ts8 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts8).isEqualTo(ts7);
+
+    update = newUpdate(c, changeOwner);
+    update.setGroups(ImmutableList.of("a", "b"));
+    update.commit();
+    Timestamp ts9 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts9).isEqualTo(ts8);
+
+    // Finish off by merging the change.
+    update = newUpdate(c, changeOwner);
+    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", changeOwner.getAccountId()),
+          submitLabel("Alternative-Code-Review", "NEED", null))));
+    update.commit();
+    Timestamp ts10 = newNotes(c).getChange().getLastUpdatedOn();
+    assertThat(ts10).isGreaterThan(ts9);
   }
 
   @Test

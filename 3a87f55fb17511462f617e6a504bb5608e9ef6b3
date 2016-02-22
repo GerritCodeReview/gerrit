@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2243b1e3_3db14f0e",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-22T19:50:35Z",
+      "side": 1,
+      "message": "Or just use unicode. ’ works fine.",
+      "parentUuid": "02fdcdc0_c44cde6e",
+      "revId": "3a87f55fb17511462f617e6a504bb5608e9ef6b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2349568_c25642fe",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 8

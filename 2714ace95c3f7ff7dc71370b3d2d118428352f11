@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "62f3e9ea_ef68e1f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChainedReceiveCommands.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T16:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2349568_e20ca68f",
+      "range": {
+        "startLine": 40,
+        "startChar": 38,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2349568_0212eaac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2016-02-22T10:15:48Z",
       "side": 1,
       "message": "Should this rather be names \u0027applyUpdates\u0027?",
+      "range": {
+        "startLine": 218,
+        "startChar": 22,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f0dddd_b0e7d8cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T16:48:13Z",
+      "side": 1,
+      "message": "The reason I said \"add\" instead of \"apply\" is the call to cmds.add down on line 256. \"Apply\" sounds more like the update was actually executed.",
+      "parentUuid": "02fdcdc0_e40c7a8f",
       "range": {
         "startLine": 218,
         "startChar": 22,

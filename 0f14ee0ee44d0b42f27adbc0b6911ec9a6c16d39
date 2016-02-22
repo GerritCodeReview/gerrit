@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2243b1e3_dde38bf2",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-22T21:44:13Z",
+      "side": 1,
+      "message": "This reads a bit difficult.\n\nMaybe “Contains the last error seen when loading changes.”",
+      "revId": "0f14ee0ee44d0b42f27adbc0b6911ec9a6c16d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

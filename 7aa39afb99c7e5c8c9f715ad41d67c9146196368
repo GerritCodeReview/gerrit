@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82f0dddd_1026a4fc",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T14:50:34Z",
+      "side": 1,
+      "message": "Just curious, is there a performance penalty to having these in the DOM but invisible?\n\n(In other cases where things are hidden on mobile I might also be concerned about the server-side cost, i.e. can we avoid doing work on the server if we know it\u0027s not going to be used. But in these particular cases the server-side cost is negligible, these fields are ~free to compute and can\u0027t be turned off in the response.)",
+      "revId": "7aa39afb99c7e5c8c9f715ad41d67c9146196368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

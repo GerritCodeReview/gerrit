@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "82f0dddd_d0849cff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T14:53:16Z",
+      "side": 1,
+      "message": "I\u0027m still seeing these as two rows: http://i.imgur.com/s0NDmr0.png\n\nAny chance of eventually squeezing to one, at least when the change description is short? Or do you think that having some rows wrap and some not will be too visually distracting?",
+      "revId": "7aa39afb99c7e5c8c9f715ad41d67c9146196368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_1026a4fc",
         "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
         "patchSetId": 2

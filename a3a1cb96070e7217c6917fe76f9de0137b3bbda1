@@ -17,6 +17,24 @@
       "revId": "a3a1cb96070e7217c6917fe76f9de0137b3bbda1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f0dddd_505aec58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T16:18:27Z",
+      "side": 1,
+      "message": "This is a good idea. I will see if I can work that in earlier in the series and make this cleaner.",
+      "parentUuid": "02fdcdc0_e47fdab6",
+      "revId": "a3a1cb96070e7217c6917fe76f9de0137b3bbda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "02522dad_9c9f457a",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T21:00:46Z",
+      "side": 1,
+      "message": "Done. It was correct, but was broken in previous patch set.",
+      "parentUuid": "2243b1e3_3db14f0e",
+      "revId": "3a87f55fb17511462f617e6a504bb5608e9ef6b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2349568_c25642fe",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 8
@@ -48,6 +66,24 @@
       "writtenOn": "2016-02-22T19:49:43Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "3a87f55fb17511462f617e6a504bb5608e9ef6b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24c3916_db95d35d",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T21:00:46Z",
+      "side": 1,
+      "message": "Reverted previous change s/’/\u0027/.",
+      "parentUuid": "c2349568_c25642fe",
       "revId": "3a87f55fb17511462f617e6a504bb5608e9ef6b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

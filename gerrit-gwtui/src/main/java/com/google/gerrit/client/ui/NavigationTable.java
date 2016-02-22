@@ -145,7 +145,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
    * @param row row number.
    * @param column column number.
    */
-  protected void onCellDoubleClick(int row, int column) {
+  protected void onCellDoubleClick(int row, @SuppressWarnings("unused") int column) {
     onOpenRow(row);
   }
 

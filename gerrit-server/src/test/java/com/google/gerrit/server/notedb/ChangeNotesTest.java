@@ -1830,6 +1830,38 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(exactRefAllUsers(refName)).isNull();
   }
 
+  @Test
+  public void updateCommentsInSequentialUpdates() throws Exception {
+    Change c = newChange();
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+
+    ChangeUpdate update1 = newUpdate(c, otherUser);
+    PatchLineComment comment1 = newComment(c.currentPatchSetId(), "filename",
+        "uuid1", range, range.getEndLine(), otherUser, null,
+        new Timestamp(update1.getWhen().getTime()), "comment 1", (short) 1, rev,
+        Status.PUBLISHED);
+    update1.putComment(comment1);
+
+    ChangeUpdate update2 = newUpdate(c, otherUser);
+    PatchLineComment comment2 = newComment(c.currentPatchSetId(), "filename",
+        "uuid2", range, range.getEndLine(), otherUser, null,
+        new Timestamp(update2.getWhen().getTime()), "comment 2", (short) 1, rev,
+        Status.PUBLISHED);
+    update2.putComment(comment2);
+
+    NoteDbUpdateManager manager = updateManagerFactory.create(project);
+    manager.add(update1);
+    manager.add(update2);
+    manager.execute();
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchLineComment> comments = notes.getComments().get(new RevId(rev));
+    assertThat(comments).hasSize(2);
+    assertThat(comments.get(0).getMessage()).isEqualTo("comment 1");
+    assertThat(comments.get(1).getMessage()).isEqualTo("comment 2");
+  }
+
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
     ObjectId dataId = notes.revisionNoteMap.noteMap.getNote(noteId).getData();
     return new String(

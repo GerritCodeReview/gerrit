@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c2349568_e206e63e",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T13:13:01Z",
+      "side": 1,
+      "message": "Here is the place, where the suffix \"_r\" is used for GWT module name in release build.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "6541487aef5f67b1ce553e4b8907d711edf454cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfe10bd_45c58a03",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 3
@@ -13,6 +36,30 @@
       "writtenOn": "2016-02-17T16:28:03Z",
       "side": 1,
       "message": "Can we use a more descriptive suffix instead of \"_r\"?",
+      "range": {
+        "startLine": 92,
+        "startChar": 20,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "6541487aef5f67b1ce553e4b8907d711edf454cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_0412f676",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T13:13:01Z",
+      "side": 1,
+      "message": "This change uses the same suffix \"_r\" that is already used in the code base. I put another comment in this change, where this suffix is used. Fill free, to suggest a change, that renames the suffix. When I accepted and merged, I will rebase this change then.",
+      "parentUuid": "1dfe10bd_45c58a03",
       "range": {
         "startLine": 92,
         "startChar": 20,

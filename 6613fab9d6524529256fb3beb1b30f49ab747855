@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "2243b1e3_bdbd5fde",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "So roughly like:\n\n    GeneralPreferencesInfo i \u003d GeneralPreferencesInfo.defaults();\n    i.publishDraftCommentsOnPush \u003d true;\n\n    AccountResource accountRsrc \u003d\n        accountcollection.get().parse(TopLevelResource.INSTANCE,\n            IdString.fromDecoded(\"user\"));\n\n    prefs.get().apply(accountRsrc, i);\n\nThen I get a \"requires Modify Account capability\" exception on which I\u0027m a bit stuck.",
+      "parentUuid": "fd585ce7_e46eda91",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_6f961103",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 15
@@ -49,6 +67,24 @@
       "writtenOn": "2016-02-19T16:35:18Z",
       "side": 1,
       "message": "This method is inaccurately named, it does more than just add the message.",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_debe25dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_6f961103",
       "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -72,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "2243b1e3_fd9a078b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_2f8c09f1",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_8f6175e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 15
@@ -83,6 +137,24 @@
       "writtenOn": "2016-02-19T16:35:18Z",
       "side": 1,
       "message": "Extract the body of this if to a separate method.",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_1eb48dfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_8f6175e4",
       "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -129,6 +201,48 @@
     },
     {
       "key": {
+        "uuid": "c2349568_a251be08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_4f994d32",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2349568_024d0a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd585ce7_04a1b61b",
+      "range": {
+        "startLine": 210,
+        "startChar": 61,
+        "endLine": 210,
+        "endChar": 63
+      },
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_cf5b7d2e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 15
@@ -146,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "2243b1e3_9d9f437a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_cf5b7d2e",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_af6639f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 15
@@ -157,6 +289,30 @@
       "writtenOn": "2016-02-19T16:35:18Z",
       "side": 1,
       "message": "Nit: no space before++",
+      "range": {
+        "startLine": 214,
+        "startChar": 22,
+        "endLine": 214,
+        "endChar": 23
+      },
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_3eb1490e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d57a8e9_af6639f7",
       "range": {
         "startLine": 214,
         "startChar": 22,
@@ -197,6 +353,24 @@
       "writtenOn": "2016-02-22T15:21:35Z",
       "side": 1,
       "message": "Please rebase, this now needs to be Schema_120",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2243b1e3_7da7d7d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-22T20:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f0dddd_107b44c7",
       "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

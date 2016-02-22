@@ -140,6 +140,30 @@
       "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f0dddd_90ecd4af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T17:16:31Z",
+      "side": 1,
+      "message": "I agree with moving this code, but we still need to have a return value from applyImpl to distinguish the delete ref case. Will see what I can do.",
+      "parentUuid": "02fdcdc0_6401aa52",
+      "range": {
+        "startLine": 231,
+        "startChar": 8,
+        "endLine": 253,
+        "endChar": 9
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

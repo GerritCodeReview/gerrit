@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1455907563 -0500\nnonce AO+Zq7h2igNT5jrmzpG2Y29Zzs2Lk/ERaF+PDL4Y3/rCGBlZU1Kvx+HglzgcUGRxX90KVcO3V80N\n\n0000000000000000000000000000000000000000 2714ace95c3f7ff7dc71370b3d2d118428352f11 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWx2LrAAoJEF/XxZqaEoiMNtwP+gJZNdX16JoOw5L9NtKQpebv\nXtm82fIbQnjRbJwD4+CxgqyC0/+NqVWDscQ9y9nDDsmYwkjEH8hm4Jdunf1ohB0k\nSy8Ndr/WA7yL6fzboNQK/QElpCpk5RS9z79fYxirzrPv3WhyTCD0TRCCWKK/MH4v\nWU0pcUncYEIzEy/oE+sj8ZnDsrXhnwzebpd11fTjg/2PAPg7fUmYlA4nUk4lxaZz\n4G9HQKO7rjgKtgJ0LcbpAN02hcdshFu1xa1K0XW9GDgw/DKVSjJ7FiqovYb8JAmR\nNQbDJG7G0434RtwoY/5Y+gNZbY6yo4U3Xi6/pfB1avjk1MDU+Ce11ea7vg8uvMU0\n7JgQIxZd/dkdy3OFvS94K36/WRjyzRwVAb1lXq75iXf3a6j5e3IHCMyS3Yt8CbK8\nxjeJfrpQ8zwqrgz6QJqvg5f/g1XFRUGbTlWsizyKGsdF7QyPTlCqhRlLnvnPBKtJ\nSPGRJmO9Dpqc7HIy5dyqsq7FWGtyH641bQfoPJcThipmJ5fRHdsOrks1bVJ9Sd8M\nJOHHH4n7RbD2wrqXYMgQKstg0y4pzAHxdGgKCr943Yw2iqwIVi+jul2ElfLRfcDB\nYe4NheUOOWHukYR6tcxQ0jIZfWaoCSPysjFv9x4uqxEnVNBFkAtai27m2JEhHzir\nHX8XoroPPCSlrlOcOvBL\n\u003dGoBR\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2349568_e20ca68f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChainedReceiveCommands.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-22T10:15:48Z",
+      "side": 1,
+      "message": "oldIds is never read?",
+      "range": {
+        "startLine": 40,
+        "startChar": 38,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2349568_0212eaac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-22T10:15:48Z",
+      "side": 1,
+      "message": "Should this rather be names \u0027applyCommands\u0027?",
+      "range": {
+        "startLine": 204,
+        "startChar": 15,
+        "endLine": 204,
+        "endChar": 26
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_e40c7a8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-22T10:15:48Z",
+      "side": 1,
+      "message": "Should this rather be names \u0027applyUpdates\u0027?",
+      "range": {
+        "startLine": 218,
+        "startChar": 22,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_6401aa52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-22T10:15:48Z",
+      "side": 1,
+      "message": "Could this be done as part of the AbstractChangeUpdate.apply method, if it would return the new curr ObjectId instead of AbstractChangeUpdate.Status?\n\nLooks a little strange to apply the update to get a status and then set back a result depending on this status.",
+      "range": {
+        "startLine": 231,
+        "startChar": 8,
+        "endLine": 253,
+        "endChar": 9
+      },
+      "revId": "2714ace95c3f7ff7dc71370b3d2d118428352f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

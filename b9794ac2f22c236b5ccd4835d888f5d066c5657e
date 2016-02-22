@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02fdcdc0_a4b562b0",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T13:15:54Z",
+      "side": 1,
+      "message": "Too much code duplication.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 1
+      },
+      "revId": "b9794ac2f22c236b5ccd4835d888f5d066c5657e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

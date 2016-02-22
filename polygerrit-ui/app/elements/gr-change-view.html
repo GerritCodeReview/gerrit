@@ -29,7 +29,7 @@ limitations under the License.
 <link rel="import" href="gr-messages-list.html">
 <link rel="import" href="gr-overlay.html">
 <link rel="import" href="gr-related-changes-list.html">
-<link rel="import" href="gr-reply-dropdown.html">
+<link rel="import" href="gr-reply-dialog.html">
 <link rel="import" href="gr-reviewer-list.html">
 
 <dom-module id="gr-change-view">
@@ -83,8 +83,11 @@ limitations under the License.
       .header select {
         margin-left: .5em;
       }
-      .header gr-reply-dropdown {
+      .header .reply {
         margin-left: var(--default-horizontal-margin);
+      }
+      gr-reply-dialog {
+        width: 30em;
       }
       .changeStatus {
         color: #999;
@@ -190,6 +193,9 @@ limitations under the License.
           justify-content: space-between;
           margin-top: .5em;
         }
+        gr-reply-dialog {
+          width: 90vw;
+        }
         .download {
           display: none;
         }
@@ -201,7 +207,7 @@ limitations under the License.
           margin-left: 0 !important;
           margin-right: .5em;
         }
-        .header gr-reply-dropdown {
+        .header .reply {
           margin-left: 0 !important;
           margin-right: .5em;
         }
@@ -241,13 +247,7 @@ limitations under the License.
             <span class="changeStatus">[[_computeChangeStatus(_change, _patchNum)]]</span>
           </span>
           <span class="header-actions">
-            <gr-reply-dropdown id="replyDropdown"
-                change-num="[[_changeNum]]"
-                patch-num="[[_patchNum]]"
-                labels="[[_change.labels]]"
-                permitted-labels="[[_change.permitted_labels]]"
-                on-send="_handleReplySent"
-                hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
+            <gr-button class="reply" hidden$="[[!_loggedIn]]" hidden on-tap="_handleReplyTap">Reply</gr-button>
             <gr-button link class="download" on-tap="_handleDownloadTap">Download</gr-button>
             <span>
               <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
@@ -363,6 +363,18 @@ limitations under the License.
           config="[[serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
+    <gr-overlay id="replyOverlay"
+        on-iron-overlay-opened="_handleReplyOverlayOpen"
+        with-backdrop>
+      <gr-reply-dialog id="replyDialog"
+          change-num="[[_changeNum]]"
+          patch-num="[[_patchNum]]"
+          labels="[[_change.labels]]"
+          permitted-labels="[[_change.permitted_labels]]"
+          on-send="_handleReplySent"
+          on-cancel="_handleReplyCancel"
+          hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
+    </gr-overlay>
   </template>
   <script>
   (function() {
@@ -476,6 +488,11 @@ limitations under the License.
         page.show(this._computeChangePath(this._changeNum) + '/' + patchNum);
       },
 
+      _handleReplyTap: function(e) {
+        e.preventDefault();
+        this.$.replyOverlay.open();
+      },
+
       _handleDownloadTap: function(e) {
         e.preventDefault();
         this.$.downloadOverlay.open();
@@ -489,12 +506,22 @@ limitations under the License.
         var msg = e.detail.message.message;
         var quoteStr = msg.split('\n').map(
             function(line) { return '> ' + line; }).join('\n') + '\n\n';
-        this.$.replyDropdown.draft += quoteStr;
-        this.$.replyDropdown.open();
+        this.$.replyDialog.draft += quoteStr;
+        this.$.replyOverlay.open();
+      },
+
+      _handleReplyOverlayOpen: function(e) {
+        this.$.replyDialog.reload();
+        this.$.replyDialog.focus();
       },
 
       _handleReplySent: function(e) {
+        this.$.replyOverlay.close();
         this._reload();
+      },
+
+      _handleReplyCancel: function(e) {
+        this.$.replyOverlay.close();
       },
 
       _paramsChanged: function(value) {
@@ -526,9 +553,9 @@ limitations under the License.
           app.accountReady.then(function() {
             if (!this._loggedIn) { return; }
 
-            if (this.viewState.showReplyDropdown) {
-              this.$.replyDropdown.open();
-              this.set('viewState.showReplyDropdown', false);
+            if (this.viewState.showReplyDialog) {
+              this.$.replyOverlay.open();
+              this.set('viewState.showReplyDialog', false);
             }
           }.bind(this));
         }.bind(this));
@@ -648,7 +675,7 @@ limitations under the License.
         switch (e.keyCode) {
           case 65:  // 'a'
             e.preventDefault();
-            this.$.replyDropdown.open();
+            this.$.replyOverlay.open();
             break;
           case 85:  // 'u'
             e.preventDefault();

@@ -47,6 +47,30 @@
       "revId": "2fc47ee0a0d65433ba4be5f1fb38e9ca120d4bef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f0dddd_b006b86b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T05:48:10Z",
+      "side": 1,
+      "message": "Because the \"Ignore unused parameters documented with \u0027@param\u0027 tag\" option is checked in the configuration.\n\nIf line 232 is removed, the warning appears.",
+      "parentUuid": "5d57a8e9_2fc5e904",
+      "range": {
+        "startLine": 237,
+        "startChar": 22,
+        "endLine": 237,
+        "endChar": 29
+      },
+      "revId": "2fc47ee0a0d65433ba4be5f1fb38e9ca120d4bef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c2349568_627416d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-22T12:25:26Z",
+      "side": 1,
+      "message": "I think it happens also with current master:\n\n  - MergeOp#abandonAllOpenChangeForDeletedProject\n  - Abandon if called from AbandonUtil",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "7deae4b826ac7ae4a3772529875949f38dbab6e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_d0113ca9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1

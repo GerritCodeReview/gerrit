@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c2349568_625df64e",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T12:55:02Z",
+      "side": 1,
+      "message": "Check previous comments. This name was suggested by Andrew. Fill free to suggest to rename it in follow-up change.",
+      "parentUuid": "02fdcdc0_64aaca9c",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 14
+      },
+      "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02fdcdc0_84a4a6d0",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-20T12:39:10Z",
       "side": 1,
       "message": "This could be omitted since en empty string evaluates also to false. If you want this check, you could trim the string first.",
+      "range": {
+        "startLine": 243,
+        "startChar": 22,
+        "endLine": 243,
+        "endChar": 47
+      },
+      "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2349568_42547229",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T12:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02fdcdc0_84a4a6d0",
       "range": {
         "startLine": 243,
         "startChar": 22,
@@ -71,6 +119,53 @@
     },
     {
       "key": {
+        "uuid": "c2349568_e2dd86fc",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T12:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2349568_c2a402d2",
+      "range": {
+        "startLine": 245,
+        "startChar": 43,
+        "endLine": 245,
+        "endChar": 44
+      },
+      "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2349568_02e3cac3",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T12:55:02Z",
+      "side": 1,
+      "message": "Removed as well.",
+      "range": {
+        "startLine": 248,
+        "startChar": 27,
+        "endLine": 248,
+        "endChar": 49
+      },
+      "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2349568_62aad69c",
         "filename": "polygerrit-ui/app/elements/gr-confirm-cherrypick-dialog.html",
         "patchSetId": 7
@@ -86,6 +181,53 @@
         "startLine": 59,
         "startChar": 8,
         "endLine": 59,
+        "endChar": 10
+      },
+      "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_44efcea1",
+        "filename": "polygerrit-ui/app/elements/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T12:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2349568_62aad69c",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 10
+      },
+      "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_24fcd25c",
+        "filename": "polygerrit-ui/app/elements/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-22T12:55:02Z",
+      "side": 1,
+      "message": "Indentation is fixed here as well.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
         "endChar": 10
       },
       "revId": "24eeca9e73b2badb6e99e27695796f9482bd28d1",

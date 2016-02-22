@@ -1729,6 +1729,42 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getComments()).hasSize(2);
   }
 
+  @Test
+  public void updateCommentsInSequentialUpdates() throws Exception {
+    Change c = newChange();
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    String rev = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+
+    ChangeUpdate update1 = newUpdate(c, otherUser);
+    PatchLineComment comment1 = newComment(c.currentPatchSetId(), "filename",
+        "uuid1", range, range.getEndLine(), otherUser, null,
+        new Timestamp(update1.getWhen().getTime()), "comment 1", (short) 1, rev,
+        Status.PUBLISHED);
+    update1.upsertComment(comment1);
+
+    ChangeUpdate update2 = newUpdate(c, otherUser);
+    PatchLineComment comment2 = newComment(c.currentPatchSetId(), "filename",
+        "uuid2", range, range.getEndLine(), otherUser, null,
+        new Timestamp(update2.getWhen().getTime()), "comment 2", (short) 1, rev,
+        Status.PUBLISHED);
+    update2.upsertComment(comment2);
+
+    BatchMetaDataUpdate batch = update1.openUpdate();
+    try {
+      update1.writeCommit(batch);
+      update2.writeCommit(batch);
+      batch.commit();
+    } finally {
+      batch.close();
+    }
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchLineComment> comments = notes.getComments().get(new RevId(rev));
+    assertThat(comments).hasSize(2);
+    assertThat(comments.get(0).getMessage()).isEqualTo("comment 1");
+    assertThat(comments.get(1).getMessage()).isEqualTo("comment 2");
+  }
+
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
     ObjectId dataId = notes.getNoteMap().getNote(noteId).getData();
     return new String(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82f0dddd_d0113ca9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T05:37:52Z",
+      "side": 1,
+      "message": "why the \"sample\" prefix everywhere?",
+      "range": {
+        "startLine": 124,
+        "startChar": 30,
+        "endLine": 124,
+        "endChar": 36
+      },
+      "revId": "7deae4b826ac7ae4a3772529875949f38dbab6e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

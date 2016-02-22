@@ -63,6 +63,30 @@
       "revId": "91ef0badaebf2b34d302446eb94618f8e5d493f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2349568_026e6a01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-22T12:39:31Z",
+      "side": 1,
+      "message": "Right, I missed that this was a annotated constructor.",
+      "parentUuid": "62f3e9ea_ef310146",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "91ef0badaebf2b34d302446eb94618f8e5d493f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

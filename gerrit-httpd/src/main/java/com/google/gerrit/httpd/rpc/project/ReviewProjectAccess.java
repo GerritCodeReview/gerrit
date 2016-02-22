@@ -34,7 +34,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReviewers;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -81,7 +81,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
       Provider<PostReviewers> reviewersProvider,
       ProjectCache projectCache,
-      AllProjectsNameProvider allProjects,
+      AllProjectsName allProjects,
       ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
       BatchUpdate.Factory updateFactory,

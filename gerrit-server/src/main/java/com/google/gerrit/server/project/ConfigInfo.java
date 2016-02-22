@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -61,7 +61,7 @@ public class ConfigInfo {
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
-      AllProjectsNameProvider allProjects,
+      AllProjectsName allProjects,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -151,7 +151,7 @@ public class ConfigInfo {
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
       ProjectState project, DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      PluginConfigFactory cfgFactory, AllProjectsNameProvider allProjects) {
+      PluginConfigFactory cfgFactory, AllProjectsName allProjects) {
     TreeMap<String, Map<String, ConfigParameterInfo>> pluginConfig = new TreeMap<>();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
       ProjectConfigEntry configEntry = e.getProvider().get();

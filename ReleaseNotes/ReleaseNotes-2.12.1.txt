@@ -117,6 +117,10 @@ The `index.defaultMaxClauseCount` configuration option is removed, and the
 existing `index.maxTerms` is reused. The default value of `index.maxTerms`
 is reduced from 'no limit' to 1024.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=3919[Issue 3919]:
+Explicitly set parent project to 'All-Projects' when a project is created
+without giving the parent.
+
 UI
 ^^
 
@@ -135,6 +139,13 @@ Fix syntax higlighting of tcl files.
 Fix display of active row marker in tag list.
 +
 Clicking on one of the rows would cause the tag name to disappear.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1207[Issue 1207]:
+Fix keyboard shortcuts for non-US keyboards.
++
+The forward/backward navigation keys `[` and `]` only worked on keyboards where
+these characters could be typed without using any modifier key (like CTRL, ALT,
+etc..).
 
 Plugins
 ^^^^^^^

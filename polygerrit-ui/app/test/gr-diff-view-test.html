@@ -131,11 +131,11 @@ limitations under the License.
       assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
           'only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
-          'changeView.showReplyDropdown'));
+          'changeView.showReplyDialog'));
 
       element._loggedIn = true;
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
-      assert.isTrue(element.changeViewState.showReplyDropdown);
+      assert.isTrue(element.changeViewState.showReplyDialog);
 
       assert(showStub.lastCall.calledWithExactly('/c/42'),
           'Should navigate to /c/42');

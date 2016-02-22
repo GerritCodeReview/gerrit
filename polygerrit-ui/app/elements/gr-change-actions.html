@@ -39,6 +39,11 @@ limitations under the License.
       gr-button[loading]:before {
         content: attr(data-loading-label);
       }
+      @media screen and (max-width: 60em) {
+        .confirmDialog {
+          width: 90vw;
+        }
+      }
     </style>
     <gr-ajax id="actionsXHR"
         url="[[_computeRevisionActionsPath(changeNum, patchNum)]]"

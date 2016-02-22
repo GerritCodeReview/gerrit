@@ -16,28 +16,22 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-button.html">
 <link rel="import" href="gr-request.html">
 
-<dom-module id="gr-reply-dropdown">
+<dom-module id="gr-reply-dialog">
   <style>
     :host {
-      display: inline-block;
+      display: block;
     }
     :host([disabled]) {
       pointer-events: none;
     }
-    :host([disabled]) .dropdown-content {
+    :host([disabled]) .container {
       opacity: .5;
-    }
-    iron-dropdown {
-      background-color: #fff;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
-      width: 40em;
     }
     section {
       border-top: 1px solid #ddd;
@@ -48,6 +42,7 @@ limitations under the License.
     }
     iron-autogrow-textarea {
       padding: 0;
+      font-family: var(--monospace-font-family);
     }
     .message {
       border: none;
@@ -58,7 +53,6 @@ limitations under the License.
     }
     .labelName {
       display: inline-block;
-      text-align: right;
       width: 7em;
       margin-right: .5em;
       white-space: nowrap;
@@ -96,62 +90,62 @@ limitations under the License.
     <gr-ajax id="draftsXHR"
         url="[[_computeDraftsURL(changeNum)]]"
         last-response="{{_drafts}}"></gr-ajax>
-    <gr-button id="trigger" on-tap="_showPopupTapHandler">Reply</gr-button>
-    <iron-dropdown id="dropdown"
-        vertical-align="top"
-        vertical-offset="25"
-        horizontal-align="right">
-      <div class="dropdown-content">
-        <section class="textareaContainer">
-          <iron-autogrow-textarea
-              id="textarea"
-              class="message"
-              placeholder="Say something..."
-              disabled="{{disabled}}"
-              rows="1"
-              bind-value="{{draft}}"></iron-autogrow-textarea>
-        </section>
-        <section>
-          <template is="dom-repeat"
-              items="[[_computeLabelArray(permittedLabels)]]" as="label">
-            <div class="labelContainer">
-              <span class="labelName">[[label]]</span>
-              <iron-selector data-label$="[[label]]"
-                  selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
-                <template is="dom-repeat"
-                    items="[[_computePermittedLabelValues(permittedLabels, label)]]"
-                    as="value">
-                  <gr-button data-value$="[[value]]">[[value]]</gr-button>
-                </template>
-              </iron-selector>
-            </div>
-          </template>
-        </section>
-        <section class="draftsContainer" hidden$="[[_computeHideDraftList(_drafts)]]">
-          <h3>[[_computeDraftsTitle(_drafts)]]</h3>
-          <gr-comment-list
-              comments="[[_drafts]]"
-              change-num="[[changeNum]]"
-              patch-num="[[patchNum]]"></gr-comment-list>
-        </section>
-        <section class="actionsContainer">
-          <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
-          <gr-button class="action cancel" on-tap="_cancelTapHandler">Cancel</gr-button>
-        </section>
-      </div>
-    </iron-dropdown>
+    <div class="container">
+      <section class="textareaContainer">
+        <iron-autogrow-textarea
+            id="textarea"
+            class="message"
+            placeholder="Say something..."
+            disabled="{{disabled}}"
+            rows="4"
+            bind-value="{{draft}}"></iron-autogrow-textarea>
+      </section>
+      <section>
+        <template is="dom-repeat"
+            items="[[_computeLabelArray(permittedLabels)]]" as="label">
+          <div class="labelContainer">
+            <span class="labelName">[[label]]</span>
+            <iron-selector data-label$="[[label]]"
+                selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
+              <template is="dom-repeat"
+                  items="[[_computePermittedLabelValues(permittedLabels, label)]]"
+                  as="value">
+                <gr-button data-value$="[[value]]">[[value]]</gr-button>
+              </template>
+            </iron-selector>
+          </div>
+        </template>
+      </section>
+      <section class="draftsContainer" hidden$="[[_computeHideDraftList(_drafts)]]">
+        <h3>[[_computeDraftsTitle(_drafts)]]</h3>
+        <gr-comment-list
+            comments="[[_drafts]]"
+            change-num="[[changeNum]]"
+            patch-num="[[patchNum]]"></gr-comment-list>
+      </section>
+      <section class="actionsContainer">
+        <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
+        <gr-button class="action cancel" on-tap="_cancelTapHandler">Cancel</gr-button>
+      </section>
+    </div>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'gr-reply-dropdown',
+      is: 'gr-reply-dialog',
 
       /**
        * Fired when a reply is successfully sent.
        *
        * @event send
+       */
+
+      /**
+       * Fired when the user presses the cancel button.
+       *
+       * @event cancel
        */
 
       properties: {
@@ -178,27 +172,20 @@ limitations under the License.
         Gerrit.RESTClientBehavior,
       ],
 
-      get opened() {
-        return this.$.dropdown.opened;
-      },
-
       ready: function() {
         app.accountReady.then(function() {
           this._account = app.account;
         }.bind(this));
       },
 
-      open: function() {
+      reload: function() {
         this.$.draftsXHR.generateRequest();
-        this.$.dropdown.open();
+      },
+
+      focus: function() {
         this.async(function() {
           this.$.textarea.textarea.focus();
         }.bind(this));
-      },
-
-      close: function() {
-        this._drafts = null;
-        this.$.dropdown.close();
       },
 
       _computeDraftsURL: function(changeNum) {
@@ -255,14 +242,10 @@ limitations under the License.
         return permittedLabels[label];
       },
 
-      _showPopupTapHandler: function(e) {
-        e.preventDefault();
-        this.open();
-      },
-
       _cancelTapHandler: function(e) {
         e.preventDefault();
-        this.$.dropdown.close();
+        this._drafts = null;
+        this.fire('cancel', null, {bubbles: false});
       },
 
       _sendTapHandler: function(e) {
@@ -285,7 +268,7 @@ limitations under the License.
           this.fire('send', null, {bubbles: false});
           this.draft = '';
           this.disabled = false;
-          this.$.dropdown.close();
+          this._drafts = null;
         }.bind(this)).catch(function(err) {
           alert('Oops. Something went wrong. Check the console and bug the ' +
               'PolyGerrit team for assistance.');

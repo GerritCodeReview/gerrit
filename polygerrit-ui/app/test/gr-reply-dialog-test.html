@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-reply-dropdown</title>
+<title>gr-reply-dialog</title>
 
 <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
@@ -24,16 +24,16 @@ limitations under the License.
 <script src="../scripts/util.js"></script>
 
 <link rel="import" href="../bower_components/iron-test-helpers/iron-test-helpers.html">
-<link rel="import" href="../elements/gr-reply-dropdown.html">
+<link rel="import" href="../elements/gr-reply-dialog.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-reply-dropdown></gr-reply-dropdown>
+    <gr-reply-dialog></gr-reply-dialog>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-reply-dropdown tests', function() {
+  suite('gr-reply-dialog tests', function() {
     var element;
     var server;
 
@@ -99,23 +99,12 @@ limitations under the License.
       server.restore();
     });
 
-    test('open close', function() {
-      assert.isFalse(element.opened);
-      MockInteractions.tap(element.$.trigger);
-      assert.isTrue(element.opened);
-      element.close();
-      assert.isFalse(element.opened);
-      element.open();
-      assert.isTrue(element.opened);
+    test('cancel event', function(done) {
+      element.addEventListener('cancel', function() { done(); });
       MockInteractions.tap(element.$$('.cancel'));
-      assert.isFalse(element.opened);
     });
 
     test('label picker', function(done) {
-      assert.isFalse(element.opened);
-      MockInteractions.tap(element.$.trigger);
-      assert.isTrue(element.opened);
-
       // Without this, the test fails to register taps on the label buttons.
       // TODO(andybons): Look into test flakiness with Polymer team to figure
       // out why exactly this is happening.
@@ -143,7 +132,6 @@ limitations under the License.
           element._xhrPromise.then(function(req) {
             assert.isFalse(element.disabled,
                 'Element should be enabled when done sending reply.');
-            assert.isFalse(element.opened);
             assert.equal(req.status, 200);
             assert.equal(req.url, '/changes/42/revisions/1/review');
             var reqObj = JSON.parse(req.xhr.requestBody);
@@ -157,12 +145,10 @@ limitations under the License.
             });
             assert.equal(req.response.labels['Code-Review'], -1);
             assert.equal(req.response.labels.Verified, -1);
-            assert.isFalse(element.opened);
             done();
           });
         }, 1);
       }, 1);
     });
-
   });
 </script>

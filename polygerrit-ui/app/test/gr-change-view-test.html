@@ -68,10 +68,10 @@ limitations under the License.
       showStub.restore();
 
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
-      var dropdownEl = element.$.replyDropdown;
-      assert.isTrue(dropdownEl.opened);
-      dropdownEl.close();
-      assert.isFalse(dropdownEl.opened);
+      var overlayEl = element.$.replyOverlay;
+      assert.isTrue(overlayEl.opened);
+      overlayEl.close();
+      assert.isFalse(overlayEl.opened);
     });
 
     test('patch num change', function(done) {

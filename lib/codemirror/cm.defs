@@ -19,7 +19,6 @@ CM_ADDONS = [
   'edit/trailingspace.js',
   'scroll/annotatescrollbar.js',
   'scroll/simplescrollbars.js',
-  'search/jump-to-line.js',
   'search/matchesonscrollbar.js',
   'search/searchcursor.js',
   'search/search.js',

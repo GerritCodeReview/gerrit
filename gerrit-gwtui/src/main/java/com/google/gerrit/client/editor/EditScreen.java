@@ -257,7 +257,20 @@ public class EditScreen extends Screen {
     return new Runnable() {
       @Override
       public void run() {
-        cm.execCommand("jumpToLine");
+        String n = Window.prompt(EditConstants.I.gotoLineNumber(), "");
+        if (n != null) {
+          try {
+            int line = Integer.parseInt(n);
+            line--;
+            if (line >= 0) {
+              cm.scrollToLine(line);
+            }
+          } catch (NumberFormatException e) {
+            // ignore non valid numbers
+            // We don't want to popup another ugly dialog just to say
+            // "The number you've provided is invalid, try again"
+          }
+        }
       }
     };
   }

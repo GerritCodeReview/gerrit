@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "4248a5fd_fee8c1ce",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T20:40:52Z",
+      "side": 1,
+      "message": "In your example here you are using user, but the code you\u0027re replacing is using admin.\n\nAbstractDaemonTests have a special request scope implementation that you can manipulate with setApiUser. It starts out as admin, so if you want to use user, you need to call setApiUser(user) first.",
+      "parentUuid": "2243b1e3_bdbd5fde",
+      "revId": "6613fab9d6524529256fb3beb1b30f49ab747855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d57a8e9_6f961103",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 15

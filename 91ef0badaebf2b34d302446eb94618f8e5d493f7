@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "82f0dddd_f031e045",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListChildProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T12:37:50Z",
+      "side": 1,
+      "message": "(and I deliberately didn\u0027t separate these because I preferred not to introduce unrelated changes)",
+      "revId": "91ef0badaebf2b34d302446eb94618f8e5d493f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2349568_a289be15",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
         "patchSetId": 1
@@ -13,6 +30,30 @@
       "writtenOn": "2016-02-22T12:06:51Z",
       "side": 1,
       "message": "unwrap this line?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "91ef0badaebf2b34d302446eb94618f8e5d493f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_ef310146",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T12:37:50Z",
+      "side": 1,
+      "message": "I deliberately left it. According to the code style, we put each injected parameter on its own line.",
+      "parentUuid": "c2349568_a289be15",
       "range": {
         "startLine": 35,
         "startChar": 2,

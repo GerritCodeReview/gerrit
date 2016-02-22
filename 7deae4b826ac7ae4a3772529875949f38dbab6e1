@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62f3e9ea_ef1a21b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T14:34:02Z",
+      "side": 1,
+      "message": "Ack, will reword.",
+      "parentUuid": "c2349568_627416d9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "7deae4b826ac7ae4a3772529875949f38dbab6e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_d0113ca9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -66,6 +90,23 @@
         "endLine": 124,
         "endChar": 36
       },
+      "revId": "7deae4b826ac7ae4a3772529875949f38dbab6e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_cf1f5da2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-22T14:34:02Z",
+      "side": 1,
+      "message": "This comparison is brittle, because the value of gerrit.AllProjects can change over time.\n\nA safer comparison for now is author name/email \u003d\u003d committer name/email. Though we will have to remember to reconsider this if we end up changing the committer format as well.",
       "revId": "7deae4b826ac7ae4a3772529875949f38dbab6e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

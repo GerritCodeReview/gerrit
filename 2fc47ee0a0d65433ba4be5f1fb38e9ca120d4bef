@@ -71,6 +71,30 @@
       "revId": "2fc47ee0a0d65433ba4be5f1fb38e9ca120d4bef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_af06596b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T06:00:26Z",
+      "side": 1,
+      "message": "I unchecked that option on my Eclipse and it reports 44 warnings, all of which are in protected methods that are intended to be overridden by subclasses.\n\nDo you think it\u0027s worth disabling it and adding @SuppressWarning(\"unused\") annotations on those?",
+      "parentUuid": "82f0dddd_b006b86b",
+      "range": {
+        "startLine": 237,
+        "startChar": 22,
+        "endLine": 237,
+        "endChar": 29
+      },
+      "revId": "2fc47ee0a0d65433ba4be5f1fb38e9ca120d4bef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

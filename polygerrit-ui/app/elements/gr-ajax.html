@@ -24,6 +24,7 @@ limitations under the License.
         url="[[url]]"
         params="[[params]]"
         json-prefix=")]}'"
+        last-error="{{lastError}}"
         last-response="{{lastResponse}}"
         loading="{{loading}}"
         on-response="_handleResponse"
@@ -64,6 +65,10 @@ limitations under the License.
           value: function() {
             return {};
           },
+        },
+        lastError: {
+          type: Object,
+          notify: true,
         },
         lastResponse: {
           type: Object,

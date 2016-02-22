@@ -113,6 +113,7 @@ limitations under the License.
       ],
 
       _computeLabelNames: function(groups) {
+        if (!groups) { return []; }
         var labels = [];
         var nonExistingLabel = function(item) {
           return labels.indexOf(item) < 0;
@@ -134,7 +135,7 @@ limitations under the License.
       },
 
       _changesChanged: function(changes) {
-        this.groups = [changes];
+        this.groups = changes ? [changes] : [];
       },
 
       _groupTitle: function(groupIndex) {

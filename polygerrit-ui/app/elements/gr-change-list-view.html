@@ -27,10 +27,16 @@ limitations under the License.
         display: block;
         margin: 0 1.25rem;
       }
-      .loading {
+      .loading,
+      .error {
         margin-top: 1em;
-        color: #666;
         background-color: #f1f2f3;
+      }
+      .loading {
+        color: #666;
+      }
+      .error {
+        color: #D32F2F;
       }
       gr-change-list {
         margin-top: 1em;
@@ -51,7 +57,8 @@ limitations under the License.
         :host {
           margin: 0;
         }
-        .loading {
+        .loading,
+        .error {
           padding: 0 1.25rem;
         }
       }
@@ -61,9 +68,13 @@ limitations under the License.
         url="/changes/"
         params="[[_computeQueryParams(_query, _offset)]]"
         last-response="{{_changes}}"
+        last-error="{{_lastError}}"
         loading="{{_loading}}"></gr-ajax>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <div hidden$="[[_loading]]" hidden>
+    <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
+    <div class="error" hidden$="[[_computeErrorHidden(_loading, _lastError)]]" hidden>
+      [[_lastError.request.xhr.responseText]]
+    </div>
+    <div hidden$="[[_computeListHidden(_loading, _lastError)]]" hidden>
       <gr-change-list
           changes="{{_changes}}"
           selected-index="{{viewState.selectedChangeIndex}}"
@@ -133,6 +144,11 @@ limitations under the License.
         _changes: Array,
 
         /**
+         * Contains in case of change loading error last error object.
+         */
+        _lastError: Object,
+
+        /**
          * For showing a "loading..." string during ajax requests.
          */
         _loading: {
@@ -189,6 +205,14 @@ limitations under the License.
           href += ',' + newOffset;
         }
         return href;
+      },
+
+      _computeErrorHidden: function(loading, lastError) {
+        return loading || lastError == null;
+      },
+
+      _computeListHidden: function(loading, lastError) {
+        return loading || lastError != null;
       },
 
       _hidePrevArrow: function(offset) {

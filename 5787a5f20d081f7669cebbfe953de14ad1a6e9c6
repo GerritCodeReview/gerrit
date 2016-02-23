@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c21d75f8_9a9f4d7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:29:39Z",
+      "side": 1,
+      "message": "Remove this one too?",
+      "range": {
+        "startLine": 356,
+        "startChar": 4,
+        "endLine": 359,
+        "endChar": 7
+      },
+      "revId": "5787a5f20d081f7669cebbfe953de14ad1a6e9c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_baa491d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:29:39Z",
+      "side": 1,
+      "message": "\"The review database\" for consistency with other params?\n\nSame below.",
+      "range": {
+        "startLine": 39,
+        "startChar": 15,
+        "endLine": 39,
+        "endChar": 31
+      },
+      "revId": "5787a5f20d081f7669cebbfe953de14ad1a6e9c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_7e7111e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:29:39Z",
+      "side": 1,
+      "message": "The others don\u0027t have a trailing period.",
+      "range": {
+        "startLine": 194,
+        "startChar": 30,
+        "endLine": 194,
+        "endChar": 31
+      },
+      "revId": "5787a5f20d081f7669cebbfe953de14ad1a6e9c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

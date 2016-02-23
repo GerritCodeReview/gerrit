@@ -31,6 +31,9 @@ limitations under the License.
       :host([selected]) {
         background-color: #ebf5fb;
       }
+      :host([unreviewed]) {
+        font-weight: bold;
+      }
       .cell {
         flex-shrink: 0;
         padding: .3em .5em;
@@ -92,6 +95,12 @@ limitations under the License.
       properties: {
         selected: {
           type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        unreviewed: {
+          type: Boolean,
+          value: false,
           reflectToAttribute: true,
         },
         labelNames: {

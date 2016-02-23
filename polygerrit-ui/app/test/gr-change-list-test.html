@@ -105,6 +105,32 @@ limitations under the License.
       }, 1);
     });
 
+    test('highlighted changes', function() {
+      element.changes = [
+        {
+          _number: 0,
+          reviewed: true,
+        },
+        {
+          _number: 1,
+        }
+      ];
+      flushAsynchronousOperations();
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 2);
+      for (var i = 0; i < elementItems.length; i++) {
+        assert.isFalse(elementItems[i].hasAttribute('highlighted'));
+      }
+
+      element.showReviewedState = true;
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 2);
+      assert.isFalse(elementItems[0].hasAttribute('highlighted'));
+      assert.isTrue(elementItems[1].hasAttribute('highlighted'));
+    });
+
   });
 
   suite('gr-change-list groups', function() {

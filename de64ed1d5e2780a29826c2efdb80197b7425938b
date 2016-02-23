@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4248a5fd_9e141d88",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2016-02-23T02:29:26Z",
+      "side": 1,
+      "message": "is this working for postgresql backend too?\n\ngerrit\u003e alter table patch_sets modify push_certficate clob;\nERROR: ERROR: syntax error at or near \"modify\"\n  Position: 24",
+      "revId": "de64ed1d5e2780a29826c2efdb80197b7425938b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02522dad_1cc33503",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/FileKeyPairProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-23T20:30:01Z",
+      "side": 0,
+      "message": "Can we remove now again //lib/bouncycastle:bcpkix library in gerrit-sshd, that was added in the original change?\n\nhttps://gerrit-review.googlesource.com/#/c/73033/6/gerrit-sshd/BUCK",
+      "revId": "eb4657bc2bdb44f1b1f395d6cb5af1909348a497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

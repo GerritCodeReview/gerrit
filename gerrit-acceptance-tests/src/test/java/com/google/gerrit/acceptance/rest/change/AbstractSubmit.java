@@ -31,8 +31,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.EventListener;
-import com.google.gerrit.common.EventSource;
+import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -43,6 +42,8 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -106,9 +107,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private Submit submitHandler;
 
   @Inject
-  EventSource source;
+  DynamicSet<UserScopedEventListener> eventListeners;
 
-  private EventListener eventListener;
+  private RegistrationHandle eventListenerRegistration;
 
   private String systemTimeZone;
 
@@ -127,26 +128,30 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
-    CurrentUser listenerUser = factory.create(user.id);
-    eventListener = new EventListener() {
-      @Override
-      public void onEvent(Event event) {
-        if (!(event instanceof ChangeMergedEvent)) {
-          return;
-        }
-        ChangeMergedEvent e = (ChangeMergedEvent) event;
-        ChangeAttribute c = e.change.get();
-        PatchSetAttribute ps = e.patchSet.get();
-        log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
-        mergeResults.put(e.change.get().number, e.newRev);
-      }
-    };
-    source.addEventListener(eventListener, listenerUser);
+    eventListenerRegistration =
+        eventListeners.add(new UserScopedEventListener() {
+          @Override
+          public void onEvent(Event event) {
+            if (!(event instanceof ChangeMergedEvent)) {
+              return;
+            }
+            ChangeMergedEvent e = (ChangeMergedEvent) event;
+            ChangeAttribute c = e.change.get();
+            PatchSetAttribute ps = e.patchSet.get();
+            log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
+            mergeResults.put(e.change.get().number, e.newRev);
+          }
+
+          @Override
+          public CurrentUser getUser() {
+            return factory.create(user.id);
+          }
+        });
   }
 
   @After
   public void cleanup() {
-    source.removeEventListener(eventListener);
+    eventListenerRegistration.remove();
     db.close();
   }
 

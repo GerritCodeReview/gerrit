@@ -18,10 +18,12 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Supplier;
-import com.google.gerrit.common.EventListener;
-import com.google.gerrit.common.EventSource;
+import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
@@ -63,7 +65,7 @@ final class StreamEvents extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private EventSource source;
+  private DynamicSet<UserScopedEventListener> eventListeners;
 
   @Inject
   @StreamCommandExecutor
@@ -74,6 +76,8 @@ final class StreamEvents extends BaseCommand {
       new LinkedBlockingQueue<>(MAX_EVENTS);
 
   private Gson gson;
+
+  private RegistrationHandle eventListenerRegistration;
 
   /** Special event to notify clients they missed other events. */
   private static final class DroppedOutputEvent extends Event {
@@ -86,16 +90,6 @@ final class StreamEvents extends BaseCommand {
   static {
     EventTypes.register(DroppedOutputEvent.TYPE, DroppedOutputEvent.class);
   }
-
-  private final EventListener listener = new EventListener() {
-    @Override
-    public void onEvent(final Event event) {
-      if (subscribedToEvents.isEmpty()
-          || subscribedToEvents.contains(event.getType())) {
-        offer(event);
-      }
-    }
-  };
 
   private final CancelableRunnable writer = new CancelableRunnable() {
     @Override
@@ -150,7 +144,21 @@ final class StreamEvents extends BaseCommand {
     }
 
     stdout = toPrintWriter(out);
-    source.addEventListener(listener, currentUser);
+    eventListenerRegistration =
+        eventListeners.add(new UserScopedEventListener() {
+          @Override
+          public void onEvent(final Event event) {
+            if (subscribedToEvents.isEmpty()
+                || subscribedToEvents.contains(event.getType())) {
+              offer(event);
+            }
+          }
+
+          @Override
+          public CurrentUser getUser() {
+            return currentUser;
+          }
+        });
 
     gson = new GsonBuilder()
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
@@ -159,7 +167,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   protected void onExit(final int rc) {
-    source.removeEventListener(listener);
+    eventListenerRegistration.remove();
 
     synchronized (taskLock) {
       done = true;
@@ -170,7 +178,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   public void destroy() {
-    source.removeEventListener(listener);
+    eventListenerRegistration.remove();
 
     final boolean exit;
     synchronized (taskLock) {
@@ -218,7 +226,7 @@ final class StreamEvents extends BaseCommand {
         // destroy() above, or it closed the stream and is no longer
         // accepting output. Either way terminate this instance.
         //
-        source.removeEventListener(listener);
+        eventListenerRegistration.remove();
         flush();
         onExit(0);
         return;

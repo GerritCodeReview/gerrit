@@ -381,9 +381,15 @@ listeners.
 
 * `com.google.gerrit.common.EventListener`:
 +
-Allows to listen to events. These are the same
-link:cmd-stream-events.html#events[events] that are also streamed by
+Allows to listen to events without user visibility restrictions. These
+are the same link:cmd-stream-events.html#events[events] that are also streamed by
 the link:cmd-stream-events.html[gerrit stream-events] command.
+
+* `com.google.gerrit.common.UserScopedEventListener`:
++
+Allows to listen to events visible to the specified user. These are the
+same link:cmd-stream-events.html#events[events] that are also streamed
+by the link:cmd-stream-events.html[gerrit stream-events] command.
 
 * `com.google.gerrit.extensions.events.LifecycleListener`:
 +

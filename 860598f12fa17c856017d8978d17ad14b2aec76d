@@ -148,6 +148,24 @@
       "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_baf251bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-23T14:51:31Z",
+      "side": 1,
+      "message": "In that case, should we only check:\n\n  submitType !\u003d SubmitType.FAST_FORWARD_ONLY\n\nWhen deciding whether or not we should flag a resolving merge commit\u0027s ancestry as mergeable?\n\nI\u0027m talking about code that was not pushed yet so it might be a little confusing. But it\u0027s explained in Stephan\u0027s reply. Also, I\u0027ll push it if you confirm that all strategies should be treated the same except for fast-forward.",
+      "parentUuid": "4248a5fd_5e5d354e",
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

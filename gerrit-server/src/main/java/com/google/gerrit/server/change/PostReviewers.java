@@ -44,6 +44,8 @@ import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -262,7 +264,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
 
     @Override
-    public boolean updateChange(BatchUpdate.ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
       added =
           approvalsUtil.addReviewers(
@@ -280,7 +282,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
 
     @Override
-    public void postUpdate(BatchUpdate.Context ctx) throws Exception {
+    public void postUpdate(Context ctx) throws Exception {
       emailReviewers(rsrc.getChange(), added);
 
       if (!added.isEmpty()) {

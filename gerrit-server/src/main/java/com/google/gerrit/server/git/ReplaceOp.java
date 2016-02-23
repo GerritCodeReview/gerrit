@@ -179,7 +179,7 @@ public class ReplaceOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(BatchUpdate.ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx)
       throws OrmException, IOException {
     change = ctx.getChange();
     if (change == null || change.getStatus().isClosed()) {

@@ -2522,7 +2522,7 @@ public class ReceiveCommits {
         user, TimeUtil.nowTs())) {
       bu.addOp(info.getKey().getParentKey(), new BatchUpdate.Op() {
         @Override
-        public boolean updateChange(BatchUpdate.ChangeContext ctx) throws OrmException {
+        public boolean updateChange(ChangeContext ctx) throws OrmException {
           Change change = ctx.getChange();
           ChangeUpdate update = ctx.getUpdate(info.getKey());
           if (change.getStatus().isOpen()) {

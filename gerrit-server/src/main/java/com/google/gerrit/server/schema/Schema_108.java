@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.GroupCollector;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -75,7 +76,7 @@ public class Schema_108 extends SchemaVersion {
       try (Repository repo = repoManager.openRepository(e.getKey());
           RevWalk rw = new RevWalk(repo)) {
         updateProjectGroups(db, repo, rw, (Set<Change.Id>) e.getValue(), ui);
-      } catch (IOException err) {
+      } catch (IOException | NoSuchChangeException err) {
         throw new OrmException(err);
       }
       if (++i % 100 == 0) {
@@ -85,9 +86,9 @@ public class Schema_108 extends SchemaVersion {
     ui.message("done");
   }
 
-  private void updateProjectGroups(ReviewDb db, Repository repo,
-      RevWalk rw, Set<Change.Id> changes, UpdateUI ui)
-      throws OrmException, IOException {
+  private void updateProjectGroups(ReviewDb db, Repository repo, RevWalk rw,
+      Set<Change.Id> changes, UpdateUI ui)
+          throws OrmException, IOException, NoSuchChangeException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -131,7 +132,8 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private static void updateGroups(ReviewDb db, GroupCollector collector,
-      Multimap<ObjectId, PatchSet.Id> patchSetsBySha) throws OrmException {
+      Multimap<ObjectId, PatchSet.Id> patchSetsBySha)
+          throws OrmException, NoSuchChangeException {
     Map<PatchSet.Id, PatchSet> patchSets =
         db.patchSets().toMap(db.patchSets().get(patchSetsBySha.values()));
     for (Map.Entry<ObjectId, Collection<String>> e

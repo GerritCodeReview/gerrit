@@ -130,7 +130,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
   private String findBaseRev(RevWalk rw, RevisionResource rsrc,
       RebaseInput input) throws AuthException, ResourceConflictException,
-      OrmException, IOException {
+      OrmException, IOException, NoSuchChangeException {
     if (input == null || input.base == null) {
       return null;
     }
@@ -194,7 +194,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   }
 
   private Base parseBase(RevisionResource rsrc, String base)
-      throws OrmException {
+      throws OrmException, NoSuchChangeException {
     ReviewDb db = dbProvider.get();
 
     // Try parsing the base as a ref string.
@@ -237,12 +237,12 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   }
 
   private ChangeControl controlFor(RevisionResource rsrc, Change.Id id)
-      throws OrmException {
+      throws OrmException, NoSuchChangeException {
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getControl();
     }
     ChangeNotes notes =
-        notesFactory.create(dbProvider.get(), rsrc.getProject(), id);
+        notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
     return rsrc.getControl().getProjectControl().controlFor(notes);
   }
 

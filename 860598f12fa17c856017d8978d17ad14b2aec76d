@@ -130,6 +130,24 @@
       "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_5e5d354e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-23T13:42:32Z",
+      "side": 1,
+      "message": "\u003e So the rebase-if-necessary strategy should produce linear history,\n \u003e no merges allowed.\n\nSadly this is not actually true. Rebase-if-necessary treats merges as if it were merge-if-necessary:\n\nhttps://gerrit.googlesource.com/gerrit/+/v2.12/gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java#125\n\nSimilar story for cherry-pick.",
+      "parentUuid": "4248a5fd_de314546",
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

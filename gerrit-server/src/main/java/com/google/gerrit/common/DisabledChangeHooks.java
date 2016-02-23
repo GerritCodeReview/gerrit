@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
@@ -34,12 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Does not invoke hooks. */
-public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
-    EventSource {
-  @Override
-  public void addEventListener(EventListener listener, CurrentUser user) {
-  }
-
+public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher {
   @Override
   public void doChangeAbandonedHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) {
@@ -103,10 +97,6 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   @Override
   public void doHashtagsChangedHook(Change change, Account account, Set<String> added,
       Set<String> removed, Set<String> hashtags, ReviewDb db) {
-  }
-
-  @Override
-  public void removeEventListener(EventListener listener) {
   }
 
   @Override

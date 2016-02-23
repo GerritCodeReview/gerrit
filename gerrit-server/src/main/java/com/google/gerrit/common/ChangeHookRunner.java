@@ -92,7 +92,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -102,7 +101,7 @@ import java.util.concurrent.TimeoutException;
 /** Spawns local executables when a hook action occurs. */
 @Singleton
 public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
-  EventSource, LifecycleListener, NewProjectCreatedListener {
+    LifecycleListener, NewProjectCreatedListener {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
 
@@ -112,19 +111,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         bind(ChangeHookRunner.class);
         bind(ChangeHooks.class).to(ChangeHookRunner.class);
         bind(EventDispatcher.class).to(ChangeHookRunner.class);
-        bind(EventSource.class).to(ChangeHookRunner.class);
         DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(ChangeHookRunner.class);
         listener().to(ChangeHookRunner.class);
-      }
-    }
-
-    private static class EventListenerHolder {
-      final EventListener listener;
-      final CurrentUser user;
-
-      EventListenerHolder(EventListener l, CurrentUser u) {
-        listener = l;
-        user = u;
       }
     }
 
@@ -177,9 +165,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     /** Listeners to receive changes as they happen (limited by visibility
-     *  of holder's user). */
-    private final Map<EventListener, EventListenerHolder> listeners =
-        new ConcurrentHashMap<>();
+     *  of user). */
+    private final DynamicSet<UserScopedEventListener> listeners;
 
     /** Listeners to receive all changes as they happen. */
     private final DynamicSet<EventListener> unrestrictedListeners;
@@ -268,6 +255,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       ProjectCache projectCache,
       AccountCache accountCache,
       EventFactory eventFactory,
+      DynamicSet<UserScopedEventListener> listeners,
       DynamicSet<EventListener> unrestrictedListeners,
       ChangeNotes.Factory notesFactory) {
         this.anonymousCowardName = anonymousCowardName;
@@ -277,6 +265,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         this.accountCache = accountCache;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
+        this.listeners = listeners;
         this.unrestrictedListeners = unrestrictedListeners;
         this.notesFactory = notesFactory;
 
@@ -317,16 +306,6 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       String value = config.getString("hooks", null, setting);
       Path p = path.resolve(value != null ? value : name);
       return Files.exists(p) ? Optional.of(p) : Optional.<Path>absent();
-    }
-
-    @Override
-    public void addEventListener(EventListener listener, CurrentUser user) {
-      listeners.put(listener, new EventListenerHolder(listener, user));
-    }
-
-    @Override
-    public void removeEventListener(EventListener listener) {
-      listeners.remove(listener);
     }
 
     /**
@@ -923,9 +902,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
     private void fireEvent(Change change, ChangeEvent event, ReviewDb db)
         throws OrmException {
-      for (EventListenerHolder holder : listeners.values()) {
-        if (isVisibleTo(change, holder.user, db)) {
-          holder.listener.onEvent(event);
+      for (UserScopedEventListener listener : listeners) {
+        if (isVisibleTo(change, listener.getUser(), db)) {
+          listener.onEvent(event);
         }
       }
 
@@ -933,9 +912,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     private void fireEvent(Project.NameKey project, ProjectEvent event) {
-      for (EventListenerHolder holder : listeners.values()) {
-        if (isVisibleTo(project, holder.user)) {
-          holder.listener.onEvent(event);
+      for (UserScopedEventListener listener : listeners) {
+        if (isVisibleTo(project, listener.getUser())) {
+          listener.onEvent(event);
         }
       }
 
@@ -943,9 +922,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     private void fireEvent(Branch.NameKey branchName, RefEvent event) {
-      for (EventListenerHolder holder : listeners.values()) {
-        if (isVisibleTo(branchName, holder.user)) {
-          holder.listener.onEvent(event);
+      for (UserScopedEventListener listener : listeners) {
+        if (isVisibleTo(branchName, listener.getUser())) {
+          listener.onEvent(event);
         }
       }
 
@@ -954,9 +933,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
     private void fireEvent(com.google.gerrit.server.events.Event event,
         ReviewDb db) throws OrmException {
-      for (EventListenerHolder holder : listeners.values()) {
-        if (isVisibleTo(event, holder.user, db)) {
-          holder.listener.onEvent(event);
+      for (UserScopedEventListener listener : listeners) {
+        if (isVisibleTo(event, listener.getUser(), db)) {
+          listener.onEvent(event);
         }
       }
 

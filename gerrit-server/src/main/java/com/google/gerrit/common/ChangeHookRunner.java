@@ -393,14 +393,6 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       runHook(project, projectCreatedHook, args);
     }
 
-    /**
-     * Fire the Patchset Created Hook.
-     *
-     * @param change The change itself.
-     * @param patchSet The Patchset that was created.
-     * @param db Review database.
-     * @throws OrmException
-     */
     @Override
     public void doPatchsetCreatedHook(Change change,
         PatchSet patchSet, ReviewDb db) throws OrmException {

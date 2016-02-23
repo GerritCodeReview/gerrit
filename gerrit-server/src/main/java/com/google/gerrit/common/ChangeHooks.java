@@ -36,6 +36,7 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param patchSet The Patchset that was created.
+   * @param db Review database.
    * @throws OrmException
    */
   void doPatchsetCreatedHook(Change change, PatchSet patchSet,
@@ -46,6 +47,7 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param patchSet The Patchset that was published.
+   * @param db Review database.
    * @throws OrmException
    */
   void doDraftPublishedHook(Change change, PatchSet patchSet,
@@ -55,10 +57,11 @@ public interface ChangeHooks {
    * Fire the Comment Added Hook.
    *
    * @param change The change itself.
-   * @param patchSet The patchset this comment is related to.
    * @param account The gerrit user who added the comment.
+   * @param patchSet The patchset this comment is related to.
    * @param comment The comment given.
    * @param approvals Map of label IDs to scores
+   * @param db Review database.
    * @throws OrmException
    */
   void doCommentAddedHook(Change change, Account account,
@@ -72,6 +75,7 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param account The gerrit user who submitted the change.
    * @param patchSet The patchset that was merged.
+   * @param db Review database.
    * @param mergeResultRev The SHA-1 of the merge result revision.
    * @throws OrmException
    */
@@ -85,6 +89,7 @@ public interface ChangeHooks {
    * @param account The gerrit user who attempted to submit the change.
    * @param patchSet The patchset that failed to merge.
    * @param reason The reason that the change failed to merge.
+   * @param db Review database.
    * @throws OrmException
    */
   void doMergeFailedHook(Change change, Account account,
@@ -96,6 +101,7 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param account The gerrit user who abandoned the change.
    * @param reason Reason for abandoning the change.
+   * @param db Review database.
    * @throws OrmException
    */
   void doChangeAbandonedHook(Change change, Account account,
@@ -106,7 +112,9 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param account The gerrit user who restored the change.
+   * @param patchSet The patchset that was restored.
    * @param reason Reason for restoring the change.
+   * @param db Review database.
    * @throws OrmException
    */
   void doChangeRestoredHook(Change change, Account account,
@@ -139,6 +147,7 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param patchSet The patchset that the reviewer was added on.
    * @param account The gerrit user who was added as reviewer.
+   * @param db Review database.
    */
   void doReviewerAddedHook(Change change, Account account,
       PatchSet patchSet, ReviewDb db) throws OrmException;
@@ -149,10 +158,18 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param account The gerrit user who changed the topic.
    * @param oldTopic The old topic name.
+   * @param db Review database.
    */
   void doTopicChangedHook(Change change, Account account,
       String oldTopic, ReviewDb db) throws OrmException;
 
+  /**
+   * Fire the contributor license agreement signup hook.
+   *
+   * @param account The gerrit user who signed the contributor license
+   *        agreement.
+   * @param claName The name of the contributor license agreement.
+   */
   void doClaSignupHook(Account account, String claName);
 
   /**
@@ -174,7 +191,7 @@ public interface ChangeHooks {
    * @param added List of hashtags that were added to the change
    * @param removed List of hashtags that were removed from the change
    * @param hashtags List of hashtags on the change after adding or removing
-   * @param db The database
+   * @param db Review database.
    * @throws OrmException
    */
   void doHashtagsChangedHook(Change change, Account account,

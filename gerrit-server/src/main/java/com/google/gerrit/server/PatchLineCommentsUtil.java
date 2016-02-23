@@ -288,28 +288,12 @@ public class PatchLineCommentsUtil {
     return sort(comments);
   }
 
-  public void insertComments(ReviewDb db, ChangeUpdate update,
+  public void putComments(ReviewDb db, ChangeUpdate update,
       Iterable<PatchLineComment> comments) throws OrmException {
     for (PatchLineComment c : comments) {
-      update.insertComment(c);
-    }
-    db.patchComments().insert(comments);
-  }
-
-  public void upsertComments(ReviewDb db, ChangeUpdate update,
-      Iterable<PatchLineComment> comments) throws OrmException {
-    for (PatchLineComment c : comments) {
-      update.upsertComment(c);
+      update.putComment(c);
     }
     db.patchComments().upsert(comments);
-  }
-
-  public void updateComments(ReviewDb db, ChangeUpdate update,
-      Iterable<PatchLineComment> comments) throws OrmException {
-    for (PatchLineComment c : comments) {
-      update.updateComment(c);
-    }
-    db.patchComments().update(comments);
   }
 
   public void deleteComments(ReviewDb db, ChangeUpdate update,

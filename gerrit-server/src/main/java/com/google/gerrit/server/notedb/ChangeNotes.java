@@ -33,6 +33,8 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.AsyncFunction;
@@ -70,7 +72,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -398,10 +399,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
 
-  // Mutable note map state, only used by ChangeUpdate to make in-place editing
-  // of notes easier.
-  NoteMap noteMap;
-  Map<RevId, RevisionNote> revisionNotes;
+  // Parsed note map state, used by ChangeUpdate to make in-place editing of
+  // notes easier.
+  RevisionNoteMap revisionNoteMap;
 
   private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
@@ -477,7 +477,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public ImmutableListMultimap<RevId, PatchLineComment> getDraftComments(
       Account.Id author) throws OrmException {
     loadDraftComments(author);
-    return draftCommentNotes.getComments();
+    final Multimap<RevId, PatchLineComment> published = comments;
+    // Filter out any draft comments that also exist in the published map, in
+    // case the update to All-Users to delete them during the publish operation
+    // failed.
+    Multimap<RevId, PatchLineComment> filtered = Multimaps.filterEntries(
+        draftCommentNotes.getComments(),
+        new Predicate<Map.Entry<RevId, PatchLineComment>>() {
+          @Override
+          public boolean apply(Map.Entry<RevId, PatchLineComment> in) {
+            for (PatchLineComment c : published.get(in.getKey())) {
+              if (c.getKey().equals(in.getValue().getKey())) {
+                return false;
+              }
+            }
+            return true;
+          }
+        });
+    return ImmutableListMultimap.copyOf(
+        filtered);
   }
 
   /**
@@ -518,15 +536,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return false;
   }
 
-  /** @return the NoteMap */
-  NoteMap getNoteMap() {
-    return noteMap;
-  }
-
-  Map<RevId, RevisionNote> getRevisionNotes() {
-    return revisionNotes;
-  }
-
   @Override
   protected String getRefName() {
     return ChangeNoteUtil.changeRefName(getChangeId());
@@ -557,8 +566,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
-      noteMap = parser.noteMap;
-      revisionNotes = parser.revisionNotes;
+      revisionNoteMap = parser.revisionNoteMap;
       change.setKey(new Change.Key(parser.changeId));
       change.setDest(new Branch.NameKey(project, parser.branch));
       change.setTopic(Strings.emptyToNull(parser.topic));

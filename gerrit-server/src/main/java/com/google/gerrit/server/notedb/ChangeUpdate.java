@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -59,6 +60,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -71,7 +73,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -117,7 +119,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ObjectId commit;
   private Set<String> hashtags;
   private String changeMessage;
-  private ChangeNotes notes;
   private PatchSetState psState;
   private Iterable<String> groups;
   private String pushCert;
@@ -205,13 +206,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return getResult();
   }
 
-  public void setChangeId(String changeId) throws OrmException {
-    if (notes == null) {
-      notes = getChangeNotes().load();
-    }
-    checkArgument(notes.getChange().getKey().get().equals(changeId),
+  public void setChangeId(String changeId) {
+    String old = ctl.getChange().getKey().get();
+    checkArgument(old.equals(changeId),
         "The Change-Id was already set to %s, so we cannot set this Change-Id: %s",
-        notes.getChange().getKey(), changeId);
+        old, changeId);
     this.changeId = changeId;
   }
 
@@ -270,120 +269,41 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.changeMessage = changeMessage;
   }
 
-  public void insertComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
-      insertDraftComment(comment);
-    } else {
-      insertPublishedComment(comment);
-    }
-  }
-
-  public void upsertComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
-      upsertDraftComment(comment);
-    } else {
-      deleteDraftCommentIfPresent(comment);
-      upsertPublishedComment(comment);
-    }
-  }
-
-  public void updateComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
-      updateDraftComment(comment);
-    } else {
-      deleteDraftCommentIfPresent(comment);
-      updatePublishedComment(comment);
-    }
-  }
-
-  public void deleteComment(PatchLineComment comment) throws OrmException {
-    if (comment.getStatus() == PatchLineComment.Status.DRAFT) {
-      deleteDraftComment(comment);
-    } else {
-      throw new IllegalArgumentException("Cannot delete a published comment.");
-    }
-  }
-
-  private void insertPublishedComment(PatchLineComment c) throws OrmException {
+  public void putComment(PatchLineComment c) {
     verifyComment(c);
-    if (notes == null) {
-      notes = getChangeNotes().load();
-    }
-    if (migration.readChanges()) {
-      checkArgument(!notes.containsComment(c),
-          "A comment already exists with the same key as the following comment,"
-          + " so we cannot insert this comment: %s", c);
-    }
-    comments.add(c);
-  }
-
-  private void insertDraftComment(PatchLineComment c) throws OrmException {
     createDraftUpdateIfNull();
-    draftUpdate.insertComment(c);
+    if (c.getStatus() == PatchLineComment.Status.DRAFT) {
+      draftUpdate.putComment(c);
+    } else {
+      comments.add(c);
+      // Always delete the corresponding comment from drafts. Published comments
+      // are immutable, meaning in normal operation we only hit this path when
+      // publishing a comment. It's exactly in that case that we have to delete
+      // the draft.
+      draftUpdate.deleteComment(c);
+    }
   }
 
-  private void upsertPublishedComment(PatchLineComment c) throws OrmException {
+  public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    if (notes == null) {
-      notes = getChangeNotes().load();
+    if (c.getStatus() == PatchLineComment.Status.DRAFT) {
+      createDraftUpdateIfNull().deleteComment(c);
+    } else {
+      throw new IllegalArgumentException(
+          "Cannot delete published comment " + c);
     }
-    // This could allow callers to update a published comment if migration.write
-    // is on and migration.readComments is off because we will not be able to
-    // verify that the comment didn't already exist as a published comment
-    // since we don't have a ReviewDb.
-    if (migration.readChanges()) {
-      checkArgument(!notes.containsCommentPublished(c),
-          "Cannot update a comment that has already been published and saved");
-    }
-    comments.add(c);
   }
 
-  private void upsertDraftComment(PatchLineComment c) {
-    createDraftUpdateIfNull();
-    draftUpdate.upsertComment(c);
-  }
-
-  private void updatePublishedComment(PatchLineComment c) throws OrmException {
-    verifyComment(c);
-    if (notes == null) {
-      notes = getChangeNotes().load();
-    }
-    // See comment above in upsertPublishedComment() about potential risk with
-    // this check.
-    if (migration.readChanges()) {
-      checkArgument(!notes.containsCommentPublished(c),
-          "Cannot update a comment that has already been published and saved");
-    }
-    comments.add(c);
-  }
-
-  private void updateDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull();
-    draftUpdate.updateComment(c);
-  }
-
-  private void deleteDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull();
-    draftUpdate.deleteComment(c);
-  }
-
-  private void deleteDraftCommentIfPresent(PatchLineComment c)
-      throws OrmException {
-    createDraftUpdateIfNull();
-    draftUpdate.deleteCommentIfPresent(c);
-  }
-
-  private void createDraftUpdateIfNull() {
+  @VisibleForTesting
+  ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
       draftUpdate = draftUpdateFactory.create(ctl, when);
     }
+    return draftUpdate;
   }
 
   private void verifyComment(PatchLineComment c) {
     checkArgument(c.getRevId() != null);
-    checkArgument(c.getStatus() == PatchLineComment.Status.PUBLISHED,
-        "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate"
-        + " for draft comments");
     checkArgument(c.getAuthor().equals(getUser().getAccountId()),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", getUser().getAccountId(), c);
@@ -430,44 +350,93 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /** @return the tree id for the updated tree */
-  private ObjectId storeRevisionNotes(ObjectInserter inserter)
-      throws OrmException, IOException {
-    ChangeNotes notes = ctl.getNotes().load();
-    NoteMap noteMap = notes.getNoteMap();
-    if (noteMap == null) {
-      noteMap = NoteMap.newEmptyMap();
-    }
+  private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter,
+      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
     if (comments.isEmpty() && pushCert == null) {
       return null;
     }
+    RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
 
-    Map<RevId, RevisionNoteBuilder> builders = new HashMap<>();
+    RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
     for (PatchLineComment c : comments) {
-      builder(builders, c.getRevId()).addComment(c);
+      cache.get(c.getRevId()).putComment(c);
     }
     if (pushCert != null) {
       checkState(commit != null);
-      builder(builders, new RevId(commit.name())).setPushCertificate(pushCert);
+      cache.get(new RevId(commit.name())).setPushCertificate(pushCert);
     }
+    Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
+    checkComments(rnm.revisionNotes, builders);
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data = inserter.insert(
           OBJ_BLOB, e.getValue().build(commentsUtil));
-      noteMap.set(ObjectId.fromString(e.getKey().get()), data);
+      rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 
-    return noteMap.writeTree(inserter);
+    return rnm.noteMap.writeTree(inserter);
   }
 
-  private RevisionNoteBuilder builder(Map<RevId, RevisionNoteBuilder> builders,
-      RevId revId) {
-    RevisionNoteBuilder b = builders.get(revId);
-    if (b == null) {
-      b = new RevisionNoteBuilder(
-          getChangeNotes().getRevisionNotes().get(revId));
-      builders.put(revId, b);
+  private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
+      throws ConfigInvalidException, OrmException, IOException {
+    if (migration.readChanges()) {
+      // If reading from changes is enabled, then the old ChangeNotes already
+      // parsed the revision notes. We can reuse them as long as the ref hasn't
+      // advanced.
+      ObjectId idFromNotes =
+          firstNonNull(ctl.getNotes().load().getRevision(), ObjectId.zeroId());
+      if (idFromNotes.equals(curr)) {
+        return checkNotNull(ctl.getNotes().revisionNoteMap);
+      }
     }
-    return b;
+    NoteMap noteMap;
+    if (!curr.equals(ObjectId.zeroId())) {
+      noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
+    } else {
+      noteMap = NoteMap.newEmptyMap();
+    }
+    // Even though reading from changes might not be enabled, we need to
+    // parse any existing revision notes so we can merge them.
+    return RevisionNoteMap.parse(
+        ctl.getId(), rw.getObjectReader(), noteMap, false);
+  }
+
+  private void checkComments(Map<RevId, RevisionNote> existingNotes,
+      Map<RevId, RevisionNoteBuilder> toUpdate) throws OrmException {
+    // Prohibit various kinds of illegal operations on comments.
+    Set<PatchLineComment.Key> existing = new HashSet<>();
+    for (RevisionNote rn : existingNotes.values()) {
+      for (PatchLineComment c : rn.comments) {
+        existing.add(c.getKey());
+        if (draftUpdate != null) {
+          // Take advantage of an existing update on All-Users to prune any
+          // published comments from drafts. NoteDbUpdateManager takes care of
+          // ensuring that this update is applied before its dependent draft
+          // update.
+          //
+          // Deleting aggressively in this way, combined with filtering out
+          // duplicate published/draft comments in ChangeNotes#getDraftComments,
+          // makes up for the fact that updates between the change repo and
+          // All-Users are not atomic.
+          //
+          // TODO(dborowitz): We might want to distinguish between deleted
+          // drafts that we're fixing up after the fact by putting them in a
+          // separate commit. But note that we don't care much about the commit
+          // graph of the draft ref, particularly because the ref is completely
+          // deleted when all drafts are gone.
+          draftUpdate.deleteComment(c.getRevId(), c.getKey());
+        }
+      }
+    }
+
+    for (RevisionNoteBuilder b : toUpdate.values()) {
+      for (PatchLineComment c : b.put.values()) {
+        if (existing.contains(c.getKey())) {
+          throw new OrmException(
+              "Cannot update existing published comment: " + c);
+        }
+      }
+    }
   }
 
   @Override
@@ -476,8 +445,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
-  protected CommitBuilder applyImpl(ObjectInserter ins)
-      throws OrmException, IOException {
+  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
+      ObjectId curr) throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
@@ -580,9 +549,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     cb.setMessage(msg.toString());
-    ObjectId treeId = storeRevisionNotes(ins);
-    if (treeId != null) {
-      cb.setTreeId(treeId);
+    try {
+      ObjectId treeId = storeRevisionNotes(rw, ins, curr);
+      if (treeId != null) {
+        cb.setTreeId(treeId);
+      }
+    } catch (ConfigInvalidException e) {
+      throw new OrmException(e);
     }
     return cb;
   }

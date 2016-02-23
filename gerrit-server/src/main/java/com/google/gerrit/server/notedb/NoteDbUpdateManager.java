@@ -152,7 +152,11 @@ public class NoteDbUpdateManager {
   }
 
   private boolean isEmpty() {
-    return !migration.writeChanges() || changeUpdates.isEmpty();
+    if (!migration.writeChanges()) {
+      return true;
+    }
+    return changeUpdates.isEmpty()
+        && draftUpdates.isEmpty();
   }
 
   /**
@@ -189,8 +193,16 @@ public class NoteDbUpdateManager {
       }
       addCommands();
 
-      execute(allUsersRepo);
+      // ChangeUpdates must execute before ChangeDraftUpdates.
+      //
+      // ChangeUpdate will automatically delete draft comments for any published
+      // comments, but the updates to the two repos don't happen atomically.
+      // Thus if the change meta update succeeds and the All-Users update fails,
+      // we may have stale draft comments. Doing it in this order allows stale
+      // comments to be filtered out by ChangeNotes, reflecting the fact that
+      // comments can only go from DRAFT to PUBLISHED, not vice versa.
       execute(changeRepo);
+      execute(allUsersRepo);
     } finally {
       if (allUsersRepo != null) {
         allUsersRepo.close();

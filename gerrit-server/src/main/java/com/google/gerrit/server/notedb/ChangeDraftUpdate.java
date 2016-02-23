@@ -234,8 +234,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   protected CommitBuilder applyImpl(ObjectInserter ins)
       throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
-    cb.setAuthor(newAuthorIdent());
-    cb.setCommitter(new PersonIdent(serverIdent, when));
     cb.setMessage("Update draft comments");
     AtomicBoolean removedAllComments = new AtomicBoolean();
     ObjectId treeId = storeCommentsInNotes(ins, removedAllComments);

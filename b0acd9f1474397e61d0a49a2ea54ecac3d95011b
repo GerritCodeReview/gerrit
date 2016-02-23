@@ -16,6 +16,24 @@
       "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24c3916_3b43973a",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-23T21:24:23Z",
+      "side": 1,
+      "message": "Since devs are using different tools (there was a short discussion in change I669f0ec7f), it would lead in a quote long documentation how to set it up everywhere.\n\nAs I have written earlier in this change, I will add a Gulp (Node.js) script to run linters in a follow-up change. Andy has suggested to add a pre commit hook also which should be easy to implement. Also, it would be nice to have a CI running these checks.",
+      "parentUuid": "c21d75f8_3a2641fd",
+      "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -184,6 +184,24 @@
       "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8217fdd7_989f557a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-23T15:07:27Z",
+      "side": 1,
+      "message": "It\u0027s more merging vs. non-merging, not per-strategy. Also Cherry-Pick has a very similar comment to the one in Rebase-If-Necessary (about multiple parents) in #UpdateRepo!",
+      "parentUuid": "8217fdd7_f89a118b",
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

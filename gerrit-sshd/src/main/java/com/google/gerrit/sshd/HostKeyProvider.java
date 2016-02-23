@@ -19,10 +19,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import org.apache.sshd.common.keyprovider.AbstractFileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -42,12 +44,12 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     Path rsaKey = site.ssh_rsa;
     Path dsaKey = site.ssh_dsa;
 
-    final List<String> stdKeys = new ArrayList<>(2);
+    final List<File> stdKeys = new ArrayList<>(2);
     if (Files.exists(rsaKey)) {
-      stdKeys.add(rsaKey.toAbsolutePath().toString());
+      stdKeys.add(rsaKey.toAbsolutePath().toFile());
     }
     if (Files.exists(dsaKey)) {
-      stdKeys.add(dsaKey.toAbsolutePath().toString());
+      stdKeys.add(dsaKey.toAbsolutePath().toFile());
     }
 
     if (Files.exists(objKey)) {
@@ -60,7 +62,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
         // Both formats of host key exist, we don't know which format
         // should be authoritative. Complain and abort.
         //
-        stdKeys.add(objKey.toAbsolutePath().toString());
+        stdKeys.add(objKey.toAbsolutePath().toFile());
         throw new ProvisionException("Multiple host keys exist: " + stdKeys);
       }
 
@@ -72,8 +74,9 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
         throw new ProvisionException("Bouncy Castle Crypto not installed;"
             + " needed to read server host keys: " + stdKeys + "");
       }
-      return new FileKeyPairProvider(stdKeys
-          .toArray(new String[stdKeys.size()]));
+      AbstractFileKeyPairProvider kp = SecurityUtils.createFileKeyPairProvider();
+      kp.setFiles(stdKeys);
+      return kp;
     }
   }
 }

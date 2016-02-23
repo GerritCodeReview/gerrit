@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e24c3916_3b4dd7b2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-23T09:30:32Z",
+      "side": 1,
+      "message": "Commit message saying, that:\n\n  When done via the gsql site program there is no user available.\n\nBut this if is only on auditService. Isn\u0027t auditService also available in Gsql running as site program?",
+      "revId": "9b93238d68a2c189e1308c69aa3f85bb4f5ba342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

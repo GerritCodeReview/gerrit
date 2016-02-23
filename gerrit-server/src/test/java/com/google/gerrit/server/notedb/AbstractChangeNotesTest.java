@@ -95,13 +95,17 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   protected RevWalk rw;
   protected TestRepository<InMemoryRepository> tr;
 
-  @Inject protected IdentifiedUser.GenericFactory userFactory;
-  @Inject protected NoteDbUpdateManager.Factory updateManagerFactory;
+  @Inject
+  protected IdentifiedUser.GenericFactory userFactory;
+
+  @Inject
+  protected NoteDbUpdateManager.Factory updateManagerFactory;
+
+  @Inject
+  protected AllUsersName allUsers;
 
   private Injector injector;
   private String systemTimeZone;
-
-  @Inject private AllUsersName allUsers;
 
   @Before
   public void setUp() throws Exception {

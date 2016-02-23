@@ -138,7 +138,7 @@ public abstract class AbstractChangeUpdate {
       return null;
     }
     ObjectId z = ObjectId.zeroId();
-    CommitBuilder cb = applyImpl(ins);
+    CommitBuilder cb = applyImpl(rw, ins, curr);
     if (cb == null) {
       result = z;
       return z; // Impl intends to delete the ref.
@@ -174,10 +174,8 @@ public abstract class AbstractChangeUpdate {
    * @throws OrmException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */
-  // TODO(dborowitz): ChangeUpdate needs to be able to reread its ChangeNotes at
-  // the old SHA-1, which would imply passing curr here.
-  protected abstract CommitBuilder applyImpl(ObjectInserter ins)
-      throws OrmException, IOException;
+  protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
+      ObjectId curr) throws OrmException, IOException;
 
   ObjectId getResult() {
     return result;

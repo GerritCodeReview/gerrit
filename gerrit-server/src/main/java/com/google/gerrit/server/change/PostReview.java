@@ -476,7 +476,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // TODO(dborowitz): Currently doesn't work for PUBLISH_ALL_REVISIONS with
       // notedb.
       plcUtil.deleteComments(ctx.getDb(), u, del);
-      plcUtil.upsertComments(ctx.getDb(), u, ups);
+      plcUtil.putComments(ctx.getDb(), u, ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
     }

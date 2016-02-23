@@ -15,16 +15,12 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
-import static com.google.gerrit.server.notedb.RevisionNote.MAX_NOTE_SZ;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,16 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.Note;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
 import org.eclipse.jgit.util.GitDateParser;
@@ -60,18 +47,14 @@ import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Utility functions to parse PatchLineComments out of a note byte array and
@@ -88,33 +71,6 @@ public class CommentsInNotesUtil {
   private static final String PATCH_SET = "Patch-set";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
-
-  public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
-      RevWalk walk, Change.Id changeId,
-      Multimap<RevId, PatchLineComment> comments,
-      Status status)
-      throws IOException, ConfigInvalidException {
-    Ref ref = repo.getRefDatabase().exactRef(refName);
-    if (ref == null) {
-      return null;
-    }
-
-    ObjectReader reader = walk.getObjectReader();
-    RevCommit commit = walk.parseCommit(ref.getObjectId());
-    NoteMap noteMap = NoteMap.read(reader, commit);
-
-    for (Note note : noteMap) {
-      byte[] bytes =
-          reader.open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-      List<PatchLineComment> result =
-          parseNote(bytes, new MutableInteger(), changeId, status);
-      if (result == null || result.isEmpty()) {
-        continue;
-      }
-      comments.putAll(new RevId(note.name()), result);
-    }
-    return noteMap;
-  }
 
   public static List<PatchLineComment> parseNote(byte[] note, MutableInteger p,
       Change.Id changeId, Status status) throws ConfigInvalidException {
@@ -432,7 +388,7 @@ public class CommentsInNotesUtil {
    *            same side and must share the same patch set ID.
    * @param out output stream to write to.
    */
-  public void buildNote(List<PatchLineComment> comments, OutputStream out) {
+  void buildNote(List<PatchLineComment> comments, OutputStream out) {
     if (comments.isEmpty()) {
       return;
     }
@@ -514,51 +470,4 @@ public class CommentsInNotesUtil {
       }
     }
   }
-
-  /**
-   * Write comments for multiple revisions to a note map.
-   * <p>
-   * Mutates the map in-place. only notes for SHA-1s found as keys in the map
-   * are modified; all other notes are left untouched.
-   *
-   * @param noteMap note map to modify.
-   * @param allComments map of revision to all comments for that revision;
-   *     callers are responsible for reading the original comments and applying
-   *     any changes. Differs from a multimap in that present-but-empty values
-   *     are significant, and indicate the note for that SHA-1 should be
-   *     deleted.
-   * @param inserter object inserter for writing notes.
-   * @throws IOException if an error occurred.
-   */
-  public void writeCommentsToNoteMap(NoteMap noteMap,
-      Map<RevId, List<PatchLineComment>> allComments, ObjectInserter inserter)
-      throws IOException {
-    for (Map.Entry<RevId, List<PatchLineComment>> e : allComments.entrySet()) {
-      List<PatchLineComment> comments = e.getValue();
-      ObjectId commit = ObjectId.fromString(e.getKey().get());
-      if (comments.isEmpty()) {
-        noteMap.remove(commit);
-        continue;
-      }
-      Collections.sort(comments, PLC_ORDER);
-      // We allow comments for multiple commits to be written in the same
-      // update, even though the rest of the metadata update is associated with
-      // a single patch set.
-      byte[] note = buildNote(comments);
-      if (note != null && note.length > 0) {
-        noteMap.set(commit, inserter.insert(OBJ_BLOB, note));
-      }
-    }
-  }
-
-  static void addCommentToMap(Map<RevId, List<PatchLineComment>> map,
-      PatchLineComment c) {
-    List<PatchLineComment> list = map.get(c.getRevId());
-    if (list == null) {
-      list = new ArrayList<>();
-      map.put(c.getRevId(), list);
-    }
-    list.add(c);
-  }
-
 }

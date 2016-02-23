@@ -14,35 +14,77 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.RevId;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class RevisionNoteBuilder {
-  private final Map<PatchLineComment.Key, PatchLineComment> comments;
+  static class Cache {
+    private final RevisionNoteMap revisionNoteMap;
+    private final Map<RevId, RevisionNoteBuilder> builders;
+
+    Cache(RevisionNoteMap revisionNoteMap) {
+      this.revisionNoteMap = revisionNoteMap;
+      this.builders = new HashMap<>();
+    }
+
+    RevisionNoteBuilder get(RevId revId) {
+      RevisionNoteBuilder b = builders.get(revId);
+      if (b == null) {
+        b = new RevisionNoteBuilder(
+            revisionNoteMap.revisionNotes.get(revId));
+        builders.put(revId, b);
+      }
+      return b;
+    }
+
+    Map<RevId, RevisionNoteBuilder> getBuilders() {
+      return Collections.unmodifiableMap(builders);
+    }
+  }
+
+  final List<PatchLineComment> baseComments;
+  final Map<PatchLineComment.Key, PatchLineComment> put;
+  final Set<PatchLineComment.Key> delete;
+
   private String pushCert;
 
   RevisionNoteBuilder(RevisionNote base) {
     if (base != null) {
-      comments = Maps.newHashMapWithExpectedSize(base.comments.size());
-      for (PatchLineComment c : base.comments) {
-        addComment(c);
-      }
+      baseComments = base.comments;
+      put = Maps.newHashMapWithExpectedSize(base.comments.size());
       pushCert = base.pushCert;
     } else {
-      comments = new HashMap<>();
+      baseComments = Collections.emptyList();
+      put = new HashMap<>();
       pushCert = null;
     }
+    delete = new HashSet<>();
   }
 
-  void addComment(PatchLineComment comment) {
-    comments.put(comment.getKey(), comment);
+  void putComment(PatchLineComment comment) {
+    checkArgument(!delete.contains(comment.getKey()),
+        "cannot both delete and put %s", comment.getKey());
+    put.put(comment.getKey(), comment);
+  }
+
+  void deleteComment(PatchLineComment.Key key) {
+    checkArgument(!put.containsKey(key), "cannot both delete and put %s", key);
+    delete.add(key);
   }
 
   void setPushCertificate(String pushCert) {
@@ -56,7 +98,16 @@ class RevisionNoteBuilder {
       out.write(certBytes, 0, trimTrailingNewlines(certBytes));
       out.write('\n');
     }
-    commentsUtil.buildNote(PLC_ORDER.sortedCopy(comments.values()), out);
+
+    List<PatchLineComment> all =
+        new ArrayList<>(baseComments.size() + put.size());
+    for (PatchLineComment c : Iterables.concat(baseComments, put.values())) {
+      if (!delete.contains(c.getKey())) {
+        all.add(c);
+      }
+    }
+    Collections.sort(all, PLC_ORDER);
+    commentsUtil.buildNote(all, out);
     return out.toByteArray();
   }
 

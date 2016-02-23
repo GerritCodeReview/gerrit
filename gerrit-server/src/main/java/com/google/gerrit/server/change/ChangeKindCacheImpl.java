@@ -22,13 +22,13 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -110,9 +110,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     @Override
-    public ChangeKind getChangeKind(ReviewDb db, ChangeNotes notes,
+    public ChangeKind getChangeKind(ReviewDb db, Change change,
         PatchSet patch) {
-      return getChangeKindInternal(this, db, notes, patch, changeDataFactory,
+      return getChangeKindInternal(this, db, change, patch, changeDataFactory,
           projectCache, repoManager);
     }
   }
@@ -327,15 +327,15 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   @Override
-  public ChangeKind getChangeKind(ReviewDb db, ChangeNotes notes, PatchSet patch) {
-    return getChangeKindInternal(this, db, notes, patch, changeDataFactory,
+  public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
+    return getChangeKindInternal(this, db, change, patch, changeDataFactory,
         projectCache, repoManager);
   }
 
   private static ChangeKind getChangeKindInternal(
       ChangeKindCache cache,
       ReviewDb db,
-      ChangeNotes notes,
+      Change change,
       PatchSet patch,
       ChangeData.Factory changeDataFactory,
       ProjectCache projectCache,
@@ -345,9 +345,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     // Trivial case: if we're on the first patch, we don't need to open
     // the repository.
     if (patch.getId().get() > 1) {
-      try (Repository repo = repoManager.openRepository(notes.getProjectName())) {
-        ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
-        ChangeData cd = changeDataFactory.create(db, notes);
+      try (Repository repo = repoManager.openRepository(change.getProject())) {
+        ProjectState projectState = projectCache.checkedGet(change.getProject());
+        ChangeData cd = changeDataFactory.create(db, change);
         Collection<PatchSet> patchSetCollection = cd.patchSets();
         PatchSet priorPs = patch;
         for (PatchSet ps : patchSetCollection) {
@@ -372,7 +372,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       } catch (IOException | OrmException e) {
         // Do nothing; assume we have a complex change
         log.warn("Unable to get change kind for patchSet " + patch.getPatchSetId() +
-            "of change " + notes.getChangeId(), e);
+            "of change " + change.getChangeId(), e);
       }
     }
     return kind;

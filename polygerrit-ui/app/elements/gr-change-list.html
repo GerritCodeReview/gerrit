@@ -51,6 +51,7 @@ limitations under the License.
       <template is="dom-repeat" items="[[changeGroup]]" as="change">
         <gr-change-list-item
             selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
+            highlighted="[[_computeItemHighlighted(change, showReviewedState)]]"
             change="[[change]]"
             show-star="[[showStar]]"
             label-names="[[labelNames]]"></gr-change-list-item>
@@ -102,6 +103,10 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        showReviewedState: {
+          type: Boolean,
+          value: false,
+        },
         keyEventTarget: {
           type: Object,
           value: function() { return document.body; },
@@ -149,6 +154,10 @@ limitations under the License.
         }
         idx += index;
         return idx == selectedIndex;
+      },
+
+      _computeItemHighlighted: function(change, showReviewedState) {
+        return showReviewedState && !change.reviewed;
       },
 
       _handleKey: function(e) {

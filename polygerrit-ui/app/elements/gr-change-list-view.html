@@ -67,7 +67,8 @@ limitations under the License.
       <gr-change-list
           changes="{{_changes}}"
           selected-index="{{viewState.selectedChangeIndex}}"
-          show-star="[[loggedIn]]"></gr-change-list>
+          show-star="[[loggedIn]]"
+          show-reviewed-state="[[loggedIn]]"></gr-change-list>
       <nav>
         <a href$="[[_computeNavLink(_query, _offset, -1)]]"
            hidden$="[[_hidePrevArrow(_offset)]]">&larr; Prev</a>

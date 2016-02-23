@@ -160,6 +160,23 @@
       "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8217fdd7_38cac964",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-23T17:24:57Z",
+      "side": 1,
+      "message": "In case this wasn\u0027t clear, we don\u0027t want to do this, the behavior should not differ from the GWT UI.",
+      "revId": "fa9a228dfafbb82f03dabf6fe894d0cdf86e49c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

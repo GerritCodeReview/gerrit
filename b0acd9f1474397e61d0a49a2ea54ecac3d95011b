@@ -34,6 +34,24 @@
       "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8217fdd7_18fb4590",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-23T21:34:16Z",
+      "side": 1,
+      "message": "Honestly I think it would be best if we hold off on this until CI is integrated.",
+      "parentUuid": "e24c3916_3b43973a",
+      "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

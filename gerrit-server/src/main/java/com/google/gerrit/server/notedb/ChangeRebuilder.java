@@ -418,14 +418,14 @@ public class ChangeRebuilder {
       if (c.getRevId() == null) {
         setCommentRevId(c, cache, change, ps);
       }
-      update.insertComment(c);
+      update.putComment(c);
     }
 
     void applyDraft(ChangeDraftUpdate draftUpdate) throws OrmException {
       if (c.getRevId() == null) {
         setCommentRevId(c, cache, change, ps);
       }
-      draftUpdate.insertComment(c);
+      draftUpdate.putComment(c);
     }
   }
 

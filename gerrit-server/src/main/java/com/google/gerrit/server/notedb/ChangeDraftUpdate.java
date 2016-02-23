@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -37,20 +37,20 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A single delta to apply atomically to a change.
@@ -66,14 +66,23 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     ChangeDraftUpdate create(ChangeControl ctl, Date when);
   }
 
+  @AutoValue
+  static abstract class Key {
+    abstract RevId revId();
+    abstract PatchLineComment.Key key();
+  }
+
+  private static Key key(PatchLineComment c) {
+    return new AutoValue_ChangeDraftUpdate_Key(c.getRevId(), c.getKey());
+  }
+
   private final AllUsersName draftsProject;
   private final Account.Id accountId;
   private final CommentsInNotesUtil commentsUtil;
-  private final ChangeNotes changeNotes;
-  private final DraftCommentNotes draftNotes;
 
-  private List<PatchLineComment> upsertComments;
-  private List<PatchLineComment> deleteComments;
+  // TODO: can go back to a list?
+  private Map<Key, PatchLineComment> put;
+  private Set<Key> delete;
 
   @AssistedInject
   private ChangeDraftUpdate(
@@ -81,11 +90,10 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
-      DraftCommentNotes.Factory draftNotesFactory,
       AllUsersName allUsers,
       CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
-      @Assisted Date when) throws OrmException {
+      @Assisted Date when) {
     super(migration, repoManager, ctl, serverIdent, anonymousCowardName, when);
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
@@ -93,154 +101,117 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         "Current user must be identified");
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();
     this.accountId = user.getAccountId();
-    this.changeNotes = getChangeNotes().load();
-    this.draftNotes = draftNotesFactory.create(ctl.getId(),
-        user.getAccountId());
 
-    this.upsertComments = Lists.newArrayList();
-    this.deleteComments = Lists.newArrayList();
+    this.put = new HashMap<>();
+    this.delete = new HashSet<>();
   }
 
-  public void insertComment(PatchLineComment c) throws OrmException {
+  public void putComment(PatchLineComment c) {
     verifyComment(c);
     checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
         "Cannot insert a published comment into a ChangeDraftUpdate");
-    if (migration.readChanges()) {
-      checkArgument(!changeNotes.containsComment(c),
-          "A comment already exists with the same key,"
-          + " so the following comment cannot be inserted: %s", c);
-    }
-    upsertComments.add(c);
+    put.put(key(c), c);
   }
 
-  public void upsertComment(PatchLineComment c) {
+  public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
-        "Cannot upsert a published comment into a ChangeDraftUpdate");
-    upsertComments.add(c);
+    delete.add(key(c));
   }
 
-  public void updateComment(PatchLineComment c) throws OrmException {
-    verifyComment(c);
-    checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
-        "Cannot update a published comment into a ChangeDraftUpdate");
-    // Here, we check to see if this comment existed previously as a draft.
-    // However, this could cause a race condition if there is a delete and an
-    // update operation happening concurrently (or two deletes) and they both
-    // believe that the comment exists. If a delete happens first, then
-    // the update will fail. However, this is an acceptable risk since the
-    // caller wanted the comment deleted anyways, so the end result will be the
-    // same either way.
-    if (migration.readChanges()) {
-      checkArgument(draftNotes.load().containsComment(c),
-          "Cannot update this comment because it didn't exist previously");
-    }
-    upsertComments.add(c);
-  }
-
-  public void deleteComment(PatchLineComment c) throws OrmException {
-    verifyComment(c);
-    // See the comment above about potential race condition.
-    if (migration.readChanges()) {
-      checkArgument(draftNotes.load().containsComment(c),
-          "Cannot delete this comment because it didn't previously exist as a"
-          + " draft");
-    }
-    if (migration.writeChanges()) {
-      if (draftNotes.load().containsComment(c)) {
-        deleteComments.add(c);
-      }
-    }
-  }
-
-  /**
-   * Deletes a PatchLineComment from the list of drafts only if it existed
-   * previously as a draft. If it wasn't a draft previously, this is a no-op.
-   */
-  public void deleteCommentIfPresent(PatchLineComment c) throws OrmException {
-    if (draftNotes.load().containsComment(c)) {
-      verifyComment(c);
-      deleteComments.add(c);
-    }
+  public void deleteComment(RevId revId, PatchLineComment.Key key) {
+    delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
   }
 
   private void verifyComment(PatchLineComment comment) {
-    if (migration.writeChanges()) {
-      checkArgument(comment.getRevId() != null);
-    }
     checkArgument(comment.getAuthor().equals(accountId),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", accountId, comment);
   }
 
   /** @return the tree id for the updated tree */
-  private ObjectId storeCommentsInNotes(ObjectInserter inserter,
-      AtomicBoolean removedAllComments) throws OrmException, IOException {
-    NoteMap noteMap = draftNotes.load().getNoteMap();
-    if (noteMap == null) {
-      noteMap = NoteMap.newEmptyMap();
+  private ObjectId storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
+      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
+    RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
+    Set<RevId> updatedRevs =
+        Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
+    RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
+
+    for (PatchLineComment c : put.values()) {
+      if (!delete.contains(key(c))) {
+        cache.get(c.getRevId()).putComment(c);
+      }
+    }
+    for (Key k : delete) {
+      cache.get(k.revId()).deleteComment(k.key());
     }
 
-    Map<RevId, List<PatchLineComment>> allComments = new HashMap<>();
-
+    Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean hasComments = false;
-    int n = deleteComments.size() + upsertComments.size();
-    Set<RevId> updatedRevs = Sets.newHashSetWithExpectedSize(n);
-    Set<PatchLineComment.Key> updatedKeys = Sets.newHashSetWithExpectedSize(n);
-    for (PatchLineComment c : deleteComments) {
-      allComments.put(c.getRevId(), new ArrayList<PatchLineComment>());
-      updatedRevs.add(c.getRevId());
-      updatedKeys.add(c.getKey());
-    }
-
-    for (PatchLineComment c : upsertComments) {
-      hasComments = true;
-      addCommentToMap(allComments, c);
-      updatedRevs.add(c.getRevId());
-      updatedKeys.add(c.getKey());
-    }
-
-    // Re-add old comments for updated revisions so the new note contents
-    // includes both old and new comments merged in the right order.
-    //
-    // writeCommentsToNoteMap doesn't touch notes for SHA-1s that are not
-    // mentioned in the input map, so by omitting comments for those revisions,
-    // we avoid the work of having to re-serialize identical comment data for
-    // those revisions.
-    ListMultimap<RevId, PatchLineComment> existing =
-        draftNotes.getComments();
-    for (Map.Entry<RevId, PatchLineComment> e : existing.entries()) {
-      PatchLineComment c = e.getValue();
-      if (updatedRevs.contains(c.getRevId())
-          && !updatedKeys.contains(c.getKey())) {
+    for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
+      updatedRevs.add(e.getKey());
+      ObjectId id = ObjectId.fromString(e.getKey().get());
+      byte[] data = e.getValue().build(commentsUtil);
+      if (data.length == 0) {
+        rnm.noteMap.remove(id);
+      } else {
         hasComments = true;
-        addCommentToMap(allComments, e.getValue());
+        ObjectId dataBlob = ins.insert(OBJ_BLOB, data);
+        rnm.noteMap.set(id, dataBlob);
       }
     }
 
-    // If we touched every revision and there are no comments left, set the flag
-    // for the caller to delete the entire ref.
-    boolean touchedAllRevs = updatedRevs.equals(existing.keySet());
+    // If we touched every revision and there are no comments left, tell the
+    // caller to delete the entire ref.
+    boolean touchedAllRevs = updatedRevs.equals(rnm.revisionNotes.keySet());
     if (touchedAllRevs && !hasComments) {
-      removedAllComments.set(true);
       return null;
     }
 
-    commentsUtil.writeCommentsToNoteMap(noteMap, allComments, inserter);
-    return noteMap.writeTree(inserter);
+    return rnm.noteMap.writeTree(ins);
+  }
+
+  private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
+      throws ConfigInvalidException, OrmException, IOException {
+    if (migration.readChanges()) {
+      // If reading from changes is enabled, then the old DraftCommentNotes
+      // already parsed the revision notes. We can reuse them as long as the ref
+      // hasn't advanced.
+      DraftCommentNotes draftNotes =
+          ctl.getNotes().load().getDraftCommentNotes();
+      if (draftNotes != null) {
+        ObjectId idFromNotes =
+            firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
+        if (idFromNotes.equals(curr)) {
+          return checkNotNull(ctl.getNotes().revisionNoteMap);
+        }
+      }
+    }
+    NoteMap noteMap;
+    if (!curr.equals(ObjectId.zeroId())) {
+      noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
+    } else {
+      noteMap = NoteMap.newEmptyMap();
+    }
+    // Even though reading from changes might not be enabled, we need to
+    // parse any existing revision notes so we can merge them.
+    return RevisionNoteMap.parse(
+        ctl.getId(), rw.getObjectReader(), noteMap, true);
   }
 
   @Override
-  protected CommitBuilder applyImpl(ObjectInserter ins)
-      throws OrmException, IOException {
+  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
+      ObjectId curr) throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update draft comments");
-    AtomicBoolean removedAllComments = new AtomicBoolean();
-    ObjectId treeId = storeCommentsInNotes(ins, removedAllComments);
-    if (removedAllComments.get()) {
-      return null; // Delete ref.
+    try {
+      ObjectId treeId = storeCommentsInNotes(rw, ins, curr);
+      if (treeId == null) {
+        return null; // Delete ref.
+      }
+      cb.setTreeId(checkNotNull(treeId));
+    } catch (ConfigInvalidException e) {
+      throw new OrmException(e);
     }
-    cb.setTreeId(checkNotNull(treeId));
     return cb;
   }
 
@@ -256,7 +227,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   public boolean isEmpty() {
-    return deleteComments.isEmpty()
-        && upsertComments.isEmpty();
+    return delete.isEmpty()
+        && put.isEmpty();
   }
 }

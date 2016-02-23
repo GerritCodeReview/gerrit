@@ -142,14 +142,14 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
             ctx.getUser().getAccountId(),
             comment.getParentUuid(), ctx.getWhen());
         setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
-        plcUtil.insertComments(ctx.getDb(), update,
+        plcUtil.putComments(ctx.getDb(), update,
             Collections.singleton(update(comment, in)));
       } else {
         if (comment.getRevId() == null) {
           setCommentRevId(
               comment, patchListCache, ctx.getChange(), ps);
         }
-        plcUtil.updateComments(ctx.getDb(), update,
+        plcUtil.putComments(ctx.getDb(), update,
             Collections.singleton(update(comment, in)));
       }
       return true;

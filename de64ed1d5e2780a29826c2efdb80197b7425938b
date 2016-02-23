@@ -16,6 +16,24 @@
       "revId": "de64ed1d5e2780a29826c2efdb80197b7425938b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2243b1e3_9d3bc322",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.1.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T03:21:52Z",
+      "side": 1,
+      "message": "Gah. In postgres it looks like the type clob doesn\u0027t exist, and we should use \u0027text\u0027 instead.\n\nI don\u0027t have Gerrit running on postgres so can\u0027t confirm, but I created a test database directly in postgres and the following worked:\n\n alter table patch_sets alter column push_certificate type text;\n\nBut I don\u0027t recommend running that on a production server until it\u0027s been verified as correct.",
+      "parentUuid": "4248a5fd_9e141d88",
+      "revId": "de64ed1d5e2780a29826c2efdb80197b7425938b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

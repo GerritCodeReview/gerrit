@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c21d75f8_9ab8adef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:46:19Z",
+      "side": 1,
+      "message": "The commit message only mentions using the timestamp from the context.\n\nIf we stop using \u0027caller\u0027 here, should we also stop using it at lines 155 and 162?",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 38
+      },
+      "revId": "2bcb2596ded2cb7889c87a24b9eed8e4d6359648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

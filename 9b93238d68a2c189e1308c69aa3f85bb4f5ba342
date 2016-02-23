@@ -16,6 +16,24 @@
       "revId": "9b93238d68a2c189e1308c69aa3f85bb4f5ba342",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_be8eb919",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T09:37:08Z",
+      "side": 1,
+      "message": "I haven\u0027t actually tried it, but as far as I can see AuditService is included via GerritGlobalModule which is not included in the Gsql program.\n\nThere\u0027s definitely no IdentifiedUser available, so even if there was an AuditService it wouldn\u0027t be much use.",
+      "parentUuid": "e24c3916_3b4dd7b2",
+      "revId": "9b93238d68a2c189e1308c69aa3f85bb4f5ba342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

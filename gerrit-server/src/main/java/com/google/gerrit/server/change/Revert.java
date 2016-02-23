@@ -249,10 +249,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
               ChangeUtil.messageUUID(db.get())),
           ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
       StringBuilder msgBuf = new StringBuilder();
-      msgBuf.append("Patch Set ").append(patchSetId.get())
-          .append(": Reverted");
-      msgBuf.append("\n\n");
-      msgBuf.append("This patchset was reverted in change: ")
+      msgBuf.append("Created a revert of this change as ")
           .append("I").append(computedChangeId.name());
       changeMessage.setMessage(msgBuf.toString());
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(patchSetId),

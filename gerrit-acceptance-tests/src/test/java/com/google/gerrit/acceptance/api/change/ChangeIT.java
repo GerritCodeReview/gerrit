@@ -190,8 +190,7 @@ public class ChangeIT extends AbstractDaemonTest {
         gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(sourceMessages).hasSize(4);
     String expectedMessage = String.format(
-        "Patch Set 1: Reverted\n\n" +
-        "This patchset was reverted in change: %s",
+        "Created a revert of this change as %s",
         revertChange.changeId);
     assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
 

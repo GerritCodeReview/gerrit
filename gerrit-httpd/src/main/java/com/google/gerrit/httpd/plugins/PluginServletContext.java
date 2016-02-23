@@ -36,7 +36,8 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
 class PluginServletContext {
-  private static final Logger log = LoggerFactory.getLogger("plugin");
+  private static final Logger log =
+      LoggerFactory.getLogger(PluginServletContext.class);
 
   static ServletContext create(Plugin plugin, String contextPath) {
     return (ServletContext) Proxy.newProxyInstance(

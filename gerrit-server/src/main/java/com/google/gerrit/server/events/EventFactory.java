@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -56,8 +57,6 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -74,11 +73,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class EventFactory {
@@ -87,7 +88,7 @@ public class EventFactory {
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
-  private final PatchSetInfoFactory psInfoFactory;
+  private final AccountByEmailCache byEmailCache;
   private final PersonIdent myIdent;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -98,7 +99,7 @@ public class EventFactory {
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      PatchSetInfoFactory psif,
+      AccountByEmailCache byEmailCache,
       PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent myIdent,
       ChangeData.Factory changeDataFactory,
@@ -109,7 +110,7 @@ public class EventFactory {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
-    this.psInfoFactory = psif;
+    this.byEmailCache = byEmailCache;
     this.myIdent = myIdent;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
@@ -382,18 +383,17 @@ public class EventFactory {
   public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
-      boolean includeFiles, ChangeNotes notes, LabelTypes labelTypes) {
+      boolean includeFiles, Change change, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
-      checkNotNull(notes, "notes may not be null");
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, notes, p);
+        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, change, p);
         if (approvals != null) {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
         ca.patchSets.add(psa);
         if (includeFiles) {
-          addPatchSetFileNames(psa, notes.getChange(), p);
+          addPatchSetFileNames(psa, change, p);
         }
       }
     }
@@ -453,9 +453,9 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk,
-      ChangeNotes notes, PatchSet patchSet) {
+      Change change, PatchSet patchSet) {
     try (ReviewDb db = schema.open()) {
-      return asPatchSetAttribute(db, revWalk, notes, patchSet);
+      return asPatchSetAttribute(db, revWalk, change, patchSet);
     } catch (OrmException e) {
       log.error("Cannot open database connection", e);
       return new PatchSetAttribute();
@@ -471,7 +471,7 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public PatchSetAttribute asPatchSetAttribute(ReviewDb db, RevWalk revWalk,
-      ChangeNotes notes, PatchSet patchSet) {
+      Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -487,7 +487,7 @@ public class EventFactory {
         p.parents.add(parent.name());
       }
 
-      UserIdentity author = psInfoFactory.get(db, notes, pId).getAuthor();
+      UserIdentity author = toUserIdentity(c.getAuthorIdent());
       if (author.getAccount() == null) {
         p.author = new AccountAttribute();
         p.author.email = author.getEmail();
@@ -497,7 +497,6 @@ public class EventFactory {
         p.author = asAccountAttribute(author.getAccount());
       }
 
-      Change change = notes.getChange();
       List<Patch> list =
           patchListCache.get(change, patchSet).toPatchList(pId);
       for (Patch pe : list) {
@@ -509,12 +508,28 @@ public class EventFactory {
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
     } catch (IOException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
-    } catch (PatchSetInfoNotAvailableException e) {
-      log.error(String.format("Cannot get authorEmail for %s.", pId), e);
     } catch (PatchListNotAvailableException e) {
       log.error(String.format("Cannot get size information for %s.", pId), e);
     }
     return p;
+  }
+
+  private UserIdentity toUserIdentity(PersonIdent who) {
+    UserIdentity u = new UserIdentity();
+    u.setName(who.getName());
+    u.setEmail(who.getEmailAddress());
+    u.setDate(new Timestamp(who.getWhen().getTime()));
+    u.setTimeZone(who.getTimeZoneOffset());
+
+    // If only one account has access to this email address, select it
+    // as the identity of the user.
+    //
+    Set<Account.Id> a = byEmailCache.get(u.getEmail());
+    if (a.size() == 1) {
+      u.setAccount(a.iterator().next());
+    }
+
+    return u;
   }
 
   public void addApprovals(PatchSetAttribute p, PatchSet.Id id,

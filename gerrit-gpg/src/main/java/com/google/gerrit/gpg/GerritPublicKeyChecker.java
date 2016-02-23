@@ -83,7 +83,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
         Map<Long, Fingerprint> fps =
             Maps.newHashMapWithExpectedSize(strs.length);
         for (String str : strs) {
-          str = CharMatcher.WHITESPACE.removeFrom(str).toUpperCase();
+          str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
           Fingerprint fp = new Fingerprint(BaseEncoding.base16().decode(str));
           fps.put(fp.getId(), fp);
         }

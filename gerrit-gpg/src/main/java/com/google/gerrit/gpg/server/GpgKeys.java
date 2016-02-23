@@ -99,7 +99,7 @@ public class GpgKeys implements
       throws ResourceNotFoundException, PGPException, OrmException,
       IOException {
     checkVisible(self, parent);
-    String str = CharMatcher.WHITESPACE.removeFrom(id.get()).toUpperCase();
+    String str = CharMatcher.whitespace().removeFrom(id.get()).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
         || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
       throw new ResourceNotFoundException(id);
@@ -122,7 +122,7 @@ public class GpgKeys implements
   static byte[] parseFingerprint(String str,
       Iterable<AccountExternalId> existingExtIds)
       throws ResourceNotFoundException {
-    str = CharMatcher.WHITESPACE.removeFrom(str).toUpperCase();
+    str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
         || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
       throw new ResourceNotFoundException(str);

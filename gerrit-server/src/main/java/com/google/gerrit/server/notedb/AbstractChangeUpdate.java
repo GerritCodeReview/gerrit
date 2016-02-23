@@ -44,8 +44,8 @@ public abstract class AbstractChangeUpdate {
   protected final GitRepositoryManager repoManager;
   protected final ChangeControl ctl;
   protected final String anonymousCowardName;
-  protected final PersonIdent serverIdent;
   protected final Date when;
+  private final PersonIdent serverIdent;
 
   protected PatchSet.Id psId;
   private ObjectId result;
@@ -93,7 +93,7 @@ public abstract class AbstractChangeUpdate {
     this.psId = psId;
   }
 
-  protected PersonIdent newAuthorIdent() {
+  private PersonIdent newAuthorIdent() {
     CurrentUser u = getUser();
     if (u instanceof IdentifiedUser) {
       return ChangeNoteUtil.newIdent(u.asIdentifiedUser().getAccount(), when,
@@ -143,6 +143,8 @@ public abstract class AbstractChangeUpdate {
       result = z;
       return z; // Impl intends to delete the ref.
     }
+    cb.setAuthor(newAuthorIdent());
+    cb.setCommitter(new PersonIdent(serverIdent, when));
     if (!curr.equals(z)) {
       cb.setParentId(curr);
     } else {
@@ -165,10 +167,10 @@ public abstract class AbstractChangeUpdate {
    *
    * @param ins inserter to write to; callers should not flush.
    * @return a new commit builder representing this commit, or null to indicate
-   *     the meta ref should be deleted as a result of this update. The parent
-   *     field in the return value is always overwritten. The tree ID may be
-   *     unset by this method, which indicates to the caller that it should be
-   *     copied from the parent commit.
+   *     the meta ref should be deleted as a result of this update. The parent,
+   *     author, and committer fields in the return value are always
+   *     overwritten. The tree ID may be unset by this method, which indicates
+   *     to the caller that it should be copied from the parent commit.
    * @throws OrmException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */

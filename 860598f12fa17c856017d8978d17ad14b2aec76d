@@ -112,6 +112,24 @@
       "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_de314546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-02-23T01:25:05Z",
+      "side": 1,
+      "message": "yes, IIUC.\n\nSo the rebase-if-necessary strategy should produce linear history, no merges allowed. \n\nFrom the documentation on rebase-if-necessary:\n\u003e If the change being submitted is a strict superset of the destination branch, then the branch is fast-forwarded to the change. If not, then the change is automatically rebased and then the branch is fast-forwarded to the change.\n\nThis would mean in the first test case, we\u0027d always try rebasing as the commits E-H are not a \"strict superset\" of the target branch, i.e. there are commits on the target branch which are not parents of the changes E-H.\n\nAnd rebase fails as it doesn\u0027t \"backport\" the merge resolution from M to the offending commit M.\n\nSorry for the long discussion\u0026review, maybe we should have discussed the fundamentals first.",
+      "parentUuid": "62f3e9ea_ef7fc1b6",
+      "revId": "860598f12fa17c856017d8978d17ad14b2aec76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

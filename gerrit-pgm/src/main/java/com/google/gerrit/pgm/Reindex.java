@@ -24,10 +24,9 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -35,12 +34,15 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SiteIndexer;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
@@ -70,6 +72,8 @@ public class Reindex extends SiteProgram {
   private Injector sysInjector;
   private Config globalConfig;
   private ChangeIndex index;
+  private ProjectCache projectCache;
+  private GitRepositoryManager repoManager;
 
   @Override
   public int run() throws Exception {
@@ -92,6 +96,9 @@ public class Reindex extends SiteProgram {
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
+
+    projectCache = sysInjector.getInstance(ProjectCache.class);
+    repoManager = sysInjector.getInstance(GitRepositoryManager.class);
 
     index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
     int result = 0;
@@ -150,13 +157,12 @@ public class Reindex extends SiteProgram {
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
     Set<Project.NameKey> projects = Sets.newTreeSet();
     int changeCount = 0;
-    try (ReviewDb db = sysInjector.getInstance(ReviewDb.class)) {
-      for (Change change : db.changes().all()) {
-        changeCount++;
-        if (projects.add(change.getProject())) {
-          pm.update(1);
-        }
+    for (Project.NameKey project : projectCache.all()) {
+      try (Repository repo = repoManager.openRepository(project)) {
+        changeCount += ChangeNotes.Factory.scan(repo).size();
       }
+      projects.add(project);
+      pm.update(1);
     }
     pm.endTask();
 

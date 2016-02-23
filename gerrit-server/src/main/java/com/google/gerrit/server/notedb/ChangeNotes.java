@@ -31,9 +31,15 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -43,12 +49,12 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -62,6 +68,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -70,8 +77,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
@@ -217,12 +229,89 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * Instantiate ChangeNotes for a change that has been loaded by a batch read
      * from the database.
      */
-    public ChangeNotes createFromChangeOnlyWhenNotedbDisabled(Change change)
+    private ChangeNotes createFromChangeOnlyWhenNotedbDisabled(Change change)
         throws OrmException {
       checkState(!migration.readChanges(), "do not call"
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
       return new ChangeNotes(repoManager, migration, allUsers,
           change.getProject(), change).load();
+    }
+
+    public CheckedFuture<ChangeNotes, OrmException> createAsync(
+        final ListeningExecutorService executorService, final ReviewDb db,
+        final Project.NameKey project, final Change.Id changeId) {
+      return Futures.makeChecked(
+          Futures.transformAsync(db.changes().getAsync(changeId),
+              new AsyncFunction<Change, ChangeNotes>() {
+                @Override
+                public ListenableFuture<ChangeNotes> apply(
+                    final Change change) {
+                  return executorService.submit(new Callable<ChangeNotes>() {
+                    @Override
+                    public ChangeNotes call() throws Exception {
+                      checkArgument(change.getProject().equals(project),
+                          "passed project %s when creating ChangeNotes for %s,"
+                              + " but actual project is %s",
+                          project, changeId, change.getProject());
+                      return new ChangeNotes(repoManager, migration,
+                          allUsers, project, change).load();
+                    }
+                  });
+                }
+              }), new Function<Exception, OrmException>() {
+                @Override
+                public OrmException apply(Exception e) {
+                  if (e instanceof OrmException) {
+                    return (OrmException) e;
+                  }
+                  return new OrmException(e);
+                }
+              });
+    }
+
+    public List<ChangeNotes> create(ReviewDb db,
+        Collection<Change.Id> changeIds) throws OrmException {
+      List<ChangeNotes> notes = new ArrayList<>();
+      if (migration.enabled()) {
+        for (Change.Id changeId : changeIds) {
+          try {
+            notes.add(createChecked(changeId));
+          } catch (NoSuchChangeException e) {
+            // Ignore missing changes to match Access#get(Iterable) behavior.
+          }
+        }
+        return notes;
+      }
+
+      for (Change c : db.changes().get(changeIds)) {
+        notes.add(createFromChangeOnlyWhenNotedbDisabled(c));
+      }
+      return notes;
+    }
+
+    public List<ChangeNotes> create(ReviewDb db, Project.NameKey project,
+        Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
+            throws OrmException {
+      List<ChangeNotes> notes = new ArrayList<>();
+      if (migration.enabled()) {
+        for (Change.Id cid : changeIds) {
+          ChangeNotes cn = create(db, project, cid);
+          if (cn.getChange() != null && predicate.apply(cn)) {
+            notes.add(cn);
+          }
+        }
+        return notes;
+      }
+
+      for (Change c : db.changes().get(changeIds)) {
+        if (c != null && project.equals(c.getDest().getParentKey())) {
+          ChangeNotes cn = createFromChangeOnlyWhenNotedbDisabled(c);
+          if (predicate.apply(cn)) {
+            notes.add(cn);
+          }
+        }
+      }
+      return notes;
     }
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(ReviewDb db,
@@ -231,8 +320,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = repoManager.openRepository(project)) {
-            List<ChangeNotes> changes =
-                ScanningChangeCacheImpl.scanNotedb(this, repo, db, project);
+            List<ChangeNotes> changes = scanNotedb(repo, db, project);
             for (ChangeNotes cn : changes) {
               if (predicate.apply(cn)) {
                 m.put(project, cn);
@@ -249,6 +337,52 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       }
       return ImmutableListMultimap.copyOf(m);
+    }
+
+    public List<ChangeNotes> scan(Repository repo, ReviewDb db,
+        Project.NameKey project) throws OrmException, IOException {
+      if (!migration.readChanges()) {
+        return scanDb(repo, db);
+      }
+
+      return scanNotedb(repo, db, project);
+    }
+
+    private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
+        throws OrmException, IOException {
+      Set<Change.Id> ids = scan(repo);
+      List<ChangeNotes> notes = new ArrayList<>(ids.size());
+      // A batch size of N may overload get(Iterable), so use something smaller,
+      // but still >1.
+      for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
+        for (Change change : db.changes().get(batch)) {
+          notes.add(createFromChangeOnlyWhenNotedbDisabled(change));
+        }
+      }
+      return notes;
+    }
+
+    private List<ChangeNotes> scanNotedb(Repository repo, ReviewDb db,
+        Project.NameKey project) throws OrmException, IOException {
+      Set<Change.Id> ids = scan(repo);
+      List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
+      for (Change.Id id : ids) {
+        changeNotes.add(create(db, project, id));
+      }
+      return changeNotes;
+    }
+
+    public static Set<Change.Id> scan(Repository repo) throws IOException {
+      Map<String, Ref> refs =
+          repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+      Set<Change.Id> ids = new HashSet<>(refs.size());
+      for (Ref r : refs.values()) {
+        Change.Id id = Change.Id.fromRef(r.getName());
+        if (id != null) {
+          ids.add(id);
+        }
+      }
+      return ids;
     }
   }
 

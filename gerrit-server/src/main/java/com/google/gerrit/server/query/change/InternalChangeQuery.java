@@ -22,8 +22,10 @@ import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -36,7 +38,6 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -86,7 +87,6 @@ public class InternalChangeQuery {
   private final QueryProcessor qp;
   private final IndexCollection indexes;
   private final ChangeData.Factory changeDataFactory;
-  private final NotesMigration notesMigration;
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
@@ -94,13 +94,11 @@ public class InternalChangeQuery {
       QueryProcessor queryProcessor,
       IndexCollection indexes,
       ChangeData.Factory changeDataFactory,
-      NotesMigration notesMigration,
       ChangeNotes.Factory notesFactory) {
     this.indexConfig = indexConfig;
     qp = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
     this.changeDataFactory = changeDataFactory;
-    this.notesMigration = notesMigration;
     this.notesFactory = notesFactory;
   }
 
@@ -186,8 +184,8 @@ public class InternalChangeQuery {
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, ReviewDb db, Branch.NameKey branch, List<String> hashes)
-      throws OrmException, IOException {
+      Repository repo, final ReviewDb db, final Branch.NameKey branch,
+      List<String> hashes) throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
     for (Ref ref :
@@ -206,25 +204,20 @@ public class InternalChangeQuery {
       }
     }
 
-    List<ChangeData> cds = new ArrayList<>(hashes.size());
-    if (notesMigration.enabled()) {
-      for (Change.Id cid : changeIds) {
-        Change c =
-            notesFactory.create(db, branch.getParentKey(), cid).getChange();
-        if (c != null && c.getDest().equals(branch)
-            && c.getStatus() != Change.Status.MERGED) {
-          cds.add(changeDataFactory.create(db, c));
-        }
-      }
-      return cds;
-    }
-
-    for (Change c : db.changes().get(changeIds)) {
-      if (c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED) {
-        cds.add(changeDataFactory.create(db, c));
-      }
-    }
-    return cds;
+    return Lists.transform(notesFactory.create(db, branch.getParentKey(),
+        changeIds, new com.google.common.base.Predicate<ChangeNotes>() {
+          @Override
+          public boolean apply(ChangeNotes notes) {
+            Change c = notes.getChange();
+            return c.getDest().equals(branch)
+                && c.getStatus() != Change.Status.MERGED;
+          }
+        }), new Function<ChangeNotes, ChangeData>() {
+          @Override
+          public ChangeData apply(ChangeNotes notes) {
+            return changeDataFactory.create(db, notes);
+          }
+        });
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(

@@ -506,7 +506,7 @@ public class EventFactory {
           p.sizeInsertions += pe.getInsertions();
         }
       }
-      p.kind = changeKindCache.getChangeKind(db, change, patchSet);
+      p.kind = changeKindCache.getChangeKind(db, notes, patchSet);
     } catch (IOException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchSetInfoNotAvailableException e) {

@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
+import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.CloneCommand;
@@ -281,6 +282,7 @@ public class GerritGlobalModule extends FactoryModule {
         .to(ProjectConfigEntry.UpdateChecker.class);
     DynamicSet.setOf(binder(), EventListener.class);
     DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);
+    DynamicSet.setOf(binder(), UserScopedEventListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4248a5fd_3e7b89c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:35:23Z",
+      "side": 1,
+      "message": "Under what conditions can we have multiple accounts with the same email address?",
+      "range": {
+        "startLine": 524,
+        "startChar": 4,
+        "endLine": 526,
+        "endChar": 6
+      },
+      "revId": "18707671944e430938083e4ede2cd67b4d7cac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

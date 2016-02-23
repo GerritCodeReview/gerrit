@@ -22,6 +22,30 @@
       "revId": "18707671944e430938083e4ede2cd67b4d7cac09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_bc67a123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-02-23T13:42:50Z",
+      "side": 1,
+      "message": "Not sure if this can happen. Probably only when the account data is inconsistent.\n\nJust copied this method from PatchSetInfoFactory. If you have a suggestion to which Util class this method can move, let me know ;-)",
+      "parentUuid": "4248a5fd_3e7b89c7",
+      "range": {
+        "startLine": 524,
+        "startChar": 4,
+        "endLine": 526,
+        "endChar": 6
+      },
+      "revId": "18707671944e430938083e4ede2cd67b4d7cac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

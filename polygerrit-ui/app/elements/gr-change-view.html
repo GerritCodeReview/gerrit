@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-button.html">
 <link rel="import" href="gr-change-actions.html">
+<link rel="import" href="gr-change-metadata.html">
 <link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-download-dialog.html">
@@ -30,7 +31,6 @@ limitations under the License.
 <link rel="import" href="gr-overlay.html">
 <link rel="import" href="gr-related-changes-list.html">
 <link rel="import" href="gr-reply-dialog.html">
-<link rel="import" href="gr-reviewer-list.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -106,32 +106,12 @@ limitations under the License.
         padding-top: 0;
       }
       .changeInfo-column:not(:last-of-type) {
-        margin-right: 2em;
+        margin-right: 1em;
+        padding-right: 1em;
       }
-      table {
-        border-collapse: collapse;
-      }
-      td {
-        padding: 2px 5px 2px 0;
-        vertical-align: top;
-      }
-      .changeMetadata-label {
-        font-weight: bold;
-      }
-      .labelValue:not(:first-of-type) {
-        margin-top: .25em;
-      }
-      .labelValue .approved,
-      .labelValue .notApproved {
-        display: inline-block;
-        padding: .1em .3em;
-        border-radius: 3px;
-      }
-      .approved {
-        background-color: #d4ffd4;
-      }
-      .notApproved {
-        background-color: #ffd4d4;
+      .changeMetadata {
+        border-right: 1px solid #ddd;
+        font-size: .9em;
       }
       gr-change-actions {
         margin-top: 1em;
@@ -139,27 +119,23 @@ limitations under the License.
       .commitMessage {
         font-family: var(--monospace-font-family);
         flex: 0 0 72ch;
+        margin-right: 2em;
+        margin-bottom: 1em;
       }
       .commitMessage h4 {
         font-family: var(--font-family);
         font-weight: bold;
         margin-bottom: .25em;
       }
+      .commitAndRelated {
+        align-content: flex-start;
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+      }
       gr-file-list {
         margin-bottom: 1em;
         padding: 0 var(--default-horizontal-margin);
-      }
-      @media screen and (max-width: 80em) {
-        .changeInfo {
-          flex-wrap: wrap;
-        }
-        .changeInfo-column,
-        .changeInfo-column:not(:last-of-type) {
-          margin-right: 0;
-        }
-        .changeInfo-column:not(:first-of-type) {
-          margin-top: .5em;
-        }
       }
       @media screen and (max-width: 60em) {
         .container {
@@ -211,12 +187,25 @@ limitations under the License.
           margin-left: 0 !important;
           margin-right: .5em;
         }
-        .changeInfo {
+        .changeInfo-column:not(:last-of-type) {
+          margin-right: 0;
+          padding-right: 0;
+        }
+        .changeInfo,
+        .commitAndRelated {
           flex-direction: column;
           flex-wrap: nowrap;
         }
+        .changeMetadata {
+          font-size: 1em;
+          border-right: none;
+          margin-bottom: 1em;
+          margin-top: .25em;
+          max-width: none;
+        }
         .commitMessage {
           flex: initial;
+          margin-right: 0;
         }
       }
     </style>
@@ -266,81 +255,28 @@ limitations under the License.
       </div>
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata">
-          <table>
-            <tr>
-              <td class="changeMetadata-label">Owner</td>
-              <td>
-                <gr-account-link account="[[_change.owner]]"></gr-account-link>
-              </td>
-            </tr>
-            <tr>
-              <td class="changeMetadata-label">Reviewers</td>
-              <td>
-                <gr-reviewer-list
-                    change="[[_change]]"
-                    mutable="[[_loggedIn]]"
-                    suggest-from="[[serverConfig.suggest.from]]"></gr-reviewer-list>
-              </td>
-            </tr>
-            <tr>
-              <td class="changeMetadata-label">Project</td>
-              <td>[[_change.project]]</td>
-            </tr>
-            <tr>
-              <td class="changeMetadata-label">Branch</td>
-              <td>[[_change.branch]]</td>
-            </tr>
-            <tr>
-              <td class="changeMetadata-label">Topic</td>
-              <td>[[_change.topic]]</td>
-            </tr>
-            <tr>
-              <td class="changeMetadata-label">Strategy</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td class="changeMetadata-label">Updated</td>
-              <td>
-                <gr-date-formatter
-                    date-str="[[_change.updated]]"></gr-date-formatter>
-              </td>
-            </tr>
-            <template is="dom-repeat"
-                items="[[_computeLabelNames(_change.labels)]]" as="labelName">
-              <tr>
-                <td class="changeMetadata-label">[[labelName]]</td>
-                <td>
-                  <template is="dom-repeat"
-                      items="[[_computeLabelValues(labelName, _change.labels)]]"
-                      as="label">
-                    <div class="labelValue">
-                      <span class$="[[label.className]]">
-                        <span>[[label.value]]</span>
-                        <gr-account-link account="[[label.account]]"></gr-account-link>
-                      </span>
-                    </div>
-                  </template>
-                </td>
-              </tr>
-            </template>
-          </table>
+          <gr-change-metadata
+              change="[[_change]]"
+              mutable="[[_loggedIn]]"></gr-change-metadata>
           <gr-change-actions id="actions"
               actions="[[_change.actions]]"
               change-num="[[_changeNum]]"
               patch-num="[[_patchNum]]"
               on-reload-change="_handleReloadChange"></gr-change-actions>
         </div>
-        <div class="changeInfo-column commitMessage">
-          <h4>Commit message</h4>
-          <gr-linked-text pre
-              content="[[_commitInfo.message]]"
-              config="[[_projectConfig.commentlinks]]"></gr-linked-text>
-        </div>
-        <div class="changeInfo-column">
-          <gr-related-changes-list id="relatedChanges"
+        <div class="changeInfo-column commitAndRelated">
+          <div class="commitMessage">
+            <h4>Commit message</h4>
+            <gr-linked-text pre
+                content="[[_commitInfo.message]]"
+                config="[[_projectConfig.commentlinks]]"></gr-linked-text>
+          </div>
+          <div class="relatedChanges">
+            <gr-related-changes-list id="relatedChanges"
               change="[[_change]]"
               server-config="[[serverConfig]]"
               patch-num="[[_patchNum]]"></gr-related-changes-list>
+          </div>
         </div>
       </section>
       <gr-file-list id="fileList"
@@ -638,35 +574,6 @@ limitations under the License.
 
       _computePatchIndexIsSelected: function(index, patchNum) {
         return this._allPatchSets[index] == patchNum;
-      },
-
-      _computeLabelNames: function(labels) {
-        return Object.keys(labels).sort();
-      },
-
-      _computeLabelValues: function(labelName, labels) {
-        var result = [];
-        var t = labels[labelName];
-        if (!t) { return result; }
-        var approvals = t.all || [];
-        approvals.forEach(function(label) {
-          if (label.value && label.value != labels[labelName].default_value) {
-            var labelClassName;
-            var labelValPrefix = '';
-            if (label.value > 0) {
-              labelValPrefix = '+';
-              labelClassName = 'approved';
-            } else if (label.value < 0) {
-              labelClassName = 'notApproved';
-            }
-            result.push({
-              value: labelValPrefix + label.value,
-              className: labelClassName,
-              account: label,
-            });
-          }
-        });
-        return result;
       },
 
       _handleKey: function(e) {

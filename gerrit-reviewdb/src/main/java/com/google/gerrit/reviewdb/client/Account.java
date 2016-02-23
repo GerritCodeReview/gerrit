@@ -16,8 +16,8 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 

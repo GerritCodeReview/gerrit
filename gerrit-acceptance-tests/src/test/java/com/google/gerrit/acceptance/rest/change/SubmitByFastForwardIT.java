@@ -14,12 +14,12 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;

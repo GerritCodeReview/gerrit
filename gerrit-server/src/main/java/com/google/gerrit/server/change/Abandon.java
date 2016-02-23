@@ -135,12 +135,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       ctx.saveChange();
 
       update.setStatus(change.getStatus());
-      message = newMessage(ctx.getDb());
+      message = newMessage(ctx);
       cmUtil.addChangeMessage(ctx.getDb(), update, message);
       return true;
     }
 
-    private ChangeMessage newMessage(ReviewDb db) throws OrmException {
+    private ChangeMessage newMessage(ChangeContext ctx) throws OrmException {
       StringBuilder msg = new StringBuilder();
       msg.append("Abandoned");
       if (!Strings.nullToEmpty(msgTxt).trim().isEmpty()) {
@@ -151,9 +151,9 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       ChangeMessage message = new ChangeMessage(
           new ChangeMessage.Key(
               change.getId(),
-              ChangeUtil.messageUUID(db)),
+              ChangeUtil.messageUUID(ctx.getDb())),
           account != null ? account.getId() : null,
-          change.getLastUpdatedOn(),
+          ctx.getWhen(),
           change.currentPatchSetId());
       message.setMessage(msg.toString());
       return message;

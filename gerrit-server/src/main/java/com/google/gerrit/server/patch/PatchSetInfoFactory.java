@@ -98,6 +98,7 @@ public class PatchSetInfoFactory {
     }
   }
 
+  // TODO: The same method exists in EventFactory, find a common place for it
   private UserIdentity toUserIdentity(final PersonIdent who) {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());

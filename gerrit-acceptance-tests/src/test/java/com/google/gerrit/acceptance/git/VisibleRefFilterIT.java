@@ -77,6 +77,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         .getGroupUUID();
     setUpPermissions();
     setUpChanges();
+    atrScope.disableDb();
   }
 
   private void setUpPermissions() throws Exception {

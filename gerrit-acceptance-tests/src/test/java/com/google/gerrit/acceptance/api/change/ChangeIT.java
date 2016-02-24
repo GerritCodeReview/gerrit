@@ -137,32 +137,59 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void abandon() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes()
-        .id(r.getChangeId())
+        .id(changeId)
         .abandon();
-    ChangeInfo info = get(r.getChangeId());
+    ChangeInfo info = get(changeId);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase())
         .contains("abandoned");
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is abandoned");
+    gApi.changes()
+        .id(changeId)
+        .abandon();
+  }
+
+  @Test
+  public void abandonDraft() throws Exception {
+    PushOneCommit.Result r = createDraftChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.DRAFT);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("draft changes cannot be abandoned");
+    gApi.changes()
+        .id(changeId)
+        .abandon();
   }
 
   @Test
   public void restore() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes()
-        .id(r.getChangeId())
+        .id(changeId)
         .abandon();
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
 
     gApi.changes()
-        .id(r.getChangeId())
+        .id(changeId)
         .restore();
-    ChangeInfo info = get(r.getChangeId());
+    ChangeInfo info = get(changeId);
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase())
         .contains("restored");
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is new");
+    gApi.changes()
+        .id(changeId)
+        .restore();
   }
 
   @Test

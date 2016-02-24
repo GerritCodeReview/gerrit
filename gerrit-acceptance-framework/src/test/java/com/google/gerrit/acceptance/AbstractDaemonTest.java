@@ -445,6 +445,10 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  protected PushOneCommit.Result createDraftChange() throws Exception {
+    return pushTo("refs/drafts/master");
+  }
+
   private static final List<Character> RANDOM =
       Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
   protected PushOneCommit.Result amendChange(String changeId)

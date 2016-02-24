@@ -147,10 +147,6 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all.get(0).value).isEqualTo(1);
   }
 
-  private PushOneCommit.Result createDraftChange() throws Exception {
-    return pushTo("refs/drafts/master");
-  }
-
   private static RestResponse deleteChange(String changeId,
       RestSession s) throws IOException {
     return s.delete("/changes/" + changeId);

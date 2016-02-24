@@ -101,13 +101,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createDraftChange() throws Exception {
+  public void createNewDraftChange() throws Exception {
     assume().that(isAllowDrafts()).isTrue();
     assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));
   }
 
   @Test
-  public void createDraftChangeNotAllowed() throws Exception {
+  public void createNewDraftChangeNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
     ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
     assertCreateFails(ci, MethodNotAllowedException.class,

@@ -113,6 +113,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -1460,14 +1461,14 @@ public class ReceiveCommits {
 
     final Change changeEnt;
     try {
-      changeEnt =
-          notesFactory.create(db, project.getNameKey(), changeId).getChange();
+      changeEnt = notesFactory.createChecked(db, project.getNameKey(), changeId)
+          .getChange();
     } catch (OrmException e) {
       log.error("Cannot lookup existing change " + changeId, e);
       reject(cmd, "database error");
       return;
-    }
-    if (changeEnt == null) {
+    } catch (NoSuchChangeException e) {
+      log.error("Change not found " + changeId, e);
       reject(cmd, "change " + changeId + " not found");
       return;
     }
@@ -1671,7 +1672,7 @@ public class ReceiveCommits {
       for (UpdateGroupsRequest update : updateGroups) {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
-    } catch (OrmException e) {
+    } catch (OrmException | NoSuchChangeException e) {
       log.error("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
       return;
@@ -1736,7 +1737,8 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call() throws OrmException, RestApiException,
-                UpdateException, RepositoryNotFoundException, IOException {
+            UpdateException, RepositoryNotFoundException, IOException,
+            NoSuchChangeException {
           try (RequestState state = requestState(caller)) {
             insertChange(state);
           }
@@ -1747,8 +1749,8 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChange(RequestState state)
-        throws OrmException, IOException, RestApiException, UpdateException {
+    private void insertChange(RequestState state) throws OrmException,
+        IOException, RestApiException, UpdateException, NoSuchChangeException {
       RevCommit commit = state.rw.parseCommit(commitId);
       state.rw.parseBody(commit);
       final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
@@ -1801,7 +1803,7 @@ public class ReceiveCommits {
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, NoSuchChangeException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try (MergeOp op = mergeOpProvider.get()) {
@@ -1810,7 +1812,8 @@ public class ReceiveCommits {
     }
     addMessage("");
     Change c = notesFactory
-        .create(db, project.getNameKey(), rsrc.getChange().getId()).getChange();
+        .createChecked(db, project.getNameKey(), rsrc.getChange().getId())
+        .getChange();
     switch (c.getStatus()) {
       case MERGED:
         addMessage("Change " + c.getChangeId() + " merged.");
@@ -2129,7 +2132,7 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
         public PatchSet.Id call() throws OrmException, IOException,
-            RestApiException, UpdateException {
+            RestApiException, UpdateException, NoSuchChangeException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
@@ -2155,8 +2158,8 @@ public class ReceiveCommits {
       return psId;
     }
 
-    PatchSet.Id insertPatchSet(RequestState state)
-        throws OrmException, IOException, RestApiException, UpdateException {
+    PatchSet.Id insertPatchSet(RequestState state) throws OrmException,
+        IOException, RestApiException, UpdateException, NoSuchChangeException {
       RevCommit newCommit = state.rw.parseCommit(newCommitId);
       state.rw.parseBody(newCommit);
 
@@ -2476,9 +2479,11 @@ public class ReceiveCommits {
     String refName = cmd.getRefName();
     Change.Id cid = psi.getParentKey();
 
-    Change change =
-        notesFactory.create(db, project.getNameKey(), cid).getChange();
-    if (change == null) {
+    Change change;
+    try {
+      change =
+          notesFactory.createChecked(db, project.getNameKey(), cid).getChange();
+    } catch (NoSuchChangeException e) {
       log.warn(project.getName() + " change " + cid + " is missing");
       return null;
     }

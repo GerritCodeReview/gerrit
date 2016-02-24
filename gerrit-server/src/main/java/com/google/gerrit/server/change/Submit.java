@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -203,13 +204,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
       op.merge(db, change, caller, true, input);
-      change = changeNotesFactory
-          .create(db, change.getProject(), change.getId()).getChange();
+      try {
+        change = changeNotesFactory
+            .createChecked(db, change.getProject(), change.getId()).getChange();
+      } catch (NoSuchChangeException e) {
+        throw new ResourceConflictException("change is deleted");
+      }
     }
 
-    if (change == null) {
-      throw new ResourceConflictException("change is deleted");
-    }
     switch (change.getStatus()) {
       case MERGED:
         return new Output(change);

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -80,15 +79,14 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req,
-      final AbandonInput input)
+  public ChangeInfo apply(ChangeResource req, AbandonInput input)
       throws RestApiException, UpdateException, OrmException {
     ChangeControl control = req.getControl();
-    IdentifiedUser caller = control.getUser().asIdentifiedUser();
     if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
-    Change change = abandon(control, input.message, caller.getAccount());
+    Change change = abandon(control, input.message,
+        control.getUser().asIdentifiedUser().getAccount());
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 

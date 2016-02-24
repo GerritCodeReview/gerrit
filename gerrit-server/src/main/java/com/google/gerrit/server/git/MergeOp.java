@@ -564,8 +564,8 @@ public class MergeOp implements AutoCloseable {
       try {
         integrateIntoHistory(cs);
       } catch (IntegrationException e) {
-        logError("Merge Conflict", e);
-        throw new ResourceConflictException("Merge Conflict", e);
+        logError("Error from integrateIntoHistory", e);
+        throw new ResourceConflictException(e.getMessage(), e);
       }
     } catch (IOException e) {
       // Anything before the merge attempt is an error
@@ -631,7 +631,20 @@ public class MergeOp implements AutoCloseable {
       }
       updateSuperProjects(subOp, br.values());
     } catch (UpdateException | OrmException e) {
-      throw new IntegrationException("Error submitting changes", e);
+      // BatchUpdate may have inadvertently wrapped an IntegrationException
+      // thrown by some legacy SubmitStrategyOp code that intended the error
+      // message to be user-visible. Copy the message from the wrapped
+      // exception.
+      //
+      // If you happen across one of these, the correct fix is to convert the
+      // inner IntegrationException to a ResourceConflictException.
+      String msg;
+      if (e.getCause() instanceof IntegrationException) {
+        msg = e.getCause().getMessage();
+      } else {
+        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
+      }
+      throw new IntegrationException(msg, e);
     }
   }
 

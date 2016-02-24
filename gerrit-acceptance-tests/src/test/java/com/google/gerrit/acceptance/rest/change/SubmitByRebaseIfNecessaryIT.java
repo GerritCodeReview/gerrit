@@ -155,7 +155,9 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
-    submitWithConflict(change2.getChangeId(), "Merge Conflict");
+    submitWithConflict(change2.getChangeId(),
+        "Cannot rebase " + change2.getCommit().name()
+        + ": The change could not be rebased due to a conflict during merge.");
     RevCommit head = getRemoteHead();
     assertThat(head).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());

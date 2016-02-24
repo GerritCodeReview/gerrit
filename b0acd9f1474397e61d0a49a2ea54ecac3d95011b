@@ -52,6 +52,24 @@
       "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8217fdd7_38a72982",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-24T15:01:35Z",
+      "side": 1,
+      "message": "Also for the record I would strongly prefer no gulpfiles in this project.",
+      "parentUuid": "8217fdd7_18fb4590",
+      "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

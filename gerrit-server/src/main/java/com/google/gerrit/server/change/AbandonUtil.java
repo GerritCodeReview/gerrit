@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
@@ -73,7 +74,9 @@ public class AbandonUtil {
       int count = 0;
       for (ChangeData cd : changesToAbandon) {
         try {
-          abandon.abandon(changeControl(cd), cfg.getAbandonMessage(), null);
+          AbandonInput input = new AbandonInput();
+          input.message = cfg.getAbandonMessage();
+          abandon.apply(new ChangeResource(changeControl(cd)), input);
           count++;
         } catch (ResourceConflictException e) {
           // Change was already merged or abandoned.

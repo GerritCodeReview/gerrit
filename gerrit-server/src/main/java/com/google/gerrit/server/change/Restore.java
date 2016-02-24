@@ -123,12 +123,12 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       ctx.saveChange();
       update.setStatus(change.getStatus());
 
-      message = newMessage(ctx.getDb());
+      message = newMessage(ctx);
       cmUtil.addChangeMessage(ctx.getDb(), update, message);
       return true;
     }
 
-    private ChangeMessage newMessage(ReviewDb db) throws OrmException {
+    private ChangeMessage newMessage(ChangeContext ctx) throws OrmException {
       StringBuilder msg = new StringBuilder();
       msg.append("Restored");
       if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
@@ -139,9 +139,9 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       ChangeMessage message = new ChangeMessage(
           new ChangeMessage.Key(
               change.getId(),
-              ChangeUtil.messageUUID(db)),
+              ChangeUtil.messageUUID(ctx.getDb())),
           caller.getAccountId(),
-          change.getLastUpdatedOn(),
+          ctx.getWhen(),
           change.currentPatchSetId());
       message.setMessage(msg.toString());
       return message;

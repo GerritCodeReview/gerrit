@@ -61,10 +61,8 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -83,7 +81,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -347,7 +344,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertSubmitter(String changeId, int psId)
-      throws OrmException, NoSuchChangeException {
+      throws Exception {
     Change c =
         getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
@@ -359,7 +356,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertNoSubmitter(String changeId, int psId)
-      throws OrmException, NoSuchChangeException {
+      throws Exception {
     Change c =
         getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
@@ -369,7 +366,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertCherryPick(TestRepository<?> testRepo,
-      boolean contentMerge) throws IOException {
+      boolean contentMerge) throws Exception {
     assertRebase(testRepo, contentMerge);
     RevCommit remoteHead = getRemoteHead();
     assertThat(remoteHead.getFooterLines("Reviewed-On")).isNotEmpty();
@@ -377,7 +374,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertRebase(TestRepository<?> testRepo, boolean contentMerge)
-      throws IOException {
+      throws Exception {
     Repository repo = testRepo.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
@@ -391,25 +388,25 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(remoteHead.getShortMessage()).isEqualTo(localHead.getShortMessage());
   }
 
-  private RevCommit getHead(Repository repo) throws IOException {
+  private RevCommit getHead(Repository repo) throws Exception {
     return getHead(repo, "HEAD");
   }
 
   protected RevCommit getRemoteHead(Project.NameKey project, String branch)
-      throws IOException {
+      throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       return getHead(repo, "refs/heads/" + branch);
     }
   }
 
   protected RevCommit getRemoteHead()
-      throws IOException {
+      throws Exception {
     return getRemoteHead(project, "master");
   }
 
 
   protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
-      throws IOException {
+      throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.markStart(rw.parseCommit(
@@ -418,23 +415,23 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected List<RevCommit> getRemoteLog() throws IOException {
+  protected List<RevCommit> getRemoteLog() throws Exception {
     return getRemoteLog(project, "master");
   }
 
-  private RevCommit getHead(Repository repo, String name) throws IOException {
+  private RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       return rw.parseCommit(repo.exactRef(name).getObjectId());
     }
   }
 
-  private String getLatestDiff(Repository repo) throws IOException {
+  private String getLatestDiff(Repository repo) throws Exception {
     ObjectId oldTreeId = repo.resolve("HEAD~1^{tree}");
     ObjectId newTreeId = repo.resolve("HEAD^{tree}");
     return getLatestDiff(repo, oldTreeId, newTreeId);
   }
 
-  private String getLatestRemoteDiff() throws IOException {
+  private String getLatestRemoteDiff() throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       ObjectId oldTreeId = repo.resolve("refs/heads/master~1^{tree}");
@@ -444,7 +441,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private String getLatestDiff(Repository repo, ObjectId oldTreeId,
-      ObjectId newTreeId) throws IOException {
+      ObjectId newTreeId) throws Exception {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     try (DiffFormatter fmt = new DiffFormatter(out)) {
       fmt.setRepository(repo);

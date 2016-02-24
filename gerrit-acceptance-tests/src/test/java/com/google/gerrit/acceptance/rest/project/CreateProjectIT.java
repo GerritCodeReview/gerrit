@@ -40,7 +40,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 
 import org.apache.http.message.BasicHeader;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -48,7 +47,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
@@ -266,7 +264,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private void assertHead(String projectName, String expectedRef)
-      throws RepositoryNotFoundException, IOException {
+      throws Exception {
     try (Repository repo =
         repoManager.openRepository(new Project.NameKey(projectName))) {
       assertThat(repo.exactRef(Constants.HEAD).getTarget().getName())
@@ -275,7 +273,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private void assertEmptyCommit(String projectName, String... refs)
-      throws RepositoryNotFoundException, IOException {
+      throws Exception {
     Project.NameKey projectKey = new Project.NameKey(projectName);
     try (Repository repo = repoManager.openRepository(projectKey);
         RevWalk rw = new RevWalk(repo);

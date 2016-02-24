@@ -22,7 +22,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.PutUsername;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -70,7 +69,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
         .assertMethodNotAllowed();
   }
 
-  private Account.Id createUser() throws OrmException {
+  private Account.Id createUser() throws Exception {
     try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
       Account a = new Account(id, TimeUtil.nowTs());

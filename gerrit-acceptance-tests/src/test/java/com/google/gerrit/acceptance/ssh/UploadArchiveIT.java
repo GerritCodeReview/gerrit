@@ -32,7 +32,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 import java.util.TreeSet;
@@ -115,7 +114,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     assertThat(tmp).isEqualTo("fatal: upload-archive not permitted");
   }
 
-  private InputStream argumentsToInputStream(String c) throws IOException {
+  private InputStream argumentsToInputStream(String c) throws Exception {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     PacketLineOut pctOut = new PacketLineOut(out);
     for (String arg : Splitter.on(' ').split(c)) {

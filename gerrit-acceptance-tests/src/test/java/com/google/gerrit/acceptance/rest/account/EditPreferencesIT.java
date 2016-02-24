@@ -24,8 +24,6 @@ import com.google.gerrit.extensions.client.Theme;
 
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class EditPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getSetEditPreferences() throws Exception {
@@ -81,13 +79,13 @@ public class EditPreferencesIT extends AbstractDaemonTest {
   }
 
   private EditPreferencesInfo getEditPrefInfo(RestResponse r)
-      throws IOException {
+      throws Exception {
     return newGson().fromJson(r.getReader(),
         EditPreferencesInfo.class);
   }
 
   private void assertEditPreferences(EditPreferencesInfo out,
-      EditPreferencesInfo in) {
+      EditPreferencesInfo in) throws Exception {
     assertThat(out.lineLength).isEqualTo(in.lineLength);
     assertThat(out.tabSize).isEqualTo(in.tabSize);
     assertThat(out.cursorBlinkRate).isEqualTo(in.cursorBlinkRate);

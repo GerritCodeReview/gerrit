@@ -52,6 +52,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
@@ -309,7 +310,7 @@ public class MergeOp implements AutoCloseable {
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final GitRepositoryManager repoManager;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final InternalUser.Factory internalUserFactory;
   private final MergeSuperSet mergeSuperSet;
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final ProjectCache projectCache;
@@ -341,7 +342,7 @@ public class MergeOp implements AutoCloseable {
   MergeOp(ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       GitRepositoryManager repoManager,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
+      InternalUser.Factory internalUserFactory,
       MergeSuperSet mergeSuperSet,
       MergeValidators.Factory mergeValidatorsFactory,
       ProjectCache projectCache,
@@ -351,7 +352,7 @@ public class MergeOp implements AutoCloseable {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.repoManager = repoManager;
-    this.identifiedUserFactory = identifiedUserFactory;
+    this.internalUserFactory = internalUserFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.projectCache = projectCache;
@@ -877,10 +878,8 @@ public class MergeOp implements AutoCloseable {
       Project.NameKey destProject) {
     try {
       for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
-        //TODO: Use InternalUser instead of change owner
         try (BatchUpdate bu = batchUpdateFactory.create(db, destProject,
-            identifiedUserFactory.create(cd.change().getOwner()),
-            TimeUtil.nowTs())) {
+            internalUserFactory.create(), TimeUtil.nowTs())) {
           bu.addOp(cd.getId(), new BatchUpdate.Op() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {

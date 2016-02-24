@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -85,18 +86,19 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
-    Change change = abandon(control, input.message,
-        control.getUser().asIdentifiedUser().getAccount());
+    Change change = abandon(control, input.message);
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
-  public Change abandon(ChangeControl control,
-      final String msgTxt, final Account account)
+  public Change abandon(ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
+    CurrentUser user = control.getUser();
+    Account account = user.isIdentifiedUser()
+        ? user.asIdentifiedUser().getAccount()
+        : null;
     Op op = new Op(msgTxt, account);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        control.getProject().getNameKey(), control.getUser(),
-        TimeUtil.nowTs())) {
+        control.getProject().getNameKey(), user, TimeUtil.nowTs())) {
       u.addOp(control.getId(), op).execute();
     }
     return op.change;

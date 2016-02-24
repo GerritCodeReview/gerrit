@@ -36,7 +36,7 @@ limitations under the License.
   <template>
     <style>
       .container {
-        margin: 1em var(--default-horizontal-margin);
+        margin: .5em var(--default-horizontal-margin);
       }
       .container:not(.loading) {
         background-color: var(--view-background-color);
@@ -53,7 +53,7 @@ limitations under the License.
         background-color: var(--view-background-color);
         border-bottom: 1px solid #ddd;
         display: flex;
-        padding: 1em var(--default-horizontal-margin);
+        padding: .5em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
       }
       .header.pinned {
@@ -137,12 +137,12 @@ limitations under the License.
         margin-bottom: 1em;
         padding: 0 var(--default-horizontal-margin);
       }
-      @media screen and (max-width: 60em) {
+      @media screen and (max-width: 50em) {
         .container {
           margin: .5em 0 !important;
         }
         .container.loading {
-          margin: 1em var(--default-horizontal-margin) !important;
+          margin: .5em var(--default-horizontal-margin) !important;
         }
         .headerContainer {
           height: 5.15em;
@@ -150,7 +150,7 @@ limitations under the License.
         .header {
           align-items: flex-start;
           flex-direction: column;
-          padding: .5em 1.25rem !important;
+          padding: .5em var(--default-horizontal-margin) !important;
         }
         gr-change-star {
           vertical-align: middle;

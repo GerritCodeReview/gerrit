@@ -541,6 +541,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     gApi.changes().id(change.getId().get()).current()
       .review(new ReviewInput().label("Code-Review", 1));
+    Map<String, Short> m = gApi.changes()
+        .id(change.getId().get())
+        .reviewer(user.getAccountId().toString())
+        .votes();
+    assertThat(m).hasSize(1);
+    assertThat(m).containsEntry("Code-Review", new Short((short)1));
 
     assertQuery("label:Code-Review=-2");
     assertQuery("label:Code-Review-2");

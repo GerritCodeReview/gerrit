@@ -592,47 +592,55 @@ public class MergeOp implements AutoCloseable {
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
     logDebug("Perform the merges");
+
+    Multimap<Project.NameKey, Branch.NameKey> br;
+    Multimap<Branch.NameKey, ChangeData> cbb;
     try {
-      Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
-      Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
-      Set<Project.NameKey> projects = br.keySet();
-      Collection<Branch.NameKey> branches = cbb.keySet();
-      openRepos(projects);
-      for (Branch.NameKey branch : branches) {
-        OpenRepo or = getRepo(branch.getParentKey());
-        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
-      }
-      failFast(cs); // Done checks that don't involve running submit strategies.
+      br = cs.branchesByProject();
+      cbb = cs.changesByBranch();
+    } catch (OrmException e) {
+      throw new IntegrationException("Error reading changes to submit", e);
+    }
+    Set<Project.NameKey> projects = br.keySet();
+    Collection<Branch.NameKey> branches = cbb.keySet();
+    openRepos(projects);
 
-      List<SubmitStrategy> strategies = new ArrayList<>(branches.size());
-      for (Branch.NameKey branch : branches) {
-        OpenRepo or = getRepo(branch.getParentKey());
-        OpenBranch ob = or.getBranch(branch);
-        BranchBatch submitting = toSubmit.get(branch);
-        checkNotNull(submitting.submitType(),
-            "null submit type for %s; expected to previously fail fast",
-            submitting);
-        Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
-        ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
-        SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
-            submitting.submitType(), ob.oldTip);
-        strategies.add(strategy);
-        strategy.addOps(or.getUpdate(), commitsToSubmit);
-      }
+    for (Branch.NameKey branch : branches) {
+      OpenRepo or = getRepo(branch.getParentKey());
+      toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+    }
+    failFast(cs); // Done checks that don't involve running submit strategies.
 
+    List<SubmitStrategy> strategies = new ArrayList<>(branches.size());
+    for (Branch.NameKey branch : branches) {
+      OpenRepo or = getRepo(branch.getParentKey());
+      OpenBranch ob = or.getBranch(branch);
+      BranchBatch submitting = toSubmit.get(branch);
+      checkNotNull(submitting.submitType(),
+          "null submit type for %s; expected to previously fail fast",
+          submitting);
+      Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
+      ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
+      SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
+          submitting.submitType(), ob.oldTip);
+      strategies.add(strategy);
+      strategy.addOps(or.getUpdate(), commitsToSubmit);
+    }
+
+    try {
       BatchUpdate.execute(
           batchUpdates(projects),
           new SubmitStrategyListener(submitInput, strategies, commits));
-
-      SubmoduleOp subOp = subOpProvider.get();
-      for (Branch.NameKey branch : branches) {
-        OpenBranch ob = getRepo(branch.getParentKey()).getBranch(branch);
-        updateSubmoduleSubscriptions(ob, subOp);
-      }
-      updateSuperProjects(subOp, br.values());
-    } catch (UpdateException | OrmException e) {
+    } catch (UpdateException e) {
       throw new IntegrationException("Error submitting changes", e);
     }
+
+    SubmoduleOp subOp = subOpProvider.get();
+    for (Branch.NameKey branch : branches) {
+      OpenBranch ob = getRepo(branch.getParentKey()).getBranch(branch);
+      updateSubmoduleSubscriptions(ob, subOp);
+    }
+    updateSuperProjects(subOp, br.values());
   }
 
   private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
@@ -643,13 +651,13 @@ public class MergeOp implements AutoCloseable {
     return updates;
   }
 
-  private Set<CodeReviewCommit> commits(List<ChangeData> cds) throws OrmException {
+  private Set<CodeReviewCommit> commits(List<ChangeData> cds) {
     LinkedHashSet<CodeReviewCommit> result =
         Sets.newLinkedHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
       CodeReviewCommit commit = commits.get(cd.getId());
       checkState(commit != null,
-          "commit for %s not found by validateChangeList", cd.change().getId());
+          "commit for %s not found by validateChangeList", cd.getId());
       result.add(commit);
     }
     return result;

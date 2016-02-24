@@ -564,8 +564,8 @@ public class MergeOp implements AutoCloseable {
       try {
         integrateIntoHistory(cs);
       } catch (IntegrationException e) {
-        logError("Merge Conflict", e);
-        throw new ResourceConflictException("Merge Conflict", e);
+        logError("Error from integrateIntoHistory", e);
+        throw new ResourceConflictException(e.getMessage(), e);
       }
     } catch (IOException e) {
       // Anything before the merge attempt is an error

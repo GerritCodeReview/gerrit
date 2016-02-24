@@ -36,6 +36,7 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param patchSet The Patchset that was created.
+   * @param db The review database.
    * @throws OrmException
    */
   void doPatchsetCreatedHook(Change change, PatchSet patchSet,
@@ -46,6 +47,7 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param patchSet The Patchset that was published.
+   * @param db The review database.
    * @throws OrmException
    */
   void doDraftPublishedHook(Change change, PatchSet patchSet,
@@ -55,10 +57,11 @@ public interface ChangeHooks {
    * Fire the Comment Added Hook.
    *
    * @param change The change itself.
-   * @param patchSet The patchset this comment is related to.
    * @param account The gerrit user who added the comment.
+   * @param patchSet The patchset this comment is related to.
    * @param comment The comment given.
-   * @param approvals Map of label IDs to scores
+   * @param approvals Map of label IDs to scores.
+   * @param db The review database.
    * @throws OrmException
    */
   void doCommentAddedHook(Change change, Account account,
@@ -72,6 +75,7 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param account The gerrit user who submitted the change.
    * @param patchSet The patchset that was merged.
+   * @param db The review database.
    * @param mergeResultRev The SHA-1 of the merge result revision.
    * @throws OrmException
    */
@@ -85,6 +89,7 @@ public interface ChangeHooks {
    * @param account The gerrit user who attempted to submit the change.
    * @param patchSet The patchset that failed to merge.
    * @param reason The reason that the change failed to merge.
+   * @param db The review database.
    * @throws OrmException
    */
   void doMergeFailedHook(Change change, Account account,
@@ -96,6 +101,7 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param account The gerrit user who abandoned the change.
    * @param reason Reason for abandoning the change.
+   * @param db The review database.
    * @throws OrmException
    */
   void doChangeAbandonedHook(Change change, Account account,
@@ -106,14 +112,16 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param account The gerrit user who restored the change.
+   * @param patchSet The patchset that was restored.
    * @param reason Reason for restoring the change.
+   * @param db The review database.
    * @throws OrmException
    */
   void doChangeRestoredHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
 
   /**
-   * Fire the Ref Updated Hook
+   * Fire the Ref Updated Hook.
    *
    * @param refName The updated project and branch.
    * @param refUpdate An actual RefUpdate object
@@ -123,58 +131,68 @@ public interface ChangeHooks {
       Account account);
 
   /**
-   * Fire the Ref Updated Hook
+   * Fire the Ref Updated Hook.
    *
-   * @param refName The Branch.NameKey of the ref that was updated
-   * @param oldId The ref's old id
-   * @param newId The ref's new id
-   * @param account The gerrit user who moved the ref
+   * @param refName The Branch.NameKey of the ref that was updated.
+   * @param oldId The ref's old id.
+   * @param newId The ref's new id.
+   * @param account The gerrit user who moved the ref.
    */
   void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
       ObjectId newId, Account account);
 
   /**
-   * Fire the Reviewer Added Hook
+   * Fire the Reviewer Added Hook.
    *
    * @param change The change itself.
    * @param patchSet The patchset that the reviewer was added on.
    * @param account The gerrit user who was added as reviewer.
+   * @param db The review database.
    */
   void doReviewerAddedHook(Change change, Account account,
       PatchSet patchSet, ReviewDb db) throws OrmException;
 
   /**
-   * Fire the Topic Changed Hook
+   * Fire the Topic Changed Hook.
    *
    * @param change The change itself.
    * @param account The gerrit user who changed the topic.
    * @param oldTopic The old topic name.
+   * @param db The review database.
    */
   void doTopicChangedHook(Change change, Account account,
       String oldTopic, ReviewDb db) throws OrmException;
 
+  /**
+   * Fire the contributor license agreement signup hook.
+   *
+   * @param account The gerrit user who signed the contributor license
+   *        agreement.
+   * @param claName The name of the contributor license agreement.
+   */
   void doClaSignupHook(Account account, String claName);
 
   /**
-   * Fire the Ref update Hook
+   * Fire the Ref update Hook.
    *
-   * @param project The target project
-   * @param refName The Branch.NameKey of the ref provided by client
-   * @param uploader The gerrit user running the command
-   * @param oldId The ref's old id
-   * @param newId The ref's new id
+   * @param project The target project.
+   * @param refName The Branch.NameKey of the ref provided by client.
+   * @param uploader The gerrit user running the command.
+   * @param oldId The ref's old id.
+   * @param newId The ref's new id.
    */
   HookResult doRefUpdateHook(Project project,  String refName,
        Account uploader, ObjectId oldId, ObjectId newId);
 
   /**
    * Fire the hashtags changed Hook.
-   * @param change The change
-   * @param account The gerrit user changing the hashtags
-   * @param added List of hashtags that were added to the change
-   * @param removed List of hashtags that were removed from the change
-   * @param hashtags List of hashtags on the change after adding or removing
-   * @param db The database
+   *
+   * @param change The change itself.
+   * @param account The gerrit user changing the hashtags.
+   * @param added List of hashtags that were added to the change.
+   * @param removed List of hashtags that were removed from the change.
+   * @param hashtags List of hashtags on the change after adding or removing.
+   * @param db The review database.
    * @throws OrmException
    */
   void doHashtagsChangedHook(Change change, Account account,
@@ -182,10 +200,10 @@ public interface ChangeHooks {
       ReviewDb db) throws OrmException;
 
   /**
-   * Fire the project created hook
+   * Fire the project created hook.
    *
-   * @param project The project that was created
-   * @param headName The head name of the created project
+   * @param project The project that was created.
+   * @param headName The head name of the created project.
    */
   void doProjectCreatedHook(Project.NameKey project, String headName);
 }

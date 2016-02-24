@@ -4802,6 +4802,12 @@ The `SubmitInput` entity contains information for submitting a change.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name      ||Description
+|`on_behalf_of`|optional|
+If set, submit the change on behalf of the given user. The value may take any
+format link:rest-api-accounts.html#account-id[accepted by the accounts REST
+API]. Using this option requires
+link:access-control.html#category_submit_on_behalf_of[Submit (On Behalf Of)]
+permission on the branch.
 |`wait_for_merge`|Deprecated, always `true`|
 Whether the request should wait for the merge to complete.
 |===========================

@@ -33,5 +33,5 @@ body {
   transition: none; /* Override the default Polymer fade-in. */
 }
 body {
-  font: 14px 'Open Sans', sans-serif;
+  font: 1.4px 'Open Sans', sans-serif;
 }

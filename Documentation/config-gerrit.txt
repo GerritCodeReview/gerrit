@@ -383,6 +383,12 @@ Sets "path" attribute of the authentication cookie.
 +
 If not set, HTTP request's path is used.
 
+[[auth.cookieDomain]]auth.cookieDomain::
++
+Sets "domain" attribute of the authentication cookie.
++
+If not set, HTTP request's domain is used.
+
 [[auth.cookieSecure]]auth.cookieSecure::
 +
 Sets "secure" flag of the authentication cookie.  If true, cookies

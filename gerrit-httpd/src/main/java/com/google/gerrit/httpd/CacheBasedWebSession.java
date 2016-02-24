@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.gerrit.common.data.HostPageData;
+import com.google.common.base.Strings;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;
@@ -202,9 +203,9 @@ public abstract class CacheBasedWebSession implements WebSession {
     }
 
     String path = authConfig.getCookiePath();
-    if (path == null || path.isEmpty()) {
+    if (Strings.isNullOrEmpty(path)) {
       path = request.getContextPath();
-      if (path == null || path.isEmpty()) {
+      if (Strings.isNullOrEmpty(path)) {
         path = "/";
       }
     }
@@ -214,6 +215,12 @@ public abstract class CacheBasedWebSession implements WebSession {
     }
 
     outCookie = new Cookie(ACCOUNT_COOKIE, token);
+
+    String domain = authConfig.getCookieDomain();
+    if (!Strings.isNullOrEmpty(domain)) {
+      outCookie.setDomain(domain);
+    }
+
     outCookie.setSecure(isSecure(request));
     outCookie.setPath(path);
     outCookie.setMaxAge(ageSeconds);

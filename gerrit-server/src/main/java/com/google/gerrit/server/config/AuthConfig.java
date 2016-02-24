@@ -58,6 +58,7 @@ public class AuthConfig {
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final String cookiePath;
+  private final String cookieDomain;
   private final boolean cookieSecure;
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
@@ -84,6 +85,7 @@ public class AuthConfig {
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     cookiePath = cfg.getString("auth", null, "cookiepath");
+    cookieDomain = cfg.getString("auth", null, "cookiedomain");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
@@ -177,6 +179,10 @@ public class AuthConfig {
 
   public String getCookiePath() {
     return cookiePath;
+  }
+
+  public String getCookieDomain() {
+    return cookieDomain;
   }
 
   public boolean getCookieSecure() {

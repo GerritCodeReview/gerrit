@@ -20,6 +20,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
+import org.junit.Ignore;
+
+@Ignore
 public class FakeQueryBuilder extends ChangeQueryBuilder {
   FakeQueryBuilder(IndexCollection indexes) {
     super(

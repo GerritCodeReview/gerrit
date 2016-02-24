@@ -15,10 +15,12 @@
 package com.google.gerrit.pgm.init;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.junit.Ignore;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
+@Ignore
 public abstract class InitTestCase extends LocalDiskRepositoryTestCase {
   protected Path newSitePath() throws IOException {
     return createWorkRepository().getWorkTree().toPath().resolve("test_site");

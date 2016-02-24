@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8217fdd7_58c9bd20",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-24T15:08:49Z",
+      "side": 1,
+      "message": "I think I disagree with this name. I would call \"highlighted\" what you get when you hit j/k on the change list in the GWT UI. This is \"bold\" or \"unreviewed\" or something.",
+      "revId": "2767cced286007d181f91d4ff29678619746035d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

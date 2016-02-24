@@ -260,25 +260,34 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
+    String changeId = r2.getChangeId();
     // Rebase the second change
     gApi.changes()
-        .id(r2.getChangeId())
+        .id(changeId)
         .current()
         .rebase();
 
     // Second change should have 2 patch sets
-    ChangeInfo c2 = gApi.changes().id(r2.getChangeId()).get();
+    ChangeInfo c2 = gApi.changes().id(changeId).get();
     assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
 
     // ...and the committer should be correct
     ChangeInfo info = gApi.changes()
-        .id(r2.getChangeId()).get(EnumSet.of(
+        .id(changeId).get(EnumSet.of(
             ListChangesOption.CURRENT_REVISION,
             ListChangesOption.CURRENT_COMMIT));
     GitPerson committer = info.revisions.get(
         info.currentRevision).commit.committer;
     assertThat(committer.name).isEqualTo(admin.fullName);
     assertThat(committer.email).isEqualTo(admin.email);
+
+    // Rebasing the second change again should fail
+    exception.equals(ResourceConflictException.class);
+    exception.expectMessage("Change is already up to date");
+    gApi.changes()
+        .id(changeId)
+        .current()
+        .rebase();
   }
 
   @Test

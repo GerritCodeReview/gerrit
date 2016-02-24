@@ -30,8 +30,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
@@ -191,7 +189,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id2, id2, id1);
   }
 
-  private RevCommit getRemoteHead() throws IOException {
+  private RevCommit getRemoteHead() throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       return rw.parseCommit(repo.exactRef("refs/heads/master").getObjectId());

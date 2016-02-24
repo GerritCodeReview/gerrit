@@ -24,8 +24,6 @@ import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
@@ -58,7 +56,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     gcAssert.assertHasNoPackFile(project, project2);
   }
 
-  private RestResponse POST(String endPoint) throws IOException {
+  private RestResponse POST(String endPoint) throws Exception {
     RestResponse r = adminSession.post(endPoint);
     r.consume();
     return r;

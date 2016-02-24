@@ -45,7 +45,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 public class GetRelatedIT extends AbstractDaemonTest {
@@ -647,28 +646,28 @@ public class GetRelatedIT extends AbstractDaemonTest {
         changeAndCommit(psId1_1, c1_1, 1));
   }
 
-  private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {
+  private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws Exception {
     return getRelated(ps.getParentKey(), ps.get());
   }
 
   private List<ChangeAndCommit> getRelated(Change.Id changeId, int ps)
-      throws IOException {
+      throws Exception {
     String url = String.format("/changes/%d/revisions/%d/related",
         changeId.get(), ps);
     return newGson().fromJson(adminSession.get(url).getReader(),
         RelatedInfo.class).changes;
   }
 
-  private RevCommit parseBody(RevCommit c) throws IOException {
+  private RevCommit parseBody(RevCommit c) throws Exception {
     testRepo.getRevWalk().parseBody(c);
     return c;
   }
 
-  private PatchSet.Id getPatchSetId(ObjectId c) throws OrmException {
+  private PatchSet.Id getPatchSetId(ObjectId c) throws Exception {
     return getChange(c).change().currentPatchSetId();
   }
 
-  private ChangeData getChange(ObjectId c) throws OrmException {
+  private ChangeData getChange(ObjectId c) throws Exception {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 

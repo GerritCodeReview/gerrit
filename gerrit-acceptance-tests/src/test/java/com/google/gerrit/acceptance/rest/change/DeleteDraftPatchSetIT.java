@@ -32,14 +32,11 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
@@ -123,16 +120,16 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     return push.to("refs/drafts/master").getChangeId();
   }
 
-  private PatchSet getCurrentPatchSet(String changeId) throws OrmException {
+  private PatchSet getCurrentPatchSet(String changeId) throws Exception {
     return getChange(changeId).currentPatchSet();
   }
 
-  private ChangeData getChange(String changeId) throws OrmException {
+  private ChangeData getChange(String changeId) throws Exception {
     return Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
   }
 
   private static RestResponse deletePatchSet(String changeId,
-      PatchSet ps, RestSession s) throws IOException {
+      PatchSet ps, RestSession s) throws Exception {
     return s.delete("/changes/"
         + changeId
         + "/revisions/"

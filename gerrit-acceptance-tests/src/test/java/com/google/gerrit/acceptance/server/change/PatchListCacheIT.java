@@ -21,13 +21,11 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -235,14 +233,14 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   private List<PatchListEntry> getCurrentPatches(String changeId)
-      throws PatchListNotAvailableException, RestApiException {
+      throws Exception {
     return patchListCache
         .get(getKey(null, getCurrentRevisionId(changeId)), project)
         .getPatches();
   }
 
   private List<PatchListEntry> getPatches(ObjectId revisionIdA, ObjectId revisionIdB)
-      throws PatchListNotAvailableException {
+      throws Exception {
     return patchListCache.get(getKey(revisionIdA, revisionIdB), project)
         .getPatches();
   }
@@ -251,7 +249,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     return new PatchListKey(revisionIdA, revisionIdB, Whitespace.IGNORE_NONE);
   }
 
-  private ObjectId getCurrentRevisionId(String changeId) throws RestApiException {
+  private ObjectId getCurrentRevisionId(String changeId) throws Exception {
     return ObjectId.fromString(gApi.changes().id(changeId).get().currentRevision);
   }
 }

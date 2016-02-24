@@ -29,9 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -43,8 +41,6 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
-
-import java.io.IOException;
 
 @NoHttpd
 public class SubmitOnPushIT extends AbstractDaemonTest {
@@ -220,22 +216,22 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
-      throws OrmException, NoSuchChangeException {
+      throws Exception {
     ChangeNotes notes =
         notesFactory.createChecked(db, project, patchSetId.getParentKey())
             .load();
     return approvalsUtil.getSubmitter(db, notes, patchSetId);
   }
 
-  private void assertSubmitApproval(PatchSet.Id patchSetId)
-      throws OrmException, NoSuchChangeException {
+  private void assertSubmitApproval(PatchSet.Id patchSetId) throws Exception {
     PatchSetApproval a = getSubmitter(patchSetId);
     assertThat(a.isSubmit()).isTrue();
     assertThat(a.getValue()).isEqualTo((short) 1);
     assertThat(a.getAccountId()).isEqualTo(admin.id);
   }
 
-  private void assertCommit(Project.NameKey project, String branch) throws IOException {
+  private void assertCommit(Project.NameKey project, String branch)
+      throws Exception {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
@@ -246,7 +242,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertMergeCommit(String branch, String subject) throws IOException {
+  private void assertMergeCommit(String branch, String subject) throws Exception {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
@@ -259,7 +255,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private void assertTag(Project.NameKey project, String branch,
-      PushOneCommit.Tag tag) throws IOException {
+      PushOneCommit.Tag tag) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       Ref tagRef = repo.findRef(tag.name);
       assertThat(tagRef).isNotNull();

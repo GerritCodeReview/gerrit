@@ -27,9 +27,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.testutil.TestTimeUtil;
-import com.google.gwtorm.server.OrmException;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -267,7 +265,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   private void assertMessage(PushOneCommit.Result r, String expectedMessage)
-      throws RestApiException, OrmException {
+      throws Exception {
     assertThat(getLastMessage(r).message).isEqualTo(expectedMessage);
   }
 
@@ -280,7 +278,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   private ChangeMessageInfo getLastMessage(PushOneCommit.Result r)
-      throws RestApiException, OrmException {
+      throws Exception {
     ChangeMessageInfo lastMessage = Iterables.getLast(
         gApi.changes().id(r.getChange().getId().get()).get().messages, null);
     assertThat(lastMessage).named(lastMessage.message).isNotNull();

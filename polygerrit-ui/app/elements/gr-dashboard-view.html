@@ -23,7 +23,7 @@ limitations under the License.
       :host {
         background-color: var(--view-background-color);
         display: block;
-        margin: 0 1.25rem;
+        margin: 0 var(--default-horizontal-margin);
       }
       .loading {
         margin-top: 1em;
@@ -34,12 +34,12 @@ limitations under the License.
         margin-top: 1em;
         width: 100%;
       }
-      @media only screen and (max-width: 60em) {
+      @media only screen and (max-width: 50em) {
         :host {
           margin: 0;
         }
         .loading {
-          padding: 0 1.25rem;
+          padding: 0 var(--default-horizontal-margin);
         }
       }
     </style>

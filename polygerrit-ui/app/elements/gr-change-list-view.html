@@ -25,7 +25,7 @@ limitations under the License.
       :host {
         background-color: var(--view-background-color);
         display: block;
-        margin: 0 1.25rem;
+        margin: 0 var(--default-horizontal-margin);
       }
       .loading,
       .error {
@@ -53,13 +53,13 @@ limitations under the License.
       nav a:first-of-type {
         margin-right: .5em;
       }
-      @media only screen and (max-width: 60em) {
+      @media only screen and (max-width: 50em) {
         :host {
           margin: 0;
         }
         .loading,
         .error {
-          padding: 0 1.25rem;
+          padding: 0 var(--default-horizontal-margin);
         }
       }
     </style>

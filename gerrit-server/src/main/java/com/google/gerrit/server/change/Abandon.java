@@ -85,21 +85,14 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
-    Change change = abandon(control, input.message,
+    Op op = new Op(input.message,
         control.getUser().asIdentifiedUser().getAccount());
-    return json.create(ChangeJson.NO_OPTIONS).format(change);
-  }
-
-  public Change abandon(ChangeControl control,
-      final String msgTxt, final Account account)
-      throws RestApiException, UpdateException {
-    Op op = new Op(msgTxt, account);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         control.getProject().getNameKey(), control.getUser(),
         TimeUtil.nowTs())) {
       u.addOp(control.getId(), op).execute();
     }
-    return op.change;
+    return json.create(ChangeJson.NO_OPTIONS).format(op.change);
   }
 
   private class Op extends BatchUpdate.Op {

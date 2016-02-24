@@ -528,6 +528,20 @@ If not absolute, the path is resolved relative to `$site_path`.
 +
 Default is unset, no disk cache.
 
+[[cache.h2CacheSize]]cache.h2CacheSize::
++
+The size of the H2 database cache, in bytes, used for each persistent cache.
+This can be used to limit the H2 cache size and thus prevent out-of-memory
+caused by the H2 database using too much memory.
++
+Technically the H2 cache size is configured using the CACHE_SIZE parameter in
+the H2 JDBC connection URL, as described
+link:http://www.h2database.com/html/features.html#cache_settings[here]
++
+Default is unset, no cache size limit.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
 Maximum age to keep an entry in the cache. Entries are removed from

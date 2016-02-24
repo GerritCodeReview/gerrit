@@ -58,6 +58,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final ExecutorService executor;
   private final ScheduledExecutorService cleanup;
+  private final long h2CacheSize;
 
   @Inject
   H2CacheFactory(
@@ -68,6 +69,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     defaultFactory = defaultCacheFactory;
     config = cfg;
     cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
+    h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     caches = Lists.newLinkedList();
     this.cacheMap = cacheMap;
 
@@ -220,8 +222,14 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       TypeLiteral<K> keyType,
       long maxSize,
       Long expireAfterWrite) {
-    String url = "jdbc:h2:" + cacheDir.resolve(name).toUri();
-    return new SqlStore<>(url, keyType, maxSize,
+    StringBuilder url = new StringBuilder();
+    url.append("jdbc:h2:").append(cacheDir.resolve(name).toUri());
+    if (h2CacheSize >= 0) {
+      url.append(";CACHE_SIZE=");
+      // H2 CACHE_SIZE is always given in KB
+      url.append(h2CacheSize / 1024);
+    }
+    return new SqlStore<>(url.toString(), keyType, maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }
 }

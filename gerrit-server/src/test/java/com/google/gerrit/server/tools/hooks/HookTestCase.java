@@ -60,6 +60,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,6 +70,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+@Ignore
 public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   protected Repository repository;
   private final Map<String, File> hooks = Maps.newTreeMap();

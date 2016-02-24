@@ -71,10 +71,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import java.sql.Timestamp;
 import java.util.TimeZone;
 
+@Ignore
 public class AbstractChangeNotesTest extends GerritBaseTests {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");

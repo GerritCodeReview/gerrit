@@ -16,6 +16,9 @@ package com.google.gerrit.server.query;
 
 import com.google.gerrit.testutil.GerritBaseTests;
 
+import org.junit.Ignore;
+
+@Ignore
 public class PredicateTest extends GerritBaseTests {
   protected static final class TestPredicate extends OperatorPredicate<String> {
     protected TestPredicate(String name, String value) {

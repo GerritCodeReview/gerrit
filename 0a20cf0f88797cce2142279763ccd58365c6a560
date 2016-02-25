@@ -16,6 +16,24 @@
       "revId": "0a20cf0f88797cce2142279763ccd58365c6a560",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_b51900bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventBroker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-25T19:42:13Z",
+      "side": 1,
+      "message": "This check is not needed, the visibility check is not assuming a changeEvent. This method can be used for a RefEvent that is not a ChangeEvent.\n\nI removed this checkArgument.",
+      "parentUuid": "bb5c2765_d921337d",
+      "revId": "0a20cf0f88797cce2142279763ccd58365c6a560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

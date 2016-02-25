@@ -15,7 +15,9 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-
+import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
+import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.common.TimeUtil;
@@ -86,9 +88,9 @@ public class ChangeBundleTest {
     Change c2 = TestChanges.newChange(project, accountId);
     int id2 = c2.getId().get();
     ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
-        comments());
+        comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
-        comments());
+        comments(), REVIEW_DB);
 
     assertDiffs(b1, b2,
         "changeId differs for Changes: {" + id1 + "} != {" + id2 + "}",
@@ -104,9 +106,9 @@ public class ChangeBundleTest {
         new Project.NameKey("project"), new Account.Id(100));
     Change c2 = clone(c1);
     ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
-        comments());
+        comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
-        comments());
+        comments(), REVIEW_DB);
 
     assertNoDiffs(b1, b2);
 
@@ -126,9 +128,9 @@ public class ChangeBundleTest {
         new ChangeMessage.Key(c.getId(), "uuid2"),
         accountId, TimeUtil.nowTs(), c.currentPatchSetId());
     ChangeBundle b1 = new ChangeBundle(c, messages(cm1), patchSets(),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(cm2), patchSets(),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
 
     assertDiffs(b1, b2,
         "ChangeMessage.Key sets differ:"
@@ -144,9 +146,9 @@ public class ChangeBundleTest {
     cm1.setMessage("message 1");
     ChangeMessage cm2 = clone(cm1);
     ChangeBundle b1 = new ChangeBundle(c, messages(cm1), patchSets(),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(cm2), patchSets(),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
 
     assertNoDiffs(b1, b2);
 
@@ -154,6 +156,90 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "message differs for ChangeMessage.Key " + c.getId() + ",uuid:"
             + " {message 1} != {message 2}");
+  }
+
+  @Test
+  public void diffChangeMessagesIgnoresUuids() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    int id = c.getId().get();
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid1"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    cm1.setMessage("message 1");
+    ChangeMessage cm2 = clone(cm1);
+    cm2.getKey().set("uuid2");
+
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm2), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    // Both are ReviewDb, exact UUID match is required.
+    assertDiffs(b1, b2,
+        "ChangeMessage.Key sets differ:"
+            + " [" + id + ",uuid1] only in A; [" + id + ",uuid2] only in B");
+
+    // One NoteDb, UUIDs are ignored.
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(cm2), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+  }
+
+
+  @Test
+  public void diffChangeMessagesMixedSourcesWithDifferences() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    int id = c.getId().get();
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid1"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    cm1.setMessage("message 1");
+    ChangeMessage cm2 = clone(cm1);
+    cm2.setMessage("message 2");
+    ChangeMessage cm3 = clone(cm1);
+    cm3.getKey().set("uuid2"); // Differs only in UUID.
+
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1, cm3), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm2, cm3), patchSets(),
+        approvals(), comments(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "ChangeMessage present 2 times in A but 1 time in B:"
+            + " NormalizedChangeMessage{changeId=" + id + ", author=100,"
+            + " writtenOn=2009-09-30 17:00:01.0, message=message 1,"
+            + " patchset=" + id + ",1}",
+        "ChangeMessage present 0 times in A but 1 time in B:"
+            + " NormalizedChangeMessage{changeId=" + id + ", author=100,"
+            + " writtenOn=2009-09-30 17:00:01.0, message=message 2,"
+            + " patchset=" + id + ",1}");
+  }
+
+  @Test
+  public void diffChangeMessagesMixedSourcesRoundsTimestamp() throws Exception {
+    TestTimeUtil.resetWithClockStep(100, MILLISECONDS);
+    Change c = TestChanges.newChange(project, accountId);
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid1"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    ChangeMessage cm2 = clone(cm1);
+    cm2.setWrittenOn(TimeUtil.nowTs());
+
+    // Both are ReviewDb, exact timestamp match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm2), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "writtenOn differs for ChangeMessage.Key " + c.getId() + ",uuid1:"
+            + " {2009-09-30 17:00:00.1} != {2009-09-30 17:00:00.2}");
+
+    // One NoteDb, timestamp is rounded.
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(cm2), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
   }
 
   @Test
@@ -171,9 +257,9 @@ public class ChangeBundleTest {
     ps2.setCreatedOn(TimeUtil.nowTs());
 
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps2),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
 
     assertDiffs(b1, b2,
         "PatchSet.Id sets differ:"
@@ -189,9 +275,9 @@ public class ChangeBundleTest {
     ps1.setCreatedOn(TimeUtil.nowTs());
     PatchSet ps2 = clone(ps1);
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps2),
-        approvals(), comments());
+        approvals(), comments(), REVIEW_DB);
 
     assertNoDiffs(b1, b2);
 
@@ -218,9 +304,9 @@ public class ChangeBundleTest {
         TimeUtil.nowTs());
 
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(a1), comments());
+        approvals(a1), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(a2), comments());
+        approvals(a2), comments(), REVIEW_DB);
 
     assertDiffs(b1, b2,
         "PatchSetApproval.Key sets differ:"
@@ -238,9 +324,9 @@ public class ChangeBundleTest {
         TimeUtil.nowTs());
     PatchSetApproval a2 = clone(a1);
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(a1), comments());
+        approvals(a1), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(a2), comments());
+        approvals(a2), comments(), REVIEW_DB);
 
     assertNoDiffs(b1, b2);
 
@@ -264,9 +350,9 @@ public class ChangeBundleTest {
         5, accountId, null, TimeUtil.nowTs());
 
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(), comments(c1));
+        approvals(), comments(c1), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(), comments(c2));
+        approvals(), comments(c2), REVIEW_DB);
 
     assertDiffs(b1, b2,
         "PatchLineComment.Key sets differ:"
@@ -283,9 +369,9 @@ public class ChangeBundleTest {
         5, accountId, null, TimeUtil.nowTs());
     PatchLineComment c2 = clone(c1);
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(), comments(c1));
+        approvals(), comments(c1), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(),
-        approvals(), comments(c2));
+        approvals(), comments(c2), REVIEW_DB);
 
     assertNoDiffs(b1, b2);
 

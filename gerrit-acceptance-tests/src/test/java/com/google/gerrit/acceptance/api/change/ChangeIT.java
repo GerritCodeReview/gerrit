@@ -439,6 +439,52 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseAbandonedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes()
+        .id(changeId)
+        .abandon();
+    ChangeInfo info = get(changeId);
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is abandoned");
+    gApi.changes()
+        .id(changeId)
+        .revision(r.getCommit().name())
+        .rebase();
+  }
+
+  @Test
+  public void rebaseOntoAbandonedChange() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Abandon the first change
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes()
+        .id(changeId)
+        .abandon();
+    ChangeInfo info = get(changeId);
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+
+    RebaseInput ri = new RebaseInput();
+    ri.base = r.getCommit().name();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("base change is abandoned: " + r.getChangeId());
+    gApi.changes()
+      .id(r2.getChangeId())
+      .revision(r2.getCommit().name())
+      .rebase(ri);
+  }
+
+  @Test
   public void addReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);

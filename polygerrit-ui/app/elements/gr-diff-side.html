@@ -170,6 +170,12 @@ limitations under the License.
           value: '</hl>',
           readOnly: true,
         },
+        _diffChunkLineNums: Array,
+        _commentThreadLineNums: Array,
+        _focusedLineNum: {
+          type: Number,
+          value: 1,
+        },
       },
 
       listeners: {
@@ -183,6 +189,7 @@ limitations under the License.
       rowInserted: function(index) {
         this.renderLineIndexRange(index, index);
         this._updateDOMIndices();
+        this._updateJumpIndices();
       },
 
       rowRemoved: function(index) {
@@ -192,6 +199,7 @@ limitations under the License.
           removedEls[i].parentNode.removeChild(removedEls[i]);
         }
         this._updateDOMIndices();
+        this._updateJumpIndices();
       },
 
       rowUpdated: function(index) {
@@ -222,6 +230,22 @@ limitations under the License.
         // element appears to be below the center of the window even when it
         // isn't.
         window.scrollTo(0, top - (window.innerHeight / 3) - el.offsetHeight);
+      },
+
+      scrollToNextDiffChunk: function() {
+        this._scrollToNextChunkOrThread(this._diffChunkLineNums);
+      },
+
+      scrollToPreviousDiffChunk: function() {
+        this._scrollToPreviousChunkOrThread(this._diffChunkLineNums);
+      },
+
+      scrollToNextCommentThread: function() {
+        this._scrollToNextChunkOrThread(this._commentThreadLineNums);
+      },
+
+      scrollToPreviousCommentThread: function() {
+        this._scrollToPreviousChunkOrThread(this._commentThreadLineNums);
       },
 
       renderLineIndexRange: function(startIndex, endIndex) {
@@ -279,6 +303,49 @@ limitations under the License.
         this.content[index].height = height;
       },
 
+      _scrollToNextChunkOrThread: function(lineNums) {
+        for (var i = 0; i < lineNums.length; i++) {
+          if (lineNums[i] > this._focusedLineNum) {
+            this._focusedLineNum = lineNums[i];
+            this.scrollToLine(this._focusedLineNum);
+            return;
+          }
+        }
+      },
+
+      _scrollToPreviousChunkOrThread: function(lineNums) {
+        for (var i = lineNums.length - 1; i >= 0; i--) {
+          if (this._focusedLineNum > lineNums[i]) {
+            this._focusedLineNum = lineNums[i];
+            this.scrollToLine(this._focusedLineNum);
+            return;
+          }
+        }
+      },
+
+      _updateJumpIndices: function() {
+        this._commentThreadLineNums = [];
+        this._diffChunkLineNums = [];
+        var inHighlight = false;
+        for (var i = 0; i < this.content.length; i++) {
+          switch (this.content[i].type) {
+            case 'COMMENT_THREAD':
+              this._commentThreadLineNums.push(
+                  this.content[i].comments[0].line);
+              break;
+            case 'CODE':
+              // Only grab the first line of the highlighted chunk.
+              if (!inHighlight && this.content[i].highlight) {
+                this._diffChunkLineNums.push(this.content[i].lineNum);
+                inHighlight = true;
+              } else if (!this.content[i].highlight) {
+                inHighlight = false;
+              }
+              break;
+          }
+        }
+      },
+
       _updateDOMIndices: function() {
         // There is no way to select elements with a data-index greater than a
         // given value. For now, just update all DOM elements.
@@ -317,6 +384,7 @@ limitations under the License.
         this._clearChildren(this.$.numbers);
         this._clearChildren(this.$.content);
         this._render(diff, 0, diff.length - 1);
+        this._updateJumpIndices();
       },
 
       _computeContainerClass: function(canComment) {

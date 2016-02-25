@@ -58,6 +58,9 @@ limitations under the License.
         padding: .1em .5em;
         text-align: center;
       }
+      .modifier {
+        font-weight: normal;
+      }
     </style>
     <header>
       <h3>Keyboard shortcuts</h3>
@@ -78,6 +81,7 @@ limitations under the License.
             <td>Show this dialog</td>
           </tr>
         </tbody>
+        <!-- Change View -->
         <tbody hidden$="[[!_computeInView(view, 'gr-change-view')]]" hidden>
           <tr>
             <td></td><td class="header">Navigation</td>
@@ -95,6 +99,7 @@ limitations under the License.
             <td>Up to change list</td>
           </tr>
         </tbody>
+        <!-- Diff View -->
         <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
           <tr>
             <td></td><td class="header">Navigation</td>
@@ -115,6 +120,7 @@ limitations under the License.
       </table>
 
       <table>
+        <!-- Change List and Dashboard -->
         <tbody hidden$="[[!_computeInChangeListView(view)]]" hidden>
           <tr>
             <td></td><td class="header">Change list</td>
@@ -132,6 +138,7 @@ limitations under the License.
             <td>Show selected change</td>
           </tr>
         </tbody>
+        <!-- Change View -->
         <tbody hidden$="[[!_computeInView(view, 'gr-change-view')]]" hidden>
           <tr>
             <td></td><td class="header">Actions</td>
@@ -156,9 +163,32 @@ limitations under the License.
             <td>Show selected file</td>
           </tr>
         </tbody>
+        <!-- Diff View -->
         <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
           <tr>
             <td></td><td class="header">Actions</td>
+          </tr>
+          <tr>
+            <td><span class="key">n</span></td>
+            <td>Show next diff chunk</td>
+          </tr>
+          <tr>
+            <td><span class="key">p</span></td>
+            <td>Show previous diff chunk</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">n</span>
+            </td>
+            <td>Show next comment thread</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">p</span>
+            </td>
+            <td>Show previous comment thread</td>
           </tr>
           <tr>
             <td><span class="key">a</span></td>

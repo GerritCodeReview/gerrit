@@ -162,6 +162,7 @@ limitations under the License.
         _baseDrafts: Array,
         /**
          * Base (left side) comments and drafts grouped by line number.
+         * Only used for initial rendering.
          */
         _groupedBaseComments: {
           type: Object,
@@ -169,6 +170,7 @@ limitations under the License.
         },
         /**
          * Comments and drafts (right side) grouped by line number.
+         * Only used for initial rendering.
          */
         _groupedComments: {
           type: Object,
@@ -214,6 +216,22 @@ limitations under the License.
       scrollToLine: function(lineNum) {
         // TODO(andybons): Should this always be the right side?
         this.$.rightDiff.scrollToLine(lineNum);
+      },
+
+      scrollToNextDiffChunk: function() {
+        this.$.rightDiff.scrollToNextDiffChunk();
+      },
+
+      scrollToPreviousDiffChunk: function() {
+        this.$.rightDiff.scrollToPreviousDiffChunk();
+      },
+
+      scrollToNextCommentThread: function() {
+        this.$.rightDiff.scrollToNextCommentThread();
+      },
+
+      scrollToPreviousCommentThread: function() {
+        this.$.rightDiff.scrollToPreviousCommentThread();
       },
 
       reload: function(changeNum, patchRange, path) {

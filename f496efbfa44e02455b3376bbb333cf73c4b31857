@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c21d75f8_7a203982",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-25T03:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8217fdd7_38540929",
+      "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c21d75f8_fa0be943",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 18
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c21d75f8_1a1d7d45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-25T03:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c21d75f8_fa0be943",
+      "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c21d75f8_9a00ad22",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 18
@@ -47,6 +83,24 @@
       "writtenOn": "2016-02-25T00:13:09Z",
       "side": 1,
       "message": "Same as in ChangeInserter. Need to show all approvals.",
+      "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_f511b8a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-25T03:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c21d75f8_9a00ad22",
       "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

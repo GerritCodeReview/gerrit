@@ -159,7 +159,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    File gitDir = path.resolve(name.get()).toFile();
+    File gitDir = path.resolve(name.get() + ".git").toFile();
     if (!names.contains(name)) {
       // The this.names list does not hold the project-name but it can still exist
       // on disk; for instance when the project has been created directly on the

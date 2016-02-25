@@ -245,6 +245,10 @@ public class ChangeBundle {
     }
   }
 
+  public Change getChange() {
+    return change;
+  }
+
   public ImmutableList<String> differencesFrom(ChangeBundle o) {
     List<String> diffs = new ArrayList<>();
     diffChanges(diffs, this, o);

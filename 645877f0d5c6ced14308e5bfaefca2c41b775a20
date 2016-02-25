@@ -33,6 +33,24 @@
       "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_bcd8016a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-02-25T14:08:48Z",
+      "side": 1,
+      "message": "Well, if users do not abuse Git, the first parent is expected to be the \"correct\" one (i.e. on the target branch).\n\nThe concept of first-parent is widely used by Git itself in log, describe and rev-list.",
+      "parentUuid": "02522dad_dcc94d9f",
+      "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

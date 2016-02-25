@@ -17,6 +17,8 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.common.TimeUtil.roundToSecond;
+import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
 import com.google.auto.value.AutoValue;
@@ -258,7 +260,7 @@ public class ChangeBundle {
     Change a = bundleA.change;
     Change b = bundleB.change;
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
-    diffColumns(diffs, Change.class, desc, a, b);
+    diffColumns(diffs, Change.class, desc, bundleA, a, bundleB, b);
   }
 
   private static void diffChangeMessages(List<String> diffs,
@@ -269,8 +271,10 @@ public class ChangeBundle {
       Map<ChangeMessage.Key, ChangeMessage> bs = bundleB.changeMessages;
 
       for (ChangeMessage.Key k : diffKeySets(diffs, as, bs)) {
-        diffColumns(
-            diffs, ChangeMessage.class, describe(k), as.get(k), bs.get(k));
+        ChangeMessage a = as.get(k);
+        ChangeMessage b = bs.get(k);
+        String desc = describe(k);
+        diffColumns(diffs, ChangeMessage.class, desc, bundleA, a, bundleB, b);
       }
     } else {
       // At least one is from NoteDb, so we need to normalize UUIDs and
@@ -302,7 +306,10 @@ public class ChangeBundle {
     Map<PatchSet.Id, PatchSet> as = bundleA.patchSets;
     Map<PatchSet.Id, PatchSet> bs = bundleB.patchSets;
     for (PatchSet.Id id : diffKeySets(diffs, as, bs)) {
-      diffColumns(diffs, PatchSet.class, describe(id), as.get(id), bs.get(id));
+      PatchSet a = as.get(id);
+      PatchSet b = bs.get(id);
+      String desc = describe(id);
+      diffColumns(diffs, PatchSet.class, desc, bundleA, a, bundleB, b);
     }
   }
 
@@ -311,8 +318,10 @@ public class ChangeBundle {
     Map<PatchSetApproval.Key, PatchSetApproval> as = bundleA.patchSetApprovals;
     Map<PatchSetApproval.Key, PatchSetApproval> bs = bundleB.patchSetApprovals;
     for (PatchSetApproval.Key k : diffKeySets(diffs, as, bs)) {
-      diffColumns(
-          diffs, PatchSetApproval.class, describe(k), as.get(k), bs.get(k));
+      PatchSetApproval a = as.get(k);
+      PatchSetApproval b = bs.get(k);
+      String desc = describe(k);
+      diffColumns(diffs, PatchSetApproval.class, desc, bundleA, a, bundleB, b);
     }
   }
 
@@ -321,8 +330,10 @@ public class ChangeBundle {
     Map<PatchLineComment.Key, PatchLineComment> as = bundleA.patchLineComments;
     Map<PatchLineComment.Key, PatchLineComment> bs = bundleB.patchLineComments;
     for (PatchLineComment.Key k : diffKeySets(diffs, as, bs)) {
-      diffColumns(
-          diffs, PatchLineComment.class, describe(k), as.get(k), bs.get(k));
+      PatchLineComment a = as.get(k);
+      PatchLineComment b = bs.get(k);
+      String desc = describe(k);
+      diffColumns(diffs, PatchLineComment.class, desc, bundleA, a, bundleB, b);
     }
   }
 
@@ -346,7 +357,7 @@ public class ChangeBundle {
   }
 
   private static <T> void diffColumns(List<String> diffs, Class<T> clazz,
-      String desc, T a, T b) {
+      String desc, ChangeBundle bundleA, T a, ChangeBundle bundleB, T b) {
     for (Field f : clazz.getDeclaredFields()) {
       Column col = f.getAnnotation(Column.class);
       if (col == null) {
@@ -354,11 +365,46 @@ public class ChangeBundle {
       }
       f.setAccessible(true);
       try {
-        diffValues(diffs, desc, f.get(a), f.get(b), f.getName());
+        if (Timestamp.class.isAssignableFrom(f.getType())) {
+          diffTimestamps(diffs, desc, bundleA, a, bundleB, b, f.getName());
+        } else {
+          diffValues(diffs, desc, f.get(a), f.get(b), f.getName());
+        }
       } catch (IllegalAccessException e) {
         throw new IllegalArgumentException(e);
       }
     }
+  }
+
+  private static void diffTimestamps(List<String> diffs, String desc,
+      ChangeBundle bundleA, Object a, ChangeBundle bundleB, Object b,
+      String field) {
+    checkArgument(a.getClass() == b.getClass());
+    Class<?> clazz = a.getClass();
+
+    Timestamp ta, tb;
+    try {
+      Field f = clazz.getDeclaredField(field);
+      checkArgument(f.getAnnotation(Column.class) != null);
+      f.setAccessible(true);
+      ta = (Timestamp) f.get(a);
+      tb = (Timestamp) f.get(b);
+    } catch (IllegalAccessException | NoSuchFieldException
+        | SecurityException e) {
+      throw new IllegalArgumentException(e);
+    }
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      ta = roundToSecond(ta);
+      checkArgument(tb.equals(roundToSecond(tb)),
+          "%s from NoteDb has non-rounded %s timestamp: %s",
+          desc, field, tb);
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      tb = roundToSecond(tb);
+      checkArgument(ta.equals(roundToSecond(ta)),
+          "%s from NoteDb has non-rounded %s timestamp: %s",
+          desc, field, ta);
+    }
+    diffValues(diffs, desc, ta, tb, field);
   }
 
   private static void diffValues(List<String> diffs, String desc, Object va,

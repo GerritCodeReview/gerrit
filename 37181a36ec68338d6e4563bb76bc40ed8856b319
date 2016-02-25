@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "222c912d_15fb1490",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-25T08:36:56Z",
+      "side": 1,
+      "message": "Use the existing changeId variable",
+      "range": {
+        "startLine": 480,
+        "startChar": 59,
+        "endLine": 480,
+        "endChar": 74
+      },
+      "revId": "37181a36ec68338d6e4563bb76bc40ed8856b319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_9a3d0da8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-25T08:36:56Z",
+      "side": 1,
+      "message": "Wrong indentation",
+      "range": {
+        "startLine": 482,
+        "startChar": 4,
+        "endLine": 484,
+        "endChar": 18
+      },
+      "revId": "37181a36ec68338d6e4563bb76bc40ed8856b319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

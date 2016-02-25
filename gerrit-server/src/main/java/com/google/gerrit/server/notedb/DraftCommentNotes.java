@@ -15,7 +15,9 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -31,6 +33,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
@@ -66,7 +69,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Account.Id author;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
-  private NoteMap noteMap;
+  private RevisionNoteMap revisionNoteMap;
 
   DraftCommentNotes(GitRepositoryManager repoManager, NotesMigration migration,
       AllUsersName draftsProject, Change.Id changeId, Account.Id author) {
@@ -75,8 +78,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     this.author = author;
   }
 
-  public NoteMap getNoteMap() {
-    return noteMap;
+  RevisionNoteMap getRevisionNoteMap() {
+    return revisionNoteMap;
   }
 
   public Account.Id getAuthor() {
@@ -110,13 +113,17 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       return;
     }
 
-    try (RevWalk walk = new RevWalk(reader);
-        DraftCommentNotesParser parser = new DraftCommentNotesParser(
-          getChangeId(), walk, rev, repoManager, draftsProject, author)) {
-      parser.parseDraftComments();
-
-      comments = ImmutableListMultimap.copyOf(parser.comments);
-      noteMap = parser.noteMap;
+    try (RevWalk walk = new RevWalk(reader)) {
+      RevCommit tipCommit = walk.parseCommit(rev);
+      revisionNoteMap = RevisionNoteMap.parse(
+          getChangeId(), reader, NoteMap.read(reader, tipCommit), true);
+      Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
+      for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
+        for (PatchLineComment c : rn.comments) {
+          cs.put(c.getRevId(), c);
+        }
+      }
+      comments = ImmutableListMultimap.copyOf(cs);
     }
   }
 
@@ -135,5 +142,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return draftsProject;
+  }
+
+  @VisibleForTesting
+  NoteMap getNoteMap() {
+    return revisionNoteMap != null ? revisionNoteMap.noteMap : null;
   }
 }

@@ -69,7 +69,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -101,7 +100,6 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<RevId, PatchLineComment> comments;
   final TreeMap<PatchSet.Id, PatchSet> patchSets;
   final Map<PatchSet.Id, PatchSetState> patchSetStates;
-  final Map<RevId, RevisionNote> revisionNotes;
 
   String branch;
   Change.Status status;
@@ -115,7 +113,7 @@ class ChangeNotesParser implements AutoCloseable {
   String originalSubject;
   String submissionId;
   PatchSet.Id currentPatchSetId;
-  NoteMap noteMap;
+  RevisionNoteMap revisionNoteMap;
 
   private final Change.Id id;
   private final ObjectId tip;
@@ -142,7 +140,6 @@ class ChangeNotesParser implements AutoCloseable {
     comments = ArrayListMultimap.create();
     patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
     patchSetStates = Maps.newHashMap();
-    revisionNotes = Maps.newHashMap();
   }
 
   @Override
@@ -217,7 +214,9 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     Account.Id accountId = parseIdent(commit);
-    ownerId = accountId;
+    if (accountId != null) {
+      ownerId = accountId;
+    }
 
     if (changeId == null) {
       changeId = parseChangeId(commit);
@@ -339,6 +338,10 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parsePatchSet(PatchSet.Id psId, ObjectId rev,
       Account.Id accountId, Timestamp ts) throws ConfigInvalidException {
+    if (accountId == null) {
+      throw parseException(
+          "patch set %s requires an identified user as uploader", psId.get());
+    }
     PatchSet ps = patchSets.get(psId);
     if (ps == null) {
       ps = new PatchSet(psId);
@@ -497,19 +500,18 @@ class ChangeNotesParser implements AutoCloseable {
       throws IOException, ConfigInvalidException {
     ObjectReader reader = walk.getObjectReader();
     RevCommit tipCommit = walk.parseCommit(tip);
-    noteMap = NoteMap.read(reader, tipCommit);
+    revisionNoteMap = RevisionNoteMap.parse(
+        id, reader, NoteMap.read(reader, tipCommit), false);
+    Map<RevId, RevisionNote> rns = revisionNoteMap.revisionNotes;
 
-    for (Note note : noteMap) {
-      RevisionNote rn = new RevisionNote(id, reader, note.getData());
-      RevId revId = new RevId(note.name());
-      revisionNotes.put(revId, rn);
-      for (PatchLineComment plc : rn.comments) {
-        comments.put(revId, plc);
+    for (Map.Entry<RevId, RevisionNote> e : rns.entrySet()) {
+      for (PatchLineComment plc : e.getValue().comments) {
+        comments.put(e.getKey(), plc);
       }
     }
 
     for (PatchSet ps : patchSets.values()) {
-      RevisionNote rn = revisionNotes.get(ps.getRevision());
+      RevisionNote rn = rns.get(ps.getRevision());
       if (rn != null && rn.pushCert != null) {
         ps.setPushCertificate(rn.pushCert);
       }
@@ -518,6 +520,10 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,
       Timestamp ts, String line) throws ConfigInvalidException {
+    if (accountId == null) {
+      throw parseException(
+          "patch set %s requires an identified user as uploader", psId.get());
+    }
     if (line.startsWith("-")) {
       parseRemoveApproval(psId, accountId, line);
     } else {
@@ -665,6 +671,14 @@ class ChangeNotesParser implements AutoCloseable {
 
   private Account.Id parseIdent(RevCommit commit)
       throws ConfigInvalidException {
+    // Check if the author name/email is the same as the committer name/email,
+    // i.e. was the server ident at the time this commit was made.
+    PersonIdent a = commit.getAuthorIdent();
+    PersonIdent c = commit.getCommitterIdent();
+    if (a.getName().equals(c.getName())
+        && a.getEmailAddress().equals(c.getEmailAddress())) {
+      return null;
+    }
     return parseIdent(commit.getAuthorIdent());
   }
 

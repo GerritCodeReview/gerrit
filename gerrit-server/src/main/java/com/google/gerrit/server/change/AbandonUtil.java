@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.QueryParseException;
@@ -37,7 +37,7 @@ public class AbandonUtil {
   private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
 
   private final ChangeCleanupConfig cfg;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final InternalUser.Factory internalUserFactory;
   private final QueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
   private final Abandon abandon;
@@ -45,12 +45,12 @@ public class AbandonUtil {
   @Inject
   AbandonUtil(
       ChangeCleanupConfig cfg,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
+      InternalUser.Factory internalUserFactory,
       QueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
     this.cfg = cfg;
-    this.identifiedUserFactory = identifiedUserFactory;
+    this.internalUserFactory = internalUserFactory;
     this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
     this.abandon = abandon;
@@ -73,7 +73,7 @@ public class AbandonUtil {
       int count = 0;
       for (ChangeData cd : changesToAbandon) {
         try {
-          abandon.abandon(changeControl(cd), cfg.getAbandonMessage(), null);
+          abandon.abandon(changeControl(cd), cfg.getAbandonMessage());
           count++;
         } catch (ResourceConflictException e) {
           // Change was already merged or abandoned.
@@ -91,7 +91,6 @@ public class AbandonUtil {
   }
 
   private ChangeControl changeControl(ChangeData cd) throws OrmException {
-    return cd.changeControl(
-        identifiedUserFactory.create(cd.change().getOwner()));
+    return cd.changeControl(internalUserFactory.create());
   }
 }

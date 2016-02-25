@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a285e15a_11e24cea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "Maybe quote all the mentions of \"has\" in here so its less confusing?",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_35541029",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "Remove this line?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 77
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_31df501f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand what the term \"element\" is supposed to reference, maybe use \"operand\" instead?",
+      "range": {
+        "startLine": 638,
+        "startChar": 42,
+        "endLine": 638,
+        "endChar": 49
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_d5dd9cfc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "There is nothing in the sample below that actually ties this to \"test\"?  Maybe use the same names as for the registration example?",
+      "range": {
+        "startLine": 655,
+        "startChar": 27,
+        "endLine": 655,
+        "endChar": 31
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_f5e218be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "nit: no tabs.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 1
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_d10cc48f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "nit: no tabs.",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 2
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_95e724cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 2
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_b5eca0af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 2
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_55f2ec8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 283,
+        "endChar": 7
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_f111c8a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-02-25T23:52:35Z",
+      "side": 1,
+      "message": "extra",
+      "range": {
+        "startLine": 433,
+        "startChar": 38,
+        "endLine": 433,
+        "endChar": 39
+      },
+      "revId": "679d60d1f2e7e7ae74b1c88575162d3767a02b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

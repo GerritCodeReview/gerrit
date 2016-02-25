@@ -14,10 +14,12 @@
 
 package com.google.gerrit.testutil;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
-public class GerritBaseTests {
+@Ignore
+public abstract class GerritBaseTests {
   @Rule
   public ExpectedException exception = ExpectedException.none();
 }

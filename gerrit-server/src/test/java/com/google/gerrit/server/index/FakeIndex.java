@@ -24,6 +24,9 @@ import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
+import org.junit.Ignore;
+
+@Ignore
 class FakeIndex implements ChangeIndex {
   static Schema<ChangeData> V1 = new Schema<>(1,
     ImmutableList.<FieldDef<ChangeData, ?>> of(

@@ -276,6 +276,20 @@ limitations under the License.
             e.preventDefault();
             this._navToFile(this._fileList, 1);
             break;
+          case 78:  // 'n'
+            if (e.shiftKey) {
+              this.$.diff.scrollToNextCommentThread();
+            } else {
+              this.$.diff.scrollToNextDiffChunk();
+            }
+            break;
+          case 80:  // 'p'
+            if (e.shiftKey) {
+              this.$.diff.scrollToPreviousCommentThread();
+            } else {
+              this.$.diff.scrollToPreviousDiffChunk();
+            }
+            break;
           case 65:  // 'a'
             if (!this._loggedIn) { return; }
 

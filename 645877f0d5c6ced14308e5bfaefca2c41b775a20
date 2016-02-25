@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e24c3916_1bfa5bd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-25T14:04:58Z",
+      "side": 1,
+      "message": "What do you consider a \"full merge diff\"?",
+      "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_dcc94d9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-25T14:04:58Z",
+      "side": 1,
+      "message": "... so you are providing a diff against the first parent.\n\nIf the first parent is properly chosen then this would be a kind of \"full merge diff\"... but \"full\" is misleading as we really look at the diff between the merge commit and one of its parents. Looking at just the merge commit, without relating it to any of its parents, its diff doesn\u0027t include changes on any object which is the same as in one of its parents.\n\nBtw, not all teams have discipline to consistently chose the first parent when merging. Having an option to chose any other parent would be also useful. Even better, Gerrit should be able to automatically chose the \"proper\" parent commit: one which is already included in the target branch.",
+      "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

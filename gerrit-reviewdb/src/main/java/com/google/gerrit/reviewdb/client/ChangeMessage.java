@@ -50,7 +50,7 @@ public final class ChangeMessage {
     }
 
     @Override
-    protected void set(String newValue) {
+    public void set(String newValue) {
       uuid = newValue;
     }
   }
@@ -103,6 +103,10 @@ public final class ChangeMessage {
 
   public Timestamp getWrittenOn() {
     return writtenOn;
+  }
+
+  public void setWrittenOn(Timestamp ts) {
+    writtenOn = ts;
   }
 
   public String getMessage() {

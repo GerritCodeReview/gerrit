@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -81,6 +82,11 @@ public class ChangeBundleTest {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
+  private void subSecondResolution() {
+    TestTimeUtil.setClockStep(100, MILLISECONDS);
+    TimeUtil.nowTs();
+  }
+
   @Test
   public void diffChangesDifferentIds() throws Exception {
     Change c1 = TestChanges.newChange(project, accountId);
@@ -115,6 +121,38 @@ public class ChangeBundleTest {
     c2.setTopic("topic");
     assertDiffs(b1, b2,
         "topic differs for Change.Id "+ c1.getId() + ": {null} != {topic}");
+  }
+
+  @Test
+  public void diffChangesMixedSourcesRoundsTimestamp() throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    subSecondResolution();
+    Change c2 = clone(c1);
+    c2.setCreatedOn(TimeUtil.nowTs());
+    c2.setLastUpdatedOn(TimeUtil.nowTs());
+
+    // Both are ReviewDb, exact timestamp match is required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "createdOn differs for Change.Id " + c1.getId() + ":"
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.1}",
+        "lastUpdatedOn differs for Change.Id " + c1.getId() + ":"
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.2}");
+
+    // One NoteDb, timestamp is rounded.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "createdOn differs for Change.Id " + c1.getId() + ":"
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.0}",
+        "lastUpdatedOn differs for Change.Id " + c1.getId() + ":"
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.0}");
   }
 
   @Test
@@ -217,8 +255,8 @@ public class ChangeBundleTest {
 
   @Test
   public void diffChangeMessagesMixedSourcesRoundsTimestamp() throws Exception {
-    TestTimeUtil.resetWithClockStep(100, MILLISECONDS);
     Change c = TestChanges.newChange(project, accountId);
+    subSecondResolution();
     ChangeMessage cm1 = new ChangeMessage(
         new ChangeMessage.Key(c.getId(), "uuid1"),
         accountId, TimeUtil.nowTs(), c.currentPatchSetId());
@@ -232,7 +270,7 @@ public class ChangeBundleTest {
         approvals(), comments(), REVIEW_DB);
     assertDiffs(b1, b2,
         "writtenOn differs for ChangeMessage.Key " + c.getId() + ",uuid1:"
-            + " {2009-09-30 17:00:00.1} != {2009-09-30 17:00:00.2}");
+            + " {2009-09-30 17:00:01.1} != {2009-09-30 17:00:01.2}");
 
     // One NoteDb, timestamp is rounded.
     b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
@@ -289,6 +327,34 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffPatchSetsMixedSourcesRoundsTimestamp() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    subSecondResolution();
+    PatchSet ps1 = new PatchSet(c.currentPatchSetId());
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(roundToSecond(TimeUtil.nowTs()));
+    PatchSet ps2 = clone(ps1);
+    ps2.setCreatedOn(TimeUtil.nowTs());
+
+    // Both are ReviewDb, exact timestamp match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps2),
+        approvals(), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "createdOn differs for PatchSet.Id " + c.getId() + ",1:"
+            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:01.2}");
+
+    // One NoteDb, timestamp is rounded.
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps2), approvals(),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+  }
+
+  @Test
   public void diffPatchSetApprovalKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();
@@ -337,6 +403,37 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffPatchSetApprovalsMixedSourcesRoundsTimestamp()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    subSecondResolution();
+    PatchSetApproval a1 = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            c.currentPatchSetId(), accountId, new LabelId("Code-Review")),
+        (short) 1,
+        roundToSecond(TimeUtil.nowTs()));
+    PatchSetApproval a2 = clone(a1);
+    a2.setGranted(TimeUtil.nowTs());
+
+    // Both are ReviewDb, exact timestamp match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(),
+        approvals(a1), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(),
+        approvals(a2), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "granted differs for PatchSetApproval.Key "
+            + c.getId() + "%2C1,100,Code-Review:"
+            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:01.2}");
+
+    // One NoteDb, timestamp is rounded.
+    b1 = new ChangeBundle(c, messages(), patchSets(), approvals(a1),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(), approvals(a2),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+  }
+
+  @Test
   public void diffPatchLineCommentKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();
@@ -379,6 +476,36 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "status differs for PatchLineComment.Key "
             + c.getId() + ",1,filename,uuid: {d} != {P}");
+  }
+
+  @Test
+  public void diffPatchLineCommentsMixedSourcesRoundsTimestamp()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    subSecondResolution();
+    PatchLineComment c1 = new PatchLineComment(
+        new PatchLineComment.Key(
+            new Patch.Key(c.currentPatchSetId(), "filename"), "uuid"),
+        5, accountId, null, roundToSecond(TimeUtil.nowTs()));
+    PatchLineComment c2 = clone(c1);
+    c2.setWrittenOn(TimeUtil.nowTs());
+
+    // Both are ReviewDb, exact timestamp match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(),
+        approvals(), comments(c1), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(),
+        approvals(), comments(c2), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "writtenOn differs for PatchLineComment.Key "
+            + c.getId() + ",1,filename,uuid:"
+            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:01.2}");
+
+    // One NoteDb, timestamp is rounded.
+    b1 = new ChangeBundle(c, messages(), patchSets(), approvals(),
+        comments(c1), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(), approvals(),
+        comments(c2), REVIEW_DB);
+    assertNoDiffs(b1, b2);
   }
 
   private static void assertNoDiffs(ChangeBundle a, ChangeBundle b) {

@@ -121,7 +121,8 @@ limitations under the License.
         url="[[_computeProjectConfigPath(_change.project)]]"
         last-response="{{_projectConfig}}"></gr-ajax>
     <h3>
-      <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
+      <a href$="[[_computeChangePath(_changeNum, _patchRange.patchNum, _change.revisions)]]">
+        [[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span>
       <span class="dash">—</span>
       <input id="reviewed"
@@ -281,9 +282,12 @@ limitations under the License.
             this.set('changeViewState.showReplyDialog', true);
             /* falls through */ // required by JSHint
           case 85:  // 'u'
-            if (this._changeNum) {
+            if (this._changeNum && this._patchRange.patchNum) {
               e.preventDefault();
-              page.show(this._computeChangePath(this._changeNum));
+              page.show(this._computeChangePath(
+                  this._changeNum,
+                  this._patchRange.patchNum,
+                  this._change.revisions));
             }
             break;
           case 188:  // ','
@@ -304,7 +308,10 @@ limitations under the License.
 
         var idx = fileList.indexOf(this._path) + direction;
         if (idx < 0 || idx > fileList.length - 1) {
-          page.show(this._computeChangePath(this._changeNum));
+          page.show(this._computeChangePath(
+              this._changeNum,
+              this._patchRange.patchNum,
+              this._change.revisions));
           return;
         }
         page.show(this._computeDiffURL(this._changeNum,
@@ -362,8 +369,18 @@ limitations under the License.
         return patchNums.sort(function(a, b) { return a - b; });
       },
 
-      _computeChangePath: function(changeNum) {
-        return '/c/' + changeNum;
+      _computeChangePath: function(changeNum, patchNum, revisions) {
+        var base = '/c/' + changeNum + '/';
+
+        var latestPatchNum = -1;
+        for (var rev in revisions) {
+          latestPatchNum = Math.max(latestPatchNum, revisions[rev]._number);
+        }
+        if (parseInt(patchNum, 10) != latestPatchNum) {
+          return base + patchNum;
+        }
+
+        return base;
       },
 
       _computeChangeDetailPath: function(changeNum) {

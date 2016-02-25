@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8217fdd7_38540929",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-25T00:13:09Z",
+      "side": 1,
+      "message": "wrap this",
+      "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_fa0be943",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-25T00:13:09Z",
+      "side": 1,
+      "message": "This is not quiet right. This will only provide info about the label that the user set on a push. It should show a list of all labels with the updated flag. If the label was not set then show the label with \u0027updated\u003dfalse\u0027.\n\n\nFor example: \n\n  1. user does \u0027git push origin HEAD:refs/for/master%l\u003dCode-Review+1\u0027\n  2. Gerrit fires a patchset-created and comment-added events.\n\n\nCode-Review is the only approval that shows up in the event.  To be consistent with a reply on a change it should provide info about all labels, even the ones that the user does not set such as Verified, etc..  Labels that are set should have \u0027updated\u0027\u003dtrue while the ones that were not set should have updated\u003dfalse.",
+      "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_9a00ad22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-02-25T00:13:09Z",
+      "side": 1,
+      "message": "Same as in ChangeInserter. Need to show all approvals.",
+      "revId": "f496efbfa44e02455b3376bbb333cf73c4b31857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

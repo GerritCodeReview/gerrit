@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02522dad_df95bf5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022607
+      },
+      "writtenOn": "2016-02-25T19:57:53Z",
+      "side": 1,
+      "message": "This is a deprecated name. I used this term early in my research, when I though about a \u0027fuller\u0027 or \u0027better\u0027 way to handle merges and forgot to rename it here after the change got its shape. Fixed in ps 14.",
+      "parentUuid": "e24c3916_1bfa5bd3",
+      "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_dcc94d9f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "\u003e ... so you are providing a diff against the first parent.\n \u003e \n \u003e If the first parent is properly chosen then this would be a kind of\n \u003e \"full merge diff\"... but \"full\" is misleading as we really look at\n \u003e the diff between the merge commit and one of its parents. Looking\n \u003e at just the merge commit, without relating it to any of its\n \u003e parents, its diff doesn\u0027t include changes on any object which is\n \u003e the same as in one of its parents.\n \u003e \n \u003e Btw, not all teams have discipline to consistently chose the first\n \u003e parent when merging. Having an option to chose any other parent\n \u003e would be also useful. Even better, Gerrit should be able to\n \u003e automatically chose the \"proper\" parent commit: one which is\n \u003e already included in the target branch.\n\nThis is really nice idea, but lets start \"small\", and first introduce the \"first parent\" then we can improve and add more complexity. This patch is already big and complex (and hard to test as well).\n\nIf you are OK with the code and feature we can fix failing odeDB tests and merge it ;)",
       "parentUuid": "02522dad_dcc94d9f",
+      "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24c3916_7bc4bf79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1022607
+      },
+      "writtenOn": "2016-02-25T19:57:53Z",
+      "side": 1,
+      "message": "I agree with Dariusz on this one and have nothing more to add.",
+      "parentUuid": "02522dad_1ce815f7",
       "revId": "645877f0d5c6ced14308e5bfaefca2c41b775a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

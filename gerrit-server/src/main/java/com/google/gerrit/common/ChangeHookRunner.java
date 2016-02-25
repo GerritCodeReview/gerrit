@@ -53,6 +53,7 @@ import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
@@ -913,23 +914,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners( event );
     }
 
-    private void fireEvent(Project.NameKey project, ProjectCreatedEvent event) {
+    private void fireEvent(Project.NameKey project, ProjectEvent event) {
       for (EventListenerHolder holder : listeners.values()) {
-        if (isVisibleTo(project, event, holder.user)) {
+        if (isVisibleTo(project, holder.user)) {
           holder.listener.onEvent(event);
         }
       }
 
       fireEventForUnrestrictedListeners(event);
-    }
-
-    private boolean isVisibleTo(Project.NameKey project, ProjectCreatedEvent event, CurrentUser user) {
-      ProjectState pe = projectCache.get(project);
-      if (pe == null) {
-        return false;
-      }
-      ProjectControl pc = pe.controlFor(user);
-      return pc.controlForRef(event.getHeadName()).isVisible();
     }
 
     private void fireEvent(Branch.NameKey branchName, com.google.gerrit.server.events.Event event) {
@@ -940,6 +932,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       }
 
       fireEventForUnrestrictedListeners(event);
+    }
+
+    private boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
+      ProjectState pe = projectCache.get(project);
+      if (pe == null) {
+        return false;
+      }
+      return pe.controlFor(user).isVisible();
     }
 
     private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)

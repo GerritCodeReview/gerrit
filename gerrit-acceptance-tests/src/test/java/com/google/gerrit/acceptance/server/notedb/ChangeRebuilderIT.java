@@ -14,25 +14,30 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
+import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
+  @Inject
+  private PatchLineCommentsUtil plcUtil;
+
   @Inject
   private ChangeRebuilder rebuilder;
 
@@ -47,11 +52,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     gApi.changes().id(id.get()).topic(name("a-topic"));
-    Change old = db.changes().get(id);
-
-    rebuild(id);
-
-    assertChangeEqual(old, notesFactory.create(db, project, id).getChange());
+    rebuildAndCheck(id);
   }
 
   @Test
@@ -59,68 +60,28 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     r = amendChange(r.getChangeId());
-
-    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(id, 1));
-    PatchSet ps2 = db.patchSets().get(new PatchSet.Id(id, 2));
-
-    rebuild(id);
-
-    ChangeNotes notes = notesFactory.create(db, project, id);
-    Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
-    assertThat(patchSets.keySet()).containsExactly(ps1.getId(), ps2.getId())
-        .inOrder();
-
-    assertPatchSetEqual(ps1, patchSets.get(ps1.getId()));
-    assertPatchSetEqual(ps2, patchSets.get(ps2.getId()));
+    rebuildAndCheck(id);
   }
 
-  private void rebuild(Change.Id... changeIds) throws Exception {
+  private void rebuildAndCheck(Change.Id... changeIds) throws Exception {
+    Map<Change.Id, ChangeBundle> expected =
+        new TreeMap<>(ReviewDbUtil.intKeyOrdering());
     notesMigration.setWriteChanges(true);
     for (Change.Id id : changeIds) {
+      expected.put(id, ChangeBundle.fromReviewDb(db, id));
       rebuilder.rebuild(db, id);
     }
+
     notesMigration.setReadChanges(true);
-  }
-
-  private static void assertChangeEqual(Change expectedReviewDb,
-      Change actualNoteDb) {
-    assertThat(actualNoteDb.getId()).isEqualTo(expectedReviewDb.getId());
-    assertThat(actualNoteDb.getKey()).isEqualTo(expectedReviewDb.getKey());
-
-    // TODO(dborowitz): actualNoteDb's timestamps should come from notedb, currently
-    // they're read from reviewdb.
-    assertThat(roundToSecond(actualNoteDb.getCreatedOn()))
-        .isEqualTo(roundToSecond(expectedReviewDb.getCreatedOn()));
-    assertThat(roundToSecond(actualNoteDb.getLastUpdatedOn()))
-        .isEqualTo(roundToSecond(expectedReviewDb.getLastUpdatedOn()));
-    assertThat(actualNoteDb.getOwner()).isEqualTo(expectedReviewDb.getOwner());
-    assertThat(actualNoteDb.getDest()).isEqualTo(expectedReviewDb.getDest());
-    assertThat(actualNoteDb.getStatus())
-        .isEqualTo(expectedReviewDb.getStatus());
-    assertThat(actualNoteDb.currentPatchSetId())
-        .isEqualTo(expectedReviewDb.currentPatchSetId());
-    assertThat(actualNoteDb.getSubject())
-        .isEqualTo(expectedReviewDb.getSubject());
-    assertThat(actualNoteDb.getTopic()).isEqualTo(expectedReviewDb.getTopic());
-    assertThat(actualNoteDb.getOriginalSubject())
-        .isEqualTo(expectedReviewDb.getOriginalSubject());
-    assertThat(actualNoteDb.getSubmissionId())
-        .isEqualTo(expectedReviewDb.getSubmissionId());
-  }
-
-  private static void assertPatchSetEqual(PatchSet expectedReviewDb,
-      PatchSet actualNoteDb) {
-    assertThat(actualNoteDb.getId()).isEqualTo(expectedReviewDb.getId());
-    assertThat(actualNoteDb.getRevision())
-        .isEqualTo(expectedReviewDb.getRevision());
-    assertThat(actualNoteDb.getUploader())
-        .isEqualTo(expectedReviewDb.getUploader());
-    assertThat(actualNoteDb.getCreatedOn())
-        .isEqualTo(roundToSecond(expectedReviewDb.getCreatedOn()));
-    assertThat(actualNoteDb.isDraft()).isEqualTo(expectedReviewDb.isDraft());
-    assertThat(actualNoteDb.getGroups())
-        .isEqualTo(expectedReviewDb.getGroups());
-    assertThat(actualNoteDb.getPushCertificate())
-        .isEqualTo(expectedReviewDb.getPushCertificate());
+    for (Change.Id id : changeIds) {
+      ChangeBundle actual =
+          ChangeBundle.fromNotes(plcUtil, notesFactory.create(db, project, id));
+      List<String> diff = expected.get(id).differencesFrom(actual);
+      if (!diff.isEmpty()) {
+        throw new AssertionError(
+            "Differences between ReviewDb and NoteDb for change " + id + ":\n"
+            + Joiner.on('\n').join(diff));
+      }
+    }
   }
 }

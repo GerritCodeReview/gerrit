@@ -14,14 +14,21 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -43,10 +50,19 @@ public class RebaseUtil {
   private static final Logger log = LoggerFactory.getLogger(RebaseUtil.class);
 
   private final Provider<InternalChangeQuery> queryProvider;
+  private final ChangeNotes.Factory notesFactory;
+  private final Provider<ReviewDb> dbProvider;
+  private final PatchSetUtil psUtil;
 
   @Inject
-  RebaseUtil(Provider<InternalChangeQuery> queryProvider) {
+  RebaseUtil(Provider<InternalChangeQuery> queryProvider,
+      ChangeNotes.Factory notesFactory,
+      Provider<ReviewDb> dbProvider,
+      PatchSetUtil psUtil) {
     this.queryProvider = queryProvider;
+    this.notesFactory = notesFactory;
+    this.dbProvider = dbProvider;
+    this.psUtil = psUtil;
   }
 
   public boolean canRebase(PatchSet patchSet, Branch.NameKey dest,
@@ -62,6 +78,72 @@ public class RebaseUtil {
           patchSet.getId(), dest), e);
       return false;
     }
+  }
+
+  @AutoValue
+  static abstract class Base {
+    private static Base create(ChangeControl ctl, PatchSet ps) {
+      if (ctl == null) {
+        return null;
+      }
+      return new AutoValue_RebaseUtil_Base(ctl, ps);
+    }
+
+    abstract ChangeControl control();
+    abstract PatchSet patchSet();
+  }
+
+  Base parseBase(RevisionResource rsrc, String base)
+      throws OrmException, NoSuchChangeException {
+    ReviewDb db = dbProvider.get();
+
+    // Try parsing the base as a ref string.
+    PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
+    if (basePatchSetId != null) {
+      Change.Id baseChangeId = basePatchSetId.getParentKey();
+      ChangeControl baseCtl = controlFor(rsrc, baseChangeId);
+      if (baseCtl != null) {
+        return Base.create(
+            controlFor(rsrc, basePatchSetId.getParentKey()),
+            psUtil.get(db, baseCtl.getNotes(), basePatchSetId));
+      }
+    }
+
+    // Try parsing base as a change number (assume current patch set).
+    Integer baseChangeId = Ints.tryParse(base);
+    if (baseChangeId != null) {
+      ChangeControl baseCtl = controlFor(rsrc, new Change.Id(baseChangeId));
+      if (baseCtl != null) {
+        return Base.create(baseCtl, psUtil.current(db, baseCtl.getNotes()));
+      }
+    }
+
+    // Try parsing as SHA-1.
+    Base ret = null;
+    for (ChangeData cd : queryProvider.get()
+        .byProjectCommit(rsrc.getProject(), base)) {
+      for (PatchSet ps : cd.patchSets()) {
+        if (!ps.getRevision().matches(base)) {
+          continue;
+        }
+        if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
+          ret = Base.create(
+              rsrc.getControl().getProjectControl().controlFor(cd.notes()),
+              ps);
+        }
+      }
+    }
+    return ret;
+  }
+
+  private ChangeControl controlFor(RevisionResource rsrc, Change.Id id)
+      throws OrmException, NoSuchChangeException {
+    if (rsrc.getChange().getId().equals(id)) {
+      return rsrc.getControl();
+    }
+    ChangeNotes notes =
+        notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
+    return rsrc.getControl().getProjectControl().controlFor(notes);
   }
 
   /**

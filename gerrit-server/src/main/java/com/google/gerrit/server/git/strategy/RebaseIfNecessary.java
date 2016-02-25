@@ -129,7 +129,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           .setValidatePolicy(CommitValidators.Policy.NONE);
       try {
         rebaseOp.updateRepo(ctx);
-      } catch (MergeConflictException e) {
+      } catch (MergeConflictException | NoSuchChangeException e) {
         toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
         throw new IntegrationException(
             "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);

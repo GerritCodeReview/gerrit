@@ -22,6 +22,30 @@
       "revId": "9df84aa84f4c0ff8bb2a91f237c21a76d9587d00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_ba9011cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-25T17:01:01Z",
+      "side": 1,
+      "message": "I\u0027ve opened a change for an equivalent fix on master [1]. I had to move a few things in a commit beforehand [2], not sure what the best approach is and your input would be appreciated!\n\n[1] https://gerrit-review.googlesource.com/#/c/75302/\n[2] https://gerrit-review.googlesource.com/#/c/75301/",
+      "parentUuid": "8217fdd7_d81aadb4",
+      "range": {
+        "startLine": 135,
+        "startChar": 32,
+        "endLine": 135,
+        "endChar": 42
+      },
+      "revId": "9df84aa84f4c0ff8bb2a91f237c21a76d9587d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

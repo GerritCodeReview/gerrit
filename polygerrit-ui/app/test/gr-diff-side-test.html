@@ -264,5 +264,37 @@ limitations under the License.
       MockInteractions.tap(lineEl);
       assert.equal(numAddDraftEvents, 1);
     });
+
+    test('jump to diff chunk/thread', function() {
+      element.content = [
+        {type: 'CODE', content: '', intraline: [], lineNum: 1, highlight: true},
+        {type: 'CODE', content: '', intraline: [], lineNum: 2, highlight: true},
+        {type: 'CODE', content: '', intraline: [], lineNum: 3 },
+        {type: 'CODE', content: '', intraline: [], lineNum: 4 },
+        {type: 'COMMENT_THREAD', comments: [ { line: 4 }]},
+        {type: 'CODE', content: '', intraline: [], lineNum: 5 },
+        {type: 'CODE', content: '', intraline: [], lineNum: 6, highlight: true},
+        {type: 'CODE', content: '', intraline: [], lineNum: 7, highlight: true},
+        {type: 'CODE', content: '', intraline: [], lineNum: 8 },
+        {type: 'COMMENT_THREAD', comments: [ { line: 8 }]},
+        {type: 'CODE', content: '', intraline: [], lineNum: 9 },
+        {type: 'CODE', content: '', intraline: [], lineNum: 10,
+            highlight: true},
+      ];
+
+      var scrollToLineStub = sinon.stub(element, 'scrollToLine');
+      element.scrollToNextDiffChunk();
+      assert.isTrue(scrollToLineStub.lastCall.calledWithExactly(6));
+      element.scrollToPreviousDiffChunk();
+      assert.isTrue(scrollToLineStub.lastCall.calledWithExactly(1));
+      element.scrollToNextCommentThread();
+      assert.isTrue(scrollToLineStub.lastCall.calledWithExactly(4));
+      element.scrollToNextCommentThread();
+      assert.isTrue(scrollToLineStub.lastCall.calledWithExactly(8));
+      element.scrollToPreviousDiffChunk();
+      assert.isTrue(scrollToLineStub.lastCall.calledWithExactly(6));
+
+      scrollToLineStub.restore();
+    });
   });
 </script>

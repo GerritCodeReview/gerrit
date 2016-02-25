@@ -117,6 +117,26 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
       assert(showPrefsStub.calledOnce);
 
+      var scrollStub = sinon.stub(element.$.diff, 'scrollToNextDiffChunk');
+      MockInteractions.pressAndReleaseKeyOn(element, 78);  // 'n'
+      assert(scrollStub.calledOnce);
+      scrollStub.restore();
+
+      scrollStub = sinon.stub(element.$.diff, 'scrollToPreviousDiffChunk');
+      MockInteractions.pressAndReleaseKeyOn(element, 80);  // 'p'
+      assert(scrollStub.calledOnce);
+      scrollStub.restore();
+
+      scrollStub = sinon.stub(element.$.diff, 'scrollToNextCommentThread');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, ['shift']);
+      assert(scrollStub.calledOnce);
+      scrollStub.restore();
+
+      scrollStub = sinon.stub(element.$.diff, 'scrollToPreviousCommentThread');
+      MockInteractions.pressAndReleaseKeyOn(element, 80, ['shift']);
+      assert(scrollStub.calledOnce);
+      scrollStub.restore();
+
       showPrefsStub.restore();
       showStub.restore();
     });

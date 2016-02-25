@@ -342,9 +342,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(approval.value).isEqualTo(1);
   }
 
-  @Test(expected = ResourceConflictException.class)
+  @Test
   public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
+    exception.equals(ResourceConflictException.class);
+    exception.expectMessage("Change is already up to date");
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())

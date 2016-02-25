@@ -17,13 +17,21 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multiset;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.collect.TreeMultiset;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -33,9 +41,11 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.server.OrmException;
 
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -54,6 +64,10 @@ import java.util.TreeSet;
  * the minor implementation differences between ReviewDb and NoteDb.
  */
 public class ChangeBundle {
+  public enum Source {
+    REVIEW_DB, NOTE_DB;
+  }
+
   public static ChangeBundle fromReviewDb(ReviewDb db, Change.Id id)
       throws OrmException {
     db.changes().beginTransaction(id);
@@ -63,7 +77,8 @@ public class ChangeBundle {
           db.changeMessages().byChange(id),
           db.patchSets().byChange(id),
           db.patchSetApprovals().byChange(id),
-          db.patchComments().byChange(id));
+          db.patchComments().byChange(id),
+          Source.REVIEW_DB);
     } finally {
       db.rollback();
     }
@@ -78,7 +93,8 @@ public class ChangeBundle {
         notes.getApprovals().values(),
         Iterables.concat(
             plcUtil.draftByChange(null, notes),
-            plcUtil.publishedByChange(null, notes)));
+            plcUtil.publishedByChange(null, notes)),
+        Source.NOTE_DB);
   }
 
   private static Map<ChangeMessage.Key, ChangeMessage> changeMessageMap(
@@ -193,6 +209,7 @@ public class ChangeBundle {
       patchSetApprovals;
   private final ImmutableMap<PatchLineComment.Key, PatchLineComment>
       patchLineComments;
+  private final Source source;
 
   @VisibleForTesting
   ChangeBundle(
@@ -200,7 +217,8 @@ public class ChangeBundle {
       Iterable<ChangeMessage> changeMessages,
       Iterable<PatchSet> patchSets,
       Iterable<PatchSetApproval> patchSetApprovals,
-      Iterable<PatchLineComment> patchLineComments) {
+      Iterable<PatchLineComment> patchLineComments,
+      Source source) {
     this.change = checkNotNull(change);
     this.changeMessages = ImmutableMap.copyOf(changeMessageMap(changeMessages));
     this.patchSets = ImmutableMap.copyOf(patchSetMap(patchSets));
@@ -208,6 +226,7 @@ public class ChangeBundle {
         ImmutableMap.copyOf(patchSetApprovalMap(patchSetApprovals));
     this.patchLineComments =
         ImmutableMap.copyOf(patchLineCommentMap(patchLineComments));
+    this.source = checkNotNull(source);
 
     for (ChangeMessage.Key k : this.changeMessages.keySet()) {
       checkArgument(k.getParentKey().equals(change.getId()));
@@ -244,12 +263,38 @@ public class ChangeBundle {
 
   private static void diffChangeMessages(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
-    Map<ChangeMessage.Key, ChangeMessage> as = bundleA.changeMessages;
-    Map<ChangeMessage.Key, ChangeMessage> bs = bundleB.changeMessages;
-    for (ChangeMessage.Key k : diffKeySets(diffs, as, bs)) {
-      diffColumns(
-          diffs, ChangeMessage.class, describe(k), as.get(k), bs.get(k));
+    if (bundleA.source == REVIEW_DB && bundleB.source == REVIEW_DB) {
+      // Both came from ReviewDb: check all fields exactly.
+      Map<ChangeMessage.Key, ChangeMessage> as = bundleA.changeMessages;
+      Map<ChangeMessage.Key, ChangeMessage> bs = bundleB.changeMessages;
+
+      for (ChangeMessage.Key k : diffKeySets(diffs, as, bs)) {
+        diffColumns(
+            diffs, ChangeMessage.class, describe(k), as.get(k), bs.get(k));
+      }
+    } else {
+      // At least one is from NoteDb, so we need to normalize UUIDs and
+      // timestamps for both.
+      Multiset<NormalizedChangeMessage> as = bundleA.normalizeChangeMessages();
+      Multiset<NormalizedChangeMessage> bs = bundleB.normalizeChangeMessages();
+      Set<NormalizedChangeMessage> union = new TreeSet<>();
+      for (NormalizedChangeMessage m
+          : Iterables.concat(as.elementSet(), bs.elementSet())) {
+        union.add(m);
+      }
+      for (NormalizedChangeMessage m : union) {
+        int ac = as.count(m);
+        int bc = bs.count(m);
+        if (ac != bc) {
+          diffs.add("ChangeMessage present "
+              + times(ac) + " in A but " + times(bc) + " in B: " + m);
+        }
+      }
     }
+  }
+
+  private static String times(int n) {
+    return n + " time" + (n != 1 ? "s" : "");
   }
 
   private static void diffPatchSets(List<String> diffs, ChangeBundle bundleA,
@@ -336,6 +381,51 @@ public class ChangeBundle {
     return clazz.getEnclosingClass().getSimpleName() + "." + name;
   }
 
+  @AutoValue
+  static abstract class NormalizedChangeMessage
+      implements Comparable<NormalizedChangeMessage> {
+    private static final Ordering<Comparable<?>> NULLS_FIRST =
+        Ordering.natural().nullsFirst();
+
+    private static NormalizedChangeMessage create(ChangeMessage msg) {
+      return new AutoValue_ChangeBundle_NormalizedChangeMessage(
+          msg.getKey().getParentKey(),
+          msg.getAuthor(),
+          TimeUtil.roundToSecond(msg.getWrittenOn()),
+          msg.getMessage(),
+          msg.getPatchSetId());
+    }
+
+    private static Integer intKey(IntKey<?> k) {
+      return k != null ? k.get() : null;
+    }
+
+    abstract Change.Id changeId();
+    @Nullable abstract Account.Id author();
+    abstract Timestamp writtenOn();
+    @Nullable abstract String message();
+    @Nullable abstract PatchSet.Id patchset();
+
+    @Override
+    public int compareTo(NormalizedChangeMessage o) {
+      return ComparisonChain.start()
+          .compare(changeId().get(), o.changeId().get())
+          .compare(intKey(patchset()), intKey(o.patchset()), NULLS_FIRST)
+          .compare(writtenOn(), o.writtenOn())
+          .compare(intKey(author()), intKey(o.author()), NULLS_FIRST)
+          .compare(message(), o.message(), NULLS_FIRST)
+          .result();
+    }
+  }
+
+  private Multiset<NormalizedChangeMessage> normalizeChangeMessages() {
+    Multiset<NormalizedChangeMessage> normalized = TreeMultiset.create();
+    for (ChangeMessage msg : changeMessages.values()) {
+      normalized.add(NormalizedChangeMessage.create(msg));
+    }
+    return normalized;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof ChangeBundle)) {
@@ -348,7 +438,7 @@ public class ChangeBundle {
   public int hashCode() {
     return Objects.hash(
         change.getId(),
-        changeMessages.keySet(),
+        normalizeChangeMessages(),
         patchSets.keySet(),
         patchSetApprovals.keySet(),
         patchLineComments.keySet());

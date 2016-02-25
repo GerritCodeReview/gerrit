@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "222c912d_55466c9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-25T19:14:50Z",
+      "side": 1,
+      "message": "Wrong indentation",
+      "range": {
+        "startLine": 997,
+        "startChar": 8,
+        "endLine": 998,
+        "endChar": 83
+      },
+      "revId": "0660b81e75de707d05715d57d0bd3dcbdd3b59b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

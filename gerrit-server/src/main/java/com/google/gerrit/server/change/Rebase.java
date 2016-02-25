@@ -152,7 +152,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     if (!base.control().isPatchVisible(base.patchSet(), db)) {
       throw new AuthException("base revision not accessible: " + str);
     } else if (change.getId().equals(baseId.getParentKey())) {
-      throw new ResourceConflictException("cannot depend on self");
+      throw new ResourceConflictException("cannot rebase change onto itself");
     }
 
     Change baseChange = base.control().getChange();

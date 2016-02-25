@@ -477,11 +477,26 @@ public class ChangeIT extends AbstractDaemonTest {
     ri.base = r.getCommit().name();
 
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("base change is abandoned: " + r.getChangeId());
+    exception.expectMessage("base change is abandoned: " + changeId);
     gApi.changes()
-      .id(r2.getChangeId())
-      .revision(r2.getCommit().name())
-      .rebase(ri);
+        .id(r2.getChangeId())
+        .revision(r2.getCommit().name())
+        .rebase(ri);
+  }
+
+  @Test
+  public void rebaseOntoSelf() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String commit = r.getCommit().name();
+    RebaseInput ri = new RebaseInput();
+    ri.base = commit;
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("cannot rebase change onto itself");
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .rebase(ri);
   }
 
   @Test

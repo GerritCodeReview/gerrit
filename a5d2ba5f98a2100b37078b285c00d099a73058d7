@@ -16,6 +16,24 @@
       "revId": "a5d2ba5f98a2100b37078b285c00d099a73058d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_dc970d74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-02-25T15:50:46Z",
+      "side": 1,
+      "message": "Yes, I abandoned this change as my problem different.\nThe problem is:\na) Previously we were reading all active changes and getting the list of projects to be reindexed from them\nb) Now we scall all the projects up-front, including the ones that have no changes at all.\n\nWith the current approach (b) we may fail the index generation because of a missing or corrupt project that is not actually active at all :-(\nI\u0027ll post a fix for making the index generation more permissive (maybe with a flag?) on this side.",
+      "parentUuid": "02522dad_bcb1e12b",
+      "revId": "a5d2ba5f98a2100b37078b285c00d099a73058d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

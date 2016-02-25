@@ -106,6 +106,24 @@
       "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_5c753d0b",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-25T19:45:46Z",
+      "side": 1,
+      "message": "As far as I understand, we already depend on Node.js which is wrapped by BUCK. So there would be no new dependencies. We could even eliminate the Go dependency for \u0027server.go\u0027 (which is IMHO not documented yet) with a few lines Node.js.\n\n@Andy: Not sure if have understand your point about file changes correctly. Just to make it clear: my script just watches for changes, runs linters on it and refreshes the browser (this is probably what you do after every change with F5 when you switch to your browser). It does *not* modify any files at any time. No developer would be forced to run the script - but everyone who likes to make development flow more comfortable is free to use it.\n\nEven when we run the linters only on a CI, we would need some logic to execute it (e.g. extract JS out of the HTML files).\n\nWhat are your alternatives / suggestions?\n\nIf you are not interested in such code hygiene tools at all, please tell me. In that case I will abandon this chance and put not any more efforts into this.",
+      "parentUuid": "c21d75f8_dae5c587",
+      "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

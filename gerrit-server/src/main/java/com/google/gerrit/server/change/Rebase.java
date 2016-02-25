@@ -168,7 +168,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     } else if (isMergedInto(rw, rsrc.getPatchSet(), base.patchSet())) {
       throw new ResourceConflictException(
           "base change " + baseChange.getKey()
-          + " is a descendant of the current  change - recursion not allowed");
+          + " is a descendant of the current change - recursion not allowed");
     }
     return base.patchSet().getRevision().get();
   }

@@ -421,13 +421,17 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r1.getPatchSetId().get()).isEqualTo(3);
   }
 
-  @Test(expected = ResourceConflictException.class)
+  @Test
   public void rebaseChangeBaseRecursion() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
 
     RebaseInput ri = new RebaseInput();
     ri.base = r2.getCommit().name();
+    String expectedMessage = "base change " + r2.getChangeId()
+        + " is a descendant of the current change - recursion not allowed";
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(expectedMessage);
     gApi.changes()
         .id(r1.getChangeId())
         .revision(r1.getCommit().name())

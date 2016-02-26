@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-request/gr-request.html">
@@ -74,16 +75,12 @@ limitations under the License.
         url="[[_computeAutocompleteURL(change)]]"
         params="[[_computeAutocompleteParams(_inputVal)]]"
         on-response="_handleResponse"></gr-ajax>
-
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
-      <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
-        <gr-button link
-            class="remove"
-            data-account-id$="[[reviewer._account_id]]"
-            on-tap="_handleRemoveTap"
-            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
-      </div>
+      <gr-account-chip account="[[reviewer]]"
+          on-remove="_handleRemove"
+          data-account-id$="[[reviewer._account_id]]"
+          removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
+      </gr-account-chip>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <div class="autocompleteContainer" hidden$="[[!_showInput]]">

@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-button.html">
 <link rel="import" href="gr-message.html">
 
 <dom-module id="gr-messages-list">
@@ -23,10 +24,12 @@ limitations under the License.
       :host {
         display: block;
       }
-      h3 {
+      .header {
+        display: flex;
+        justify-content: space-between;
         margin-bottom: .35em;
       }
-      h3,
+      .header,
       gr-message {
         padding: 0 var(--default-horizontal-margin);
       }
@@ -38,15 +41,21 @@ limitations under the License.
         100% { background-color: #fff; }
       }
     </style>
-    <h3>Messages</h3>
+    <div class="header">
+      <h3>Messages</h3>
+      <gr-button link on-tap="_handleExpandCollapseTap">
+        [[_computeExpandCollapseMessage(_expanded)]]
+      </gr-button>
+    </div>
     <template is="dom-repeat" items="[[messages]]" as="message">
-      <gr-message change-num="[[changeNum]]"
-                  message="[[message]]"
-                  comments="[[_computeCommentsForMessage(comments, message, index)]]"
-                  project-config="[[projectConfig]]"
-                  show-reply-button="[[showReplyButtons]]"
-                  on-scroll-to="_handleScrollTo"
-                  data-message-id$="[[message.id]]"></gr-message>
+      <gr-message
+          change-num="[[changeNum]]"
+          message="[[message]]"
+          comments="[[_computeCommentsForMessage(comments, message, index)]]"
+          project-config="[[projectConfig]]"
+          show-reply-button="[[showReplyButtons]]"
+          on-scroll-to="_handleScrollTo"
+          data-message-id$="[[message.id]]"></gr-message>
     </template>
   </template>
   <script>
@@ -66,6 +75,11 @@ limitations under the License.
         projectConfig: Object,
         topMargin: Number,
         showReplyButtons: {
+          type: Boolean,
+          value: false,
+        },
+
+        _expanded: {
           type: Boolean,
           value: false,
         },
@@ -100,8 +114,21 @@ limitations under the License.
         el.classList.add('highlighted');
       },
 
+      _handleExpandCollapseTap: function(e) {
+        e.preventDefault();
+        this._expanded = !this._expanded;
+        var messageEls = Polymer.dom(this.root).querySelectorAll('gr-message');
+        for (var i = 0; i < messageEls.length; i++) {
+          messageEls[i].expanded = this._expanded;
+        }
+      },
+
       _handleScrollTo: function(e) {
         this.scrollToMessage(e.detail.message.id);
+      },
+
+      _computeExpandCollapseMessage: function(expanded) {
+        return expanded ? 'Collapse all' : 'Expand all';
       },
 
       _computeCommentsForMessage: function(comments, message, index) {

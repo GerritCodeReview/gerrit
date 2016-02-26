@@ -923,12 +923,6 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners(event);
     }
 
-    private void fireEventForUnrestrictedListeners(ProjectCreatedEvent event) {
-      for (EventListener listener : unrestrictedListeners) {
-        listener.onEvent(event);
-      }
-    }
-
     private boolean isVisibleTo(Project.NameKey project, ProjectCreatedEvent event, CurrentUser user) {
       ProjectState pe = projectCache.get(project);
       if (pe == null) {

@@ -220,6 +220,7 @@ public class NoteDbUpdateManager {
     or.ins.flush();
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
     or.cmds.addTo(bru);
+    bru.setAllowNonFastForwards(true);
     bru.execute(or.rw, NullProgressMonitor.INSTANCE);
     for (ReceiveCommand cmd : bru.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {

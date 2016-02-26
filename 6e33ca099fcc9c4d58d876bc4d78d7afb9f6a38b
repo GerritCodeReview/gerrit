@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a285e15a_518e94eb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T16:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a285e15a_31a75082",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "222c912d_55faec25",
         "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-26T15:17:27Z",
       "side": 1,
       "message": "Slightly curious how this linear algorithm would perform if there are hundreds or thousands of diff hunks in a file. Probably fine.",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_95088409",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T16:40:11Z",
+      "side": 1,
+      "message": "If there are hundreds of thousands of diff hunks rendering would grind to a halt. This method would be the least of our worries.",
+      "parentUuid": "222c912d_55faec25",
       "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

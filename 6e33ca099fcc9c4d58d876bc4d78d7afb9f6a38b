@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a285e15a_31a75082",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-26T15:17:27Z",
+      "side": 1,
+      "message": "The structure of this method is really:\n \n function(x, condition) {\n   if (condition) {\n     // implementation a where condition is true\n   } else {\n     // implementation b where condition is false\n   }\n }\n\nWhen this happens I would generally just recommend having two descriptively named functions like _scrollToPrevious and _scrollToNext",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_55faec25",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-26T15:17:27Z",
+      "side": 1,
+      "message": "Slightly curious how this linear algorithm would perform if there are hundreds or thousands of diff hunks in a file. Probably fine.",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_51c9b420",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-26T15:17:27Z",
+      "side": 1,
+      "message": "This is fine for now.\n\nThe actual behavior of the GWT UI is a little bit confusing because it can jump from side to side, but also has a cursor state that is in one of the two CodeMirror elements. So if you mix n/p and j/k, you might start out on the RHS but inadvertently end up on the LHS without noticing, resulting in \u0027c\u0027 creating a comment where you don\u0027t expect it.\n\nNot sure what the ideal behavior is but I don\u0027t think the current behavior is it.",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

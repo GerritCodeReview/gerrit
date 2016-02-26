@@ -99,7 +99,7 @@ limitations under the License.
     <div class$="[[_computeClass(expanded, showAvatar)]]">
       <gr-avatar account="[[message.author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
-        <div class="name" id="name">[[message.author.name]]</div>
+        <div class="name" on-tap="_handleNameTap">[[message.author.name]]</div>
         <div class="content">
           <gr-linked-text class="message"
               pre="[[expanded]]"
@@ -140,8 +140,7 @@ limitations under the License.
        */
 
       listeners: {
-        'tap': '_tapHandler',
-        'name.tap': '_collapseHandler',
+        'tap': '_handleTap',
       },
 
       properties: {
@@ -178,12 +177,12 @@ limitations under the License.
         this.expanded = Object.keys(value || {}).length > 0;
       },
 
-      _tapHandler: function(e) {
+      _handleTap: function(e) {
         if (this.expanded) { return; }
         this.expanded = true;
       },
 
-      _collapseHandler: function(e) {
+      _handleNameTap: function(e) {
         if (!this.expanded) { return; }
         e.stopPropagation();
         this.expanded = false;

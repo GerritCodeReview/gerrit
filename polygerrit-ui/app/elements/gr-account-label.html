@@ -12,6 +12,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+TODO:
+ * how to stop the gr-account-link <A> from handling the click
+ * make the color configurable, so it can be green/red/transparent
+ depending on context.
+ * [x] should be prettier.
+ * tests?
+ * remove border
+ * why is the reviewer list mutable when I'm not logged in?
+ * what is "show-email"? shouldnt it be showEmail ?
+  
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
@@ -21,13 +32,19 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: inline;
+        display: inline-block;
+        border: 1px solid;
+        border-radius: 0.75em;			
       }
       gr-avatar {
         height: 1.3em;
         width: 1.3em;
         margin-right: .15em;
         vertical-align: -.25em;
+      }
+      .text {
+        margin-left: .5em;
+        margin-right: .5em;
       }
       .text:hover {
         @apply(--gr-account-label-text-hover-style);
@@ -40,6 +57,9 @@ limitations under the License.
         <span>[[account.name]]</span>
         <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
           ([[account.email]])
+        </span>
+	<span hidden$="[[!removable]]">
+	  <a on-tap="_handleRemove">[x]</a>
         </span>
       </span>
     </span>
@@ -61,6 +81,10 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        removable: {
+          type: Boolean,
+          value: false,
+        }
       },
 
       _computeAccountTitle: function(account) {
@@ -76,6 +100,9 @@ limitations under the License.
         return !!(showEmail && account && account.email);
       },
 
+      _handleRemove: function(e) {
+        this.fire('remove', {account: this.account });
+      },
     });
   })();
   </script>

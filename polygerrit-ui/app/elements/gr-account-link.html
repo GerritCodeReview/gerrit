@@ -35,7 +35,7 @@ limitations under the License.
     </style>
     <span>
       <a href$="[[_computeOwnerLink(account)]]">
-        <gr-account-label account="[[account]]"
+        <gr-account-label account="[[account]]" removable="[[removable]]"
             avatar-image-size="[[avatarImageSize]]"></gr-account-label>
       </a>
     </span>
@@ -54,6 +54,7 @@ limitations under the License.
           value: 32,
         },
       },
+      removable: Boolean,
 
       _computeOwnerLink: function(account) {
         if (!account) { return; }

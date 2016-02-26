@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.server;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.client.IntKey;
 
 /** Static utilities for ReviewDb types. */
@@ -28,12 +29,24 @@ public class ReviewDbUtil {
         }
       };
 
+  private static final Function<Change, Change.Id> CHANGE_ID_FUNCTION =
+      new Function<Change, Change.Id>() {
+        @Override
+        public Change.Id apply(Change in) {
+          return in.getId();
+        }
+      };
+
   private static final Ordering<? extends IntKey<?>> INT_KEY_ORDERING =
       Ordering.natural().onResultOf(INT_KEY_FUNCTION);
 
   @SuppressWarnings("unchecked")
   public static <K extends IntKey<?>> Ordering<K> intKeyOrdering() {
     return (Ordering<K>) INT_KEY_ORDERING;
+  }
+
+  public static Function<Change, Change.Id> changeIdFunction() {
+    return CHANGE_ID_FUNCTION;
   }
 
   private ReviewDbUtil() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a285e15a_91b5dcb0",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-26T14:46:04Z",
+      "side": 1,
+      "message": "Personally I like alternating background colors for rows a lot less than I did 10 or 15 years ago, but that\u0027s probably just personal preference :)\n\nI think when you have something on hover/select (which you do), it makes it less difficult to tell which thing you\u0027re looking at.",
+      "revId": "f69ed143ef0083dcff9b0b56083d820145e44e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

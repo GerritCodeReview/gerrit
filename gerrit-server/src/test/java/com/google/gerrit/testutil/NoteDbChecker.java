@@ -14,11 +14,11 @@
 
 package com.google.gerrit.testutil;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Ordering;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -30,7 +30,6 @@ import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -54,6 +53,13 @@ public class NoteDbChecker {
     this.plcUtil = plcUtil;
   }
 
+  public void checkAllChanges() throws Exception {
+    checkChanges(
+        Iterables.transform(
+            unwrapDb().changes().all(),
+            ReviewDbUtil.changeIdFunction()));
+  }
+
   public void checkChanges(Change.Id... changeIds) throws Exception {
     checkChanges(Arrays.asList(changeIds));
   }
@@ -62,17 +68,12 @@ public class NoteDbChecker {
     ReviewDb db = unwrapDb();
 
     notesMigration.setReadChanges(false);
+    List<Change.Id> sortedIds =
+        ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
     List<ChangeBundle> allExpected = new ArrayList<>();
-    for (Change.Id id : changeIds) {
+    for (Change.Id id : sortedIds) {
       allExpected.add(ChangeBundle.fromReviewDb(db, id));
     }
-    Collections.sort(allExpected, Ordering.natural().onResultOf(
-        new Function<ChangeBundle, Integer>() {
-          @Override
-          public Integer apply(ChangeBundle in) {
-            return in.getChange().getId().get();
-          }
-        }));
 
     notesMigration.setWriteChanges(true);
     notesMigration.setReadChanges(true);
@@ -86,6 +87,9 @@ public class NoteDbChecker {
         throw new AssertionError(
             "Differences between ReviewDb and NoteDb for " + c + ":\n"
             + Joiner.on('\n').join(diff));
+      } else {
+        System.err.println(
+            "NoteDb conversion of change " + c.getId() + " successful");
       }
     }
   }

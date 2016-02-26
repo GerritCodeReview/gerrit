@@ -76,14 +76,19 @@ limitations under the License.
       element._patchRange = {
         patchNum: '10',
       };
+      element._change = {
+        revisions: {
+          a: { _number: 10, },
+        },
+      };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       element.changeViewState.selectedFileIndex = 1;
 
       var showStub = sinon.stub(page, 'show');
       MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
-      assert(showStub.lastCall.calledWithExactly('/c/42'),
-          'Should navigate to /c/42');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
       assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
@@ -104,8 +109,8 @@ limitations under the License.
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
-      assert(showStub.lastCall.calledWithExactly('/c/42'),
-          'Should navigate to /c/42');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
       var showPrefsStub = sinon.stub(element.$.diff, 'showDiffPreferences');
@@ -122,6 +127,11 @@ limitations under the License.
         basePatchNum: '5',
         patchNum: '10',
       };
+      element._change = {
+        revisions: {
+          a: { _number: 10, },
+        },
+      };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
@@ -137,12 +147,12 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       assert.isTrue(element.changeViewState.showReplyDialog);
 
-      assert(showStub.lastCall.calledWithExactly('/c/42'),
-          'Should navigate to /c/42');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
-      assert(showStub.lastCall.calledWithExactly('/c/42'),
-          'Should navigate to /c/42');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10/wheatley.md'),
@@ -160,8 +170,115 @@ limitations under the License.
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
-      assert(showStub.lastCall.calledWithExactly('/c/42'),
-          'Should navigate to /c/42');
+      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+          'Should navigate to /c/42/');
+
+      showStub.restore();
+    });
+
+    test('keyboard shortcuts with old patch number', function() {
+      element._changeNum = '42';
+      element._patchRange = {
+        patchNum: '1',
+      };
+      element._change = {
+        revisions: {
+          a: { _number: 1, },
+          b: { _number: 2, },
+        },
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      var showStub = sinon.stub(page, 'show');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
+          'only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
+          'Should navigate to /c/42/1/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
+          'Should navigate to /c/42/1/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
+          'Should navigate to /c/42/1/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      showStub.restore();
+    });
+
+    test('go up to change via kb without change loaded', function() {
+      element._changeNum = '42';
+      element._patchRange = {
+        patchNum: '1',
+      };
+
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      var showStub = sinon.stub(page, 'show');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
+          'only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+
+      element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      assert.isTrue(element.changeViewState.showReplyDialog);
+
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
+          'Should navigate to /c/42/1/wheatley.md');
+      element._path = 'wheatley.md';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
+          'Should navigate to /c/42/1/glados.txt');
+      element._path = 'glados.txt';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
+          'Should navigate to /c/42/1/chell.go');
+      element._path = 'chell.go';
+
+      MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+          'Should navigate to /c/42/1');
+
+      showStub.restore();
     });
 
     test('jump to file dropdown', function() {

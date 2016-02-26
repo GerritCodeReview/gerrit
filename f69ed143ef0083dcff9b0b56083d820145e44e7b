@@ -16,6 +16,24 @@
       "revId": "f69ed143ef0083dcff9b0b56083d820145e44e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_d5303ceb",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T14:58:40Z",
+      "side": 1,
+      "message": "Late night hubris. removed.",
+      "parentUuid": "a285e15a_91b5dcb0",
+      "revId": "f69ed143ef0083dcff9b0b56083d820145e44e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

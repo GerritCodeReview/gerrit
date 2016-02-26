@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "225ad1dd_a5a45ed0",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T20:32:57Z",
+      "side": 1,
+      "message": "How about “No results :(” or something like that?",
+      "revId": "9a5fae52189777544bd3bd84811e85d674ad273f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "225ad1dd_859fe279",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T20:32:57Z",
+      "side": 1,
+      "message": "remove the italic for now.",
+      "revId": "9a5fae52189777544bd3bd84811e85d674ad273f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

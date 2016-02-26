@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-button.html">
+<link rel="import" href="gr-account-chip.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-reviewer-list">
@@ -74,16 +75,12 @@ limitations under the License.
         url="[[_computeAutocompleteURL(change)]]"
         params="[[_computeAutocompleteParams(_inputVal)]]"
         on-response="_handleResponse"></gr-ajax>
-
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
-        <gr-button link
-            class="remove"
-            data-account-id$="[[reviewer._account_id]]"
-            on-tap="_handleRemoveTap"
-            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
-      </div>
+        <gr-account-chip account="[[reviewer]]"
+              on-remove="_handleRemove"
+              data-account-id$="[[reviewer._account_id]]"
+                         removable="[[!_computeCanRemoveReviewer(reviewer, mutable)]]"></gr-account-chip>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <div class="autocompleteContainer" hidden$="[[!_showInput]]">
@@ -265,10 +262,11 @@ limitations under the License.
         this._autocompleteData = [];
       },
 
-      _handleRemoveTap: function(e) {
+      _handleRemove: function(e) {
         e.preventDefault();
+
         var target = Polymer.dom(e).rootTarget;
-        var accountID = parseInt(target.getAttribute('data-account-id'), 10);
+        var accountID = e.detail.account._account_id;
         this._send('DELETE', this._restEndpoint(accountID)).then(function(req) {
           var reviewers = this.change.reviewers;
           ['REVIEWER', 'CC'].forEach(function(type) {

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1456503385 -0500\nnonce AO+Zq7ibAICrvfaQwqDQRgc5IWqEN2YQg+SG02Kmh2WpR6WH8wUIo637hkGbR2DpzlRZyuH6cIZh\n\n0000000000000000000000000000000000000000 f98735352ac8b82f60304eff1c845fd472a87df4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW0HpZAAoJEF/XxZqaEoiMMQEQAMqbv1jh3bI06NnMnHUd3m5X\ny1qzn1oWcEKWaBPHhxWF2/Ijf6Ko1p00YsT5YwDEHzH8DtBAkttKK4rDmk8Z7YYY\nhjYYhbRhLX3jh9A6zng+oGUEG8cKqbD2jfvABZT2di82MtCRdmr3FW3aBU+lQnq+\nvNEXX6pbT1MAcXxUvoPKmSlT6+p3qqV3yD6xC3vG0pK05xv8L5d9zW2NTZoKvomb\nP2NktSn4qReQyIu73EXqdEhcN8b8lL3nyl4bpNoKHB6QavARfjD1Xn5U23yG/mgT\nOpz7KEEQbUfv9xXSI8oIyTcP1rmkNqYpEtsp5bwV/GmRphW4A+D1EbhCFhYt6oqj\nFVKQktb1zSi583CE23Cb6PXX3oZcH7J1j7ZOmpidJnIa/vPelbdc2O+7+iiKN1ys\n9GUlfNEluckE9j5nFABopc0qPyk03DYuUoll010U5PfyatqVEqxdzfrKT1ozXOTQ\nt+jzyo8yjY5VscYw7LBZIh/zvLUGmviOEQ4xquwEn412t4wMHXXQTPNL3/cBr8oG\nxvPECG3w9qRkATXrD0tMtDyVHbbVV7J0o2+BO2cg58k71SqRtmqwx3k7LwgIAMkm\nW8dbI8Z5um4uWzg86R1osYFDhlEz3vKdwsuZxozV9y29+k+wgs6YC77Q9pZ1doZW\nSWoIEvMJ8roLztJvT5vF\n\u003dj0hs\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a285e15a_319510f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-02-26T16:22:50Z",
+      "side": 1,
+      "message": "I think we probably shouldn\u0027t do this. I think the presence of dummy approvals breaks transitivity of equals.\n\nIf we have two changes in ReviewDb, we will compare all approvals. If one is ReviewDb and one is NoteDb, we will want to ignore dummy labels on the ReviewDb side that correspond to reviewers on the NoteDb side. If we do this, then we might have two ReviewDb bundles (R1 \u0026 R2) with slightly differing sets of dummy labels that are normalized to the same NoteDb value (N). This would end up with R1 \u003d\u003d N and R2 \u003d\u003d N but R1 !\u003d R2.\n\nJust removing the equals/hashCode implementations is probably fine. We\u0027re never putting these in collections, only comparing pairs with differencesFrom.",
+      "revId": "985734ff737c40f0b92cd654d05ae94531d4e8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

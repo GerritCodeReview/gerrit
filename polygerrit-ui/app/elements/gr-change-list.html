@@ -49,6 +49,9 @@ limitations under the License.
       <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
         <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
       </template>
+      <template is="dom-if" if="[[!changeGroup.length]]">
+        <div class="noChanges">No changes</div>
+      </template>
       <template is="dom-repeat" items="[[changeGroup]]" as="change">
         <gr-change-list-item
             selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"

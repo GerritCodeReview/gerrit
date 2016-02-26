@@ -120,12 +120,17 @@ public class GeneralPreferencesInfo {
   public ReviewCategoryStrategy reviewCategoryStrategy;
   public Boolean muteCommonPathPrefixes;
   public Boolean signedOffBy;
+  public Boolean publishDraftCommentsOnPush;
   public List<MenuItem> my;
   public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
+  }
+
+  public boolean isPublishDraftCommentsOnPush() {
+    return Boolean.TRUE.equals(publishDraftCommentsOnPush);
   }
 
   public DateFormat getDateFormat() {
@@ -180,6 +185,7 @@ public class GeneralPreferencesInfo {
     p.legacycidInChangeTable = false;
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;
+    p.publishDraftCommentsOnPush = false;
     return p;
   }
 }

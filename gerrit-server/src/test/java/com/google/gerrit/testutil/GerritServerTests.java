@@ -23,10 +23,13 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-import java.util.List;
+import java.util.Collection;
 
 @RunWith(ConfigSuite.class)
 public class GerritServerTests extends GerritBaseTests {
+  private static final Collection<String> ENV_VAR_TRUE_VALUES =
+      ImmutableList.of("yes", "y", "true", "1");
+
   @ConfigSuite.Parameter
   public Config config;
 
@@ -36,9 +39,12 @@ public class GerritServerTests extends GerritBaseTests {
   protected TestNotesMigration notesMigration;
 
   public static boolean isNoteDbTestEnabled() {
-    List<String> runValues = ImmutableList.of("yes", "y", "true", "1");
-    String value = System.getenv("GERRIT_ENABLE_NOTEDB");
-    return value != null && runValues.contains(value.toLowerCase());
+    return isEnvVarTrue("GERRIT_ENABLE_NOTEDB");
+  }
+
+  public static boolean isEnvVarTrue(String name) {
+    String value = System.getenv(name);
+    return value != null && ENV_VAR_TRUE_VALUES.contains(value.toLowerCase());
   }
 
   @Rule

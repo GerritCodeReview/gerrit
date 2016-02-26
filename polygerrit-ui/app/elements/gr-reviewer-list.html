@@ -77,13 +77,13 @@ limitations under the License.
 
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
-        <gr-button link
-            class="remove"
-            data-account-id$="[[reviewer._account_id]]"
-            on-tap="_handleRemoveTap"
-            hidden$="[[_computeCannotRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
-      </div>
+        <gr-account-link account="[[reviewer]]" show-email>
+	  <span class="suffix"
+	       on-tap="_handleRemoveTap"
+               data-account-id$="[[reviewer._account_id]]"
+	       hidden$="[[_computeCannotRemoveReviewer(reviewer,mutable)]]"
+	       >×</span>
+	</gr-account-link>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <div class="autocompleteContainer" hidden$="[[!_showInput]]">
@@ -286,7 +286,7 @@ limitations under the License.
           throw err;
         }.bind(this));
       },
-
+				
       _handleAddTap: function(e) {
         e.preventDefault();
         this._showInput = true;

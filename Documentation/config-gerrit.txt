@@ -1346,21 +1346,21 @@ Type of database server to connect to.  If set this value will be
 used to automatically create correct database.driver and database.url
 values to open the connection.
 +
-* `POSTGRESQL`
-+
-Connect to a PostgreSQL database server.
-+
 * `H2`
 +
 Connect to a local embedded H2 database.
++
+* `JDBC`
++
+Connect using a JDBC driver class name and URL.
 +
 * `MYSQL`
 +
 Connect to a MySQL database server.
 +
-* `JDBC`
+* `POSTGRESQL`
 +
-Connect using a JDBC driver class name and URL.
+Connect to a PostgreSQL database server.
 
 +
 If not specified, database.driver and database.url are used as-is,

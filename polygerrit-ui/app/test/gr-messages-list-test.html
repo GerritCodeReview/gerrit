@@ -38,9 +38,6 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-    });
-
-    test('scroll to message', function() {
       element.messages = [
         {
           'id': '47c43261_55aa2c41',
@@ -77,7 +74,33 @@ limitations under the License.
         }
       ];
       flushAsynchronousOperations();
+    });
 
+    test('expand/collapse all', function() {
+      var allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        allMessageEls[i].expanded = false;
+      }
+      MockInteractions.tap(allMessageEls[1]);
+      assert.isTrue(allMessageEls[1].expanded);
+
+      MockInteractions.tap(element.$$('.header gr-button'));
+      allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isTrue(allMessageEls[i].expanded);
+      }
+
+      MockInteractions.tap(element.$$('.header gr-button'));
+      allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isFalse(allMessageEls[i].expanded);
+      }
+    });
+
+    test('scroll to message', function() {
       var allMessageEls =
           Polymer.dom(element.root).querySelectorAll('gr-message');
       for (var i = 0; i < allMessageEls.length; i++) {

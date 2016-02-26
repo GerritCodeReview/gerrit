@@ -31,12 +31,17 @@ limitations under the License.
         --gr-account-label-text-hover-style: {
           text-decoration: underline;
         };
+        /* this works! */
+        --gr-account-label-roundness: 0.5em;
+        @apply(--gr-account-label-style);
       }
     </style>
     <span>
       <a href$="[[_computeOwnerLink(account)]]">
         <gr-account-label account="[[account]]"
-            avatar-image-size="[[avatarImageSize]]"></gr-account-label>
+            avatar-image-size="[[avatarImageSize]]">
+          <content select=".suffix"></content>
+        </gr-account-label>
       </a>
     </span>
   </template>

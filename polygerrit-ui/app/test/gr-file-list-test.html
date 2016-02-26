@@ -194,7 +194,7 @@ limitations under the License.
 
       element.async(function() {
         var elementItems = Polymer.dom(element.root).querySelectorAll(
-            '.fileRow');
+            '.row:not(.header)');
         assert.equal(elementItems.length, 3);
         assert.isTrue(elementItems[0].hasAttribute('selected'));
         assert.isFalse(elementItems[1].hasAttribute('selected'));
@@ -267,7 +267,8 @@ limitations under the License.
       server.respond();
 
       element.async(function() {
-        var fileRows = Polymer.dom(element.root).querySelectorAll('.fileRow');
+        var fileRows =
+            Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
         var commitMsg = fileRows[0].querySelector('input[type="checkbox"]');
         var fileAdded = fileRows[1].querySelector('input[type="checkbox"]');
         var myFile = fileRows[2].querySelector('input[type="checkbox"]');

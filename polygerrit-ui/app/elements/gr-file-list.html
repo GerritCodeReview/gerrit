@@ -26,52 +26,86 @@ limitations under the License.
       :host {
         display: block;
       }
-      .tableContainer {
-        overflow-x: auto;
+      .row {
+        display: flex;
+        padding: .1em .25em;
       }
-      table {
-        border-collapse: collapse;
-        width: 100%;
+      .header {
+        font-weight: bold;
       }
-      table a {
-        display: block;
-      }
-      td {
-        padding: 2px 0;
-        white-space: nowrap;
-      }
-      th {
-        text-align: left;
-      }
-      .positionIndicator {
-        padding-left: .25em;
-        visibility: hidden;
-      }
-      tr[selected] {
-        background-color: #ebf5fb;
-      }
-      tr[selected] .positionIndicator {
-        visibility: visible;
+      .positionIndicator,
+      .reviewed,
+      .status {
+        align-items: center;
+        display: inline-flex;
       }
       .reviewed,
       .status {
-        width: 20px;
+        justify-content: center;
+        width: 1.5em;
+      }
+      .positionIndicator {
+        justify-content: flex-start;
+        visibility: hidden;
+        width: 1.25em;
+      }
+      .row[selected] {
+        background-color: #ebf5fb;
+      }
+      .row[selected] .positionIndicator {
+        visibility: visible;
+      }
+      .path {
+        flex: 1;
+        overflow: hidden;
+        padding-left: .35em;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .row:not(.header) .path:hover {
+        text-decoration: underline;
+      }
+      .comments,
+      .stats {
+        text-align: right;
+      }
+      .comments {
+        min-width: 10em;
+      }
+      .stats {
+        min-width: 7em;
+      }
+      .row:not(.header) .stats {
+        font-family: var(--monospace-font-family);
+      }
+      .added {
+        color: #388E3C;
+      }
+      .removed {
+        color: #D32F2F;
       }
       .reviewed input[type="checkbox"] {
         display: inline-block;
-        vertical-align: baseline;
       }
       .drafts {
         color: #C62828;
         font-weight: bold;
       }
       @media screen and (max-width: 50em) {
-        tr[selected] {
+        .row[selected] {
           background-color: transparent;
         }
         .positionIndicator,
         .stats {
           display: none;
+        }
+        .reviewed,
+        .status {
+          justify-content: flex-start;
+        }
+        .comments {
+          min-width: initial;
         }
       }
     </style>
@@ -85,40 +119,36 @@ limitations under the License.
         url="[[_computeReviewedURL(changeNum, patchNum)]]"
         last-response="{{_reviewed}}"></gr-ajax>
     </gr-ajax>
-    <div class="tableContainer">
-      <table>
-        <tr>
-          <th class="positionIndicator"></th>
-          <th></th>
-          <th hidden$="[[!_loggedIn]]" hidden></th>
-          <th>Path</th>
-          <th>Comments</th>
-          <th class="stats">Stats</th>
-        </tr>
-        <template is="dom-repeat" items="{{files}}" as="file">
-          <tr class="fileRow" selected$="[[_computeFileSelected(index, selectedIndex)]]">
-            <td class="positionIndicator">&#x25b6;</td>
-            <td class="reviewed" hidden$="[[!_loggedIn]]" hidden>
-              <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
-                  data-path$="[[file.__path]]" on-change="_handleReviewedChange">
-            </td>
-            <td class="status">[[file.status]]</td>
-            <td class="path">
-              <a class="file"
-                 href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">[[file.__path]]</a>
-            </td>
-            <td>
-              <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
-              <span class="comments">[[_computeCommentsString(comments, patchNum, file.__path)]]</span>
-            </td>
-            <td class="stats">
-              +<span>[[file.lines_inserted]]</span> lines,
-              -<span>[[file.lines_deleted]]</span> lines
-            </td>
-          </tr>
-        </template>
-      </table>
+
+    <div class="row header">
+      <div class="positionIndicator"></div>
+      <div class="reviewed" hidden$="[[!_loggedIn]]" hidden></div>
+      <div class="status"></div>
+      <div class="path">Path</div>
+      <div class="comments">Comments</div>
+      <div class="stats">Stats</div>
     </div>
+    <template is="dom-repeat" items="{{files}}" as="file">
+      <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
+        <div class="positionIndicator">&#x25b6;</div>
+        <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
+          <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
+              data-path$="[[file.__path]]" on-change="_handleReviewedChange">
+        </div>
+        <div class="status">[[file.status]]</div>
+        <a class="path" href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">
+          [[file.__path]]
+        </a>
+        <div class="comments">
+          <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
+          [[_computeCommentsString(comments, patchNum, file.__path)]]
+        </div>
+        <div class="stats">
+          <span class="added">+[[file.lines_inserted]]</span>
+          <span class="removed">-[[file.lines_deleted]]</span>
+        </div>
+      </div>
+    </template>
   </template>
   <script>
   (function() {

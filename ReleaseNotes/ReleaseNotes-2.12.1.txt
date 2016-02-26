@@ -18,7 +18,11 @@ If you have already upgraded to 2.12, you need to issue this SQL statement
 manually (e.g. using the `gerrit gsql` SSH command or the `gqsl` site
 program):
 +
-  alter table patch_sets modify push_certficate clob
+  alter table patch_sets modify push_certficate clob;
++
+Or with this command if the site is configured to use PostgreSQL:
++
+  alter table patch_sets alter column push_certficate type text;
 +
 Note that the misspelled `push_certficate` is the actual name of the
 column.

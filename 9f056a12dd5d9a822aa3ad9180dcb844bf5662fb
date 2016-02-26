@@ -22,6 +22,30 @@
       "revId": "9f056a12dd5d9a822aa3ad9180dcb844bf5662fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_35c090f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-02-26T02:50:07Z",
+      "side": 1,
+      "message": "The content is exactly the same as the other one, the only difference is that is takes ProjectCreatedEvent as argument.",
+      "parentUuid": "222c912d_55c98c20",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "9f056a12dd5d9a822aa3ad9180dcb844bf5662fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

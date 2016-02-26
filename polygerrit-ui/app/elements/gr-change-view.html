@@ -87,7 +87,7 @@ limitations under the License.
         margin-left: var(--default-horizontal-margin);
       }
       gr-reply-dialog {
-        width: 30em;
+        width: 50em;
       }
       .changeStatus {
         color: #999;
@@ -447,7 +447,9 @@ limitations under the License.
       },
 
       _handleReplyOverlayOpen: function(e) {
-        this.$.replyDialog.reload();
+        this.$.replyDialog.reload().then(function() {
+          this.async(function() { this.$.replyOverlay.center() }, 1);
+        }.bind(this));
         this.$.replyDialog.focus();
       },
 

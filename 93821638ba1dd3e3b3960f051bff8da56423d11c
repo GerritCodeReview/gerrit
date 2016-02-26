@@ -70,6 +70,30 @@
       "revId": "93821638ba1dd3e3b3960f051bff8da56423d11c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_7574c89f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-26T07:24:12Z",
+      "side": 1,
+      "message": "Assuming we\u0027re talking about the discussion on the \"[ANNOUNCE] Gerrit 2.12\" thread, it wasn\u0027t ignored.  I replied to it 2 hours later.",
+      "parentUuid": "02522dad_5fd8cf37",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "93821638ba1dd3e3b3960f051bff8da56423d11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

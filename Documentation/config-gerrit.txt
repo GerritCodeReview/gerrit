@@ -1346,6 +1346,14 @@ Type of database server to connect to.  If set this value will be
 used to automatically create correct database.driver and database.url
 values to open the connection.
 +
+* `DB2`
++
+Connect to a DB2 database server.
++
+* `DERBY`
++
+Connect to an Apache Derby database server.
++
 * `H2`
 +
 Connect to a local embedded H2 database.
@@ -1354,9 +1362,17 @@ Connect to a local embedded H2 database.
 +
 Connect using a JDBC driver class name and URL.
 +
+* `MAXDB`
++
+Connect to an SAP MaxDb database server.
++
 * `MYSQL`
 +
 Connect to a MySQL database server.
++
+* `ORACLE`
++
+Connect to an Oracle database server.
 +
 * `POSTGRESQL`
 +

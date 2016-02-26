@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "225ad1dd_c595da5d",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T20:30:34Z",
+      "side": 1,
+      "message": "@Dave is this the only case I should be testing for?",
+      "revId": "3bc2bb3b87aa1317963af17d1679fd22dc0b89e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

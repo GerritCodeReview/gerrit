@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "222c912d_5528ac61",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-26T17:27:17Z",
+      "side": 1,
+      "message": "Oh. My bad. Yes I tested with about 5000 and it takes about 1ms max.",
+      "parentUuid": "222c912d_d5335cdc",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a285e15a_51c9b420",
         "filename": "polygerrit-ui/app/elements/gr-diff.html",
         "patchSetId": 2

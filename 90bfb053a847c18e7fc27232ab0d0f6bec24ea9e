@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "222c912d_d50efc15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24c3916_3b939784",
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "222c912d_b5058031",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-26T00:29:56Z",
       "side": 1,
       "message": "This should be moved to maintain alphabetical ordering of the imports.\n\nOr, change the name to \"SuggestChangeReviewers\"?",
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_91ce3c2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done, sounds better",
+      "parentUuid": "222c912d_b5058031",
       "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "a285e15a_b1d340d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeSuggestReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done (:",
+      "parentUuid": "02522dad_5f468f9c",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "222c912d_551bcc94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 4
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "222c912d_350170e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "222c912d_551bcc94",
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e24c3916_1b96db73",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewersUtil.java",
         "patchSetId": 4
@@ -87,6 +165,24 @@
       "writtenOn": "2016-02-25T22:32:59Z",
       "side": 1,
       "message": "Wrong package. This should be just com.google.gerrit.server. It\u0027s not change related any more.\n\nChange related is com/google/gerrit/server/change/ChangeSuggestReviewers.java",
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_d1d4c4c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewersUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24c3916_1b96db73",
       "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "a285e15a_f1d9c8f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewersUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02522dad_7f434b8b",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_ffc3db54",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewersUtil.java",
         "patchSetId": 4
@@ -127,6 +247,30 @@
       "writtenOn": "2016-02-25T22:32:59Z",
       "side": 1,
       "message": "Shoudn\u0027t be needed, you are passing projectControl already, that has access to the project.",
+      "range": {
+        "startLine": 106,
+        "startChar": 41,
+        "endLine": 106,
+        "endChar": 56
+      },
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_11c32c03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewersUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-02-26T15:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02522dad_ffc3db54",
       "range": {
         "startLine": 106,
         "startChar": 41,

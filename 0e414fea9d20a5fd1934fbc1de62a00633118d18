@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02522dad_ff367b3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:20:37Z",
+      "side": 1,
+      "message": "I am not sure if \"diffType\" really belongs here.\n\nThe oldId and newId are already enough to identify a patch list. Even in the \"first_parent\" case we still just need two IDs here, the ID of the merge commit and the ID of the first parent.",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24c3916_de0ce18f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:20:37Z",
+      "side": 1,
+      "message": "Adding this here seems to require changing a lot of existing code. Now every caller has to care to provide at least the default AUTO_MERGE.\n\nAs a minimum, keeping the old constructor as-is and adding a new one with the DiffType would significantly reduce the number of places which will need to change.",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24c3916_9e06596c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:20:37Z",
+      "side": 1,
+      "message": "We usually don\u0027t maintain these kind of comments in Gerrit\u0027s source code.",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_9f3bb722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:20:37Z",
+      "side": 1,
+      "message": "Instead of passing the \"diffType\" via the PatchListKey, have you considered adding another Factory.create method (after line 91):\n\n\n  PatchListLoader create(PatchListKey key, Project.NameKey project, DiffType diffType);\n\nMaybe immediately use it to pass the parent number instead of the DiffType:\n\n  PatchListLoader create(PatchListKey key, Project.NameKey project, int parentNumber)",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_bf40f380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:20:37Z",
+      "side": 1,
+      "message": "If, as proposed above, we have a parent number passed this could become:\n\n  rw.parseCommit(b.getParent(parentNumber));",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24c3916_fe119da8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:20:37Z",
+      "side": 1,
+      "message": "Why false here? Why should an automerge not be saved any more?",
+      "range": {
+        "startLine": 363,
+        "startChar": 57,
+        "endLine": 363,
+        "endChar": 62
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

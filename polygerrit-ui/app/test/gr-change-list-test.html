@@ -131,6 +131,26 @@ limitations under the License.
       assert.isTrue(elementItems[1].hasAttribute('unreviewed'));
     });
 
+    test('no changes', function() {
+      element.changes = [];
+      flushAsynchronousOperations();
+      var listItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(listItems.length, 0);
+      var noChangesMsg = Polymer.dom(element.root).querySelector('.noChanges');
+      assert.ok(noChangesMsg);
+    });
+
+    test('empty groups', function() {
+      element.groups = [[], []];
+      flushAsynchronousOperations();
+      var listItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(listItems.length, 0);
+      var noChangesMsg = Polymer.dom(element.root).querySelectorAll(
+          '.noChanges');
+      assert.equal(noChangesMsg.length, 2);
+    });
   });
 
   suite('gr-change-list groups', function() {

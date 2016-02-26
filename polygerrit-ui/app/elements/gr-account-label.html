@@ -12,6 +12,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+TODO:
+ * make the color configurable, so it can be green/red/transparent
+ depending on context.
+ * [x] should be prettier.
+ * tests?
+ * remove border
+ * why is the reviewer list mutable when I'm not logged in?
+  
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
@@ -21,13 +30,21 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: inline;
+        display: inline-block;
+        border: 1px solid;
+        border-radius: .75em;			
       }
       gr-avatar {
         height: 1.3em;
         width: 1.3em;
         margin-right: .15em;
         vertical-align: -.25em;
+      }
+      .remove {
+        text-decoration: none;
+      }
+      .text {
+        margin: .5em;
       }
       .text:hover {
         @apply(--gr-account-label-text-hover-style);
@@ -41,6 +58,7 @@ limitations under the License.
         <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
           ([[account.email]])
         </span>
+	<span class="remove" on-tap="_handleRemoveTap" hidden$="[[!removable]]">×</span>
       </span>
     </span>
   </template>
@@ -61,6 +79,10 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        removable: {
+          type: Boolean,
+          value: false,
+        }
       },
 
       _computeAccountTitle: function(account) {
@@ -76,6 +98,14 @@ limitations under the License.
         return !!(showEmail && account && account.email);
       },
 
+      _handleRemoveTap: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      
+        // bubble the event, because the handler is typically in the
+        // the enclosing element.
+        this.fire('remove', {account: this.account}, {bubbles: true});
+      },
     });
   })();
   </script>

@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-button.html">
 <link rel="import" href="gr-request.html">
+<link rel="import" href="gr-account-label.html">
 
 <dom-module id="gr-reviewer-list">
   <style>
@@ -77,12 +78,10 @@ limitations under the License.
 
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
-        <gr-button link
-            class="remove"
-            data-account-id$="[[reviewer._account_id]]"
-            on-tap="_handleRemoveTap"
-            hidden$="[[_computeCannotRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
+        <gr-account-link account="[[reviewer]]"
+            on-remove="_handleRemove"
+            removable="![[_computeCannotRemoveReviewer(reviewer, mutable)]]"
+        ></gr-account-label>
       </div>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
@@ -265,10 +264,8 @@ limitations under the License.
         this._autocompleteData = [];
       },
 
-      _handleRemoveTap: function(e) {
-        e.preventDefault();
-        var target = Polymer.dom(e).rootTarget;
-        var accountID = parseInt(target.getAttribute('data-account-id'), 10);
+      _handleRemove: function(e) {
+        var accountID = e.detail.account._account_id;
         this._send('DELETE', this._restEndpoint(accountID)).then(function(req) {
           var reviewers = this.change.reviewers;
           ['REVIEWER', 'CC'].forEach(function(type) {

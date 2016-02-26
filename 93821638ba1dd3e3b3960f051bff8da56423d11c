@@ -46,6 +46,30 @@
       "revId": "93821638ba1dd3e3b3960f051bff8da56423d11c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_5fd8cf37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-02-26T07:03:14Z",
+      "side": 1,
+      "message": "\u003e I haven checked or tested for Derby, DB2, or MaxDb. I don\u0027t know how widely they\u0027re used though (if at all).\n\nThe only customer that I\u0027m aware of who supposed to use DB2 database still is not able to use Gerrit, because there is no (official) released Gerrit version that works in application container and supports DB2 database. Moreover, it still uncertain when such a version can be released. I hope this  happens this year? I always against waiting for \"critical\" bugs fixing when other even more critical bugs already fixed ... for months. I said it very clear on the mailing list. But it was ignored.",
+      "parentUuid": "222c912d_b56100e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "93821638ba1dd3e3b3960f051bff8da56423d11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -421,8 +421,8 @@ public class ChangeRebuilder {
         }
       }
 
-      // TODO(dborowitz): Additional heuristics, like keeping ChangeEvents
-      // separate if they affect overlapping fields.
+      // TODO(dborowitz): Additional heuristics, like keeping events separate if
+      // they affect overlapping fields within a single entity.
 
       return true;
     }
@@ -664,6 +664,7 @@ public class ChangeRebuilder {
       return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     void apply(ChangeUpdate update) throws OrmException {
       if (!Objects.equals(change.getTopic(), notedbChange.getTopic())) {
@@ -672,6 +673,9 @@ public class ChangeRebuilder {
       if (!Objects.equals(change.getStatus(), notedbChange.getStatus())) {
         // TODO(dborowitz): Stamp approximate approvals at this time.
         update.fixStatus(change.getStatus());
+      }
+      if (change.getSubmissionId() != null) {
+        update.setSubmissionId(change.getSubmissionId());
       }
       if (!update.isEmpty()) {
         update.setSubjectForCommit("Final notedb migration updates");

@@ -22,6 +22,30 @@
       "revId": "8e3e0f73ccd3bbfbe8bc29d7b0b39db5944f0bee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a285e15a_b167c023",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-26T05:54:21Z",
+      "side": 1,
+      "message": "I applied the patch on stable-2.12 and also removed this block.\n\nhttps://gerrit-review.googlesource.com/75353",
+      "parentUuid": "a285e15a_f16d4805",
+      "range": {
+        "startLine": 145,
+        "startChar": 14,
+        "endLine": 149,
+        "endChar": 15
+      },
+      "revId": "8e3e0f73ccd3bbfbe8bc29d7b0b39db5944f0bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

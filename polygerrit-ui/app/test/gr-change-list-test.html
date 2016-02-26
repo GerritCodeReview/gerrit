@@ -113,12 +113,16 @@ limitations under the License.
         },
         {
           _number: 1,
-        }
+        },
+        {
+          _number: 2,
+          status: 'MERGED',
+        },
       ];
       flushAsynchronousOperations();
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 2);
+      assert.equal(elementItems.length, 3);
       for (var i = 0; i < elementItems.length; i++) {
         assert.isFalse(elementItems[i].hasAttribute('unreviewed'));
       }
@@ -126,9 +130,10 @@ limitations under the License.
       element.showReviewedState = true;
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 2);
+      assert.equal(elementItems.length, 3);
       assert.isFalse(elementItems[0].hasAttribute('unreviewed'));
       assert.isTrue(elementItems[1].hasAttribute('unreviewed'));
+      assert.isFalse(elementItems[2].hasAttribute('unreviewed'));
     });
 
   });

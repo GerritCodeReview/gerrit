@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../behaviors/rest-client-behavior.html">
 <link rel="import" href="../styles/gr-change-list-styles.html">
 <link rel="import" href="gr-change-list-item.html">
 
@@ -115,6 +116,7 @@ limitations under the License.
 
       behaviors: [
         Gerrit.KeyboardShortcutBehavior,
+        Gerrit.RESTClientBehavior,
       ],
 
       _computeLabelNames: function(groups) {
@@ -158,7 +160,8 @@ limitations under the License.
       },
 
       _computeItemUnreviewed: function(change, showReviewedState) {
-        return showReviewedState && !change.reviewed;
+        return showReviewedState && !change.reviewed &&
+            change.status != this.ChangeStatus.MERGED;
       },
 
       _handleKey: function(e) {

@@ -77,13 +77,12 @@ limitations under the License.
 
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
-        <gr-button link
-            class="remove"
-            data-account-id$="[[reviewer._account_id]]"
-            on-tap="_handleRemoveTap"
-            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
-      </div>
+        <gr-account-link account="[[reviewer]]">
+          <span class="suffix"
+              on-tap="_handleRemoveTap"
+              data-account-id$="[[reviewer._account_id]]"
+              hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">×</span>
+        </gr-account-link>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <div class="autocompleteContainer" hidden$="[[!_showInput]]">

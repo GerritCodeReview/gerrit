@@ -50,9 +50,11 @@ limitations under the License.
       }
       .approved {
         background-color: #d4ffd4;
+        --gr-account-label-background: #00ff00;
       }
       .notApproved {
         background-color: #ffd4d4;
+        --gr-account-label-background: #ff0000;
       }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         section {
@@ -115,7 +117,7 @@ limitations under the License.
             <div class="labelValueContainer">
               <span class$="[[label.className]]">
                 <span class="labelValue">[[label.value]]</span>
-                <gr-account-link account="[[label.account]]"></gr-account-link>
+                <gr-account-link class$="[[label.className]]" account="[[label.account]]"></gr-account-link>
               </span>
             </div>
           </template>

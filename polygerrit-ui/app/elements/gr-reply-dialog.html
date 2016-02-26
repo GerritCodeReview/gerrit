@@ -26,6 +26,7 @@ limitations under the License.
   <style>
     :host {
       display: block;
+      max-height: 90vh;
     }
     :host([disabled]) {
       pointer-events: none;
@@ -33,9 +34,19 @@ limitations under the License.
     :host([disabled]) .container {
       opacity: .5;
     }
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+    }
     section {
       border-top: 1px solid #ddd;
       padding: .5em .75em;
+    }
+    .textareaContainer,
+    .labelsContainer,
+    .actionsContainer {
+      flex-shrink: 0;
     }
     .textareaContainer {
       position: relative;
@@ -74,6 +85,9 @@ limitations under the License.
     iron-selector > gr-button.iron-selected {
       background-color: #ddd;
     }
+    .draftsContainer {
+      overflow-y: auto;
+    }
     .draftsContainer h3 {
       margin-top: .25em;
     }
@@ -98,9 +112,10 @@ limitations under the License.
             placeholder="Say something..."
             disabled="{{disabled}}"
             rows="4"
+            max-rows="15"
             bind-value="{{draft}}"></iron-autogrow-textarea>
       </section>
-      <section>
+      <section class="labelsContainer">
         <template is="dom-repeat"
             items="[[_computeLabelArray(permittedLabels)]]" as="label">
           <div class="labelContainer">
@@ -179,7 +194,7 @@ limitations under the License.
       },
 
       reload: function() {
-        this.$.draftsXHR.generateRequest();
+        return this.$.draftsXHR.generateRequest().completes;
       },
 
       focus: function() {

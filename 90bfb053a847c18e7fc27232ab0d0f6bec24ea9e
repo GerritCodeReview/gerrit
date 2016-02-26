@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "02522dad_5f468f9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeSuggestReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:45:03Z",
+      "side": 1,
+      "message": "this would be correct 3 years ago :-)",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "222c912d_551bcc94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 4
@@ -64,6 +87,29 @@
       "writtenOn": "2016-02-25T22:32:59Z",
       "side": 1,
       "message": "Wrong package. This should be just com.google.gerrit.server. It\u0027s not change related any more.\n\nChange related is com/google/gerrit/server/change/ChangeSuggestReviewers.java",
+      "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02522dad_7f434b8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewersUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-02-26T12:45:03Z",
+      "side": 1,
+      "message": "+3",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
       "revId": "90bfb053a847c18e7fc27232ab0d0f6bec24ea9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

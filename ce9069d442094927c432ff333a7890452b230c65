@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a285e15a_515d344e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-26T05:56:58Z",
+      "side": 1,
+      "message": "If you prefer to leave the original author name and timestamp from I7e3e20a0d, I will update it.\n\nI did this as a new commit rather than cherry-picking because I expected it would conflict, and I had already made parts of the change anyway before seeing I7e3e20a0d.",
+      "revId": "ce9069d442094927c432ff333a7890452b230c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

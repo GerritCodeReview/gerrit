@@ -22,6 +22,30 @@
       "revId": "93821638ba1dd3e3b3960f051bff8da56423d11c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222c912d_b56100e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-26T06:52:53Z",
+      "side": 1,
+      "message": "It works on H2 and as far as I can see from documentation it should work on MySQL [1] and Oracle [2].\n\nI haven checked or tested for Derby, DB2, or MaxDb. I don\u0027t know how widely they\u0027re used though (if at all).\n\n[1] http://stackoverflow.com/questions/1356866/how-do-i-change-the-data-type-for-a-column-in-mysql\n\n[2] http://www.dba-oracle.com/t_alter_table_modify_column_syntax_example.htm",
+      "parentUuid": "02522dad_9fedf7dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "93821638ba1dd3e3b3960f051bff8da56423d11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

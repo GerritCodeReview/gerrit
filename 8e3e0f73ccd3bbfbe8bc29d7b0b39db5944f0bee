@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a285e15a_f16d4805",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-26T05:31:28Z",
+      "side": 1,
+      "message": "Since we no longer care about the submit record, do we need this any more?\n\nI found this commit while trying to fix the problem described in issue 3948.\n\nIt seems that psa is always null the first time submit is pressed. I\u0027m not sure if that\u0027s a symptom of another underlying problem though?",
+      "range": {
+        "startLine": 145,
+        "startChar": 14,
+        "endLine": 149,
+        "endChar": 15
+      },
+      "revId": "8e3e0f73ccd3bbfbe8bc29d7b0b39db5944f0bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

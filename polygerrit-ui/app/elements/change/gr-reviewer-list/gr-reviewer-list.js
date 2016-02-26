@@ -161,7 +161,7 @@
       this._autocompleteData = [];
     },
 
-    _handleRemoveTap: function(e) {
+    _handleRemove: function(e) {
       e.preventDefault();
       var target = Polymer.dom(e).rootTarget;
       var accountID = parseInt(target.getAttribute('data-account-id'), 10);

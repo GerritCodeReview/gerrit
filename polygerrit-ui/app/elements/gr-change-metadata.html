@@ -100,9 +100,9 @@ limitations under the License.
       <span class="title">Topic</span>
       <span class="value">[[change.topic]]</span>
     </section>
-    <section hidden$="[[_computeHideStrategy(_change)]]" hidden>
+    <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
       <span class="title">Strategy</span>
-      <span class="value">[[_computeStrategy(_change)]]</span>
+      <span class="value">[[_computeStrategy(change)]]</span>
     </section>
     <template is="dom-repeat"
         items="[[_computeLabelNames(change.labels)]]" as="labelName">
@@ -150,9 +150,7 @@ limitations under the License.
       _computeHideStrategy: function(change) {
         var open = change.status == this.ChangeStatus.NEW ||
             change.status == this.ChangeStatus.DRAFT;
-        var current = !this._patchNum ||
-            change.revisions[change.current_revision]._number == this._patchNum;
-        return !(open && current);
+        return !open;
       },
 
       _computeStrategy: function(change) {

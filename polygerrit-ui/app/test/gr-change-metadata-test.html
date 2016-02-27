@@ -49,5 +49,20 @@ limitations under the License.
           'Cherry Pick');
     });
 
+    test('show strategy for open change', function() {
+      element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
+      flushAsynchronousOperations();
+      var strategy = Polymer.dom(element.root).querySelector('.strategy');
+      assert.ok(strategy);
+      assert.isFalse(strategy.hasAttribute('hidden'));
+      assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
+    });
+
+    test('hide strategy for closed change', function() {
+      element.change = {status: 'MERGED', labels: {}};
+      flushAsynchronousOperations();
+      assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
+    });
+
   });
 </script>

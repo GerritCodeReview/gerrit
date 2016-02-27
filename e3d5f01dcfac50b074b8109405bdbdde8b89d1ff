@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_a29abe89",
+        "filename": "polygerrit-ui/app/test/gr-change-metadata-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-27T18:30:08Z",
+      "side": 1,
+      "message": "element.$$(\u0027.strategy\u0027)",
+      "revId": "e3d5f01dcfac50b074b8109405bdbdde8b89d1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

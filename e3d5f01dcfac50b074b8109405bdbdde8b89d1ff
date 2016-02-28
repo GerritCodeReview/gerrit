@@ -16,6 +16,24 @@
       "revId": "e3d5f01dcfac50b074b8109405bdbdde8b89d1ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_e7c34255",
+        "filename": "polygerrit-ui/app/test/gr-change-metadata-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-28T11:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2e0153f_a29abe89",
+      "revId": "e3d5f01dcfac50b074b8109405bdbdde8b89d1ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

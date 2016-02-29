@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "425fc5cb_e611fea8",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-02-29T12:13:16Z",
+      "side": 1,
+      "message": "s/lable/label/",
+      "range": {
+        "startLine": 249,
+        "startChar": 2,
+        "endLine": 249,
+        "endChar": 7
+      },
+      "revId": "cedbbee78ef887aed6391825da1e5959859b7c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31986085_ecb28b03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 4
@@ -13,6 +36,29 @@
       "writtenOn": "2016-02-04T12:36:33Z",
       "side": 1,
       "message": "This gives ArrayIndexOutOfBoundsException if there are no parents.",
+      "revId": "cedbbee78ef887aed6391825da1e5959859b7c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_c60c0290",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-02-29T12:13:16Z",
+      "side": 1,
+      "message": "new label value should be also introduced here as changes are not preserved in label config",
+      "range": {
+        "startLine": 1082,
+        "startChar": 6,
+        "endLine": 1096,
+        "endChar": 38
+      },
       "revId": "cedbbee78ef887aed6391825da1e5959859b7c10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1092,6 +1092,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
           label.isCopyAllScoresIfNoChange(),
           LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+      setBooleanConfigKey(rc, name, KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+          label.isCopyAllScoresOnMergeFirstParentUpdate(),
+          LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
       setBooleanConfigKey(rc, name, KEY_CAN_OVERRIDE, label.canOverride(),
           LabelType.DEF_CAN_OVERRIDE);
       List<String> values =

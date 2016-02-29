@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_22a7ced3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-29T00:43:16Z",
+      "side": 1,
+      "message": "This method allows to abandon a change bypassing the capability check.  I was fixing that in [1] but it conflicts with this change.\n\n[1] If1649440eef8ffc00563b50833de9ec340152ea7",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 48
+      },
+      "revId": "6293c55c33312e48d243ab70df140ae0fc47ebbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

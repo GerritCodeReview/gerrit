@@ -124,6 +124,24 @@
       "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_f99f5778",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-02-29T16:11:34Z",
+      "side": 1,
+      "message": "Please abandon this for now until CI at least is running the unit tests. Then we can revisit this conversation.",
+      "parentUuid": "02522dad_5c753d0b",
+      "revId": "b0acd9f1474397e61d0a49a2ea54ecac3d95011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

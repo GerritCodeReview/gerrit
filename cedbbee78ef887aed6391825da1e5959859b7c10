@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e25359c8_03cd2e7b",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-29T13:29:44Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/75391",
+      "parentUuid": "c2e0153f_82e21ae8",
+      "range": {
+        "startLine": 249,
+        "startChar": 23,
+        "endLine": 249,
+        "endChar": 27
+      },
+      "revId": "cedbbee78ef887aed6391825da1e5959859b7c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31986085_ecb28b03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 4

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_22d50e00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-29T13:06:07Z",
+      "side": 0,
+      "message": "removing this was wrong",
+      "range": {
+        "startLine": 346,
+        "startChar": 2,
+        "endLine": 348,
+        "endChar": 64
+      },
+      "revId": "200a94be3ac196181e9c40482f3383ae208f6cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

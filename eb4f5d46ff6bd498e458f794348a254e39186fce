@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2e0153f_02ee0ad8",
+        "filename": "lib/JGIT_VERSION",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-29T13:02:57Z",
+      "side": 1,
+      "message": "Because it\u0027s a snapshot build that is deployed to the google storage bucket, rather than an official release on Maven Central.\n\nThese constants are mapped to the repository URLs in util.py:\n\nhttps://gerrit.googlesource.com/gerrit/+/master/tools/util.py",
+      "parentUuid": "62684971_67d512ff",
+      "revId": "eb4f5d46ff6bd498e458f794348a254e39186fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62684971_07e216ea",
         "filename": "lib/jgit/org.eclipse.jgit.junit/BUCK",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-29T11:43:01Z",
       "side": 1,
       "message": "silly question: what does DO_NOT_DISTRIBUTE mean here?",
+      "revId": "eb4f5d46ff6bd498e458f794348a254e39186fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e0153f_e2f206be",
+        "filename": "lib/jgit/org.eclipse.jgit.junit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-29T13:02:57Z",
+      "side": 1,
+      "message": "This is to indicate that the library should not (or in some cases must not) be included in any release/distribution. I.e. libraries that should only be used for development and testing.",
+      "parentUuid": "62684971_07e216ea",
       "revId": "eb4f5d46ff6bd498e458f794348a254e39186fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

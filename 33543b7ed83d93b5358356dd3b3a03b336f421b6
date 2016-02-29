@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62684971_077e96b6",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-02-29T19:42:43Z",
+      "side": 1,
+      "message": "This test fails in my setup (I think it used to work some time ago; it\u0027s probably because of some updates in dependencies...).\n\n  chrome 50                ✖ app/test/gr-diff-view-test.html » gr-diff-view tests » keyboard shortcuts\n\n  Cannot read property \u0027key\u0027 of null\n    \u003cunknown\u003e at                      normalizedKeyForEvent at /components/polygerrit-ui/app/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html:175:0\n    \u003cunknown\u003e at                       keyComboMatchesEvent at /components/polygerrit-ui/app/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html:180:0\n    \u003cunknown\u003e at   iron-dropdown.Polymer.IronA11yKeysBehavior._onKeyBindingEvent at /components/polygerrit-ui/app/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html:422:0\n    \u003cunknown\u003e at                                 keyEventOn at /components/polygerrit-ui/app/bower_components/iron-test-helpers/mock-interactions.js:265:0\n    \u003cunknown\u003e at                                  keyDownOn at /components/polygerrit-ui/app/bower_components/iron-test-helpers/mock-interactions.js:277:0\n    \u003cunknown\u003e at                Object.pressAndReleaseKeyOn at /components/polygerrit-ui/app/bower_components/iron-test-helpers/mock-interactions.js:302:0\n    \u003cunknown\u003e at                        Context.\u003canonymous\u003e at gr-diff-view-test.html:117:0\n\n\nI was able to track it down. See: https://github.com/PolymerElements/iron-test-helpers/issues/46",
+      "revId": "33543b7ed83d93b5358356dd3b3a03b336f421b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

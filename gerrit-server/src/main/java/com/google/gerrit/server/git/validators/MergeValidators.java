@@ -20,11 +20,8 @@ import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
@@ -97,9 +94,7 @@ public class MergeValidators {
         + "The change must be submitted by a Gerrit administrator.";
 
     private final AllProjectsName allProjectsName;
-    private final ReviewDb db;
     private final ProjectCache projectCache;
-    private final ApprovalsUtil approvalsUtil;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
     public interface Factory {
@@ -108,13 +103,10 @@ public class MergeValidators {
 
     @Inject
     public ProjectConfigValidator(AllProjectsName allProjectsName,
-        ReviewDb db, ProjectCache projectCache,
-        ApprovalsUtil approvalsUtil,
+        ProjectCache projectCache,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
       this.allProjectsName = allProjectsName;
-      this.db = db;
       this.projectCache = projectCache;
-      this.approvalsUtil = approvalsUtil;
       this.pluginConfigEntries = pluginConfigEntries;
     }
 
@@ -142,11 +134,6 @@ public class MergeValidators {
             }
           } else {
             if (!oldParent.equals(newParent)) {
-              PatchSetApproval psa =
-                  approvalsUtil.getSubmitter(db, commit.notes(), patchSetId);
-              if (psa == null) {
-                throw new MergeValidationException(SET_BY_ADMIN);
-              }
               if (!caller.getCapabilities().canAdministrateServer()) {
                 throw new MergeValidationException(SET_BY_ADMIN);
               }

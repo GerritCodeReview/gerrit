@@ -9,6 +9,7 @@ Version 2.13.x
 [[2_12]]
 Version 2.12.x
 --------------
+* link:ReleaseNotes-2.12.1.html[2.12.1]
 * link:ReleaseNotes-2.12.html[2.12]
 
 [[2_11]]

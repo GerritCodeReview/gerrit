@@ -16,7 +16,7 @@ else:
   ZIP = 'codemirror-%s.zip' % VERSION
 
 
-CLOSURE_VERSION = 'v20151216'
+CLOSURE_VERSION = 'v20160208'
 
 CLOSURE_COMPILER_ARGS = [
   '--compilation_level SIMPLE_OPTIMIZATIONS',
@@ -131,7 +131,7 @@ java_binary(
 maven_jar(
   name = 'compiler-jar',
   id = 'com.google.javascript:closure-compiler:' + CLOSURE_VERSION,
-  sha1 = 'b5cd14a356cd9079791ba10b6d9623ef4ae4df6e',
+  sha1 = '5a2f4be6cf41e27ed7119d26cb8f106300d87d91',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [':closure-compiler-externs'],
   visibility = [],
@@ -140,7 +140,7 @@ maven_jar(
 maven_jar(
   name = 'closure-compiler-externs',
   id = 'com.google.javascript:closure-compiler-externs:' + CLOSURE_VERSION,
-  sha1 = 'c2787d9927cb0825e8389e83fd3e1a798aae09cc',
+  sha1 = '7a2dfee8b72cd30ea1a1f652b62f9c0a7aa61fa9',
   license = 'Apache2.0',
   visibility = [],
   attach_source = False,

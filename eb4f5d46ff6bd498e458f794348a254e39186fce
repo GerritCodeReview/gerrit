@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62684971_67d512ff",
+        "filename": "lib/JGIT_VERSION",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-02-29T11:43:01Z",
+      "side": 1,
+      "message": "why does this change?",
+      "revId": "eb4f5d46ff6bd498e458f794348a254e39186fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_07e216ea",
+        "filename": "lib/jgit/org.eclipse.jgit.junit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-02-29T11:43:01Z",
+      "side": 1,
+      "message": "silly question: what does DO_NOT_DISTRIBUTE mean here?",
+      "revId": "eb4f5d46ff6bd498e458f794348a254e39186fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

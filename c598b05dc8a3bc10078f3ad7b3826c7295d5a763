@@ -16,6 +16,24 @@
       "revId": "c598b05dc8a3bc10078f3ad7b3826c7295d5a763",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e0153f_425db24e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-01T00:29:37Z",
+      "side": 1,
+      "message": "Nothing in particular, might get some minor optimization improvements. https://github.com/google/closure-compiler/wiki/Releases#february-08-2016-v20160208",
+      "parentUuid": "c2e0153f_0263aa1a",
+      "revId": "c598b05dc8a3bc10078f3ad7b3826c7295d5a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

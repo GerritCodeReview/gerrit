@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_0263aa1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T00:24:59Z",
+      "side": 1,
+      "message": "Any particular fixes/features in this version?  Or is it just to get the latest release?",
+      "revId": "c598b05dc8a3bc10078f3ad7b3826c7295d5a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

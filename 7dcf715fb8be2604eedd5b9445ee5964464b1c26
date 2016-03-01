@@ -22,6 +22,24 @@
       "revId": "7dcf715fb8be2604eedd5b9445ee5964464b1c26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_f9ce372b",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-01T15:52:28Z",
+      "side": 1,
+      "message": "Computed values within templates stick to the convention of having _compute as a prefix. This is consistent with the rest of the codebase.",
+      "parentUuid": "a20c01ef_b9d4bfc1",
+      "revId": "7dcf715fb8be2604eedd5b9445ee5964464b1c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

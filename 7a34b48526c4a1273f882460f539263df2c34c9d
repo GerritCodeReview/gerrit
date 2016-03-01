@@ -39,6 +39,30 @@
       "revId": "7a34b48526c4a1273f882460f539263df2c34c9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e0153f_c2d422c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-01T13:06:39Z",
+      "side": 1,
+      "message": "yes, but it gets removed when I move this method to EventBroker in a follow up change.",
+      "parentUuid": "c2e0153f_82aa1a47",
+      "range": {
+        "startLine": 846,
+        "startChar": 26,
+        "endLine": 846,
+        "endChar": 58
+      },
+      "revId": "7a34b48526c4a1273f882460f539263df2c34c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "62684971_872a8673",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-01T22:09:25Z",
+      "side": 1,
+      "message": "\u003e entries for auto-merge and left-parent will be using same key?\n\nI would really be surprised if the first-parent is used in the PatchListKey for the auto-merge case. This would be strange as the diff between two commit-ids in the patch-list key wouldn\u0027t produce what we see in the UI: the diff between the merge commit and the auto-merge tree.\n\nTo confirm that I will debug that tomorrow but my current guess is that for the auto-merge case we really have the merge-commit-id and the auto-merge tree in the PatchListKey.",
+      "parentUuid": "425fc5cb_c6d402c3",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_bf40f380",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14

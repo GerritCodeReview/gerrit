@@ -18,6 +18,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -36,15 +37,18 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+
+import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
 
-@Singleton
 public class DeleteDraftComment
     implements RestModifyView<DraftCommentResource, Input> {
   static class Input {
   }
+
+  @Option(name="diff-type")
+  DiffType diffType;
 
   private final Provider<ReviewDb> db;
   private final PatchLineCommentsUtil plcUtil;
@@ -89,7 +93,7 @@ public class DeleteDraftComment
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
+          plcUtil.get(ctx.getDb(), ctx.getNotes(), key, diffType);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }

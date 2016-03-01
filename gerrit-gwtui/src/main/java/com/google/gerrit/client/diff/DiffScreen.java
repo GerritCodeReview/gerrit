@@ -215,7 +215,7 @@ abstract class DiffScreen extends Screen {
     }
 
     final CommentsCollections comments = new CommentsCollections();
-    comments.load(base, revision, path, group2);
+    comments.load(base, revision, diffType, path, group2);
 
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(

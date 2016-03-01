@@ -31,7 +31,8 @@ public interface PatchLineCommentAccess extends
   PatchLineComment get(PatchLineComment.Key id) throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId.changeId = ?")
-  ResultSet<PatchLineComment> byChange(Change.Id id) throws OrmException;
+  ResultSet<PatchLineComment> byChange(Change.Id id)
+      throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId = ?")
   ResultSet<PatchLineComment> byPatchSet(PatchSet.Id id) throws OrmException;

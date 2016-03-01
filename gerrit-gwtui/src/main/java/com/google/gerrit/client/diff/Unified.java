@@ -100,6 +100,7 @@ public class Unified extends DiffScreen {
             Unified.this,
             getBase(), getRevision(), getPath(),
             result.getCommentLinkProcessor(),
+            diffType,
             getChangeStatus().isOpen());
         setTheme(result.getTheme());
         display(comments);

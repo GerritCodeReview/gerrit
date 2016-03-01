@@ -20,6 +20,7 @@ import com.google.gerrit.client.diff.UnifiedChunkManager.LineSidePair;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 
@@ -37,6 +38,7 @@ import java.util.TreeSet;
 /** Tracks comment widgets for {@link Unified}. */
 class UnifiedCommentManager extends CommentManager {
   private final Unified host;
+  private final DiffType diffType;
   private final SortedMap<Integer, UnifiedCommentGroup> sideA;
   private final SortedMap<Integer, UnifiedCommentGroup> sideB;
 
@@ -44,10 +46,12 @@ class UnifiedCommentManager extends CommentManager {
       PatchSet.Id base, PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
+      DiffType diffType,
       boolean open) {
     super(base, revision, path, clp, open);
 
     this.host = host;
+    this.diffType = diffType;
     sideA = new TreeMap<>();
     sideB = new TreeMap<>();
   }
@@ -223,6 +227,7 @@ class UnifiedCommentManager extends CommentManager {
         getCommentLinkProcessor(),
         getPatchSetIdFromSide(side),
         info,
+        diffType,
         isExpandAll());
 
     if (info.inReplyTo() != null) {

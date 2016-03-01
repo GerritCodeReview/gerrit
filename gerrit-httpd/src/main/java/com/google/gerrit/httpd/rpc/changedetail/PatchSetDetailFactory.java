@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -196,7 +197,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       //
       final Account.Id me = user.getAccountId();
       for (PatchLineComment c
-          : plcUtil.draftByPatchSetAuthor(db, psIdNew, me, notes)) {
+          : plcUtil.draftByPatchSetAuthor(db, psIdNew, me, notes, DiffType.AUTO_MERGE)) {
         final Patch p = byKey.get(c.getKey().getParentKey());
         if (p != null) {
           p.setDraftCount(p.getDraftCount() + 1);

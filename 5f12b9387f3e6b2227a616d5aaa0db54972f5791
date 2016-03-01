@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_e2ecc6b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T01:04:27Z",
+      "side": 1,
+      "message": "Add a link to the issue.\n\nAlso, does this fix the problem for SingleUserGroup plugin? Or is there still a fix required there?  Since that\u0027s a core plugin, if there\u0027s a fix it needs to be done before making the 2.12.1 release.",
+      "revId": "5f12b9387f3e6b2227a616d5aaa0db54972f5791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

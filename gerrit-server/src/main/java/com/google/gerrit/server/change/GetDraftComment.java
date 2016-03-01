@@ -19,9 +19,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-@Singleton
 public class GetDraftComment implements RestReadView<DraftCommentResource> {
 
   private final Provider<CommentJson> commentJson;

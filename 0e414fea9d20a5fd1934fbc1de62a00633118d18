@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "62684971_a7ba2a9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-01T14:50:26Z",
+      "side": 1,
+      "message": "It belongs here from the diff cache perspective.\n\nThe result of diff will be different for the auto-merge and first-parent comparisons. Since diff\u0027s are cached using PatchListKey as key, we should extend this key to be able to store both diff\u0027s in cache.",
+      "parentUuid": "02522dad_ff367b3b",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e24c3916_de0ce18f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 14
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "62684971_47c9ee20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-01T14:50:26Z",
+      "side": 1,
+      "message": "Done\n\nAlthough the constructor with hardcoded auto-merge value is only used four times.",
+      "parentUuid": "e24c3916_de0ce18f",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e24c3916_9e06596c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14
@@ -47,6 +83,24 @@
       "writtenOn": "2016-02-26T12:20:37Z",
       "side": 1,
       "message": "We usually don\u0027t maintain these kind of comments in Gerrit\u0027s source code.",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_c7d4fec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-01T14:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24c3916_9e06596c",
       "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "425fc5cb_c6d402c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-01T14:50:26Z",
+      "side": 1,
+      "message": "Correct me if I\u0027m wrong, but isn\u0027t PatchListKey used as a key for diff cache? If we remove diff type from it entries for auto-merge and left-parent will be using same key?",
+      "parentUuid": "02522dad_9f3bb722",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_bf40f380",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "425fc5cb_86b5aab0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-01T14:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02522dad_bf40f380",
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e24c3916_fe119da8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14
@@ -104,6 +200,30 @@
       "writtenOn": "2016-02-26T12:20:37Z",
       "side": 1,
       "message": "Why false here? Why should an automerge not be saved any more?",
+      "range": {
+        "startLine": 363,
+        "startChar": 57,
+        "endLine": 363,
+        "endChar": 62
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_e6b01ec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-01T14:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24c3916_fe119da8",
       "range": {
         "startLine": 363,
         "startChar": 57,

@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../scripts/gr-api-interface.html">
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="gr-account-dropdown.html">
 <link rel="import" href="gr-ajax.html">
@@ -208,6 +209,8 @@ limitations under the License.
           value: function() { return document.body; },
         },
 
+        _resolveAccountReady: Function,
+        _resolveConfigReady: Function,
         _diffPreferences: Object,
         _showChangeListView: Boolean,
         _showDashboardView: Boolean,

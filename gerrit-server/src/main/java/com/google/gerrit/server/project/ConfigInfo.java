@@ -166,7 +166,7 @@ public class ConfigInfo {
       p.permittedValues = configEntry.getPermittedValues();
       p.editable = configEntry.isEditable(project) ? true : null;
       if (configEntry.isInheritable()
-          && !allProjects.get().equals(project.getProject().getNameKey())) {
+          && !allProjects.equals(project.getProject().getNameKey())) {
         PluginConfig cfgWithInheritance =
             cfgFactory.getFromProjectConfigWithInheritance(project,
                 e.getPluginName());

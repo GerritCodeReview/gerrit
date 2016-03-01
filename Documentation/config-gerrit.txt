@@ -3452,7 +3452,7 @@ Starting from version 0.9.0 Apache SSHD project added support for NIO2
 IoSession. To use the new NIO2 session the `backend` option must be set
 to `NIO2`.
 +
-By default, `MINA`.
+By default, `NIO2`.
 
 [[sshd.listenAddress]]sshd.listenAddress::
 +

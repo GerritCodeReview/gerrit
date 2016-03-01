@@ -30,6 +30,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -74,8 +75,8 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,13 +90,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
 
   static class Output {
     Map<String, Short> labels;
   }
+
+  @Option(name = "--diff-type")
+  DiffType diffType;
 
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -505,7 +508,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         throws OrmException {
       Map<String, PatchLineComment> drafts = Maps.newHashMap();
       for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(ctx.getDb(),
-          psId, user.getAccountId(), ctx.getNotes())) {
+          psId, user.getAccountId(), ctx.getNotes(), diffType)) {
         drafts.put(c.getKey().get(), c);
       }
       return drafts;

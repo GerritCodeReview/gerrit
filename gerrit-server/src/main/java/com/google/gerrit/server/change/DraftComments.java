@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -27,15 +28,18 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-@Singleton
+import org.kohsuke.args4j.Option;
+
 public class DraftComments implements ChildCollection<RevisionResource, DraftCommentResource> {
   private final DynamicMap<RestView<DraftCommentResource>> views;
   private final Provider<CurrentUser> user;
   private final ListRevisionDrafts list;
   private final Provider<ReviewDb> dbProvider;
   private final PatchLineCommentsUtil plcUtil;
+
+  @Option(name = "--diff-type")
+  DiffType diffType;
 
   @Inject
   DraftComments(DynamicMap<RestView<DraftCommentResource>> views,
@@ -67,7 +71,8 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
     checkIdentifiedUser();
     String uuid = id.get();
     for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(dbProvider.get(),
-        rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
+        rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes(),
+        diffType)) {
       if (uuid.equals(c.getKey().get())) {
         return new DraftCommentResource(rev, c);
       }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -23,17 +24,20 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+
+import org.kohsuke.args4j.Option;
 
 import java.util.List;
 import java.util.Map;
 
-@Singleton
 public class ListChangeComments implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchLineCommentsUtil plcUtil;
+
+  @Option(name = "--diff-type")
+  DiffType diffType;
 
   @Inject
   ListChangeComments(Provider<ReviewDb> db,
@@ -53,6 +57,6 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentJson.get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
-        .format(plcUtil.publishedByChange(db.get(), cd.notes()));
+        .format(plcUtil.publishedByChange(db.get(), cd.notes(), diffType));
   }
 }

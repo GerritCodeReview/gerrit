@@ -18,6 +18,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -41,12 +42,12 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+
+import org.kohsuke.args4j.Option;
 
 import java.sql.Timestamp;
 import java.util.Collections;
 
-@Singleton
 public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
@@ -56,6 +57,9 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
+
+  @Option(name = "diff-type")
+  DiffType diffType;
 
   @Inject
   PutDraftComment(Provider<ReviewDb> db,
@@ -113,7 +117,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
+          plcUtil.get(ctx.getDb(), ctx.getNotes(), key, diffType);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.

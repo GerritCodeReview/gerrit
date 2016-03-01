@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a20c01ef_997e1b8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-01T19:11:32Z",
+      "side": 1,
+      "message": "What kind of test you ran to come to this conclusion?\n\nI am not against changing the default implementation but I want to be sure that NIO2 is better that SSHD. This known regression in SSHD cannot be the only justification for changing the default, we must be sure that NIO2 will not bring more problems that the one we are trying to solve.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "c5d299cd9b5c7e7cc91b81f303f72e3800552ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02178dfd_f49f5878",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-01T19:11:32Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "c5d299cd9b5c7e7cc91b81f303f72e3800552ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

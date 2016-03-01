@@ -16,6 +16,24 @@
       "revId": "5f12b9387f3e6b2227a616d5aaa0db54972f5791",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_39a0af6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-01T13:43:08Z",
+      "side": 1,
+      "message": "The singleuser group is not the problem, I updated issue[1] to reduce confusion.\n\n[1]https://code.google.com/p/gerrit/issues/detail?id\u003d3892",
+      "parentUuid": "c2e0153f_e2ecc6b0",
+      "revId": "5f12b9387f3e6b2227a616d5aaa0db54972f5791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

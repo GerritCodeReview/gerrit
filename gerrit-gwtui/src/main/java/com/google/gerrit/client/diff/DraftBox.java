@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -62,6 +63,7 @@ class DraftBox extends CommentBox {
   private static final int MAX_LINES = 30;
 
   private final CommentLinkProcessor linkProcessor;
+  private final DiffType diffType;
   private final PatchSet.Id psId;
   private final boolean expandAll;
   private CommentInfo comment;
@@ -92,11 +94,13 @@ class DraftBox extends CommentBox {
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info,
+      DiffType diffType,
       boolean expandAllComments) {
     super(group, info.range());
 
     linkProcessor = clp;
     psId = id;
+    this.diffType = diffType;
     expandAll = expandAllComments;
     initWidget(uiBinder.createAndBindUi(this));
 
@@ -318,9 +322,9 @@ class DraftBox extends CommentBox {
       }
     };
     if (input.id() == null) {
-      CommentApi.createDraft(psId, input, group.add(cb));
+      CommentApi.createDraft(psId, diffType, input, group.add(cb));
     } else {
-      CommentApi.updateDraft(psId, input.id(), input, group.add(cb));
+      CommentApi.updateDraft(psId, input.id(), diffType, input, group.add(cb));
     }
     CodeMirror cm = getCm();
     cm.vim().handleKey("<Esc>");

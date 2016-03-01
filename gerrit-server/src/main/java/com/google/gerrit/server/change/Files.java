@@ -98,7 +98,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     String base;
 
     @Option(name = "--diff-type")
-    DiffType  diffType;
+    DiffType  diffType = DiffType.AUTO_MERGE;
 
     @Option(name = "--reviewed")
     boolean reviewed;

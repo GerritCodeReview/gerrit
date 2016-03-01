@@ -22,6 +22,7 @@ import com.google.gerrit.client.info.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.CallbackGroup.Callback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -105,7 +106,15 @@ public class ChangeApi {
   }
 
   public static RestApi comments(int id) {
-    return call(id, "comments");
+    return comments(id, null);
+  }
+
+  public static RestApi comments(int id, DiffType diffType) {
+    RestApi call = call(id, "comments");
+    if (diffType != null) {
+      call.addParameter("diff-type", diffType);
+    }
+    return call;
   }
 
   public static RestApi drafts(int id) {
@@ -134,6 +143,15 @@ public class ChangeApi {
 
   public static RestApi revision(int id, String revision) {
     return change(id).view("revisions").id(revision);
+  }
+
+  public static RestApi revisionDrafts(int id, String revision,
+      DiffType diffType) {
+    RestApi call = revision(id, revision).view("drafts");
+    if (diffType != null) {
+      call.addParameter("diff-type", diffType);
+    }
+    return call;
   }
 
   public static RestApi revision(PatchSet.Id id) {

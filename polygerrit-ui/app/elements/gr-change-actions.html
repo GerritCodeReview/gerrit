@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
+<link rel="import" href="../scripts/gr-api-interface.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-button.html">
 <link rel="import" href="gr-confirm-rebase-dialog.html">
@@ -189,6 +190,10 @@ limitations under the License.
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
+        if (key == 'submit' && window.JSAPI && window.JSAPI.canSubmitChange &&
+            window.JSAPI.canSubmitChange() == false) {
+          return;
+        }
         var type = el.getAttribute('data-action-type');
         if (type == 'revision') {
           if (key == RevisionActions.REBASE) {

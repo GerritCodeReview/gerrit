@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62684971_875cc626",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-01T18:45:58Z",
+      "side": 0,
+      "message": "NIT: This new line is there in most files.",
+      "revId": "b5b4eeb20e1a9e84523895ffb9661ba0896eb85a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a20c01ef_991f3ba3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T00:29:40Z",
+      "side": 1,
+      "message": "This implementation does not work on master; access to the db has been replaced with note-db and this causes test failures.\n\n java.lang.UnsupportedOperationException: This table has been migrated to notedb",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 3
+      },
+      "revId": "126af24dd5db9bb5588e5c34b10ab4608c5f8da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

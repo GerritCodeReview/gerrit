@@ -211,7 +211,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         "sshd", "enableCompression", false);
 
     SshSessionBackend backend = cfg.getEnum(
-        "sshd", null, "backend", SshSessionBackend.MINA);
+        "sshd", null, "backend", SshSessionBackend.NIO2);
 
     System.setProperty(IoServiceFactoryFactory.class.getName(),
         backend == SshSessionBackend.MINA

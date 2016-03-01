@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a20c01ef_19efaba2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T03:22:11Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/75393",
+      "parentUuid": "a20c01ef_7957c72f",
+      "range": {
+        "startLine": 169,
+        "startChar": 25,
+        "endLine": 169,
+        "endChar": 31
+      },
+      "revId": "91ef0badaebf2b34d302446eb94618f8e5d493f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_f031e045",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListChildProjects.java",
         "patchSetId": 1

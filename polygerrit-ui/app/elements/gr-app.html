@@ -29,6 +29,7 @@ limitations under the License.
 
 <script src="../bower_components/page/page.js"></script>
 <script src="../scripts/app.js"></script>
+<script src="../scripts/js-api.js"></script>
 <script src="../scripts/util.js"></script>
 
 <dom-module id="gr-app">
@@ -201,6 +202,16 @@ limitations under the License.
             }.bind(this));
           },
         },
+        pluginsReady: {
+          type: Object,
+          readOnly: true,
+          notify: true,
+          value: function() {
+            return new Promise(function(resolve) {
+              this._resolvePluginsReady = resolve;
+            }.bind(this));
+          },
+        },
         version: String,
         params: Object,
         keyEventTarget: {
@@ -208,6 +219,9 @@ limitations under the License.
           value: function() { return document.body; },
         },
 
+        _resolveAccountReady: Function,
+        _resolveConfigReady: Function,
+        _resolvePluginsReady: Function,
         _diffPreferences: Object,
         _showChangeListView: Boolean,
         _showDashboardView: Boolean,
@@ -230,6 +244,17 @@ limitations under the License.
 
       get loggedIn() {
         return !!(this.account && Object.keys(this.account).length > 0);
+      },
+
+      attached: function() {
+        // TODO: REMOVE
+        var script = document.createElement('script');
+        script.src = 'http://localhost:8082/chumpdetector.js';
+        // Will have to account for multiple scripts.
+        script.addEventListener('load', function() {
+          this._resolvePluginsReady();
+        }.bind(this));
+        document.body.appendChild(script);
       },
 
       ready: function() {

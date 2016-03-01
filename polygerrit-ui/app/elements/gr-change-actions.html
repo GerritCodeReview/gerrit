@@ -189,6 +189,14 @@ limitations under the License.
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
+        if (key == 'submit' && window.JSAPI &&
+            window.JSAPI.presubmitFunctions) {
+          for (var i = 0; i < window.JSAPI.presubmitFunctions.length; i++) {
+            if (!window.JSAPI.presubmitFunctions[i].call(window)) {
+              return;
+            }
+          }
+        }
         var type = el.getAttribute('data-action-type');
         if (type == 'revision') {
           if (key == RevisionActions.REBASE) {

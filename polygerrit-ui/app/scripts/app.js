@@ -19,9 +19,16 @@
 var app = document.querySelector('#app');
 
 window.addEventListener('WebComponentsReady', function() {
-  // Middleware
   page(function(ctx, next) {
     document.body.scrollTop = 0;
+    next();
+  });
+
+  // JS API Middleware.
+  page(function(ctx, next) {
+    app.pluginsReady.then(function() {
+      app.fire('JSAPI-history', {path: ctx.path});
+    });
     next();
   });
 

@@ -1,0 +1,133 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<script>
+(function(window) {
+  'use strict';
+
+  var JSAPI = window.JSAPI || {};
+
+  JSAPI._ready = new Promise(function(resolve, reject) {
+    // // TODO: REMOVE
+    // var script = document.createElement('script');
+    // script.src = 'http://localhost:8082/chumpdetector.js';
+    // // Will have to account for multiple scripts.
+    // script.addEventListener('load', function() {
+    //   resolve();
+    // }.bind(this));
+    // document.body.appendChild(script);
+  });
+
+  JSAPI.canSubmitChange = function() {
+    var submitCallbacks = eventCallbacks[JSAPI.EventName.SUBMIT_CHANGE];
+    for (var i = 0; i < submitCallbacks.length; i++) {
+      if (!submitCallbacks[i]()) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  JSAPI.EventName = {
+    HISTORY: 'history',
+    SHOW_CHANGE: 'showchange',
+    SUBMIT_CHANGE: 'submitchange',
+    COMMENT: 'comment',
+  };
+
+  var eventCallbacks = {};
+
+  JSAPI._removeEventCallbacks = function() {
+    for (var k in JSAPI.EventName) {
+      eventCallbacks[JSAPI.EventName[k]] = [];
+    }
+  };
+
+  JSAPI._removeEventCallbacks();
+
+  function handleHistory(detail) {
+    eventCallbacks[JSAPI.EventName.HISTORY].forEach(function(cb) {
+      cb(detail.path);
+    });
+  }
+
+  function handleShowChange(detail) {
+    eventCallbacks[JSAPI.EventName.SHOW_CHANGE].forEach(function(cb) {
+      var change = detail.change;
+      var patchNum = detail.patchNum
+      var revision;
+      for (var rev in change.revisions) {
+        if (change.revisions[rev]._number == patchNum) {
+          revision = change.revisions[rev];
+          break;
+        }
+      }
+      cb(change, revision);
+    });
+  }
+
+  function handleComment(detail) {
+    eventCallbacks[JSAPI.EventName.COMMENT].forEach(function(cb) {
+      cb(detail.node);
+    });
+  }
+
+  JSAPI.fire = function(type, detail) {
+    JSAPI._ready.then(function() {
+      switch (type) {
+        case JSAPI.EventName.HISTORY:
+          handleHistory(detail);
+          break;
+        case JSAPI.EventName.SHOW_CHANGE:
+          handleShowChange(detail);
+          break;
+        case JSAPI.EventName.COMMENT:
+          handleComment(detail);
+          break;
+        default:
+          console.warn('JSAPI.fire called with unsupported event type:', type);
+          break;
+      }
+    });
+  };
+
+  function Plugin() {}
+
+  Plugin.prototype.on = function(eventName, callback) {
+    eventCallbacks[eventName].push(callback);
+  };
+
+  var Gerrit = window.Gerrit || {};
+
+  Gerrit.css = function(rulesStr) {
+    if (!Gerrit._customStyleSheet) {
+      var styleEl = document.createElement('style');
+      document.head.appendChild(styleEl);
+      Gerrit._customStyleSheet = styleEl.sheet;
+    }
+
+    var name = '__pg_js_api_class_' + Gerrit._customStyleSheet.cssRules.length;
+    Gerrit._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
+    return name;
+  },
+
+  Gerrit.install = function(callback) {
+    callback(new Plugin());
+  };
+
+  window.Gerrit = Gerrit;
+  window.JSAPI = JSAPI;
+})(window);
+</script>

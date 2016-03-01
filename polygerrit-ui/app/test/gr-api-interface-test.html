@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-api-interface</title>
+
+<script src="../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../scripts/gr-api-interface.html">
+
+<script>
+  suite('gr-api-interface tests', function() {
+    var plugin;
+
+    setup(function() {
+      JSAPI._ready = Promise.resolve();
+      Gerrit.install(function(p) { plugin = p; });
+    });
+
+    teardown(function() {
+      JSAPI._removeEventCallbacks();
+      plugin = null;
+    });
+
+    test('history event', function(done) {
+      plugin.on(JSAPI.EventName.HISTORY, function(path) {
+        assert.equal(path, '/path/to/awesomesauce');
+        done();
+      });
+      JSAPI.fire(JSAPI.EventName.HISTORY, {path: '/path/to/awesomesauce'});
+    });
+
+    test('showchange event', function(done) {
+      var testChange = {
+        _number: 42,
+        revisions: {
+          def: { _number: 2 },
+          abc: { _number: 1 },
+        },
+      };
+      plugin.on(JSAPI.EventName.SHOW_CHANGE, function(change, revision) {
+        assert.deepEqual(change, testChange);
+        assert.deepEqual(revision, testChange.revisions.abc);
+        done();
+      });
+      JSAPI.fire(JSAPI.EventName.SHOW_CHANGE,
+          {change: testChange, patchNum: 1});
+    });
+
+    test('comment event', function(done) {
+      var testCommentNode = { foo: 'bar' };
+      plugin.on(JSAPI.EventName.COMMENT, function(commentNode) {
+        assert.deepEqual(commentNode, testCommentNode);
+        done();
+      });
+      JSAPI.fire(JSAPI.EventName.COMMENT, {node: testCommentNode});
+    });
+
+    test('submitchange', function() {
+      plugin.on(JSAPI.EventName.SUBMIT_CHANGE, function() { return true; });
+      assert.isTrue(JSAPI.canSubmitChange());
+      plugin.on(JSAPI.EventName.SUBMIT_CHANGE, function() { return false; });
+      plugin.on(JSAPI.EventName.SUBMIT_CHANGE, function() { return true; });
+      assert.isFalse(JSAPI.canSubmitChange());
+    });
+
+  });
+</script>

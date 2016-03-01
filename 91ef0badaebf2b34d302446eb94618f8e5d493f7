@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a20c01ef_7957c72f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T02:42:10Z",
+      "side": 1,
+      "message": "This should have been removed.  Now the String value of the project name is being compared with the Project.NameKey, rather than the allProjects instance itself (which is a subclass of Project.NameKey).\n\nI have already fixed this and will upload a patch soon.",
+      "range": {
+        "startLine": 169,
+        "startChar": 25,
+        "endLine": 169,
+        "endChar": 31
+      },
+      "revId": "91ef0badaebf2b34d302446eb94618f8e5d493f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0dddd_f031e045",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListChildProjects.java",
         "patchSetId": 1

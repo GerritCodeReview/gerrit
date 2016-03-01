@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,20 +37,20 @@ class CommentsCollections {
   JsArray<CommentInfo> draftsBase;
   JsArray<CommentInfo> draftsRevision;
 
-  void load(PatchSet.Id base, PatchSet.Id revision, String path,
-      CallbackGroup group) {
+  void load(PatchSet.Id base, PatchSet.Id revision, DiffType diffType,
+      String path, CallbackGroup group) {
     this.path = path;
 
     if (base != null) {
-      CommentApi.comments(base, group.add(publishedBase()));
+      CommentApi.comments(base, diffType, group.add(publishedBase()));
     }
-    CommentApi.comments(revision, group.add(publishedRevision()));
+    CommentApi.comments(revision, diffType, group.add(publishedRevision()));
 
     if (Gerrit.isSignedIn()) {
       if (base != null) {
-        CommentApi.drafts(base, group.add(draftsBase()));
+        CommentApi.drafts(base, diffType, group.add(draftsBase()));
       }
-      CommentApi.drafts(revision, group.add(draftsRevision()));
+      CommentApi.drafts(revision, diffType, group.add(draftsRevision()));
     }
   }
 

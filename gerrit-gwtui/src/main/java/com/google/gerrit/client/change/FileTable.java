@@ -37,6 +37,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.DiffType;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -726,6 +727,14 @@ public class FileTable extends FlowPanel {
 
       int cntAll = cList.length();
       int cntNew = 0;
+      int forDiffType = 0;
+      for (int i = cntAll - 1; i >= 0; i--) {
+        CommentInfo m = cList.get(i);
+        if (m.side() == Side.PARENT
+            || diffType == DiffType.fromSide(m.side())) {
+          forDiffType++;
+        }
+      }
       if (myLastReply != null) {
         for (int i = cntAll - 1; i >= 0; i--) {
           CommentInfo m = cList.get(i);
@@ -745,7 +754,11 @@ public class FileTable extends FlowPanel {
 
       sb.openTd().setStyleName(R.css().commentColumn());
       if (cntAll - cntNew > 0) {
-        sb.append("comments: ").append(cntAll - cntNew);
+        sb.append("comments: ");
+        if (forDiffType > 0) {
+          sb.append(forDiffType).append("/");
+        }
+        sb.append(cntAll - cntNew);
       }
       sb.closeTd();
     }

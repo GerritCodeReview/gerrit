@@ -21,13 +21,11 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-@Singleton
 public class ListRevisionComments extends ListRevisionDrafts {
+
   @Inject
-  ListRevisionComments(Provider<ReviewDb> db,
-      Provider<CommentJson> commentJson,
+  ListRevisionComments(Provider<ReviewDb> db, Provider<CommentJson> commentJson,
       PatchLineCommentsUtil plcUtil) {
     super(db, commentJson, plcUtil);
   }
@@ -41,6 +39,7 @@ public class ListRevisionComments extends ListRevisionDrafts {
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
     ChangeNotes notes = rsrc.getNotes();
-    return plcUtil.publishedByPatchSet(db.get(), notes, rsrc.getPatchSet().getId());
+    return plcUtil.publishedByPatchSet(db.get(), notes,
+        rsrc.getPatchSet().getId(), diffType);
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -25,7 +26,14 @@ public class CommentApi {
 
   public static void comments(PatchSet.Id id,
       AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
-    revision(id, "comments").get(cb);
+    comments(id, null, cb);
+  }
+
+  public static void comments(PatchSet.Id id, DiffType diffType,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    RestApi call = revision(id, "comments");
+    addDiffType(call, diffType);
+    call.get(cb);
   }
 
   public static void comment(PatchSet.Id id, String commentId,
@@ -35,7 +43,14 @@ public class CommentApi {
 
   public static void drafts(PatchSet.Id id,
       AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
-    revision(id, "drafts").get(cb);
+    drafts(id, null, cb);
+  }
+
+  public static void drafts(PatchSet.Id id, DiffType diffType,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    RestApi call = revision(id, "drafts");
+    addDiffType(call, diffType);
+    call.get(cb);
   }
 
   public static void draft(PatchSet.Id id, String draftId,
@@ -45,12 +60,26 @@ public class CommentApi {
 
   public static void createDraft(PatchSet.Id id, CommentInfo content,
       AsyncCallback<CommentInfo> cb) {
-    revision(id, "drafts").put(content, cb);
+    createDraft(id, null, content, cb);
+  }
+
+  public static void createDraft(PatchSet.Id id, DiffType diffType,
+      CommentInfo content, AsyncCallback<CommentInfo> cb) {
+    RestApi call = revision(id, "drafts");
+    addDiffType(call, diffType);
+    call.put(content, cb);
   }
 
   public static void updateDraft(PatchSet.Id id, String draftId,
       CommentInfo content, AsyncCallback<CommentInfo> cb) {
-    revision(id, "drafts").id(draftId).put(content, cb);
+    updateDraft(id, draftId, null, content, cb);
+  }
+
+  public static void updateDraft(PatchSet.Id id, String draftId,
+      DiffType diffType, CommentInfo content, AsyncCallback<CommentInfo> cb) {
+    RestApi call = revision(id, "drafts").id(draftId);
+    addDiffType(call, diffType);
+    call.put(content, cb);
   }
 
   public static void deleteDraft(PatchSet.Id id, String draftId,
@@ -59,7 +88,20 @@ public class CommentApi {
   }
 
   private static RestApi revision(PatchSet.Id id, String type) {
-    return ChangeApi.revision(id).view(type);
+    return revision(id, type, null);
+  }
+
+  private static RestApi revision(PatchSet.Id id, String type,
+      DiffType diffType) {
+    RestApi call = ChangeApi.revision(id).view(type);
+    addDiffType(call, diffType);
+    return call;
+  }
+
+  private static void addDiffType(RestApi call, DiffType diffType) {
+    if (diffType != null) {
+      call.addParameter("diff-type", diffType);
+    }
   }
 
   private CommentApi() {

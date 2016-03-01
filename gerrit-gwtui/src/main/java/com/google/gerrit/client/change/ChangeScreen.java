@@ -863,6 +863,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadConfigInfo(final ChangeInfo info, final String base) {
+    diffType = getDiffType(base);
     info.revisions().copyKeysIntoChildren("name");
     if (edit != null) {
       edit.setName(edit.commit().commit());
@@ -900,7 +901,6 @@ public class ChangeScreen extends Screen {
     }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
-    diffType = getDiffType(base);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -1053,8 +1053,7 @@ public class ChangeScreen extends Screen {
       RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     if (Gerrit.isSignedIn()) {
-      ChangeApi.revision(changeId.get(), rev.name())
-        .view("drafts")
+      ChangeApi.revisionDrafts(changeId.get(), rev.name(), diffType)
         .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
           @Override
           public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {

@@ -1,0 +1,94 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<script>
+(function(window) {
+  'use strict';
+
+  var JSAPI = window.JSAPI || {};
+
+  JSAPI.presubmitFunctions = [];
+
+  JSAPI.eventName = function(name) {
+    return 'JSAPI-' + name;
+  };
+
+  function Plugin() {}
+
+  Plugin.EventName = {
+    HISTORY: 'history',
+    SHOW_CHANGE: 'showchange',
+    SUBMIT_CHANGE: 'submitchange',
+    COMMENT: 'comment',
+  };
+
+  Plugin.prototype._handleHistory = function(callback, e) {
+    callback(e.detail.path);
+  };
+
+  Plugin.prototype._handleShowChange = function(callback, e) {
+    var change = e.detail.change;
+    var patchNum = e.detail.patchNum
+    var revision;
+    for (var rev in change.revisions) {
+      if (change.revisions[rev]._number == patchNum) {
+        revision = change.revisions[rev];
+        break;
+      }
+    }
+    callback(change, revision);
+  };
+
+  Plugin.prototype.on = function(eventName, callback) {
+    switch (eventName) {
+      case Plugin.EventName.HISTORY:
+        window.addEventListener(JSAPI.eventName(eventName),
+            this._handleHistory.bind(this, callback));
+        break;
+      case Plugin.EventName.SHOW_CHANGE:
+        window.addEventListener(JSAPI.eventName(eventName),
+            this._handleShowChange.bind(this, callback));
+        break;
+      case Plugin.EventName.SUBMIT_CHANGE:
+        JSAPI.presubmitFunctions.push(callback);
+        break;
+      case Plugin.EventName.COMMENT:
+        // TODO: Implement.
+        break;
+    }
+  };
+
+  var Gerrit = window.Gerrit || {};
+
+  Gerrit.css = function(rulesStr) {
+    if (!Gerrit._customStyleSheet) {
+      var styleEl = document.createElement('style');
+      document.head.appendChild(styleEl);
+      Gerrit._customStyleSheet = styleEl.sheet;
+    }
+
+    var name = '__pg_js_api_class_' + Gerrit._customStyleSheet.cssRules.length;
+    Gerrit._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
+    return name;
+  },
+
+  Gerrit.install = function(callback) {
+    callback(new Plugin());
+  };
+
+  window.Gerrit = Gerrit;
+  window.JSAPI = JSAPI;
+})(window);
+</script>

@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../behaviors/rest-client-behavior.html">
+<link rel="import" href="../scripts/gr-api-interface.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-button.html">
@@ -280,6 +281,7 @@ limitations under the License.
               patch-num="[[_patchNum]]"></gr-related-changes-list>
           </div>
         </div>
+        <div id="change_plugins"></div>
       </section>
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"
@@ -508,6 +510,12 @@ limitations under the License.
 
         var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
         this.fire('title-change', {title: title});
+        app.pluginsReady.then(function() {
+          this.fire('JSAPI-showchange', {
+            change: change,
+            patchNum: this._patchNum,
+          });
+        }.bind(this));
       },
 
       _computeChangePath: function(changeNum) {

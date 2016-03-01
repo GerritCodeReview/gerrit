@@ -78,7 +78,7 @@ public class UniversalGroupBackend implements GroupBackend {
     }
     GroupBackend b = backend(uuid);
     if (b == null) {
-      log.warn("Unknown GroupBackend for UUID: " + uuid);
+      log.debug("Unknown GroupBackend for UUID: " + uuid);
       return null;
     }
     return b.get(uuid);

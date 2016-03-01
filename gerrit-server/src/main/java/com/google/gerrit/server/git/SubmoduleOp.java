@@ -79,6 +79,7 @@ public class SubmoduleOp {
   private final ChangeHooks changeHooks;
   private final SubmoduleSectionParser.Factory subSecParserFactory;
   private final boolean verboseSuperProject;
+  private final boolean enableSuperProjectSubscriptions;
 
   @Inject
   public SubmoduleOp(
@@ -99,12 +100,17 @@ public class SubmoduleOp {
     this.subSecParserFactory = subSecParserFactory;
     this.verboseSuperProject = cfg.getBoolean("submodule",
         "verboseSuperprojectUpdate", true);
-
+    this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
+        "enableSuperProjectSubscriptions", false);
     updatedSubscribers = new HashSet<>();
   }
 
   void updateSubmoduleSubscriptions(ReviewDb db, Set<Branch.NameKey> branches)
       throws SubmoduleException {
+    if (!enableSuperProjectSubscriptions) {
+      return;
+    }
+
     for (Branch.NameKey branch : branches) {
       updateSubmoduleSubscriptions(db, branch);
     }
@@ -112,6 +118,9 @@ public class SubmoduleOp {
 
   void updateSubmoduleSubscriptions(ReviewDb db, Branch.NameKey destBranch)
       throws SubmoduleException {
+    if (!enableSuperProjectSubscriptions) {
+      return;
+    }
     if (urlProvider.get() == null) {
       logAndThrowSubmoduleException("Cannot establish canonical web url used "
           + "to access gerrit. It should be provided in gerrit.config file.");
@@ -185,6 +194,9 @@ public class SubmoduleOp {
 
   protected void updateSuperProjects(ReviewDb db,
       Collection<Branch.NameKey> updatedBranches) throws SubmoduleException {
+    if (!enableSuperProjectSubscriptions) {
+      return;
+    }
     try {
       // These (repo/branch) will be updated later with all the given
       // individual submodule subscriptions

@@ -117,6 +117,30 @@
       "revId": "c5d299cd9b5c7e7cc91b81f303f72e3800552ec9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_e74ca26e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-03-01T20:06:52Z",
+      "side": 1,
+      "message": "Found this in Gitblit docs:\n\n # SSH backend NIO2|MINA.\n  #\n  # The Apache Mina project recommends using the NIO2 backend.\n #\n # SINCE 1.5.0\n git.sshBackend \u003d NIO2\n\nSeems that James investigated already the matter and the Apache Mina project recommends NIO2",
+      "parentUuid": "425fc5cb_0698da2c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "c5d299cd9b5c7e7cc91b81f303f72e3800552ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

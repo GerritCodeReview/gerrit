@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_62a71681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T12:52:59Z",
+      "side": 1,
+      "message": "The original author of this was Martin, but I changed it because I had done significant rework.\n\nFeel free to change it again if you think your rework was sufficient to do so.",
+      "revId": "7a34b48526c4a1273f882460f539263df2c34c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e0153f_82aa1a47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-01T12:52:59Z",
+      "side": 1,
+      "message": "Do we still need to explicitly specify this ?",
+      "range": {
+        "startLine": 846,
+        "startChar": 26,
+        "endLine": 846,
+        "endChar": 58
+      },
+      "revId": "7a34b48526c4a1273f882460f539263df2c34c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a20c01ef_39c9cf22",
+        "filename": "polygerrit-ui/app/elements/gr-account-link.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-01T16:35:23Z",
+      "side": 1,
+      "message": "Is this span needed?",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_79c34702",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-01T16:35:23Z",
+      "side": 1,
+      "message": "gr-account-link no longer has the show-email property. You can remove this.",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_19c68b12",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-01T16:35:23Z",
+      "side": 1,
+      "message": "space after ,",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

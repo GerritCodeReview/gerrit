@@ -53,4 +53,6 @@ public interface ChangeConstants extends Constants {
   String deleteChangeEdit();
   String deleteDraftChange();
   String deleteDraftRevision();
+
+  String firstParentLineComment();
 }

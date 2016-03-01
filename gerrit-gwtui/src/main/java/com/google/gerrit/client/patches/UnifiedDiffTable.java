@@ -69,10 +69,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       switch (pl.getType()) {
         case DELETE:
         case CONTEXT:
-          createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
+          createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0, diffType);
           break;
         case INSERT:
-          createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+          createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1, diffType);
           break;
         case REPLACE:
           break;
@@ -154,10 +154,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     switch (pl.getType()) {
       case DELETE:
       case CONTEXT:
-        createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
+        createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0, diffType);
         break;
       case INSERT:
-        createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+        createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1, diffType);
         break;
       case REPLACE:
         break;
@@ -172,12 +172,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void createFileCommentEditorOnSideA() {
-    createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A);
+    createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A, diffType);
   }
 
   @Override
   protected void createFileCommentEditorOnSideB() {
-    createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B);
+    createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B,
+        diffType);
     createFileCommentBorderRow();
   }
 

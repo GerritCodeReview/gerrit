@@ -202,7 +202,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       //
       final Account.Id me = user.getAccountId();
       for (PatchLineComment c
-          : plcUtil.draftByPatchSetAuthor(db, psIdNew, me, notes)) {
+          : plcUtil.draftByPatchSetAuthor(db, psIdNew, me, notes, DiffType.AUTO_MERGE)) {
         final Patch p = byKey.get(c.getKey().getParentKey());
         if (p != null) {
           p.setDraftCount(p.getDraftCount() + 1);

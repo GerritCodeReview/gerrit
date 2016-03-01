@@ -239,7 +239,7 @@ public class CommentSender extends ReplyToChangeSender {
           child.getKey().getParentKey(),
           child.getParentUuid());
       try {
-        parent = plcUtil.get(args.db.get(), changeData.notes(), key);
+        parent = plcUtil.get(args.db.get(), changeData.notes(), key, null);
       } catch (OrmException e) {
         log.warn("Could not find the parent of this comment: "
             + child.toString());

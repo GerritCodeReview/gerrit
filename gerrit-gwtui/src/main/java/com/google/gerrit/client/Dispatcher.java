@@ -120,9 +120,9 @@ public class Dispatcher {
     return toPatch("", diffBase, revision, fileName, null, diffType, 0);
   }
 
-  public static String toSideBySide(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
-    return toPatch("", diffBase, revision, fileName, side, line);
+  public static String toSideBySide(PatchSet.Id diffBase, PatchSet.Id revision,
+      String fileName, DisplaySide side, DiffType diffType, int line) {
+    return toPatch("", diffBase, revision, fileName, side, diffType, line);
   }
 
   public static String toUnified(PatchSet.Id diffBase, PatchSet.Id revision,

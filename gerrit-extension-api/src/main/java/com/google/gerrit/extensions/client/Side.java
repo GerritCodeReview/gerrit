@@ -16,7 +16,8 @@ package com.google.gerrit.extensions.client;
 
 public enum Side {
   PARENT,
-  REVISION;
+  REVISION,
+  FIRST_PARENT;
 
   public static Side fromShort(short s) {
     switch (s) {
@@ -24,6 +25,8 @@ public enum Side {
         return PARENT;
       case 1:
         return REVISION;
+      case 2:
+        return FIRST_PARENT;
     }
     return null;
   }

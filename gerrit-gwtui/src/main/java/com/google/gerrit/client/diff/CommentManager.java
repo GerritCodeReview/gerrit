@@ -20,6 +20,7 @@ import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
@@ -45,6 +46,7 @@ class CommentManager {
   private final PatchSet.Id revision;
   private final String path;
   private final CommentLinkProcessor commentLinkProcessor;
+  private final DiffType diffType;
 
   private final Map<String, PublishedBox> published;
   private final SortedMap<Integer, CommentGroup> sideA;
@@ -58,12 +60,14 @@ class CommentManager {
       PatchSet.Id base, PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
+      DiffType diffType,
       boolean open) {
     this.host = host;
     this.base = base;
     this.revision = revision;
     this.path = path;
     this.commentLinkProcessor = clp;
+    this.diffType = diffType;
     this.open = open;
 
     published = new HashMap<>();
@@ -154,7 +158,8 @@ class CommentManager {
   private void renderPublished(DisplaySide forSide, JsArray<CommentInfo> in) {
     for (CommentInfo info : Natives.asList(in)) {
       DisplaySide side = displaySide(info, forSide);
-      if (side != null) {
+      if (side != null && (side == DisplaySide.A || info.line() < 1
+          || diffType == DiffType.fromSide(info.side()))) {
         CommentGroup group = group(side, info.line());
         PublishedBox box = new PublishedBox(
             group,
@@ -216,6 +221,7 @@ class CommentManager {
         commentLinkProcessor,
         getPatchSetIdFromSide(side),
         info,
+        diffType,
         expandAll);
 
     if (info.inReplyTo() != null) {

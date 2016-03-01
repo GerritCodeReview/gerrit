@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -273,9 +274,9 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     };
     CommentInfo input = toInput(comment);
     if (wasNew) {
-      CommentApi.createDraft(psId, input, cb);
+      CommentApi.createDraft(psId, DiffType.valueOf(Side.fromShort(comment.getSide()).name()), input, cb);
     } else {
-      CommentApi.updateDraft(psId, input.id(), input, cb);
+      CommentApi.updateDraft(psId, input.id(), DiffType.valueOf(Side.fromShort(comment.getSide()).name()), input, cb);
     }
   }
 
@@ -344,7 +345,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     CommentInfo i = CommentInfo.createObject().cast();
     i.id(c.getKey().get());
     i.path(c.getKey().getParentKey().get());
-    i.side(c.getSide() == 0 ? Side.PARENT : Side.REVISION);
+    i.side(Side.fromShort(c.getSide()));
     if (c.getLine() > 0) {
       i.line(c.getLine());
     }
@@ -365,7 +366,8 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
         i.inReplyTo(),
         i.updated());
     p.setMessage(i.message());
-    p.setSide((short) (i.side() == Side.PARENT ? 0 : 1));
+    p.setSide((short) (i.side() == Side.PARENT ? 0
+        : i.side() == Side.REVISION ? 1 : 2));
     return p;
   }
 }

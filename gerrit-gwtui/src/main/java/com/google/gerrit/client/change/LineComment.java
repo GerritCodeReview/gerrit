@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -53,11 +54,14 @@ class LineComment extends Composite {
       psNum.setInnerText(Integer.toString(info.patchSet()));
       sideLoc.removeFromParent();
       sideLoc = null;
-    } else if (info.side() == Side.PARENT) {
+    } else if (info.side() == Side.PARENT || info.side() == Side.FIRST_PARENT) {
       ps = defaultPs;
       psLoc.removeFromParent();
       psLoc = null;
       psNum= null;
+      if (info.side() == Side.FIRST_PARENT) {
+        sideLoc.setInnerText(Resources.C.firstParentLineComment());
+      }
     } else {
       ps = defaultPs;
       sideLoc.removeFromParent();
@@ -88,8 +92,9 @@ class LineComment extends Composite {
   }
 
   private static String url(PatchSet.Id ps, CommentInfo info) {
+    DiffType diffType = DiffType.fromSide(info.side());
     return Dispatcher.toSideBySide(null, ps, info.path(),
         info.side() == Side.PARENT ? DisplaySide.A : DisplaySide.B,
-        info.line());
+        diffType, info.line());
   }
 }

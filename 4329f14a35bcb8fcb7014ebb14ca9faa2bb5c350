@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1456510158 -0800\nnonce AO+Zq7j2TOxYYTVSMdHhgVk3zl+gFjeYpJ4/xRkBzZgUDxOroYpGBgugK1ekCnzDl+v07qMt92AE\n\n0000000000000000000000000000000000000000 4329f14a35bcb8fcb7014ebb14ca9faa2bb5c350 refs/for/stable-2.12\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW0JTOAAoJEGt7+xNJsB0beWQH/0155B72T5YRpyubys6l0OAb\nxOtCIBke95MBP35Z8UhxYz7pbvt2OK3B0sPzwkXHqBKovegZ/w6/iyFkPb/zwARD\ncue3TR3uiIW0BK2U3Us1tFJ7R8d1el75BkSaPzjKwH/jy+TI2OqzJSWbkfDC5aNn\nooln8nvaSPEfijnyzrvegdSc4d8IE93vjkGYt4Rp4yzy6UnFyFu2m1ztfhkzRysM\nd1thD9eCPsNPztCbggazO4I15oDryWvDtiSOLw/Z5mGovo9D75VNxXfY5UYMcXp/\nIyonaPZGw/ImJk+Fh5dez41Jiv+hkGf5DIYZOpPhu0u4o3+g+sxy/Yx0cyHxDVc\u003d\n\u003dJuk6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "62684971_67c67214",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-01T14:49:47Z",
+      "side": 1,
+      "message": "This is calling for:\n\n  Joiner.on(\", \").join(unmergeable)\n\njust that ChangeData.toString() is likely not what you want here.\nSo, we could use Iterables.transform for our custom toString transformation:\n\n  Joiner.on(\", \").join(Iterables.transform(unmergeable,\n    new Function\u003cChangeData, String) {\n      public String apply(ChangeData cd) {\n        return cd.getId().get();\n      }\n    }",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 11
+      },
+      "revId": "4329f14a35bcb8fcb7014ebb14ca9faa2bb5c350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

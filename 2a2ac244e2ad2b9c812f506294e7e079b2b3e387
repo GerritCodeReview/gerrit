@@ -35,6 +35,24 @@
       "revId": "2a2ac244e2ad2b9c812f506294e7e079b2b3e387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_12d5ccff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-02T01:12:40Z",
+      "side": 1,
+      "message": "Thanks.  Wasn\u0027t sure if you were still online and was about to start doing it myself :)",
+      "parentUuid": "c2ae55f9_d2f224be",
+      "revId": "2a2ac244e2ad2b9c812f506294e7e079b2b3e387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

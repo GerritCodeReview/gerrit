@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "62684971_6793d2d5",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "ack.",
+      "parentUuid": "82653d98_68a723d3",
+      "revId": "d5392f4bdf04c1dba73e6d564c7d9e09ad28ada3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "225ad1dd_c5be3adc",
         "filename": "polygerrit-ui/app/elements/gr-account-label.html",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "If I remember correctly it’s based on a property in the model.",
       "parentUuid": "425fc5cb_264dd6b2",
+      "revId": "d5392f4bdf04c1dba73e6d564c7d9e09ad28ada3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_06a77a1a",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "I\u0027ll file a separate bug on this.",
+      "parentUuid": "a20c01ef_b9795fa6",
       "revId": "d5392f4bdf04c1dba73e6d564c7d9e09ad28ada3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

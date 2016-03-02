@@ -59,6 +59,60 @@
     },
     {
       "key": {
+        "uuid": "62684971_07a0d617",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "this is for debugging purposes. I\u0027ll try to add some color instead.",
+      "parentUuid": "425fc5cb_46c9f220",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_e661feb2",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62684971_875cc626",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_c65c02fa",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62684971_875cc626",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_39c9cf22",
         "filename": "polygerrit-ui/app/elements/gr-account-link.html",
         "patchSetId": 8
@@ -76,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "62684971_875606d6",
+        "filename": "polygerrit-ui/app/elements/gr-account-link.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "Apparently not, but I don\u0027t understand how this works; isn\u0027t polymer supposed to encapsulate the inside of an element?",
+      "parentUuid": "a20c01ef_39c9cf22",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_79c34702",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 8
@@ -87,6 +159,24 @@
       "writtenOn": "2016-03-01T16:35:23Z",
       "side": 1,
       "message": "gr-account-link no longer has the show-email property. You can remove this.",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_86560ad6",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20c01ef_79c34702",
       "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "62684971_07653688",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "practical suggestions for how to do that? just making it a \u003cbutton\u003e will make it look differently, which is what we don\u0027t want.",
+      "parentUuid": "62684971_c762bee7",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_19c68b12",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 8
@@ -127,6 +235,24 @@
       "writtenOn": "2016-03-01T16:35:23Z",
       "side": 1,
       "message": "space after ,",
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_66aaeee3",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20c01ef_19c68b12",
       "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +276,24 @@
         "endLine": 85,
         "endChar": 16
       },
+      "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_2762ba81",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-02T17:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62684971_e767c2f4",
       "revId": "f8f0bf2a113ff520431d0d27047eda12ff337c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

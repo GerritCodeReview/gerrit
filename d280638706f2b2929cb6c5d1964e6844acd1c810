@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "229d71d4_adbe1dda",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T20:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2ae55f9_f262c814",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "229d71d4_ad957d5e",
         "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "229d71d4_6db435ff",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T20:15:45Z",
+      "side": 1,
+      "message": "Not supported in IE. :-/",
+      "parentUuid": "229d71d4_ad957d5e",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2ae55f9_d267c422",
         "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-02T19:05:33Z",
       "side": 1,
       "message": "if you do not care about the context of cb this could just be\n\n\neventCallbacks[JSAPI.EventName.HISTORY].forEach(cb.bind(null, detail.path))",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_f2e768cb",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T20:15:45Z",
+      "side": 1,
+      "message": "Then how would you get reference to the cb function in the first place?",
+      "parentUuid": "c2ae55f9_d267c422",
       "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "229d71d4_4db1790d",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T20:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2ae55f9_325d7050",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "229d71d4_ed9f8578",
         "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
         "patchSetId": 3
@@ -98,6 +170,24 @@
       "writtenOn": "2016-03-02T19:05:33Z",
       "side": 1,
       "message": "thoughts on splitting this out into another JS file?\n\nIt seems distant enough to justify a separate file",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_0da771d3",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T20:15:45Z",
+      "side": 1,
+      "message": "probably, but not now. ~100 lines is tractable for now.",
+      "parentUuid": "229d71d4_ed9f8578",
       "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

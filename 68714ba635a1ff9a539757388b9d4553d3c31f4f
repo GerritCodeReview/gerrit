@@ -92,6 +92,30 @@
       "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_86504aac",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-03-02T23:10:55Z",
+      "side": 1,
+      "message": "I think that\u0027s the only configuration needed in gerrit-core to delegate LFS calls to the configured plugin. All other lfs configuration will be done in the plugin.",
+      "parentUuid": "62684971_e713423f",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 59
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

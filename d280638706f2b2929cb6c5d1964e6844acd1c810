@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ae55f9_f262c814",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T19:05:33Z",
+      "side": 1,
+      "message": "thoughts around a strict equal for the false check?\n\nthoughts around extracting this check into a named function so it becomes possible to unit test this logic?",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_ad957d5e",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T19:05:33Z",
+      "side": 1,
+      "message": "perhaps this could use .find\n\nreturn submitCallbacks.find(...) ? .... : true\n\nsince the intent here is to find an element that meets a condition and then return a boolean depending on the result of the find",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_d267c422",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T19:05:33Z",
+      "side": 1,
+      "message": "if you do not care about the context of cb this could just be\n\n\neventCallbacks[JSAPI.EventName.HISTORY].forEach(cb.bind(null, detail.path))",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_8d9a418a",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T19:05:33Z",
+      "side": 1,
+      "message": "I think find is exactly what you want here :) since it will break on the first matching result",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_325d7050",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T19:05:33Z",
+      "side": 1,
+      "message": "a default with a console.warn would be nice here",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_ed9f8578",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T19:05:33Z",
+      "side": 1,
+      "message": "thoughts on splitting this out into another JS file?\n\nIt seems distant enough to justify a separate file",
+      "revId": "d280638706f2b2929cb6c5d1964e6844acd1c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

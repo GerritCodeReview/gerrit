@@ -448,19 +448,32 @@ limitations under the License.
         var insertIndex = e.detail.index + 1;
         var diffEl = Polymer.dom(e).rootTarget;
         var content = diffEl.content;
+        var draft = {
+          __draft: true,
+          __draftID: Math.random().toString(36),
+          __date: new Date(),
+          line: e.detail.line,
+          path: this.path,
+        };
         if (content[insertIndex] &&
             content[insertIndex].type == 'COMMENT_THREAD') {
-          // A thread is already here. Do nothing.
+          // A thread is already here. Bail if the latest comment is from the
+          // logged-in user.
+          var comments = content[insertIndex].comments;
+          var lastComment = comments[comments.length - 1];
+          // If no author is present, then the currently logged-in user is the
+          // author.
+          if (lastComment.author &&
+              lastComment.author._account_id != app.account._account_id) {
+            comments.push(draft);
+            draft.in_reply_to = lastComment.id;
+            diffEl.rowUpdated(insertIndex);
+          }
           return;
         }
         var comment = {
           type: 'COMMENT_THREAD',
-          comments: [{
-            __draft: true,
-            __draftID: Math.random().toString(36),
-            line: e.detail.line,
-            path: this.path,
-          }]
+          comments: [draft],
         };
         if (diffEl == this.$.leftDiff &&
             this.patchRange.basePatchNum == 'PARENT') {

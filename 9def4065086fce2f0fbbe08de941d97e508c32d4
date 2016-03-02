@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02aced05_0ca777d3",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T22:17:52Z",
+      "side": 1,
+      "message": "Use a mixin[1] to enable applying arbitrary styles to this. I think we should start with keeping the “chip” styling out of gr-account-label since not all instances of it would want to have horizontal padding or a light gray background.\n\nAlso, the display: inline-block; should be in the :host decl.\n\n[1] https://www.polymer-project.org/1.0/docs/devguide/styling.html#custom-css-mixins",
+      "revId": "9def4065086fce2f0fbbe08de941d97e508c32d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02aced05_6cb43bff",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T22:17:52Z",
+      "side": 1,
+      "message": "yeah this should go outside of the element styling so that you’re doing:\n\ngr-account-label {\n  background-color: \u003ccolor\u003e;\n  border-radius: .75em;\n  ...\n}",
+      "revId": "9def4065086fce2f0fbbe08de941d97e508c32d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_c724fe4c",
+        "filename": "polygerrit-ui/app/elements/gr-change-metadata.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T22:17:52Z",
+      "side": 1,
+      "message": "use css shorthand: #0f0;",
+      "revId": "9def4065086fce2f0fbbe08de941d97e508c32d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_e7290222",
+        "filename": "polygerrit-ui/app/elements/gr-change-metadata.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T22:17:52Z",
+      "side": 1,
+      "message": "same: #f00",
+      "revId": "9def4065086fce2f0fbbe08de941d97e508c32d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

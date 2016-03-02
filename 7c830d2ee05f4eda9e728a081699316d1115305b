@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ae55f9_f206486c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-02T02:59:36Z",
+      "side": 1,
+      "message": "It\u0027ll still be necessary for sites that explicitly don\u0027t use the default.\n\nMaybe wait on this revert until SSHD MINA is fixed and included in gerrit?",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "7c830d2ee05f4eda9e728a081699316d1115305b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

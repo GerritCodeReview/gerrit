@@ -181,7 +181,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private final List<String> showBranch = Lists.newArrayList();
   private boolean showTree;
-  private FilterType type = FilterType.CODE;
+  private FilterType type = FilterType.ALL;
   private boolean showDescription;
   private boolean all;
   private int limit;

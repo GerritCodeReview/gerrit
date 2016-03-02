@@ -58,7 +58,7 @@ used to unescape the output.
 
 --type::
 	Display only projects of the specified type.  If not
-	specified, defaults to `code`. Supported types:
+	specified, defaults to `all`. Supported types:
 +
 --
 `code`:: Any project likely to contain user files.

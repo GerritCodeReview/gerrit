@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "82b8dd3e_50caac64",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T18:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20c01ef_f95c7727",
+      "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2ae55f9_52b1140d",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-01T23:18:58Z",
       "side": 1,
       "message": "if we called into the helper class that I mentioned before you could do something like\n\nJSAPI.enqueueAction(function() {\n this.fire(......)\n}.bind(this));\n\n\nWhich would abstract this wait logic and isolate the responsibility for how the JSAPI calls work",
+      "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_727ed8b7",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T18:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2ae55f9_52b1140d",
       "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c2ae55f9_527bd4c5",
+        "filename": "polygerrit-ui/app/scripts/app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T18:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20c01ef_d961b3e1",
+      "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_39770fa7",
         "filename": "polygerrit-ui/app/scripts/js-api.js",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "82b8dd3e_b0e318f3",
+        "filename": "polygerrit-ui/app/scripts/js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T18:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20c01ef_39770fa7",
+      "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_1974cb9e",
         "filename": "polygerrit-ui/app/scripts/js-api.js",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2016-03-01T23:18:58Z",
       "side": 1,
       "message": "why null init?",
+      "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_b26840f7",
+        "filename": "polygerrit-ui/app/scripts/js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T18:50:49Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "a20c01ef_1974cb9e",
       "revId": "e3390432a934465c02d1bbe8278eab3ca30dc7b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

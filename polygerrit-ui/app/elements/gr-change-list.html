@@ -55,7 +55,7 @@ limitations under the License.
       <template is="dom-repeat" items="[[changeGroup]]" as="change">
         <gr-change-list-item
             selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
-            unreviewed="[[_computeItemUnreviewed(change, showReviewedState)]]"
+            needs-review="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
             change="[[change]]"
             show-star="[[showStar]]"
             label-names="[[labelNames]]"></gr-change-list-item>
@@ -75,6 +75,14 @@ limitations under the License.
       },
 
       properties: {
+        /**
+         * The logged-in user's account, or an empty object if no user is logged
+         * in.
+         */
+        account: {
+          type: Object,
+          value: function() { return {}; },
+        },
         /**
          * An array of ChangeInfo objects to render.
          * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
@@ -162,9 +170,10 @@ limitations under the License.
         return idx == selectedIndex;
       },
 
-      _computeItemUnreviewed: function(change, showReviewedState) {
+      _computeItemNeedsReview: function(account, change, showReviewedState) {
         return showReviewedState && !change.reviewed &&
-            change.status != this.ChangeStatus.MERGED;
+            change.status != this.ChangeStatus.MERGED &&
+            account._account_id != change.owner._account_id;
       },
 
       _handleKey: function(e) {

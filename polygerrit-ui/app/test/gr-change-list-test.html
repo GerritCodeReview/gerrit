@@ -105,35 +105,52 @@ limitations under the License.
       }, 1);
     });
 
-    test('unreviewed changes', function() {
+    test('changes needing review', function() {
       element.changes = [
         {
           _number: 0,
           reviewed: true,
+          owner: { _account_id: 0 },
         },
         {
           _number: 1,
+          owner: { _account_id: 0 },
         },
         {
           _number: 2,
           status: 'MERGED',
+          owner: { _account_id: 0 },
         },
+        {
+          _number: 3,
+          owner: { _account_id: 42 },
+        }
       ];
       flushAsynchronousOperations();
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 3);
+      assert.equal(elementItems.length, 4);
       for (var i = 0; i < elementItems.length; i++) {
-        assert.isFalse(elementItems[i].hasAttribute('unreviewed'));
+        assert.isFalse(elementItems[i].hasAttribute('needs-review'));
       }
 
       element.showReviewedState = true;
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 3);
-      assert.isFalse(elementItems[0].hasAttribute('unreviewed'));
-      assert.isTrue(elementItems[1].hasAttribute('unreviewed'));
-      assert.isFalse(elementItems[2].hasAttribute('unreviewed'));
+      assert.equal(elementItems.length, 4);
+      assert.isFalse(elementItems[0].hasAttribute('needs-review'));
+      assert.isTrue(elementItems[1].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[2].hasAttribute('needs-review'));
+      assert.isTrue(elementItems[3].hasAttribute('needs-review'));
+
+      element.account = { _account_id: 42 };
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 4);
+      assert.isFalse(elementItems[0].hasAttribute('needs-review'));
+      assert.isTrue(elementItems[1].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[2].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[3].hasAttribute('needs-review'));
     });
 
     test('no changes', function() {

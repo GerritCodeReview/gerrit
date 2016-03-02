@@ -82,7 +82,7 @@ port 29418, using the same hostname as the web server:
 
 ====
 ..................................................................
-  $ ssh -T -p 29418 sshusername@hostname
+  $ ssh -p 29418 sshusername@hostname
 
     ****    Welcome to Gerrit Code Review    ****
 

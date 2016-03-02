@@ -116,7 +116,7 @@ are entered in the middle of the RSA string.
 Verify that the ssh connection works for you.
 
 ----
-  user@host:~$ ssh user@localhost -p 29418 -T
+  user@host:~$ ssh user@localhost -p 29418
   The authenticity of host '[localhost]:29418 ([127.0.0.1]:29418)' can't be established.
   RSA key fingerprint is db:07:3d:c2:94:25:b5:8d:ac:bc:b5:9e:2f:95:5f:4a.
   Are you sure you want to continue connecting (yes/no)? yes

@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "62684971_e786e295",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-02T11:40:21Z",
+      "side": 1,
+      "message": "As I already commented, for the auto-merge case the first-parent is NOT used in the PatchListKey. Instead the oldId is NULL and the newId is the ID of the merge commit.",
+      "parentUuid": "425fc5cb_c6d402c3",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_bf40f380",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14

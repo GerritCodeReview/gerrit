@@ -132,7 +132,7 @@ limitations under the License.
           hidden$="[[!_loggedIn]]" hidden>
       <div class="jumpToFileContainer">
         <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
-          <span>[[_path]]</span>
+          <span>[[_computeFileDisplayName(_path)]]</span>
           <span class="downArrow">&#9660;</span>
         </gr-button>
         <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
@@ -141,7 +141,9 @@ limitations under the License.
               <a href$="[[_computeDiffURL(_changeNum, _patchRange, path)]]"
                  selected$="[[_computeFileSelected(path, _path)]]"
                  data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                 on-tap="_handleFileTap">[[path]]</a>
+                 on-tap="_handleFileTap">
+                 [[_computeFileDisplayName(path)]]
+              </a>
             </template>
           </div>
         </iron-dropdown>
@@ -152,7 +154,7 @@ limitations under the License.
             <option
                 value$="[[path]]"
                 selected$="[[_computeFileSelected(path, _path)]]">
-              [[path]]
+              [[_computeFileDisplayName(path)]]
             </option>
           </template>
         </select>
@@ -171,6 +173,8 @@ limitations under the License.
   <script>
   (function() {
     'use strict';
+
+    var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
     Polymer({
       is: 'gr-diff-view',
@@ -238,7 +242,8 @@ limitations under the License.
 
       attached: function() {
         if (this._path) {
-          this.fire('title-change', {title: this._path});
+          this.fire('title-change',
+              {title: this._computeFileDisplayName(this._path)});
         }
         window.addEventListener('resize', this._boundWindowResizeHandler);
       },
@@ -343,7 +348,8 @@ limitations under the License.
         };
         this._path = value.path;
 
-        this.fire('title-change', {title: this._path});
+        this.fire('title-change',
+            {title: this._computeFileDisplayName(this._path)});
 
         // When navigating away from the page, there is a possibility that the
         // patch number is no longer a part of the URL (say when navigating to
@@ -400,6 +406,10 @@ limitations under the License.
         }
 
         return base;
+      },
+
+      _computeFileDisplayName: function(path) {
+        return path == COMMIT_MESSAGE_PATH ? 'Commit message' : path;
       },
 
       _computeChangeDetailPath: function(changeNum) {

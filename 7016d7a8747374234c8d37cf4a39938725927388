@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1456880726 -0800\nnonce AO+Zq7jdGu5VBbxddPN3gUdIymeBnFE+qD+CI4+gQJvnAlDPCSCdniAaMUbuMXovOoQK9B/gN6Ww\n\n0000000000000000000000000000000000000000 7016d7a8747374234c8d37cf4a39938725927388 refs/for/stable-2.12\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW1jxWAAoJEGt7+xNJsB0byfsH/3Yxj6TmGynfy7IqXYBJqz7F\n0aVfCPx9gqTAzpLNORF+nFsd9/Fw/hpZmIoVM4OM9FZTdXiE+ANrgK/VGZHat5dC\nWfgp2hYP4BiutWpvSY31NwzSEjfo2zgItA8hAhNmNclsUwOEuLW3dNeZeiIoBR8x\nUlCROC4LHV5Rbby/AwTBtHsN/ALF64JBSn7JgxjSKHtNzA8ytX/acUAYrGnnWYU3\nM2i7pTfBELIvIhuJfRjDIiIzXz0MZNJJbMyErxIqPEVRRVeffTkm0RHLfkFEG7Zp\nQddfQzUKOohPsU7zch2j/qJKRcThZXNBkAvjCQPAMpTcYlfkiDvqa2nI11wqa7s\u003d\n\u003dJS9s\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a20c01ef_7946a74a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-02T01:14:05Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this have also got indented?",
+      "range": {
+        "startLine": 255,
+        "startChar": 14,
+        "endLine": 258,
+        "endChar": 15
+      },
+      "revId": "7016d7a8747374234c8d37cf4a39938725927388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

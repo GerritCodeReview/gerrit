@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62684971_e76102b3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-02T10:49:21Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t this be enough?\n\nNo, it wouldn\u0027t because when a plugin serves some path X then Gerrit\nexposes that under \"/plugins/\u003cplugin-name\u003e/X. Therefore the URL_REGEX would be served under /plugins/lfs-storage-s3/URL_REGEX. Consequently, this would require additional configuration of every git-lfs client because the LFS protocol endpoint is not at its default URL.\n\n\u003eWhat\u0027s the purpose of this LfsPluginServlet?\n\nIt has 2 purposes:\n1.  to expose the standard LFS endpoint to Gerrit clients:\n/project-name/info/lfs/objects/batch\n2. forward LFS protocol requests to configured LFS plugin.",
+      "parentUuid": "425fc5cb_6622ee9c",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 72
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62684971_27015ae8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
         "patchSetId": 12

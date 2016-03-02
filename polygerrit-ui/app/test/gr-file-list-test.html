@@ -260,6 +260,21 @@ limitations under the License.
           '');
     });
 
+    test('computed properties', function() {
+      assert.equal(element._computeFileStatus('A'), 'A');
+      assert.equal(element._computeFileStatus(undefined), 'M');
+      assert.equal(element._computeFileStatus(null), 'M');
+
+      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
+          '/foo/bar/baz');
+      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
+          'Commit message');
+
+      assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
+      assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
+          'clazz invisible');
+    });
+
     test('file review status', function(done) {
       element.changeNum = '42';
       element.patchNum = '2';

@@ -282,7 +282,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(committer.email).isEqualTo(admin.email);
 
     // Rebasing the second change again should fail
-    exception.equals(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     exception.expectMessage("Change is already up to date");
     gApi.changes()
         .id(changeId)
@@ -345,7 +345,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
-    exception.equals(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     exception.expectMessage("Change is already up to date");
     gApi.changes()
         .id(r.getChangeId())

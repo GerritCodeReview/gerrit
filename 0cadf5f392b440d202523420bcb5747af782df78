@@ -16,6 +16,24 @@
       "revId": "0cadf5f392b440d202523420bcb5747af782df78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_72fc185e",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-02T21:18:31Z",
+      "side": 1,
+      "message": "Looks like we’re transitively pulling in https://github.com/PolymerLabs/promise-polyfill via iron-ajax. We should make it more explicit in the app, though.",
+      "parentUuid": "c2ae55f9_12ef8ca2",
+      "revId": "0cadf5f392b440d202523420bcb5747af782df78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

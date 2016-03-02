@@ -23,6 +23,30 @@
       "revId": "7016d7a8747374234c8d37cf4a39938725927388",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ae55f9_72e258eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-02T01:18:04Z",
+      "side": 1,
+      "message": "Eclipse said no, when I asked via CTRL + I.",
+      "parentUuid": "a20c01ef_7946a74a",
+      "range": {
+        "startLine": 255,
+        "startChar": 14,
+        "endLine": 258,
+        "endChar": 15
+      },
+      "revId": "7016d7a8747374234c8d37cf4a39938725927388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

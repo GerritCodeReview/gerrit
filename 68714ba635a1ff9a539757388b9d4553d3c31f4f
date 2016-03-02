@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "425fc5cb_6622ee9c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-03-02T07:38:54Z",
+      "side": 1,
+      "message": "I am confused.In https://gerrit-review.googlesource.com/#/c/74585/10 you bind the LfsApiServlet to URL_REGEX. Wouldn\u0027t this be enough? What\u0027s the purpose of this LfsPluginServlet?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 72
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_27015ae8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-03-02T07:38:54Z",
+      "side": 1,
+      "message": "final?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 9
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_e713423f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-03-02T07:38:54Z",
+      "side": 1,
+      "message": "We should consider to have a dedicated LfsConfig class (depending on how ample the configuration will get).",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 59
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

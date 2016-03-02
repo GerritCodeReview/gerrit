@@ -14,21 +14,25 @@ listed in these release notes.
 *WARNING:* This version includes a manual schema upgrade when upgrading
 from 2.12.
 +
-If you have already upgraded to 2.12, you need to issue this SQL statement
-manually (e.g. using the `gerrit gsql` SSH command or the `gqsl` site
-program):
+When upgrading a site that is already running version 2.12, the `patch_sets`
+table must be manually migrated using the `gerrit gsql` SSH command or the
+`gqsl` site program.
++
+For the default H2 database or MySQL, execute the command:
 +
   alter table patch_sets modify push_certficate clob;
 +
-Or with this command if the site is configured to use PostgreSQL:
+For PostgreSQL, execute the command:
 +
   alter table patch_sets alter column push_certficate type text;
++
+For other database types, execute the appropriate equivalent command.
 +
 Note that the misspelled `push_certficate` is the actual name of the
 column.
 +
-If you are upgrading from a version earlier than 2.12, this manual step is
-not necessary and should be omitted.
+When upgrading from a version earlier than 2.12, this manual step is not
+necessary and should be omitted.
 
 
 Bug Fixes
@@ -125,8 +129,26 @@ is reduced from 'no limit' to 1024.
 Explicitly set parent project to 'All-Projects' when a project is created
 without giving the parent.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=3948[Issue 3919]:
+Fix submit of project parent updates on `refs/meta/config`.
++
+When submitting a change on `refs/meta/config` to update a project's parent,
+the error 'The change must be submitted by a Gerrit administrator' was being
+displayed even when the submitter was an admin. The submit was successful
+when clicking 'Submit' a second time.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3811[Issue 3811]:
+Fix submittability of merge commits that resolve merge conflicts.
++
+If a series of changes contained a change that conflicted with the destination
+branch, but the conflict was solved by a merge commit at the tip of the
+series, the series was not submittable.
+
 UI
 ^^
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3894[Issue 3894]:
+Fix display of 'Related changes' after change is rebased in web UI:
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=3071[Issue 3071]:
 Fix display of submodule differences in side-by-side view.
@@ -152,6 +174,9 @@ these characters could be typed without using any modifier key (like CTRL, ALT,
 etc..).
 +
 Note that the problem still exists on the unified diff screen.
+
+* Improve tooltip on 'Submit' button when 'Submit whole topic' is enabled
+and the topic can't be submitted due to some changes not being ready.
 
 Plugins
 ^^^^^^^
@@ -182,6 +207,8 @@ Documentation
 ^^^^^^^^^^^^^
 
 * Update documentation of `commentlink` to reflect changed search URL.
+
+* Add missing documentation of valid `database.type` values.
 
 Upgrades
 --------

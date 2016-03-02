@@ -22,6 +22,30 @@
       "revId": "e8a521447d50355cc6dd96d9b21f48688309f5e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_d92ff381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-02T02:50:21Z",
+      "side": 1,
+      "message": "It\u0027s Apache version 2, which is the same as Gerrit.  See the header in [1].\n\nThe files was removed in [2] anyway, before being included in any release.\n\n\n[1] https://gerrit-review.googlesource.com/#/c/73033/6/gerrit-sshd/src/main/java/com/google/gerrit/sshd/FileKeyPairProvider.java\n\n[2] https://gerrit-review.googlesource.com/#/c/75260/",
+      "parentUuid": "c2ae55f9_b20cc08e",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "e8a521447d50355cc6dd96d9b21f48688309f5e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

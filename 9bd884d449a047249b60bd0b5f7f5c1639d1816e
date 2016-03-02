@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02aced05_acbe23da",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-02T23:05:30Z",
+      "side": 1,
+      "message": "if status will never be false / 0 or an empty string this is fine.\n\nOtherwise perhaps an explicit undefined check would be good",
+      "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

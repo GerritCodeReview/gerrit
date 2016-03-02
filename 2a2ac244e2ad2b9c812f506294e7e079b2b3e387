@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1456851616 -0800\nnonce AO+Zq7ivmoos0W0UbuI6x5ZD7rONF6LKElLP32+X0nuy1VA47u0yIpxfDWyVHwq/DtG12IQ4Bzst\n\n0000000000000000000000000000000000000000 2a2ac244e2ad2b9c812f506294e7e079b2b3e387 refs/for/stable-2.12\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW1cqgAAoJEGt7+xNJsB0bZiQH/RSIznEwOy6wd9MuwIYe4z1z\notKxfAJmzLs2/2xqu6WCIm70S+wsO4Wcl3yGasEnxZ+XVpJXXIx7J28uv0W+Cixk\nBf3sxY11j2iuqeDCuD53IbIeyPNS8V8xVeH//kX0wxk8/CLHB7Q8JRi/l2auLwqO\nLtpVwYIFLJxynA/5tR7Gprik4Mc/zwRvDwV+klh6coK2oB0KUST/8sITXZYA2xRF\nFD2K5O0ZLWoot4sJEpSJnUObh9IK9/hCi18qXCKY53UmIDAkcFTgxrjeBST7P8t4\noOMxAhGeHOf+P6tYB22N/058wsE/jP4wzRKs0RdcE5nKPGVPG5LcBxwcJlo3i5w\u003d\n\u003dliQ5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ae55f9_f2eda8dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-02T00:59:22Z",
+      "side": 1,
+      "message": "nit: wrong indentation",
+      "revId": "2a2ac244e2ad2b9c812f506294e7e079b2b3e387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

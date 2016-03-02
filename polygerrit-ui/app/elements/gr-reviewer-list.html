@@ -82,7 +82,7 @@ limitations under the License.
             class="remove"
             data-account-id$="[[reviewer._account_id]]"
             on-tap="_handleRemoveTap"
-            hidden$="[[_computeCannotRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
+            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
       </div>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
@@ -213,16 +213,16 @@ limitations under the License.
         });
       },
 
-      _computeCannotRemoveReviewer: function(reviewer, mutable) {
-        if (!mutable) { return true; }
+      _computeCanRemoveReviewer: function(reviewer, mutable) {
+        if (!mutable) { return false; }
 
         for (var i = 0; i < this.change.removable_reviewers.length; i++) {
           if (this.change.removable_reviewers[i]._account_id ==
               reviewer._account_id) {
-            return false;
+            return true;
           }
         }
-        return true;
+        return false;
       },
 
       _computeAutocompleteURL: function(change) {

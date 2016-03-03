@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "229d71d4_ed894515",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-03T16:20:42Z",
+      "side": 1,
+      "message": "this also might be worth pulling into a named method, while it might seem silly right right now, the long term maintainability gains we get from pulling this kind of logic out and adding basic unit tests to the logic is quite large.",
+      "revId": "57a854af5270d0270a4130d7c1f50dead2a1f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02aced05_cc40cf82",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-03T16:20:42Z",
+      "side": 1,
+      "message": "can we pull this into a named method so the logic here becomes testable :)",
+      "revId": "57a854af5270d0270a4130d7c1f50dead2a1f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

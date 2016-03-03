@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "229d71d4_4d2699fd",
+        "filename": "polygerrit-ui/app/test/gr-change-actions-test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-03T15:58:35Z",
+      "side": 1,
+      "message": "oxford comma :)\n\nsubmit, rebase, and cherry-pick",
+      "revId": "5f022a10ae72fb4ad336c1d1632fc51c31019fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "425fc5cb_26e5d61f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 2837,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-03-03T15:30:19Z",
+      "side": 1,
+      "message": "how could gerrit-core detect if a plugin wants to register a servlet on  \n\n com.google.gerrit.httpd.plugins.LfsPluginServlet.URL_REGEX\n\n?",
+      "parentUuid": "02aced05_8c36c73a",
+      "range": {
+        "startLine": 2828,
+        "startChar": 0,
+        "endLine": 2837,
+        "endChar": 17
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "425fc5cb_6622ee9c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
         "patchSetId": 12
@@ -153,6 +177,24 @@
       "writtenOn": "2016-03-03T13:13:32Z",
       "side": 1,
       "message": "JGit was already upgraded to this version on master [1].  If you rebase on master it\u0027s not necessary to change this file or any of the others under lib/ and then the Library-Compliance label will not be needed.\n\n[1] https://gerrit-review.googlesource.com/75359",
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_06e8daf6",
+        "filename": "lib/JGIT_VERSION",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-03-03T15:30:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "229d71d4_0d2c91db",
       "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

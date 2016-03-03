@@ -146,12 +146,6 @@ public class CapabilityControl {
         || canAdministrateServer();
   }
 
-  /** @return true if the user can view the installed plugins. */
-  public boolean canViewPlugins() {
-    return canPerform(GlobalCapability.VIEW_PLUGINS)
-      || canAdministrateServer();
-  }
-
   /** @return true if the user can view the entire queue. */
   public boolean canViewQueue() {
     return canPerform(GlobalCapability.VIEW_QUEUE)

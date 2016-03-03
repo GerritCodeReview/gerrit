@@ -111,9 +111,6 @@ public class GlobalCapability {
   /** Can view open connections to the server's SSH port. */
   public static final String VIEW_CONNECTIONS = "viewConnections";
 
-  /** Can view all installed plugins. */
-  public static final String VIEW_PLUGINS = "viewPlugins";
-
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
 
@@ -141,7 +138,6 @@ public class GlobalCapability {
     NAMES_ALL.add(VIEW_ALL_ACCOUNTS);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);
-    NAMES_ALL.add(VIEW_PLUGINS);
     NAMES_ALL.add(VIEW_QUEUE);
 
     NAMES_LC = new ArrayList<>(NAMES_ALL.size());

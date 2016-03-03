@@ -34,7 +34,6 @@ class CapabilityInfo {
   public boolean viewAllAccounts;
   public boolean viewCaches;
   public boolean viewConnections;
-  public boolean viewPlugins;
   public boolean viewQueue;
 
   static class QueryLimit {

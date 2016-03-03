@@ -16,7 +16,6 @@ package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 import static com.google.gerrit.common.data.HostPageData.XSRF_COOKIE_NAME;
 
 import com.google.gerrit.client.account.AccountApi;
@@ -755,6 +754,9 @@ public class Gerrit implements EntryPoint {
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
       menuBars.put(GerritTopMenu.PLUGINS.menuName, pluginsBar);
+      insertLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS, 0);
+      menuLeft.insert(pluginsBar, C.menuPlugins(), menuLeft.getWidgetIndex(peopleBar) + 1);
+
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {
@@ -768,14 +770,8 @@ public class Gerrit implements EntryPoint {
                 PageLinks.ADMIN_CREATE_GROUP,
                 peopleBar.getWidgetIndex(groupsListMenuItem) + 1);
           }
-          if (result.canPerform(VIEW_PLUGINS)) {
-            insertLink(pluginsBar, C.menuPluginsInstalled(),
-                PageLinks.ADMIN_PLUGINS, 0);
-            menuLeft.insert(pluginsBar, C.menuPlugins(),
-                menuLeft.getWidgetIndex(peopleBar) + 1);
-          }
         }
-      }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
+      }, CREATE_PROJECT, CREATE_GROUP);
     }
 
     if (hasDocumentation) {

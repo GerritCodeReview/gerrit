@@ -1371,12 +1371,6 @@ capability allows the granted group to
 link:cmd-show-connections.html[look at Gerrit's current connections via ssh].
 
 
-[[capability_viewPlugins]]
-=== View Plugins
-
-Allow viewing the list of installed plugins.
-
-
 [[capability_viewQueue]]
 === View Queue
 

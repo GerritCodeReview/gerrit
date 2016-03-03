@@ -16,14 +16,12 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.ListPlugins;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-@RequiresCapability(GlobalCapability.VIEW_PLUGINS)
 @CommandMetaData(name = "ls", description = "List the installed plugins",
   runsAt = MASTER_OR_SLAVE)
 final class PluginLsCommand extends SshCommand {

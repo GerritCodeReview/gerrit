@@ -29,7 +29,6 @@ import static com.google.gerrit.common.data.GlobalCapability.STREAM_EVENTS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_ALL_ACCOUNTS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CONNECTIONS;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_QUEUE;
 
 import com.google.common.collect.Iterables;
@@ -119,7 +118,6 @@ class GetCapabilities implements RestReadView<AccountResource> {
     have.put(VIEW_ALL_ACCOUNTS, cc.canViewAllAccounts());
     have.put(VIEW_CACHES, cc.canViewCaches());
     have.put(VIEW_CONNECTIONS, cc.canViewConnections());
-    have.put(VIEW_PLUGINS, cc.canViewPlugins());
     have.put(VIEW_QUEUE, cc.canViewQueue());
 
     QueueProvider.QueueType queue = cc.getQueueType();

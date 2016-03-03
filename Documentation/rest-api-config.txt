@@ -749,10 +749,6 @@ The entries in the map are sorted by capability ID.
       "id": "viewConnections",
       "name": "View Connections"
     },
-    "viewPlugins": {
-      "id": "viewPlugins",
-      "name": "View Plugins"
-    },
     "viewQueue": {
       "id": "viewQueue",
       "name": "View Queue"

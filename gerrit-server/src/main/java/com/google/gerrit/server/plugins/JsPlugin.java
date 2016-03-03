@@ -30,7 +30,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import java.nio.file.Path;
 
 class JsPlugin extends Plugin {
-  private Injector httpInjector;
+  private Injector sysInjector;
 
   JsPlugin(String name, Path srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
@@ -52,7 +52,7 @@ class JsPlugin extends Plugin {
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
     String fileName = getSrcFile().getFileName().toString();
-    httpInjector =
+    sysInjector =
         Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
     manager.start();
   }
@@ -61,13 +61,13 @@ class JsPlugin extends Plugin {
   protected void stop(PluginGuiceEnvironment env) {
     if (manager != null) {
       manager.stop();
-      httpInjector = null;
+      sysInjector = null;
     }
   }
 
   @Override
   public Injector getSysInjector() {
-    return null;
+    return sysInjector;
   }
 
   @Override
@@ -79,7 +79,7 @@ class JsPlugin extends Plugin {
   @Override
   @Nullable
   public Injector getHttpInjector() {
-    return httpInjector;
+    return null;
   }
 
   @Override

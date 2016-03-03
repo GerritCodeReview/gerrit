@@ -16,6 +16,24 @@
       "revId": "5f022a10ae72fb4ad336c1d1632fc51c31019fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "425fc5cb_e6b7be1e",
+        "filename": "polygerrit-ui/app/test/gr-change-actions-test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-03T16:35:56Z",
+      "side": 1,
+      "message": "With this project, you never stop learning new stuff ;-)\n\nDone.",
+      "parentUuid": "229d71d4_4d2699fd",
+      "revId": "5f022a10ae72fb4ad336c1d1632fc51c31019fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

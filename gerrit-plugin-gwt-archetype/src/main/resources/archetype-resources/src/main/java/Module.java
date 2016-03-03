@@ -15,7 +15,9 @@
 package ${package};
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.GwtPlugin;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.inject.AbstractModule;
 
 public class Module extends AbstractModule {
@@ -23,5 +25,7 @@ public class Module extends AbstractModule {
   @Override
   protected void configure() {
     DynamicSet.bind(binder(), TopMenu.class).to(HelloMenu.class);
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new GwtPlugin("hello_gwt_plugin"));
   }
 }

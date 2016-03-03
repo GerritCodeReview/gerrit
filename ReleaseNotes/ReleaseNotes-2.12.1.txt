@@ -80,7 +80,7 @@ in other tables, a null change was returned which would then lead to an
 'Internal Server Error' that was difficult to track down. Now an error is
 raised earlier which will help administrators to find the root cause.
 
-* https://code.google.com/p/gerrit/issues/detail?id=3743[Issue 3743]:
+* link:https://code.google.com/p/gerrit/issues/detail?id=3743[Issue 3743]:
 Use submitter identity as committer when using 'Rebase if Necessary' merge
 strategy.
 +
@@ -150,6 +150,9 @@ Fix submittability of merge commits that resolve merge conflicts.
 If a series of changes contained a change that conflicted with the destination
 branch, but the conflict was solved by a merge commit at the tip of the
 series, the series was not submittable.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3883[Issue 3883]:
+Respect the `core.commentchar` setting from `.gitconfig` in `commit-msg` hook.
 
 UI
 ~~

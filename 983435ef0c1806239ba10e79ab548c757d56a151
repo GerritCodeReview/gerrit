@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "229d71d4_0dfe517f",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-03T01:34:14Z",
+      "side": 1,
+      "message": "I\u0027d prefer to have this (and the COMMIT_MESSAGE_PATH definition) in a common place rather than duplicated in two places.  But this can be done later.",
+      "range": {
+        "startLine": 411,
+        "startChar": 6,
+        "endLine": 413,
+        "endChar": 8
+      },
+      "revId": "983435ef0c1806239ba10e79ab548c757d56a151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

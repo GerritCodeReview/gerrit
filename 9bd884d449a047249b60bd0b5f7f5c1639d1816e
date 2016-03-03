@@ -34,6 +34,52 @@
       "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02aced05_4cca1f65",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-03T00:40:37Z",
+      "side": 1,
+      "message": "In the GWT UI the M is capitalised.",
+      "range": {
+        "startLine": 330,
+        "startChar": 53,
+        "endLine": 330,
+        "endChar": 54
+      },
+      "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_4ddfb91d",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-03T00:40:37Z",
+      "side": 1,
+      "message": "This will also be needed in the side-by-side screen; can it be factored out to a common module?",
+      "range": {
+        "startLine": 329,
+        "startChar": 6,
+        "endLine": 331,
+        "endChar": 8
+      },
+      "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

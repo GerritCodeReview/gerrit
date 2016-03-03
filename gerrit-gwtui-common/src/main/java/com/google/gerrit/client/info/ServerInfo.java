@@ -18,6 +18,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,6 +69,8 @@ public class ServerInfo extends JavaScriptObject {
 
   public static class PluginConfigInfo extends JavaScriptObject {
     public final native boolean hasAvatars() /*-{ return this.has_avatars || false; }-*/;
+    public final native JsArrayString jsResourcePaths() /*-{
+        return this.js_resource_paths || []; }-*/;
 
     protected PluginConfigInfo() {
     }

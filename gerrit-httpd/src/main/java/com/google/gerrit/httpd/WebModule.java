@@ -16,8 +16,6 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -70,8 +68,6 @@ public class WebModule extends LifecycleModule {
     if (gitwebCgiConfig.getGitwebCgi() != null) {
       install(new GitwebModule());
     }
-
-    DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     install(new AsyncReceiveCommits.Module());
 

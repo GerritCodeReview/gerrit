@@ -26,7 +26,9 @@ import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.EnableSignedPush;
@@ -58,6 +60,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<CloneCommand> cloneCommands;
+  private final DynamicSet<WebUiPlugin> plugins;
   private final GetArchive.AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
@@ -75,6 +78,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<CloneCommand> cloneCommands,
+      DynamicSet<WebUiPlugin> webUiPlugins,
       GetArchive.AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
@@ -89,6 +93,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
     this.cloneCommands = cloneCommands;
+    this.plugins = webUiPlugins;
     this.archiveFormats = archiveFormats;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
@@ -270,6 +275,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private PluginConfigInfo getPluginInfo() {
     PluginConfigInfo info = new PluginConfigInfo();
     info.hasAvatars = toBoolean(avatar.get() != null);
+    info.jsResourcePaths = Lists.newArrayList();
+    for (WebUiPlugin u : plugins) {
+      info.jsResourcePaths.add(String.format("plugins/%s/%s",
+          u.getPluginName(),
+          u.getJavaScriptResourcePath()));
+    }
     return info;
   }
 
@@ -385,6 +396,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   public static class PluginConfigInfo {
     public Boolean hasAvatars;
+    public List<String> jsResourcePaths;
   }
 
   public static class SshdInfo {

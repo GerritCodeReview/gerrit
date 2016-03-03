@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "02aced05_ace3c3f2",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-03T00:50:18Z",
+      "side": 1,
+      "message": "In PolyGerrit the only other reference (heading on the change view screen) doesn’t have a capital M.",
+      "parentUuid": "02aced05_4cca1f65",
+      "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "229d71d4_4ddfb91d",
         "filename": "polygerrit-ui/app/elements/gr-file-list.html",
         "patchSetId": 1
@@ -77,6 +95,24 @@
         "endLine": 331,
         "endChar": 8
       },
+      "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_8d11a1aa",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-03T00:50:18Z",
+      "side": 1,
+      "message": "Perhaps in a future change.",
+      "parentUuid": "229d71d4_4ddfb91d",
       "revId": "9bd884d449a047249b60bd0b5f7f5c1639d1816e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

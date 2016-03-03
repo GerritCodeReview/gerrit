@@ -39,10 +39,12 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -125,6 +127,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_MERGE_CONTENT = "mergeContent";
   private static final String KEY_STATE = "state";
 
+  private static final String SUBSCRIBE_SECTION = "subscribe";
+
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
   private static final String KEY_LOCAL_DEFAULT = "local-default";
@@ -161,6 +165,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
   private ConfiguredMimeTypes mimeTypes;
+  private Map<Project.NameKey, SubscribeSection> subscribeSections;
   private List<CommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
@@ -253,6 +258,17 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public BranchOrderSection getBranchOrderSection() {
     return branchOrderSection;
+  }
+
+  public Collection<SubscribeSection> getSubscribeSections(
+      Branch.NameKey branch) {
+    Collection<SubscribeSection> ret = Collections.emptyList();
+    for (SubscribeSection s : subscribeSections.values()) {
+      if (s.appliesTo(branch)) {
+        ret.add(s);
+      }
+    }
+    return ret;
   }
 
   public void remove(AccessSection section) {
@@ -440,6 +456,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
+    loadSubscribeSections(rc);
     mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
@@ -769,6 +786,19 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
     }
     commentLinkSections = ImmutableList.copyOf(commentLinkSections);
+  }
+
+  private void loadSubscribeSections(Config rc) {
+    Set<String> subsections = rc.getSubsections(SUBSCRIBE_SECTION);
+    subscribeSections =  new HashMap<>();
+    for (String projectName : subsections) {
+      Project.NameKey p = new Project.NameKey(projectName);
+      SubscribeSection ss = new SubscribeSection(p);
+      for (String s : rc.getStringList(SUBSCRIBE_SECTION, projectName, "refs")) {
+        ss.addRefSpec(s);
+      }
+      subscribeSections.put(p, ss);
+    }
   }
 
   private void loadReceiveSection(Config rc) {

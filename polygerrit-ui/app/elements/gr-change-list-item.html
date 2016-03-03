@@ -31,7 +31,7 @@ limitations under the License.
       :host([selected]) {
         background-color: #ebf5fb;
       }
-      :host([unreviewed]) {
+      :host([needs-review]) {
         font-weight: bold;
       }
       .cell {
@@ -98,7 +98,7 @@ limitations under the License.
           value: false,
           reflectToAttribute: true,
         },
-        unreviewed: {
+        needsReview: {
           type: Boolean,
           value: false,
           reflectToAttribute: true,

@@ -321,6 +321,11 @@ limitations under the License.
       assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
       assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
       assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
+
+      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
+          '/foo/bar/baz');
+      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
+          'Commit message');
     });
 
     test('jump to file dropdown with patch range', function() {

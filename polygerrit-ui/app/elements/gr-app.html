@@ -126,6 +126,7 @@ limitations under the License.
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
         <gr-dashboard-view
+            account="[[account]]"
             params="[[params]]"
             view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>

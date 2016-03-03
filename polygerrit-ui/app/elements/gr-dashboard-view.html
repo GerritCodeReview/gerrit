@@ -54,6 +54,7 @@ limitations under the License.
       <gr-change-list
           show-star
           show-reviewed-state
+          account="[[account]]"
           selected-index="{{viewState.selectedChangeIndex}}"
           groups="{{_results}}"
           group-titles="[[_groupTitles]]"></gr-change-list>
@@ -73,6 +74,10 @@ limitations under the License.
        */
 
       properties: {
+        account: {
+          type: Object,
+          value: function() { return {}; },
+        },
         viewState: Object,
 
         _results: Array,

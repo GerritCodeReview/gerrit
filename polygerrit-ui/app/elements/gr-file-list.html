@@ -76,6 +76,9 @@ limitations under the License.
       .stats {
         min-width: 7em;
       }
+      .invisible {
+        visibility: hidden;
+      }
       .row:not(.header) .stats {
         font-family: var(--monospace-font-family);
       }
@@ -135,15 +138,17 @@ limitations under the License.
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
               data-path$="[[file.__path]]" on-change="_handleReviewedChange">
         </div>
-        <div class="status">[[file.status]]</div>
+        <div class$="[[_computeClass('status', file.__path)]]">
+          [[_computeFileStatus(file.status)]]
+        </div>
         <a class="path" href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">
-          [[file.__path]]
+          [[_computeFileDisplayName(file.__path)]]
         </a>
         <div class="comments">
           <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
           [[_computeCommentsString(comments, patchNum, file.__path)]]
         </div>
-        <div class="stats">
+        <div class$="[[_computeClass('stats', file.__path)]]">
           <span class="added">+[[file.lines_inserted]]</span>
           <span class="removed">-[[file.lines_deleted]]</span>
         </div>
@@ -153,6 +158,8 @@ limitations under the License.
   <script>
   (function() {
     'use strict';
+
+    var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
     Polymer({
       is: 'gr-file-list',
@@ -311,8 +318,24 @@ limitations under the License.
         return index == selectedIndex;
       },
 
+      _computeFileStatus: function(status) {
+        return status || 'M';
+      },
+
       _computeDiffURL: function(changeNum, patchNum, path) {
         return '/c/' + changeNum + '/' + patchNum + '/' + path;
+      },
+
+      _computeFileDisplayName: function(path) {
+        return path == COMMIT_MESSAGE_PATH ? 'Commit message' : path;
+      },
+
+      _computeClass: function(baseClass, path) {
+        var classes = [baseClass];
+        if (path == COMMIT_MESSAGE_PATH) {
+          classes.push('invisible');
+        }
+        return classes.join(' ');
       },
 
       _send: function(method, url) {

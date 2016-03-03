@@ -18,7 +18,7 @@ import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.ResourceWeigher;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.plugins.HttpModuleGenerator;
+import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.inject.internal.UniqueAnnotations;
@@ -51,7 +51,7 @@ public class HttpPluginModule extends ServletModule {
       .annotatedWith(UniqueAnnotations.create())
       .to(LfsPluginServlet.class);
 
-    bind(HttpModuleGenerator.class)
+    bind(ModuleGenerator.class)
       .to(HttpAutoRegisterModuleGenerator.class);
 
     install(new CacheModule() {

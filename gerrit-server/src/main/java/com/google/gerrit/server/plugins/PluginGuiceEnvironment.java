@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicItemsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicMapsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.util.PluginRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -52,6 +54,8 @@ import com.google.inject.internal.UniqueAnnotations;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +89,7 @@ public class PluginGuiceEnvironment {
   private Module httpModule;
 
   private Provider<ModuleGenerator> sshGen;
-  private Provider<HttpModuleGenerator> httpGen;
+  private Provider<ModuleGenerator> httpGen;
 
   private Map<TypeLiteral<?>, DynamicItem<?>> sysItems;
   private Map<TypeLiteral<?>, DynamicItem<?>> sshItems;
@@ -197,13 +201,25 @@ public class PluginGuiceEnvironment {
 
   public void setHttpInjector(Injector injector) {
     httpModule = copy(injector);
-    httpGen = injector.getProvider(HttpModuleGenerator.class);
+    httpGen = injector.getProvider(ModuleGenerator.class);
     httpItems = dynamicItemsOf(injector);
-    httpSets = dynamicSetsOf(injector);
+    httpSets = httpDynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
     onStop.addAll(listeners(injector, StopPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
+  }
+
+  private Map<TypeLiteral<?>, DynamicSet<?>> httpDynamicSetsOf(Injector i) {
+    // Copy binding of DynamicSet<WebUiPlugin> from sysInjector to HTTP.
+    // This supports older plugins that bound a plugin in the HttpModule.
+    TypeLiteral<WebUiPlugin> key = TypeLiteral.get(WebUiPlugin.class);
+    DynamicSet<?> web = sysSets.get(key);
+    checkNotNull(web, "DynamicSet<WebUiPlugin> exists in sysInjector");
+
+    Map<TypeLiteral<?>, DynamicSet<?>> m = new HashMap<>(dynamicSetsOf(i));
+    m.put(key, web);
+    return Collections.unmodifiableMap(m);
   }
 
   boolean hasHttpModule() {
@@ -214,7 +230,7 @@ public class PluginGuiceEnvironment {
     return httpModule;
   }
 
-  HttpModuleGenerator newHttpModuleGenerator() {
+  ModuleGenerator newHttpModuleGenerator() {
     return httpGen.get();
   }
 

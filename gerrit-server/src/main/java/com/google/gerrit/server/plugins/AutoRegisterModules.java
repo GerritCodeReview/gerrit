@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.gerrit.extensions.webui.JavaScriptPlugin.STATIC_INIT_JS;
 import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
 import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
@@ -23,7 +24,9 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.plugins.PluginContentScanner.ExtensionMetaData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -48,10 +51,11 @@ class AutoRegisterModules {
   private final PluginContentScanner scanner;
   private final ClassLoader classLoader;
   private final ModuleGenerator sshGen;
-  private final HttpModuleGenerator httpGen;
+  private final ModuleGenerator httpGen;
 
   private Set<Class<?>> sysSingletons;
   private Multimap<TypeLiteral<?>, Class<?>> sysListen;
+  private String initJs;
 
   Module sysModule;
   Module sshModule;
@@ -70,19 +74,20 @@ class AutoRegisterModules {
         : new ModuleGenerator.NOP();
     this.httpGen = env.hasHttpModule()
         ? env.newHttpModuleGenerator()
-        : new HttpModuleGenerator.NOP();
+        : new ModuleGenerator.NOP();
   }
 
   AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
     sysListen = LinkedListMultimap.create();
+    initJs = null;
 
     sshGen.setPluginName(pluginName);
     httpGen.setPluginName(pluginName);
 
     scan();
 
-    if (!sysSingletons.isEmpty() || !sysListen.isEmpty()) {
+    if (!sysSingletons.isEmpty() || !sysListen.isEmpty() || initJs != null) {
       sysModule = makeSystemModule();
     }
     sshModule = sshGen.create();
@@ -107,6 +112,10 @@ class AutoRegisterModules {
           Annotation n = calculateBindAnnotation(impl);
           bind(type).annotatedWith(n).to(impl);
         }
+        if (initJs != null) {
+          DynamicSet.bind(binder(), WebUiPlugin.class)
+              .toInstance(new JavaScriptPlugin(initJs));
+        }
       }
     };
   }
@@ -120,18 +129,20 @@ class AutoRegisterModules {
     for (ExtensionMetaData listener : extensions.get(Listen.class)) {
       listen(listener);
     }
-    exportInitJs();
+    if (env.hasHttpModule()) {
+      exportInitJs();
+    }
   }
 
   private void exportInitJs() {
     try {
-      if (scanner.getEntry(JavaScriptPlugin.STATIC_INIT_JS).isPresent()) {
-        httpGen.export(JavaScriptPlugin.INIT_JS);
+      if (scanner.getEntry(STATIC_INIT_JS).isPresent()) {
+        initJs = STATIC_INIT_JS;
       }
     } catch (IOException e) {
       log.warn(String.format("Cannot access %s from plugin %s: "
           + "JavaScript auto-discovered plugin will not be registered",
-          JavaScriptPlugin.STATIC_INIT_JS, pluginName), e);
+          STATIC_INIT_JS, pluginName), e);
     }
   }
 

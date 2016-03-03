@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42cb45e2_46b1520d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-03T21:31:50Z",
+      "side": 1,
+      "message": "ntS",
+      "range": {
+        "startLine": 24,
+        "startChar": 20,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42cb45e2_86c34a56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-03T21:31:50Z",
+      "side": 1,
+      "message": "In the GerritGlobalModule I see two DynamicSets, lines 283 and 285",
+      "range": {
+        "startLine": 29,
+        "startChar": 65,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62684971_4aaa539c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-03T21:31:50Z",
+      "side": 1,
+      "message": "nit: useless empty line :-)",
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42cb45e2_e6b83ef0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-03T21:31:50Z",
+      "side": 1,
+      "message": "Is it expected that a listener returns a different user every time it is called? If no, the listener.getUser() can be done once before the loop.\n\nSame in few more cases below.",
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

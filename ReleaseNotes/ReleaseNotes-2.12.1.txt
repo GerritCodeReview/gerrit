@@ -11,26 +11,33 @@ link:ReleaseNotes-2.11.6.html[Gerrit 2.11.6] and
 link:ReleaseNotes-2.11.7.html[Gerrit 2.11.7]. These bug fixes are *not*
 listed in these release notes.
 
+Schema Upgrade
+--------------
+
 *WARNING:* This version includes a manual schema upgrade when upgrading
 from 2.12.
-+
+
 When upgrading a site that is already running version 2.12, the `patch_sets`
 table must be manually migrated using the `gerrit gsql` SSH command or the
 `gqsl` site program.
-+
+
 For the default H2 database or MySQL, execute the command:
-+
+
+----
   alter table patch_sets modify push_certficate clob;
-+
+----
+
 For PostgreSQL, execute the command:
-+
+
+----
   alter table patch_sets alter column push_certficate type text;
-+
+----
+
 For other database types, execute the appropriate equivalent command.
-+
+
 Note that the misspelled `push_certficate` is the actual name of the
 column.
-+
+
 When upgrading from a version earlier than 2.12, this manual step is not
 necessary and should be omitted.
 
@@ -39,7 +46,7 @@ Bug Fixes
 ---------
 
 General
-^^^^^^^
+~~~~~~~
 
 * Fix column type for signed push certificates.
 +
@@ -129,7 +136,7 @@ is reduced from 'no limit' to 1024.
 Explicitly set parent project to 'All-Projects' when a project is created
 without giving the parent.
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=3948[Issue 3919]:
+* link:https://code.google.com/p/gerrit/issues/detail?id=3948[Issue 3948]:
 Fix submit of project parent updates on `refs/meta/config`.
 +
 When submitting a change on `refs/meta/config` to update a project's parent,
@@ -145,7 +152,7 @@ branch, but the conflict was solved by a merge commit at the tip of the
 series, the series was not submittable.
 
 UI
-^^
+~~
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=3894[Issue 3894]:
 Fix display of 'Related changes' after change is rebased in web UI:
@@ -179,7 +186,7 @@ Note that the problem still exists on the unified diff screen.
 and the topic can't be submitted due to some changes not being ready.
 
 Plugins
-^^^^^^^
+~~~~~~~
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=3821[Issue 3821]:
 Fix repeated reloading of plugins when running on OpenJDK 8.
@@ -208,7 +215,7 @@ Allow plugins to suggest reviewers based on either change or project
 resources.
 
 Documentation
-^^^^^^^^^^^^^
+~~~~~~~~~~~~~
 
 * Update documentation of `commentlink` to reflect changed search URL.
 

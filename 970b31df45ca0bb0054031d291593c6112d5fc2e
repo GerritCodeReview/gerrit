@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02aced05_4c4dffb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-03T19:43:54Z",
+      "side": 1,
+      "message": "unused import",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "970b31df45ca0bb0054031d291593c6112d5fc2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_2d74edd7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginLsCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-03T19:43:54Z",
+      "side": 1,
+      "message": "unused import",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 67
+      },
+      "revId": "970b31df45ca0bb0054031d291593c6112d5fc2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+
+<dom-module id="gr-button">
+  <template strip-whitespace>
+    <style>
+      :host {
+        background-color: #fff;
+        border: 1px solid #d1d2d3;
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: #333;
+        cursor: pointer;
+        display: inline-block;
+        font-family: var(--font-family);
+        font-size: 13px;
+        font-weight: bold;
+        outline-width: 0;
+        padding: .3em .65em;
+        position: relative;
+        text-align: center;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      :host([hidden]) {
+        display: none;
+      }
+      :host([primary]) {
+        background-color: #4d90fe;
+        border-color: #3079ed;
+        color: #fff;
+      }
+      :host([small]) {
+        font-size: 12px;
+      }
+      :host([link]) {
+        background-color: transparent;
+        border: none;
+        color: #00f;
+        font-size: inherit;
+        font-weight: normal;
+        padding: 0;
+        text-decoration: underline;
+      }
+      :host([loading]),
+      :host([disabled]) {
+        background-color: #efefef;
+        color: #aaa;
+      }
+      :host([disabled]) {
+        cursor: default;
+        pointer-events: none;
+      }
+      :host([loading]),
+      :host([loading][disabled]) {
+        cursor: wait;
+      }
+      :host(:focus),
+      :host(:hover) {
+        border-color: #666;
+      }
+      :host(:active) {
+        border-color: #d1d2d3;
+        color: #aaa;
+      }
+      :host([primary]:focus) {
+        border-color: #fff;
+        box-shadow: 0 0 1px #00f;
+      }
+      :host([primary]:hover) {
+        border-color: #00F;
+      }
+      :host([primary]:active) {
+        border-color: #0c2188;
+        box-shadow: none;
+        color: #fff;
+      }
+      :host([primary][loading]),
+      :host([primary][disabled]) {
+        background-color: #7caeff;
+        border-color: transparent;
+        color: #fff;
+      }
+    </style>
+    <content></content>
+  </template>
+  <script src="gr-button.js"></script>
+</dom-module>

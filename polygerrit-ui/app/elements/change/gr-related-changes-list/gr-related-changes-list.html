@@ -1,0 +1,132 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+
+<dom-module id="gr-related-changes-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h3 {
+        margin: .5em 0 0;
+      }
+      section {
+        margin-bottom: 1em;
+      }
+      a {
+        display: block;
+      }
+      .relatedChanges a {
+        display: inline-block;
+      }
+      .strikethrough {
+        color: #666;
+        text-decoration: line-through;
+      }
+      .status {
+        color: #666;
+        font-weight: bold;
+      }
+      .notCurrent {
+        color: #e65100;
+      }
+      .indirectAncestor {
+        color: #33691e;
+      }
+      .submittable {
+        color: #1b5e20;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+    <gr-ajax id="relatedXHR"
+        url="[[_computeRelatedURL(change._number, patchNum)]]"
+        last-response="{{_relatedResponse}}"></gr-ajax>
+    <gr-ajax id="submittedTogetherXHR"
+        url="[[_computeSubmittedTogetherURL(change._number)]]"
+        last-response="{{_submittedTogether}}"></gr-ajax>
+    <gr-ajax id="conflictsXHR"
+        url="/changes/"
+        params="[[_computeConflictsQueryParams(change._number)]]"
+        last-response="{{_conflicts}}"></gr-ajax>
+    <gr-ajax id="cherryPicksXHR"
+        url="/changes/"
+        params="[[_computeCherryPicksQueryParams(change.project, change.change_id, change._number)]]"
+        last-response="{{_cherryPicks}}"></gr-ajax>
+    <gr-ajax id="sameTopicXHR"
+        url="/changes/"
+        params="[[_computeSameTopicQueryParams(change.topic)]]"
+        last-response="{{_sameTopic}}"></gr-ajax>
+
+    <div hidden$="[[!_loading]]">Loading...</div>
+    <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
+      <h4>Relation Chain</h4>
+      <template is="dom-repeat" items="[[_relatedResponse.changes]]" as="change">
+        <div>
+          <a href$="[[_computeChangeURL(change._change_number, change._revision_number)]]"
+              class$="[[_computeLinkClass(change)]]">
+            [[change.commit.subject]]
+          </a>
+          <span class$="[[_computeChangeStatusClass(change)]]">
+            ([[_computeChangeStatus(change)]])
+          </span>
+        </div>
+      </template>
+    </section>
+    <section hidden$="[[!_submittedTogether.length]]" hidden>
+      <h4>Submitted together</h4>
+      <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
+        <a href$="[[_computeChangeURL(change._number)]]"
+            class$="[[_computeLinkClass(change)]]">
+          [[change.project]]: [[change.branch]]: [[change.subject]]
+        </a>
+      </template>
+    </section>
+    <section hidden$="[[!_sameTopic.length]]" hidden>
+      <h4>Same topic</h4>
+      <template is="dom-repeat" items="[[_sameTopic]]" as="change">
+        <a href$="[[_computeChangeURL(change._number)]]"
+            class$="[[_computeLinkClass(change)]]">
+          [[change.project]]: [[change.branch]]: [[change.subject]]
+        </a>
+      </template>
+    </section>
+    <section hidden$="[[!_conflicts.length]]" hidden>
+      <h4>Merge conflicts</h4>
+      <template is="dom-repeat" items="[[_conflicts]]" as="change">
+        <a href$="[[_computeChangeURL(change._number)]]"
+            class$="[[_computeLinkClass(change)]]">
+          [[change.subject]]
+        </a>
+      </template>
+    </section>
+    <section hidden$="[[!_cherryPicks.length]]" hidden>
+      <h4>Cherry picks</h4>
+      <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
+        <a href$="[[_computeChangeURL(change._number)]]"
+            class$="[[_computeLinkClass(change)]]">
+          [[change.subject]]
+        </a>
+      </template>
+    </section>
+  </template>
+  <script src="gr-related-changes-list.js"></script>
+</dom-module>

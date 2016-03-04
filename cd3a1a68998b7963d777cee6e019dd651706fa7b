@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "623049ce_a79aea89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-04T23:15:30Z",
+      "side": 1,
+      "message": "Why would this change be useful? Is 7 not enough?",
+      "revId": "cd3a1a68998b7963d777cee6e019dd651706fa7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

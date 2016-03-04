@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1457055991 -0800\nnonce AO+Zq7gIioPuuZzTZSEFiQothzUC6fkMdQy16FWpDH3BqHcyGm+c7/AsdMjN0VX4TdCFg829DD6V\n\n0000000000000000000000000000000000000000 5b8c0293098d434a2cc56bccac8a7be5a3a66181 refs/drafts/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW2Oj3AAoJEGt7+xNJsB0bnocH/1gphEhRWZHJXsAOuPCvD+6n\n/hKKZMxjlrWMOAhtdO1ymAmVPc2pKzYFqFn0EDOXk5nDGBXJx2QgVyw644nrpDJx\nA5NqBaNCScsiCCG5N5YZbw1+1jzl+q8s1Xr0YuTGD0tgDsmy8yHtkd9KDeaGZA2d\n8KwZRYl1krVuWOOh2KcMR79ZOCqrPubldqIm3YWi42ILCWivLk+QcvV2+R9gkElF\naw6PVDxlNZY+3pJT8bewAzSi+9XQ828Ip8TbEE19qIepeD0ZWbZj80YHNVh9mviV\nojpr3t4MtkYUzGIbIb2UnU8TTP91sj5a9spHP66mQv51vZnheA9C1yGerQQyxJQ\u003d\n\u003diLHk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "229d71d4_2d5d0d50",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-04T03:03:26Z",
+      "side": 1,
+      "message": "sub",
+      "range": {
+        "startLine": 36,
+        "startChar": 41,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "5b8c0293098d434a2cc56bccac8a7be5a3a66181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_0d5ad157",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-04T03:03:26Z",
+      "side": 1,
+      "message": "sub",
+      "range": {
+        "startLine": 37,
+        "startChar": 36,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "5b8c0293098d434a2cc56bccac8a7be5a3a66181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "229d71d4_6d571530",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-04T03:03:26Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 59,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 15
+      },
+      "revId": "5b8c0293098d434a2cc56bccac8a7be5a3a66181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bfd930_23d36a27",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-04T03:03:26Z",
+      "side": 1,
+      "message": "... in the \u0027project.config\u0027 file",
+      "range": {
+        "startLine": 61,
+        "startChar": 64,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "5b8c0293098d434a2cc56bccac8a7be5a3a66181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bfd930_03d0ee16",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-04T03:03:26Z",
+      "side": 1,
+      "message": "not needed, since this is the Gerrit documentation it should be clear the \u0027project name\u0027 relates to the Gerrit project name.",
+      "range": {
+        "startLine": 73,
+        "startChar": 73,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "5b8c0293098d434a2cc56bccac8a7be5a3a66181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bfd930_63cd627b",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-04T03:03:26Z",
+      "side": 1,
+      "message": "Add a link here.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 21
+      },
+      "revId": "5b8c0293098d434a2cc56bccac8a7be5a3a66181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

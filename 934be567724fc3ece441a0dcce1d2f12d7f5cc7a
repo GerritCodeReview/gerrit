@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a27fa14b_a1be5eda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-04T18:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42cb45e2_46b1520d",
+      "range": {
+        "startLine": 24,
+        "startChar": 20,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42cb45e2_86c34a56",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e2bfd930_e306726c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-04T18:32:31Z",
+      "side": 1,
+      "message": "You are right, I wanted to say: Hold UserScopedEventListeners in a DynamicSet same way EventListeners are.\n\nBut holding both type of Listeners in the same DynamicSet is possible, the dispatcher would need to iterate on only one set and do visibility check on listener that are an instance of UserScopedEventListener. Do you prefer to hold them in the same DynamicSet?\n\nExample:\n\n private void fireEvent(Change change, ChangeEvent event, ReviewDb db)\n        throws OrmException {\n      for (EventListener listener : listeners) {\n        if (listener instanceof UserScopedEventListener \u0026\u0026 !isVisibleTo(change,\n            ((UserScopedEventListener) listener).getUser(), db)) {\n          continue;\n        }\n        listener.onEvent(event);\n      }\n    }\n\ninstead of\n\nprivate void fireEventForUnrestrictedListeners(com.google.gerrit.server.events.Event event) {\n      for (EventListener listener : unrestrictedListeners) {\n        listener.onEvent(event);\n      }\n    }\n\n    private void fireEvent(Change change, ChangeEvent event, ReviewDb db)\n        throws OrmException {\n      for (UserScopedEventListener listener : listeners) {\n        if (isVisibleTo(change, listener.getUser(), db)) {\n          listener.onEvent(event);\n        }\n      }\n\n      fireEventForUnrestrictedListeners( event );\n    }",
+      "parentUuid": "42cb45e2_86c34a56",
+      "range": {
+        "startLine": 29,
+        "startChar": 65,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62684971_4aaa539c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -59,6 +107,24 @@
       "writtenOn": "2016-03-03T21:31:50Z",
       "side": 1,
       "message": "nit: useless empty line :-)",
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bfd930_c30b7672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-04T18:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62684971_4aaa539c",
       "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

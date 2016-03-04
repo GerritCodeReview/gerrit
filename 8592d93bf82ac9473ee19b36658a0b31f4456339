@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a27fa14b_e19f8678",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbandonRestoreIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-04T07:15:01Z",
+      "side": 1,
+      "message": "OK, I know what it was.  I was using adminSession.get() before. That\u0027s what was failing.\n\nDone.",
+      "parentUuid": "42cb45e2_26d89637",
+      "revId": "8592d93bf82ac9473ee19b36658a0b31f4456339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82861d95_e09f8278",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbandonRestoreIT.java",
         "patchSetId": 2
@@ -66,6 +84,30 @@
       "writtenOn": "2016-03-04T07:05:21Z",
       "side": 1,
       "message": "I replaced this with:\n\n  for (ChangeMessageInfo i : messages) {\n      actual.add(i.message);\n  }\n\nand @NoHttpd worked for me.",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "8592d93bf82ac9473ee19b36658a0b31f4456339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a27fa14b_c19a828b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbandonRestoreIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-04T07:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82861d95_e09f8278",
       "range": {
         "startLine": 82,
         "startChar": 4,

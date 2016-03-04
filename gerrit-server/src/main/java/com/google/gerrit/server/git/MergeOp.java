@@ -650,10 +650,6 @@ public class MergeOp implements AutoCloseable {
     }
 
     SubmoduleOp subOp = subOpProvider.get();
-    for (Branch.NameKey branch : branches) {
-      OpenBranch ob = getRepo(branch.getParentKey()).getBranch(branch);
-      updateSubmoduleSubscriptions(ob, subOp);
-    }
     updateSuperProjects(subOp, br.values());
   }
 
@@ -851,21 +847,6 @@ public class MergeOp implements AutoCloseable {
     } catch (OrmException e) {
       logError("Failed to get submit type for " + cd.getId(), e);
       return null;
-    }
-  }
-
-  private void updateSubmoduleSubscriptions(OpenBranch ob, SubmoduleOp subOp) {
-    CodeReviewCommit branchTip = ob.oldTip;
-    MergeTip mergeTip = ob.mergeTip;
-    if (mergeTip != null
-        && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
-      logDebug("Updating submodule subscriptions for branch {}", ob.name);
-      try {
-        subOp.updateSubmoduleSubscriptions(db, ob.name);
-      } catch (SubmoduleException e) {
-        logError("The submodule subscriptions were not updated according"
-            + "to the .gitmodules files", e);
-      }
     }
   }
 

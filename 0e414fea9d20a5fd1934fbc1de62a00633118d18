@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "42cb45e2_a60c868e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-04T08:08:44Z",
+      "side": 1,
+      "message": "OK, I think I get your point. You say that we don\u0027t need to have additional filed in the key since the combination of existing once will be unique (for auto-merge case oldId would be null and for the first-parent it won\u0027t).\n\nThat\u0027s a valid point, but I would still go with the additional filed, for the two reasons:\n\n 1. it is more readable and do not use any \"hidden\" convention\n 2. gives a place for further merge strategies\n\nAfter all it is stored as a single character in the serialized key, so storage space it is not a huge overhead ;)",
+      "parentUuid": "62684971_e786e295",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_bf40f380",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-comment-thread</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-diff-comment-thread.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-comment-thread></gr-diff-comment-thread>
+  </template>
+</test-fixture>
+
+<test-fixture id="withComment">
+  <template>
+    <gr-diff-comment-thread></gr-diff-comment-thread>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-comment-thread tests', function() {
+    var element;
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('comments are sorted correctly', function() {
+      var comments = [
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+        },
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        },
+        {
+          id: 'sally_to_dr_finklestein',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        },
+        {
+          id: 'sallys_defiance',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        },
+        {
+          id: 'dr_finklesteins_response',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'no i will pull a thread and your arm will fall off',
+          updated: '2015-10-31 11:00:20.396000000'
+        },
+        {
+          id: 'sallys_mission',
+          message: 'i have to find santa',
+          updated: '2015-12-24 21:00:20.396000000'
+        }
+      ];
+      var results = element._sortedComments(comments);
+      assert.deepEqual(results, [
+        {
+          id: 'sally_to_dr_finklestein',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        },
+        {
+          id: 'dr_finklesteins_response',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'no i will pull a thread and your arm will fall off',
+          updated: '2015-10-31 11:00:20.396000000'
+        },
+        {
+          id: 'sallys_defiance',
+          in_reply_to: 'sally_to_dr_finklestein',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        },
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        },
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+        },
+        {
+          id: 'sallys_mission',
+          message: 'i have to find santa',
+          updated: '2015-12-24 21:00:20.396000000'
+        }
+      ]);
+    });
+  });
+
+  suite('comment action tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('withComment');
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+      }];
+      flushAsynchronousOperations();
+
+      server = sinon.fakeServer.create();
+      // Eat any requests made by elements in this suite.
+      server.respondWith(
+        'PUT',
+        '/changes/41/1/drafts',
+        [
+          201,
+          {'Content-Type': 'application/json'},
+          ')]}\'\n' + JSON.stringify({
+            id: '7afa4931_de3d65bd',
+            path: '/path/to/file.txt',
+            line: 5,
+            in_reply_to: 'baf0414d_60047215',
+            updated: '2015-12-21 02:01:10.850000000',
+            message: 'Done'
+          }),
+        ]
+      );
+
+      server.respondWith(
+        'DELETE',
+        '/changes/41/1/drafts/baf0414d_60047215',
+        [
+          204,
+          {},
+          '',
+        ]
+      );
+    });
+
+    test('reply', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('reply', function() {
+        var drafts = element._orderedComments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.notOk(drafts[0].message, 'message should be empty');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('reply', {comment: commentEl.comment}, {bubbles: false});
+    });
+
+    test('quote reply', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('reply', function() {
+        var drafts = element._orderedComments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].message, ' > is this a crossover episode!?\n\n');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('reply', {comment: commentEl.comment, quote: true},
+          {bubbles: false});
+    });
+
+    test('done', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('done', function() {
+        server.respond();
+        var drafts = element._orderedComments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].message, 'Done');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('done', {comment: commentEl.comment}, {bubbles: false});
+    });
+
+    test('discard', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      element.push('comments', element._newReply(
+        element.comments[0].id,
+        element.comments[0].line,
+        element.comments[0].path,
+        'it’s pronouced jiff, not giff'));
+      flushAsynchronousOperations();
+
+      var draftEl =
+          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
+      assert.ok(draftEl);
+      draftEl.addEventListener('discard', function() {
+        server.respond();
+        var drafts = element.comments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 0);
+        done();
+      });
+      draftEl.fire('discard', null, {bubbles: false});
+    });
+  });
+</script>

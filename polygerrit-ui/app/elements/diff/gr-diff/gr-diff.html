@@ -1,0 +1,123 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-request/gr-request.html">
+
+<link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../gr-diff-side/gr-diff-side.html">
+<link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
+
+<dom-module id="gr-diff">
+  <template>
+    <style>
+      .loading {
+        padding: 0 var(--default-horizontal-margin) 1em;
+        color: #666;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .prefsButton {
+        text-align: right;
+      }
+      .diffContainer {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+        display: flex;
+        font: 12px var(--monospace-font-family);
+        overflow-x: auto;
+      }
+      gr-diff-side:first-of-type {
+        --light-highlight-color: #fee;
+        --dark-highlight-color: #ffd4d4;
+      }
+      gr-diff-side:last-of-type {
+        --light-highlight-color: #efe;
+        --dark-highlight-color: #d4ffd4;
+        border-right: 1px solid #ddd;
+      }
+    </style>
+    <gr-ajax id="diffXHR"
+        url="[[_computeDiffPath(changeNum, patchRange.patchNum, path)]]"
+        params="[[_computeDiffQueryParams(patchRange.basePatchNum)]]"
+        last-response="{{_diffResponse}}"
+        loading="{{_loading}}"></gr-ajax>
+    <gr-ajax id="baseCommentsXHR"
+        url="[[_computeCommentsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
+    <gr-ajax id="commentsXHR"
+        url="[[_computeCommentsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
+    <gr-ajax id="baseDraftsXHR"
+        url="[[_computeDraftsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
+    <gr-ajax id="draftsXHR"
+        url="[[_computeDraftsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <div class="header">
+        <gr-patch-range-select
+            path="[[path]]"
+            change-num="[[changeNum]]"
+            patch-range="[[patchRange]]"
+            available-patches="[[availablePatches]]"></gr-patch-range-select>
+        <gr-button link
+           class="prefsButton"
+           on-tap="_handlePrefsTap"
+           hidden$="[[!prefs]]"
+           hidden>Diff View Preferences</gr-button>
+      </div>
+      <gr-overlay id="prefsOverlay" with-backdrop>
+        <gr-diff-preferences
+            prefs="{{prefs}}"
+            on-save="_handlePrefsSave"
+            on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+      </gr-overlay>
+
+      <div class="diffContainer">
+        <gr-diff-side id="leftDiff"
+            change-num="[[changeNum]]"
+            patch-num="[[patchRange.basePatchNum]]"
+            path="[[path]]"
+            content="{{_diff.leftSide}}"
+            prefs="[[prefs]]"
+            can-comment="[[_loggedIn]]"
+            project-config="[[projectConfig]]"
+            on-expand-context="_handleExpandContext"
+            on-thread-height-change="_handleThreadHeightChange"
+            on-add-draft="_handleAddDraft"
+            on-remove-thread="_handleRemoveThread"></gr-diff-side>
+        <gr-diff-side id="rightDiff"
+            change-num="[[changeNum]]"
+            patch-num="[[patchRange.patchNum]]"
+            path="[[path]]"
+            content="{{_diff.rightSide}}"
+            prefs="[[prefs]]"
+            can-comment="[[_loggedIn]]"
+            project-config="[[projectConfig]]"
+            on-expand-context="_handleExpandContext"
+            on-thread-height-change="_handleThreadHeightChange"
+            on-add-draft="_handleAddDraft"
+            on-remove-thread="_handleRemoveThread"></gr-diff-side>
+      </div>
+    </div>
+  </template>
+  <script src="gr-diff.js"></script>
+</dom-module>

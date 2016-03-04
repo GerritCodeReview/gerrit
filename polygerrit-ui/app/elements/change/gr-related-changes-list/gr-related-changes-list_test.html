@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-related-changes-list</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-related-changes-list.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-related-changes-list></gr-related-changes-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-related-changes-list tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('connected revisions', function() {
+      var change = {
+        revisions: {
+          'e3c6d60783bfdec9ebae7dcfec4662360433449e': {
+            _number: 1,
+          },
+          '26e5e4c9c7ae31cbd876271cca281ce22b413997': {
+            _number: 2,
+          },
+          'bf7884d695296ca0c91702ba3e2bc8df0f69a907': {
+            _number: 7,
+          },
+          'b5fc49f2e67d1889d5275cac04ad3648f2ec7fe3': {
+            _number: 5,
+          },
+          'd6bcee67570859ccb684873a85cf50b1f0e96fda': {
+            _number: 6,
+          },
+          'cc960918a7f90388f4a9e05753d0f7b90ad44546': {
+            _number: 3,
+          },
+          '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6': {
+            _number: 4,
+          }
+        }
+      };
+      var patchNum = 7;
+      var relatedChanges = [
+        {
+          commit: {
+            commit: '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
+            parents: [
+              {
+                commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
+            parents: [
+              {
+                commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
+            parents: [
+              {
+                commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae',
+            parents: [
+              {
+                commit: 'bf7884d695296ca0c91702ba3e2bc8df0f69a907'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: 'bf7884d695296ca0c91702ba3e2bc8df0f69a907',
+            parents: [
+              {
+                commit: '613bc4f81741a559c6667ac08d71dcc3348f73ce'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: '613bc4f81741a559c6667ac08d71dcc3348f73ce',
+            parents: [
+              {
+                commit: '455ed9cd27a16bf6991f04dcc57ef575dc4d5e75'
+              }
+            ],
+          },
+        }
+      ];
+
+      var connectedChanges =
+          element._computeConnectedRevisions(change, patchNum, relatedChanges);
+      assert.deepEqual(connectedChanges, [
+        '613bc4f81741a559c6667ac08d71dcc3348f73ce',
+        'bf7884d695296ca0c91702ba3e2bc8df0f69a907',
+        'bf7884d695296ca0c91702ba3e2bc8df0f69a907',
+        'b0ccb183494a8e340b8725a2dc553967d61e6dae',
+        '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
+        '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
+        '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
+      ]);
+
+      patchNum = 4;
+      relatedChanges = [
+        {
+          commit: {
+            commit: '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
+            parents: [
+              {
+                commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
+            parents: [
+              {
+                commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
+            parents: [
+              {
+                commit: 'b0ccb183494a8e340b8725a2dc553967d61e6dae'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: 'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b',
+            parents: [
+              {
+                commit: '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
+            parents: [
+              {
+                commit: 'af815dac54318826b7f1fa468acc76349ffc588e'
+              }
+            ],
+          },
+        },
+        {
+          commit: {
+            commit: 'af815dac54318826b7f1fa468acc76349ffc588e',
+            parents: [
+              {
+                commit: '58f76e406e24cb8b0f5d64c7f5ac1e8616d0a22c'
+              }
+            ],
+          },
+        }
+      ];
+
+      connectedChanges =
+          element._computeConnectedRevisions(change, patchNum, relatedChanges);
+      assert.deepEqual(connectedChanges, [
+        'af815dac54318826b7f1fa468acc76349ffc588e',
+        '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
+        '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
+        'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b',
+      ]);
+    });
+  });
+</script>

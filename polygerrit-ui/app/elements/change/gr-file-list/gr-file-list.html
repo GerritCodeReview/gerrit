@@ -1,0 +1,159 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+<link rel="import" href="../../shared/gr-request/gr-request.html">
+
+<dom-module id="gr-file-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .row {
+        display: flex;
+        padding: .1em .25em;
+      }
+      .header {
+        font-weight: bold;
+      }
+      .positionIndicator,
+      .reviewed,
+      .status {
+        align-items: center;
+        display: inline-flex;
+      }
+      .reviewed,
+      .status {
+        justify-content: center;
+        width: 1.5em;
+      }
+      .positionIndicator {
+        justify-content: flex-start;
+        visibility: hidden;
+        width: 1.25em;
+      }
+      .row[selected] {
+        background-color: #ebf5fb;
+      }
+      .row[selected] .positionIndicator {
+        visibility: visible;
+      }
+      .path {
+        flex: 1;
+        overflow: hidden;
+        padding-left: .35em;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .row:not(.header) .path:hover {
+        text-decoration: underline;
+      }
+      .comments,
+      .stats {
+        text-align: right;
+      }
+      .comments {
+        min-width: 10em;
+      }
+      .stats {
+        min-width: 7em;
+      }
+      .invisible {
+        visibility: hidden;
+      }
+      .row:not(.header) .stats {
+        font-family: var(--monospace-font-family);
+      }
+      .added {
+        color: #388E3C;
+      }
+      .removed {
+        color: #D32F2F;
+      }
+      .reviewed input[type="checkbox"] {
+        display: inline-block;
+      }
+      .drafts {
+        color: #C62828;
+        font-weight: bold;
+      }
+      @media screen and (max-width: 50em) {
+        .row[selected] {
+          background-color: transparent;
+        }
+        .positionIndicator,
+        .stats {
+          display: none;
+        }
+        .reviewed,
+        .status {
+          justify-content: flex-start;
+        }
+        .comments {
+          min-width: initial;
+        }
+      }
+    </style>
+    <gr-ajax id="filesXHR"
+        url="[[_computeFilesURL(changeNum, patchNum)]]"
+        on-response="_handleResponse"></gr-ajax>
+    <gr-ajax id="draftsXHR"
+        url="[[_computeDraftsURL(changeNum, patchNum)]]"
+        last-response="{{_drafts}}"></gr-ajax>
+    <gr-ajax id="reviewedXHR"
+        url="[[_computeReviewedURL(changeNum, patchNum)]]"
+        last-response="{{_reviewed}}"></gr-ajax>
+    </gr-ajax>
+
+    <div class="row header">
+      <div class="positionIndicator"></div>
+      <div class="reviewed" hidden$="[[!_loggedIn]]" hidden></div>
+      <div class="status"></div>
+      <div class="path">Path</div>
+      <div class="comments">Comments</div>
+      <div class="stats">Stats</div>
+    </div>
+    <template is="dom-repeat" items="{{files}}" as="file">
+      <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
+        <div class="positionIndicator">&#x25b6;</div>
+        <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
+          <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
+              data-path$="[[file.__path]]" on-change="_handleReviewedChange">
+        </div>
+        <div class$="[[_computeClass('status', file.__path)]]">
+          [[_computeFileStatus(file.status)]]
+        </div>
+        <a class="path" href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">
+          [[_computeFileDisplayName(file.__path)]]
+        </a>
+        <div class="comments">
+          <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
+          [[_computeCommentsString(comments, patchNum, file.__path)]]
+        </div>
+        <div class$="[[_computeClass('stats', file.__path)]]">
+          <span class="added">+[[file.lines_inserted]]</span>
+          <span class="removed">-[[file.lines_deleted]]</span>
+        </div>
+      </div>
+    </template>
+  </template>
+  <script src="gr-file-list.js"></script>
+</dom-module>

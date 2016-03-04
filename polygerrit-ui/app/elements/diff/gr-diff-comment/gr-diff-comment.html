@@ -1,0 +1,153 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+<link rel="import" href="../../shared/gr-request/gr-request.html">
+
+<dom-module id="gr-diff-comment">
+  <template>
+    <style>
+      :host {
+        background-color: #ffd;
+        display: block;
+        --iron-autogrow-textarea: {
+          padding: 2px;
+        };
+      }
+      :host([disabled]) {
+        pointer-events: none;
+      }
+      :host([disabled]) .container {
+        opacity: .5;
+      }
+      .header,
+      .message,
+      .actions {
+        padding: .5em .7em;
+      }
+      .header {
+        display: flex;
+        padding-bottom: 0;
+        font-family: 'Open Sans', sans-serif;
+      }
+      .headerLeft {
+        flex: 1;
+      }
+      .authorName,
+      .draftLabel {
+        font-weight: bold;
+      }
+      .draftLabel {
+        color: #999;
+        display: none;
+      }
+      .date {
+        justify-content: flex-end;
+        margin-left: 5px;
+      }
+      a.date:link,
+      a.date:visited {
+        color: #666;
+      }
+      .actions {
+        display: flex;
+        padding-top: 0;
+      }
+      .action {
+        margin-right: .5em;
+      }
+      .danger {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .editMessage {
+        display: none;
+        margin: .5em .7em;
+        width: calc(100% - 1.4em - 2px);
+      }
+      .danger .action {
+        margin-right: 0;
+      }
+      .container:not(.draft) .actions :not(.reply):not(.quote):not(.done) {
+        display: none;
+      }
+      .draft .reply,
+      .draft .quote,
+      .draft .done {
+        display: none;
+      }
+      .draft .draftLabel {
+        display: inline;
+      }
+      .draft:not(.editing) .save,
+      .draft:not(.editing) .cancel {
+        display: none;
+      }
+      .editing .message,
+      .editing .reply,
+      .editing .quote,
+      .editing .done,
+      .editing .edit {
+        display: none;
+      }
+      .editing .editMessage {
+        background-color: #fff;
+        display: block;
+      }
+    </style>
+    <div class="container" id="container">
+      <div class="header" id="header">
+        <div class="headerLeft">
+          <span class="authorName">[[comment.author.name]]</span>
+          <span class="draftLabel">DRAFT</span>
+        </div>
+        <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
+          <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
+        </a>
+      </div>
+      <iron-autogrow-textarea
+          id="editTextarea"
+          class="editMessage"
+          disabled="{{disabled}}"
+          rows="4"
+          bind-value="{{_editDraft}}"
+          on-keyup="_handleTextareaKeyup"
+          on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
+      <gr-linked-text class="message"
+          pre
+          content="[[comment.message]]"
+          config="[[projectConfig.commentlinks]]"></gr-linked-text>
+      <div class="actions" hidden$="[[!showActions]]">
+        <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>
+        <gr-button class="action quote" on-tap="_handleQuote">Quote</gr-button>
+        <gr-button class="action done" on-tap="_handleDone">Done</gr-button>
+        <gr-button class="action edit" on-tap="_handleEdit">Edit</gr-button>
+        <gr-button class="action save" on-tap="_handleSave"
+            disabled$="[[_computeSaveDisabled(_editDraft)]]">Save</gr-button>
+        <gr-button class="action cancel" on-tap="_handleCancel" hidden>Cancel</gr-button>
+        <div class="danger">
+          <gr-button class="action discard" on-tap="_handleDiscard">Discard</gr-button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script src="gr-diff-comment.js"></script>
+</dom-module>

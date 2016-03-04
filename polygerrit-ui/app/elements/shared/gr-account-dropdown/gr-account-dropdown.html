@@ -1,0 +1,82 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../gr-button/gr-button.html">
+
+<dom-module id="gr-account-dropdown">
+  <style>
+    :host {
+      display: inline-block;
+    }
+    .dropdown-trigger {
+      text-decoration: none;
+    }
+    .dropdown-content {
+      background-color: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    }
+    button {
+      background: none;
+      border: none;
+      font: inherit;
+      padding: .3em 0;
+    }
+    ul {
+      list-style: none;
+    }
+    ul .accountName {
+      font-weight: bold;
+    }
+    li .accountInfo,
+    li a {
+      display: block;
+      padding: .85em 1em;
+    }
+    li a:link,
+    li a:visited {
+      color: #00e;
+      text-decoration: none;
+    }
+    li a:hover {
+      background-color: #6B82D6;
+      color: #fff;
+    }
+  </style>
+  <template>
+    <gr-button link class="dropdown-trigger" id="trigger"
+        on-tap="_showDropdownTapHandler">[[account.name]]</gr-button>
+    <iron-dropdown id="dropdown"
+        vertical-align="top"
+        vertical-offset="25"
+        horizontal-align="right">
+      <div class="dropdown-content">
+        <ul>
+          <li>
+            <div class="accountInfo">
+              <div class="accountName">[[account.name]]</div>
+              <div>[[account.email]]</div>
+            </div>
+          </li>
+          <li><a href="/switch-account">Switch account</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </div>
+    </iron-dropdown>
+  </template>
+  <script src="gr-account-dropdown.js"></script>
+</dom-module>

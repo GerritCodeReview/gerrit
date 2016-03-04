@@ -1,0 +1,118 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-request/gr-request.html">
+
+<dom-module id="gr-reviewer-list">
+  <style>
+    :host {
+      display: block;
+    }
+    :host([disabled]) {
+      opacity: .8;
+      pointer-events: none;
+    }
+    .autocompleteContainer {
+      position: relative;
+    }
+    .inputContainer {
+      display: flex;
+      margin-top: .25em;
+    }
+    .inputContainer input {
+      flex: 1;
+      font: inherit;
+    }
+    .dropdown {
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      position: absolute;
+      left: 0;
+      top: 100%;
+    }
+    .dropdown .reviewer {
+      cursor: pointer;
+      padding: .5em .75em;
+    }
+    .dropdown .reviewer[selected] {
+      background-color: #ccc;
+    }
+    .remove,
+    .cancel {
+      color: #999;
+    }
+    .remove {
+      font-size: .9em;
+    }
+    .cancel {
+      font-size: 2em;
+      line-height: 1;
+      padding: 0 .15em;
+      text-decoration: none;
+    }
+  </style>
+  <template>
+    <gr-ajax id="autocompleteXHR"
+        url="[[_computeAutocompleteURL(change)]]"
+        params="[[_computeAutocompleteParams(_inputVal)]]"
+        on-response="_handleResponse"></gr-ajax>
+
+    <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
+      <div class="reviewer">
+        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
+        <gr-button link
+            class="remove"
+            data-account-id$="[[reviewer._account_id]]"
+            on-tap="_handleRemoveTap"
+            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
+      </div>
+    </template>
+    <div class="controlsContainer" hidden$="[[!mutable]]">
+      <div class="autocompleteContainer" hidden$="[[!_showInput]]">
+        <div class="inputContainer">
+          <input is="iron-input" id="input"
+              bind-value="{{_inputVal}}" disabled$="[[disabled]]">
+          <gr-button link class="cancel" on-tap="_handleCancelTap">×</gr-button>
+        </div>
+        <div class="dropdown" hidden$="[[_hideAutocomplete]]">
+          <template is="dom-repeat" items="[[_autocompleteData]]" as="reviewer">
+            <div class="reviewer"
+                data-index$="[[index]]"
+                on-mouseenter="_handleMouseEnterItem"
+                on-tap="_handleItemTap"
+                selected$="[[_computeSelected(index, _selectedIndex)]]">
+              <template is="dom-if" if="[[reviewer.account]]">
+                <gr-account-label
+                    account="[[reviewer.account]]" show-email></gr-account-label>
+              </template>
+              <template is="dom-if" if="[[reviewer.group]]">
+                <span>[[reviewer.group.name]] (group)</span>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+      <gr-button link id="addReviewer" class="addReviewer" on-tap="_handleAddTap"
+          hidden$="[[_showInput]]">Add reviewer</gr-button>
+    </div>
+  </template>
+  <script src="gr-reviewer-list.js"></script>
+</dom-module>

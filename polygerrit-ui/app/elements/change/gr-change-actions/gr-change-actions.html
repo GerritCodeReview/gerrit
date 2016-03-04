@@ -1,0 +1,84 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+
+<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-request/gr-request.html">
+
+<link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
+
+<dom-module id="gr-change-actions">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      gr-button {
+        display: block;
+        margin-bottom: .5em;
+      }
+      gr-button:before {
+        content: attr(data-label);
+      }
+      gr-button[loading]:before {
+        content: attr(data-loading-label);
+      }
+      @media screen and (max-width: 50em) {
+        .confirmDialog {
+          width: 90vw;
+        }
+      }
+    </style>
+    <gr-ajax id="actionsXHR"
+        url="[[_computeRevisionActionsPath(changeNum, patchNum)]]"
+        last-response="{{_revisionActions}}"
+        loading="{{_loading}}"></gr-ajax>
+    <div>
+      <template is="dom-repeat" items="[[_computeActionValues(actions, 'change')]]" as="action">
+        <gr-button title$="[[action.title]]"
+            primary$="[[_computePrimary(action.__key)]]"
+            hidden$="[[!action.enabled]]"
+            data-action-key$="[[action.__key]]"
+            data-action-type$="[[action.__type]]"
+            data-label$="[[action.label]]"
+            on-tap="_handleActionTap"></gr-button>
+      </template>
+      <template is="dom-repeat" items="[[_computeActionValues(_revisionActions, 'revision')]]" as="action">
+        <gr-button title$="[[action.title]]"
+            primary$="[[_computePrimary(action.__key)]]"
+            disabled$="[[!action.enabled]]"
+            data-action-key$="[[action.__key]]"
+            data-action-type$="[[action.__type]]"
+            data-label$="[[action.label]]"
+            data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
+            on-tap="_handleActionTap"></gr-button>
+      </template>
+    </div>
+    <gr-overlay id="overlay" with-backdrop>
+      <gr-confirm-rebase-dialog id="confirmRebase"
+          class="confirmDialog"
+          on-confirm="_handleRebaseConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          hidden></gr-confirm-rebase-dialog>
+    </gr-overlay>
+  </template>
+  <script src="gr-change-actions.js"></script>
+</dom-module>

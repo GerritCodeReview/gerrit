@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-messages-list</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/fake-app.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-messages-list.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-messages-list></gr-messages-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-messages-list tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+      element.messages = [
+        {
+          'id': '47c43261_55aa2c41',
+          'author': {
+            '_account_id': 1115495,
+            'name': 'Andrew Bonventre',
+            'email': 'andybons@chromium.org',
+          },
+          'date': '2016-01-12 20:24:49.448000000',
+          'message': 'Uploaded patch set 1.',
+          '_revision_number': 1
+        },
+        {
+          'id': '47c43261_9593e420',
+          'author': {
+            '_account_id': 1115495,
+            'name': 'Andrew Bonventre',
+            'email': 'andybons@chromium.org',
+          },
+          'date': '2016-01-12 20:28:33.038000000',
+          'message': 'Patch Set 1:\n\n(1 comment)',
+          '_revision_number': 1
+        },
+        {
+          'id': '87b2aaf4_f73260c5',
+          'author': {
+            '_account_id': 1143760,
+            'name': 'Mark Mentovai',
+            'email': 'mark@chromium.org',
+          },
+          'date': '2016-01-12 21:17:07.554000000',
+          'message': 'Patch Set 1:\n\n(3 comments)',
+          '_revision_number': 1
+        }
+      ];
+      flushAsynchronousOperations();
+    });
+
+    test('expand/collapse all', function() {
+      var allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        allMessageEls[i].expanded = false;
+      }
+      MockInteractions.tap(allMessageEls[1]);
+      assert.isTrue(allMessageEls[1].expanded);
+
+      MockInteractions.tap(element.$$('.header gr-button'));
+      allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isTrue(allMessageEls[i].expanded);
+      }
+
+      MockInteractions.tap(element.$$('.header gr-button'));
+      allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isFalse(allMessageEls[i].expanded);
+      }
+    });
+
+    test('scroll to message', function() {
+      var allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        allMessageEls[i].expanded = false;
+      }
+
+      var scrollToStub = sinon.stub(window, 'scrollTo');
+      var highlightStub = sinon.stub(element, '_highlightEl');
+
+      element.scrollToMessage('invalid');
+
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isFalse(allMessageEls[i].expanded,
+            'expected gr-message ' + i + ' to not be expanded');
+      }
+
+      var messageID = '47c43261_9593e420';
+      element.scrollToMessage(messageID);
+      assert.isTrue(
+          element.$$('[data-message-id="' + messageID + '"]').expanded);
+
+      assert.isTrue(scrollToStub.calledOnce);
+      assert.isTrue(highlightStub.calledOnce);
+
+      scrollToStub.restore();
+      highlightStub.restore();
+    });
+
+  });
+</script>

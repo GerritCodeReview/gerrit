@@ -360,7 +360,7 @@ the version number:
 * Determine the sha1 hash of the zip file:
 +
 ----
- openssl sha1 4.10.0-6-gd0a2dda.zip
+ openssl sha1 codemirror-4.10.0-6-gd0a2dda.zip
 ----
 
 * Upload the zip file to the

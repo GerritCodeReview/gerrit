@@ -3,6 +3,7 @@ include_defs('//lib/js.defs')
 bower_components(
   name = 'polygerrit_components',
   deps = [
+    '//lib/js:fetch',
     '//lib/js:iron-ajax',
     '//lib/js:iron-autogrow-textarea',
     '//lib/js:iron-dropdown',
@@ -11,5 +12,6 @@ bower_components(
     '//lib/js:iron-selector',
     '//lib/js:page',
     '//lib/js:polymer',
+    '//lib/js:promise-polyfill',
   ],
 )

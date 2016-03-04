@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -27,6 +28,8 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GetServerInfo.ServerInfo;
 
+import java.nio.file.Path;
+import java.nio.file.Files;
 import org.junit.Test;
 
 public class ServerInfoIT extends AbstractDaemonTest {
@@ -107,6 +110,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // gitweb
     assertThat(i.gitweb).isNull();
 
+    // plugin
+    assertThat(i.plugin.jsResourcePaths).isEmpty();
+
     // sshd
     assertThat(i.sshd).isNotNull();
 
@@ -115,6 +121,20 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // user
     assertThat(i.user.anonymousCowardName).isEqualTo("Unnamed User");
+  }
+
+  @Test
+  public void serverConfigWithPlugin() throws Exception {
+    Path plugins = tempSiteDir.newFolder("plugins").toPath();
+    Path jsplugin = plugins.resolve("js-plugin-1.js");
+    Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
+    sshSession.exec("gerrit plugin reload");
+
+    RestResponse r = adminSession.get("/config/server/info/");
+    ServerInfo i = newGson().fromJson(r.getReader(), ServerInfo.class);
+
+    // plugin
+    assertThat(i.plugin.jsResourcePaths).hasSize(1);
   }
 
   @Test
@@ -156,6 +176,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // gitweb
     assertThat(i.gitweb).isNull();
+
+    // plugin
+    assertThat(i.plugin.jsResourcePaths).isEmpty();
 
     // sshd
     assertThat(i.sshd).isNotNull();

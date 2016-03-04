@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "623049ce_8795e65e",
+        "filename": "polygerrit-ui/app/elements/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-04T23:14:27Z",
+      "side": 1,
+      "message": "hmm this is interesting... so since the browser implements a streaming JSON parser (i think) doing text by default will end up being slower in some cases ... not a big deal just something to think about...\n\nalso since this is in fetchJSON why not just response.json() heh :)",
+      "revId": "bd1eca620773f859a670960f38111cd864a58921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

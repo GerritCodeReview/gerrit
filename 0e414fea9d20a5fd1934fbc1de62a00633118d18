@@ -250,6 +250,30 @@
     },
     {
       "key": {
+        "uuid": "42cb45e2_464dd2b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-04T14:08:36Z",
+      "side": 1,
+      "message": "I\u0027ve just tried refactor the code the way you proposed, namly removing the \u0027diffType\u0027 filed from PatchListKey and this breaks the future.\n\nPatchListKey is created using data that are stored in the \"database\" and during that time we don\u0027t have access to the underlaying git repository to read the first parent of commit object. Because of that we can\u0027t set the \u0027oldId\u0027 to non-null value.\n\nThe only way is to distinguish objects here is to introduce additional property that can be set based on the chosen diff type.\n\nI think this is less invasive way than extending PatchSet or Revision data types to include the information about first parent.",
+      "parentUuid": "42cb45e2_c60b8272",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_bf40f380",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14

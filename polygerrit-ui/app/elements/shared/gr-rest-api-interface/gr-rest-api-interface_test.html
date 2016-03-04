@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-rest-api-interface</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-rest-api-interface.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-rest-api-interface></gr-rest-api-interface>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-rest-api-interface tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('JSON prefix is properly removed', function(done) {
+      var testJSON = ')]}\'\n{"hello": "bonjour"}';
+
+      var fetchStub = sinon.stub(window, 'fetch', function() {
+        return Promise.resolve({ text: function() {
+          return Promise.resolve(testJSON);
+        }});
+      });
+      element.fetchJSON('/dummy/url').then(function(obj) {
+        assert.deepEqual(obj, {hello: 'bonjour'});
+        fetchStub.restore();
+        done();
+      });
+    });
+
+    test('request callbacks can be canceled', function(done) {
+      var cancelCalled = false;
+      var fetchStub = sinon.stub(window, 'fetch', function() {
+        return Promise.resolve({ body: {
+          cancel: function() { cancelCalled = true; }
+        }});
+      });
+      element.fetchJSON('/dummy/url', function() { return true; }).then(
+        function(obj) {
+          assert.isUndefined(obj);
+          assert.isTrue(cancelCalled);
+          fetchStub.restore();
+          done();
+        });
+    });
+
+  });
+</script>

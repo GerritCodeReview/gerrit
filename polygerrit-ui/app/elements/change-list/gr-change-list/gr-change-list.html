@@ -1,0 +1,66 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../../styles/gr-change-list-styles.html">
+<link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
+
+<dom-module id="gr-change-list">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+    <style include="gr-change-list-styles"></style>
+    <div class="headerRow">
+      <span class="topHeader keyboard"></span> <!-- keyboard position indicator -->
+      <span class="topHeader star" hidden$="[[!showStar]]"></span>
+      <span class="topHeader subject">Subject</span>
+      <span class="topHeader status">Status</span>
+      <span class="topHeader owner">Owner</span>
+      <span class="topHeader project">Project</span>
+      <span class="topHeader branch">Branch</span>
+      <span class="topHeader updated">Updated</span>
+      <span class="topHeader size">Size</span>
+      <template is="dom-repeat" items="[[labelNames]]" as="labelName">
+        <span class="topHeader label" title$="[[labelName]]">
+          [[_computeLabelShortcut(labelName)]]
+        </span>
+      </template>
+    </div>
+    <template is="dom-repeat" items="{{groups}}" as="changeGroup" index-as="groupIndex">
+      <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
+        <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
+      </template>
+      <template is="dom-if" if="[[!changeGroup.length]]">
+        <div class="noChanges">No changes</div>
+      </template>
+      <template is="dom-repeat" items="[[changeGroup]]" as="change">
+        <gr-change-list-item
+            selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
+            needs-review="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
+            change="[[change]]"
+            show-star="[[showStar]]"
+            label-names="[[labelNames]]"></gr-change-list-item>
+      </template>
+    </template>
+  </template>
+  <script src="gr-change-list.js"></script>
+</dom-module>

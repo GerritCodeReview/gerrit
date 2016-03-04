@@ -133,7 +133,7 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void insertPatch() {
-    String id = revision.substring(0, 7);
+    String id = revision.substring(0, 8);
     Anchor patchBase64 = new Anchor(id + ".diff.base64");
     patchBase64.setHref(new RestApi("/changes/")
       .id(psId.getParentKey().get())

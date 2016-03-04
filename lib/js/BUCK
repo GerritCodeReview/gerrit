@@ -76,6 +76,14 @@ npm_binary(
 # version number of the existing bower_component rather than adding a new rule.
 
 bower_component(
+  name = 'fetch',
+  package = 'fetch',
+  version = '0.11.0',
+  license = 'fetch',
+  sha1 = 'a55d4e291821958d9d400bb3184c12bb367dc670',
+)
+
+bower_component(
   name = 'font-roboto',
   package = 'polymerelements/font-roboto',
   version = '1.0.1',

@@ -77,7 +77,7 @@ class Rule(object):
     self.name = bower_json['name']
     self.version = bower_json['version']
     self.deps = bower_json.get('dependencies', {})
-    self.license = bower_json['license']
+    self.license = bower_json.get('license', 'NO LICENSE')
     self.sha1 = util.hash_bower_component(
         hashlib.sha1(), os.path.dirname(bower_json_path)).hexdigest()
 

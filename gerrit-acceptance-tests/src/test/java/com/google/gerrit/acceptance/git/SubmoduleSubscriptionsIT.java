@@ -168,6 +168,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
+    allowSubmoduleSubscription("super-project", "master", "subscribed-to-project", "master");
+    allowSubmoduleSubscription("subscribed-to-project", "master", "super-project", "master");
+
     pushChangeTo(subRepo, "master");
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
     createSubmoduleSubscription(subRepo, "master", "super-project", "master");

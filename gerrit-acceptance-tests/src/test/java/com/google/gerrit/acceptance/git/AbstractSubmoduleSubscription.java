@@ -69,6 +69,34 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     pushSubmoduleConfig(repo, branch, config);
   }
 
+  protected void allowSubmoduleSubscription(String submodule,
+      String subBranch, String superproject, String superBranch)
+          throws Exception {
+
+    Project.NameKey sub = new Project.NameKey(name(submodule));
+    grant(Permission.SUBMIT, sub, "refs/for/refs/meta/config");
+    grant(Permission.PUSH, sub, "refs/for/refs/meta/config");
+
+    TestRepository<?> repo = cloneProject(project);
+    repo.git().fetch()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config"))
+        .call();
+    repo.reset("refs/meta/config");
+
+    RevCommit rev = repo.commit(repo.tree( //
+        repo.file("project.config", repo.blob(""//
+            + "[subscribe \"" + name(superproject) + "\"]\n"//
+            + "  refs = " + subBranch +":" + superBranch + "\n"//
+        ))));
+
+    repo.branch("refs/meta/config").update(rev);
+    repo.git().push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config"))
+        .call();
+  }
+
   protected void prepareSubmoduleConfigEntry(Config config,
       String subscribeToRepo, String subscribeToBranch) {
     subscribeToRepo = name(subscribeToRepo);

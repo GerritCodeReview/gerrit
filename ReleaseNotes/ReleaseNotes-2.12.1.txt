@@ -21,10 +21,16 @@ When upgrading a site that is already running version 2.12, the `patch_sets`
 table must be manually migrated using the `gerrit gsql` SSH command or the
 `gqsl` site program.
 
-For the default H2 database or MySQL, execute the command:
+For the default H2 database, execute the command:
 
 ----
   alter table patch_sets modify push_certficate clob;
+----
+
+For MySQL, execute the command:
+
+----
+  alter table patch_sets modify push_certficate text;
 ----
 
 For PostgreSQL, execute the command:

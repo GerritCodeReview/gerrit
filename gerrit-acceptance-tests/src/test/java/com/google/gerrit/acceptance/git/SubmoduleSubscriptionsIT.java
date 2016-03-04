@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.GerritConfigs;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -29,6 +30,7 @@ import org.junit.Test;
 public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubscriptionToEmptyRepo() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -40,6 +42,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubscriptionToExistingRepo() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -52,7 +55,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
-  @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false")
+  @GerritConfigs({
+    @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false"),
+    @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true"),
+  })
   public void testSubmoduleShortCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -76,7 +82,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
-
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubmoduleCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -105,6 +111,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubscriptionUnsubscribe() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -128,6 +135,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubscriptionUnsubscribeByDeletingGitModules() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -151,6 +159,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubscriptionToDifferentBranches() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -164,6 +173,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testCircularSubscriptionIsDetected() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");

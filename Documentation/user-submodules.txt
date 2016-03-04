@@ -20,6 +20,10 @@ When a new commit of a registered submodule is merged, Gerrit
 automatically updates the subscribers to the submodule with a new
 commit having the updated gitlinks.
 
+This feature is disabled by default and needs to be enabled
+via link:config-gerrit.html#submodule.enableSuperProjectSubscriptions[submodule.enableSuperProjectSubscriptions]
+in the server configuration.
+
 == Git Submodules Overview
 
 Submodules are a git feature that allows an external repository to be

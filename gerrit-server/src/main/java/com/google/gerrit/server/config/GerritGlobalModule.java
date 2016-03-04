@@ -82,6 +82,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
+import com.google.gerrit.server.git.GitModules;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
@@ -320,6 +321,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(NotesBranchUtil.Factory.class);
     factory(SubmoduleSectionParser.Factory.class);
     factory(ReplaceOp.Factory.class);
+    factory(GitModules.Factory.class);
 
     bind(AccountManager.class);
     factory(ChangeUserName.Factory.class);

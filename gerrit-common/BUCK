@@ -12,6 +12,7 @@ EXCLUDES = [
   SRC + 'common/FileUtil.java',
   SRC + 'common/IoUtil.java',
   SRC + 'common/TimeUtil.java',
+  SRC + 'common/data/SubscribeSection.java',
 ]
 
 java_library(

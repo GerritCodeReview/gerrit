@@ -41,6 +41,7 @@ public interface Modes extends ClientBundle {
   @Source("haskell.js") @DoNotEmbed DataResource haskell();
   @Source("htmlmixed.js") @DoNotEmbed DataResource htmlmixed();
   @Source("javascript.js") @DoNotEmbed DataResource javascript();
+  @Source("jsx.js") @DoNotEmbed DataResource jsx();
   @Source("lua.js") @DoNotEmbed DataResource lua();
   @Source("markdown.js") @DoNotEmbed DataResource markdown();
   @Source("perl.js") @DoNotEmbed DataResource perl();

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -38,6 +39,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testSubscriptionUpdateOfManyChanges() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -90,6 +92,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "true")
   public void testUpdateManySubmodules() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub1 = createProjectWithPush("sub1");

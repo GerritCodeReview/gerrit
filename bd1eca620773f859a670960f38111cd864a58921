@@ -16,6 +16,24 @@
       "revId": "bd1eca620773f859a670960f38111cd864a58921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "623049ce_e7a4e2d1",
+        "filename": "polygerrit-ui/app/elements/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-04T23:18:21Z",
+      "side": 1,
+      "message": "Right. That’s the bleh part about having to strip the prefix is that you sacrifice a bit of speed. That said, it hasn’t been an issue with the current iron-ajax-backed stuff which does the exact same thing.",
+      "parentUuid": "623049ce_8795e65e",
+      "revId": "bd1eca620773f859a670960f38111cd864a58921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

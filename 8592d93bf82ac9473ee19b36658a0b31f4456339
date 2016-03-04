@@ -16,6 +16,24 @@
       "revId": "8592d93bf82ac9473ee19b36658a0b31f4456339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bfd930_23d88a37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbandonRestoreIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-04T06:42:40Z",
+      "side": 1,
+      "message": "I tried it but it was failing.  I think the get() at line 77 needs HTTPD.",
+      "parentUuid": "42cb45e2_e6eddedc",
+      "revId": "8592d93bf82ac9473ee19b36658a0b31f4456339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

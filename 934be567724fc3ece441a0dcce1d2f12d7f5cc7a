@@ -79,6 +79,24 @@
       "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bfd930_e3b832f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-04T01:41:56Z",
+      "side": 1,
+      "message": "It\u0027s only calling getUser() once per listener.  Since each listener may be scoped to a different user, this is correct.",
+      "parentUuid": "42cb45e2_e6b83ef0",
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

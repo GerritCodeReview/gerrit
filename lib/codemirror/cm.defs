@@ -62,6 +62,7 @@ CM_MODES = [
   'haskell',
   'htmlmixed',
   'javascript',
+  'jsx',
   'lua',
   'markdown',
   'perl',

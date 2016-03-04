@@ -56,6 +56,7 @@ public class ModeInfo extends JavaScriptObject {
       Modes.I.haskell(),
       Modes.I.htmlmixed(),
       Modes.I.javascript(),
+      Modes.I.jsx(),
       Modes.I.lua(),
       Modes.I.markdown(),
       Modes.I.perl(),

@@ -15,8 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-request/gr-request.html">
@@ -58,14 +56,6 @@ limitations under the License.
         border-right: 1px solid #ddd;
       }
     </style>
-    <gr-ajax id="baseCommentsXHR"
-        url="[[_computeCommentsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
-    <gr-ajax id="commentsXHR"
-        url="[[_computeCommentsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
-    <gr-ajax id="baseDraftsXHR"
-        url="[[_computeDraftsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
-    <gr-ajax id="draftsXHR"
-        url="[[_computeDraftsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
       <div class="header">

@@ -163,7 +163,11 @@ limitations under the License.
       element.reload();
       server.respond();
 
-      element.async(function() {
+      Promise.all([
+          element._filesRequestPromise,
+          element._reviewedRequestPromise,
+      ]).then(function() {
+        flushAsynchronousOperations();
         var filenames = element.files.map(function(f) {
           return f.__path;
         });
@@ -173,7 +177,11 @@ limitations under the License.
         element.patchNum = '2';
         element.reload();
         server.respond();
-        element.async(function() {
+        Promise.all([
+            element._filesRequestPromise,
+            element._reviewedRequestPromise,
+        ]).then(function() {
+          flushAsynchronousOperations();
           filenames = element.files.map(function(f) {
             return f.__path;
           });
@@ -181,8 +189,8 @@ limitations under the License.
               ['/COMMIT_MSG', 'file_added_in_rev2.txt', 'myfile.txt']);
           assert.deepEqual(element._reviewed, ['/COMMIT_MSG', 'myfile.txt']);
           done();
-        }, 1);
-      }, 1);
+        });
+      });
     });
 
     test('keyboard shortcuts', function(done) {
@@ -192,7 +200,8 @@ limitations under the License.
       element.reload();
       server.respond();
 
-      element.async(function() {
+      element._filesRequestPromise.then(function() {
+        flushAsynchronousOperations();
         var elementItems = Polymer.dom(element.root).querySelectorAll(
             '.row:not(.header)');
         assert.equal(elementItems.length, 3);
@@ -222,7 +231,7 @@ limitations under the License.
 
         showStub.restore();
         done();
-      }, 1);
+      });
     });
 
     test('comment filtering', function() {
@@ -281,7 +290,11 @@ limitations under the License.
       element.reload();
       server.respond();
 
-      element.async(function() {
+      Promise.all([
+          element._filesRequestPromise,
+          element._reviewedRequestPromise,
+      ]).then(function() {
+        flushAsynchronousOperations();
         var fileRows =
             Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
         var commitMsg = fileRows[0].querySelector('input[type="checkbox"]');
@@ -314,7 +327,7 @@ limitations under the License.
             done();
           });
         });
-      }, 1);
+      });
     });
   });
 </script>

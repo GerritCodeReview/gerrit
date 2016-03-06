@@ -194,11 +194,11 @@ limitations under the License.
         highlight: false,
         intraline: [],
       }];
-      element.async(function() {
+      flush(function() {
         assert.isFalse(alertStub.called);
         alertStub.restore();
         done();
-      }, 100);  // Allow some time for the img error event to fire.
+      });
     });
 
     test('diff context', function() {

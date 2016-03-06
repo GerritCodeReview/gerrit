@@ -247,7 +247,7 @@ limitations under the License.
       server.respond();
 
       // Allow events to fire and the threads to render.
-      element.async(function() {
+      flush(function() {
         var leftThreadEls =
             Polymer.dom(element.$.leftDiff.root).querySelectorAll(
                 'gr-diff-comment-thread');
@@ -283,7 +283,7 @@ limitations under the License.
               '.lineNum[data-index="' + (index - 1) + '"]');
         assert.ok(rightLineEL);
         MockInteractions.tap(rightLineEL);
-        element.async(function() {
+        flush(function() {
           var newThreadEls =
             Polymer.dom(element.$.rightDiff.root).querySelectorAll(
                 '[data-index="' + index + '"]');
@@ -321,8 +321,8 @@ limitations under the License.
           });
           var commentEl = newThreadEls[1].$$('gr-diff-comment');
           commentEl.fire('discard', null, {bubbles: false});
-        }, 1);
-      }, 1);
+        });
+      });
     });
 
     test('intraline normalization', function() {

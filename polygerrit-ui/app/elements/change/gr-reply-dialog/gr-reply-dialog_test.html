@@ -107,7 +107,7 @@ limitations under the License.
     test('label picker', function(done) {
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
-      element.async(function() {
+      flush(function() {
         for (var label in element.permittedLabels) {
           assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
               label);
@@ -122,7 +122,7 @@ limitations under the License.
 
         // This is needed on non-Blink engines most likely due to the ways in
         // which the dom-repeat elements are stamped.
-        element.async(function() {
+        flush(function() {
           MockInteractions.tap(element.$$('.send'));
           assert.isTrue(element.disabled);
 
@@ -146,8 +146,8 @@ limitations under the License.
             assert.equal(req.response.labels.Verified, -1);
             done();
           });
-        }, 1);
-      }, 1);
+        });
+      });
     });
   });
 </script>

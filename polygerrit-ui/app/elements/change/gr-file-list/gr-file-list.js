@@ -42,6 +42,8 @@
         type: Array,
         value: function() { return []; },
       },
+      _filesRequestPromise: Object,  // Used for testing.
+      _reviewedRequestPromise: Object,  // Used for testing.
       _xhrPromise: Object,  // Used for testing.
     },
 
@@ -55,12 +57,14 @@
         return Promise.resolve();
       }
       return Promise.all([
-        this.$.filesXHR.generateRequest().completes,
+        this._filesRequestPromise =
+            this.$.filesXHR.generateRequest().completes,
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
           if (!app.loggedIn) { return; }
           this.$.draftsXHR.generateRequest();
-          this.$.reviewedXHR.generateRequest();
+          this._reviewedRequestPromise =
+              this.$.reviewedXHR.generateRequest().completes;
         }.bind(this)),
       ]);
     },

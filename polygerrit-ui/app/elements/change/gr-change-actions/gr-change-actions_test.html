@@ -97,16 +97,16 @@ limitations under the License.
     });
 
     test('submit and rebase buttons show', function(done) {
-      element.async(function() {
+      flush(function() {
         var buttonEls = Polymer.dom(element.root).querySelectorAll('gr-button');
         assert.equal(buttonEls.length, 2);
         assert.isFalse(element.hidden);
         done();
-      }, 1);
+      });
     });
 
     test('submit change', function(done) {
-      element.async(function() {
+      flush(function() {
         var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
@@ -116,11 +116,11 @@ limitations under the License.
         element.addEventListener('reload-change', function(e) {
           done();
         });
-      }, 1);
+      });
     });
 
     test('rebase change', function(done) {
-      element.async(function() {
+      flush(function() {
         var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
 
@@ -148,7 +148,7 @@ limitations under the License.
         element.addEventListener('reload-change', function(e) {
           if (++numEvents == 3) { done(); }
         });
-      }, 1);
+      });
     });
 
   });

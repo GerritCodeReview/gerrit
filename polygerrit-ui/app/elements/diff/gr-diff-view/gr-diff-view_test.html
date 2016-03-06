@@ -363,7 +363,7 @@ limitations under the License.
 
       server.respond();
 
-      element.async(function() {
+      flush(function() {
         var commitMsg = Polymer.dom(element.root).querySelector(
             'input[type="checkbox"]');
 
@@ -389,7 +389,7 @@ limitations under the License.
             done();
           });
         });
-      }, 1);
+      });
     });
   });
 </script>

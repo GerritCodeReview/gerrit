@@ -77,7 +77,7 @@ limitations under the License.
           'gr-change-list-item');
       assert.equal(elementItems.length, 3);
 
-      element.async(function() {
+      flush(function() {
         assert.isTrue(elementItems[0].selected);
         MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
         assert.equal(element.selectedIndex, 1);
@@ -102,7 +102,7 @@ limitations under the License.
 
         showStub.restore();
         done();
-      }, 1);
+      });
     });
 
     test('changes needing review', function() {

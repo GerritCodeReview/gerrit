@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "822d3d79_c8ed2fdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-06T17:48:59Z",
+      "side": 1,
+      "message": "can you point to where in the docs it says this?",
+      "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "822d3d79_e8f2f3bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-side/gr-diff-side_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-06T17:48:59Z",
+      "side": 1,
+      "message": "does this guarantee that the image error event will fire in that time?",
+      "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

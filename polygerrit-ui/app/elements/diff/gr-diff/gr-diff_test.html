@@ -36,6 +36,7 @@ limitations under the License.
   suite('gr-diff tests', function() {
     var element;
     var server;
+    var getDiffStub;
 
     setup(function() {
       element = fixture('basic');
@@ -46,54 +47,48 @@ limitations under the License.
         tab_size: 8,
       };
 
+      getDiffStub = sinon.stub(element.$.restAPI, 'getDiff', function() {
+        return Promise.resolve({
+          change_type: 'MODIFIED',
+          content: [
+            {
+              ab: [
+                '<!DOCTYPE html>',
+                '<meta charset="utf-8">',
+                '<title>My great page</title>',
+                '<style>',
+                '  *,',
+                '  *:before,',
+                '  *:after {',
+                '    box-sizing: border-box;',
+                '  }',
+                '</style>',
+                '<header>',
+              ]
+            },
+            {
+              a: [
+                '  Welcome ',
+                '  to the wooorld of tomorrow!',
+              ],
+              b: [
+                '  Hello, world!',
+              ],
+            },
+            {
+              ab: [
+                '</header>',
+                '<body>',
+                'Leela: This is the only place the ship can’t hear us, so ',
+                'everyone pretend to shower.',
+                'Fry: Same as every day. Got it.',
+              ]
+            },
+          ]
+        });
+      });
+
       server = sinon.fakeServer.create();
-      server.respondWith(
-        'GET',
-        /\/changes\/42\/revisions\/(1|2)\/files\/sieve\.go\/diff(.*)/,
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({
-            change_type: 'MODIFIED',
-            content: [
-              {
-                ab: [
-                  '<!DOCTYPE html>',
-                  '<meta charset="utf-8">',
-                  '<title>My great page</title>',
-                  '<style>',
-                  '  *,',
-                  '  *:before,',
-                  '  *:after {',
-                  '    box-sizing: border-box;',
-                  '  }',
-                  '</style>',
-                  '<header>',
-                ]
-              },
-              {
-                a: [
-                  '  Welcome ',
-                  '  to the wooorld of tomorrow!',
-                ],
-                b: [
-                  '  Hello, world!',
-                ],
-              },
-              {
-                ab: [
-                  '</header>',
-                  '<body>',
-                  'Leela: This is the only place the ship can’t hear us, so ',
-                  'everyone pretend to shower.',
-                  'Fry: Same as every day. Got it.',
-                ]
-              },
-            ]
-          }),
-        ]
-      );
       server.respondWith(
         'GET',
         '/changes/42/revisions/1/comments',

@@ -126,7 +126,8 @@
       this.$.rightDiff.scrollToPreviousCommentThread();
     },
 
-    reload: function(changeNum, patchRange, path) {
+    reload: function() {
+      this._loading = true;
       // If a diff takes a considerable amount of time to render, the previous
       // diff can end up showing up while the DOM is constructed. Clear the
       // content on a reload to prevent this.
@@ -135,9 +136,17 @@
         rightSide: [],
       };
 
+      var diffLoaded = this.$.restAPI.getDiff(
+        this.changeNum,
+        this.patchRange.basePatchNum,
+        this.patchRange.patchNum,
+        this.path).then(function(diff) {
+          this._diffResponse = diff;
+        }.bind(this));
+
       var promises = [
         this._prefsReady,
-        this.$.diffXHR.generateRequest().completes
+        diffLoaded,
       ];
 
       var basePatchNum = this.patchRange.basePatchNum;
@@ -146,11 +155,13 @@
         promises.push(this._getCommentsAndDrafts(basePatchNum, app.loggedIn));
         this._diffRequestsPromise = Promise.all(promises).then(function() {
           this._render();
+          this._loading = false;
         }.bind(this)).catch(function(err) {
+          this._loading = false;
           alert('Oops. Something went wrong. Check the console and bug the ' +
               'PolyGerrit team for assistance.');
           throw err;
-        });
+        }.bind(this));
       }.bind(this));
     },
 
@@ -225,28 +236,12 @@
       return Promise.all(promises);
     },
 
-    _computeDiffPath: function(changeNum, patchNum, path) {
-      return this.changeBaseURL(changeNum, patchNum) + '/files/' +
-          encodeURIComponent(path) + '/diff';
-    },
-
     _computeCommentsPath: function(changeNum, patchNum) {
       return this.changeBaseURL(changeNum, patchNum) + '/comments';
     },
 
     _computeDraftsPath: function(changeNum, patchNum) {
       return this.changeBaseURL(changeNum, patchNum) + '/drafts';
-    },
-
-    _computeDiffQueryParams: function(basePatchNum) {
-      var params =  {
-        context: 'ALL',
-        intraline: null
-      };
-      if (basePatchNum != 'PARENT') {
-        params.base = basePatchNum;
-      }
-      return params;
     },
 
     _handlePrefsTap: function(e) {

@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-request/gr-request.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../gr-diff-side/gr-diff-side.html">
@@ -57,11 +58,6 @@ limitations under the License.
         border-right: 1px solid #ddd;
       }
     </style>
-    <gr-ajax id="diffXHR"
-        url="[[_computeDiffPath(changeNum, patchRange.patchNum, path)]]"
-        params="[[_computeDiffQueryParams(patchRange.basePatchNum)]]"
-        last-response="{{_diffResponse}}"
-        loading="{{_loading}}"></gr-ajax>
     <gr-ajax id="baseCommentsXHR"
         url="[[_computeCommentsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
     <gr-ajax id="commentsXHR"
@@ -118,6 +114,7 @@ limitations under the License.
             on-remove-thread="_handleRemoveThread"></gr-diff-side>
       </div>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-diff.js"></script>
 </dom-module>

@@ -53,6 +53,22 @@ limitations under the License.
       });
     });
 
+    test('params are properly encoded', function() {
+      var fetchStub = sinon.stub(window, 'fetch', function() {
+        return Promise.resolve({ text: function() {
+          return Promise.resolve(')]}\'\n{}');
+        }});
+      });
+      var params = {
+        sp: 'hola',
+        gr: 'guten tag',
+        noval: null,
+      };
+      element.fetchJSON('/path/', null, params);
+      assert.equal(fetchStub.args[0][0], '/path/?gr=guten%20tag&noval&sp=hola');
+      fetchStub.restore();
+    });
+
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
       var fetchStub = sinon.stub(window, 'fetch', function() {

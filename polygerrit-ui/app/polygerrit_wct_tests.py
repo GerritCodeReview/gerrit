@@ -87,6 +87,17 @@ class PolyGerritWctTests(unittest.TestCase):
           # seems to still work, so there's that.
           'skipSeleniumInstall': True,
         },
+        'sauce': {
+          # Disabled by default in order to run local tests only.
+          # Run it with (saucelabs.com account required; free for open source):
+          # WCT_ARGS='--plugin sauce' buck test --no-results-cache --include web
+          'disabled': True,
+          'browsers': [
+            'Linux/chrome',
+            'Linux/firefox',
+            'OS X 10.11/safari',
+          ],
+        },
       },
     })
 

@@ -69,6 +69,24 @@
       "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "623049ce_870c068f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-side/gr-diff-side_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-06T18:52:29Z",
+      "side": 1,
+      "message": "Agreed that a magic number is not so great. My concern is with flakiness. If this starts failing intermittently then we can revisit. No need to revert.",
+      "parentUuid": "172511a9_0df611b0",
+      "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

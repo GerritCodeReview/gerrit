@@ -37,6 +37,7 @@ limitations under the License.
     var element;
     var server;
     var getDiffStub;
+    var getCommentsStub;
 
     setup(function() {
       element = fixture('basic');
@@ -88,17 +89,10 @@ limitations under the License.
         });
       });
 
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/1/comments',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({
-            '/COMMIT_MSG': [],
-            'sieve.go': [
+      getCommentsStub = sinon.stub(element.$.restAPI, 'getDiffComments',
+        function() {
+          return Promise.resolve({
+            baseComments: [
               {
                 author: {
                   _account_id: 1000000,
@@ -109,33 +103,9 @@ limitations under the License.
                 line: 1,
                 message: 'this isn’t quite right',
                 updated: '2015-12-10 02:50:21.627000000',
-              },
-              {
-                author: {
-                  _account_id: 1000000,
-                  name: 'Andrew Bonventre',
-                  email: 'andybons@gmail.com',
-                },
-                id: '9af53d3f_bf1cd76b',
-                line: 1,
-                side: 'PARENT',
-                message: 'how did this work in the first place?',
-                updated: '2015-12-10 00:08:42.255000000',
-              },
+              }
             ],
-          }),
-        ]
-      );
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/2/comments',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({
-            '/COMMIT_MSG': [],
-            'sieve.go': [
+            comments: [
               {
                 author: {
                   _account_id: 1010008,
@@ -145,19 +115,6 @@ limitations under the License.
                 id: '001a2067_f30f3048',
                 line: 12,
                 message: 'What on earth are you thinking, here?',
-                updated: '2015-12-12 02:51:37.973000000',
-              },
-              {
-                author: {
-                  _account_id: 1010008,
-                  name: 'Dave Borowitz',
-                  email: 'dborowitz@google.com',
-                },
-                id: '001a2067_f6b1b1c8',
-                in_reply_to: '9af53d3f_bf1cd76b',
-                line: 1,
-                side: 'PARENT',
-                message: 'Yeah not sure how this worked either?',
                 updated: '2015-12-12 02:51:37.973000000',
               },
               {
@@ -173,10 +130,11 @@ limitations under the License.
                 updated: '2015-12-12 18:50:21.627000000',
               },
             ],
-          }),
-        ]
+          });
+        }
       );
 
+      server = sinon.fakeServer.create();
       server.respondWith(
         'PUT',
         '/accounts/self/preferences.diff',
@@ -191,43 +149,9 @@ limitations under the License.
     });
 
     teardown(function() {
+      getDiffStub.restore();
+      getCommentsStub.restore();
       server.restore();
-    });
-
-    test('comments with parent', function(done) {
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-
-      element.reload();
-      server.respond();
-
-      element._diffRequestsPromise.then(function() {
-        assert.equal(element._baseComments.length, 1);
-        assert.equal(element._comments.length, 1);
-        assert.equal(element._baseDrafts.length, 0);
-        assert.equal(element._drafts.length, 0);
-        done();
-      });
-    });
-
-    test('comments between two patches', function(done) {
-      element.patchRange = {
-        basePatchNum: 1,
-        patchNum: 2,
-      };
-
-      element.reload();
-      server.respond();
-
-      element._diffRequestsPromise.then(function() {
-        assert.equal(element._baseComments.length, 1);
-        assert.equal(element._comments.length, 2);
-        assert.equal(element._baseDrafts.length, 0);
-        assert.equal(element._drafts.length, 0);
-        done();
-      });
     });
 
     test('comment rendering', function(done) {

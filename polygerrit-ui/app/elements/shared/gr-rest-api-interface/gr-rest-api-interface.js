@@ -15,6 +15,7 @@
   'use strict';
 
   var JSON_PREFIX = ')]}\'';
+  var PARENT_PATCH_NUM = 'PARENT';
 
   Polymer({
     is: 'gr-rest-api-interface',
@@ -76,11 +77,57 @@
         context: 'ALL',
         intraline: null
       };
-      if (basePatchNum != 'PARENT') {
+      if (basePatchNum != PARENT_PATCH_NUM) {
         params.base = basePatchNum;
       }
 
       return this.fetchJSON(url, opt_cancelCondition, params);
+    },
+
+    getDiffComments: function(changeNum, basePatchNum, patchNum, path) {
+      return this._getDiffComments(changeNum, basePatchNum, patchNum, path,
+          '/comments');
+    },
+
+    getDiffDrafts: function(changeNum, basePatchNum, patchNum, path) {
+      return this._getDiffComments(changeNum, basePatchNum, patchNum, path,
+          '/drafts');
+    },
+
+    _getDiffComments: function(changeNum, basePatchNum, patchNum, path,
+        endpoint) {
+      function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
+      function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
+
+      var promises = [];
+      var comments;
+      var baseComments;
+      var url = this._getDiffFetchURL(changeNum, patchNum, endpoint);
+      promises.push(this.fetchJSON(url).then(function(response) {
+        comments = response[path] || [];
+        if (basePatchNum == PARENT_PATCH_NUM) {
+          baseComments = comments.filter(onlyParent);
+        }
+        comments = comments.filter(withoutParent);
+      }.bind(this)));
+
+      if (basePatchNum != PARENT_PATCH_NUM) {
+        var baseURL = this._getDiffFetchURL(changeNum, basePatchNum, endpoint);
+        promises.push(this.fetchJSON(baseURL).then(function(response) {
+          baseComments = (response[path] || []).filter(withoutParent);
+        }));
+      }
+
+      return Promise.all(promises).then(function() {
+        return Promise.resolve({
+          baseComments: baseComments,
+          comments: comments,
+        });
+      });
+    },
+
+    _getDiffFetchURL: function(changeNum, patchNum, endpoint) {
+      return this._changeBaseURL(changeNum, patchNum) + endpoint;
     },
 
     _changeBaseURL: function(changeNum, patchNum) {

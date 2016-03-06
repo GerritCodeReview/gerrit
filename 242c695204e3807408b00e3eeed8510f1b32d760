@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "822d3d79_48e21feb",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-06T17:54:08Z",
+      "side": 1,
+      "message": "Why not Mac and Windows Safari as well?",
+      "revId": "242c695204e3807408b00e3eeed8510f1b32d760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

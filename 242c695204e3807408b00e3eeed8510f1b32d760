@@ -52,6 +52,24 @@
       "revId": "242c695204e3807408b00e3eeed8510f1b32d760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a236c1c5_c9ed31dd",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-06T18:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "822d3d79_a811dba9",
+      "revId": "242c695204e3807408b00e3eeed8510f1b32d760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

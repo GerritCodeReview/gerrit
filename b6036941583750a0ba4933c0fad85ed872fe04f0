@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "172511a9_2df1cdb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-06T17:57:22Z",
+      "side": 1,
+      "message": "https://www.polymer-project.org/1.0/tools/tests.html#test-dom-mutations",
+      "parentUuid": "822d3d79_c8ed2fdd",
+      "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "822d3d79_e8f2f3bd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-side/gr-diff-side_test.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-06T17:48:59Z",
       "side": 1,
       "message": "does this guarantee that the image error event will fire in that time?",
+      "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "172511a9_0df611b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-side/gr-diff-side_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-06T17:57:22Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m not sure if I understand how this test should work. But I think waiting 100ms does not guarantee anything neither. I can revert this if you prefer since I do not remember seeing this test fail on Safari. Just thought it would be cleaner to do it the \u0027new\u0027 way instead of using a magic number ;)",
+      "parentUuid": "822d3d79_e8f2f3bd",
       "revId": "b6036941583750a0ba4933c0fad85ed872fe04f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

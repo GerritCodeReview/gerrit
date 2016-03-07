@@ -31,7 +31,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -56,6 +55,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -216,7 +216,7 @@ public class ApprovalsUtil {
     for (Account.Id account : need) {
       cells.add(new PatchSetApproval(
           new PatchSetApproval.Key(psId, account, labelId),
-          (short) 0, TimeUtil.nowTs()));
+          (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
     db.patchSetApprovals().insert(cells);
@@ -229,7 +229,7 @@ public class ApprovalsUtil {
     if (!approvals.isEmpty()) {
       checkApprovals(approvals, changeCtl);
       List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
-      Timestamp ts = TimeUtil.nowTs();
+      Date ts = update.getWhen();
       for (Map.Entry<String, Short> vote : approvals.entrySet()) {
         LabelType lt = labelTypes.byLabel(vote.getKey());
         cells.add(new PatchSetApproval(new PatchSetApproval.Key(

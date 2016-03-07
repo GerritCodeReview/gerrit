@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
@@ -143,20 +144,21 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
             comment.getParentUuid(), ctx.getWhen());
         setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
         plcUtil.putComments(ctx.getDb(), update,
-            Collections.singleton(update(comment, in)));
+            Collections.singleton(update(comment, in, ctx.getWhen())));
       } else {
         if (comment.getRevId() == null) {
           setCommentRevId(
               comment, patchListCache, ctx.getChange(), ps);
         }
         plcUtil.putComments(ctx.getDb(), update,
-            Collections.singleton(update(comment, in)));
+            Collections.singleton(update(comment, in, ctx.getWhen())));
       }
       return true;
     }
   }
 
-  private static PatchLineComment update(PatchLineComment e, DraftInput in) {
+  private static PatchLineComment update(PatchLineComment e, DraftInput in,
+      Timestamp when) {
     if (in.side != null) {
       e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     }
@@ -168,7 +170,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       e.setRange(in.range);
       e.setLine(in.range != null ? in.range.endLine : in.line);
     }
-    e.setWrittenOn(TimeUtil.nowTs());
+    e.setWrittenOn(when);
     return e;
   }
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a236c1c5_a9363d3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-07T14:03:52Z",
+      "side": 1,
+      "message": "\u003e I wanted to say: Hold UserScopedEventListeners in a DynamicSet same way EventListeners are.\n\nOK, I see. In that case I would remove this sentence altogether, because using DynamicSet for keeping extension points is just how we do it.\n\n\u003e  Do you prefer to hold them in the same DynamicSet?\n\nLooking at both code samples I see no advantage in keeping them both in a single DynamicSet because, in the loop, we must check for the type and downcast if necessary. If we would be able to process all event listeners polymorphically then keeping them in one set would make sense. Without polymorphism I would just keep the code as it is.",
+      "parentUuid": "e2bfd930_e306726c",
+      "range": {
+        "startLine": 29,
+        "startChar": 65,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62684971_4aaa539c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

@@ -22,6 +22,30 @@
       "revId": "126af24dd5db9bb5588e5c34b10ab4608c5f8da2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_e4daba2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-03-07T15:59:43Z",
+      "side": 1,
+      "message": "I am not getting this error. I think it might be because I don\u0027t have note-db enabled. Is there any documentation on how to activate it?",
+      "parentUuid": "a20c01ef_991f3ba3",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 3
+      },
+      "revId": "126af24dd5db9bb5588e5c34b10ab4608c5f8da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

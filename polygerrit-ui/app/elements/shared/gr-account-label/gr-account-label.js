@@ -23,10 +23,6 @@
         type: Number,
         value: 32,
       },
-      showEmail: {
-        type: Boolean,
-        value: false,
-      },
     },
 
     _computeAccountTitle: function(account) {
@@ -36,10 +32,6 @@
         result += ' <' + util.escapeHTML(account.email) + '>';
       }
       return result;
-    },
-
-    _computeShowEmail: function(showEmail, account) {
-      return !!(showEmail && account && account.email);
     },
   });
 })();

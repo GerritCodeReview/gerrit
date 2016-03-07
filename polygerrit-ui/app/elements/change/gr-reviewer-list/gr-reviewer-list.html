@@ -77,7 +77,7 @@ limitations under the License.
 
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <div class="reviewer">
-        <gr-account-link account="[[reviewer]]" show-email></gr-account-link>
+        <gr-account-link account="[[reviewer]]"></gr-account-link>
         <gr-button link
             class="remove"
             data-account-id$="[[reviewer._account_id]]"
@@ -100,8 +100,7 @@ limitations under the License.
                 on-tap="_handleItemTap"
                 selected$="[[_computeSelected(index, _selectedIndex)]]">
               <template is="dom-if" if="[[reviewer.account]]">
-                <gr-account-label
-                    account="[[reviewer.account]]" show-email></gr-account-label>
+                <gr-account-label account="[[reviewer.account]]"></gr-account-label>
               </template>
               <template is="dom-if" if="[[reviewer.group]]">
                 <span>[[reviewer.group.name]] (group)</span>

@@ -21,7 +21,7 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: inline;
+        display: inline-block;
       }
       gr-avatar {
         height: 1.3em;
@@ -36,12 +36,7 @@ limitations under the License.
     <span title$="[[_computeAccountTitle(account)]]">
       <gr-avatar account="[[account]]"
           image-size="[[avatarImageSize]]"></gr-avatar>
-      <span class="text">
-        <span>[[account.name]]</span>
-        <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
-          ([[account.email]])
-        </span>
-      </span>
+      <span class="text">[[account.name]]</span>
     </span>
   </template>
   <script src="gr-account-label.js"></script>

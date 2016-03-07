@@ -320,10 +320,6 @@ Same as 'is:reviewed', matches if any user has commented on the change
 more recently than the last update (comment or patch set) from the
 change owner.
 
-status:submitted::
-+
-Change has been submitted, but is waiting for a dependency.
-
 status:closed::
 +
 True if the change is either 'merged' or 'abandoned'.

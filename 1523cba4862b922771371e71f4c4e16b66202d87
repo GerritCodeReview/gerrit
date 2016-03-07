@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7759ed44_4813dfad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-07T16:45:44Z",
+      "side": 1,
+      "message": "submit",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "1523cba4862b922771371e71f4c4e16b66202d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7759ed44_2808ab79",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-07T16:45:44Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 9
+      },
+      "revId": "1523cba4862b922771371e71f4c4e16b66202d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "724b4e1a9062191998f087d130571cf755a0ba08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7759ed44_c8d7cf04",
+        "filename": "polygerrit-ui/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-07T16:09:41Z",
+      "side": 1,
+      "message": "It\u0027s a direct dep. IE doesn\u0027t support promises.",
+      "parentUuid": "7759ed44_08f607b0",
+      "revId": "724b4e1a9062191998f087d130571cf755a0ba08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

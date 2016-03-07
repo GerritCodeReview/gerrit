@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f74cfd8c_44362e3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-07T21:32:27Z",
+      "side": 1,
+      "message": "part of me wants you to pull these promise building calls into dedicated fns\n\nso it would look like\n\npromises.push(this.getDiffComments)",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_243b3223",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-07T21:32:27Z",
+      "side": 1,
+      "message": "maybe abstract into a formal url builder fn?\n\nthis._getDiffFetchUrl?",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_0440367f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-07T21:32:27Z",
+      "side": 1,
+      "message": "ditto\n\n---\n\nthe reason being if the API changed in the future or some url building logic needed to change you could edit the fns directly instead of having to jump into this nested logic",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_e444fa95",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-07T21:32:27Z",
+      "side": 1,
+      "message": "this .then(... filter) work might deserve a top level fn, because this seems to represent a more formal concept ... maybe :)",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

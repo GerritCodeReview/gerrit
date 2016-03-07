@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "f74cfd8c_c4fe9e7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-07T21:01:25Z",
+      "side": 1,
+      "message": "\u003e Really??? Split CRVW+2 in different code areas? Next step would be to split CRVW+2 even further and add say:\n\nI\u0027m sorry, I don\u0027t buy this slippery slope argument. This is the first time in the 8-year history of Gerrit that we\u0027ve felt the need to break off maintainer rights in another silo. We have no reason to think there are going to be many more any time soon.\n\nIf there are many more, then we can tackle this issue in other ways with a better UX (i.e. not labels and Prolog). But we don\u0027t need to go down that path until it\u0027s actually necessary.\n\n \u003e Please, stop with this mess right here, and nominate Andrew Bonventre as Gerrit maintainer.\n\nAndy doesn\u0027t have enough understanding of the server-side code base to make informed decisions about what should be submitted outside of PolyGerrit.",
+      "parentUuid": "172511a9_ed2bc5c7",
+      "revId": "1523cba4862b922771371e71f4c4e16b66202d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7759ed44_4813dfad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

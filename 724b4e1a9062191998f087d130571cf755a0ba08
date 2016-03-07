@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7759ed44_08f607b0",
+        "filename": "polygerrit-ui/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-07T16:05:51Z",
+      "side": 1,
+      "message": "Is this actually necessary as a direct dependency of PolyGerrit, or does it belong in deps of //lib/js:fetch?",
+      "revId": "724b4e1a9062191998f087d130571cf755a0ba08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

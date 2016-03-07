@@ -198,6 +198,7 @@ java_test(
     '//lib:grappa',
     '//lib:guava',
     '//lib:guava-retrying',
+    '//lib:protobuf',
     '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice-assistedinject',
     '//lib/prolog:runtime',

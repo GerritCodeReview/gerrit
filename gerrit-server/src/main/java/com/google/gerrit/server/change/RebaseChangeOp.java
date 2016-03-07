@@ -129,12 +129,16 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     rebasedCommit = rw.parseCommit(newId);
 
     List<String> baseCommitPatchSetGroups = new ArrayList<>();
+    List<String> groups;
     RevId patchSetByRev = new RevId((baseCommitish != null) ? baseCommitish
         : ObjectId.toString(baseCommit.getId()));
     ResultSet<PatchSet> relatedPatchSets =
         ctx.getDb().patchSets().byRevision(patchSetByRev);
     for (PatchSet ps : relatedPatchSets) {
-      baseCommitPatchSetGroups.addAll(ps.getGroups());
+      groups = ps.getGroups();
+      if (groups != null) {
+        baseCommitPatchSetGroups.addAll(groups);
+      }
     }
 
     rebasedPatchSetId = ChangeUtil.nextPatchSetId(

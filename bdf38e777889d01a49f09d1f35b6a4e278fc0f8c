@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7759ed44_e844d395",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-07T21:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f74cfd8c_44362e3b",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f74cfd8c_243b3223",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-07T21:32:27Z",
       "side": 1,
       "message": "maybe abstract into a formal url builder fn?\n\nthis._getDiffFetchUrl?",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_a44e02b2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-07T21:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f74cfd8c_243b3223",
       "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7759ed44_0840477f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-07T21:55:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f74cfd8c_0440367f",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f74cfd8c_e444fa95",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-07T21:32:27Z",
       "side": 1,
       "message": "this .then(... filter) work might deserve a top level fn, because this seems to represent a more formal concept ... maybe :)",
+      "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_844b06a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-07T21:55:11Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "f74cfd8c_e444fa95",
       "revId": "bdf38e777889d01a49f09d1f35b6a4e278fc0f8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -77,6 +77,7 @@ public class NoteDbChecker {
 
     notesMigration.setWriteChanges(true);
     notesMigration.setReadChanges(true);
+    List<String> all = new ArrayList<>();
     for (ChangeBundle expected : allExpected) {
       Change c = expected.getChange();
       changeRebuilder.rebuild(db, c.getId());
@@ -84,13 +85,16 @@ public class NoteDbChecker {
           plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
       List<String> diff = expected.differencesFrom(actual);
       if (!diff.isEmpty()) {
-        throw new AssertionError(
-            "Differences between ReviewDb and NoteDb for " + c + ":\n"
-            + Joiner.on('\n').join(diff));
+        all.add("Differences between ReviewDb and NoteDb for " + c + ":");
+        all.addAll(diff);
+        all.add("");
       } else {
         System.err.println(
             "NoteDb conversion of change " + c.getId() + " successful");
       }
+    }
+    if (!all.isEmpty()) {
+      throw new AssertionError(Joiner.on('\n').join(all));
     }
   }
 

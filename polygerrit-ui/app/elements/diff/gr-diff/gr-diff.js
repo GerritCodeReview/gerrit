@@ -91,10 +91,6 @@
       _diffPreferencesPromise: Object,  // Used for testing.
     },
 
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
-
     observers: [
       '_prefsChanged(prefs.*)',
     ],
@@ -126,7 +122,8 @@
       this.$.rightDiff.scrollToPreviousCommentThread();
     },
 
-    reload: function(changeNum, patchRange, path) {
+    reload: function() {
+      this._loading = true;
       // If a diff takes a considerable amount of time to render, the previous
       // diff can end up showing up while the DOM is constructed. Clear the
       // content on a reload to prevent this.
@@ -135,23 +132,65 @@
         rightSide: [],
       };
 
+      var diffLoaded = this._getDiff().then(function(diff) {
+        this._diffResponse = diff;
+      }.bind(this));
+
       var promises = [
         this._prefsReady,
-        this.$.diffXHR.generateRequest().completes
+        diffLoaded,
       ];
 
-      var basePatchNum = this.patchRange.basePatchNum;
-
       return app.accountReady.then(function() {
-        promises.push(this._getCommentsAndDrafts(basePatchNum, app.loggedIn));
+        promises.push(this._getDiffComments().then(function(res) {
+          this._baseComments = res.baseComments;
+          this._comments = res.comments;
+        }.bind(this)));
+
+        if (!app.loggedIn) {
+          this._baseDrafts = [];
+          this._drafts = [];
+        } else {
+          promises.push(this._getDiffDrafts().then(function(res) {
+            this._baseDrafts = res.baseComments;
+            this._drafts = res.comments;
+          }.bind(this)));
+        }
+
         this._diffRequestsPromise = Promise.all(promises).then(function() {
           this._render();
+          this._loading = false;
         }.bind(this)).catch(function(err) {
+          this._loading = false;
           alert('Oops. Something went wrong. Check the console and bug the ' +
               'PolyGerrit team for assistance.');
           throw err;
-        });
+        }.bind(this));
       }.bind(this));
+    },
+
+    _getDiff: function() {
+      return this.$.restAPI.getDiff(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
+    },
+
+    _getDiffComments: function() {
+      return this.$.restAPI.getDiffComments(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
+    },
+
+    _getDiffDrafts: function() {
+      return this.$.restAPI.getDiffDrafts(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
     },
 
     showDiffPreferences: function() {
@@ -175,78 +214,6 @@
       }.bind(this), 1);
 
       this._initialRenderComplete = true;
-    },
-
-    _getCommentsAndDrafts: function(basePatchNum, loggedIn) {
-      function onlyParent(c) { return c.side == 'PARENT'; }
-      function withoutParent(c) { return c.side != 'PARENT'; }
-
-      var promises = [];
-      var commentsPromise = this.$.commentsXHR.generateRequest().completes;
-      promises.push(commentsPromise.then(function(req) {
-        var comments = req.response[this.path] || [];
-        if (basePatchNum == 'PARENT') {
-          this._baseComments = comments.filter(onlyParent);
-        }
-        this._comments = comments.filter(withoutParent);
-      }.bind(this)));
-
-      if (basePatchNum != 'PARENT') {
-        commentsPromise = this.$.baseCommentsXHR.generateRequest().completes;
-        promises.push(commentsPromise.then(function(req) {
-          this._baseComments =
-            (req.response[this.path] || []).filter(withoutParent);
-        }.bind(this)));
-      }
-
-      if (!loggedIn) {
-        this._baseDrafts = [];
-        this._drafts = [];
-        return Promise.all(promises);
-      }
-
-      var draftsPromise = this.$.draftsXHR.generateRequest().completes;
-      promises.push(draftsPromise.then(function(req) {
-        var drafts = req.response[this.path] || [];
-        if (basePatchNum == 'PARENT') {
-          this._baseDrafts = drafts.filter(onlyParent);
-        }
-        this._drafts = drafts.filter(withoutParent);
-      }.bind(this)));
-
-      if (basePatchNum != 'PARENT') {
-        draftsPromise = this.$.baseDraftsXHR.generateRequest().completes;
-        promises.push(draftsPromise.then(function(req) {
-          this._baseDrafts =
-              (req.response[this.path] || []).filter(withoutParent);
-        }.bind(this)));
-      }
-
-      return Promise.all(promises);
-    },
-
-    _computeDiffPath: function(changeNum, patchNum, path) {
-      return this.changeBaseURL(changeNum, patchNum) + '/files/' +
-          encodeURIComponent(path) + '/diff';
-    },
-
-    _computeCommentsPath: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/comments';
-    },
-
-    _computeDraftsPath: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/drafts';
-    },
-
-    _computeDiffQueryParams: function(basePatchNum) {
-      var params =  {
-        context: 'ALL',
-        intraline: null
-      };
-      if (basePatchNum != 'PARENT') {
-        params.base = basePatchNum;
-      }
-      return params;
     },
 
     _handlePrefsTap: function(e) {

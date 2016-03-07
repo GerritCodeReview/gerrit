@@ -53,6 +53,22 @@ limitations under the License.
       });
     });
 
+    test('params are properly encoded', function() {
+      var fetchStub = sinon.stub(window, 'fetch', function() {
+        return Promise.resolve({ text: function() {
+          return Promise.resolve(')]}\'\n{}');
+        }});
+      });
+      var params = {
+        sp: 'hola',
+        gr: 'guten tag',
+        noval: null,
+      };
+      element.fetchJSON('/path/', null, params);
+      assert.equal(fetchStub.args[0][0], '/path/?gr=guten%20tag&noval&sp=hola');
+      fetchStub.restore();
+    });
+
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
       var fetchStub = sinon.stub(window, 'fetch', function() {
@@ -65,6 +81,86 @@ limitations under the License.
           assert.isUndefined(obj);
           assert.isTrue(cancelCalled);
           fetchStub.restore();
+          done();
+        });
+    });
+
+    test('parent diff comments are properly grouped', function(done) {
+      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {
+        return Promise.resolve({
+          '/COMMIT_MSG': [],
+          'sieve.go': [
+            {
+              message: 'this isn’t quite right',
+            },
+            {
+              side: 'PARENT',
+              message: 'how did this work in the first place?',
+            },
+          ],
+        });
+      });
+      element._getDiffComments('42', 'PARENT', 1, 'sieve.go', '').then(
+        function(obj) {
+          assert.equal(obj.baseComments.length, 1);
+          assert.deepEqual(obj.baseComments[0], {
+            side: 'PARENT',
+            message: 'how did this work in the first place?',
+          });
+          assert.equal(obj.comments.length, 1);
+          assert.deepEqual(obj.comments[0], {
+            message: 'this isn’t quite right',
+          });
+          done();
+        });
+    });
+
+    test('differing patch diff comments are properly grouped', function(done) {
+      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function(url) {
+        if (url == '/changes/42/revisions/1') {
+          return Promise.resolve({
+            '/COMMIT_MSG': [],
+            'sieve.go': [
+              {
+                message: 'this isn’t quite right',
+              },
+              {
+                side: 'PARENT',
+                message: 'how did this work in the first place?',
+              },
+            ],
+          });
+        } else if (url == '/changes/42/revisions/2') {
+          return Promise.resolve({
+            '/COMMIT_MSG': [],
+            'sieve.go': [
+              {
+                message: 'What on earth are you thinking, here?',
+              },
+              {
+                side: 'PARENT',
+                message: 'Yeah not sure how this worked either?',
+              },
+              {
+                message: '¯\\_(ツ)_/¯',
+              },
+            ],
+          });
+        }
+      });
+      element._getDiffComments('42', 1, 2, 'sieve.go', '').then(
+        function(obj) {
+          assert.equal(obj.baseComments.length, 1);
+          assert.deepEqual(obj.baseComments[0], {
+            message: 'this isn’t quite right',
+          });
+          assert.equal(obj.comments.length, 2);
+          assert.deepEqual(obj.comments[0], {
+            message: 'What on earth are you thinking, here?',
+          });
+          assert.deepEqual(obj.comments[1], {
+            message: '¯\\_(ツ)_/¯',
+          });
           done();
         });
     });

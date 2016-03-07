@@ -134,6 +134,7 @@ public class Reviewers extends Composite {
     openForm.setVisible(true);
     UIObject.setVisible(form, false);
     suggestBox.setFocus(false);
+    suggestBox.setText("");
   }
 
   private void addReviewer(final String reviewer, boolean confirmed) {

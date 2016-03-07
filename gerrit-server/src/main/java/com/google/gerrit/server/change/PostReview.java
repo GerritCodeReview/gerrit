@@ -553,7 +553,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   psId,
                   user.getAccountId(),
                   lt.getLabelId()),
-              ent.getValue(), TimeUtil.nowTs());
+              ent.getValue(), ctx.getWhen());
           c.setGranted(ctx.getWhen());
           ups.add(c);
           addLabelDelta(normName, c.getValue());
@@ -587,7 +587,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               user.getAccountId(),
               ctx.getControl().getLabelTypes().getLabelTypes().get(0)
                   .getLabelId()),
-              (short) 0, TimeUtil.nowTs());
+              (short) 0, ctx.getWhen());
           c.setGranted(ctx.getWhen());
           ups.add(c);
         } else {

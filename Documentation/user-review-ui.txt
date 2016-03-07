@@ -186,10 +186,6 @@ change is merged into the destination branch.
 The `Submit` button is available if the change is submittable and
 the link:access-control.html#category_submit[Submit] access right is
 assigned.
-+
-It is also possible to submit changes that have merge conflicts. This
-allows to do the conflict resolution for a change series in a single
-merge commit and submit the changes in reverse order.
 
 ** [[abandon]]`Abandon`:
 +

@@ -65,6 +65,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -145,9 +146,9 @@ public class CherryPickChange {
       CodeReviewCommit commitToCherryPick =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
+      Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent =
-          identifiedUser.newCommitterIdent(TimeUtil.nowTs(),
-              serverTimeZone);
+          identifiedUser.newCommitterIdent(now, serverTimeZone);
 
       final ObjectId computedChangeId =
           ChangeIdUtil
@@ -184,8 +185,7 @@ public class CherryPickChange {
               + "Cannot create a new patch set.");
         }
         try (BatchUpdate bu = batchUpdateFactory.create(
-            db.get(), change.getDest().getParentKey(), identifiedUser,
-            TimeUtil.nowTs())) {
+            db.get(), change.getDest().getParentKey(), identifiedUser, now)) {
           bu.setRepository(git, revWalk, oi);
           Change.Id result;
           if (destChanges.size() == 1) {

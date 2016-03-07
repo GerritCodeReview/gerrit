@@ -18,7 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -67,6 +70,26 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     Config config = new Config();
     prepareSubmoduleConfigEntry(config, subscribeToRepo, subscribeToBranch);
     pushSubmoduleConfig(repo, branch, config);
+  }
+
+  protected void allowSubmoduleSubscription(String submodule,
+      String subBranch, String superproject, String superBranch)
+          throws Exception {
+
+    Project.NameKey sub = new Project.NameKey(name(submodule));
+    Project.NameKey superName = new Project.NameKey(name(superproject));
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(sub)) {
+      md.setMessage("Added superproject subscription\n");
+      ProjectConfig pc = ProjectConfig.read(md);
+      SubscribeSection s = new SubscribeSection(superName);
+      s.addRefSpec(subBranch + ":" + superBranch);
+      pc.addSubscribeSection(s);
+      ObjectId oldId = pc.getRevision();
+      ObjectId newId = pc.commit(md);
+      assertThat(newId).isNotEqualTo(oldId);
+      projectCache.evict(pc.getProject());
+    }
   }
 
   protected void prepareSubmoduleConfigEntry(Config config,

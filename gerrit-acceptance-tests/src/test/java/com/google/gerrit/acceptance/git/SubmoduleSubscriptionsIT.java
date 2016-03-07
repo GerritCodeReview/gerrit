@@ -35,7 +35,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    pushChangeTo(subRepo, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEAD);
@@ -46,6 +49,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionToExistingRepo() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    allowSubmoduleSubscription("super-project", "refs/heads/master", "subscribed-to-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
@@ -177,6 +182,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testCircularSubscriptionIsDetected() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    allowSubmoduleSubscription("super-project", "master", "subscribed-to-project", "master");
+    allowSubmoduleSubscription("subscribed-to-project", "master", "super-project", "master");
 
     pushChangeTo(subRepo, "master");
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");

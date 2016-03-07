@@ -233,8 +233,11 @@ public abstract class AbstractDaemonTest {
   @AfterClass
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
-      commonServer.stop();
-      commonServer = null;
+      try {
+        commonServer.stop();
+      } finally {
+        commonServer = null;
+      }
     }
     TempFileUtil.cleanup();
   }

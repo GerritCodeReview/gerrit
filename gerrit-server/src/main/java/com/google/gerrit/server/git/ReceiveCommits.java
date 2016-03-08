@@ -2567,7 +2567,6 @@ public class ReceiveCommits {
                     ctx.getUser().getAccountId(),
                     LabelId.legacySubmit()),
                     (short) 1, ctx.getWhen());
-          update.putApproval(submitter.getLabel(), submitter.getValue());
           ctx.getDb().patchSetApprovals().upsert(
               Collections.singleton(submitter));
 

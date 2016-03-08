@@ -85,6 +85,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ApprovalsUtil.SubmitInfo;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
@@ -424,7 +425,8 @@ public class ChangeJson {
     }
 
     out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
-    out.submitted = getSubmittedOn(cd);
+    Optional<SubmitInfo> submitInfo = cd.getSubmitInfo();
+    out.submitted = submitInfo.isPresent() ? submitInfo.get().when() : null;
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
@@ -653,12 +655,6 @@ public class ChangeJson {
         addApproval(e.getValue().label(), approvalInfo(accountId, value, date));
       }
     }
-  }
-
-  private Timestamp getSubmittedOn(ChangeData cd)
-      throws OrmException {
-    Optional<PatchSetApproval> s = cd.getSubmitApproval();
-    return s.isPresent() ? s.get().getGranted() : null;
   }
 
   private Map<String, LabelWithStatus> labelsForClosedChange(ChangeData cd,

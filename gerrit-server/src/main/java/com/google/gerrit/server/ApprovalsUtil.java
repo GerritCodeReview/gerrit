@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -31,6 +33,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -75,6 +78,16 @@ import java.util.Set;
  */
 @Singleton
 public class ApprovalsUtil {
+  @AutoValue
+  public abstract static class SubmitInfo {
+    public static SubmitInfo create(Account.Id accountId, Timestamp when) {
+      return new AutoValue_ApprovalsUtil_SubmitInfo(accountId, when);
+    }
+
+    @Nullable public abstract Account.Id accountId();
+    public abstract Timestamp when();
+  }
+
   private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
       .onResultOf(new Function<PatchSetApproval, Timestamp>() {
         @Override
@@ -301,33 +314,29 @@ public class ApprovalsUtil {
     return filterApprovals(byPatchSet(db, ctl, psId), accountId);
   }
 
-  public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes,
-      PatchSet.Id c) {
-    if (c == null) {
-      return null;
-    }
-    try {
-      // Submit approval is never copied, so bypass expensive byPatchSet call.
-      return getSubmitter(c, byChange(db, notes).get(c));
-    } catch (OrmException e) {
-      return null;
-    }
-  }
-
-  public static PatchSetApproval getSubmitter(PatchSet.Id c,
-      Iterable<PatchSetApproval> approvals) {
-    if (c == null) {
-      return null;
-    }
-    PatchSetApproval submitter = null;
-    for (PatchSetApproval a : approvals) {
-      if (a.getPatchSetId().equals(c) && a.getValue() > 0 && a.isLegacySubmit()) {
-        if (submitter == null
-            || a.getGranted().compareTo(submitter.getGranted()) > 0) {
-          submitter = a;
-        }
+  /**
+   * @return information about when the change was submitted, if it has been.
+   *     This is typically based on the time that the change was marked MERGED
+   *     and merged into the branch, but may be earlier in the case of changes
+   *     submitted by an earlier version of Gerrit, which used a separate
+   *     intermediate SUBMITTED state.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Optional<SubmitInfo> getSubmitInfo(ReviewDb db, ChangeNotes notes)
+      throws OrmException {
+    // Prefer a SUBM approval if present, as these are recorded in NoteDb for
+    // migrated changes.
+    //
+    // Submit approval is never copied, so bypass expensive byPatchSet call.
+    for (PatchSetApproval psa : byChange(db, notes).values()) {
+      if (psa.isLegacySubmit()) {
+        return Optional.of(
+            SubmitInfo.create(psa.getAccountId(), psa.getGranted()));
       }
     }
-    return submitter;
+    if (!migration.readChanges()) {
+      return Optional.absent();
+    }
+    return Optional.fromNullable(notes.getSubmitInfo());
   }
 }

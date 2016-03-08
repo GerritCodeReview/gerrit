@@ -40,7 +40,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertThat(head.getParentCount()).isEqualTo(2);
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertThat(head.getParent(1)).isEqualTo(change.getCommit());
-    assertSubmitter(change.getChangeId(), 1);
+    assertHasSubmitInfo(change);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), head.getCommitterIdent());
   }

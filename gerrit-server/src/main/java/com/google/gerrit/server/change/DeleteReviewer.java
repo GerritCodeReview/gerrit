@@ -124,7 +124,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
             new ChangeMessage(new ChangeMessage.Key(ctx.getChange().getId(),
                 ChangeUtil.messageUUID(ctx.getDb())),
                 ctx.getUser().getAccountId(),
-                TimeUtil.nowTs(), currPs);
+                ctx.getWhen(), currPs);
         changeMessage.setMessage(msg.toString());
         cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
       }

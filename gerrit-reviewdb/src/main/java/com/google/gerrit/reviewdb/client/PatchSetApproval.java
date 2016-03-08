@@ -18,6 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /** An approval (or negative approval) on a patch set. */
@@ -95,7 +96,7 @@ public final class PatchSetApproval {
   protected PatchSetApproval() {
   }
 
-  public PatchSetApproval(PatchSetApproval.Key k, short v, Timestamp ts) {
+  public PatchSetApproval(PatchSetApproval.Key k, short v, Date ts) {
     key = k;
     setValue(v);
     setGranted(ts);
@@ -136,8 +137,12 @@ public final class PatchSetApproval {
     return granted;
   }
 
-  public void setGranted(Timestamp ts) {
-    granted = ts;
+  public void setGranted(Date when) {
+    if (when instanceof Timestamp) {
+      granted = (Timestamp) when;
+    } else {
+      granted = new Timestamp(when.getTime());
+    }
   }
 
   public String getLabel() {

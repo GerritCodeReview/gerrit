@@ -900,7 +900,7 @@ public class MergeOp implements AutoCloseable {
     try {
       for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
         try (BatchUpdate bu = batchUpdateFactory.create(db, destProject,
-            internalUserFactory.create(), TimeUtil.nowTs())) {
+            internalUserFactory.create(), ts)) {
           bu.addOp(cd.getId(), new BatchUpdate.Op() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {

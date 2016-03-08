@@ -67,6 +67,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -136,8 +137,8 @@ public class ChangeEditModifier {
         ObjectId revision = ObjectId.fromString(ps.getRevision().get());
         String editRefName = RefNames.refsEdit(me.getAccountId(), change.getId(),
             ps.getId());
-        Result res =
-            update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
+        Result res = update(repo, me, editRefName, rw, ObjectId.zeroId(),
+            revision, TimeUtil.nowTs());
         indexer.index(reviewDb.get(), change);
         return res;
       }
@@ -244,11 +245,12 @@ public class ChangeEditModifier {
         RevWalk rw = new RevWalk(repo);
         ObjectInserter inserter = repo.newObjectInserter()) {
       String refName = edit.getRefName();
+      Timestamp now = TimeUtil.nowTs();
       ObjectId commit = createCommit(me, inserter, prevEdit,
           prevEdit.getTree(),
-          msg);
+          msg, now);
       inserter.flush();
-      return update(repo, me, refName, rw, prevEdit, commit);
+      return update(repo, me, refName, rw, prevEdit, commit, now);
     }
   }
 
@@ -344,9 +346,10 @@ public class ChangeEditModifier {
         throw new InvalidChangeOperationException("no changes were made");
       }
 
-      ObjectId commit = createCommit(me, inserter, prevEdit, newTree);
+      Timestamp now = TimeUtil.nowTs();
+      ObjectId commit = createCommit(me, inserter, prevEdit, newTree, now);
       inserter.flush();
-      return update(repo, me, refName, rw, prevEdit, commit);
+      return update(repo, me, refName, rw, prevEdit, commit, now);
     }
   }
 
@@ -365,30 +368,30 @@ public class ChangeEditModifier {
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit revision, ObjectId tree) throws IOException {
+      RevCommit revision, ObjectId tree, Timestamp when) throws IOException {
     return createCommit(me, inserter, revision, tree,
-        revision.getFullMessage());
+        revision.getFullMessage(), when);
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit revision, ObjectId tree, String msg)
+      RevCommit revision, ObjectId tree, String msg, Timestamp when)
       throws IOException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(tree);
     builder.setParentIds(revision.getParents());
     builder.setAuthor(revision.getAuthorIdent());
-    builder.setCommitter(getCommitterIdent(me));
+    builder.setCommitter(getCommitterIdent(me, when));
     builder.setMessage(msg);
     return inserter.insert(builder);
   }
 
   private RefUpdate.Result update(Repository repo, IdentifiedUser me,
-      String refName, RevWalk rw, ObjectId oldObjectId, ObjectId newEdit)
-      throws IOException {
+      String refName, RevWalk rw, ObjectId oldObjectId, ObjectId newEdit,
+      Timestamp when) throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setExpectedOldObjectId(oldObjectId);
     ru.setNewObjectId(newEdit);
-    ru.setRefLogIdent(getRefLogIdent(me));
+    ru.setRefLogIdent(getRefLogIdent(me, when));
     ru.setRefLogMessage("inline edit (amend)", false);
     ru.setForceUpdate(true);
     RefUpdate.Result res = ru.update(rw);
@@ -476,11 +479,11 @@ public class ChangeEditModifier {
     return dc;
   }
 
-  private PersonIdent getCommitterIdent(IdentifiedUser user) {
-    return user.newCommitterIdent(TimeUtil.nowTs(), tz);
+  private PersonIdent getCommitterIdent(IdentifiedUser user, Timestamp when) {
+    return user.newCommitterIdent(when, tz);
   }
 
-  private PersonIdent getRefLogIdent(IdentifiedUser user) {
-    return user.newRefLogIdent(TimeUtil.nowTs(), tz);
+  private PersonIdent getRefLogIdent(IdentifiedUser user, Timestamp when) {
+    return user.newRefLogIdent(when, tz);
   }
 }

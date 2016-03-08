@@ -33,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -62,10 +62,10 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -83,7 +83,6 @@ public class CherryPickChange {
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final PatchSetUtil psUtil;
-  private final ChangeUpdate.Factory updateFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
@@ -98,7 +97,6 @@ public class CherryPickChange {
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
       PatchSetUtil psUtil,
-      ChangeUpdate.Factory updateFactory,
       BatchUpdate.Factory batchUpdateFactory) {
     this.db = db;
     this.seq = seq;
@@ -111,7 +109,6 @@ public class CherryPickChange {
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.psUtil = psUtil;
-    this.updateFactory = updateFactory;
     this.batchUpdateFactory = batchUpdateFactory;
   }
 
@@ -149,9 +146,9 @@ public class CherryPickChange {
       CodeReviewCommit commitToCherryPick =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
+      Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent =
-          identifiedUser.newCommitterIdent(TimeUtil.nowTs(),
-              serverTimeZone);
+          identifiedUser.newCommitterIdent(now, serverTimeZone);
 
       final ObjectId computedChangeId =
           ChangeIdUtil
@@ -187,29 +184,35 @@ public class CherryPickChange {
               + changeKey + " reside on the same branch. "
               + "Cannot create a new patch set.");
         }
-        if (destChanges.size() == 1) {
-          // The change key exists on the destination branch. The cherry pick
-          // will be added as a new patch set.
-          ChangeControl destCtl = refControl.getProjectControl()
-              .controlFor(destChanges.get(0).notes());
-          return insertPatchSet(git, revWalk, oi, destCtl,
-              cherryPickCommit, refControl, identifiedUser);
-        } else {
-          // Change key not found on destination branch. We can create a new
-          // change.
-          String newTopic = null;
-          if (!Strings.isNullOrEmpty(change.getTopic())) {
-            newTopic = change.getTopic() + "-" + newDest.getShortName();
+        try (BatchUpdate bu = batchUpdateFactory.create(
+            db.get(), change.getDest().getParentKey(), identifiedUser, now)) {
+          bu.setRepository(git, revWalk, oi);
+          Change.Id result;
+          if (destChanges.size() == 1) {
+            // The change key exists on the destination branch. The cherry pick
+            // will be added as a new patch set.
+            ChangeControl destCtl = refControl.getProjectControl()
+                .controlFor(destChanges.get(0).notes());
+            result = insertPatchSet(
+                bu, git, destCtl, cherryPickCommit, refControl);
+          } else {
+            // Change key not found on destination branch. We can create a new
+            // change.
+            String newTopic = null;
+            if (!Strings.isNullOrEmpty(change.getTopic())) {
+              newTopic = change.getTopic() + "-" + newDest.getShortName();
+            }
+            result =
+                createNewChange(bu, cherryPickCommit,
+                    refControl.getRefName(), newTopic, change.getDest());
+
+            bu.addOp(change.getId(),
+                new AddMessageToSourceChangeOp(
+                    changeMessagesUtil, patch.getId(), destinationBranch,
+                    cherryPickCommit));
           }
-          Change.Id newChangeId =
-              createNewChange(git, revWalk, oi, project, cherryPickCommit,
-                  refControl.getRefName(), identifiedUser, newTopic,
-                  change.getDest());
-
-          addMessageToSourceChange(change, patch.getId(), destinationBranch,
-              cherryPickCommit, identifiedUser, refControl);
-
-          return newChangeId;
+          bu.execute();
+          return result;
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationException("Cherry pick failed: " + e.getMessage());
@@ -219,10 +222,9 @@ public class CherryPickChange {
     }
   }
 
-  private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
-      ObjectInserter oi, ChangeControl ctl, CodeReviewCommit cherryPickCommit,
-      RefControl refControl, IdentifiedUser identifiedUser)
-      throws IOException, OrmException, UpdateException, RestApiException {
+  private Change.Id insertPatchSet(BatchUpdate bu, Repository git,
+      ChangeControl ctl, CodeReviewCommit cherryPickCommit,
+      RefControl refControl) throws IOException, OrmException {
     Change change = ctl.getChange();
     PatchSet.Id psId =
         ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
@@ -231,24 +233,16 @@ public class CherryPickChange {
     PatchSet.Id newPatchSetId = inserter.getPatchSetId();
     PatchSet current = psUtil.current(db.get(), ctl.getNotes());
 
-    try (BatchUpdate bu = batchUpdateFactory.create(
-        db.get(), change.getDest().getParentKey(), identifiedUser,
-        TimeUtil.nowTs())) {
-      bu.setRepository(git, revWalk, oi);
-      bu.addOp(change.getId(), inserter
-          .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
-          .setDraft(current.isDraft())
-          .setSendMail(false));
-      bu.execute();
-    }
+    bu.addOp(change.getId(), inserter
+        .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
+        .setDraft(current.isDraft())
+        .setSendMail(false));
     return change.getId();
   }
 
-  private Change.Id createNewChange(Repository git, RevWalk revWalk,
-      ObjectInserter oi, Project.NameKey project,
-      CodeReviewCommit cherryPickCommit, String refName,
-      IdentifiedUser identifiedUser, String topic, Branch.NameKey sourceBranch)
-          throws RestApiException, UpdateException, OrmException {
+  private Change.Id createNewChange(BatchUpdate bu,
+      CodeReviewCommit cherryPickCommit, String refName, String topic,
+      Branch.NameKey sourceBranch) throws OrmException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(
           changeId, cherryPickCommit, refName)
@@ -257,38 +251,44 @@ public class CherryPickChange {
 
     ins.setMessage(
         messageForDestinationChange(ins.getPatchSetId(), sourceBranch));
-    try (BatchUpdate bu = batchUpdateFactory.create(
-        db.get(), project, identifiedUser, TimeUtil.nowTs())) {
-      bu.setRepository(git, revWalk, oi);
-      bu.insertChange(ins);
-      bu.execute();
-    }
+    bu.insertChange(ins);
     return changeId;
   }
 
-  private void addMessageToSourceChange(Change change, PatchSet.Id patchSetId,
-      String destinationBranch, CodeReviewCommit cherryPickCommit,
-      IdentifiedUser identifiedUser, RefControl refControl)
-          throws OrmException, IOException {
-    ChangeMessage changeMessage = new ChangeMessage(
-        new ChangeMessage.Key(
-            patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
-            identifiedUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
-    StringBuilder sb = new StringBuilder("Patch Set ")
-        .append(patchSetId.get())
-        .append(": Cherry Picked")
-        .append("\n\n")
-        .append("This patchset was cherry picked to branch ")
-        .append(destinationBranch)
-        .append(" as commit ")
-        .append(cherryPickCommit.getId().getName());
-    changeMessage.setMessage(sb.toString());
+  private static class AddMessageToSourceChangeOp extends BatchUpdate.Op {
+    private final ChangeMessagesUtil cmUtil;
+    private final PatchSet.Id psId;
+    private final String destBranch;
+    private final ObjectId cherryPickCommit;
 
-    ChangeControl ctl = refControl.getProjectControl()
-        .controlFor(db.get(), change);
-    ChangeUpdate update = updateFactory.create(ctl, TimeUtil.nowTs());
-    changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
-    update.commit();
+    private AddMessageToSourceChangeOp(ChangeMessagesUtil cmUtil,
+        PatchSet.Id psId, String destBranch, ObjectId cherryPickCommit) {
+      this.cmUtil = cmUtil;
+      this.psId = psId;
+      this.destBranch = destBranch;
+      this.cherryPickCommit = cherryPickCommit;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws OrmException {
+      ChangeMessage changeMessage = new ChangeMessage(
+          new ChangeMessage.Key(
+              ctx.getChange().getId(), ChangeUtil.messageUUID(ctx.getDb())),
+              ctx.getUser().getAccountId(), ctx.getWhen(), psId);
+      StringBuilder sb = new StringBuilder("Patch Set ")
+          .append(psId.get())
+          .append(": Cherry Picked")
+          .append("\n\n")
+          .append("This patchset was cherry picked to branch ")
+          .append(destBranch)
+          .append(" as commit ")
+          .append(cherryPickCommit.name());
+      changeMessage.setMessage(sb.toString());
+
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+      ctx.saveChange(); // Bump lastUpdatedOn to match message.
+      return true;
+    }
   }
 
   private String messageForDestinationChange(PatchSet.Id patchSetId,

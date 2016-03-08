@@ -384,6 +384,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
       throws ConfigInvalidException, OrmException, IOException {
+    if (curr.equals(ObjectId.zeroId())) {
+      return RevisionNoteMap.emptyMap();
+    }
     if (migration.readChanges()) {
       // If reading from changes is enabled, then the old ChangeNotes already
       // parsed the revision notes. We can reuse them as long as the ref hasn't
@@ -394,12 +397,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         return checkNotNull(ctl.getNotes().revisionNoteMap);
       }
     }
-    NoteMap noteMap;
-    if (!curr.equals(ObjectId.zeroId())) {
-      noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
-    } else {
-      noteMap = NoteMap.newEmptyMap();
-    }
+    NoteMap noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(

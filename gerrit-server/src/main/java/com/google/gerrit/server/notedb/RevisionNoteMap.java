@@ -43,6 +43,11 @@ class RevisionNoteMap {
     return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));
   }
 
+  static RevisionNoteMap emptyMap() {
+    return new RevisionNoteMap(NoteMap.newEmptyMap(),
+        ImmutableMap.<RevId, RevisionNote> of());
+  }
+
   private RevisionNoteMap(NoteMap noteMap,
       ImmutableMap<RevId, RevisionNote> revisionNotes) {
     this.noteMap = noteMap;

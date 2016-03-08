@@ -189,7 +189,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master"))
         .call();
     assertCommit(project, "refs/heads/master");
-    assertThat(getSubmitter(r.getPatchSetId())).isNull();
+    assertSubmitApproval(r.getPatchSetId());
     ChangeInfo c =
         gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
     assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
@@ -209,7 +209,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     assertCommit(project, "refs/heads/master");
-    assertThat(getSubmitter(r.getPatchSetId())).isNull();
+    assertSubmitApproval(r.getPatchSetId());
     ChangeInfo c =
         gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
     assertThat(c.status).isEqualTo(ChangeStatus.MERGED);

@@ -68,4 +68,7 @@ public interface SubmoduleSubscriptionAccess extends
   @Query("WHERE submodule.projectName = ?")
   ResultSet<SubmoduleSubscription> bySubmoduleProject(Project.NameKey submodule)
       throws OrmException;
+
+  @Query
+  ResultSet<SubmoduleSubscription> all() throws OrmException;
 }

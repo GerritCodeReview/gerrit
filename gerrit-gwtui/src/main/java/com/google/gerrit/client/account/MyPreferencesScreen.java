@@ -55,6 +55,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox legacycidInChangeTable;
   private CheckBox muteCommonPathPrefixes;
   private CheckBox signedOffBy;
+  private CheckBox publishDraftCommentsOnPush;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -154,6 +155,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
     signedOffBy = new CheckBox(Util.C.signedOffBy());
+    publishDraftCommentsOnPush = new CheckBox(Util.C.publishDraftCommentsOnPush());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
     final Grid formGrid = new Grid(12 + (flashClippy ? 1 : 0), 2);
@@ -204,6 +206,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, signedOffBy);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, publishDraftCommentsOnPush);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
 
@@ -234,6 +240,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(legacycidInChangeTable);
     e.listenTo(muteCommonPathPrefixes);
     e.listenTo(signedOffBy);
+    e.listenTo(publishDraftCommentsOnPush);
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
     e.listenTo(emailStrategy);
@@ -267,6 +274,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setEnabled(on);
     muteCommonPathPrefixes.setEnabled(on);
     signedOffBy.setEnabled(on);
+    publishDraftCommentsOnPush.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
     emailStrategy.setEnabled(on);
@@ -285,6 +293,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     signedOffBy.setValue(p.signedOffBy());
+    publishDraftCommentsOnPush.setValue(p.publishDraftCommentsOnPush());
     setListBox(reviewCategoryStrategy,
         GeneralPreferencesInfo.ReviewCategoryStrategy.NONE,
         p.reviewCategoryStrategy());
@@ -372,6 +381,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());
     p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
     p.signedOffBy(signedOffBy.getValue());
+    p.publishDraftCommentsOnPush(publishDraftCommentsOnPush.getValue());
     p.reviewCategoryStrategy(getListBox(reviewCategoryStrategy,
         ReviewCategoryStrategy.NONE,
         ReviewCategoryStrategy.values()));

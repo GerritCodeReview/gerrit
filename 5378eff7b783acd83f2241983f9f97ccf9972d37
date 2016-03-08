@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b79a8576_92cf5c79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-08T22:30:23Z",
+      "side": 1,
+      "message": "Just write it as 3917 - that way it gets linked in the UI.",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "5378eff7b783acd83f2241983f9f97ccf9972d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

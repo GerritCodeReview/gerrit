@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "b79a8576_52b6d401",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-08T22:15:24Z",
+      "side": 1,
+      "message": "Has anybody looked into \u003ctime\u003e yet [1]? This custom element would also provide support for formatting like \"12 minutes ago\" (it\u0027s used commonly on GitHub for time display).\n\n[1] https://github.com/github/time-elements",
+      "parentUuid": "77a2cdc0_e0eb62cb",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_a0bafae2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1

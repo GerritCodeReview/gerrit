@@ -3960,6 +3960,11 @@ the commit message of the superproject update.
 +
 By default this is true.
 
+[[submodule.enableSuperProjectSubscriptions]]submodule.enableSuperProjectSubscriptions
++
+This allows to enable the superproject subscription mechanism.
++
+By default this is false.
 
 [[user]]
 === Section user

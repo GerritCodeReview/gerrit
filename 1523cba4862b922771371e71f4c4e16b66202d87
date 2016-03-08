@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "17ed11ca_6d9f957a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-08T07:01:28Z",
+      "side": 1,
+      "message": "\u003e Andy doesn\u0027t have enough understanding of the server-side code base to make informed decisions about what should be submitted outside of PolyGerrit.\n\nI\u0027m very confident, that Andrew Bonventre would only approve changes in the code area he is *really* comfortable with. Isn\u0027t the same holds true for current maintainers as well? Some of them are more comfortable with some areas of code. Or, to put it differently, who from current maintainers group (beside Shawn, the original author of the code) has deeply understanding of Buck integration? At least /me havn\u0027t seen any volunteers to fix this serious toolchain breakage, and I think (correct me if I\u0027m wrong), that only Shawn really understands the problem and the fix: [1].\n\nIsn\u0027t this is a normal situation with such a huge code base? How is this justified that such important project for so many FLOSS projects has only 6 maintainers, from which only 3 are active in recent years and only 1.5 from 3 reviewing foreign changes regularly? How comes that LibreOffice has 100+ maintainers, JGit has 14 maintainers and those projects aren\u0027t screwed up?\n\nInstead of CRVW+2 right fragmentation in specific code areas, grant Andrew Bonventre general CRVW+2 on this project and see, that this project (with the server part) will not be screwed up.\n\n* [1] https://gerrit-review.googlesource.com/71650",
+      "parentUuid": "f74cfd8c_c4fe9e7e",
+      "revId": "1523cba4862b922771371e71f4c4e16b66202d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7759ed44_4813dfad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

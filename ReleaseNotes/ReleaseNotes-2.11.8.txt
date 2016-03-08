@@ -1,0 +1,41 @@
+Release notes for Gerrit 2.11.8
+===============================
+
+Gerrit 2.11.8 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.8.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.8.war]
+
+There are no schema changes from link:ReleaseNotes-2.11.7.html[2.11.7].
+
+Bug Fixes
+---------
+
+* Upgrade Apache commons-collections to version 3.2.2.
++
+Includes a fix for a link:https://issues.apache.org/jira/browse/COLLECTIONS-580[
+remote code execution exploit].
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1207[Issue 1207]:
+Fix keyboard shortcuts for non-US keyboards on side-by-side diff screen.
++
+The forward/backward navigation keys `[` and `]` only worked on keyboards where
+these characters could be typed without using any modifier key (like CTRL, ALT,
+etc.).
++
+Note that the problem still exists on the unified diff screen.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3919[Issue 3919]:
+Explicitly set parent project to 'All-Projects' when a project is created
+without giving the parent.
+
+* Don't add message twice on abandon or restore via ssh review command.
++
+When abandoning or reviewing a change via the ssh `review` command, and
+providing a message with the `--message` option, the message was added to
+the change twice.
+
+* Clear the input box after cancelling add reviewer action.
++
+When the action was cancelled, the content of the input box was still
+there when opening it again.

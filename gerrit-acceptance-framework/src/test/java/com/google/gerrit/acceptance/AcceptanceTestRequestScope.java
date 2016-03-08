@@ -16,8 +16,11 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
@@ -42,22 +45,19 @@ public class AcceptanceTestRequestScope {
   private static final Key<RequestScopedReviewDbProvider> DB_KEY =
       Key.get(RequestScopedReviewDbProvider.class);
 
-  public static class Context implements RequestContext {
-    private final RequestCleanup cleanup = new RequestCleanup();
-    private final Map<Key<?>, Object> map = Maps.newHashMap();
-    private final SchemaFactory<ReviewDb> schemaFactory;
-    private final SshSession session;
-    private final CurrentUser user;
+  public abstract static class Context implements RequestContext {
+    protected final RequestCleanup cleanup = new RequestCleanup();
+    protected final Map<Key<?>, Object> map = Maps.newHashMap();
+    protected final SchemaFactory<ReviewDb> schemaFactory;
+    protected final SshSession session;
 
     final long created;
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, SshSession s,
-        CurrentUser u, long at) {
+    private Context(SchemaFactory<ReviewDb> sf, SshSession s, long at) {
       schemaFactory = sf;
       session = s;
-      user = u;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
       map.put(DB_KEY, new RequestScopedReviewDbProvider(
@@ -65,22 +65,14 @@ public class AcceptanceTestRequestScope {
           Providers.of(cleanup)));
     }
 
-    private Context(Context p, SshSession s, CurrentUser c) {
-      this(p.schemaFactory, s, c, p.created);
+    private Context(Context p, SshSession s) {
+      this(p.schemaFactory, s, p.created);
       started = p.started;
       finished = p.finished;
     }
 
     SshSession getSession() {
       return session;
-    }
-
-    @Override
-    public CurrentUser getUser() {
-      if (user == null) {
-        throw new IllegalStateException("user == null, forgot to set it?");
-      }
-      return user;
     }
 
     @Override
@@ -99,6 +91,38 @@ public class AcceptanceTestRequestScope {
     }
   }
 
+  private static class IdentifiedUserContext extends Context {
+    private final IdentifiedUser.GenericFactory userFactory;
+    private final Account.Id accountId;
+
+    private IdentifiedUserContext(SchemaFactory<ReviewDb> sf,
+        IdentifiedUser.GenericFactory uf, SshSession s, Account.Id a, long at) {
+      super(sf, s, at);
+      userFactory = uf;
+      accountId = a;
+    }
+
+    @Override
+    public CurrentUser getUser() {
+      return userFactory.create(getReviewDbProvider(), accountId);
+    }
+  }
+
+  private static class AnonymousUserContext extends Context {
+    private final Provider<AnonymousUser> userProvider;
+
+    private AnonymousUserContext(SchemaFactory<ReviewDb> sf,
+        Provider<AnonymousUser> up, long at) {
+      super(sf, null, at);
+      userProvider = up;
+    }
+
+    @Override
+    public CurrentUser getUser() {
+      return userProvider.get();
+    }
+  }
+
   static class ContextProvider implements Provider<Context> {
     @Override
     public Context get() {
@@ -114,20 +138,17 @@ public class AcceptanceTestRequestScope {
   }
 
   static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
-    private final AcceptanceTestRequestScope atrScope;
-
     @Inject
-    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local,
+    Propagator(ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
-      this.atrScope = atrScope;
     }
 
     @Override
     protected Context continuingContext(Context ctx) {
       // The cleanup is not chained, since the RequestScopePropagator executors
       // the Context's cleanup when finished executing.
-      return atrScope.newContinuingContext(ctx);
+      return newContinuingContext(ctx);
     }
   }
 
@@ -148,12 +169,32 @@ public class AcceptanceTestRequestScope {
     this.local = local;
   }
 
-  public Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser user) {
-    return new Context(sf, s, user, TimeUtil.nowMs());
+  public static Context newContext(SchemaFactory<ReviewDb> sf,
+      IdentifiedUser.GenericFactory uf, SshSession s, Account.Id a) {
+    return new IdentifiedUserContext(sf, uf, s, a, TimeUtil.nowMs());
   }
 
-  private Context newContinuingContext(Context ctx) {
-    return new Context(ctx, ctx.getSession(), ctx.getUser());
+  public static Context newAnonymousContext(SchemaFactory<ReviewDb> sf,
+      Provider<AnonymousUser> up) {
+    return new AnonymousUserContext(sf, up, TimeUtil.nowMs());
+  }
+
+  private static Context newContinuingContext(Context ctx) {
+    return newContinuingContext(ctx, ctx.schemaFactory);
+  }
+
+  private static Context newContinuingContext(Context ctx,
+      SchemaFactory<ReviewDb> sf) {
+    if (ctx instanceof IdentifiedUserContext) {
+      IdentifiedUserContext ic = (IdentifiedUserContext) ctx;
+      return new IdentifiedUserContext(sf, ic.userFactory,
+          ic.session, ic.accountId, ic.created);
+    } else if (ctx instanceof AnonymousUserContext) {
+      AnonymousUserContext ac = (AnonymousUserContext) ctx;
+      return new AnonymousUserContext(sf, ac.userProvider, ac.created);
+    } else {
+      throw new IllegalArgumentException("unexpected Context type: " + ctx);
+    }
   }
 
   public Context set(Context ctx) {
@@ -175,7 +216,7 @@ public class AcceptanceTestRequestScope {
         return new DisabledReviewDb();
       }
     };
-    Context ctx = new Context(sf, old.session, old.user, old.created);
+    Context ctx = newContinuingContext(old, sf);
 
     current.set(ctx);
     local.setContext(ctx);

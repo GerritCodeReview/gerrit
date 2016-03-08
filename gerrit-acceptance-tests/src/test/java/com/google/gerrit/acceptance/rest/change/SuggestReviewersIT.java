@@ -149,7 +149,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).isEmpty();
 
-    setApiUser(user1); // Clear cached group info.
     allowGlobalCapabilities(group1.getGroupUUID(),
         GlobalCapability.VIEW_ALL_ACCOUNTS);
     reviewers = suggestReviewers(changeId, user2.username, 2);

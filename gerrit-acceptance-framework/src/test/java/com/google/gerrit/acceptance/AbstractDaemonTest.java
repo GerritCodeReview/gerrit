@@ -494,8 +494,11 @@ public abstract class AbstractDaemonTest {
   }
 
   private Context newRequestContext(TestAccount account) {
-    return atrScope.newContext(reviewDbProvider, new SshSession(server, admin),
-        identifiedUserFactory.create(Providers.of(db), account.getId()));
+    return AcceptanceTestRequestScope.newContext(
+        reviewDbProvider,
+        identifiedUserFactory,
+        new SshSession(server, account),
+        account.getId());
   }
 
   protected Context setApiUser(TestAccount account) {
@@ -504,7 +507,9 @@ public abstract class AbstractDaemonTest {
 
   protected Context setApiUserAnonymous() {
     return atrScope.set(
-        atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
+        AcceptanceTestRequestScope.newAnonymousContext(
+            reviewDbProvider,
+            anonymousUser));
   }
 
   protected static Gson newGson() {

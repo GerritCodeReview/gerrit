@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ApprovalsUtil.SubmitInfo;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -850,18 +851,8 @@ public class ChangeData {
     return allApprovals;
   }
 
-  /**
-   * @return The submit ('SUBM') approval label
-   * @throws OrmException an error occurred reading the database.
-   */
-  public Optional<PatchSetApproval> getSubmitApproval()
-    throws OrmException {
-    for (PatchSetApproval psa : currentApprovals()) {
-      if (psa.isLegacySubmit()) {
-        return Optional.fromNullable(psa);
-      }
-    }
-    return Optional.absent();
+  public Optional<SubmitInfo> getSubmitInfo() throws OrmException {
+    return approvalsUtil.getSubmitInfo(db, notes());
   }
 
   public SetMultimap<ReviewerStateInternal, Account.Id> reviewers()

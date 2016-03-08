@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -24,6 +23,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -49,9 +49,9 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ApprovalsUtil.SubmitInfo;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
@@ -60,7 +60,7 @@ import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
@@ -343,26 +343,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         .isEqualTo(expected.getTimeZone());
   }
 
-  protected void assertSubmitter(String changeId, int psId)
-      throws Exception {
-    Change c =
-        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
-    ChangeNotes cn = notesFactory.createChecked(db, c);
-    PatchSetApproval submitter = approvalsUtil.getSubmitter(
-        db, cn, new PatchSet.Id(cn.getChangeId(), psId));
-    assertThat(submitter).isNotNull();
-    assertThat(submitter.isLegacySubmit()).isTrue();
-    assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
+  protected void assertHasSubmitInfo(PushOneCommit.Result r) throws Exception {
+    assertThat(getSubmitInfo(r.getChange())).isPresent();
   }
 
-  protected void assertNoSubmitter(String changeId, int psId)
-      throws Exception {
-    Change c =
-        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
-    ChangeNotes cn = notesFactory.createChecked(db, c);
-    PatchSetApproval submitter = approvalsUtil.getSubmitter(
-        db, cn, new PatchSet.Id(cn.getChangeId(), psId));
-    assertThat(submitter).isNull();
+  protected void assertNoSubmitInfo(PushOneCommit.Result r) throws Exception {
+    assertThat(getSubmitInfo(r.getChange())).isAbsent();
+  }
+
+  protected Optional<SubmitInfo> getSubmitInfo(ChangeData cd) throws Exception {
+    return approvalsUtil.getSubmitInfo(db, cd.notes());
   }
 
   protected void assertCherryPick(TestRepository<?> testRepo,

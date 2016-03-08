@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ApprovalsUtil.SubmitInfo;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -75,7 +76,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   protected final CodeReviewCommit toMerge;
 
   private ReceiveCommand command;
-  private PatchSetApproval submitter;
+  private SubmitInfo submitInfo;
   private ObjectId mergeResultRev;
   private PatchSet mergedPatchSet;
   private Change updatedChange;
@@ -320,7 +321,6 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
       saveApprovals(normalized, ctx, newPsUpdate, true);
-      submitter = convertPatchSet(newPsId).apply(submitter);
     }
   }
 
@@ -333,15 +333,14 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       byKey.put(psa.getKey(), psa);
     }
 
-    submitter = new PatchSetApproval(
+    PatchSetApproval subm = new PatchSetApproval(
           new PatchSetApproval.Key(
               psId,
               ctx.getUser().getAccountId(),
               LabelId.legacySubmit()),
               (short) 1, ctx.getWhen());
-    byKey.put(submitter.getKey(), submitter);
-    submitter.setValue((short) 1);
-    submitter.setGranted(ctx.getWhen());
+    byKey.put(subm.getKey(), subm);
+    submitInfo = SubmitInfo.create(subm.getAccountId(), subm.getGranted());
 
     // Flatten out existing approvals for this patch set based upon the current
     // permissions. Once the change is closed the approvals are not updated at
@@ -350,7 +349,6 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // permissions get modified in the future, historical records stay accurate.
     LabelNormalizer.Result normalized =
         args.labelNormalizer.normalize(ctx.getControl(), byKey.values());
-    update.putApproval(submitter.getLabel(), submitter.getValue());
     saveApprovals(normalized, ctx, update, false);
     return normalized;
   }
@@ -358,15 +356,21 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private void saveApprovals(LabelNormalizer.Result normalized,
       ChangeContext ctx, ChangeUpdate update, boolean includeUnchanged)
       throws OrmException {
+    // The legacy SUBM approval is only recorded in ReviewDb; NoteDb parses the
+    // SubmitInfo from the commit that updates the change state. To do this, use
+    // getNormalized() in the ReviewDb calls, but updated() in the ChangeUpdate
+    // calls.
     PatchSet.Id psId = update.getPatchSetId();
     ctx.getDb().patchSetApprovals().upsert(
         convertPatchSet(normalized.getNormalized(), psId));
     ctx.getDb().patchSetApprovals().delete(
         convertPatchSet(normalized.deleted(), psId));
     for (PatchSetApproval psa : normalized.updated()) {
+      checkState(!psa.isLegacySubmit());
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
     }
     for (PatchSetApproval psa : normalized.deleted()) {
+      checkState(!psa.isLegacySubmit());
       update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
     }
 
@@ -401,10 +405,10 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   }
 
   private String getByAccountName() {
-    checkNotNull(submitter,
-        "getByAccountName called before submitter populated");
+    checkNotNull(submitInfo,
+        "getByAccountName called before submitInfo populated");
     Account account =
-        args.accountCache.get(submitter.getAccountId()).getAccount();
+        args.accountCache.get(submitInfo.accountId()).getAccount();
     if (account != null && account.getFullName() != null) {
       return " by " + account.getFullName();
     }
@@ -505,7 +509,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // have failed fast in one of the other steps.
     try {
       args.mergedSenderFactory
-          .create(ctx.getProject(), getId(), submitter.getAccountId())
+          .create(ctx.getProject(), getId(), submitInfo.accountId())
           .sendAsync();
     } catch (Exception e) {
       log.error("Cannot email merged notification for " + getId(), e);
@@ -513,7 +517,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     if (mergeResultRev != null) {
       try {
         args.hooks.doChangeMergedHook(updatedChange,
-            args.accountCache.get(submitter.getAccountId()).getAccount(),
+            args.accountCache.get(submitInfo.accountId()).getAccount(),
             mergedPatchSet, ctx.getDb(), mergeResultRev.name());
       } catch (OrmException ex) {
         logError("Cannot run hook for submitted patch set " + getId(), ex);

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.query.change.ChangeData;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -55,7 +56,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(change.getCommit());
     assertThat(head.getParent(0)).isEqualTo(oldHead);
-    assertSubmitter(change.getChangeId(), 1);
+    assertHasSubmitInfo(change);
   }
 
   @Test
@@ -71,8 +72,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(change2.getCommit());
     assertThat(head.getParent(0).getId()).isEqualTo(change.getCommit());
-    assertSubmitter(change.getChangeId(), 1);
-    assertSubmitter(change2.getChangeId(), 1);
+    assertHasSubmitInfo(change);
+    assertHasSubmitInfo(change2);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
     assertSubmittedTogether(id1, id2, id1);
@@ -119,7 +120,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "all submissions to be a fast-forward. Please rebase the change " +
         "locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
-    assertSubmitter(change.getChangeId(), 1);
+    assertHasSubmitInfo(change);
   }
 
   @Test
@@ -183,6 +184,9 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     submit(id1);
 
     assertThat(getRemoteHead().getId()).isEqualTo(c1.getId());
-    assertSubmitter(id1, 1);
+
+    ChangeData cd1 = Iterables.getOnlyElement(
+          queryProvider.get().byKeyPrefix(id1));
+    assertThat(getSubmitInfo(cd1)).isPresent();
   }
 }

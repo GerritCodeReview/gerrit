@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "975ca165_f92517f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-08T18:27:52Z",
+      "side": 1,
+      "message": "\u003e \u003e I wanted to say: Hold UserScopedEventListeners in a DynamicSet\n \u003e same way EventListeners are.\n \u003e \n \u003e OK, I see. In that case I would remove this sentence altogether,\n \u003e because using DynamicSet for keeping extension points is just how\n \u003e we do it.\n\n Done",
+      "parentUuid": "a236c1c5_a9363d3a",
+      "range": {
+        "startLine": 29,
+        "startChar": 65,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "934be567724fc3ece441a0dcce1d2f12d7f5cc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62684971_4aaa539c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

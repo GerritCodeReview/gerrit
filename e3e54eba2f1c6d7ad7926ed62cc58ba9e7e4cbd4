@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "975ca165_199a8b8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-08T04:21:15Z",
+      "side": 1,
+      "message": "\"as\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "e3e54eba2f1c6d7ad7926ed62cc58ba9e7e4cbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "975ca165_3995cf5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-08T04:21:15Z",
+      "side": 1,
+      "message": "Any reason not to do:\n\n if (groups !\u003d null) {\n   baseCommitPatchSetGroups.addAll(groups);\n }\n\n?",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 46
+      },
+      "revId": "e3e54eba2f1c6d7ad7926ed62cc58ba9e7e4cbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,18 +19,15 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.util.SubmoduleSectionParser;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -41,7 +38,6 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -54,176 +50,143 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.transport.RefSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class SubmoduleOp {
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
-  private static final String GIT_MODULES = ".gitmodules";
 
-  private final Provider<String> urlProvider;
+  private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final Set<Branch.NameKey> updatedSubscribers;
   private final Account account;
   private final ChangeHooks changeHooks;
-  private final SubmoduleSectionParser.Factory subSecParserFactory;
   private final boolean verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
+  private String submissionId;
 
   @Inject
   public SubmoduleOp(
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      GitModules.Factory gitmodulesFactory,
       @GerritPersonIdent PersonIdent myIdent,
       @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       @Nullable Account account,
-      ChangeHooks changeHooks,
-      SubmoduleSectionParser.Factory subSecParserFactory) {
-    this.urlProvider = urlProvider;
+      ChangeHooks changeHooks) {
+    this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.account = account;
     this.changeHooks = changeHooks;
-    this.subSecParserFactory = subSecParserFactory;
     this.verboseSuperProject = cfg.getBoolean("submodule",
         "verboseSuperprojectUpdate", true);
     this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
         "enableSuperProjectSubscriptions", false);
     updatedSubscribers = new HashSet<>();
+
   }
 
-  void updateSubmoduleSubscriptions(ReviewDb db, Set<Branch.NameKey> branches)
-      throws SubmoduleException {
-    if (!enableSuperProjectSubscriptions) {
-      return;
-    }
-
-    for (Branch.NameKey branch : branches) {
-      updateSubmoduleSubscriptions(db, branch);
-    }
-  }
-
-  void updateSubmoduleSubscriptions(ReviewDb db, Branch.NameKey destBranch)
-      throws SubmoduleException {
-    if (!enableSuperProjectSubscriptions) {
-      return;
-    }
-    if (urlProvider.get() == null) {
-      logAndThrowSubmoduleException("Cannot establish canonical web url used "
-          + "to access gerrit. It should be provided in gerrit.config file.");
-    }
-    try (Repository repo = repoManager.openRepository(
-            destBranch.getParentKey());
-        RevWalk rw = new RevWalk(repo)) {
-
-      ObjectId id = repo.resolve(destBranch.get());
-      if (id == null) {
-        logAndThrowSubmoduleException(
-            "Cannot resolve submodule destination branch " + destBranch);
-      }
-      RevCommit commit = rw.parseCommit(id);
-
-      Set<SubmoduleSubscription> oldSubscriptions =
-          Sets.newHashSet(db.submoduleSubscriptions()
-              .bySuperProject(destBranch));
-
-      Set<SubmoduleSubscription> newSubscriptions;
-      TreeWalk tw = TreeWalk.forPath(repo, GIT_MODULES, commit.getTree());
-      if (tw != null
-          && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) ||
-              FileMode.EXECUTABLE_FILE.equals(tw.getRawMode(0)))) {
-        BlobBasedConfig bbc =
-            new BlobBasedConfig(null, repo, commit, GIT_MODULES);
-
-        String thisServer = new URI(urlProvider.get()).getHost();
-
-        newSubscriptions = subSecParserFactory.create(bbc, thisServer,
-            destBranch).parseAllSections();
-      } else {
-        newSubscriptions = Collections.emptySet();
-      }
-
-      Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
-      for (SubmoduleSubscription s : newSubscriptions) {
-        if (oldSubscriptions.contains(s)) {
-          alreadySubscribeds.add(s);
+  public Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
+      SubscribeSection s) throws IOException {
+    Collection<Branch.NameKey> ret = new ArrayList<>();
+    logDebug("Inspecting SubscribeSection " + s);
+    for (RefSpec r : s.getRefSpecs()) {
+      logDebug("Inspecting ref " + r);
+      if (r.matchSource(src.get())) {
+        if (r.getDestination() == null) {
+          // no need to care for wildcard, as we matched already
+          try (Repository repo = repoManager.openRepository(s.getProject())) {
+            for (Ref ref : repo.getAllRefs().values()) {
+              ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
+            }
+          }
+        } else {
+          if (r.isWildcard()) {
+            // refs/heads/*:refs/heads/*
+            ret.add(new Branch.NameKey(s.getProject(),
+                r.expandFromSource(src.get()).getDestination()));
+          } else {
+            // e.g. refs/heads/master:refs/heads/stable
+            ret.add(new Branch.NameKey(s.getProject(), r.getDestination()));
+          }
         }
       }
-
-      oldSubscriptions.removeAll(newSubscriptions);
-      newSubscriptions.removeAll(alreadySubscribeds);
-
-      if (!oldSubscriptions.isEmpty()) {
-        db.submoduleSubscriptions().delete(oldSubscriptions);
-      }
-      if (!newSubscriptions.isEmpty()) {
-        db.submoduleSubscriptions().insert(newSubscriptions);
-      }
-
-    } catch (OrmException e) {
-      logAndThrowSubmoduleException(
-          "Database problem at update of subscriptions table from "
-              + GIT_MODULES + " file.", e);
-    } catch (ConfigInvalidException e) {
-      logAndThrowSubmoduleException(
-          "Problem at update of subscriptions table: " + GIT_MODULES
-              + " config file is invalid.", e);
-    } catch (IOException e) {
-      logAndThrowSubmoduleException(
-          "Problem at update of subscriptions table from " + GIT_MODULES + ".",
-          e);
-    } catch (URISyntaxException e) {
-      logAndThrowSubmoduleException(
-          "Incorrect gerrit canonical web url provided in gerrit.config file.",
-          e);
     }
+    logDebug("Returning possible branches: " + ret +
+        "for project " + s.getProject());
+    return ret;
+  }
+
+  private Collection<SubmoduleSubscription>
+      superProjectSubscriptionsForSubmoduleBranch(
+      Branch.NameKey branch) throws SubmoduleException {
+    logDebug("Calculating possible superprojects for " + branch);
+    Collection<SubmoduleSubscription> ret = new ArrayList<>();
+    try (Repository repo = repoManager.openRepository(branch.getParentKey())) {
+      ProjectConfig cfg =
+          new ProjectConfig(branch.getParentKey());
+      cfg.load(repo);
+      for (SubscribeSection s : cfg.getSubscribeSections(branch)) {
+        Collection<Branch.NameKey> branches = getDestinationBranches(branch, s);
+        for (Branch.NameKey targetBranch : branches) {
+          GitModules m = gitmodulesFactory.create(targetBranch, submissionId);
+          m.load();
+          ret.addAll(m.subscribedTo(branch));
+        }
+      }
+    } catch (IOException e) {
+      logAndThrowSubmoduleException("Could not update superproject", e);
+    } catch (ConfigInvalidException e) {
+      logAndThrowSubmoduleException("Error in project.config in " +
+          "refs/meta/config of project" + branch.getParentKey(), e);
+    }
+    logDebug("Calculated superprojects for " + branch + " are "+ ret);
+    return ret;
   }
 
   protected void updateSuperProjects(ReviewDb db,
-      Collection<Branch.NameKey> updatedBranches) throws SubmoduleException {
+      Collection<Branch.NameKey> updatedBranches, String submissionId)
+          throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {
+      logDebug("Updating superprojects disabled");
       return;
     }
-    try {
-      // These (repo/branch) will be updated later with all the given
-      // individual submodule subscriptions
-      Multimap<Branch.NameKey, SubmoduleSubscription> targets =
-          HashMultimap.create();
+    this.submissionId = submissionId;
+    logDebug("Updating superprojects");
+    // These (repo/branch) will be updated later with all the given
+    // individual submodule subscriptions
+    Multimap<Branch.NameKey, SubmoduleSubscription> targets =
+        HashMultimap.create();
 
-      for (Branch.NameKey updatedBranch : updatedBranches) {
-        for (SubmoduleSubscription sub : db.submoduleSubscriptions()
-            .bySubmodule(updatedBranch)) {
-          targets.put(sub.getSuperProject(), sub);
-        }
+    for (Branch.NameKey updatedBranch : updatedBranches) {
+      for (SubmoduleSubscription sub :
+        superProjectSubscriptionsForSubmoduleBranch(updatedBranch)) {
+        targets.put(sub.getSuperProject(), sub);
       }
-      updatedSubscribers.addAll(updatedBranches);
-      // Update subscribers.
-      for (Branch.NameKey dest : targets.keySet()) {
-        try {
-          if (!updatedSubscribers.add(dest)) {
-            log.error("Possible circular subscription involving " + dest);
-          } else {
-            updateGitlinks(db, dest, targets.get(dest));
-          }
-        } catch (SubmoduleException e) {
-          log.warn("Cannot update gitlinks for " + dest, e);
+    }
+    updatedSubscribers.addAll(updatedBranches);
+    // Update subscribers.
+    for (Branch.NameKey dest : targets.keySet()) {
+      try {
+        if (!updatedSubscribers.add(dest)) {
+          log.error("Possible circular subscription involving " + dest);
+        } else {
+          updateGitlinks(db, dest, targets.get(dest));
         }
+      } catch (SubmoduleException e) {
+        log.warn("Cannot update gitlinks for " + dest, e);
       }
-    } catch (OrmException e) {
-      logAndThrowSubmoduleException("Cannot read subscription records", e);
     }
   }
 
@@ -359,7 +322,7 @@ public class SubmoduleOp {
           throw new IOException(rfu.getResult().name());
       }
       // Recursive call: update subscribers of the subscriber
-      updateSuperProjects(db, Sets.newHashSet(subscriber));
+      updateSuperProjects(db, Sets.newHashSet(subscriber), submissionId);
     } catch (IOException e) {
       throw new SubmoduleException("Cannot update gitlinks for "
           + subscriber.get(), e);
@@ -385,9 +348,9 @@ public class SubmoduleOp {
     throw new SubmoduleException(errorMsg, e);
   }
 
-  private static void logAndThrowSubmoduleException(final String errorMsg)
-      throws SubmoduleException {
-    log.error(errorMsg);
-    throw new SubmoduleException(errorMsg);
+  private void logDebug(String msg, Object... args) {
+    if (log.isDebugEnabled()) {
+      log.debug("[" + submissionId + "]" + msg, args);
+    }
   }
 }

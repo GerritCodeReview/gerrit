@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17ed11ca_2de74d02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-08T10:06:45Z",
+      "side": 1,
+      "message": "I believe this got more of a problem since we have a reliable CI system. So I sometimes I give CR+2 when I\u0027m satisfied with the change to be submitted, but I don\u0027t submit it right away because the Verified vote from the CI system is still pending. And since there is no email notification for the V+1 votes from the CI system I simply forget to submit the change later. Makes we wonder if those changes should be auto-submitted...",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "b1736b2aa8eded57a66fad35217f961742b4543d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

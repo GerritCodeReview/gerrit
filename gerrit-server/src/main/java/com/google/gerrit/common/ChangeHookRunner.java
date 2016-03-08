@@ -999,7 +999,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         RefEvent refEvent = (RefEvent) event;
         String ref = refEvent.getRefName();
         if (PatchSet.isChangeRef(ref)) {
-          Change.Id cid= PatchSet.Id.fromRef(ref).getParentKey();
+          Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
           Change change = notesFactory
               .create(db, refEvent.getProjectNameKey(), cid).getChange();
           return isVisibleTo(change, user, db);

@@ -24,8 +24,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -53,7 +51,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     assertCommit(project, "refs/heads/master");
   }
 
@@ -68,7 +66,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     assertCommit(project, "refs/heads/master");
     assertTag(project, "refs/heads/master", tag);
   }
@@ -83,7 +81,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     assertCommit(project, "refs/heads/master");
     assertTag(project, "refs/heads/master", tag);
   }
@@ -98,7 +96,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/refs/meta/config%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     assertCommit(project, "refs/meta/config");
   }
 
@@ -145,7 +143,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     ChangeData cd = Iterables.getOnlyElement(
         queryProvider.get().byKeyPrefix(r.getChangeId()));
     assertThat(cd.patchSets()).hasSize(2);
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     assertCommit(project, "refs/heads/master");
   }
 
@@ -189,7 +187,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master"))
         .call();
     assertCommit(project, "refs/heads/master");
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     ChangeInfo c =
         gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
     assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
@@ -209,25 +207,17 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     assertCommit(project, "refs/heads/master");
-    assertSubmitApproval(r.getPatchSetId());
+    assertHasSubmittedOn(r);
     ChangeInfo c =
         gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
     assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
   }
 
-  private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
-      throws Exception {
+  private void assertHasSubmittedOn(PushOneCommit.Result r) throws Exception {
+    Change.Id id = r.getChange().getId();
     ChangeNotes notes =
-        notesFactory.createChecked(db, project, patchSetId.getParentKey())
-            .load();
-    return approvalsUtil.getSubmitter(db, notes, patchSetId);
-  }
-
-  private void assertSubmitApproval(PatchSet.Id patchSetId) throws Exception {
-    PatchSetApproval a = getSubmitter(patchSetId);
-    assertThat(a.isLegacySubmit()).isTrue();
-    assertThat(a.getValue()).isEqualTo((short) 1);
-    assertThat(a.getAccountId()).isEqualTo(admin.id);
+        notesFactory.createChecked(db, project, id).load();
+    assertThat(approvalsUtil.getSubmitInfo(db, notes)).isPresent();
   }
 
   private void assertCommit(Project.NameKey project, String branch)

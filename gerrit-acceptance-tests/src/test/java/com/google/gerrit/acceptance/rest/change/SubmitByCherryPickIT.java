@@ -72,8 +72,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(newHead.getParentCount()).isEqualTo(1);
     assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 2, newHead);
-    assertSubmitter(change2.getChangeId(), 1);
-    assertSubmitter(change2.getChangeId(), 2);
+    assertHasSubmitInfo(change2);
+    assertHasSubmitInfo(change2);
     assertPersonEquals(admin.getIdent(), newHead.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), newHead.getCommitterIdent());
   }
@@ -98,8 +98,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, newHead);
-    assertSubmitter(change2.getChangeId(), 1);
-    assertSubmitter(change2.getChangeId(), 2);
+    assertHasSubmitInfo(change2);
+    assertHasSubmitInfo(change2);
   }
 
   @Test
@@ -122,7 +122,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());
-    assertNoSubmitter(change2.getChangeId(), 1);
+    assertNoSubmitInfo(change2);
   }
 
   @Test
@@ -143,8 +143,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, newHead);
-    assertSubmitter(change3.getChangeId(), 1);
-    assertSubmitter(change3.getChangeId(), 2);
+    assertHasSubmitInfo(change3);
+    assertHasSubmitInfo(change3);
   }
 
   @Test
@@ -167,7 +167,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommit());
-    assertNoSubmitter(change3.getChangeId(), 1);
+    assertNoSubmitInfo(change3);
   }
 
   @Test
@@ -247,7 +247,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     // Tip has not changed.
     List<RevCommit> log = getRemoteLog();
     assertThat(log.get(0)).isEqualTo(initialHead.getId());
-    assertNoSubmitter(change3.getChangeId(), 1);
+    assertNoSubmitInfo(change3);
   }
 
   @Test

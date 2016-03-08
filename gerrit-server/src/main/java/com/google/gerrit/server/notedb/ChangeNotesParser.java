@@ -59,6 +59,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ApprovalsUtil.SubmitInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -107,6 +108,7 @@ class ChangeNotesParser implements AutoCloseable {
   Set<String> hashtags;
   Timestamp createdOn;
   Timestamp lastUpdatedOn;
+  SubmitInfo submitInfo;
   Account.Id ownerId;
   String changeId;
   String subject;
@@ -198,8 +200,17 @@ class ChangeNotesParser implements AutoCloseable {
       branch = parseBranch(commit);
       updateTs |= branch != null;
     }
+
+    Account.Id accountId = parseIdent(commit);
+    if (accountId != null) {
+      ownerId = accountId;
+    }
+
     if (status == null) {
       status = parseStatus(commit);
+      if (status == Change.Status.MERGED) {
+        submitInfo = SubmitInfo.create(accountId, ts);
+      }
       updateTs |= status != null;
     }
 
@@ -211,11 +222,6 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSetState psState = parsePatchSetState(commit);
     if (psState != null && !patchSetStates.containsKey(psId)) {
       patchSetStates.put(psId, psState);
-    }
-
-    Account.Id accountId = parseIdent(commit);
-    if (accountId != null) {
-      ownerId = accountId;
     }
 
     if (changeId == null) {

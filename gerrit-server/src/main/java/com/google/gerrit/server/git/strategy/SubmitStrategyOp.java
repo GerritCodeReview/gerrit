@@ -320,7 +320,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
       saveApprovals(normalized, ctx, newPsUpdate, true);
-      submitter = convertPatchSet(newPsId).apply(submitter);
+      ctx.getDb().patchSetApprovals().upsert(
+          Collections.singleton(convertPatchSet(newPsId).apply(submitter)));
     }
   }
 
@@ -339,6 +340,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
               ctx.getUser().getAccountId(),
               LabelId.legacySubmit()),
               (short) 1, ctx.getWhen());
+    // Only record legacy SUBM approval in ReviewDb; NoteDb gets the submitted
+    // timestamp from the associated commit timestamp.
     byKey.put(submitter.getKey(), submitter);
     submitter.setValue((short) 1);
     submitter.setGranted(ctx.getWhen());
@@ -350,7 +353,6 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // permissions get modified in the future, historical records stay accurate.
     LabelNormalizer.Result normalized =
         args.labelNormalizer.normalize(ctx.getControl(), byKey.values());
-    update.putApproval(submitter.getLabel(), submitter.getValue());
     saveApprovals(normalized, ctx, update, false);
     return normalized;
   }
@@ -364,9 +366,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     ctx.getDb().patchSetApprovals().delete(
         convertPatchSet(normalized.deleted(), psId));
     for (PatchSetApproval psa : normalized.updated()) {
+      checkState(!psa.isLegacySubmit());
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
     }
     for (PatchSetApproval psa : normalized.deleted()) {
+      checkState(!psa.isLegacySubmit());
       update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
     }
 

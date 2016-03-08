@@ -55,6 +55,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ApprovalsUtil.SubmitInfo;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -398,6 +399,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
+  private SubmitInfo submitInfo;
 
   // Parsed note map state, used by ChangeUpdate to make in-place editing of
   // notes easier.
@@ -430,6 +432,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableSetMultimap<ReviewerStateInternal, Account.Id> getReviewers() {
     return reviewers;
+  }
+
+  public SubmitInfo getSubmitInfo() {
+    return submitInfo;
   }
 
   /**
@@ -566,6 +572,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
+      submitInfo = parser.submitInfo;
       revisionNoteMap = parser.revisionNoteMap;
       change.setKey(new Change.Key(parser.changeId));
       change.setDest(new Branch.NameKey(project, parser.branch));

@@ -46,6 +46,30 @@
       "revId": "126af24dd5db9bb5588e5c34b10ab4608c5f8da2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74cfd8c_a425e2f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-08T00:26:00Z",
+      "side": 1,
+      "message": "It can be activated by setting GERRIT_ENABLE_NOTEDB.\n\n GERRIT_ENABLE_NOTEDB\u003d1 buck test --no-results-cache\n\n(--no-results-cache is needed to make sure it actually re-tests with the different setting).\n\nIt should be possible to set in Eclipse too.",
+      "parentUuid": "f74cfd8c_e4daba2e",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 451,
+        "endChar": 3
+      },
+      "revId": "126af24dd5db9bb5588e5c34b10ab4608c5f8da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -857,7 +857,7 @@ public class ChangeData {
   public Optional<PatchSetApproval> getSubmitApproval()
     throws OrmException {
     for (PatchSetApproval psa : currentApprovals()) {
-      if (psa.isSubmit()) {
+      if (psa.isLegacySubmit()) {
         return Optional.fromNullable(psa);
       }
     }

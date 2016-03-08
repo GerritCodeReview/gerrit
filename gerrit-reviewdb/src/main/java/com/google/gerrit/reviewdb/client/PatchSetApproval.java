@@ -149,8 +149,8 @@ public final class PatchSetApproval {
     return getLabelId().get();
   }
 
-  public boolean isSubmit() {
-    return LabelId.SUBMIT.get().equals(getLabel());
+  public boolean isLegacySubmit() {
+    return LabelId.LEGACY_SUBMIT_NAME.equals(getLabel());
   }
 
   @Override

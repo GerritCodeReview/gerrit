@@ -2565,7 +2565,7 @@ public class ReceiveCommits {
                 new PatchSetApproval.Key(
                     change.currentPatchSetId(),
                     ctx.getUser().getAccountId(),
-                    LabelId.SUBMIT),
+                    LabelId.legacySubmit()),
                     (short) 1, ctx.getWhen());
           update.putApproval(submitter.getLabel(), submitter.getValue());
           ctx.getDb().patchSetApprovals().upsert(

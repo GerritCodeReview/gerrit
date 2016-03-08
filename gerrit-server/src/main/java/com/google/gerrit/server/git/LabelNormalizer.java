@@ -127,7 +127,7 @@ public class LabelNormalizer {
       checkArgument(changeId.equals(ctl.getId()),
           "Approval %s does not match change %s",
           psa.getKey(), ctl.getChange().getKey());
-      if (psa.isSubmit()) {
+      if (psa.isLegacySubmit()) {
         unchanged.add(psa);
         continue;
       }

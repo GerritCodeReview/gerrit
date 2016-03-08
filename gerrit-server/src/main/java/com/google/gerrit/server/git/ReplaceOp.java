@@ -301,7 +301,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(),
           ctx.getControl(), priorPatchSetId,
           ctx.getUser().getAccountId())) {
-        if (a.isSubmit()) {
+        if (a.isLegacySubmit()) {
           continue;
         }
 

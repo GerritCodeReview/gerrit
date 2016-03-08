@@ -46,6 +46,20 @@
           }.bind(this));
         },
       },
+      preferences: {
+        type: Object,
+        observer: '_preferencesChanged',
+      },
+      preferencesReady: {
+        type: Object,
+        readOnly: true,
+        notify: true,
+        value: function() {
+          return new Promise(function(resolve) {
+            this._resolvePreferencesReady = resolve;
+          }.bind(this));
+        },
+      },
       version: String,
       params: Object,
       keyEventTarget: {
@@ -126,6 +140,9 @@
 
     _configChanged: function(config) {
       this._resolveConfigReady(config);
+    },
+    _preferencesChanged: function(preferences) {
+      this._resolvePreferencesReady(preferences);
     },
 
     _viewChanged: function(view) {

@@ -24,5 +24,9 @@ var app = {
   configReady: {
     then: function(cb) { cb(); },
   },
+  preferences: {},
+  preferencesReady: {
+    then: function(cb) { cb(app.preferences); }
+  },
   loggedIn: false,
 };

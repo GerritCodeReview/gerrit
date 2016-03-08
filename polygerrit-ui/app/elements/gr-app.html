@@ -104,6 +104,7 @@ limitations under the License.
       }
     </style>
     <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>
+    <gr-ajax auto url="/accounts/self/preferences" last-response="{{preferences}}"></gr-ajax>
     <gr-ajax auto url="/config/server/info" last-response="{{config}}"></gr-ajax>
     <gr-ajax auto url="/config/server/version" last-response="{{version}}"></gr-ajax>
     <gr-ajax id="diffPreferencesXHR"

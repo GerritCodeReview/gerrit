@@ -16,7 +16,7 @@
 
   var Duration = {
     HOUR: 1000 * 60 * 60,
-    DAY: 1000 * 60 * 60 * 24,
+    DAY: 1000 * 60 * 60 * 24
   };
 
   var ShortMonthNames = [
@@ -32,11 +32,22 @@
         type: String,
         value: null,
         notify: true
+      },
+      timeFormat: {
+        type: String,
+        value: 'HHMM_24',
+        notify: true
       }
     },
 
-    _computeDateStr: function(dateStr) {
-      return this._dateStr(this._parseDateStr(dateStr), new Date());
+    ready: function() {
+      app.preferencesReady.then(function(preferences) {
+        this.timeFormat = preferences && preferences.time_format;
+      }.bind(this));
+    },
+
+    _computeDateStr: function(dateStr, timeFormat) {
+      return this._dateStr(this._parseDateStr(dateStr), timeFormat);
     },
 
     _parseDateStr: function(dateStr) {
@@ -44,22 +55,36 @@
       return util.parseDate(dateStr);
     },
 
-    _dateStr: function(t, now) {
+    _time12: function(t) {
+      var pm = t.getHours() >= 12;
+      var hours = t.getHours();
+      if (hours == 0) {
+        hours = 12;
+      } else if (hours > 12) {
+        hours = t.getHours() - 12;
+      }
+      var minutes = t.getMinutes() < 10 ? '0' + t.getMinutes() :
+          t.getMinutes();
+      return hours + ':' + minutes + (pm ? ' PM' : ' AM');
+    },
+
+    _time24: function(t) {
+      var minutes = t.getMinutes() < 10 ? '0' + t.getMinutes() :
+          t.getMinutes();
+      return t.getHours() + ':' + minutes;
+    },
+
+    _dateStr: function(t, timeFormat) {
       if (!t) { return ''; }
+      var now = new Date();
       var diff = now.getTime() - t.getTime();
       if (diff < Duration.DAY && t.getDay() == now.getDay()) {
         // Within 24 hours and on the same day:
-        // '2:14 AM'
-        var pm = t.getHours() >= 12;
-        var hours = t.getHours();
-        if (hours == 0) {
-          hours = 12;
-        } else if (hours > 12) {
-          hours = t.getHours() - 12;
+        if (this.timeFormat == 'HHMM_12') { // '2:14 PM'
+          return this._time12(t);
+        } else { // '14:14'
+          return this._time24(t);
         }
-        var minutes = t.getMinutes() < 10 ? '0' + t.getMinutes() :
-            t.getMinutes();
-        return hours + ':' + minutes + (pm ? ' PM' : ' AM');
       } else if ((t.getDay() != now.getDay() || diff >= Duration.DAY) &&
                  diff < 180 * Duration.DAY) {
         // From one to six months:
@@ -71,6 +96,7 @@
         return ShortMonthNames[t.getMonth()] + ' ' + t.getDate() + ', ' +
             t.getFullYear();
       }
-    },
+      return '';
+    }
   });
 })();

@@ -43,6 +43,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   public void testSubscriptionUpdateOfManyChanges() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
 
     ObjectId subHEAD = subRepo.branch("HEAD").commit().insertChangeId()
@@ -98,6 +101,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> sub1 = createProjectWithPush("sub1");
     TestRepository<?> sub2 = createProjectWithPush("sub2");
     TestRepository<?> sub3 = createProjectWithPush("sub3");
+
+    allowSubmoduleSubscription("sub1", "refs/heads/master",
+        "super-project", "refs/heads/master");
+    allowSubmoduleSubscription("sub2", "refs/heads/master",
+        "super-project", "refs/heads/master");
+    allowSubmoduleSubscription("sub3", "refs/heads/master",
+        "super-project", "refs/heads/master");
 
     Config config = new Config();
     prepareSubmoduleConfigEntry(config, "sub1", "master");

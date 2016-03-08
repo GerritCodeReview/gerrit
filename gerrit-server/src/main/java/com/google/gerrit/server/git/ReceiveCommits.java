@@ -680,11 +680,9 @@ public class ReceiveCommits {
     // Update superproject gitlinks if required.
     SubmoduleOp op = subOpProvider.get();
     try {
-       op.updateSubmoduleSubscriptions(db, branches);
-       op.updateSuperProjects(db, branches);
+      op.updateSuperProjects(db, branches, "receiveID");
     } catch (SubmoduleException e) {
-      log.error("Can't update submodule subscriptions "
-          + "or update the superprojects", e);
+      log.error("Can't update the superprojects", e);
     }
 
     closeProgress.end();

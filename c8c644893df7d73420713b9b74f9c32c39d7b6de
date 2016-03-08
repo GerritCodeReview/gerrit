@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f74dddaf_fcb2290f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-08T02:14:13Z",
+      "side": 1,
+      "message": "Extra \u0027.\u0027?",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 5
+      },
+      "revId": "c8c644893df7d73420713b9b74f9c32c39d7b6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

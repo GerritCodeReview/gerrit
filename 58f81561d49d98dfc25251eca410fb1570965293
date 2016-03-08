@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_60a632d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-03-08T20:53:04Z",
+      "side": 1,
+      "message": "The only difference that I can recall from the original bug fix is in regard to note-db.",
+      "range": {
+        "startLine": 466,
+        "startChar": 8,
+        "endLine": 474,
+        "endChar": 9
+      },
+      "revId": "58f81561d49d98dfc25251eca410fb1570965293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -359,7 +359,7 @@ public class ChangeField {
           Set<String> allApprovals = Sets.newHashSet();
           Set<String> distinctApprovals = Sets.newHashSet();
           for (PatchSetApproval a : input.currentApprovals()) {
-            if (a.getValue() != 0 && !a.isSubmit()) {
+            if (a.getValue() != 0 && !a.isLegacySubmit()) {
               allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
                   a.getAccountId()));
               distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));

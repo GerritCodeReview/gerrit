@@ -321,7 +321,7 @@ public class ApprovalsUtil {
     }
     PatchSetApproval submitter = null;
     for (PatchSetApproval a : approvals) {
-      if (a.getPatchSetId().equals(c) && a.getValue() > 0 && a.isSubmit()) {
+      if (a.getPatchSetId().equals(c) && a.getValue() > 0 && a.isLegacySubmit()) {
         if (submitter == null
             || a.getGranted().compareTo(submitter.getGranted()) > 0) {
           submitter = a;

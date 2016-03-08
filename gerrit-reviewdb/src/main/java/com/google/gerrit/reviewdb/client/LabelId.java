@@ -20,7 +20,11 @@ import com.google.gwtorm.client.StringKey;
 public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
   private static final long serialVersionUID = 1L;
 
-  public static final LabelId SUBMIT = new LabelId("SUBM");
+  static final String LEGACY_SUBMIT_NAME = "SUBM";
+
+  public static LabelId legacySubmit() {
+    return new LabelId(LEGACY_SUBMIT_NAME);
+  }
 
   @Column(id = 1)
   public String id;

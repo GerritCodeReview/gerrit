@@ -253,7 +253,7 @@ public class MergeUtil {
         continue;
       }
 
-      if (a.isSubmit()) {
+      if (a.isLegacySubmit()) {
         // Submit is treated specially, below (becomes committer)
         //
         if (submitAudit == null

@@ -110,6 +110,23 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_3fb3a716",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-08T22:12:26Z",
+      "side": 1,
+      "message": "What will happen here if the element is detached before this fetch resolves?",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_9fa3d3c9",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -121,6 +138,58 @@
       "writtenOn": "2016-03-08T21:31:02Z",
       "side": 1,
       "message": "can you be more descriptive with these function names?",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_20c70a5f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-08T22:12:26Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "57a5c9c5_9fa3d3c9",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_00e76601",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-08T22:12:26Z",
+      "side": 1,
+      "message": "can we name this something more descriptive?",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_e0eb62cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-08T22:12:26Z",
+      "side": 1,
+      "message": "can we consider using moment.js and replacing this format logic?\n\nAll of this logic seems like quite a bit of complexity that will be error prone",
       "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

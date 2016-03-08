@@ -41,6 +41,7 @@ CM_THEMES = [
 
 # Available modes must be enumerated here,
 # in gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java,
+# gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java,
 # and in CodeMirror's own mode/meta.js script.
 CM_MODES = [
   'clike',

@@ -23,9 +23,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -33,8 +35,10 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.GeneralPreferencesLoader;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -45,6 +49,7 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
@@ -53,6 +58,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -63,6 +69,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +109,7 @@ public class ReplaceOp extends BatchUpdate.Op {
   private final ExecutorService sendEmailExecutor;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final MergedSender.Factory mergedSenderFactory;
+  private final GeneralPreferencesLoader generalPrefLoader;
 
   private final RequestScopePropagator requestScopePropagator;
   private final ProjectControl projectControl;
@@ -111,6 +119,7 @@ public class ReplaceOp extends BatchUpdate.Op {
   private final PatchSet.Id patchSetId;
   private final RevCommit commit;
   private final PatchSetInfo info;
+  private final PatchLineCommentsUtil plcUtil;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
   private List<String> groups = ImmutableList.of();
@@ -136,6 +145,8 @@ public class ReplaceOp extends BatchUpdate.Op {
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       MergedSender.Factory mergedSenderFactory,
+      PatchLineCommentsUtil plcUtil,
+      GeneralPreferencesLoader generalPrefLoader,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted ProjectControl projectControl,
       @Assisted boolean checkMergedInto,
@@ -158,6 +169,8 @@ public class ReplaceOp extends BatchUpdate.Op {
     this.sendEmailExecutor = sendEmailExecutor;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.mergedSenderFactory = mergedSenderFactory;
+    this.plcUtil = plcUtil;
+    this.generalPrefLoader = generalPrefLoader;
 
     this.requestScopePropagator = requestScopePropagator;
     this.projectControl = projectControl;
@@ -176,6 +189,66 @@ public class ReplaceOp extends BatchUpdate.Op {
   public void updateRepo(RepoContext ctx) throws Exception {
     changeKind = changeKindCache.getChangeKind(projectControl.getProjectState(),
         ctx.getRepository(), priorCommit, commit);
+  }
+
+  private String publishDraftCommentsNotification(Account.Id id, ChangeData cd,
+      ChangeUpdate update, BatchUpdate.ChangeContext ctx) throws OrmException {
+    List<PatchLineComment> plcs = new ArrayList<>();
+    StringBuilder msgbuilder = new StringBuilder();
+    List<PatchLineComment> plcByPs = plcUtil.draftByChangeAuthor(
+        ctx.getDb(), cd.notes(), id);
+    boolean firstComment = true;
+    for (PatchSet ps : cd.patchSets()) {
+      int countPerPs = 0;
+      for (PatchLineComment c : plcByPs) {
+        if (c.getStatus() == PatchLineComment.Status.DRAFT &&
+            c.getPatchSetId().get() == ps.getId().get()) {
+          c.setStatus(PatchLineComment.Status.PUBLISHED);
+          c.setRevId(ps.getRevision());
+          update.putComment(c);
+          countPerPs++;
+          plcs.add(c);
+        }
+      }
+      if (countPerPs > 0) {
+        msgbuilder.append(firstComment ? " " : ", ");
+        msgbuilder.append("Patch Set " + ps.getId().get()
+          + ": (" + countPerPs + " comments)");
+        firstComment = false;
+      }
+    }
+    if (!plcs.isEmpty()) {
+      plcUtil.putComments(ctx.getDb(), update, plcs);
+    }
+    return msgbuilder.toString();
+  }
+
+  private void addChangeMessageAndPublishDraftComments(ChangeKind changeKind,
+      Map<String, Short> approvals, ChangeData cd,
+      ChangeUpdate update, BatchUpdate.ChangeContext ctx)
+      throws OrmException {
+    msg = new ChangeMessage(
+        new ChangeMessage.Key(change.getId(),
+            ChangeUtil.messageUUID(ctx.getDb())),
+        ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
+    msg.setMessage(renderMessageWithApprovals(patchSetId.get(),
+        changeKindMessage(changeKind), approvals, scanLabels(ctx, approvals)));
+
+    ChangeControl changeCtl = projectControl.controlFor(ctx.getDb(), change);
+    // reload account
+    Account.Id id = changeCtl.getUser().asIdentifiedUser().getAccount().getId();
+    try {
+      GeneralPreferencesInfo info = generalPrefLoader.load(id);
+      if (info.isPublishDraftCommentsOnPush()) {
+        msg.setMessage(msg.getMessage() +
+            publishDraftCommentsNotification(id, cd, update, ctx));
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      log.warn("Cannot load GeneralPreferences for " + id +
+          " (using default)", e);
+    }
+
+    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
   }
 
   @Override
@@ -237,13 +310,8 @@ public class ReplaceOp extends BatchUpdate.Op {
         approvals);
     recipients.add(oldRecipients);
 
-    msg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
-    msg.setMessage(renderMessageWithApprovals(patchSetId.get(),
-        changeKindMessage(changeKind), approvals, scanLabels(ctx, approvals)));
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    addChangeMessageAndPublishDraftComments(changeKind, approvals, cd,
+        update, ctx);
 
     if (mergedIntoRef == null) {
       resetChange(ctx, msg);

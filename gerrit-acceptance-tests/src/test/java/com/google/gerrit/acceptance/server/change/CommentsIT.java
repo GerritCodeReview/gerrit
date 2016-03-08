@@ -30,11 +30,15 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.account.SetPreferences;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
@@ -44,6 +48,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,6 +65,12 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Inject
   private Provider<PostReview> postReview;
+
+  @Inject
+  private Provider<SetPreferences> prefs;
+
+  @Inject
+  private Provider<AccountsCollection> accountcollection;
 
   @Inject
   private FakeEmailSender email;
@@ -459,6 +470,40 @@ public class CommentsIT extends AbstractDaemonTest {
         + "\n"
         + "\n"
         + "-- \n");
+  }
+
+  @Test
+  public void publishDraftCommentsOnPush() throws Exception {
+    setApiUser(admin);
+    PushOneCommit.Result change = createChange();
+    String changeId = change.getChangeId();
+    String revId = change.getCommit().getName();
+
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.publishDraftCommentsOnPush = true;
+
+    AccountResource accountRsrc =
+        accountcollection.get().parse(TopLevelResource.INSTANCE,
+            IdString.fromDecoded("admin"));
+    prefs.get().apply(accountRsrc, i);
+
+    // TODO(sbeller, dborowitz): We need to call setApiUser again to flush the
+    // cache for the tests
+    setApiUser(admin);
+    DraftInput comment = newDraft("file1", Side.REVISION, 1, "comment 1");
+    CommentInfo returned = addDraft(changeId, revId, comment);
+    CommentInfo actual = getDraftComment(changeId, revId, returned.id);
+    assertCommentInfo(comment, actual);
+    assertThat(getDraftComments(changeId, revId)).hasSize(1);
+    assertThat(getPublishedComments(changeId, revId)).hasSize(0);
+
+    setApiUser(admin);
+    PushOneCommit.Result r = amendChange(changeId);
+    r.assertOkStatus();
+
+    assertThat(getDraftComments(changeId, "current")).hasSize(0);
+    assertThat(getDraftComments(changeId, revId)).hasSize(0);
+    assertThat(getPublishedComments(changeId, revId)).hasSize(1);
   }
 
   private void addComment(PushOneCommit.Result r, String message)

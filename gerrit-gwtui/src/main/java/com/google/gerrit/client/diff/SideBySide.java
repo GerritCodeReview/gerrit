@@ -642,6 +642,7 @@ public class SideBySide extends Screen {
       .set("cursorHeight", 0.85)
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
+      .set("matchBrackets", prefs.matchBrackets())
       .set("mode", fileSize == FileSize.SMALL ? getContentType(meta) : null)
       .set("lineWrapping", false)
       .set("scrollbarStyle", "overlay")

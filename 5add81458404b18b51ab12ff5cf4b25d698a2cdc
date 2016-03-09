@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77a2cdc0_c0cf3e2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Oops, Done",
+      "parentUuid": "37c9357a_b6cc6885",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 19
+      },
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_00bc06e1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-08T21:31:02Z",
       "side": 1,
       "message": "Put in the bug here:\n\nBug: Issue 12345",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_60c75210",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_00bc06e1",
       "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -95,6 +137,42 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_7f5ecf4c",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57a5c9c5_df6efb03",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_7fd00f16",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "SGTM, just wasn\u0027t sure if this should be included into this CL.\nDone",
+      "parentUuid": "77a2cdc0_a0f55aa4",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_7fa92fa8",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 1
@@ -129,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_1fb0e305",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Never even thought about that, that\u0027s something my ide catches right away.\nDone",
+      "parentUuid": "77a2cdc0_e0c0024d",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_c0b5fef4",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -146,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_ffbbffe9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_c0b5fef4",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_3fb3a716",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -157,6 +271,24 @@
       "writtenOn": "2016-03-08T22:12:26Z",
       "side": 1,
       "message": "What will happen here if the element is detached before this fetch resolves?",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_40120e76",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Seems no longer relevant since I switched to restAPI",
+      "parentUuid": "57a5c9c5_3fb3a716",
       "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -198,6 +330,42 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_dfc03b4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Wasn\u0027t and still isn\u0027t sure if those are any good - please suggest if have a better idea.\nDone",
+      "parentUuid": "57a5c9c5_9fa3d3c9",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_60d87236",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_20c70a5f",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_00e76601",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -209,6 +377,24 @@
       "writtenOn": "2016-03-08T22:12:26Z",
       "side": 1,
       "message": "can we name this something more descriptive?",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_bfb577f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_00e76601",
       "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -268,6 +454,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_9fbab3e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "I looked into time-elements yesterday.\nLooks neat, sexy, and very well done overall.\nThe only reason I didn\u0027t include it in this CL is that time-elements don\u0027t support switching between ampm and 24 hour time other than regional settings.\n\nWhich is totally fine and overall feels like the way to go, but since that\u0027s my first CL in this codebase I was a bit hesitant to make such a change without discussion.\n\nOverall:\n- Is possible\n- More features\n- Need polishing since many places can\u0027t accept long strings like \u00277 minutes ago\u0027 and get out of boundaries\n- Still needs some kind of a wrapper to convert dates into digestible format (or maybe start serving properly formatted dates from server?)",
+      "parentUuid": "b79a8576_52b6d401",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_a0bafae2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -279,6 +483,24 @@
       "writtenOn": "2016-03-08T21:31:02Z",
       "side": 1,
       "message": "and here.",
+      "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_40e56ef0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-09T20:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_a0bafae2",
       "revId": "5add81458404b18b51ab12ff5cf4b25d698a2cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

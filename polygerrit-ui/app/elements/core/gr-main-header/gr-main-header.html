@@ -25,9 +25,11 @@ limitations under the License.
   <template>
     <style>
       :host {
+        display: block;
+      }
+      nav {
         align-items: center;
         display: flex;
-        overflow: hidden;
       }
       .bigTitle {
         color: var(--primary-text-color);
@@ -36,6 +38,56 @@ limitations under the License.
       }
       .bigTitle:hover {
         text-decoration: underline;
+      }
+      ul {
+        list-style: none;
+      }
+      .links {
+        margin-left: 2em;
+      }
+      .links ul {
+        display: none;
+      }
+      .links > li {
+        cursor: default;
+        padding: .4em 0;
+        position: relative;
+      }
+      .links li:hover ul {
+        background-color: #fff;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+        display: block;
+        position: absolute;
+        top: 2em;
+        left: -.75em;
+      }
+      .links li ul li a:link,
+      .links li ul li a:visited {
+        color: #00e;
+        display: block;
+        padding: .5em .75em;
+        text-decoration: none;
+      }
+      .links li ul li:hover a {
+        background-color: var(--selection-background-color);
+      }
+      .linksTitle {
+        display: inline-block;
+        padding-right: 1em;
+        position: relative;
+      }
+      .downArrow {
+        border-left: .36em solid transparent;
+        border-right: .36em solid transparent;
+        border-top: .36em solid #ccc;
+        height: 0;
+        position: absolute;
+        right: 0;
+        top: calc(50% - .1em);
+        width: 0;
+      }
+      .links li:hover .downArrow {
+        border-top-color: #666;
       }
       .rightItems {
         display: flex;
@@ -73,14 +125,28 @@ limitations under the License.
         }
       }
     </style>
-    <a href="/" class="bigTitle">PolyGerrit</a>
-    <div class="rightItems">
-      <gr-search-bar value="{{params.query}}" role="search"></gr-search-bar>
-      <div class="accountContainer" id="accountContainer">
-        <a class="loginButton" href="/login" on-tap="_loginTapHandler">Login</a>
-        <gr-account-dropdown account="[[account]]"></gr-account-dropdown>
+    <nav>
+      <a href="/" class="bigTitle">PolyGerrit</a>
+      <ul class="links">
+        <li>
+          <span class="linksTitle">
+            Changes <i class="downArrow"></i>
+          </span>
+          <ul>
+            <li><a href="/q/status:open">Open</a></li>
+            <li><a href="/q/status:merged">Merged</a></li>
+            <li><a href="/q/status:abandoned">Abandoned</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="rightItems">
+        <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
+        <div class="accountContainer" id="accountContainer">
+          <a class="loginButton" href="/login" on-tap="_loginTapHandler">Login</a>
+          <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
+        </div>
       </div>
-    </div>
+    </nav>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-main-header.js"></script>

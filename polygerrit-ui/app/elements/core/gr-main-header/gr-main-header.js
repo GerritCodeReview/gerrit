@@ -22,6 +22,12 @@
     },
 
     properties: {
+      searchQuery: {
+        type: String,
+        notify: true,
+      },
+
+      _account: Object,
     },
 
     attached: function() {

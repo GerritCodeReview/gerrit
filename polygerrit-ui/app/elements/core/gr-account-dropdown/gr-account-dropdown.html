@@ -36,6 +36,11 @@ limitations under the License.
       font: inherit;
       padding: .3em 0;
     }
+    gr-avatar {
+      height: 1.3em;
+      width: 1.3em;
+      vertical-align: -.25em;
+    }
     ul {
       list-style: none;
     }
@@ -59,7 +64,9 @@ limitations under the License.
   </style>
   <template>
     <gr-button link class="dropdown-trigger" id="trigger"
-        on-tap="_showDropdownTapHandler">[[account.name]]</gr-button>
+        on-tap="_showDropdownTapHandler">[[account.name]]
+      <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
+    </gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"
         vertical-offset="25"

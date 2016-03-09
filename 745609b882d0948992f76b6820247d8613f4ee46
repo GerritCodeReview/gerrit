@@ -16,6 +16,24 @@
       "revId": "745609b882d0948992f76b6820247d8613f4ee46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_7f180f97",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T21:20:09Z",
+      "side": 1,
+      "message": "On purpose. I want it to catch undefined AND null.",
+      "parentUuid": "57a5c9c5_bffd7756",
+      "revId": "745609b882d0948992f76b6820247d8613f4ee46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

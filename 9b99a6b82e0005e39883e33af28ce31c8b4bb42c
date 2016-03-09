@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_60ee32aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-09T15:58:08Z",
+      "side": 0,
+      "message": "this method is needed by the sync-index plugin: https://gerrit-review.googlesource.com/#/c/73215/11/src/main/java/com/ericsson/gerrit/plugins/syncindex/SyncIndexRestApiServlet.java\n\nadded back in : https://gerrit-review.googlesource.com/#/c/75593/",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 3
+      },
+      "revId": "9b99a6b82e0005e39883e33af28ce31c8b4bb42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

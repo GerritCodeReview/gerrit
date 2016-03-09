@@ -124,6 +124,24 @@
       "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_dfe15bbc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T20:18:42Z",
+      "side": 1,
+      "message": "::Shrug:: really doesn’t matter to me. Let’s do getPreferences like Viktor originally had.",
+      "parentUuid": "b79a8576_b2146062",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

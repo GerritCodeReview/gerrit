@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_204caab8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-09T02:38:59Z",
+      "side": 1,
+      "message": "allProjects.get()",
+      "range": {
+        "startLine": 110,
+        "startChar": 19,
+        "endLine": 110,
+        "endChar": 33
+      },
+      "revId": "c7507e40ac8b8e58d30753ecbaea74b0b66aae49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

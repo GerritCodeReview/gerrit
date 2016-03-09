@@ -62,6 +62,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -186,6 +187,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected Revisions revisions;
+
+  @Inject
+  protected ChangeNoteUtil changeNoteUtil;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;

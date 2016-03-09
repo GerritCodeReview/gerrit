@@ -910,7 +910,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithComments = new ChangeNotesParser(project,
-          c.getId(), commitWithComments.copy(), rw, repoManager)) {
+          c.getId(), commitWithComments.copy(), rw, repoManager, changeNoteUtil,
+          commentsUtil)) {
         notesWithComments.parseAll();
         ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
             notesWithComments.buildApprovals();
@@ -921,7 +922,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithApprovals = new ChangeNotesParser(project,
-          c.getId(), commitWithApprovals.copy(), rw, repoManager)) {
+          c.getId(), commitWithApprovals.copy(), rw, repoManager,
+          changeNoteUtil, commentsUtil)) {
         notesWithApprovals.parseAll();
         ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
             notesWithApprovals.buildApprovals();

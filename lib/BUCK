@@ -61,8 +61,8 @@ maven_jar(
 
 maven_jar(
   name = 'guava',
-  id = 'com.google.guava:guava:19.0-rc2',
-  sha1 = '93e17f60bc524c2610b41c494bb829c11ca89436',
+  id = 'com.google.guava:guava:19.0',
+  sha1 = '6ce200f6b23222af3d8abb6b6459e6c44f4bb0e9',
   license = 'Apache2.0',
 )
 

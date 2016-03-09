@@ -61,7 +61,7 @@ limitations under the License.
     <gr-ajax id="diffPreferencesXHR"
         url="/accounts/self/preferences.diff"
         last-response="{{_diffPreferences}}"></gr-ajax>
-    <gr-main-header></gr-main-header>
+    <gr-main-header search-query="{{params.query}}"></gr-main-header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
         <gr-change-list-view

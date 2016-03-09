@@ -39,3 +39,5 @@ the change twice.
 +
 When the action was cancelled, the content of the input box was still
 there when opening it again.
+
+* Fix internal server error when aborting ssh command.

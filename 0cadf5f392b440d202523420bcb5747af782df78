@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_9f02b328",
+        "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-09T21:13:37Z",
+      "side": 1,
+      "message": "Ok.\n\nPer my other comments in this file I\u0027m still confused about what the deal is with JSAPI. Mostly because I don\u0027t actually know how the JS API is supposed to work beyond what it says at https://gerrit-review.googlesource.com/Documentation/js-api.html which doesn\u0027t mention \"JSAPI\" at all.",
+      "parentUuid": "77a2cdc0_a0d43abb",
+      "revId": "0cadf5f392b440d202523420bcb5747af782df78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_60a0726b",
         "filename": "polygerrit-ui/app/scripts/gr-api-interface.html",
         "patchSetId": 6

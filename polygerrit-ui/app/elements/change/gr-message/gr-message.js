@@ -57,7 +57,7 @@
     },
 
     ready: function() {
-      app.configReady.then(function(cfg) {
+      this.$.restAPI.getConfig().then(function(cfg) {
         this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars) &&
             this.message && this.message.author;
       }.bind(this));

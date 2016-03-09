@@ -19,6 +19,13 @@
 
     properties: {
       account: Object,
+      _hasAvatars: Boolean,
+    },
+
+    attached: function() {
+      this.$.restAPI.getConfig().then(function(cfg) {
+        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+      }.bind(this));
     },
 
     _showDropdownTapHandler: function(e) {

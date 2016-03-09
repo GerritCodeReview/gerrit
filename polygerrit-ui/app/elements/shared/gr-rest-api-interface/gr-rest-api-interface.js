@@ -82,6 +82,10 @@
       }.bind(this));
     },
 
+    getConfig: function() {
+      return this._fetchSharedCacheURL('/config/server/info');
+    },
+
     getAccount: function() {
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },

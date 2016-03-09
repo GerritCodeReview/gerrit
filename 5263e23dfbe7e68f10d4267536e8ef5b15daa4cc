@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77a2cdc0_6074f2d4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-09T06:53:10Z",
+      "side": 1,
+      "message": "Good catch.  Will remove.",
+      "parentUuid": "b79a8576_92011c56",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "5263e23dfbe7e68f10d4267536e8ef5b15daa4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b79a8576_d2fba48b",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.2.txt",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-09T06:50:11Z",
       "side": 1,
       "message": "What ybout this guy: [1]?\n\n* [1] https://gerrit-review.googlesource.com/75542",
+      "revId": "5263e23dfbe7e68f10d4267536e8ef5b15daa4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_7f024f5a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-09T06:53:10Z",
+      "side": 1,
+      "message": "It\u0027s mentioned in the paragraph right above this comment :)",
+      "parentUuid": "b79a8576_d2fba48b",
       "revId": "5263e23dfbe7e68f10d4267536e8ef5b15daa4cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

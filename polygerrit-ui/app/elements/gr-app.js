@@ -77,6 +77,12 @@
       return !!(this.account && Object.keys(this.account).length > 0);
     },
 
+    attached: function() {
+      this.$.restAPI.getAccount().then(function(account) {
+        this.account = account;
+      }.bind(this));
+    },
+
     ready: function() {
       this._viewState = {
         changeView: {
@@ -98,8 +104,6 @@
 
     _accountChanged: function() {
       this._resolveAccountReady();
-      this.$.accountContainer.classList.toggle('loggedIn', this.loggedIn);
-      this.$.accountContainer.classList.toggle('loggedOut', !this.loggedIn);
       if (this.loggedIn) {
         this.$.diffPreferencesXHR.generateRequest();
       } else {

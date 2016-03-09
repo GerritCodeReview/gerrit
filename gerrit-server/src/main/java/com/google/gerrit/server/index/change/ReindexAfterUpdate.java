@@ -38,6 +38,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -48,6 +49,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   private static final Logger log = LoggerFactory.getLogger(ReindexAfterUpdate.class);
 
   private final OneOffRequestContext requestContext;
+  private final Provider<ChangeIndexCollection> indexCollection;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeIndexer.Factory indexerFactory;
   private final ChangeIndexCollection indexes;
@@ -57,12 +59,14 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   @Inject
   ReindexAfterUpdate(
       OneOffRequestContext requestContext,
+      Provider<ChangeIndexCollection> indexCollection,
       Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,
       ChangeIndexCollection indexes,
       ChangeNotes.Factory notesFactory,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
+    this.indexCollection = indexCollection;
     this.queryProvider = queryProvider;
     this.indexerFactory = indexerFactory;
     this.indexes = indexes;
@@ -124,6 +128,9 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
 
     @Override
     protected List<Change> impl(RequestContext ctx) throws OrmException {
+      if (indexCollection.get().getSearchIndex() == null) {
+        return Collections.emptyList();
+      }
       String ref = event.getRefName();
       Project.NameKey project = new Project.NameKey(event.getProjectName());
       if (ref.equals(RefNames.REFS_CONFIG)) {

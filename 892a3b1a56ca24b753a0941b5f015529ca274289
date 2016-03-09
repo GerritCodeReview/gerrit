@@ -52,6 +52,24 @@
       "revId": "892a3b1a56ca24b753a0941b5f015529ca274289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_7f45af8e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T16:54:45Z",
+      "side": 1,
+      "message": "True. Will let my tortoise mind ruminate...",
+      "parentUuid": "57a5c9c5_bf3a171c",
+      "revId": "892a3b1a56ca24b753a0941b5f015529ca274289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

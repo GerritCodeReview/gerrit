@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_c0829ec2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T20:25:15Z",
+      "side": 1,
+      "message": "Reference https://code.google.com/p/gerrit/issues/detail?id\u003d3902 here",
+      "revId": "1bf25502a4d94ca1b726cfd9f84bc429a37ac410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

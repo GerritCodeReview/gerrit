@@ -54,6 +54,7 @@
       },
 
       _diffPreferences: Object,
+      _preferences: Object,
       _showChangeListView: Boolean,
       _showDashboardView: Boolean,
       _showChangeView: Boolean,
@@ -106,6 +107,10 @@
       this._resolveAccountReady();
       if (this.loggedIn) {
         this.$.diffPreferencesXHR.generateRequest();
+
+        this.$.restAPI.getPreferences().then(function(preferences) {
+          this._preferences = preferences;
+        }.bind(this));
       } else {
         // These defaults should match the defaults in
         // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
@@ -124,6 +129,10 @@
           syntax_highlighting: true,
           tab_size: 8,
           theme: 'DEFAULT',
+        };
+
+        this._preferences = {
+          changes_per_page: 25,
         };
       }
     },

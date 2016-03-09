@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  var DEFAULT_NUM_CHANGES = 25;
-
   Polymer({
     is: 'gr-change-list-view',
 
@@ -50,6 +48,8 @@
         notify: true,
         value: function() { return {}; },
       },
+
+      changesPerPage: Number,
 
       /**
        * Currently active query.
@@ -103,13 +103,13 @@
       this.fire('title-change', {title: this._query});
     },
 
-    _computeQueryParams: function(query, offset) {
+    _computeQueryParams: function(query, offset, changesPerPage) {
       var options = this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
           this.ListChangesOption.DETAILED_ACCOUNTS
       );
       var obj = {
-        n: DEFAULT_NUM_CHANGES,  // Number of results to return.
+        n: changesPerPage,
         O: options,
         S: offset || 0,
       };
@@ -119,10 +119,10 @@
       return obj;
     },
 
-    _computeNavLink: function(query, offset, direction) {
+    _computeNavLink: function(query, offset, direction, changesPerPage) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
-      var newOffset = Math.max(0, offset + (25 * direction));
+      var newOffset = Math.max(0, offset + (changesPerPage * direction));
       var href = '/q/' + query;
       if (newOffset > 0) {
         href += ',' + newOffset;
@@ -142,8 +142,8 @@
       return offset == 0;
     },
 
-    _hideNextArrow: function(changesLen) {
-      return changesLen < DEFAULT_NUM_CHANGES;
+    _hideNextArrow: function(changesLen, changesPerPage) {
+      return changesLen < changesPerPage;
     },
   });
 })();

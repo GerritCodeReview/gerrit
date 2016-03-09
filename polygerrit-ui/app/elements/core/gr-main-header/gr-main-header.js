@@ -22,13 +22,14 @@
     },
 
     properties: {
+      _account: Object,
     },
 
     attached: function() {
       this.$.restAPI.getAccount().then(function(account) {
-        var loggedIn = !!account;
-        this.$.accountContainer.classList.toggle('loggedIn', loggedIn);
-        this.$.accountContainer.classList.toggle('loggedOut', !loggedIn);
+        this._account = account;
+        this.$.accountContainer.classList.toggle('loggedIn', account != null);
+        this.$.accountContainer.classList.toggle('loggedOut', account == null);
       }.bind(this));
     },
   });

@@ -24,8 +24,8 @@ limitations under the License.
         display: block;
       }
       :host([pre]) span {
-        white-space: pre-wrap;
-        word-wrap: break-word;
+        white-space: var(--linked-text-white-space, pre-wrap);
+        word-wrap: var(--linked-text-work-wrap, break-word);
       }
       :host([disabled]) a {
         color: inherit;

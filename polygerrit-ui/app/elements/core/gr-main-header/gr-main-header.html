@@ -43,13 +43,15 @@ limitations under the License.
         list-style: none;
       }
       .links {
-        margin-left: 2em;
+        margin-left: 1em;
       }
       .links ul {
         display: none;
       }
       .links > li {
         cursor: default;
+        display: inline-block;
+        margin-left: 1em;
         padding: .4em 0;
         position: relative;
       }
@@ -67,6 +69,7 @@ limitations under the License.
         display: block;
         padding: .5em .75em;
         text-decoration: none;
+        white-space: nowrap;
       }
       .links li ul li:hover a {
         background-color: var(--selection-background-color);
@@ -128,16 +131,18 @@ limitations under the License.
     <nav>
       <a href="/" class="bigTitle">PolyGerrit</a>
       <ul class="links">
-        <li>
-          <span class="linksTitle">
-            Changes <i class="downArrow"></i>
-          </span>
-          <ul>
-            <li><a href="/q/status:open">Open</a></li>
-            <li><a href="/q/status:merged">Merged</a></li>
-            <li><a href="/q/status:abandoned">Abandoned</a></li>
-          </ul>
-        </li>
+        <template is="dom-repeat" items="[[_links]]" as="linkGroup">
+          <li>
+            <span class="linksTitle">
+              [[linkGroup.title]] <i class="downArrow"></i>
+            </span>
+            <ul>
+              <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
+                <li><a href="[[link.url]]">[[link.name]]</a></li>
+              </template>
+            </ul>
+          </li>
+        </template>
       </ul>
       <div class="rightItems">
         <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>

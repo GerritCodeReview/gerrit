@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-main-header</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-main-header.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-main-header></gr-main-header>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-main-header tests', function() {
+    var element;
+
+    setup(function() {
+      stub('gr-main-header', {
+        _loadAccount: function() {},
+      });
+      element = fixture('basic');
+    });
+
+    test('strip hash prefix', function() {
+      assert.deepEqual([
+        {url: '#/q/owner:self+is:draft'},
+        {url: 'https://awesometown.com/#hashyhash'},
+      ].map(element._stripHashPrefix),
+      [
+        {url: '/q/owner:self+is:draft'},
+        {url: 'https://awesometown.com/#hashyhash'},
+      ]);
+    });
+
+    test('filter unsupported urls', function() {
+      assert.deepEqual([
+        {url: '/q/owner:self+is:draft'},
+        {url: '/c/331788/'},
+        {url: '/groups/self'},
+        {url: 'https://awesometown.com/#hashyhash'},
+      ].filter(element._isSupportedLink),
+      [
+        {url: '/q/owner:self+is:draft'},
+        {url: '/c/331788/'},
+        {url: 'https://awesometown.com/#hashyhash'},
+      ]);
+    });
+
+    test('user links', function() {
+      var defaultLinks = [{
+        title: 'Faves',
+        links: [{
+          name: 'Pinterest',
+          url: 'https://pinterest.com',
+        }],
+      }];
+      var userLinks = [{
+        name: 'Facebook',
+        url: 'https://facebook.com',
+      }];
+      assert.deepEqual(element._computeLinks(defaultLinks, []), defaultLinks);
+      assert.deepEqual(element._computeLinks(defaultLinks, userLinks),
+          defaultLinks.concat({
+            title: 'Your',
+            links: userLinks,
+          }));
+    });
+  });
+</script>

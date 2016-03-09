@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a5c9c5_bffd7756",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-09T21:07:36Z",
+      "side": 1,
+      "message": "null vs undefined is this on purpose? If so I vote for strict equality since this is one of the cases where it could matter",
+      "revId": "745609b882d0948992f76b6820247d8613f4ee46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

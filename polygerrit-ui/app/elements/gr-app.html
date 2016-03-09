@@ -18,16 +18,17 @@ limitations under the License.
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
 
+<link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
+<link rel="import" href="./core/gr-main-header/gr-main-header.html">
+
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
 
-<link rel="import" href="./shared/gr-account-dropdown/gr-account-dropdown.html">
 <link rel="import" href="./shared/gr-ajax/gr-ajax.html">
-<link rel="import" href="./shared/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="./shared/gr-search-bar/gr-search-bar.html">
+<link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <script src="../bower_components/page/page.js"></script>
 <script src="../scripts/app.js"></script>
@@ -42,83 +43,25 @@ limitations under the License.
         min-height: 100vh;
         flex-direction: column;
       }
-      header,
+      gr-main-header,
       footer {
         background-color: var(--primary-color);
         color: var(--primary-text-color);
         padding: .5rem var(--default-horizontal-margin);
       }
-      header {
-        align-items: center;
-        display: flex;
-        overflow: hidden;
-      }
       main {
         flex: 1;
-      }
-      .bigTitle {
-        color: var(--primary-text-color);
-        font-size: 1.75em;
-        text-decoration: none;
-      }
-      .bigTitle:hover {
-        text-decoration: underline;
-      }
-      .headerRightItems {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-      }
-      gr-search-bar {
-        margin-left: .5em;
-        width: 500px;
-      }
-      .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
-      .accountContainer:not(.loggedIn):not(.loggedOut) gr-account-dropdown,
-      .accountContainer.loggedIn .loginButton,
-      .accountContainer.loggedOut gr-account-dropdown {
-        display: none;
-      }
-      .accountContainer {
-        align-items: center;
-        display: flex;
-        margin-left: var(--default-horizontal-margin);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
       .feedback {
         color: #b71c1c;
       }
-      @media screen and (max-width: 50em) {
-        .bigTitle {
-          font-size: 14px;
-          font-weight: bold;
-        }
-        gr-search-bar {
-          display: none;
-        }
-        .accountContainer {
-          margin-left: .5em !important;
-        }
-      }
     </style>
-    <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>
     <gr-ajax auto url="/config/server/info" last-response="{{config}}"></gr-ajax>
     <gr-ajax auto url="/config/server/version" last-response="{{version}}"></gr-ajax>
     <gr-ajax id="diffPreferencesXHR"
         url="/accounts/self/preferences.diff"
         last-response="{{_diffPreferences}}"></gr-ajax>
-    <header role="banner">
-      <a href="/" class="bigTitle">PolyGerrit</a>
-      <div class="headerRightItems">
-        <gr-search-bar value="{{params.query}}" role="search"></gr-search-bar>
-        <div class="accountContainer" id="accountContainer">
-          <a class="loginButton" href="/login" on-tap="_loginTapHandler">Login</a>
-          <gr-account-dropdown account="[[account]]"></gr-account-dropdown>
-        </div>
-      </div>
-    </header>
+    <gr-main-header></gr-main-header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
         <gr-change-list-view
@@ -167,6 +110,7 @@ limitations under the License.
           view="[[params.view]]"
           on-close="_handleKeyboardShortcutDialogClose"></gr-keyboard-shortcuts-dialog>
     </gr-overlay>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-app.js"></script>
 </dom-module>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_a05e7a1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T21:58:49Z",
+      "side": 1,
+      "message": "this should be reverted with fetchJSONStub.restore called before done(). Same below.",
+      "revId": "7e4c88866962e6c7a4e4d0aebc70650c371d566c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

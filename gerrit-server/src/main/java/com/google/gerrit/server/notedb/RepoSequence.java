@@ -180,7 +180,7 @@ public class RepoSequence {
         // may do it properly (certainly InMemoryRepository doesn't).
         throw new IncorrectObjectTypeException(id, OBJ_BLOB);
       }
-      String str = CharMatcher.WHITESPACE.trimFrom(
+      String str = CharMatcher.whitespace().trimFrom(
           new String(ol.getCachedBytes(), UTF_8));
       Integer val = Ints.tryParse(str);
       if (val == null) {

@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../gr-comment-list/gr-comment-list.html">
 
@@ -120,6 +121,7 @@ limitations under the License.
         <gr-button small on-tap="_handleReplyTap">Reply</gr-button>
       </div>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-message.js"></script>
 </dom-module>

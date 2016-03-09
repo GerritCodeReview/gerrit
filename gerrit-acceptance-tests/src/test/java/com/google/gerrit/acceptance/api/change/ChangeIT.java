@@ -1073,7 +1073,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(commitPatchSetCreation.getShortMessage())
           .isEqualTo("Create patch set 2");
-      PersonIdent expectedAuthor = ChangeNoteUtil.newIdent(
+      PersonIdent expectedAuthor = changeNoteUtil.newIdent(
           accountCache.get(admin.id).getAccount(), c.updated,
           serverIdent.get(), AnonymousCowardNameProvider.DEFAULT);
       assertThat(commitPatchSetCreation.getAuthorIdent())
@@ -1086,7 +1086,7 @@ public class ChangeIT extends AbstractDaemonTest {
           rw.parseCommit(commitPatchSetCreation.getParent(0));
       assertThat(commitChangeCreation.getShortMessage())
           .isEqualTo("Create change");
-      expectedAuthor = ChangeNoteUtil.newIdent(
+      expectedAuthor = changeNoteUtil.newIdent(
           accountCache.get(admin.id).getAccount(), c.created, serverIdent.get(),
           AnonymousCowardNameProvider.DEFAULT);
       assertThat(commitChangeCreation.getAuthorIdent())

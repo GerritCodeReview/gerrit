@@ -415,7 +415,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private RevCommit writeCommit(String body) throws Exception {
-    return writeCommit(body, ChangeNoteUtil.newIdent(
+    return writeCommit(body, changeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
         "Anonymous Coward"));
   }
@@ -462,6 +462,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     Change c = newChange();
     return new ChangeNotesParser(c.getProject(), c.getId(), tip, walk,
-        repoManager);
+        repoManager, changeNoteUtil, commentsUtil);
   }
 }

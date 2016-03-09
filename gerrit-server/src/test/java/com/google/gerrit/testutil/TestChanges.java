@@ -31,8 +31,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.CommentsInNotesUtil;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -90,16 +92,22 @@ public class TestChanges {
       GitRepositoryManager repoManager, NotesMigration migration, Change c,
       final AllUsersName allUsers, final CurrentUser user)
       throws Exception  {
-    ChangeUpdate update = injector.createChildInjector(new FactoryModule() {
+    injector = injector.createChildInjector(new FactoryModule() {
       @Override
       public void configure() {
         factory(ChangeUpdate.Factory.class);
         factory(ChangeDraftUpdate.Factory.class);
         bind(CurrentUser.class).toInstance(user);
       }
-    }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(repoManager, migration, c, allUsers, user),
-        TimeUtil.nowTs(), Ordering.<String> natural());
+    });
+    ChangeUpdate update = injector.getInstance(ChangeUpdate.Factory.class)
+        .create(
+            stubChangeControl(
+                repoManager, migration, c, allUsers,
+                injector.getInstance(ChangeNoteUtil.class),
+                injector.getInstance(CommentsInNotesUtil.class),
+                user),
+            TimeUtil.nowTs(), Ordering.<String> natural());
 
     ChangeNotes notes = update.getChangeNotes();
     boolean hasPatchSets = notes.getPatchSets() != null
@@ -131,15 +139,15 @@ public class TestChanges {
 
   private static ChangeControl stubChangeControl(
       GitRepositoryManager repoManager, NotesMigration migration,
-      Change c, AllUsersName allUsers,
-      CurrentUser user) throws OrmException {
+      Change c, AllUsersName allUsers, ChangeNoteUtil changeNoteUtil,
+      CommentsInNotesUtil commentsUtil, CurrentUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
     expect(ctl.getUser()).andStubReturn(user);
     ChangeNotes notes =
-        new ChangeNotes(repoManager, migration, allUsers, c.getProject(), c)
-            .load();
+        new ChangeNotes(repoManager, migration, allUsers, changeNoteUtil,
+            commentsUtil, c.getProject(), c).load();
     expect(ctl.getNotes()).andStubReturn(notes);
     expect(ctl.getId()).andStubReturn(c.getId());
     EasyMock.replay(ctl);

@@ -136,10 +136,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
-      CommentsInNotesUtil commentsUtil) {
+      CommentsInNotesUtil commentsUtil,
+      ChangeNoteUtil changeNoteUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
         updateManagerFactory, draftUpdateFactory,
-        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
+        projectCache, ctl, serverIdent.getWhen(), commentsUtil, changeNoteUtil);
   }
 
   @AssistedInject
@@ -154,12 +155,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
-      CommentsInNotesUtil commentsUtil) {
+      CommentsInNotesUtil commentsUtil,
+      ChangeNoteUtil changeNoteUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
         updateManagerFactory, draftUpdateFactory, ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
-        commentsUtil);
+        commentsUtil, changeNoteUtil);
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
@@ -178,9 +180,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
-      CommentsInNotesUtil commentsUtil) {
+      CommentsInNotesUtil commentsUtil,
+      ChangeNoteUtil changeNoteUtil) {
     super(migration, repoManager, ctl, serverIdent,
-        anonymousCowardName, when);
+        anonymousCowardName, changeNoteUtil, when);
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
     this.draftUpdateFactory = draftUpdateFactory;
@@ -401,7 +404,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        ctl.getId(), rw.getObjectReader(), noteMap, false);
+        commentsUtil, ctl.getId(), rw.getObjectReader(), noteMap, false);
   }
 
   private void checkComments(Map<RevId, RevisionNote> existingNotes,

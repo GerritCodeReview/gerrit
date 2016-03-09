@@ -48,34 +48,40 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
     private final AllUsersName draftsProject;
+    private final CommentsInNotesUtil commentsUtil;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
-        AllUsersName allUsers) {
+        AllUsersName allUsers,
+        CommentsInNotesUtil commentsUtil) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.draftsProject = allUsers;
+      this.commentsUtil = commentsUtil;
     }
 
     public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {
       return new DraftCommentNotes(repoManager, migration, draftsProject,
-          changeId, accountId);
+          commentsUtil, changeId, accountId);
     }
   }
 
   private final AllUsersName draftsProject;
+  private final CommentsInNotesUtil commentsUtil;
   private final Account.Id author;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private RevisionNoteMap revisionNoteMap;
 
   DraftCommentNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersName draftsProject, Change.Id changeId, Account.Id author) {
+      AllUsersName draftsProject, CommentsInNotesUtil commentsUtil,
+      Change.Id changeId, Account.Id author) {
     super(repoManager, migration, changeId);
     this.draftsProject = draftsProject;
     this.author = author;
+    this.commentsUtil = commentsUtil;
   }
 
   RevisionNoteMap getRevisionNoteMap() {
@@ -116,7 +122,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     try (RevWalk walk = new RevWalk(reader)) {
       RevCommit tipCommit = walk.parseCommit(rev);
       revisionNoteMap = RevisionNoteMap.parse(
-          getChangeId(), reader, NoteMap.read(reader, tipCommit), true);
+          commentsUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
+          true);
       Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
       for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
         for (PatchLineComment c : rn.comments) {

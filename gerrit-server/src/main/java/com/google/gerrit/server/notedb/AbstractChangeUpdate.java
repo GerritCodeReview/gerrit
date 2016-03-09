@@ -44,6 +44,7 @@ public abstract class AbstractChangeUpdate {
   protected final GitRepositoryManager repoManager;
   protected final ChangeControl ctl;
   protected final String anonymousCowardName;
+  protected final ChangeNoteUtil changeNoteUtil;
   protected final Date when;
   private final PersonIdent serverIdent;
 
@@ -55,12 +56,14 @@ public abstract class AbstractChangeUpdate {
       ChangeControl ctl,
       PersonIdent serverIdent,
       String anonymousCowardName,
+      ChangeNoteUtil changeNoteUtil,
       Date when) {
     this.migration = migration;
     this.repoManager = repoManager;
     this.ctl = ctl;
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
+    this.changeNoteUtil = changeNoteUtil;
     this.when = when;
     checkArgument(
         (ctl.getUser() instanceof IdentifiedUser)
@@ -96,7 +99,7 @@ public abstract class AbstractChangeUpdate {
   private PersonIdent newAuthorIdent() {
     CurrentUser u = getUser();
     if (u instanceof IdentifiedUser) {
-      return ChangeNoteUtil.newIdent(u.asIdentifiedUser().getAccount(), when,
+      return changeNoteUtil.newIdent(u.asIdentifiedUser().getAccount(), when,
           serverIdent, anonymousCowardName);
     } else if (u instanceof InternalUser) {
       return serverIdent;
@@ -105,7 +108,7 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected PersonIdent newIdent(Account author, Date when) {
-    return ChangeNoteUtil.newIdent(author, when, serverIdent,
+    return changeNoteUtil.newIdent(author, when, serverIdent,
         anonymousCowardName);
   }
 

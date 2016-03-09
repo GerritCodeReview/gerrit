@@ -56,6 +56,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -89,6 +90,7 @@ public class ChangeRebuilder {
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
+  private final ChangeNoteUtil changeNoteUtil;
 
   @Inject
   ChangeRebuilder(SchemaFactory<ReviewDb> schemaFactory,
@@ -99,7 +101,8 @@ public class ChangeRebuilder {
       PatchListCache patchListCache,
       ChangeUpdate.Factory updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
-      NoteDbUpdateManager.Factory updateManagerFactory) {
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeNoteUtil changeNoteUtil) {
     this.schemaFactory = schemaFactory;
     this.repoManager = repoManager;
     this.controlFactory = controlFactory;
@@ -109,6 +112,7 @@ public class ChangeRebuilder {
     this.updateFactory = updateFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
+    this.changeNoteUtil = changeNoteUtil;
   }
 
   public ListenableFuture<?> rebuildAsync(final Change.Id id,
@@ -125,7 +129,8 @@ public class ChangeRebuilder {
   }
 
   public void rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException {
+      throws NoSuchChangeException, IOException, OrmException,
+      ConfigInvalidException {
     Change change = db.changes().get(changeId);
     if (change == null) {
       return;
@@ -254,7 +259,7 @@ public class ChangeRebuilder {
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,
-      NoteDbUpdateManager manager) throws IOException {
+      NoteDbUpdateManager manager) throws IOException, ConfigInvalidException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
     ObjectId old = manager.getChangeCommands()
         .getObjectId(manager.getChangeRepo(), refName);
@@ -268,7 +273,7 @@ public class ChangeRebuilder {
     rw.markStart(rw.parseCommit(old));
     for (RevCommit commit : rw) {
       Account.Id authorId =
-          ChangeNoteUtil.parseIdent(commit.getAuthorIdent());
+          changeNoteUtil.parseIdent(commit.getAuthorIdent(), change.getId());
       PatchSet.Id psId = parsePatchSetId(change, commit);
       Set<String> hashtags = parseHashtags(commit);
       if (authorId == null || psId == null || hashtags == null) {

@@ -26,7 +26,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Function;
@@ -115,6 +114,8 @@ class ChangeNotesParser implements AutoCloseable {
   PatchSet.Id currentPatchSetId;
   RevisionNoteMap revisionNoteMap;
 
+  private final ChangeNoteUtil changeNoteUtil;
+  private final CommentsInNotesUtil commentsUtil;
   private final Change.Id id;
   private final ObjectId tip;
   private final RevWalk walk;
@@ -125,12 +126,15 @@ class ChangeNotesParser implements AutoCloseable {
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
   ChangeNotesParser(Project.NameKey project, Change.Id changeId, ObjectId tip,
-      RevWalk walk, GitRepositoryManager repoManager)
+      RevWalk walk, GitRepositoryManager repoManager,
+      ChangeNoteUtil changeNoteUtil, CommentsInNotesUtil commentsUtil)
       throws RepositoryNotFoundException, IOException {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
     this.repo = repoManager.openMetadataRepository(project);
+    this.changeNoteUtil = changeNoteUtil;
+    this.commentsUtil = commentsUtil;
     approvals = Maps.newHashMap();
     reviewers = Maps.newLinkedHashMap();
     allPastReviewers = Lists.newArrayList();
@@ -501,7 +505,7 @@ class ChangeNotesParser implements AutoCloseable {
     ObjectReader reader = walk.getObjectReader();
     RevCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap = RevisionNoteMap.parse(
-        id, reader, NoteMap.read(reader, tipCommit), false);
+        commentsUtil, id, reader, NoteMap.read(reader, tipCommit), false);
     Map<RevId, RevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<RevId, RevisionNote> e : rns.entrySet()) {
@@ -540,7 +544,7 @@ class ChangeNotesParser implements AutoCloseable {
       labelVoteStr = line.substring(0, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      accountId = parseIdent(ident);
+      accountId = changeNoteUtil.parseIdent(ident, id);
     } else {
       labelVoteStr = line;
       accountId = committerId;
@@ -578,7 +582,7 @@ class ChangeNotesParser implements AutoCloseable {
       label = line.substring(1, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      accountId = parseIdent(ident);
+      accountId = changeNoteUtil.parseIdent(ident, id);
     } else {
       label = line.substring(1);
       accountId = committerId;
@@ -661,7 +665,7 @@ class ChangeNotesParser implements AutoCloseable {
           PersonIdent ident =
               RawParseUtils.parsePersonIdent(line.substring(c2 + 2));
           checkFooter(ident != null, FOOTER_SUBMITTED_WITH, line);
-          label.appliedBy = parseIdent(ident);
+          label.appliedBy = changeNoteUtil.parseIdent(ident, id);
         } else {
           label.label = line.substring(c + 2);
         }
@@ -679,17 +683,7 @@ class ChangeNotesParser implements AutoCloseable {
         && a.getEmailAddress().equals(c.getEmailAddress())) {
       return null;
     }
-    return parseIdent(commit.getAuthorIdent());
-  }
-
-  private Account.Id parseIdent(PersonIdent ident)
-      throws ConfigInvalidException {
-    Account.Id id = ChangeNoteUtil.parseIdent(ident);
-    if (id == null) {
-      throw parseException("invalid identity, expected <id>@%s: %s",
-          GERRIT_PLACEHOLDER_HOST, ident.getEmailAddress());
-    }
-    return id;
+    return changeNoteUtil.parseIdent(commit.getAuthorIdent(), id);
   }
 
   private void parseReviewer(ReviewerStateInternal state, String line)
@@ -698,7 +692,7 @@ class ChangeNotesParser implements AutoCloseable {
     if (ident == null) {
       throw invalidFooter(state.getFooterKey(), line);
     }
-    Account.Id accountId = parseIdent(ident);
+    Account.Id accountId = changeNoteUtil.parseIdent(ident, id);
     if (!reviewers.containsKey(accountId)) {
       reviewers.put(accountId, state);
     }

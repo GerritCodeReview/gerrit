@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "77a2cdc0_200f0a50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-09T18:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c9357a_56feb452",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "1fcad11f0d8f2271fa6dd4d1bdc783ea4bb6887a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b79a8576_52641422",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2016-03-09T13:00:22Z",
       "side": 1,
       "message": "Maybe I didn\u0027t understand the commit message properly... but the returned instance here is still mutable, just that it is now a new instance every time this method is called.",
+      "revId": "1fcad11f0d8f2271fa6dd4d1bdc783ea4bb6887a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_5f29cbce",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-09T18:25:24Z",
+      "side": 1,
+      "message": "Expanded the commit message a bit.",
+      "parentUuid": "b79a8576_52641422",
       "revId": "1fcad11f0d8f2271fa6dd4d1bdc783ea4bb6887a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

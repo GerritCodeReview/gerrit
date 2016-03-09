@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_1f4c63b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-09T17:45:01Z",
+      "side": 1,
+      "message": "That\u0027s basically what this does, except it writes the value into a separate file. It felt wrong to modify gerrit.config from a running server. But maybe that\u0027s just a feeling and there\u0027s not actually a good reason not to.",
+      "parentUuid": "57a5c9c5_7fdb6f34",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "391a28c9c77e636f1df74fbf6e5a07692e135b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_802c96e1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

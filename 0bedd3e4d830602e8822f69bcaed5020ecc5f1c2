@@ -34,6 +34,24 @@
       "revId": "0bedd3e4d830602e8822f69bcaed5020ecc5f1c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37c9357a_d657242b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsFilePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-09T10:07:30Z",
+      "side": 1,
+      "message": "\u003e This check is used for unit tests.\n\nNot really we are getting this NPE in the production. Probably there is a race condition. I\u0027ve tried to fix it some time ago[1] but the fix got reverted.\n\n[1] https://gerrit-review.googlesource.com/#/c/71731/",
+      "parentUuid": "37c9357a_f67d00b9",
+      "revId": "0bedd3e4d830602e8822f69bcaed5020ecc5f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

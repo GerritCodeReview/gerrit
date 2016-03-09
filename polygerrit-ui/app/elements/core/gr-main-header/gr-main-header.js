@@ -14,6 +14,24 @@
 (function() {
   'use strict';
 
+  var DEFAULT_LINKS = [{
+    title: 'Changes',
+    links: [
+      {
+        url: '/q/status:open',
+        name: 'Open',
+      },
+      {
+        url: '/q/status:merged',
+        name: 'Merged',
+      },
+      {
+        url: '/q/status:abandoned',
+        name: 'Abandoned',
+      },
+    ],
+  }];
+
   Polymer({
     is: 'gr-main-header',
 
@@ -28,14 +46,68 @@
       },
 
       _account: Object,
+      _defaultLinks: {
+        type: Array,
+        value: function() {
+          return DEFAULT_LINKS;
+        },
+      },
+      _links: {
+        type: Array,
+        computed: '_computeLinks(_defaultLinks, _userLinks)',
+      },
+      _userLinks: {
+        type: Array,
+        value: function() { return []; },
+      },
     },
 
+    observers: [
+      '_accountLoaded(_account)',
+    ],
+
     attached: function() {
+      this._loadAccount();
+    },
+
+    _computeLinks: function(defaultLinks, userLinks) {
+      var links = defaultLinks.slice();
+      if (userLinks && userLinks.length > 0) {
+        links.push({
+          title: 'Your',
+          links: userLinks,
+        });
+      }
+      return links;
+    },
+
+    _loadAccount: function() {
       this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);
       }.bind(this));
+    },
+
+    _accountLoaded: function(account) {
+      if (!account) { return; }
+
+      this.$.restAPI.getPreferences().then(function(prefs) {
+        this._userLinks =
+            prefs.my.map(this._stripHashPrefix).filter(this._isSupportedLink);
+      }.bind(this));
+    },
+
+    _stripHashPrefix: function(linkObj) {
+      if (linkObj.url.indexOf('#') === 0) {
+        linkObj.url = linkObj.url.slice(1);
+      }
+      return linkObj;
+    },
+
+    _isSupportedLink: function(linkObj) {
+      // Groups are not yet supported.
+      return linkObj.url.indexOf('/groups') !== 0;
     },
   });
 })();

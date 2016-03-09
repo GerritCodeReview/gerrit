@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
@@ -151,8 +152,11 @@ public class InMemoryModule extends FactoryModule {
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);
     bind(String.class)
-      .annotatedWith(AnonymousCowardName.class)
-      .toProvider(AnonymousCowardNameProvider.class);
+        .annotatedWith(AnonymousCowardName.class)
+        .toProvider(AnonymousCowardNameProvider.class);
+    bind(String.class)
+        .annotatedWith(GerritServerId.class)
+        .toInstance("gerrit");
     bind(AllProjectsName.class)
         .toProvider(AllProjectsNameProvider.class);
     bind(AllUsersName.class)

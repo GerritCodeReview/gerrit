@@ -35,6 +35,7 @@ import com.google.inject.name.Names;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /** Initialize the {@code database} configuration section. */
 @Singleton
@@ -43,6 +44,7 @@ class InitDatabase implements InitStep {
   private final SitePaths site;
   private final Libraries libraries;
   private final Section database;
+  private final Section gerrit;
 
   @Inject
   InitDatabase(final ConsoleUI ui, final SitePaths site, final Libraries libraries,
@@ -51,6 +53,7 @@ class InitDatabase implements InitStep {
     this.site = site;
     this.libraries = libraries;
     this.database = sections.get("database", null);
+    this.gerrit = sections.get("gerrit", null);
   }
 
   @Override
@@ -91,6 +94,9 @@ class InitDatabase implements InitStep {
     }
 
     dci.initConfig(database);
+
+    // Initialize UUID for NoteDb.
+    gerrit.set("serverId", UUID.randomUUID().toString());
   }
 
   @Override

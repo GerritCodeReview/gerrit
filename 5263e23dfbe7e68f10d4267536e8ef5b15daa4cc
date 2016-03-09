@@ -81,6 +81,24 @@
       "revId": "5263e23dfbe7e68f10d4267536e8ef5b15daa4cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b79a8576_f2f8a891",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-09T06:58:20Z",
+      "side": 1,
+      "message": "*lol* Never review changes, before first coffee in the morning...",
+      "parentUuid": "57a5c9c5_7f024f5a",
+      "revId": "5263e23dfbe7e68f10d4267536e8ef5b15daa4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,8 +32,8 @@
       this.hidden = true;
     },
 
-    ready: function() {
-      app.configReady.then(function(cfg) {
+    attached: function() {
+      this.$.restAPI.getConfig().then(function(cfg) {
         var hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
         if (hasAvatars) {
           this.hidden = false;

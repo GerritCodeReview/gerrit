@@ -32,20 +32,7 @@
           }.bind(this));
         },
       },
-      config: {
-        type: Object,
-        observer: '_configChanged',
-      },
-      configReady: {
-        type: Object,
-        readOnly: true,
-        notify: true,
-        value: function() {
-          return new Promise(function(resolve) {
-            this._resolveConfigReady = resolve;
-          }.bind(this));
-        },
-      },
+      config: Object,
       version: String,
       params: Object,
       keyEventTarget: {
@@ -80,6 +67,9 @@
     attached: function() {
       this.$.restAPI.getAccount().then(function(account) {
         this.account = account;
+      }.bind(this));
+      this.$.restAPI.getConfig().then(function(config) {
+        this.config = config;
       }.bind(this));
     },
 

@@ -42,7 +42,7 @@ limitations under the License.
       var testJSON = ')]}\'\n{"hello": "bonjour"}';
 
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({ text: function() {
+        return Promise.resolve({text: function() {
           return Promise.resolve(testJSON);
         }});
       });
@@ -65,14 +65,17 @@ limitations under the License.
 
       Promise.all(promises).then(function(results) {
         assert.deepEqual(results, [1, 1, 1]);
+        element._fetchSharedCacheURL('/foo').then(function(foo) {
+          assert.equal(foo, 1);
+          done();
+        });
         fetchJSONStub.restore();
-        done();
       });
     });
 
     test('params are properly encoded', function() {
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({ text: function() {
+        return Promise.resolve({text: function() {
           return Promise.resolve(')]}\'\n{}');
         }});
       });
@@ -89,7 +92,7 @@ limitations under the License.
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({ body: {
+        return Promise.resolve({body: {
           cancel: function() { cancelCalled = true; }
         }});
       });
@@ -103,7 +106,7 @@ limitations under the License.
     });
 
     test('parent diff comments are properly grouped', function(done) {
-      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {
+      sinon.stub(element, 'fetchJSON', function() {
         return Promise.resolve({
           '/COMMIT_MSG': [],
           'sieve.go': [
@@ -133,7 +136,7 @@ limitations under the License.
     });
 
     test('differing patch diff comments are properly grouped', function(done) {
-      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function(url) {
+      sinon.stub(element, 'fetchJSON', function(url) {
         if (url == '/changes/42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],

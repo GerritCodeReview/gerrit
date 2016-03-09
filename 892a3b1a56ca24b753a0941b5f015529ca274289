@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a5c9c5_df35db2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-09T16:08:20Z",
+      "side": 1,
+      "message": "I vote that if it is cached, you serve the cached response and then fetch and update the cache in the background\n\n\nAlso -- perhaps your cache should self invalidate after a fixed set of time after being inserted into the cache.\n\n\nthoughts?",
+      "revId": "892a3b1a56ca24b753a0941b5f015529ca274289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -67,6 +67,7 @@ limitations under the License.
         <gr-change-list-view
             params="[[params]]"
             view-state="{{_viewState.changeListView}}"
+            changes-per-page="[[_preferences.changes_per_page]]"
             logged-in="[[_computeLoggedIn(account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">

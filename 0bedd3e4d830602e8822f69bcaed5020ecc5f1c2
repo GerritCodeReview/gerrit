@@ -52,6 +52,24 @@
       "revId": "0bedd3e4d830602e8822f69bcaed5020ecc5f1c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37c9357a_16dd1cfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsFilePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-09T11:17:51Z",
+      "side": 1,
+      "message": "I know the story. So again the correct fix is to make sure, that nobody is trying to access index until the inline reindex is done. Because it\u0027s probably hard to fix, the next best fix is to remove this stale condition with the related tests.\n\nYour current approach is wrong, because when schema \u003d\u003d null, then you would pick the wrong predicate: EqualsFilePredicate instead of EqualsPathPredicate.",
+      "parentUuid": "37c9357a_d657242b",
+      "revId": "0bedd3e4d830602e8822f69bcaed5020ecc5f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

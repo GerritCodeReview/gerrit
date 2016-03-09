@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "77a2cdc0_0079a6a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T20:14:55Z",
+      "side": 1,
+      "message": "I don’t believe this would ever happen.",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_9f6873f7",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 2
@@ -70,6 +87,23 @@
       "writtenOn": "2016-03-09T20:07:30Z",
       "side": 1,
       "message": "no go on moment.js?",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_1f558322",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-09T20:14:55Z",
+      "side": 1,
+      "message": "Rather than emulate a Promise, create a real one:\n\nvar prefsStub \u003d sinon.stub(element.$.restAPI, \u0027getPrefs\u0027, function() {\n  return Promise.resolve({time_format: \u0027HHMM_12\u0027});\n});\n\n...\n\nprefsStub.restore();\n\nDo this in each test you need it in instead of having the global prefsResolve stuff you have now.",
       "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,10 +22,12 @@
     },
 
     properties: {
+      _account: Object,
     },
 
     attached: function() {
       this.$.restAPI.getAccount().then(function(account) {
+        this._account = account;
         var loggedIn = !!account;
         this.$.accountContainer.classList.toggle('loggedIn', loggedIn);
         this.$.accountContainer.classList.toggle('loggedOut', !loggedIn);

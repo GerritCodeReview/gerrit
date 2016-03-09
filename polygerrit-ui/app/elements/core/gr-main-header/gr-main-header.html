@@ -78,7 +78,7 @@ limitations under the License.
       <gr-search-bar value="{{params.query}}" role="search"></gr-search-bar>
       <div class="accountContainer" id="accountContainer">
         <a class="loginButton" href="/login" on-tap="_loginTapHandler">Login</a>
-        <gr-account-dropdown account="[[account]]"></gr-account-dropdown>
+        <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

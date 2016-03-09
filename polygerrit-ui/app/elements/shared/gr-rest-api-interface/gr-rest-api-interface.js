@@ -104,7 +104,7 @@
         }.bind(this)).catch(function(err) {
           this._sharedFetchPromises[url] = undefined;
           throw err;
-        });
+        }.bind(this));
       return this._sharedFetchPromises[url];
     },
 

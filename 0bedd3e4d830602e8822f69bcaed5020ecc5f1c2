@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c9357a_f67d00b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsFilePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-09T09:20:22Z",
+      "side": 1,
+      "message": "This is the wrong fix. The correct fix is to take care that schema is never null. See my related fix in PluginLoader code. Even better fix is to remove this outdated test entirely. Since 2 or 3 years, all Gerrit versions includes this field. This check is used for unit tests. I made attempt to remove it, but many tests were failing. In the end this change was abandoned.",
+      "revId": "0bedd3e4d830602e8822f69bcaed5020ecc5f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -184,6 +184,15 @@ public class ChangeIndexer {
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
+  /**
+   * Synchronously delete a change.
+   *
+   * @param id change ID to delete.
+   */
+  public void delete(Change.Id id) throws IOException {
+    new DeleteTask(id).call();
+  }
+
   private Collection<ChangeIndex> getWriteIndexes() {
     return indexes != null
         ? indexes.getWriteIndexes()

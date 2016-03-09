@@ -73,6 +73,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -2559,6 +2560,16 @@ public class ReceiveCommits {
               user.getAccountId(), ctx.getWhen(), info.getKey());
           msg.setMessage(msgBuf.toString());
           cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+
+          PatchSetApproval submitter = new PatchSetApproval(
+                new PatchSetApproval.Key(
+                    change.currentPatchSetId(),
+                    ctx.getUser().getAccountId(),
+                    LabelId.legacySubmit()),
+                    (short) 1, ctx.getWhen());
+          update.putApproval(submitter.getLabel(), submitter.getValue());
+          ctx.getDb().patchSetApprovals().upsert(
+              Collections.singleton(submitter));
 
           return true;
         }

@@ -337,7 +337,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
           new PatchSetApproval.Key(
               psId,
               ctx.getUser().getAccountId(),
-              LabelId.SUBMIT),
+              LabelId.legacySubmit()),
               (short) 1, ctx.getWhen());
     byKey.put(submitter.getKey(), submitter);
     submitter.setValue((short) 1);
@@ -373,7 +373,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
     for (PatchSetApproval psa : normalized.unchanged()) {
-      if (includeUnchanged || psa.isSubmit()) {
+      if (includeUnchanged || psa.isLegacySubmit()) {
         logDebug("Adding submit label " + psa);
         update.putApprovalFor(
             psa.getAccountId(), psa.getLabel(), psa.getValue());

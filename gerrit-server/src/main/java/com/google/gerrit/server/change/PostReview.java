@@ -611,7 +611,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
           ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
-        if (a.isSubmit()) {
+        if (a.isLegacySubmit()) {
           continue;
         }
 

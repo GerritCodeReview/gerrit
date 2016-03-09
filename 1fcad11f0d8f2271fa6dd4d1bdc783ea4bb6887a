@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1457469001 -0800\nnonce AO+Zq7hGiSq7ThafTx6fbJtcNgNTLiA6RjqKYiqREemikfYpf5vJHl04OU8WrTLUynd2/4+6Vrz5\n\n0000000000000000000000000000000000000000 96b6c9d0b99a30d52388d5be4748af65c9a800a0 refs/for/master%topic\u003dnotedb-subm\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW3zZJAAoJEF/XxZqaEoiMkxUP/R/aYV7fmLGgcxWjnkRD1Z9b\nmnrzezEHr2PjUpoCnRN9XZTS80pxKGnZAPpRLky0mPliVfgX8gURGsh7UMpiEKPs\npjcsptgzj0RTS5U54Cc5R7sN4V053E2ogdBC1JV/9CDoknZ4/0hVOgw2c+pEoPIK\n/Y800cAk6kZtmdkRY/X78Nk8gCHM2FnteJOozma6qgb1rEhWKyNTo6aBEk1kPTuI\nGHgIze4Q7ACUyPi20hmRxKoOMky2/BHQWrtfav6k0slw1o3XGjuEWO5I/mgAX6bH\nBuQ/VzbsZxGKOROIUIyb4p1+i7374QoYbQU8AYfAmP1X2GEajgROI2b6/LEsQV67\nB//dXRfay/uHlvtVWKltasDx9MFj/7I32gQvCTPqAdubtKLNkDdAo9yNixrjEWl7\nnAi/V3Hm7IuSfJecJ5knajlHn3TVC5Yd8kpia43HXHfwRJrxLOYbcuey4WaU/YXG\nyjQsFTD6o+CwGVtVQnN33a++shYetvTjEzqX4tJCyiU044aaI99vwVJUMwLfSCok\nzvdT/SX2HhaiR2vH+NAogTzW+jgCjPy3ZtxhiBWXXG8Cs5O+qXiGY1WEbVM93zsF\nElEzqx5I9P3WXWiXUb89kfRMxNoUPlERo+Al/Yv93RNm95jJxU0/CG+3MlLkXuYl\njB9rYBpiyekygIyERvhc\n\u003d2mFJ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c9357a_56feb452",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-09T13:00:22Z",
+      "side": 1,
+      "message": "\"is\" or \"was\"?",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "1fcad11f0d8f2271fa6dd4d1bdc783ea4bb6887a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b79a8576_52641422",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-09T13:00:22Z",
+      "side": 1,
+      "message": "Maybe I didn\u0027t understand the commit message properly... but the returned instance here is still mutable, just that it is now a new instance every time this method is called.",
+      "revId": "1fcad11f0d8f2271fa6dd4d1bdc783ea4bb6887a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -91,10 +91,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsers,
+      ChangeNoteUtil changeNoteUtil,
       CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
       @Assisted Date when) {
-    super(migration, repoManager, ctl, serverIdent, anonymousCowardName, when);
+    super(migration, repoManager, ctl, serverIdent, anonymousCowardName,
+        changeNoteUtil, when);
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
     checkState(ctl.getUser().isIdentifiedUser(),
@@ -195,7 +197,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        ctl.getId(), rw.getObjectReader(), noteMap, true);
+        commentsUtil, ctl.getId(), rw.getObjectReader(), noteMap, true);
   }
 
   @Override

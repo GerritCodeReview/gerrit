@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -106,6 +107,12 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   @Inject
   protected AllUsersName allUsers;
 
+  @Inject
+  protected ChangeNoteUtil changeNoteUtil;
+
+  @Inject
+  protected CommentsInNotesUtil commentsUtil;
+
   private Injector injector;
   private String systemTimeZone;
 
@@ -137,6 +144,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         install(new GitModule());
         factory(NoteDbUpdateManager.Factory.class);
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
+        bind(String.class).annotatedWith(GerritServerId.class)
+            .toInstance("gerrit");
         bind(NotesMigration.class).toInstance(MIGRATION);
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
@@ -198,8 +207,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, MIGRATION, allUsers, c.getProject(), c)
-        .load();
+    return new ChangeNotes(repoManager, MIGRATION, allUsers, changeNoteUtil,
+        commentsUtil, c.getProject(), c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

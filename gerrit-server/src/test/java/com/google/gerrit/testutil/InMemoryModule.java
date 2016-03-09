@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.api.config.GerritServerIdProvider;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
@@ -151,8 +153,12 @@ public class InMemoryModule extends FactoryModule {
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);
     bind(String.class)
-      .annotatedWith(AnonymousCowardName.class)
-      .toProvider(AnonymousCowardNameProvider.class);
+        .annotatedWith(AnonymousCowardName.class)
+        .toProvider(AnonymousCowardNameProvider.class);
+    bind(String.class)
+        .annotatedWith(GerritServerId.class)
+        .toProvider(GerritServerIdProvider.class)
+        .in(SINGLETON);
     bind(AllProjectsName.class)
         .toProvider(AllProjectsNameProvider.class);
     bind(AllUsersName.class)

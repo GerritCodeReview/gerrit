@@ -14,20 +14,23 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.GerritServerId;
+import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 
 import java.util.Date;
 
 public class ChangeNoteUtil {
-  static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
-
   static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
@@ -57,28 +60,36 @@ public class ChangeNoteUtil {
     return r.toString();
   }
 
+  private final String serverId;
+
+  @Inject
+  ChangeNoteUtil(@GerritServerId String serverId) {
+    this.serverId = serverId;
+  }
+
   @VisibleForTesting
-  public static PersonIdent newIdent(Account author, Date when,
+  public PersonIdent newIdent(Account author, Date when,
       PersonIdent serverIdent, String anonymousCowardName) {
     return new PersonIdent(
         author.getName(anonymousCowardName),
-        author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
+        author.getId().get() + "@" + serverId,
         when, serverIdent.getTimeZone());
   }
 
-  public static Account.Id parseIdent(PersonIdent ident) {
+  public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
+      throws ConfigInvalidException {
     String email = ident.getEmailAddress();
     int at = email.indexOf('@');
     if (at >= 0) {
       String host = email.substring(at + 1, email.length());
-      Integer id = Ints.tryParse(email.substring(0, at));
-      if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
-        return new Account.Id(id);
+      if (host.equals(serverId)) {
+        Integer id = Ints.tryParse(email.substring(0, at));
+        if (id != null) {
+          return new Account.Id(id);
+        }
       }
     }
-    return null;
-  }
-
-  private ChangeNoteUtil() {
+    throw parseException(changeId, "invalid identity, expected <id>@%s: %s",
+        serverId, email);
   }
 }

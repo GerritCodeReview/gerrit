@@ -264,9 +264,6 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void reviewPatchSet(final PatchSet patchSet) throws Exception {
-    if (changeComment == null) {
-      changeComment = "";
-    }
     if (notify == null) {
       notify = NotifyHandling.ALL;
     }
@@ -285,22 +282,20 @@ public class ReviewCommand extends SshCommand {
     }
     review.labels.putAll(customLabels);
 
-    // If review labels are being applied, the comment will be included
-    // on the review note. We don't need to add it again on the abandon
-    // or restore comment.
-    if (!review.labels.isEmpty() && (abandonChange || restoreChange)) {
-      changeComment = null;
+    // We don't need to add the review comment when abandoning/restoring.
+    if (abandonChange || restoreChange) {
+      review.message = null;
     }
 
     try {
       if (abandonChange) {
         AbandonInput input = new AbandonInput();
-        input.message = changeComment;
+        input.message = Strings.emptyToNull(changeComment);
         applyReview(patchSet, review);
         changeApi(patchSet).abandon(input);
       } else if (restoreChange) {
         RestoreInput input = new RestoreInput();
-        input.message = changeComment;
+        input.message = Strings.emptyToNull(changeComment);
         changeApi(patchSet).restore(input);
         applyReview(patchSet, review);
       } else {

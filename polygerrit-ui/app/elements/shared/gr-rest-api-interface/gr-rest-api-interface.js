@@ -86,6 +86,10 @@
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },
 
+    getPrefs: function() {
+      return this._fetchSharedCacheURL('/accounts/self/preferences');
+    },
+
     _fetchSharedCacheURL: function(url) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];

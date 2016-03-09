@@ -53,6 +53,23 @@ limitations under the License.
       });
     });
 
+    test('cached results', function(done) {
+      var n = 0;
+      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {
+        return Promise.resolve(++n);
+      });
+      var promises = [];
+      promises.push(element._fetchSharedCacheURL('/foo'));
+      promises.push(element._fetchSharedCacheURL('/foo'));
+      promises.push(element._fetchSharedCacheURL('/foo'));
+
+      Promise.all(promises).then(function(results) {
+        assert.deepEqual(results, [1, 1, 1]);
+        fetchJSONStub.restore();
+        done();
+      });
+    });
+
     test('params are properly encoded', function() {
       var fetchStub = sinon.stub(window, 'fetch', function() {
         return Promise.resolve({ text: function() {

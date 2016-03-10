@@ -21,9 +21,10 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
@@ -79,7 +80,7 @@ limitations under the License.
       }
       .download,
       .patchSelectLabel {
-        margin-left: var(--default-horizontal-margin);
+        margin-left: 1em;
       }
       .header select {
         margin-left: .5em;
@@ -243,8 +244,13 @@ limitations under the License.
             <span class="changeStatus">[[_computeChangeStatus(_change, _patchNum)]]</span>
           </span>
           <span class="header-actions">
-            <gr-button class="reply" hidden$="[[!_loggedIn]]" hidden on-tap="_handleReplyTap">Reply</gr-button>
-            <gr-button link class="download" on-tap="_handleDownloadTap">Download</gr-button>
+            <gr-button
+                class="reply"
+                primary$="[[_computeReplyButtonHighlighted(_diffDrafts)]]"
+                hidden$="[[!_loggedIn]]"
+                hidden
+                on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+            <gr-button class="download" on-tap="_handleDownloadTap">Download</gr-button>
             <span>
               <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
               <select id="patchSetSelect" on-change="_handlePatchChange">
@@ -314,10 +320,12 @@ limitations under the License.
           patch-num="[[_patchNum]]"
           labels="[[_change.labels]]"
           permitted-labels="[[_change.permitted_labels]]"
+          drafts="[[_diffDrafts]]"
           on-send="_handleReplySent"
           on-cancel="_handleReplyCancel"
           hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
     </gr-overlay>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-view.js"></script>
 </dom-module>

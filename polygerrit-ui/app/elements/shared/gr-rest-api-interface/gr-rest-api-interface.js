@@ -96,7 +96,7 @@
       }
       // TODO(andybons): Periodic cache invalidation.
       if (this._cache[url] !== undefined) {
-        return this._cache[url];
+        return Promise.resolve(this._cache[url]);
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url).then(
         function(response) {

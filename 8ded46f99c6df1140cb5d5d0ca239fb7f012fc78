@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1718b12b_b56960ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:40:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f716bdff_d4ba1ce4",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1718b12b_55f9ec92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 10
@@ -60,6 +84,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "Logging and throwing is generally an anti-pattern (you generally get multiple slightly-different log entries for the same error, making diagnosing/debugging more difficult). Prefer logging only at the point where the exception handling terminates. If there is a justification for doing it here please document it.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 74
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_557e0cb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:40:07Z",
+      "side": 1,
+      "message": "Done, I also removed this anti pattern from SubmoduleOp, where it could be found a couple of times.",
+      "parentUuid": "1718b12b_55f9ec92",
       "range": {
         "startLine": 120,
         "startChar": 0,
@@ -141,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "f716bdff_b430403f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:40:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1718b12b_9535442f",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 11
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_34d0b015",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 10
@@ -152,6 +224,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "Performance question: Are these configs cached? Reloading on every change seems expensive.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_956ee402",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:40:07Z",
+      "side": 1,
+      "message": "good point, fixed!",
+      "parentUuid": "f716bdff_34d0b015",
       "range": {
         "startLine": 139,
         "startChar": 0,

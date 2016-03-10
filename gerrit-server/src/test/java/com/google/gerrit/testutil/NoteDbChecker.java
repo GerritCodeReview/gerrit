@@ -28,12 +28,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Singleton
 public class NoteDbChecker {
+  static final Logger log = LoggerFactory.getLogger(NoteDbChecker.class);
+
   private final Provider<ReviewDb> dbProvider;
   private final TestNotesMigration notesMigration;
   private final ChangeNotes.Factory notesFactory;
@@ -80,9 +86,24 @@ public class NoteDbChecker {
     List<String> all = new ArrayList<>();
     for (ChangeBundle expected : allExpected) {
       Change c = expected.getChange();
-      changeRebuilder.rebuild(db, c.getId());
-      ChangeBundle actual = ChangeBundle.fromNotes(
-          plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
+      try {
+        changeRebuilder.rebuild(db, c.getId());
+      } catch (RepositoryNotFoundException e) {
+        all.add("Repository not found for change, cannot convert: " + c);
+      }
+    }
+    for (ChangeBundle expected : allExpected) {
+      Change c = expected.getChange();
+      ChangeBundle actual;
+      try {
+        actual = ChangeBundle.fromNotes(
+            plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
+      } catch (Throwable t) {
+        String msg = "Error converting change: " + c;
+        all.add(msg);
+        log.error(msg, t);
+        continue;
+      }
       List<String> diff = expected.differencesFrom(actual);
       if (!diff.isEmpty()) {
         all.add("Differences between ReviewDb and NoteDb for " + c + ":");

@@ -73,6 +73,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     // TODO(dborowitz): Re-enable when ConsistencyChecker supports notedb.
+    // Note that we *do* want to enable these tests with GERRIT_CHECK_NOTEDB, as
+    // we need to be able to convert old, corrupt changes. However, those tests
+    // don't necessarily need to pass.
     assume().that(notesMigration.enabled()).isFalse();
     // Ignore client clone of project; repurpose as server-side TestRepository.
     testRepo = new TestRepository<>(

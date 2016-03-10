@@ -26,7 +26,6 @@ limitations under the License.
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
 
-<link rel="import" href="./shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -56,28 +55,24 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-ajax auto url="/config/server/version" last-response="{{version}}"></gr-ajax>
-    <gr-ajax id="diffPreferencesXHR"
-        url="/accounts/self/preferences.diff"
-        last-response="{{_diffPreferences}}"></gr-ajax>
     <gr-main-header></gr-main-header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
         <gr-change-list-view
             params="[[params]]"
             view-state="{{_viewState.changeListView}}"
-            logged-in="[[_computeLoggedIn(account)]]"></gr-change-list-view>
+            logged-in="[[_computeLoggedIn(_account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
         <gr-dashboard-view
-            account="[[account]]"
+            account="[[_account]]"
             params="[[params]]"
             view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
         <gr-change-view
             params="[[params]]"
-            server-config="[[config]]"
+            server-config="[[_serverConfig]]"
             view-state="{{_viewState.changeView}}"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
@@ -89,14 +84,14 @@ limitations under the License.
     </main>
     <footer role="contentinfo">
       Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>
-      ([[version]])
-      <span hidden$="[[!config.gerrit.report_bug_url]]">
+      ([[_version]])
+      <span hidden$="[[!_serverConfig.gerrit.report_bug_url]]">
         |
-        <a href$="[[config.gerrit.report_bug_url]]" target="_blank">
-          <span hidden$="[[!config.gerrit.report_bug_text]]">
-            [[config.gerrit.report_bug_text]]
+        <a href$="[[_serverConfig.gerrit.report_bug_url]]" target="_blank">
+          <span hidden$="[[!_serverConfig.gerrit.report_bug_text]]">
+            [[_serverConfig.gerrit.report_bug_text]]
           </span>
-          <span hidden$="[[config.gerrit.report_bug_text]]">Report Bug</span>
+          <span hidden$="[[_serverConfig.gerrit.report_bug_text]]">Report Bug</span>
         </a>
       </span>
       |

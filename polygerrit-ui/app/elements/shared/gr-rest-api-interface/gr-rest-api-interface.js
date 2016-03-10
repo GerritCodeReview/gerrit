@@ -141,6 +141,10 @@
           '/drafts');
     },
 
+    getAllDiffDrafts: function(changeNum) {
+      return this.fetchJSON('/changes/' + changeNum + '/drafts');
+    },
+
     _getDiffComments: function(changeNum, basePatchNum, patchNum, path,
         endpoint) {
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }

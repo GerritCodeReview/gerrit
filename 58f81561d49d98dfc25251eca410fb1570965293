@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_7f3fefbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-10T05:21:57Z",
+      "side": 1,
+      "message": "Done, but now we need to always create the change notes, because it\u0027s one of the arguments to PatchSetUtil.current even when not using change notes.",
+      "parentUuid": "77a2cdc0_0032c6ee",
+      "revId": "58f81561d49d98dfc25251eca410fb1570965293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_60a632d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 2

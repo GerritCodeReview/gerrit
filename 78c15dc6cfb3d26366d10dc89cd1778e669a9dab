@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1718b12b_951c24af",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1718b12b_b5e68002",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1718b12b_95eb84cc",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 9
@@ -37,6 +61,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "s/and //\ns/starts/starts with/\n\nWhat is the \"canonical server url\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_d4f5fca3",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1718b12b_95eb84cc",
       "range": {
         "startLine": 14,
         "startChar": 3,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "1718b12b_d5169c8a",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "The superproject is subscribed to the submodule, though the data flow is the other way round. Whenever you commit changes to the submodule, the superproject gets updated automatically. Reworded to:\n\n    When a commit in a project is merged, Gerrit checks\n    if any superproject is subscribed to the the project\n    and automatically updates the subscribers to the\n    submodule with a commit having the updated gitlinks.",
+      "parentUuid": "77a2cdc0_c0dcde8e",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1718b12b_d50cdc8f",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 9
@@ -83,6 +155,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "Other changes here capitalize only the first word of headers. Is there a standard? Please make consistent throughout.",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_14d81435",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1718b12b_d50cdc8f",
       "range": {
         "startLine": 20,
         "startChar": 7,
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "1718b12b_352c30e0",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done, though it is not the full submodule information that is\nexposed, just the commit messages and the sha1s (so the content is not exposed, technically speaking)",
+      "parentUuid": "f716bdff_b494c05e",
+      "range": {
+        "startLine": 59,
+        "startChar": 57,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_5fc78b0f",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 9
@@ -129,6 +249,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "s/whereas/where\n\nSpecify the allowable formats for the superproject (full url? \u003csuperproject_server\u003e/\u003csuperproject_name\u003e?)",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 74
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_152934d0",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "I\u0027ll add an `exact` before `project name`, I would think that is enough to point out that no url or other is recognized?",
+      "parentUuid": "57a5c9c5_5fc78b0f",
       "range": {
         "startLine": 74,
         "startChar": 0,
@@ -164,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "f716bdff_d40cdc8f",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f716bdff_9499c498",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 0
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_f49e387c",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 9
@@ -175,6 +343,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "s/Gerrit specific/Gerrit-specific/",
+      "range": {
+        "startLine": 102,
+        "startChar": 25,
+        "endLine": 102,
+        "endChar": 40
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_d5917c3c",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f716bdff_f49e387c",
       "range": {
         "startLine": 102,
         "startChar": 25,
@@ -256,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "f716bdff_74fce884",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f716bdff_74b34815",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 36
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_54b0cc06",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 9
@@ -267,6 +483,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "This should be defined before its first use.",
+      "range": {
+        "startLine": 180,
+        "startChar": 18,
+        "endLine": 180,
+        "endChar": 35
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_758188e9",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T22:11:50Z",
+      "side": 1,
+      "message": "I think a link to link:config-gerrit.html#gerrit.canonicalWebUrl[`gerrit.canonicalWebUrl`]\nwoudl do here, though I am not sure if this is actually correct nowadays. I think the documentation is out of sync here.",
+      "parentUuid": "f716bdff_54b0cc06",
       "range": {
         "startLine": 180,
         "startChar": 18,

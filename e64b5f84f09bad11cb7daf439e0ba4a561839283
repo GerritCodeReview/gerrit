@@ -71,6 +71,30 @@
       "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_b417a089",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T23:24:00Z",
+      "side": 1,
+      "message": "\u003e Can you check that the submodule entry doesn\u0027t exist?\n\nThat is what `hasSubmodule` does?\nI\u0027ll add another test for the use case of turning off the setting while having a submodule already.\n\nI am not sure if this is unusual, as the instructions in Gerrit how to add a submodule subscription do not use git commands, but rather talk about properties of the .gitmodules file (i.e. must have `branch` field and url set correctly), so at least I did not have the idea to use git for generating the submodule subscription, but edit the text file directly.",
+      "parentUuid": "1718b12b_f5111895",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 85
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

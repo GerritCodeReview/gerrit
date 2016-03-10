@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a5c9c5_5f8aebd9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T01:32:49Z",
+      "side": 1,
+      "message": "I would stub out the element above this and make attached an empty function. Then you can stub out _fetchPreferences() below.\n\nstub(\u0027gr-date-formatter\u0027, {\n  attached: function() {},\n});",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_ff789fa0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T01:32:49Z",
+      "side": 1,
+      "message": "s/quitely/quietly",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_8026d6ae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T01:32:49Z",
+      "side": 1,
+      "message": "JS should be within 80 chars.",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_9f8753d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T01:32:49Z",
+      "side": 1,
+      "message": "Does passing an error to done cause the test to fail? I can’t find that particular usage in the jasmine docs.",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_7f8dafef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T01:32:49Z",
+      "side": 1,
+      "message": "This is incorrect. null is a valid value for the cache. For instance, when the account call is made on a logged-out session, the response is cached as null. Urs made a fix in https://gerrit-review.googlesource.com/c/75635/ but this will most likely land before that.\n\nThe key is replacing return this._cache[url]; with return Promise.resolve(this._cache[url]);\n\nI would pull that and the regression test into this change and update the commit message.",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c9357a_99da3f2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-10T20:22:46Z",
+      "side": 1,
+      "message": "Bad rebase?",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 7
+      },
+      "revId": "fc1878c1d55d74da5fcc0c264029e960f4f211f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

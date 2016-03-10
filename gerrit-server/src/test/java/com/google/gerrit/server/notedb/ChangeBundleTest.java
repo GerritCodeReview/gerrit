@@ -518,9 +518,6 @@ public class ChangeBundleTest {
   private static void assertNoDiffs(ChangeBundle a, ChangeBundle b) {
     assertThat(a.differencesFrom(b)).isEmpty();
     assertThat(b.differencesFrom(a)).isEmpty();
-    assertThat(a).isEqualTo(b);
-    assertThat(b).isEqualTo(a);
-    assertThat(a.hashCode()).isEqualTo(b.hashCode());
   }
 
   private static void assertDiffs(ChangeBundle a, ChangeBundle b, String first,

@@ -198,6 +198,30 @@
       "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_744fc8af",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-10T23:07:31Z",
+      "side": 1,
+      "message": "\u003e Oh, I see what you mean. I sought, that when only draft comment is\n \u003e added in side-by-side screen, then this wouldn\u0027t trigger ETag\n \u003e invalidation and GET /changes/\u003cid\u003e/details should results in 304.\n \u003e But this is not the case, 200 is returned.\n\nYeah, such is our use of ETags unfortunately.\n\n \u003e Moreover, old UI always\n \u003e retrieve drafts to render the number of the comment per file in the\n \u003e file table. So that the old UI already does the same what this\n \u003e change is doing.\n\nRight, exactly.\n\n \u003e \u003e I have another proposal. We\u0027re already fetching drafts for the\n \u003e patch set you\u0027re viewing, in order to render the draft counts for\n \u003e each file in the change table. How about we replace getting the\n \u003e revision drafts with getting the change drafts.\n \u003e \n \u003e Why/how would this improve the situation, especially with  u[jk]*o\n \u003e sequences? I find myself always doing that because of broken\n \u003e keyboard navigation.\n\nIt would not improve the situation of having to make N calls on each \u0027u\u0027. I just meant it would allow Andy to implement the feature he\u0027s doing here without incurring an extra call. As in, reusing that request would allow us to use N calls, which is an \"improvement\" on N+1 calls :)",
+      "parentUuid": "37c9357a_f94b33a0",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 349,
+        "endChar": 6
+      },
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

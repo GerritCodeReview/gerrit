@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_601d1245",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T03:34:10Z",
+      "side": 1,
+      "message": "Tried naming this _config at first. Polymer was not happy. It must use it internally.",
+      "revId": "1f001f05bd2ab6e6fcb717b9d9bf750dde2a208a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

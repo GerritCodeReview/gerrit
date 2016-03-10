@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
@@ -1117,7 +1118,7 @@ public class MergeOp {
     logDebug("Adding submit label " + submit);
 
     db.patchSetApprovals().upsert(normalized.getNormalized());
-    db.patchSetApprovals().delete(normalized.deleted());
+    db.patchSetApprovals().update(zero(normalized.deleted()));
 
     try {
       return saveToBatch(control, update, normalized, timestamp);
@@ -1125,6 +1126,20 @@ public class MergeOp {
       throw new OrmException(e);
     }
   }
+
+  private static Iterable<PatchSetApproval> zero(
+      Iterable<PatchSetApproval> approvals) {
+    return Iterables.transform(approvals,
+        new Function<PatchSetApproval, PatchSetApproval>() {
+          @Override
+          public PatchSetApproval apply(PatchSetApproval in) {
+            PatchSetApproval copy = new PatchSetApproval(in.getPatchSetId(), in);
+            copy.setValue((short) 0);
+            return copy;
+          }
+        });
+  }
+
 
   private BatchMetaDataUpdate saveToBatch(ChangeControl ctl,
       ChangeUpdate callerUpdate, LabelNormalizer.Result normalized,

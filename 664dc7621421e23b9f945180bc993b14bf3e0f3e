@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a2cdc0_a030bae3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-10T01:17:09Z",
+      "side": 1,
+      "message": "nit missing newline",
+      "revId": "664dc7621421e23b9f945180bc993b14bf3e0f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_df7ddb8e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-10T01:17:09Z",
+      "side": 1,
+      "message": "oh wow, this is such a funny \"hack\" \n\nI wonder if this could just be handled in the UI via a hidden attribute or something",
+      "revId": "664dc7621421e23b9f945180bc993b14bf3e0f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

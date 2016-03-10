@@ -73,6 +73,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.muteCommonPathPrefixes).isEqualTo(
         d.muteCommonPathPrefixes);
     assertThat(o.signedOffBy).isNull();
+    assertThat(o.publishDraftCommentsOnPush).isNull();
     assertThat(o.reviewCategoryStrategy).isEqualTo(
         d.getReviewCategoryStrategy());
     assertThat(o.diffView).isEqualTo(d.getDiffView());
@@ -95,6 +96,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.legacycidInChangeTable ^= true;
     i.muteCommonPathPrefixes ^= true;
     i.signedOffBy ^= true;
+    i.publishDraftCommentsOnPush ^= true;
     i.reviewCategoryStrategy = ReviewCategoryStrategy.ABBREV;
     i.diffView = DiffView.UNIFIED_DIFF;
     i.my = new ArrayList<>();
@@ -120,6 +122,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.legacycidInChangeTable).isEqualTo(i.legacycidInChangeTable);
     assertThat(o.muteCommonPathPrefixes).isNull();
     assertThat(o.signedOffBy).isEqualTo(i.signedOffBy);
+    assertThat(o.publishDraftCommentsOnPush).isEqualTo(
+        i.publishDraftCommentsOnPush);
     assertThat(o.reviewCategoryStrategy).isEqualTo(
         i.getReviewCategoryStrategy());
     assertThat(o.diffView).isEqualTo(i.getDiffView());

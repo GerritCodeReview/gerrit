@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a5c9c5_bf2b377b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-10T06:02:44Z",
+      "side": 1,
+      "message": "Maybe we should just change the GWT UI too for consistency and \u0027cuz it\u0027s better?",
+      "revId": "1cf6672fac095254aa9339db0d5fca6665f2eb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

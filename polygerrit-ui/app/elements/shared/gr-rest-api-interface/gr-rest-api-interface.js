@@ -98,6 +98,12 @@
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },
 
+    getLoggedIn: function() {
+      return this.getAccount().then(function(account) {
+        return account != null;
+      });
+    },
+
     getPreferences: function() {
       return this._fetchSharedCacheURL('/accounts/self/preferences');
     },
@@ -143,38 +149,46 @@
           encodeURIComponent(path) + '/diff';
     },
 
-    getDiffComments: function(changeNum, basePatchNum, patchNum, path) {
-      return this._getDiffComments(changeNum, basePatchNum, patchNum, path,
-          '/comments');
+    getDiffComments: function(changeNum, opt_basePatchNum, opt_patchNum,
+        opt_path) {
+      return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
+          opt_patchNum, opt_path);
     },
 
-    getDiffDrafts: function(changeNum, basePatchNum, patchNum, path) {
-      return this._getDiffComments(changeNum, basePatchNum, patchNum, path,
-          '/drafts');
+    getDiffDrafts: function(changeNum, opt_basePatchNum, opt_patchNum,
+        opt_path) {
+      return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
+          opt_patchNum, opt_path);
     },
 
-    _getDiffComments: function(changeNum, basePatchNum, patchNum, path,
-        endpoint) {
+    _getDiffComments: function(changeNum, endpoint, opt_basePatchNum,
+        opt_patchNum, opt_path) {
+      if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
+        return this.fetchJSON(
+            this._getDiffCommentsFetchURL(changeNum, null, '/drafts'));
+      }
+
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
       function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
 
       var promises = [];
       var comments;
       var baseComments;
-      var url = this._getDiffCommentsFetchURL(changeNum, patchNum, endpoint);
+      var url =
+          this._getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum);
       promises.push(this.fetchJSON(url).then(function(response) {
-        comments = response[path] || [];
-        if (basePatchNum == PARENT_PATCH_NUM) {
+        comments = response[opt_path] || [];
+        if (opt_basePatchNum == PARENT_PATCH_NUM) {
           baseComments = comments.filter(onlyParent);
         }
         comments = comments.filter(withoutParent);
       }.bind(this)));
 
-      if (basePatchNum != PARENT_PATCH_NUM) {
-        var baseURL = this._getDiffCommentsFetchURL(changeNum, basePatchNum,
-            endpoint);
+      if (opt_basePatchNum != PARENT_PATCH_NUM) {
+        var baseURL = this._getDiffCommentsFetchURL(changeNum, endpoint,
+            opt_basePatchNum);
         promises.push(this.fetchJSON(baseURL).then(function(response) {
-          baseComments = (response[path] || []).filter(withoutParent);
+          baseComments = (response[opt_path] || []).filter(withoutParent);
         }));
       }
 
@@ -186,14 +200,14 @@
       });
     },
 
-    _getDiffCommentsFetchURL: function(changeNum, patchNum, endpoint) {
-      return this._changeBaseURL(changeNum, patchNum) + endpoint;
+    _getDiffCommentsFetchURL: function(changeNum, endpoint, opt_patchNum) {
+      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
-    _changeBaseURL: function(changeNum, patchNum) {
+    _changeBaseURL: function(changeNum, opt_patchNum) {
       var v = '/changes/' + changeNum;
-      if (patchNum) {
-        v += '/revisions/' + patchNum;
+      if (opt_patchNum) {
+        v += '/revisions/' + opt_patchNum;
       }
       return v;
     },

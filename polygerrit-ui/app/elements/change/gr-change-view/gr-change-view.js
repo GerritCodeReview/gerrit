@@ -49,6 +49,7 @@
       },
       _commitInfo: Object,
       _changeNum: String,
+      _diffDrafts: Object,
       _patchNum: String,
       _allPatchSets: {
         type: Array,
@@ -66,6 +67,11 @@
         type: Function,
         value: function() { return this._handleBodyScroll.bind(this); },
       },
+      _replyButtonLabel: {
+        type: String,
+        value: 'Reply',
+        computed: '_computeReplyButtonLabel(_diffDrafts)',
+      },
     },
 
     behaviors: [
@@ -74,13 +80,14 @@
     ],
 
     ready: function() {
-      app.accountReady.then(function() {
-        this._loggedIn = app.loggedIn;
-      }.bind(this));
       this._headerEl = this.$$('.header');
     },
 
     attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
+        this._loggedIn = loggedIn;
+      }.bind(this));
+
       window.addEventListener('scroll', this._boundScrollHandler);
     },
 
@@ -145,9 +152,6 @@
     },
 
     _handleReplyOverlayOpen: function(e) {
-      this.$.replyDialog.reload().then(function() {
-        this.async(function() { this.$.replyOverlay.center() }, 1);
-      }.bind(this));
       this.$.replyDialog.focus();
     },
 
@@ -186,8 +190,8 @@
           }
         }.bind(this), 1);
 
-        app.accountReady.then(function() {
-          if (!this._loggedIn) { return; }
+        this._getLoggedIn().then(function(loggedIn) {
+          if (!loggedIn) { return; }
 
           if (this.viewState.showReplyDialog) {
             this.$.replyOverlay.open();
@@ -301,6 +305,23 @@
       return result;
     },
 
+    _computeReplyButtonHighlighted: function(drafts) {
+      return Object.keys(drafts || {}).length > 0;
+    },
+
+    _computeReplyButtonLabel: function(drafts) {
+      drafts = drafts || {};
+      var draftCount = Object.keys(drafts).reduce(function(count, file) {
+        return count + drafts[file].length;
+      }, 0);
+
+      var label = 'Reply';
+      if (draftCount > 0) {
+        label += ' (' + draftCount + ')';
+      }
+      return label;
+    },
+
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
@@ -322,9 +343,34 @@
       page.show(this.changePath(this._changeNum));
     },
 
+    _getDiffDrafts: function() {
+      return this.$.restAPI.getDiffDrafts(this._changeNum).then(
+          function(drafts) { return this._diffDrafts = drafts; }.bind(this));
+    },
+
+    _getLoggedIn: function() {
+      return this.$.restAPI.getLoggedIn();
+    },
+
+    _reloadDiffDrafts: function() {
+      this._diffDrafts = {};
+      this._getDiffDrafts().then(function() {
+        if (this.$.replyOverlay.opened) {
+          this.async(function() { this.$.replyOverlay.center(); }, 1);
+        }
+      }.bind(this));
+    },
+
     _reload: function() {
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        this._reloadDiffDrafts();
+      }.bind(this));
+
       var detailCompletes = this.$.detailXHR.generateRequest().completes;
       this.$.commentsXHR.generateRequest();
+
       var reloadPatchNumDependentResources = function() {
         return Promise.all([
           this.$.commitInfoXHR.generateRequest().completes,

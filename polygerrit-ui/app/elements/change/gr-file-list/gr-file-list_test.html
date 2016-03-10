@@ -248,24 +248,24 @@ limitations under the License.
         ],
       };
       assert.equal(
-          element._computeCommentsString(comments, '1', '/COMMIT_MSG'),
+          element._computeCountString(comments, '1', '/COMMIT_MSG', 'comment'),
           '2 comments');
       assert.equal(
-          element._computeCommentsString(comments, '1', 'myfile.txt'),
+          element._computeCountString(comments, '1', 'myfile.txt', 'comment'),
           '1 comment');
       assert.equal(
-          element._computeCommentsString(comments, '1',
-              'file_added_in_rev2.txt'),
+          element._computeCountString(comments, '1',
+              'file_added_in_rev2.txt', 'comment'),
           '');
       assert.equal(
-          element._computeCommentsString(comments, '2', '/COMMIT_MSG'),
+          element._computeCountString(comments, '2', '/COMMIT_MSG', 'comment'),
           '1 comment');
       assert.equal(
-          element._computeCommentsString(comments, '2', 'myfile.txt'),
+          element._computeCountString(comments, '2', 'myfile.txt', 'comment'),
           '2 comments');
       assert.equal(
-          element._computeCommentsString(comments, '2',
-              'file_added_in_rev2.txt'),
+          element._computeCountString(comments, '2',
+              'file_added_in_rev2.txt', 'comment'),
           '');
     });
 

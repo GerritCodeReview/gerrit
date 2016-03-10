@@ -23,6 +23,7 @@
       patchNum: String,
       changeNum: String,
       comments: Object,
+      drafts: Object,
       files: Array,
       selectedIndex: {
         type: Number,
@@ -32,12 +33,10 @@
         type: Object,
         value: function() { return document.body; },
       },
-
       _loggedIn: {
         type: Boolean,
         value: false,
       },
-      _drafts: Object,
       _reviewed: {
         type: Array,
         value: function() { return []; },
@@ -62,7 +61,6 @@
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
           if (!app.loggedIn) { return; }
-          this.$.draftsXHR.generateRequest();
           this._reviewedRequestPromise =
               this.$.reviewedXHR.generateRequest().completes;
         }.bind(this)),
@@ -74,13 +72,22 @@
     },
 
     _computeCommentsString: function(comments, patchNum, path) {
+      return this._computeCountString(comments, patchNum, path, 'comment');
+    },
+
+    _computeDraftsString: function(drafts, patchNum, path) {
+      return this._computeCountString(drafts, patchNum, path, 'draft');
+    },
+
+    _computeCountString: function(comments, patchNum, path, noun) {
+      if (!comments) { return ''; }
+
       var patchComments = (comments[path] || []).filter(function(c) {
         return c.patch_set == patchNum;
       });
       var num = patchComments.length;
       if (num == 0) { return ''; }
-      if (num == 1) { return '1 comment'; }
-      if (num > 1) { return num + ' comments'; }
+      return num + ' ' + noun + (num > 1 ? 's' : '');
     },
 
     _computeReviewedURL: function(changeNum, patchNum) {
@@ -109,17 +116,6 @@
             'and contact the PolyGerrit team for assistance.');
         throw err;
       }.bind(this));
-    },
-
-    _computeDraftsURL: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/drafts';
-    },
-
-    _computeDraftsString: function(drafts, path) {
-      var num = (drafts[path] || []).length;
-      if (num == 0) { return ''; }
-      if (num == 1) { return '1 draft'; }
-      if (num > 1) { return num + ' drafts'; }
     },
 
     _handleResponse: function(e, req) {

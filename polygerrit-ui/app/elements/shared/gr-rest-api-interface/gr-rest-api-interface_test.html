@@ -129,7 +129,7 @@ limitations under the License.
           ],
         });
       });
-      element._getDiffComments('42', 'PARENT', 1, 'sieve.go', '').then(
+      element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
         function(obj) {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {
@@ -178,7 +178,7 @@ limitations under the License.
           });
         }
       });
-      element._getDiffComments('42', 1, 2, 'sieve.go', '').then(
+      element._getDiffComments('42', '', 1, 2, 'sieve.go').then(
         function(obj) {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {

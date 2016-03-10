@@ -164,6 +164,30 @@
       "revId": "391a28c9c77e636f1df74fbf6e5a07692e135b64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37c9357a_f66c2048",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-10T17:18:50Z",
+      "side": 1,
+      "message": "Makes sense to me.",
+      "parentUuid": "1718b12b_15cdb47f",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 18,
+        "endChar": 51
+      },
+      "revId": "391a28c9c77e636f1df74fbf6e5a07692e135b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

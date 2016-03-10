@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a5c9c5_bf59f736",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-10T02:06:40Z",
+      "side": 1,
+      "message": "can we add a test for if someone pushes a promise into the cache that things still work?",
+      "revId": "6492647edb0b43a96d8fd9ec83e4aaad29e4ff24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

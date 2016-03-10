@@ -181,12 +181,13 @@ public class ChangeRebuilder {
     }
 
     for (PatchSetApproval psa : db.patchSetApprovals().byChange(changeId)) {
-      events.add(new ApprovalEvent(psa));
+      events.add(new ApprovalEvent(psa, change.getCreatedOn()));
     }
 
     Change notedbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : db.changeMessages().byChange(changeId)) {
-      events.add(new ChangeMessageEvent(msg, notedbChange));
+      events.add(
+          new ChangeMessageEvent(msg, notedbChange, change.getCreatedOn()));
     }
 
     Collections.sort(events, EVENT_ORDER);
@@ -296,7 +297,8 @@ public class ChangeRebuilder {
 
       Timestamp commitTime =
           new Timestamp(commit.getCommitterIdent().getWhen().getTime());
-      events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags));
+      events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags,
+            change.getCreatedOn()));
     }
     return events;
   }
@@ -339,6 +341,7 @@ public class ChangeRebuilder {
     @Override
     public int compare(Event a, Event b) {
       return ComparisonChain.start()
+          .compareTrueFirst(a.predatesChange, b.predatesChange)
           .compare(a.when, b.when)
           .compare(a.who.get(), b.who.get())
           .compare(a.psId.get(), b.psId.get())
@@ -353,11 +356,15 @@ public class ChangeRebuilder {
     final PatchSet.Id psId;
     final Account.Id who;
     final Timestamp when;
+    final boolean predatesChange;
 
-    protected Event(PatchSet.Id psId, Account.Id who, Timestamp when) {
+    protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
+        Timestamp changeCreatedOn) {
       this.psId = psId;
       this.who = who;
-      this.when = when;
+      // Truncate timestamps at the change's createdOn timestamp.
+      predatesChange = when.before(changeCreatedOn);
+      this.when = predatesChange ? changeCreatedOn : when;
     }
 
     protected void checkUpdate(AbstractChangeUpdate update) {
@@ -472,8 +479,9 @@ public class ChangeRebuilder {
   private static class ApprovalEvent extends Event {
     private PatchSetApproval psa;
 
-    ApprovalEvent(PatchSetApproval psa) {
-      super(psa.getPatchSetId(), psa.getAccountId(), psa.getGranted());
+    ApprovalEvent(PatchSetApproval psa, Timestamp changeCreatedOn) {
+      super(psa.getPatchSetId(), psa.getAccountId(), psa.getGranted(),
+          changeCreatedOn);
       this.psa = psa;
     }
 
@@ -495,7 +503,8 @@ public class ChangeRebuilder {
     private final RevWalk rw;
 
     PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
-      super(ps.getId(), ps.getUploader(), ps.getCreatedOn());
+      super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
+          change.getCreatedOn());
       this.change = change;
       this.ps = ps;
       this.rw = rw;
@@ -552,7 +561,8 @@ public class ChangeRebuilder {
 
     PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
         PatchListCache cache) {
-      super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(), c.getWrittenOn());
+      super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(),
+          c.getWrittenOn(), change.getCreatedOn());
       this.c = c;
       this.change = change;
       this.ps = ps;
@@ -585,8 +595,8 @@ public class ChangeRebuilder {
     private final Set<String> hashtags;
 
     HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
-        Set<String> hashtags) {
-      super(psId, who, when);
+        Set<String> hashtags, Timestamp changeCreatdOn) {
+      super(psId, who, when, changeCreatdOn);
       this.hashtags = hashtags;
     }
 
@@ -619,9 +629,10 @@ public class ChangeRebuilder {
     private final ChangeMessage message;
     private final Change notedbChange;
 
-    ChangeMessageEvent(ChangeMessage message, Change notedbChange) {
+    ChangeMessageEvent(ChangeMessage message, Change notedbChange,
+        Timestamp changeCreatedOn) {
       super(message.getPatchSetId(), message.getAuthor(),
-          message.getWrittenOn());
+          message.getWrittenOn(), changeCreatedOn);
       this.message = message;
       this.notedbChange = notedbChange;
     }
@@ -684,11 +695,7 @@ public class ChangeRebuilder {
 
     FinalUpdatesEvent(Change change, Change notedbChange) {
       super(change.currentPatchSetId(), change.getOwner(),
-          // TODO(dborowitz): This should maybe be a synthetic timestamp just
-          // after the actual last update in the history. On the one hand using
-          // the commit updated time is reasonable, but on the other it might be
-          // non-monotonic, and who knows what would break then.
-          change.getLastUpdatedOn());
+          change.getLastUpdatedOn(), change.getCreatedOn());
       this.change = change;
       this.notedbChange = notedbChange;
     }

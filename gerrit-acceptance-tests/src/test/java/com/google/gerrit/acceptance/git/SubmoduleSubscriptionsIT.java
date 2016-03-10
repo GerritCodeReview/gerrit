@@ -29,6 +29,17 @@ import org.junit.Test;
 public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
+  @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")
+  public void testSubscriptionWithoutServerSetting() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    pushChangeTo(subRepo, "master");
+    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+  }
+
+  @Test
   public void testSubscriptionToEmptyRepo() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -76,7 +87,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
-
   public void testSubmoduleCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");

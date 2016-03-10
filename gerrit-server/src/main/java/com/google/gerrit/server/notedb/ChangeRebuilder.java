@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
@@ -73,13 +74,26 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChangeRebuilder {
-  private static final long TS_WINDOW_MS =
-      TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS);
+  /**
+   * The maximum amount of time between the ReviewDb timestamp of the first and
+   * last events batched together into a single NoteDb update.
+   * <p>
+   * Used to account for the fact that different records with their own
+   * timestamps (e.g. {@link PatchSetApproval} and {@link ChangeMessage})
+   * historically didn't necessarily use the same timestamp, and tended to call
+   * {@code System.currentTimeMillis()} independently.
+   */
+  static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
+
+  /**
+   * The maximum amount of time between two consecutive events to consider them
+   * to be in the same batch.
+   */
+  private static final long MAX_DELTA_MS = SECONDS.toMillis(1);
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final GitRepositoryManager repoManager;
@@ -350,7 +364,7 @@ public class ChangeRebuilder {
       checkState(Objects.equals(update.getPatchSetId(), psId),
           "cannot apply event for %s to update for %s",
           update.getPatchSetId(), psId);
-      checkState(when.getTime() - update.getWhen().getTime() <= TS_WINDOW_MS,
+      checkState(when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
           "event at %s outside update window starting at %s",
           when, update.getWhen());
       checkState(Objects.equals(update.getUser().getAccountId(), who),
@@ -378,9 +392,6 @@ public class ChangeRebuilder {
 
   private class EventList<E extends Event> extends ArrayList<E> {
     private static final long serialVersionUID = 1L;
-
-    private static final long MAX_DELTA_MS = 1000;
-    private static final long MAX_WINDOW_MS = 5000;
 
     private E getLast() {
       return get(size() - 1);

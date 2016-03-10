@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "f716bdff_74e508f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-10T21:46:51Z",
+      "side": 1,
+      "message": "instead of an {} do we want [] here?",
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_5523aced",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-10T21:46:51Z",
+      "side": 1,
+      "message": "a reduce might be nice here\n\nObject.keys(drafts).reduce(function(prev, curr) {..}, 0)",
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_54e28cea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-10T21:46:51Z",
+      "side": 1,
+      "message": "I also think it would be nice to make a helper fn that was something like.. getDrafts so you could do ... this.getDrafts().length",
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37c9357a_39368b3a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5

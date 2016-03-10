@@ -477,24 +477,6 @@ public class ChangeBundle {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof ChangeBundle)) {
-      return false;
-    }
-    return differencesFrom((ChangeBundle) o).isEmpty();
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        change.getId(),
-        normalizeChangeMessages(),
-        patchSets.keySet(),
-        patchSetApprovals.keySet(),
-        patchLineComments.keySet());
-  }
-
-  @Override
   public String toString() {
     return getClass().getSimpleName() + "{id=" + change.getId()
         + ", ChangeMessage[" + changeMessages.size() + "]"

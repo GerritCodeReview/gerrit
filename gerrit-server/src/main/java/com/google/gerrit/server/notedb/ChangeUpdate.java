@@ -116,7 +116,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private List<PatchLineComment> comments;
   private String topic;
-  private ObjectId commit;
+  private String commit;
   private Set<String> hashtags;
   private String changeMessage;
   private PatchSetState psState;
@@ -267,7 +267,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @VisibleForTesting
   ObjectId getCommit() {
-    return commit;
+    return ObjectId.fromString(commit);
   }
 
   public void setChangeMessage(String changeMessage) {
@@ -327,8 +327,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       throws IOException {
     RevCommit commit = rw.parseCommit(id);
     rw.parseBody(commit);
-    this.commit = commit;
+    this.commit = commit.name();
     subject = commit.getShortMessage();
+    this.pushCert = pushCert;
+  }
+
+  /**
+   * Set the revision without depending on the commit being present in the
+   * repository; should only be used for converting old corrupt commits.
+   */
+  public void setRevisionForMissingCommit(String id, String pushCert) {
+    commit = id;
     this.pushCert = pushCert;
   }
 
@@ -368,7 +377,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
     if (pushCert != null) {
       checkState(commit != null);
-      cache.get(new RevId(commit.name())).setPushCertificate(pushCert);
+      cache.get(new RevId(commit)).setPushCertificate(pushCert);
     }
     Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
     checkComments(rnm.revisionNotes, builders);
@@ -489,7 +498,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (commit != null) {
-      addFooter(msg, FOOTER_COMMIT, commit.name());
+      addFooter(msg, FOOTER_COMMIT, commit);
     }
 
     Joiner comma = Joiner.on(',');

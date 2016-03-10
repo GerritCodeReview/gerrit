@@ -57,6 +57,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -515,11 +517,29 @@ public class ChangeRebuilder {
       } else {
         update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
       }
-      update.setCommit(rw, ObjectId.fromString(ps.getRevision().get()),
-          ps.getPushCertificate());
+      setRevision(update, ps);
       update.setGroups(ps.getGroups());
       if (ps.isDraft()) {
         update.setPatchSetState(PatchSetState.DRAFT);
+      }
+    }
+
+    private void setRevision(ChangeUpdate update, PatchSet ps)
+        throws IOException {
+      String rev = ps.getRevision().get();
+      String cert = ps.getPushCertificate();
+      ObjectId id;
+      try {
+        id = ObjectId.fromString(rev);
+      } catch (InvalidObjectIdException e) {
+        update.setRevisionForMissingCommit(rev, cert);
+        return;
+      }
+      try {
+        update.setCommit(rw, id, cert);
+      } catch (MissingObjectException e) {
+        update.setRevisionForMissingCommit(rev, cert);
+        return;
       }
     }
   }

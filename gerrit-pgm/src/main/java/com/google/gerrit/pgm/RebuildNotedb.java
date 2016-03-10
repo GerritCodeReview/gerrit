@@ -152,6 +152,9 @@ public class RebuildNotedb extends SiteProgram {
               mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
           for (Change.Id id : changesByProject.get(project)) {
+            // TODO(dborowitz): This can fail if the project no longer exists.
+            // We might not want to just skip conversion of those changes, and
+            // instead move them somewhere like a special lost+found repo.
             ListenableFuture<?> future = rebuilder.rebuildAsync(id, executor);
             futures.add(future);
             future.addListener(

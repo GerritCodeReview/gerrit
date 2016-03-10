@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
@@ -220,7 +221,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
 
-    private final EventDispatcher dispatcher;
+    private DynamicItem<EventDispatcher> dispatcher;
 
     /**
      * Create a new ChangeHookRunner.
@@ -240,7 +241,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       ProjectCache projectCache,
       AccountCache accountCache,
       EventFactory eventFactory,
-      EventDispatcher dispatcher) {
+      DynamicItem<EventDispatcher> dispatcher) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -334,7 +335,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.projectName = project.get();
       event.headName = headName;
 
-      dispatcher.postEvent(project, event);
+      dispatcher.get().postEvent(project, event);
 
       if (!projectCreatedHook.isPresent()) {
         return;
@@ -359,7 +360,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.uploader = accountAttributeSupplier(uploader);
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!patchsetCreatedHook.isPresent()) {
         return;
@@ -396,7 +397,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.uploader = accountAttributeSupplier(uploader);
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!draftPublishedHook.isPresent()) {
         return;
@@ -448,7 +449,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
             }
           });
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!commentAddedHook.isPresent()) {
         return;
@@ -492,7 +493,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.newRev = mergeResultRev;
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!changeMergedHook.isPresent()) {
         return;
@@ -527,7 +528,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.reason = reason;
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!mergeFailedHook.isPresent()) {
         return;
@@ -562,7 +563,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.reason = reason;
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!changeAbandonedHook.isPresent()) {
         return;
@@ -597,7 +598,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.reason = reason;
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!changeRestoredHook.isPresent()) {
         return;
@@ -643,7 +644,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
             }
           });
 
-      dispatcher.postEvent(refName, event);
+      dispatcher.get().postEvent(refName, event);
 
       if (!refUpdatedHook.isPresent()) {
         return;
@@ -672,7 +673,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.reviewer = accountAttributeSupplier(account);
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!reviewerAddedHook.isPresent()) {
         return;
@@ -702,7 +703,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.changer = accountAttributeSupplier(account);
       event.oldTopic = oldTopic;
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!topicChangedHook.isPresent()) {
         return;
@@ -743,7 +744,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       event.added = hashtagArray(added);
       event.removed = hashtagArray(removed);
 
-      dispatcher.postEvent(change, event, db);
+      dispatcher.get().postEvent(change, event, db);
 
       if (!hashtagsChangedHook.isPresent()) {
         return;

@@ -65,8 +65,11 @@ limitations under the License.
 
       Promise.all(promises).then(function(results) {
         assert.deepEqual(results, [1, 1, 1]);
-        fetchJSONStub.restore();
-        done();
+         element._fetchSharedCacheURL('/foo').then(function(foo) {
+          assert.equal(foo, 1);
+          fetchJSONStub.restore();
+          done();
+        });
       });
     });
 

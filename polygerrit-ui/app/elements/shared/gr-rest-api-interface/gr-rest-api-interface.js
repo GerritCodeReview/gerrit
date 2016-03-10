@@ -131,14 +131,24 @@
           encodeURIComponent(path) + '/diff';
     },
 
-    getDiffComments: function(changeNum, basePatchNum, patchNum, path) {
-      return this._getDiffComments(changeNum, basePatchNum, patchNum, path,
-          '/comments');
+    getDiffComments: function(changeNum, opt_basePatchNum, opt_patchNum,
+        opt_path) {
+      if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
+        return this.fetchJSON(
+            this._getDiffCommentsFetchURL(changeNum, null, '/comments'));
+      }
+      return this._getDiffComments(changeNum, opt_basePatchNum, opt_patchNum,
+          opt_path, '/comments');
     },
 
-    getDiffDrafts: function(changeNum, basePatchNum, patchNum, path) {
-      return this._getDiffComments(changeNum, basePatchNum, patchNum, path,
-          '/drafts');
+    getDiffDrafts: function(changeNum, opt_basePatchNum, opt_patchNum,
+        opt_path) {
+      if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
+        return this.fetchJSON(
+            this._getDiffCommentsFetchURL(changeNum, null, '/drafts'));
+      }
+      return this._getDiffComments(changeNum, opt_basePatchNum, opt_patchNum,
+          opt_path, '/drafts');
     },
 
     _getDiffComments: function(changeNum, basePatchNum, patchNum, path,

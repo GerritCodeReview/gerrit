@@ -294,7 +294,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
       OrmException {
     ChangeSet cs =
         mergeSuperSet.completeChangeSet(db, change.change(), user(admin));
-    assertThat(submit.isPatchSetMergeable(cs)).isEqualTo(expected);
+    assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }
 
   private void assertMergeable(ChangeData change, boolean expected)

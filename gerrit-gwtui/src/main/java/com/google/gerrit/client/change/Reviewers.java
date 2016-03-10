@@ -142,6 +142,7 @@ public class Reviewers extends Composite {
     addReviewerIcon.setVisible(true);
     UIObject.setVisible(form, false);
     suggestBox.setFocus(false);
+    suggestBox.setText("");
   }
 
   private void addReviewer(final String reviewer, boolean confirmed) {

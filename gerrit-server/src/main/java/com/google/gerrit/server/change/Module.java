@@ -26,6 +26,7 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
 
@@ -72,7 +73,7 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "index").to(Index.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
-    get(CHANGE_KIND, "suggest_reviewers").to(SuggestReviewers.class);
+    get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
     get(REVIEWER_KIND).to(GetReviewer.class);
     delete(REVIEWER_KIND).to(DeleteReviewer.class);

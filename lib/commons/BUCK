@@ -10,8 +10,8 @@ maven_jar(
 
 maven_jar(
   name = 'collections',
-  id = 'commons-collections:commons-collections:3.2.1',
-  sha1 = '761ea405b9b37ced573d2df0d1e3a4e0f9edc668',
+  id = 'commons-collections:commons-collections:3.2.2',
+  sha1 = '8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5',
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
   attach_source = False,

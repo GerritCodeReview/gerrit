@@ -1,4 +1,281 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1457469162 -0800\nnonce AO+Zq7jZ/c1yMDO4qWUh0diKDSLr+BE0GzAkLNfSrQOyGlPjA+sCqzwOV/VNH2aLwXip9MPmVE89\n\n0000000000000000000000000000000000000000 78c15dc6cfb3d26366d10dc89cd1778e669a9dab refs/drafts/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW3zbqAAoJEGt7+xNJsB0bGJUH/iL6rNe90L2iX7djvwfRecjp\n9owJgKkWG+OtULUbZfWpBH12Zmw5diFRlNu/CfZ2vV8O2l1VpyUCAJwFChx7bxI7\nnosezTMPuQUunZWDJFAdSl9ke+nm7RS3h222Enuc754pNgIW5CxFKjEQcKBalOZB\nZNZUvBtegr9IhpgM/WPMLonHbT+kGKhwzEO0IkXWU26zYUhXjDidHxuvbPl68vEd\n5PKCadtH8xIO03H1YRY3cmYSRuG+DdISQM6R8ftb859HCvjWc6xpnB3qOI1WMO4d\nY//A371KSp/n0k+/jEevnQqszlnfciaEs/zuUiOVEAgNSg/dS2txYs12X+t96rg\u003d\n\u003d+Gsq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1718b12b_b5e68002",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "s/should/should:",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_95eb84cc",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "s/and //\ns/starts/starts with/\n\nWhat is the \"canonical server url\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_c0dcde8e",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "The subscription goes from superproject to subproject, doesn\u0027t it? This makes it sound like it goes the other way.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_d50cdc8f",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Other changes here capitalize only the first word of headers. Is there a standard? Please make consistent throughout.",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_b494c05e",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "s/some of //",
+      "range": {
+        "startLine": 59,
+        "startChar": 57,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_5fc78b0f",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "s/whereas/where\n\nSpecify the allowable formats for the superproject (full url? \u003csuperproject_server\u003e/\u003csuperproject_name\u003e?)",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 74
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_9499c498",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "I think what you added immediately above explains this, so you can drop it.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 0
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_f49e387c",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "s/Gerrit specific/Gerrit-specific/",
+      "range": {
+        "startLine": 102,
+        "startChar": 25,
+        "endLine": 102,
+        "endChar": 40
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_d4a33cc8",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "s/if any/to see if any/",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 6
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_34a9d0a9",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Kind of vague, I think it can be dropped or made more specific.",
+      "range": {
+        "startLine": 123,
+        "startChar": 39,
+        "endLine": 123,
+        "endChar": 62
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_74b34815",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "This section is a good description of the feature. Moving it /merging it with the \"Description\" section above will make the document flow better.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 36
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_54b0cc06",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "This should be defined before its first use.",
+      "range": {
+        "startLine": 180,
+        "startChar": 18,
+        "endLine": 180,
+        "endChar": 35
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

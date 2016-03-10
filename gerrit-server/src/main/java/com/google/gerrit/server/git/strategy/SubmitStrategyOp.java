@@ -361,8 +361,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     PatchSet.Id psId = update.getPatchSetId();
     ctx.getDb().patchSetApprovals().upsert(
         convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().delete(
-        convertPatchSet(normalized.deleted(), psId));
+    ctx.getDb().patchSetApprovals().update(
+        zero(convertPatchSet(normalized.deleted(), psId)));
     for (PatchSetApproval psa : normalized.updated()) {
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
     }
@@ -398,6 +398,19 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private static Iterable<PatchSetApproval> convertPatchSet(
       Iterable<PatchSetApproval> approvals, PatchSet.Id psId) {
     return Iterables.transform(approvals, convertPatchSet(psId));
+  }
+
+  private static Iterable<PatchSetApproval> zero(
+      Iterable<PatchSetApproval> approvals) {
+    return Iterables.transform(approvals,
+        new Function<PatchSetApproval, PatchSetApproval>() {
+          @Override
+          public PatchSetApproval apply(PatchSetApproval in) {
+            PatchSetApproval copy = new PatchSetApproval(in.getPatchSetId(), in);
+            copy.setValue((short) 0);
+            return copy;
+          }
+        });
   }
 
   private String getByAccountName() {

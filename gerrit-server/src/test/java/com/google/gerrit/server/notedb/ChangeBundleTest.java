@@ -77,7 +77,9 @@ public class ChangeBundleTest {
     systemTimeZoneProperty = System.setProperty("user.timezone", tz);
     systemTimeZone = TimeZone.getDefault();
     TimeZone.setDefault(TimeZone.getTimeZone(tz));
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    long maxMs = ChangeRebuilder.MAX_WINDOW_MS;
+    assertThat(maxMs).isGreaterThan(1000L);
+    TestTimeUtil.resetWithClockStep(maxMs * 2, MILLISECONDS);
     project = new Project.NameKey("project");
     accountId = new Account.Id(100);
   }
@@ -89,8 +91,14 @@ public class ChangeBundleTest {
     TimeZone.setDefault(systemTimeZone);
   }
 
-  private void subSecondResolution() {
-    TestTimeUtil.setClockStep(100, MILLISECONDS);
+  private void superWindowResolution() {
+    TestTimeUtil.setClockStep(
+        ChangeRebuilder.MAX_WINDOW_MS * 2, MILLISECONDS);
+    TimeUtil.nowTs();
+  }
+
+  private void subWindowResolution() {
+    TestTimeUtil.setClockStep(1, SECONDS);
     TimeUtil.nowTs();
   }
 
@@ -108,9 +116,9 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "changeId differs for Changes: {" + id1 + "} != {" + id2 + "}",
         "createdOn differs for Changes:"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.0}",
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}",
         "lastUpdatedOn differs for Changes:"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.0}");
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}");
   }
 
   @Test
@@ -131,10 +139,10 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffChangesMixedSourcesRoundsTimestamp() throws Exception {
+  public void diffChangesMixedSourcesAllowsSlop() throws Exception {
+    subWindowResolution();
     Change c1 = TestChanges.newChange(
         new Project.NameKey("project"), new Account.Id(100));
-    subSecondResolution();
     Change c2 = clone(c1);
     c2.setCreatedOn(TimeUtil.nowTs());
     c2.setLastUpdatedOn(TimeUtil.nowTs());
@@ -146,20 +154,31 @@ public class ChangeBundleTest {
         approvals(), comments(), REVIEW_DB);
     assertDiffs(b1, b2,
         "createdOn differs for Change.Id " + c1.getId() + ":"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.1}",
+            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:02.0}",
         "lastUpdatedOn differs for Change.Id " + c1.getId() + ":"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.2}");
+            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:03.0}");
 
-    // One NoteDb, timestamp is rounded.
+    // One NoteDb, slop is allowed.
     b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
         comments(), NOTE_DB);
     b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
         comments(), REVIEW_DB);
-    assertDiffs(b1, b2,
-        "createdOn differs for Change.Id " + c1.getId() + ":"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.0}",
-        "lastUpdatedOn differs for Change.Id " + c1.getId() + ":"
-            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:01.0}");
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // But not too much slop.
+    superWindowResolution();
+    Change c3 = clone(c1);
+    c3.setLastUpdatedOn(TimeUtil.nowTs());
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    ChangeBundle b3 = new ChangeBundle(c3, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    String msg = "lastUpdatedOn differs for Change.Id " + c1.getId()
+        + " in NoteDb vs. ReviewDb:"
+        + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:10.0}";
+    assertDiffs(b1, b3, msg);
+    assertDiffs(b3, b1, msg);
   }
 
   @Test
@@ -231,6 +250,46 @@ public class ChangeBundleTest {
     assertNoDiffs(b1, b2);
   }
 
+  @Test
+  public void diffChangeMessagesWithDifferentCounts() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    int id = c.getId().get();
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid1"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    cm1.setMessage("message 1");
+    ChangeMessage cm2 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid2"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    cm1.setMessage("message 2");
+
+    // Both ReviewDb: Uses same keySet diff as other types.
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1, cm2), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm1), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "ChangeMessage.Key sets differ: [" + id
+        + ",uuid2] only in A; [] only in B");
+
+    // One NoteDb: UUIDs in keys can't be used for comparison, just diff counts.
+    b1 = new ChangeBundle(c, messages(cm1, cm2), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "Differing numbers of ChangeMessages for Change.Id " + id + ":\n"
+        + "ChangeMessage{key=" + id + ",uuid1, author=100,"
+        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1,"
+        + " message=[message 2]}\n"
+        + "ChangeMessage{key=" + id + ",uuid2, author=100,"
+        + " writtenOn=2009-09-30 17:00:12.0, patchset=" + id + ",1,"
+        + " message=[null]}\n"
+        + "--- vs. ---\n"
+        + "ChangeMessage{key=" + id + ",uuid1, author=100,"
+        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1,"
+        + " message=[message 2]}");
+  }
 
   @Test
   public void diffChangeMessagesMixedSourcesWithDifferences() throws Exception {
@@ -250,20 +309,14 @@ public class ChangeBundleTest {
     ChangeBundle b2 = new ChangeBundle(c, messages(cm2, cm3), patchSets(),
         approvals(), comments(), NOTE_DB);
     assertDiffs(b1, b2,
-        "ChangeMessage present 2 times in A but 1 time in B:"
-            + " NormalizedChangeMessage{changeId=" + id + ", author=100,"
-            + " writtenOn=2009-09-30 17:00:01.0, message=message 1,"
-            + " patchset=" + id + ",1}",
-        "ChangeMessage present 0 times in A but 1 time in B:"
-            + " NormalizedChangeMessage{changeId=" + id + ", author=100,"
-            + " writtenOn=2009-09-30 17:00:01.0, message=message 2,"
-            + " patchset=" + id + ",1}");
+        "message differs for ChangeMessage on " + id + " at index 0:"
+        + " {message 1} != {message 2}");
   }
 
   @Test
-  public void diffChangeMessagesMixedSourcesRoundsTimestamp() throws Exception {
+  public void diffChangeMessagesMixedSourcesAllowsSlop() throws Exception {
+    subWindowResolution();
     Change c = TestChanges.newChange(project, accountId);
-    subSecondResolution();
     ChangeMessage cm1 = new ChangeMessage(
         new ChangeMessage.Key(c.getId(), "uuid1"),
         accountId, TimeUtil.nowTs(), c.currentPatchSetId());
@@ -277,14 +330,29 @@ public class ChangeBundleTest {
         approvals(), comments(), REVIEW_DB);
     assertDiffs(b1, b2,
         "writtenOn differs for ChangeMessage.Key " + c.getId() + ",uuid1:"
-            + " {2009-09-30 17:00:01.1} != {2009-09-30 17:00:01.2}");
+            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:03.0}");
 
-    // One NoteDb, timestamp is rounded.
+    // One NoteDb, slop is allowed.
     b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
         comments(), NOTE_DB);
     b2 = new ChangeBundle(c, messages(cm2), patchSets(), approvals(),
         comments(), REVIEW_DB);
     assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // But not too much slop.
+    superWindowResolution();
+    ChangeMessage cm3 = clone(cm1);
+    cm3.setWrittenOn(TimeUtil.nowTs());
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    ChangeBundle b3 = new ChangeBundle(c, messages(cm3), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    String msg = "writtenOn differs for ChangeMessage on " + c.getId() +
+        " at index 0 in NoteDb vs. ReviewDb:"
+        + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}";
+    assertDiffs(b1, b3, msg);
+    assertDiffs(b3, b1, msg);
   }
 
   @Test
@@ -334,9 +402,9 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffPatchSetsMixedSourcesRoundsTimestamp() throws Exception {
+  public void diffPatchSetsMixedSourcesAllowsSlop() throws Exception {
+    subWindowResolution();
     Change c = TestChanges.newChange(project, accountId);
-    subSecondResolution();
     PatchSet ps1 = new PatchSet(c.currentPatchSetId());
     ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     ps1.setUploader(accountId);
@@ -351,14 +419,28 @@ public class ChangeBundleTest {
         approvals(), comments(), REVIEW_DB);
     assertDiffs(b1, b2,
         "createdOn differs for PatchSet.Id " + c.getId() + ",1:"
-            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:01.2}");
+            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:03.0}");
 
-    // One NoteDb, timestamp is rounded.
+    // One NoteDb, slop is allowed.
     b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
         comments(), NOTE_DB);
     b2 = new ChangeBundle(c, messages(), patchSets(ps2), approvals(),
         comments(), REVIEW_DB);
     assertNoDiffs(b1, b2);
+
+    // But not too much slop.
+    superWindowResolution();
+    PatchSet ps3 = clone(ps1);
+    ps3.setCreatedOn(TimeUtil.nowTs());
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), NOTE_DB);
+    ChangeBundle b3 = new ChangeBundle(c, messages(), patchSets(ps3),
+        approvals(), comments(), REVIEW_DB);
+    String msg = "createdOn differs for PatchSet.Id " + c.getId()
+        + ",1 in NoteDb vs. ReviewDb:"
+        + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}";
+    assertDiffs(b1, b3, msg);
+    assertDiffs(b3, b1, msg);
   }
 
   @Test
@@ -410,10 +492,10 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffPatchSetApprovalsMixedSourcesRoundsTimestamp()
+  public void diffPatchSetApprovalsMixedSourcesAllowsSlop()
       throws Exception {
     Change c = TestChanges.newChange(project, accountId);
-    subSecondResolution();
+    subWindowResolution();
     PatchSetApproval a1 = new PatchSetApproval(
         new PatchSetApproval.Key(
             c.currentPatchSetId(), accountId, new LabelId("Code-Review")),
@@ -430,14 +512,28 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "granted differs for PatchSetApproval.Key "
             + c.getId() + "%2C1,100,Code-Review:"
-            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:01.2}");
+            + " {2009-09-30 17:00:07.0} != {2009-09-30 17:00:08.0}");
 
-    // One NoteDb, timestamp is rounded.
+    // One NoteDb, slop is allowed.
     b1 = new ChangeBundle(c, messages(), patchSets(), approvals(a1),
         comments(), NOTE_DB);
     b2 = new ChangeBundle(c, messages(), patchSets(), approvals(a2),
         comments(), REVIEW_DB);
     assertNoDiffs(b1, b2);
+
+    // But not too much slop.
+    superWindowResolution();
+    PatchSetApproval a3 = clone(a1);
+    a3.setGranted(TimeUtil.nowTs());
+    b1 = new ChangeBundle(c, messages(), patchSets(), approvals(a1),
+        comments(), NOTE_DB);
+    ChangeBundle b3 = new ChangeBundle(c, messages(), patchSets(),
+        approvals(a3), comments(), REVIEW_DB);
+    String msg = "granted differs for PatchSetApproval.Key "
+        + c.getId() + "%2C1,100,Code-Review in NoteDb vs. ReviewDb:"
+        + " {2009-09-30 17:00:07.0} != {2009-09-30 17:00:15.0}";
+    assertDiffs(b1, b3, msg);
+    assertDiffs(b3, b1, msg);
   }
 
   @Test
@@ -486,10 +582,10 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffPatchLineCommentsMixedSourcesRoundsTimestamp()
+  public void diffPatchLineCommentsMixedSourcesAllowsSlop()
       throws Exception {
+    subWindowResolution();
     Change c = TestChanges.newChange(project, accountId);
-    subSecondResolution();
     PatchLineComment c1 = new PatchLineComment(
         new PatchLineComment.Key(
             new Patch.Key(c.currentPatchSetId(), "filename"), "uuid"),
@@ -505,15 +601,29 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "writtenOn differs for PatchLineComment.Key "
             + c.getId() + ",1,filename,uuid:"
-            + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:01.2}");
+            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:03.0}");
 
-    // One NoteDb, timestamp is rounded.
+    // One NoteDb, slop is allowed.
     b1 = new ChangeBundle(c, messages(), patchSets(), approvals(),
         comments(c1), NOTE_DB);
     b2 = new ChangeBundle(c, messages(), patchSets(), approvals(),
         comments(c2), REVIEW_DB);
     assertNoDiffs(b1, b2);
-  }
+
+    // But not too much slop.
+    superWindowResolution();
+    PatchLineComment c3 = clone(c1);
+    c3.setWrittenOn(TimeUtil.nowTs());
+    b1 = new ChangeBundle(c, messages(), patchSets(), approvals(), comments(c1),
+        NOTE_DB);
+    ChangeBundle b3 = new ChangeBundle(c, messages(), patchSets(), approvals(),
+        comments(c3), REVIEW_DB);
+    String msg = "writtenOn differs for PatchLineComment.Key " + c.getId()
+        + ",1,filename,uuid in NoteDb vs. ReviewDb:"
+        + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}";
+    assertDiffs(b1, b3, msg);
+    assertDiffs(b3, b1, msg);
+}
 
   private static void assertNoDiffs(ChangeBundle a, ChangeBundle b) {
     assertThat(a.differencesFrom(b)).isEmpty();

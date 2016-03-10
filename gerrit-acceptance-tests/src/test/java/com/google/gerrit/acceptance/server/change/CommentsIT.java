@@ -245,7 +245,8 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertCommentInfo(comment, actual);
-      assertThat(comment.updated).isEqualTo(timestamp);
+      assertThat(actual.updated)
+          .isEqualTo(gApi.changes().id(r.getChangeId()).info().created);
     }
   }
 

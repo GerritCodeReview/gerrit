@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "37c9357a_1918efb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-10T22:57:54Z",
+      "side": 1,
+      "message": "gr-file-list retrieves the drafts again to render the number of draft comments in the file table. Can\u0027t you pass the already retrieved drafts here and avoid one extra REST call?",
+      "range": {
+        "startLine": 294,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 74
+      },
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_74e508f1",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -142,6 +165,30 @@
       "side": 1,
       "message": "\u003e I\u0027m concerned about the explosion of expensive REST endpoint calls,\n \u003e caused by this change.\n\nI agree with this sentiment, and I\u0027m glad we\u0027re talking about it.\n\n \u003e * middle size change\n \u003e * 100 changed files\n \u003e * non working \u0027[\u0027, \u0027]\u0027 on german keyboard layout\n \u003e * 1-2 draft comments per reviewed file\n\nI agree that there are pessimal workflows here. One that I find myself doing a lot is lots of u[jk]*o sequences, because I don\u0027t always like the default order of files in the change.\n\n \u003e In the end of this session you retrieved all drafts 100 times, but what for?\n\nRetrieving drafts is not the only thing you\u0027ve done 100 times by this point, and it\u0027s nowhere near the most expensive. (Showing the submit action probably takes the cake there.) So I think in order for this argument to work, it has to be the case that adding Yet Another Request actually causes increased latency or other UX issues (e.g. UI element flickering) in practice. In that sense I agree with Andy, we could try it out and see how much worse it makes things.\n\nI have another proposal. We\u0027re already fetching drafts for the patch set you\u0027re viewing, in order to render the draft counts for each file in the change table. How about we replace getting the revision drafts with getting the change drafts. It\u0027s slightly more work on the server, but not noticeably--it\u0027s a query against the same table that will just return slightly more results. Plus a minor client change to filter drafts appropriately for the change table.\n\nThis would also be a good idea for an unrelated reason: if you\u0027re diffing two patch sets A..B, we currently only show the number of comments on B in the count on the change table. If we fetch drafts for all patch sets, we could easily show the sum of the counts for A and B.",
       "parentUuid": "37c9357a_39368b3a",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 349,
+        "endChar": 6
+      },
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37c9357a_f94b33a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-10T22:57:54Z",
+      "side": 1,
+      "message": "\u003e Retrieving drafts is not the only thing you\u0027ve done 100 times by this point, and it\u0027s nowhere near the most expensive.\n\nOh, I see what you mean. I sought, that when only draft comment is added in side-by-side screen, then this wouldn\u0027t trigger ETag invalidation and GET /changes/\u003cid\u003e/details should results in 304. But this is not the case, 200 is returned. Moreover, old UI always retrieve drafts to render the number of the comment per file in the file table. So that the old UI already does the same what this change is doing.\n\n \u003e I have another proposal. We\u0027re already fetching drafts for the patch set you\u0027re viewing, in order to render the draft counts for each file in the change table. How about we replace getting the revision drafts with getting the change drafts.\n\nWhy/how would this improve the situation, especially with  u[jk]*o sequences? I find myself always doing that because of broken keyboard navigation.",
+      "parentUuid": "1718b12b_157494d3",
       "range": {
         "startLine": 346,
         "startChar": 4,

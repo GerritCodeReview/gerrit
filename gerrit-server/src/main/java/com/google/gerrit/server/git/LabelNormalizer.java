@@ -57,17 +57,14 @@ public class LabelNormalizer {
     @VisibleForTesting
     static Result create(
         List<PatchSetApproval> unchanged,
-        List<PatchSetApproval> updated,
-        List<PatchSetApproval> deleted) {
+        List<PatchSetApproval> updated) {
       return new AutoValue_LabelNormalizer_Result(
           ImmutableList.copyOf(unchanged),
-          ImmutableList.copyOf(updated),
-          ImmutableList.copyOf(deleted));
+          ImmutableList.copyOf(updated));
     }
 
     public abstract ImmutableList<PatchSetApproval> unchanged();
     public abstract ImmutableList<PatchSetApproval> updated();
-    public abstract ImmutableList<PatchSetApproval> deleted();
 
     public Iterable<PatchSetApproval> getNormalized() {
       return Iterables.concat(unchanged(), updated());
@@ -119,8 +116,6 @@ public class LabelNormalizer {
         Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated =
         Lists.newArrayListWithCapacity(approvals.size());
-    List<PatchSetApproval> deleted =
-        Lists.newArrayListWithCapacity(approvals.size());
     LabelTypes labelTypes = ctl.getLabelTypes();
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.getKey().getParentKey().getParentKey();
@@ -131,22 +126,24 @@ public class LabelNormalizer {
         unchanged.add(psa);
         continue;
       }
+      PatchSetApproval copy = copy(psa);
       LabelType label = labelTypes.byLabel(psa.getLabelId());
       if (label == null) {
-        deleted.add(psa);
+        copy.setValue((short) 0);
+        updated.add(psa);
         continue;
       }
-      PatchSetApproval copy = copy(psa);
       applyTypeFloor(label, copy);
       if (!applyRightFloor(ctl, label, copy)) {
-        deleted.add(psa);
+        copy.setValue((short) 0);
+        updated.add(psa);
       } else if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
       } else {
         unchanged.add(psa);
       }
     }
-    return Result.create(unchanged, updated, deleted);
+    return Result.create(unchanged, updated);
   }
 
   /**

@@ -118,10 +118,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   public static class TestSubmitInput extends SubmitInput {
     public final boolean failAfterRefUpdates;
 
-    @SuppressWarnings("deprecation")
     public TestSubmitInput(SubmitInput base, boolean failAfterRefUpdates) {
       this.onBehalfOf = base.onBehalfOf;
-      this.waitForMerge = base.waitForMerge;
       this.failAfterRefUpdates = failAfterRefUpdates;
     }
   }

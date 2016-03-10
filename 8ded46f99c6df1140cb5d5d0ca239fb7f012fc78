@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f716bdff_1442d487",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T23:04:47Z",
+      "side": 1,
+      "message": "I don\u0027t have any threading concerns yet.\nHow would I get them?\n\nBy switching to the performant cached version there may be concerns though as the cache may be populated in a different thread than the caller of `getRefSpecs`.\n\nThe way it is currently populated, you can never tell once it is finished, so I am not sure how to make non-racy.\n\nBy immutable, you do not mean to just\n\n    return Collections.unmodifiableCollection(refSpecs);\n\ninstead?",
+      "parentUuid": "1718b12b_35027059",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 20
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_d4ba1ce4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 10

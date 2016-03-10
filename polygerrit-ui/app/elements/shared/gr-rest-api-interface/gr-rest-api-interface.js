@@ -86,13 +86,17 @@
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },
 
+    getPreferences: function() {
+      return this._fetchSharedCacheURL('/accounts/self/preferences');
+    },
+
     _fetchSharedCacheURL: function(url) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
       }
       // TODO(andybons): Periodic cache invalidation.
       if (this._cache[url] !== undefined) {
-        return this._cache[url];
+        return Promise.resolve(this._cache[url]);
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url).then(
         function(response) {

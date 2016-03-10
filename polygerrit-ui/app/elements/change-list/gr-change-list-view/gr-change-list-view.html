@@ -66,7 +66,7 @@ limitations under the License.
     <gr-ajax
         auto
         url="/changes/"
-        params="[[_computeQueryParams(_query, _offset)]]"
+        params="[[_computeQueryParams(_query, _offset, changesPerPage)]]"
         last-response="{{_changes}}"
         last-error="{{_lastError}}"
         loading="{{_loading}}"></gr-ajax>
@@ -80,10 +80,11 @@ limitations under the License.
           selected-index="{{viewState.selectedChangeIndex}}"
           show-star="[[loggedIn]]"></gr-change-list>
       <nav>
-        <a href$="[[_computeNavLink(_query, _offset, -1)]]"
+        <a href$="[[_computeNavLink(_query, _offset, -1, changesPerPage)]]"
            hidden$="[[_hidePrevArrow(_offset)]]">&larr; Prev</a>
-        <a href$="[[_computeNavLink(_query, _offset, 1)]]"
-           hidden$="[[_hideNextArrow(_changes.length)]]">Next &rarr;</a>
+        <a href$="[[_computeNavLink(_query, _offset, 1, changesPerPage)]]"
+           hidden$="[[_hideNextArrow(_changes.length, changesPerPage)]]">
+          Next &rarr;</a>
       </nav>
     </div>
   </template>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "371db51b_766eb0d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-10T21:11:00Z",
+      "side": 1,
+      "message": "CI doesn\u0027t like the missing apostrophe here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 54,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "4ae989622434039534821350fc167bdeabecdccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

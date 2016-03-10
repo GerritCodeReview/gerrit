@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77a2cdc0_a059da2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "Oops. Fixed.",
+      "parentUuid": "37c9357a_b6c62812",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b79a8576_92175c66",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-09T20:12:09Z",
       "side": 1,
       "message": "This new line is not necessary.",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_ffd53fba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b79a8576_92175c66",
       "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "77a2cdc0_c0597e36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57a5c9c5_5f5b0b5b",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_0079a6a2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2016-03-09T20:14:55Z",
       "side": 1,
       "message": "I don’t believe this would ever happen.",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_7fa36f79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "Actually it happens if you\u0027re not signed in.\nI\u0027ve added a test and a guard to gr-rest-api as an interim fix, please take a look.",
+      "parentUuid": "77a2cdc0_0079a6a2",
       "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_dfb39bc8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "Done - was waiting on a discussion result.",
+      "parentUuid": "57a5c9c5_9f6873f7",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_1f558322",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
         "patchSetId": 2
@@ -104,6 +200,24 @@
       "writtenOn": "2016-03-09T20:14:55Z",
       "side": 1,
       "message": "Rather than emulate a Promise, create a real one:\n\nvar prefsStub \u003d sinon.stub(element.$.restAPI, \u0027getPrefs\u0027, function() {\n  return Promise.resolve({time_format: \u0027HHMM_12\u0027});\n});\n\n...\n\nprefsStub.restore();\n\nDo this in each test you need it in instead of having the global prefsResolve stuff you have now.",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_3fade762",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "I understand where you\u0027re coming from and totally agree that both faking Promises and having global variables is a code smell.\n\nHowever I couldn\u0027t make it work because restAPI.getPreferences().then in gr-date-formatter.js always resolves asynchronously, which means all the test had to be rewritten using async approach.\n\nLet me know if there is anything better I can do here.",
+      "parentUuid": "57a5c9c5_1f558322",
       "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +253,24 @@
       "side": 1,
       "message": "::Shrug:: really doesn’t matter to me. Let’s do getPreferences like Viktor originally had.",
       "parentUuid": "b79a8576_b2146062",
+      "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a5c9c5_1faa234b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-10T00:07:04Z",
+      "side": 1,
+      "message": "getPreferences it is then.",
+      "parentUuid": "57a5c9c5_dfe15bbc",
       "revId": "e78957caf7b2b40446741942e57a3b98bb64c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

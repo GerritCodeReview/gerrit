@@ -276,8 +276,10 @@ class ChangeNotesParser implements AutoCloseable {
       // behavior.
     }
 
-    if (lastUpdatedOn == null && updateTs) {
-      lastUpdatedOn = ts;
+    if (updateTs) {
+      if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
+        lastUpdatedOn = ts;
+      }
     }
   }
 

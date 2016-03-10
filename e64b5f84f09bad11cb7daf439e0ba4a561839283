@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1457633721 -0800\nnonce AO+Zq7hPFKXyyPrfPiq4maKLHJh3INtg+/t8UoWUzJbsSSJAxb2Ywh1+G15ipSM74S7Qr1P+P84V\n\n0000000000000000000000000000000000000000 8ded46f99c6df1140cb5d5d0ca239fb7f012fc78 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW4bm5AAoJEGt7+xNJsB0bzFkH+wcOIXGCVCT1MQUP1cA5uaTF\nsgYiDRNQSBpWeO7zV0OXTU5QIpCajo3y1hn6AG5AViWpgh9jRLVcWiwpImfZDvXx\nfcooAMMxMhjnyr9PtJKPhvC1Gv9ithcMP22CeP+zRnq3zKwpddats0/TssF/Rt4T\nMFdqFbCa+70DJ8+jl3igEGw2tXdyG5+iwocOEVUyP0ciPK5GYxm6nTAx5tXYf7No\nyvZ3H6Y4476WaWSTuCfpjw0shldO3mucFx9i3dUuHUx3dPmFXQXtR/8p1T8Untvp\n7aeVFabscJQqInukmS1RdlexHvik2+IvooEFhFjp2szFg4K33wCJkAtvcH/zl90\u003d\n\u003dcuyl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f716bdff_b4e68002",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-03-10T20:12:58Z",
+      "side": 1,
+      "message": "Could this also check that the submodule isn\u0027t updated?\n\n ObjectId oldSubHEAD \u003d subRepo.getRepository().resolve(\"HEAD\");\n pushChangeTo(subRepo, \"master\");\n assertThat(hasSubmodule(...)).isFalse();\n expectToHaveSubmoduleState(superRepo, \"master\",\n     \"subscribed-to-protect\", oldSubHEAD);",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 85
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -21,19 +21,13 @@ import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multiset;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.common.collect.TreeMultiset;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -43,7 +37,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gwtorm.client.Column;
-import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.server.OrmException;
 
 import java.lang.reflect.Field;
@@ -205,7 +198,7 @@ public class ChangeBundle {
   }
 
   private final Change change;
-  private final ImmutableMap<ChangeMessage.Key, ChangeMessage> changeMessages;
+  private final ImmutableList<ChangeMessage> changeMessages;
   private final ImmutableMap<PatchSet.Id, PatchSet> patchSets;
   private final ImmutableMap<PatchSetApproval.Key, PatchSetApproval>
       patchSetApprovals;
@@ -222,7 +215,8 @@ public class ChangeBundle {
       Iterable<PatchLineComment> patchLineComments,
       Source source) {
     this.change = checkNotNull(change);
-    this.changeMessages = ImmutableMap.copyOf(changeMessageMap(changeMessages));
+    this.changeMessages =
+        ChangeNotes.MESSAGE_BY_TIME.immutableSortedCopy(changeMessages);
     this.patchSets = ImmutableMap.copyOf(patchSetMap(patchSets));
     this.patchSetApprovals =
         ImmutableMap.copyOf(patchSetApprovalMap(patchSetApprovals));
@@ -230,8 +224,8 @@ public class ChangeBundle {
         ImmutableMap.copyOf(patchLineCommentMap(patchLineComments));
     this.source = checkNotNull(source);
 
-    for (ChangeMessage.Key k : this.changeMessages.keySet()) {
-      checkArgument(k.getParentKey().equals(change.getId()));
+    for (ChangeMessage m : this.changeMessages) {
+      checkArgument(m.getKey().getParentKey().equals(change.getId()));
     }
     for (PatchSet.Id id : this.patchSets.keySet()) {
       checkArgument(id.getParentKey().equals(change.getId()));
@@ -271,8 +265,10 @@ public class ChangeBundle {
       ChangeBundle bundleA, ChangeBundle bundleB) {
     if (bundleA.source == REVIEW_DB && bundleB.source == REVIEW_DB) {
       // Both came from ReviewDb: check all fields exactly.
-      Map<ChangeMessage.Key, ChangeMessage> as = bundleA.changeMessages;
-      Map<ChangeMessage.Key, ChangeMessage> bs = bundleB.changeMessages;
+      Map<ChangeMessage.Key, ChangeMessage> as =
+          changeMessageMap(bundleA.changeMessages);
+      Map<ChangeMessage.Key, ChangeMessage> bs =
+          changeMessageMap(bundleB.changeMessages);
 
       for (ChangeMessage.Key k : diffKeySets(diffs, as, bs)) {
         ChangeMessage a = as.get(k);
@@ -280,29 +276,39 @@ public class ChangeBundle {
         String desc = describe(k);
         diffColumns(diffs, ChangeMessage.class, desc, bundleA, a, bundleB, b);
       }
-    } else {
-      // At least one is from NoteDb, so we need to normalize UUIDs and
-      // timestamps for both.
-      Multiset<NormalizedChangeMessage> as = bundleA.normalizeChangeMessages();
-      Multiset<NormalizedChangeMessage> bs = bundleB.normalizeChangeMessages();
-      Set<NormalizedChangeMessage> union = new TreeSet<>();
-      for (NormalizedChangeMessage m
-          : Iterables.concat(as.elementSet(), bs.elementSet())) {
-        union.add(m);
-      }
-      for (NormalizedChangeMessage m : union) {
-        int ac = as.count(m);
-        int bc = bs.count(m);
-        if (ac != bc) {
-          diffs.add("ChangeMessage present "
-              + times(ac) + " in A but " + times(bc) + " in B: " + m);
-        }
+      return;
+    }
+
+    // At least one is from NoteDb, so we need to ignore UUIDs for both, and
+    // allow timestamp slop if the sources differ.
+    Change.Id id = bundleA.getChange().getId();
+    checkArgument(id.equals(bundleB.getChange().getId()));
+    List<ChangeMessage> as = bundleA.changeMessages;
+    List<ChangeMessage> bs = bundleB.changeMessages;
+    if (as.size() != bs.size()) {
+      Joiner j = Joiner.on("\n");
+      diffs.add("Differing numbers of ChangeMessages for Change.Id " + id
+          + ":\n" + j.join(as) + "\n--- vs. ---\n" + j.join(bs));
+      return;
+    }
+
+    for (int i = 0; i < as.size(); i++) {
+      ChangeMessage a = as.get(i);
+      ChangeMessage b = bs.get(i);
+      String desc = "ChangeMessage on " + id + " at index " + i;
+      diffColumnsExcluding(diffs, ChangeMessage.class, desc, bundleA, a,
+          bundleB, b, "key", "writtenOn");
+
+      Timestamp ta = a.getWrittenOn();
+      Timestamp tb = b.getWrittenOn();
+      if (bundleA.source == NOTE_DB && bundleB.source == NOTE_DB) {
+        diffValues(diffs, desc, ta, tb, "writtenOn");
+      } else if (bundleA.source == NOTE_DB) {
+        diffTimestamps(diffs, desc, ta, tb, "writtenOn");
+      } else {
+        diffTimestamps(diffs, desc, tb, ta, "writtenOn");
       }
     }
-  }
-
-  private static String times(int n) {
-    return n + " time" + (n != 1 ? "s" : "");
   }
 
   private static void diffPatchSets(List<String> diffs, ChangeBundle bundleA,
@@ -362,9 +368,18 @@ public class ChangeBundle {
 
   private static <T> void diffColumns(List<String> diffs, Class<T> clazz,
       String desc, ChangeBundle bundleA, T a, ChangeBundle bundleB, T b) {
+    diffColumnsExcluding(diffs, clazz, desc, bundleA, a, bundleB, b);
+  }
+
+  private static <T> void diffColumnsExcluding(List<String> diffs,
+      Class<T> clazz, String desc, ChangeBundle bundleA, T a,
+      ChangeBundle bundleB, T b, String... exclude) {
+    Set<String> toExclude = Sets.newLinkedHashSet(Arrays.asList(exclude));
     for (Field f : clazz.getDeclaredFields()) {
       Column col = f.getAnnotation(Column.class);
       if (col == null) {
+        continue;
+      } else if (toExclude.remove(f.getName())) {
         continue;
       }
       f.setAccessible(true);
@@ -378,6 +393,9 @@ public class ChangeBundle {
         throw new IllegalArgumentException(e);
       }
     }
+    checkArgument(toExclude.isEmpty(),
+        "requested columns to exclude were not present in %s: %s",
+        clazz.getSimpleName(), toExclude);
   }
 
   private static void diffTimestamps(List<String> diffs, String desc,
@@ -397,18 +415,31 @@ public class ChangeBundle {
         | SecurityException e) {
       throw new IllegalArgumentException(e);
     }
-    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
-      ta = roundToSecond(ta);
-      checkArgument(tb.equals(roundToSecond(tb)),
-          "%s from NoteDb has non-rounded %s timestamp: %s",
-          desc, field, tb);
-    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
-      tb = roundToSecond(tb);
-      checkArgument(ta.equals(roundToSecond(ta)),
-          "%s from NoteDb has non-rounded %s timestamp: %s",
-          desc, field, ta);
+    if (bundleA.source == bundleB.source || ta == null || tb == null) {
+      diffValues(diffs, desc, ta, tb, field);
+      return;
+    } else if (bundleA.source == NOTE_DB) {
+      diffTimestamps(diffs, desc, ta, tb, field);
+    } else {
+      diffTimestamps(diffs, desc, tb, ta, field);
     }
-    diffValues(diffs, desc, ta, tb, field);
+  }
+
+  private static void diffTimestamps(List<String> diffs, String desc,
+      Timestamp tsFromNoteDb, Timestamp tsFromReviewDb, String field) {
+    // Because ChangeRebuilder may batch events together that are several
+    // seconds apart, the timestamp in NoteDb may actually be several seconds
+    // *earlier* than the timestamp in ReviewDb that it was converted from.
+    checkArgument(tsFromNoteDb.equals(roundToSecond(tsFromNoteDb)),
+        "%s from NoteDb has non-rounded %s timestamp: %s",
+        desc, field, tsFromNoteDb);
+    long delta = tsFromReviewDb.getTime() - tsFromNoteDb.getTime();
+    long max = ChangeRebuilder.MAX_WINDOW_MS;
+    if (delta < 0 || delta > max) {
+      diffs.add(
+          field + " differs for " + desc + " in NoteDb vs. ReviewDb:"
+          + " {" + tsFromNoteDb + "} != {" + tsFromReviewDb + "}");
+    }
   }
 
   private static void diffValues(List<String> diffs, String desc, Object va,
@@ -429,51 +460,6 @@ public class ChangeBundle {
     checkArgument(name.equals("Key") || name.equals("Id"),
         "not an Id/Key class: %s", name);
     return clazz.getEnclosingClass().getSimpleName() + "." + name;
-  }
-
-  @AutoValue
-  static abstract class NormalizedChangeMessage
-      implements Comparable<NormalizedChangeMessage> {
-    private static final Ordering<Comparable<?>> NULLS_FIRST =
-        Ordering.natural().nullsFirst();
-
-    private static NormalizedChangeMessage create(ChangeMessage msg) {
-      return new AutoValue_ChangeBundle_NormalizedChangeMessage(
-          msg.getKey().getParentKey(),
-          msg.getAuthor(),
-          TimeUtil.roundToSecond(msg.getWrittenOn()),
-          msg.getMessage(),
-          msg.getPatchSetId());
-    }
-
-    private static Integer intKey(IntKey<?> k) {
-      return k != null ? k.get() : null;
-    }
-
-    abstract Change.Id changeId();
-    @Nullable abstract Account.Id author();
-    abstract Timestamp writtenOn();
-    @Nullable abstract String message();
-    @Nullable abstract PatchSet.Id patchset();
-
-    @Override
-    public int compareTo(NormalizedChangeMessage o) {
-      return ComparisonChain.start()
-          .compare(changeId().get(), o.changeId().get())
-          .compare(intKey(patchset()), intKey(o.patchset()), NULLS_FIRST)
-          .compare(writtenOn(), o.writtenOn())
-          .compare(intKey(author()), intKey(o.author()), NULLS_FIRST)
-          .compare(message(), o.message(), NULLS_FIRST)
-          .result();
-    }
-  }
-
-  private Multiset<NormalizedChangeMessage> normalizeChangeMessages() {
-    Multiset<NormalizedChangeMessage> normalized = TreeMultiset.create();
-    for (ChangeMessage msg : changeMessages.values()) {
-      normalized.add(NormalizedChangeMessage.create(msg));
-    }
-    return normalized;
   }
 
   @Override

@@ -168,7 +168,10 @@ public class ChangeRebuilder {
         RevWalk codeRw = new RevWalk(codeRepo)) {
       for (PatchSet ps : db.patchSets().byChange(changeId)) {
         events.add(new PatchSetEvent(change, ps, codeRw));
-        for (PatchLineComment c : db.patchComments().byPatchSet(ps.getId())) {
+        List<PatchLineComment> comments =
+            PatchLineCommentsUtil.PLC_ORDER.sortedCopy(
+                db.patchComments().byPatchSet(ps.getId()));
+        for (PatchLineComment c : comments) {
           PatchLineCommentEvent e =
               new PatchLineCommentEvent(c, change, ps, patchListCache);
           if (c.getStatus() == Status.PUBLISHED) {

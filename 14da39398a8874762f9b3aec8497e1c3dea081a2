@@ -73,6 +73,24 @@
       "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_941264a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-10T21:51:50Z",
+      "side": 1,
+      "message": "I don’t think we should jump to any conclusions with hyperboles until we have metrics proving your theory. The backend should be able to handle draft calls. Even a lot of them. If it becomes a real issue then we can address it.",
+      "parentUuid": "37c9357a_39368b3a",
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

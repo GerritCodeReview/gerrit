@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -114,7 +116,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   @Override
   public void updateRepo(RepoContext ctx) throws MergeConflictException,
        InvalidChangeOperationException, RestApiException, IOException,
-       OrmException {
+       OrmException, NoSuchChangeException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevId oldRev = originalPatchSet.getRevision();
@@ -133,6 +135,12 @@ public class RebaseChangeOp extends BatchUpdate.Op {
 
     rebasedCommit = rebaseCommit(ctx, original, baseCommit);
 
+    RevId baseRevId = new RevId((baseCommitish != null) ? baseCommitish
+        : ObjectId.toString(baseCommit.getId()));
+    Base base = rebaseUtil.parseBase(
+        new RevisionResource(new ChangeResource(ctl), originalPatchSet),
+        baseRevId.get());
+
     rebasedPatchSetId = ChangeUtil.nextPatchSetId(
         ctx.getRepository(), ctl.getChange().currentPatchSetId());
     patchSetInserter = patchSetInserterFactory
@@ -144,6 +152,10 @@ public class RebaseChangeOp extends BatchUpdate.Op {
         .setMessage(
           "Patch Set " + rebasedPatchSetId.get()
           + ": Patch Set " + originalPatchSet.getId().get() + " was rebased");
+
+    if (base != null) {
+      patchSetInserter.setGroups(base.patchSet().getGroups());
+    }
     if (validate != null) {
       patchSetInserter.setValidatePolicy(validate);
     }

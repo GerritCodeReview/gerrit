@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.auto.value.AutoValue;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -31,16 +29,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,10 +65,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   private final RebaseChangeOp.Factory rebaseFactory;
   private final RebaseUtil rebaseUtil;
   private final ChangeJson.Factory json;
-  private final ChangeNotes.Factory notesFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final Provider<InternalChangeQuery> queryProvider;
-  private final PatchSetUtil psUtil;
 
   @Inject
   public Rebase(BatchUpdate.Factory updateFactory,
@@ -81,19 +73,13 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
-      ChangeNotes.Factory notesFactory,
-      Provider<ReviewDb> dbProvider,
-      Provider<InternalChangeQuery> queryProvider,
-      PatchSetUtil psUtil) {
+      Provider<ReviewDb> dbProvider) {
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
     this.json = json;
-    this.notesFactory = notesFactory;
     this.dbProvider = dbProvider;
-    this.queryProvider = queryProvider;
-    this.psUtil = psUtil;
   }
 
   @Override
@@ -144,7 +130,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
     @SuppressWarnings("resource")
     ReviewDb db = dbProvider.get();
-    Base base = parseBase(rsrc, str);
+    Base base = rebaseUtil.parseBase(rsrc, str);
     if (base == null) {
       throw new ResourceConflictException("base revision is missing: " + str);
     }
@@ -178,72 +164,6 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     ObjectId baseId = ObjectId.fromString(base.getRevision().get());
     ObjectId tipId = ObjectId.fromString(tip.getRevision().get());
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
-  }
-
-  @AutoValue
-  static abstract class Base {
-    private static Base create(ChangeControl ctl, PatchSet ps) {
-      if (ctl == null) {
-        return null;
-      }
-      return new AutoValue_Rebase_Base(ctl, ps);
-    }
-
-    abstract ChangeControl control();
-    abstract PatchSet patchSet();
-  }
-
-  private Base parseBase(RevisionResource rsrc, String base)
-      throws OrmException, NoSuchChangeException {
-    ReviewDb db = dbProvider.get();
-
-    // Try parsing the base as a ref string.
-    PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
-    if (basePatchSetId != null) {
-      Change.Id baseChangeId = basePatchSetId.getParentKey();
-      ChangeControl baseCtl = controlFor(rsrc, baseChangeId);
-      if (baseCtl != null) {
-        return Base.create(
-            controlFor(rsrc, basePatchSetId.getParentKey()),
-            psUtil.get(db, baseCtl.getNotes(), basePatchSetId));
-      }
-    }
-
-    // Try parsing base as a change number (assume current patch set).
-    Integer baseChangeId = Ints.tryParse(base);
-    if (baseChangeId != null) {
-      ChangeControl baseCtl = controlFor(rsrc, new Change.Id(baseChangeId));
-      if (baseCtl != null) {
-        return Base.create(baseCtl, psUtil.current(db, baseCtl.getNotes()));
-      }
-    }
-
-    // Try parsing as SHA-1.
-    Base ret = null;
-    for (ChangeData cd : queryProvider.get()
-        .byProjectCommit(rsrc.getProject(), base)) {
-      for (PatchSet ps : cd.patchSets()) {
-        if (!ps.getRevision().matches(base)) {
-          continue;
-        }
-        if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
-          ret = Base.create(
-              rsrc.getControl().getProjectControl().controlFor(cd.notes()),
-              ps);
-        }
-      }
-    }
-    return ret;
-  }
-
-  private ChangeControl controlFor(RevisionResource rsrc, Change.Id id)
-      throws OrmException, NoSuchChangeException {
-    if (rsrc.getChange().getId().equals(id)) {
-      return rsrc.getControl();
-    }
-    ChangeNotes notes =
-        notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
-    return rsrc.getControl().getProjectControl().controlFor(notes);
   }
 
   private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {

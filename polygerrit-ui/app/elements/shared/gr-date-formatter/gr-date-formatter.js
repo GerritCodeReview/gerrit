@@ -21,7 +21,7 @@
 
   var ShortMonthNames = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
-    'Nov', 'Dec'
+    'Nov', 'Dec',
   ];
 
   Polymer({
@@ -32,45 +32,45 @@
         type: String,
         value: null,
         notify: true
+      },
+      timeFormat: {
+        type: String,
+        value: 'HHMM_24',
+        notify: true,
       }
     },
 
-    _computeDateStr: function(dateStr) {
-      return this._dateStr(this._parseDateStr(dateStr), new Date());
+    attached: function() {
+      this._fetchPreferences();
     },
 
-    _parseDateStr: function(dateStr) {
-      if (!dateStr) { return null; }
-      return util.parseDate(dateStr);
+    _fetchPreferences: function() {
+      this.$.restAPI.getPreferences().then(function(preferences) {
+        this.timeFormat = preferences && preferences.time_format;
+      }.bind(this));
     },
 
-    _dateStr: function(t, now) {
-      if (!t) { return ''; }
-      var diff = now.getTime() - t.getTime();
-      if (diff < Duration.DAY && t.getDay() == now.getDay()) {
+    _computeDateStr: function(dateStr, timeFormat) {
+      if (!dateStr) { return ''; }
+      var date = moment(dateStr + 'Z');
+      if (!date.isValid()) { return ''; }
+      var now = new Date();
+      var diff = -date.diff(now);
+      var format = 'MMM DD, YYYY';
+      if (diff < Duration.DAY && date.day() == now.getDay()) {
         // Within 24 hours and on the same day:
-        // '2:14 AM'
-        var pm = t.getHours() >= 12;
-        var hours = t.getHours();
-        if (hours == 0) {
-          hours = 12;
-        } else if (hours > 12) {
-          hours = t.getHours() - 12;
+        if (this.timeFormat == 'HHMM_12') { // '2:14 PM'
+          format = 'h:mm A';
+        } else { // '14:14'
+          format = 'H:mm';
         }
-        var minutes = t.getMinutes() < 10 ? '0' + t.getMinutes() :
-            t.getMinutes();
-        return hours + ':' + minutes + (pm ? ' PM' : ' AM');
-      } else if ((t.getDay() != now.getDay() || diff >= Duration.DAY) &&
+      } else if ((date.day() != now.getDay() || diff >= Duration.DAY) &&
                  diff < 180 * Duration.DAY) {
         // From one to six months:
         // 'Aug 29'
-        return ShortMonthNames[t.getMonth()] + ' ' + t.getDate();
-      } else if (diff >= 180 * Duration.DAY) {
-        // More than six months:
-        // 'Aug 29, 1997'
-        return ShortMonthNames[t.getMonth()] + ' ' + t.getDate() + ', ' +
-            t.getFullYear();
+        format = 'MMM DD';
       }
+      return date.format(format);
     },
   });
 })();

@@ -10,6 +10,7 @@ bower_components(
     '//lib/js:iron-input',
     '//lib/js:iron-overlay-behavior',
     '//lib/js:iron-selector',
+    '//lib/js:moment',
     '//lib/js:page',
     '//lib/js:polymer',
     '//lib/js:promise-polyfill',

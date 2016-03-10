@@ -86,6 +86,10 @@
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },
 
+    getPreferences: function() {
+      return this._fetchSharedCacheURL('/accounts/self/preferences');
+    },
+
     _fetchSharedCacheURL: function(url) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
@@ -96,7 +100,7 @@
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url).then(
         function(response) {
-          if (response !== undefined) {
+          if (response !== undefined && response !== null) {
             this._cache[url] = response;
           }
           this._sharedFetchPromises[url] = undefined;

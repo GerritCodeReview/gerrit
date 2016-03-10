@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.TimeUtil.roundToSecond;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
@@ -27,6 +28,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -109,6 +111,33 @@ public class ChangeBundle {
     }
     return out;
   }
+
+  private static ImmutableList<ChangeMessage> changeMessageList(
+      Iterable<ChangeMessage> in) {
+    // Unlike the *Map comparators, which are intended to make key lists
+    // diffable, this comparator sorts first on timestamp, then on every other
+    // field.
+    final Ordering<Comparable<?>> nullsFirst = Ordering.natural().nullsFirst();
+    return new Ordering<ChangeMessage>() {
+      @Override
+      public int compare(ChangeMessage a, ChangeMessage b) {
+        return ComparisonChain.start()
+            .compare(roundToSecond(a.getWrittenOn()),
+                roundToSecond(b.getWrittenOn()))
+            .compare(a.getKey().getParentKey().get(),
+                b.getKey().getParentKey().get())
+            .compare(psId(a), psId(b), nullsFirst)
+            .compare(a.getAuthor(), b.getAuthor(), intKeyOrdering())
+            .compare(a.getMessage(), b.getMessage(), nullsFirst)
+            .result();
+      }
+
+      private Integer psId(ChangeMessage m) {
+        return m.getPatchSetId() != null ? m.getPatchSetId().get() : null;
+      }
+    }.immutableSortedCopy(in);
+  }
+
 
   private static Map<PatchSet.Id, PatchSet> patchSetMap(Iterable<PatchSet> in) {
     Map<PatchSet.Id, PatchSet> out = new TreeMap<>(
@@ -215,8 +244,7 @@ public class ChangeBundle {
       Iterable<PatchLineComment> patchLineComments,
       Source source) {
     this.change = checkNotNull(change);
-    this.changeMessages =
-        ChangeNotes.MESSAGE_BY_TIME.immutableSortedCopy(changeMessages);
+    this.changeMessages = changeMessageList(changeMessages);
     this.patchSets = ImmutableMap.copyOf(patchSetMap(patchSets));
     this.patchSetApprovals =
         ImmutableMap.copyOf(patchSetApprovalMap(patchSetApprovals));

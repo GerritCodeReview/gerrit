@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "37c9357a_7681f023",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-10T17:11:21Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "77a2cdc0_e04fe262",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "391a28c9c77e636f1df74fbf6e5a07692e135b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_802c96e1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -89,6 +113,29 @@
         "startChar": 15,
         "endLine": 15,
         "endChar": 22
+      },
+      "revId": "391a28c9c77e636f1df74fbf6e5a07692e135b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37c9357a_9675ac0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-10T17:11:21Z",
+      "side": 1,
+      "message": "And we may need some protecting against importing data from another server which intentionally uses the same server id to produce fake records.",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 18,
+        "endChar": 51
       },
       "revId": "391a28c9c77e636f1df74fbf6e5a07692e135b64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

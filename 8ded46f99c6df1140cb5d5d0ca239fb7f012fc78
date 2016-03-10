@@ -1,4 +1,166 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1457633721 -0800\nnonce AO+Zq7hPFKXyyPrfPiq4maKLHJh3INtg+/t8UoWUzJbsSSJAxb2Ywh1+G15ipSM74S7Qr1P+P84V\n\n0000000000000000000000000000000000000000 8ded46f99c6df1140cb5d5d0ca239fb7f012fc78 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW4bm5AAoJEGt7+xNJsB0bzFkH+wcOIXGCVCT1MQUP1cA5uaTF\nsgYiDRNQSBpWeO7zV0OXTU5QIpCajo3y1hn6AG5AViWpgh9jRLVcWiwpImfZDvXx\nfcooAMMxMhjnyr9PtJKPhvC1Gv9ithcMP22CeP+zRnq3zKwpddats0/TssF/Rt4T\nMFdqFbCa+70DJ8+jl3igEGw2tXdyG5+iwocOEVUyP0ciPK5GYxm6nTAx5tXYf7No\nyvZ3H6Y4476WaWSTuCfpjw0shldO3mucFx9i3dUuHUx3dPmFXQXtR/8p1T8Untvp\n7aeVFabscJQqInukmS1RdlexHvik2+IvooEFhFjp2szFg4K33wCJkAtvcH/zl90\u003d\n\u003dcuyl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1718b12b_35027059",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Are there any threading concerns? Should an immutable collection be returned?",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 20
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_d4ba1ce4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Please add Javadoc",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_55f9ec92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Logging and throwing is generally an anti-pattern (you generally get multiple slightly-different log entries for the same error, making diagnosing/debugging more difficult). Prefer logging only at the point where the exception handling terminates. If there is a justification for doing it here please document it.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 74
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_b530403f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Are there unit tests for the project configuration serialization? If so, please update to include this new section.",
+      "range": {
+        "startLine": 797,
+        "startChar": 0,
+        "endLine": 797,
+        "endChar": 49
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_14cdb47f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Is this fully covered in unit tests? I saw you added a negative test when the source didn\u0027t match the destination branch, but are you covering success cases for exact matches and wildcard matches?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_9535442f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "You can lose a level of nesting here by s/else/else if (r.isWildcard())/ on the line above.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 11
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_34d0b015",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-10T19:49:47Z",
+      "side": 1,
+      "message": "Performance question: Are these configs cached? Reloading on every change seems expensive.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

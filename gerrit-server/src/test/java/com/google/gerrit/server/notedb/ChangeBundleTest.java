@@ -309,7 +309,7 @@ public class ChangeBundleTest {
     ChangeBundle b2 = new ChangeBundle(c, messages(cm2, cm3), patchSets(),
         approvals(), comments(), NOTE_DB);
     assertDiffs(b1, b2,
-        "message differs for ChangeMessage on " + id + " at index 0:"
+        "message differs for ChangeMessage on " + id + " at index 1:"
         + " {message 1} != {message 2}");
   }
 

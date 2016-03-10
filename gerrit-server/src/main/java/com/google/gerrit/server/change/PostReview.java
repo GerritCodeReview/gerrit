@@ -24,6 +24,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -145,6 +146,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   public Output apply(RevisionResource revision, ReviewInput input,
       Timestamp ts) throws RestApiException, UpdateException, OrmException {
+    // Respect timestamp, but truncate at change created-on time.
+    ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
       throw new ResourceConflictException("cannot post review on edit");
     }

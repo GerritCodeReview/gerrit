@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c9357a_560954c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-10T12:58:11Z",
+      "side": 1,
+      "message": "this should be parseAny",
+      "range": {
+        "startLine": 357,
+        "startChar": 22,
+        "endLine": 357,
+        "endChar": 33
+      },
+      "revId": "d8f7aba99fa001262af03d99c0c29c11f45a9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

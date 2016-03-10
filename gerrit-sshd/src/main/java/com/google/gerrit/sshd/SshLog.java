@@ -157,6 +157,9 @@ class SshLog implements LifecycleListener {
   }
 
   private Multimap<String, ?> extractParameters(DispatchCommand dcmd) {
+    if (dcmd == null) {
+      return ArrayListMultimap.create(0, 0);
+    }
     String[] cmdArgs = dcmd.getArguments();
     String paramName = null;
     int argPos = 0;
@@ -274,6 +277,9 @@ class SshLog implements LifecycleListener {
   }
 
   private String extractWhat(DispatchCommand dcmd) {
+    if (dcmd == null) {
+      return "Command was already destroyed";
+    }
     StringBuilder commandName = new StringBuilder(dcmd.getCommandName());
     String[] args = dcmd.getArguments();
     for (int i = 1; i < args.length; i++) {

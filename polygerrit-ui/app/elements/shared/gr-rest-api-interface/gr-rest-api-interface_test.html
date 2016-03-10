@@ -53,6 +53,22 @@ limitations under the License.
       });
     });
 
+    test('empty response', function(done) {
+      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {
+        return Promise.resolve(null);
+      });
+      element._fetchSharedCacheURL('/bar').then(function() {
+        var second = element._fetchSharedCacheURL('/bar');
+        fetchJSONStub.restore();
+        try {
+          assert.isNotNull(second);
+          done();
+        } catch(e) {
+          done(e);
+        }
+      });
+    });
+
     test('cached results', function(done) {
       var n = 0;
       var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {

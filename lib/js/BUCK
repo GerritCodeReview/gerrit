@@ -327,6 +327,14 @@ bower_component(
 )
 
 bower_component(
+  name = 'moment',
+  package = 'moment/moment',
+  version = '2.12.0',
+  license = 'moment',
+  sha1 = '508d53de8f49ab87f03e209e5073e339107ed3e6',
+)
+
+bower_component(
   name = 'webcomponentsjs',
   package = 'webcomponentsjs',
   version = '0.7.20',

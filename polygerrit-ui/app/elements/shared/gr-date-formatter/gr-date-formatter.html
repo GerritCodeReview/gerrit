@@ -15,6 +15,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
+
+<script src="../../../bower_components/moment/moment.js"></script>
 
 <dom-module id="gr-date-formatter">
   <template>
@@ -23,7 +26,8 @@ limitations under the License.
         display: inline;
       }
     </style>
-    <span>[[_computeDateStr(dateStr)]]</span>
+    <span>[[_computeDateStr(dateStr, timeFormat)]]</span>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-date-formatter.js"></script>
 </dom-module>

@@ -38,46 +38,103 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('date is parsed correctly', function() {
+    test('invalid dates are quitely rejected', function() {
       assert.notOk((new Date('foo')).valueOf());
-      var d = element._parseDateStr(element.getAttribute('date-str'));
-      assert.isAbove(d.valueOf(), 0);
+      element.dateStr = 'foo';
+      var result = Polymer.dom(element.root).querySelector('span').textContent;
+      assert.equal(result, '');
     });
 
+    /**
+     * Parse server-formatter date and normalize into current timezone.
+     */
     function normalizedDate(dateStr) {
-      var d = new Date(dateStr);
+      var d = new Date(util.parseDate(dateStr));
       d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
       return d;
     }
 
     function testDates(nowStr, dateStr, expected) {
-      var now = normalizedDate(nowStr);
-      var t = normalizedDate(dateStr);
-      assert.equal(element._dateStr(t, now), expected);
+      // Normalize and convert the date to mimic server response.
+      dateStr = normalizedDate(dateStr)
+          .toJSON().replace('T', ' ').slice(0, -1);
+      var clock = sinon.useFakeTimers(
+          new Date(normalizedDate(nowStr)).getTime());
+      element.dateStr = dateStr;
+      var result = Polymer.dom(element.root).querySelector('span').textContent;
+      assert.equal(result, expected);
+      clock.restore();
     }
 
-    test('dates strings are correct', function() {
-      // Within 24 hours on same day.
-      testDates('2015-07-29T20:34:00.000Z',
-                '2015-07-29T15:34:00.000Z',
-                '3:34 PM');
-      testDates('2016-01-27T17:41:00.000Z',
-                '2016-01-27T12:41:00.000Z',
-                '12:41 PM');
+    test('Within 24 hours on same day for HHMM_12', function(done) {
+      var prefsStub = sinon.stub(element.$.restAPI, 'getPreferences', function() {
+        return Promise.resolve({time_format: 'HHMM_12'});
+      });
+      element.$.restAPI.getPreferences().then(function() {
+        prefsStub.restore();
+        try {
+          testDates('2015-07-29 20:34:14.985000000',
+                    '2015-07-29 15:34:14.985000000',
+                    '15:34');
+          testDates('2016-01-27 17:41:14.985000000',
+                    '2016-01-27 12:41:14.985000000',
+                    '12:41');
+          prefsStub.restore();
+          done();
+        } catch(e) {
+          prefsStub.restore();
+          done(e);
+        }
+      });
+    });
 
-      // Within 24 hours on different days.
-      testDates('2015-07-29T03:34:00.000Z',
-                '2015-07-28T20:25:00.000Z',
+    test('Within 24 hours on same day for HHMM_24', function(done) {
+      var prefsStub = sinon.stub(element.$.restAPI, 'getPreferences', function() {
+        return Promise.resolve({time_format: 'HHMM_24'});
+      });
+      element.attached();
+      element.$.restAPI.getPreferences().then(function() {
+        prefsStub.restore();
+        try {
+          testDates('2015-07-29 20:34:14.985000000',
+                    '2015-07-29 15:34:14.985000000',
+                    '15:34');
+          testDates('2016-01-27 17:41:14.985000000',
+                    '2016-01-27 12:41:14.985000000',
+                    '12:41');
+          prefsStub.restore();
+          done();
+        } catch(e) {
+          prefsStub.restore();
+          done(e);
+        }
+      });
+    });
+
+    test('Within 24 hours on same day uses to HHMM_24', function() {
+      testDates('2015-07-29 20:34:14.985000000',
+                '2015-07-29 15:34:14.985000000',
+                '15:34');
+      testDates('2016-01-27 17:41:14.985000000',
+                '2016-01-27 12:41:14.985000000',
+                '12:41');
+    });
+
+    test('Within 24 hours on different days', function() {
+      testDates('2015-07-29 03:34:14.985000000',
+                '2015-07-28 20:25:14.985000000',
                 'Jul 28');
+    });
 
-      // More than 24 hours. Less than six months.
-      testDates('2015-07-29T20:34:00.000Z',
-                '2015-06-15T03:25:00.000Z',
+    test('More than 24 hours but less than six months', function() {
+      testDates('2015-07-29 20:34:14.985000000',
+                '2015-06-15 03:25:14.985000000',
                 'Jun 15');
+    });
 
-      // More than six months.
-      testDates('2015-09-15T20:34:00.000Z',
-                '2015-01-15T03:25:00.000Z',
+    test('More than six months', function() {
+      testDates('2015-09-15 20:34:00.000000000',
+                '2015-01-15 03:25:00.000000000',
                 'Jan 15, 2015');
     });
   });

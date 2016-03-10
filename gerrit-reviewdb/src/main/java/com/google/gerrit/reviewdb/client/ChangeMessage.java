@@ -124,4 +124,15 @@ public final class ChangeMessage {
   public void setPatchSetId(PatchSet.Id id) {
     patchset = id;
   }
+
+  @Override
+  public String toString() {
+    return "ChangeMessage{"
+        + "key=" + key
+        + ", author=" + author
+        + ", writtenOn=" + writtenOn
+        + ", patchset=" + patchset
+        + ", message=[" + message
+        + "]}";
+  }
 }

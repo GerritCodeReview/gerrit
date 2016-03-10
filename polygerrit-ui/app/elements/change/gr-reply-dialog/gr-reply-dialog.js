@@ -41,11 +41,11 @@
         type: String,
         value: '',
       },
+      diffDrafts: Object,
       labels: Object,
       permittedLabels: Object,
 
       _account: Object,
-      _drafts: Object,
       _xhrPromise: Object,  // Used for testing.
     },
 
@@ -59,18 +59,10 @@
       }.bind(this));
     },
 
-    reload: function() {
-      return this.$.draftsXHR.generateRequest().completes;
-    },
-
     focus: function() {
       this.async(function() {
         this.$.textarea.textarea.focus();
       }.bind(this));
-    },
-
-    _computeDraftsURL: function(changeNum) {
-      return '/changes/' + changeNum + '/drafts';
     },
 
     _computeHideDraftList: function(drafts) {
@@ -125,7 +117,6 @@
 
     _cancelTapHandler: function(e) {
       e.preventDefault();
-      this._drafts = null;
       this.fire('cancel', null, {bubbles: false});
     },
 
@@ -149,7 +140,6 @@
         this.fire('send', null, {bubbles: false});
         this.draft = '';
         this.disabled = false;
-        this._drafts = null;
       }.bind(this)).catch(function(err) {
         alert('Oops. Something went wrong. Check the console and bug the ' +
             'PolyGerrit team for assistance.');

@@ -23,6 +23,30 @@
       "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f716bdff_94eb84cc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-10T20:46:32Z",
+      "side": 1,
+      "message": "There should be no submodule at the moment.\n\nTo test what you said, we\u0027d need to start with superproject subscriptions turned on, perform at least one subscription and then turn it off and see if it is still the latest state from before turning it off",
+      "parentUuid": "f716bdff_b4e68002",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 85
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

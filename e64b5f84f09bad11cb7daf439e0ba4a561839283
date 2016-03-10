@@ -95,6 +95,30 @@
       "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1718b12b_355ef04b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-03-10T23:26:31Z",
+      "side": 1,
+      "message": "Ah. Thanks --- sorry to have been so dense.\n\nThe usual way of adding a submodule subscription is\n\n 1) add the submodule, like normal, using git commands\n 2) edit .gitmodules to add the branch\u003d parameter\n\nIf the documentation is recommending otherwise, we definitely ought to fix it.",
+      "parentUuid": "f716bdff_b417a089",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 85
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -361,13 +361,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     PatchSet.Id psId = update.getPatchSetId();
     ctx.getDb().patchSetApprovals().upsert(
         convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().delete(
-        convertPatchSet(normalized.deleted(), psId));
     for (PatchSetApproval psa : normalized.updated()) {
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
-    }
-    for (PatchSetApproval psa : normalized.deleted()) {
-      update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
     }
 
     // TODO(dborowitz): Don't use a label in notedb; just check when status

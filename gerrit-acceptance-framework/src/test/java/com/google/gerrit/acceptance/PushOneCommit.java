@@ -43,6 +43,8 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
+import java.util.List;
+
 public class PushOneCommit {
   public static final String SUBJECT = "test commit";
   public static final String FILE_NAME = "a.txt";
@@ -179,6 +181,13 @@ public class PushOneCommit {
       .committer(new PersonIdent(i, testRepo.getDate()));
   }
 
+  public void setParents(List<RevCommit> parents) throws Exception {
+    commitBuilder.noParents();
+    for (RevCommit p : parents) {
+      commitBuilder.parent(p);
+    }
+  }
+
   public Result to(String ref) throws Exception {
     commitBuilder.add(fileName, content);
     return execute(ref);
@@ -189,7 +198,7 @@ public class PushOneCommit {
     return execute(ref);
   }
 
-  private Result execute(String ref) throws Exception {
+  public Result execute(String ref) throws Exception {
     RevCommit c = commitBuilder.create();
     if (changeId == null) {
       changeId = GitUtil.getChangeId(testRepo, c).get();

@@ -1,0 +1,189 @@
+Release notes for Gerrit 2.12.1
+===============================
+
+Gerrit 2.12.1 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.12.1.war]
+
+Gerrit 2.12.1 includes the bug fixes done with
+link:ReleaseNotes-2.11.6.html[Gerrit 2.11.6] and
+link:ReleaseNotes-2.11.7.html[Gerrit 2.11.7]. These bug fixes are *not*
+listed in these release notes.
+
+*WARNING:* This version includes a manual schema upgrade when upgrading
+from 2.12.
++
+If you have already upgraded to 2.12, you need to issue this SQL statement
+manually (e.g. using the `gerrit gsql` SSH command or the `gqsl` site
+program):
++
+  alter table patch_sets modify push_certficate clob;
++
+Or with this command if the site is configured to use PostgreSQL:
++
+  alter table patch_sets alter column push_certficate type text;
++
+Note that the misspelled `push_certficate` is the actual name of the
+column.
++
+If you are upgrading from a version earlier than 2.12, this manual step is
+not necessary and should be omitted.
+
+
+Bug Fixes
+---------
+
+General
+^^^^^^^
+
+* Fix column type for signed push certificates.
++
+The column type `VARCHAR(255)` was too small, preventing some PGP push
+certificates from being stored.
+
+* Add the `DRAFT_COMMENTS` option to the list changes REST API endpoint
+and mark it as deprecated.
++
+It was removed in version 2.12 because it's not needed any more by the UI,
+but this caused failures for clients that still use it.
++
+Now it is added back, although it does not do anything and is marked as
+deprecated.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3669[Issue 3669]:
+Fix schema migration when migrating to 2.12.x directly from a version
+earlier than 2.11.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3733[Issue 3733]:
+Correctly detect symlinked log directory on startup.
++
+If `$site_path/logs` was a symlink, the server would not start.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3871[Issue 3871]:
+Throw an explicit exception when failing to load a change from the database.
++
+If a change could not be loaded from the database, for example if it was
+manually removed from the changes table but references to it were remaining
+in other tables, a null change was returned which would then lead to an
+'Internal Server Error' that was difficult to track down. Now an error is
+raised earlier which will help administrators to find the root cause.
+
+* https://code.google.com/p/gerrit/issues/detail?id=3743[Issue 3743]:
+Use submitter identity as committer when using 'Rebase if Necessary' merge
+strategy.
++
+When submitting a change that required rebase, the committer was being
+set to 'Gerrit Code Review' instead of the name of the submitter.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3758[Issue 3758]:
+Fix serving of static resources when deployed in application container.
++
+When deployed in a container, for example Tomcat, it was not possible to
+load the UI because static content could not be loaded from the WAR file.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3790[Issue 3790]:
+When deployed in a container, for example Tomcat, the 'Documentation' menu
+was missing.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3786[Issue 3786]:
+Fix SQL statement syntax in schema migration.
++
+An extra semicolon was preventing migration from 2.11.x to 2.12 when using
+an Oracle database.
+
+* Send email using email queue instead of the default queue.
++
+Some emails sent asynchronously were already being sent using that queue
+but some were not. This was confusing for a gerrit administrator because
+if there is a build up of `send-email` tasks in the queue, he would
+think that increasing `sendemail.threadPoolSize` would help but it did not
+because some of the email were sent using the default queue which is
+configurable using `execution.defaultThreadPoolSize`.
+
+* Fix XSRF token cookie to honor `auth.cookieSecure` setting.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3767[Issue 3767]:
+Fix replication of first patch set for new changes.
++
+When new changes were pushed from the command line, the first patch
+set did not get replicated to destinations.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3771[Issue 3771]:
+Remove `index.defaultMaxClauseCount` configuration option.
++
+When `index.maxTerms` was either not set (thus no limit) or set to a value
+higher than `index.defaultMaxClauseCount` it was possible that viewing the
+related changes tab could cause a 'Too many clauses' error for changes that
+have a lot of related changes.
++
+The `index.defaultMaxClauseCount` configuration option is removed, and the
+existing `index.maxTerms` is reused. The default value of `index.maxTerms`
+is reduced from 'no limit' to 1024.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3919[Issue 3919]:
+Explicitly set parent project to 'All-Projects' when a project is created
+without giving the parent.
+
+UI
+^^
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3071[Issue 3071]:
+Fix display of submodule differences in side-by-side view.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3718[Issue 3718]:
+Hide avatar images when no avatars are available.
++
+The UI was showing a transparent empty image with a border.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3731[Issue 3731]:
+Fix syntax higlighting of tcl files.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3863[Issue 3863]:
+Fix display of active row marker in tag list.
++
+Clicking on one of the rows would cause the tag name to disappear.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1207[Issue 1207]:
+Fix keyboard shortcuts for non-US keyboards on side-by-side diff screen.
++
+The forward/backward navigation keys `[` and `]` only worked on keyboards where
+these characters could be typed without using any modifier key (like CTRL, ALT,
+etc..).
++
+Note that the problem still exists on the unified diff screen.
+
+Plugins
+^^^^^^^
+
+* Allow plugins to get the caller in merge validation requests.
++
+Plugins that implement the `MergeValidationListener` interface now get the
+caller (the user who initiated the merge) in the `onPreMerge` method.
++
+Existing plugins that implement this interface must be adapted to the new
+method signature.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3741[Issue 3741]:
+Fix handling of merge validation exceptions emitted by plugins.
++
+If a plugin raised an exception, it was reported to the user as 'Change is
+new', rather than 'Missing dependency'.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3821[Issue 3821]:
+Fix repeated reloading of plugins when running on OpenJDK 8.
++
+OpenJDK 8 uses nanotime precision for file modification time on systems that
+are POSIX 2008 compatible. This leads to precision incompatibility when
+comparing the plugin's JAR file timestamp, resulting in the plugin being
+reloaded every minute.
+
+Documentation
+^^^^^^^^^^^^^
+
+* Update documentation of `commentlink` to reflect changed search URL.
+
+Upgrades
+--------
+
+* Upgrade JGit to 4.1.2.201602141800-r.

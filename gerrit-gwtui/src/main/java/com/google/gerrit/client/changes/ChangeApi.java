@@ -192,8 +192,7 @@ public class ChangeApi {
 
   /** Submit a specific revision of a change. */
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
-    SubmitInput in = SubmitInput.create();
-    in.waitForMerge(true);
+    JavaScriptObject in = JavaScriptObject.createObject();
     call(id, commit, "submit").post(in, cb);
   }
 
@@ -284,17 +283,6 @@ public class ChangeApi {
     }
 
     protected RebaseInput() {
-    }
-  }
-
-  private static class SubmitInput extends JavaScriptObject {
-    final native void waitForMerge(boolean b) /*-{ this.wait_for_merge=b; }-*/;
-
-    static SubmitInput create() {
-      return (SubmitInput) createObject();
-    }
-
-    protected SubmitInput() {
     }
   }
 

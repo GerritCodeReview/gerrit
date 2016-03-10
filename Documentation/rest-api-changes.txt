@@ -1050,8 +1050,7 @@ the error message is contained in the response body.
 Submits a change.
 
 The request body only needs to include a link:#submit-input[
-SubmitInput] entity if the request should wait for the merge to
-complete.
+SubmitInput] entity if submitting on behalf of another user.
 
 .Request
 ----
@@ -1059,7 +1058,7 @@ complete.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "wait_for_merge": true
+    "on_behalf_of": 1001439
   }
 ----
 
@@ -4780,10 +4779,6 @@ after submitting.
 |Field Name    ||Description
 |`status`      ||
 The status of the change after submitting is `MERGED`.
-+
-As `wait_for_merge` in the link:#submit-input[SubmitInput] is deprecated and
-the request always waits for the merge to be completed, you can expect
-`MERGED` to be returned here.
 |`on_behalf_of`|optional|
 The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
 whose behalf the action should be done. To use this option the caller must
@@ -4808,8 +4803,6 @@ format link:rest-api-accounts.html#account-id[accepted by the accounts REST
 API]. Using this option requires
 link:access-control.html#category_submit_on_behalf_of[Submit (On Behalf Of)]
 permission on the branch.
-|`wait_for_merge`|Deprecated, always `true`|
-Whether the request should wait for the merge to complete.
 |===========================
 
 [[submit-record]]

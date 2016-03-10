@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c9357a_39368b3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-10T21:45:19Z",
+      "side": 1,
+      "message": "I\u0027m concerned about the explosion of expensive REST endpoint calls, caused by this change. There is optimized has:draft predicate that uses secondary index: [1]. Instead using it you eagerly retrieve the daft comments. Sure, when you would use has:draft, you wouldn\u0027t be able to render \"Reply (42)\" label on the reply button. But wouldn\u0027t be enough to style the button as primary?\n\nConsider the follow workflow:\n\n* middle size change\n* 100 changed files\n* non working \u0027[\u0027, \u0027]\u0027 on german keyboard layout\n* 1-2 draft comments per reviewed file\n\nBecause \u0027[\u0027, \u0027]\u0027 shortcuts don\u0027t work reviewer is forced to switch back to the change screen (\u0027u\u0027) and navigate with working keys to the next file (we agree, that nobody is using mouse?) and enter diff screen with enter key. In the end of this session you retrieved all drafts 100 times, but what for? The user don\u0027t want to publish them at all, and switch instead to the next change in the series, to see if other comments on the other changes (say middle series of 10 changes) may be related. All your draft comments retrievals were in vain.\n\n* [1] https://gerrit-review.googlesource.com/#/c/73470",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 349,
+        "endChar": 6
+      },
+      "revId": "14da39398a8874762f9b3aec8497e1c3dea081a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -345,16 +345,11 @@ Push the new Release Tag on the plugins:
   make -C ReleaseNotes
 ----
 
-* Build the documentation:
-+
-----
-  buck build docs
-----
+* Extract the documentation files from the zip file generated during
+the release build: `buck-out/gen/Documentation/html/html.zip`.
 
-* Extract the documentation html files from the generated zip file
-`buck-out/gen/Documentation/searchfree.zip`.
-
-* Upload the html files manually via web browser to the
+* Upload the files manually via web browser to the appropriate folder
+in the
 link:https://console.developers.google.com/project/164060093628/storage/gerrit-documentation/[
 gerrit-documentation] storage bucket.
 

@@ -16,6 +16,24 @@
       "revId": "a7f2b204667c0ff2c9876c975e5392cd6bc98a0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_ef020129",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-11T09:40:12Z",
+      "side": 1,
+      "message": "I was going to mention the reason for adding SHA256, which is that there is an ansible playbook for gerrit that uses it, but then decided that it was an unimportant detail.\n\nBut I forgot to remove the link.",
+      "parentUuid": "d742992f_eb16718a",
+      "revId": "a7f2b204667c0ff2c9876c975e5392cd6bc98a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

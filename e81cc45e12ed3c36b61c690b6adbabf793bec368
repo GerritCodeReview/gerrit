@@ -94,6 +94,30 @@
       "revId": "e81cc45e12ed3c36b61c690b6adbabf793bec368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_6f2371ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-11T08:29:40Z",
+      "side": 1,
+      "message": "Good point.\n\nIn that case how long do we wait before removing the deprecated field?  I thought it was reasonable to remove for 2.13 since it was marked as deprecated in 2.12.",
+      "parentUuid": "d742992f_cb07f568",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "e81cc45e12ed3c36b61c690b6adbabf793bec368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

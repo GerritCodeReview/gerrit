@@ -16,6 +16,23 @@
       "revId": "73da65f6be5789e768257c287dff697dfcb26023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_0f45858f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-11T07:06:19Z",
+      "side": 1,
+      "message": "I would prefer to have the bugfix and the re-ordering in separate changes.",
+      "revId": "73da65f6be5789e768257c287dff697dfcb26023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

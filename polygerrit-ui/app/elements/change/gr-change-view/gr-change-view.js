@@ -306,6 +306,8 @@
 
       switch (e.keyCode) {
         case 65:  // 'a'
+          if (!this._loggedIn) { return; }
+
           e.preventDefault();
           this.$.replyOverlay.open();
           break;

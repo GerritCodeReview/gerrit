@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b73365d6_8ae6cb02",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-11T05:57:32Z",
+      "side": 1,
+      "message": "optional nit: wrap after the opening [",
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_b4e68002",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 8
@@ -115,6 +132,29 @@
         "startChar": 0,
         "endLine": 39,
         "endChar": 85
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_aaeb8fcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-11T05:57:32Z",
+      "side": 1,
+      "message": "We have to be careful when adding new methods that this check is added (when necessary).\n\nDo you think it\u0027s feasible to instead make SubmoduleOp abstract and provide two implementations, one for enabled and one for disabled, which would be selected based on the setting?  This will mean more code, but will make the difference a bit more explicit and less prone to missing this check.",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 5
       },
       "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

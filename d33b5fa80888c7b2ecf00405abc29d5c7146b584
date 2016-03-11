@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1722718a_c5f0bab6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-11T21:46:40Z",
+      "side": 1,
+      "message": "since this seems to be duplicated, do you think it is worth extracting into a named concept (helper fn)?",
+      "revId": "d33b5fa80888c7b2ecf00405abc29d5c7146b584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

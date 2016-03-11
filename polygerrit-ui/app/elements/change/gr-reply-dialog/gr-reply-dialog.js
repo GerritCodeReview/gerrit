@@ -54,8 +54,8 @@
     ],
 
     ready: function() {
-      app.accountReady.then(function() {
-        this._account = app.account;
+      app.accountReady.then(function(account) {
+        this._account = account;
       }.bind(this));
     },
 

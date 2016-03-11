@@ -97,8 +97,8 @@
       };
     },
 
-    _accountChanged: function() {
-      this._resolveAccountReady();
+    _accountChanged: function(account) {
+      this._resolveAccountReady(account);
 
       if (this.loggedIn) {
         this.$.restAPI.getPreferences().then(function(preferences) {

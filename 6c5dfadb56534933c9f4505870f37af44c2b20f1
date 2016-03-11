@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d742992f_4b4f85af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:13:33Z",
+      "side": 1,
+      "message": "Actually I think the timestamp from the CommentInput is still not used. That change only added a method that allows plugins to add comments with historic timestamps. It was intended to be used from the importer plugin, but then the importer plugin implemented it differently. So I assume this method is unused and we could just remove it, if we don\u0027t want to support this case in notedb.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "6c5dfadb56534933c9f4505870f37af44c2b20f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

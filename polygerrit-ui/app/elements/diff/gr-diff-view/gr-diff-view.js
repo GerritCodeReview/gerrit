@@ -122,6 +122,7 @@
           this._navToFile(this._fileList, 1);
           break;
         case 78:  // 'n'
+          e.preventDefault();
           if (e.shiftKey) {
             this.$.diff.scrollToNextCommentThread();
           } else {
@@ -129,6 +130,7 @@
           }
           break;
         case 80:  // 'p'
+          e.preventDefault();
           if (e.shiftKey) {
             this.$.diff.scrollToPreviousCommentThread();
           } else {
@@ -150,6 +152,7 @@
           }
           break;
         case 188:  // ','
+          e.preventDefault();
           this.$.diff.showDiffPreferences();
           break;
       }

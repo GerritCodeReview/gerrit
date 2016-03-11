@@ -1,0 +1,439 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "575789e9_af871902",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "We generally follow the Google Java Style Guide [1][2], so please always use braces for the body of an if-statement, even if it contains a single statement.\n\n[1] https://google.github.io/styleguide/javaguide.html#s4.1.1-braces-always-used\n[2] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_6f7e11b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces on these lines [1].\n\n[1]: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 6
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_ea16678a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 6
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_8f6975ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 255,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 10
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_af6e3902",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 264,
+        "startChar": 16,
+        "endLine": 264,
+        "endChar": 18
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_ef6841f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_2a295fd0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 281,
+        "startChar": 16,
+        "endLine": 281,
+        "endChar": 18
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_0f5e654b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_4a2693ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "The indentation seems wrong here.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_cf637d19",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: line too long, please wrap it.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_2feec9a8",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "I **think** most additions to this file should go to gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java instead, or rather warrant a new file like Blame.java.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_4ffb0d66",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirrorConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "This is a misnomer. What about BlameConfig, and put it with other blame related additions in a Blame.java file?",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 33
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_ea91073c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 4
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_0ff10586",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 8
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_cfe61dd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "This can probably fit on the previous line.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_aa870f02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "This can probably fit on the previous line.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_ca8c4329",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 10
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_efebe198",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 10
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_6f553122",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 4 spaces here.",
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_8fdc1500",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "nit: Indent 2 more spaces here.",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 273,
+        "endChar": 8
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_2f5b295c",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T09:27:48Z",
+      "side": 1,
+      "message": "This should be \"css\", I guess?",
+      "range": {
+        "startLine": 6,
+        "startChar": 19,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "d60f0d78837530eb53d879a0bca367513f95aed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

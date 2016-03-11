@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3727759a_46b3f214",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-11T18:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73365d6_4ae5b3f0",
+      "range": {
+        "startLine": 161,
+        "startChar": 35,
+        "endLine": 161,
+        "endChar": 37
+      },
+      "revId": "9dae7f51986bcbddb819a29ee739829b39d682cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_1fc103f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 22

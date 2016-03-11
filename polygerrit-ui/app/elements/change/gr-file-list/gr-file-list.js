@@ -24,7 +24,6 @@
       changeNum: String,
       comments: Object,
       drafts: Object,
-      files: Array,
       selectedIndex: {
         type: Number,
         notify: true,
@@ -33,6 +32,8 @@
         type: Object,
         value: function() { return document.body; },
       },
+
+      _files: Array,
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -41,34 +42,32 @@
         type: Array,
         value: function() { return []; },
       },
-      _filesRequestPromise: Object,  // Used for testing.
-      _reviewedRequestPromise: Object,  // Used for testing.
-      _xhrPromise: Object,  // Used for testing.
     },
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
-      Gerrit.RESTClientBehavior,
     ],
 
     reload: function() {
       if (!this.changeNum || !this.patchNum) {
         return Promise.resolve();
       }
-      return Promise.all([
-        this._filesRequestPromise =
-            this.$.filesXHR.generateRequest().completes,
-        app.accountReady.then(function() {
-          this._loggedIn = app.loggedIn;
-          if (!app.loggedIn) { return; }
-          this._reviewedRequestPromise =
-              this.$.reviewedXHR.generateRequest().completes;
-        }.bind(this)),
-      ]);
-    },
+      var promises = [];
 
-    _computeFilesURL: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/files';
+      promises.push(this._getFiles().then(function(files) {
+        this._files = files;
+      }.bind(this)));
+      promises.push(this._getLoggedIn().then(function(loggedIn) {
+        return this._loggedIn = loggedIn;
+      }.bind(this)).then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        this._getReviewedFiles().then(function(reviewed) {
+          this._reviewed = reviewed;
+        }.bind(this));
+      }.bind(this)));
+
+      return Promise.all(promises);
     },
 
     _computeCommentsString: function(comments, patchNum, path) {
@@ -80,54 +79,67 @@
     },
 
     _computeCountString: function(comments, patchNum, path, noun) {
+      if (!comments) { return ''; }
+
       var patchComments = (comments[path] || []).filter(function(c) {
-        return c.patch_set == patchNum;
+        return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
       });
       var num = patchComments.length;
-      if (num == 0) { return ''; }
+      if (num === 0) { return ''; }
       return num + ' ' + noun + (num > 1 ? 's' : '');
     },
 
-    _computeReviewedURL: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/files?reviewed';
-    },
-
     _computeReviewed: function(file, _reviewed) {
-      return _reviewed.indexOf(file.__path) != -1;
+      return _reviewed.indexOf(file.__path) !== -1;
     },
 
     _handleReviewedChange: function(e) {
       var path = Polymer.dom(e).rootTarget.getAttribute('data-path');
       var index = this._reviewed.indexOf(path);
-      var reviewed = index != -1;
+      var reviewed = index !== -1;
       if (reviewed) {
         this.splice('_reviewed', index, 1);
       } else {
         this.push('_reviewed', path);
       }
 
-      var method = reviewed ? 'DELETE' : 'PUT';
-      var url = this.changeBaseURL(this.changeNum, this.patchNum) +
-          '/files/' + encodeURIComponent(path) + '/reviewed';
-      this._send(method, url).catch(function(err) {
+      this._saveReviewedState(path, !reviewed).catch(function(err) {
         alert('Couldn’t change file review status. Check the console ' +
             'and contact the PolyGerrit team for assistance.');
         throw err;
       }.bind(this));
     },
 
-    _handleResponse: function(e, req) {
-      var result = e.detail.response;
-      var paths = Object.keys(result).sort();
-      var files = [];
-      for (var i = 0; i < paths.length; i++) {
-        var info = result[paths[i]];
-        info.__path = paths[i];
-        info.lines_inserted = info.lines_inserted || 0;
-        info.lines_deleted = info.lines_deleted || 0;
-        files.push(info);
-      }
-      this.files = files;
+    _saveReviewedState: function(path, reviewed) {
+      return this.$.restAPI.saveFileReviewed(this.changeNum, this.patchNum,
+          path, reviewed);
+    },
+
+    _getLoggedIn: function() {
+      return this.$.restAPI.getAccount(function(account) {
+        return account != null;
+      });
+    },
+
+    _getReviewedFiles: function() {
+      return this.$.restAPI.getReviewedFiles(this.changeNum,
+          this.patchNum);
+    },
+
+    _getFiles: function() {
+      return this.$.restAPI.getChangeFiles(this.changeNum, this.patchNum).then(
+          function(response) {
+            var paths = Object.keys(response).sort();
+            var files = [];
+            for (var i = 0; i < paths.length; i++) {
+              var info = response[paths[i]];
+              info.__path = paths[i];
+              info.lines_inserted = info.lines_inserted || 0;
+              info.lines_deleted = info.lines_deleted || 0;
+              files.push(info);
+            }
+            return files;
+          }.bind(this));
     },
 
     _handleKey: function(e) {
@@ -137,7 +149,7 @@
         case 74:  // 'j'
           e.preventDefault();
           this.selectedIndex =
-              Math.min(this.files.length - 1, this.selectedIndex + 1);
+              Math.min(this._files.length - 1, this.selectedIndex + 1);
           break;
         case 75:  // 'k'
           e.preventDefault();
@@ -145,7 +157,7 @@
           break;
         case 219:  // '['
           e.preventDefault();
-          this._openSelectedFile(this.files.length - 1);
+          this._openSelectedFile(this._files.length - 1);
           break;
         case 221:  // ']'
           e.preventDefault();
@@ -164,11 +176,11 @@
         this.selectedIndex = opt_index;
       }
       page.show(this._computeDiffURL(this.changeNum, this.patchNum,
-          this.files[this.selectedIndex].__path));
+          this._files[this.selectedIndex].__path));
     },
 
     _computeFileSelected: function(index, selectedIndex) {
-      return index == selectedIndex;
+      return index === selectedIndex;
     },
 
     _computeFileStatus: function(status) {
@@ -180,24 +192,15 @@
     },
 
     _computeFileDisplayName: function(path) {
-      return path == COMMIT_MESSAGE_PATH ? 'Commit message' : path;
+      return path === COMMIT_MESSAGE_PATH ? 'Commit message' : path;
     },
 
     _computeClass: function(baseClass, path) {
       var classes = [baseClass];
-      if (path == COMMIT_MESSAGE_PATH) {
+      if (path === COMMIT_MESSAGE_PATH) {
         classes.push('invisible');
       }
       return classes.join(' ');
-    },
-
-    _send: function(method, url) {
-      var xhr = document.createElement('gr-request');
-      this._xhrPromise = xhr.send({
-        method: method,
-        url: url,
-      });
-      return this._xhrPromise;
     },
   });
 })();

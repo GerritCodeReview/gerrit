@@ -309,6 +309,12 @@ is:mergeable::
 True if the change has no merge conflicts and could be merged into its
 destination branch.
 
+[[submittable]]
+is:submittable::
++
+True if the change is mergeable and has all required labels, such that
+it can be submitted.
+
 [[status]]
 status:open, status:pending::
 +

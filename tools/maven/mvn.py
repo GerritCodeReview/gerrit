@@ -65,7 +65,8 @@ for spec in args.s:
       print(' '.join(exe), file=stderr)
     check_output(exe)
   except Exception as e:
-    print('%s command failed: %s' % (args.a, e), file=stderr)
+    print('%s command failed: %s\n%s' % (args.a, ' '.join(exe), e),
+      file=stderr)
     exit(1)
 
 with open(args.o, 'w') as fd:

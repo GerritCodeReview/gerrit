@@ -100,7 +100,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
-  private final CommentsInNotesUtil commentsUtil;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
 
@@ -136,11 +135,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
-      CommentsInNotesUtil commentsUtil,
-      ChangeNoteUtil changeNoteUtil) {
+      ChangeNoteUtil noteUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
         updateManagerFactory, draftUpdateFactory,
-        projectCache, ctl, serverIdent.getWhen(), commentsUtil, changeNoteUtil);
+        projectCache, ctl, serverIdent.getWhen(), noteUtil);
   }
 
   @AssistedInject
@@ -155,13 +153,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
-      CommentsInNotesUtil commentsUtil,
-      ChangeNoteUtil changeNoteUtil) {
+      ChangeNoteUtil noteUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
         updateManagerFactory, draftUpdateFactory, ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
-        commentsUtil, changeNoteUtil);
+        noteUtil);
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
@@ -180,12 +177,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
-      CommentsInNotesUtil commentsUtil,
-      ChangeNoteUtil changeNoteUtil) {
+      ChangeNoteUtil noteUtil) {
     super(migration, repoManager, ctl, serverIdent,
-        anonymousCowardName, changeNoteUtil, when);
+        anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
-    this.commentsUtil = commentsUtil;
     this.draftUpdateFactory = draftUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
 
@@ -378,7 +373,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data = inserter.insert(
-          OBJ_BLOB, e.getValue().build(commentsUtil));
+          OBJ_BLOB, e.getValue().build(noteUtil));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 
@@ -404,7 +399,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        commentsUtil, ctl.getId(), rw.getObjectReader(), noteMap, false);
+        noteUtil, ctl.getId(), rw.getObjectReader(), noteMap, false);
   }
 
   private void checkComments(Map<RevId, RevisionNote> existingNotes,

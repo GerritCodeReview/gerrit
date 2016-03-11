@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1722718a_8594025f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-11T16:28:47Z",
+      "side": 1,
+      "message": "Actually it only runs once, since InitModule only adds the InitDatabase step when initializing an empty site. Notice you don\u0027t get prompted for database type when using init to update.\n\nThat said, very easy to add an additional condition here. Done.",
+      "parentUuid": "f7479d3c_2c425388",
+      "revId": "563f3b48ff0afde06389d02be24039e158b4e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d742992f_8b824df3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/GerritServerIdProvider.java",
         "patchSetId": 3
@@ -37,6 +55,24 @@
         "endLine": 42,
         "endChar": 53
       },
+      "revId": "563f3b48ff0afde06389d02be24039e158b4e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_86940a5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/GerritServerIdProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-11T16:28:47Z",
+      "side": 1,
+      "message": "It was originally so you could edit the contents of the uuid file and not worry about your editor adding a trailing newline. No longer applicable, removed.",
+      "parentUuid": "d742992f_8b824df3",
       "revId": "563f3b48ff0afde06389d02be24039e158b4e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

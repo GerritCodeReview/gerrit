@@ -18,10 +18,7 @@
     is: 'gr-app',
 
     properties: {
-      account: {
-        type: Object,
-        observer: '_accountChanged',
-      },
+      params: Object,
       accountReady: {
         type: Object,
         readOnly: true,
@@ -32,29 +29,20 @@
           }.bind(this));
         },
       },
-      config: {
-        type: Object,
-        observer: '_configChanged',
-      },
-      configReady: {
-        type: Object,
-        readOnly: true,
-        notify: true,
-        value: function() {
-          return new Promise(function(resolve) {
-            this._resolveConfigReady = resolve;
-          }.bind(this));
-        },
-      },
-      version: String,
-      params: Object,
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },
       },
 
+      _account: {
+        type: Object,
+        observer: '_accountChanged',
+      },
+      _serverConfig: Object,
+      _version: String,
       _diffPreferences: Object,
       _preferences: Object,
+      _resolveAccountReady: Function,
       _showChangeListView: Boolean,
       _showDashboardView: Boolean,
       _showChangeView: Boolean,
@@ -75,12 +63,18 @@
     ],
 
     get loggedIn() {
-      return !!(this.account && Object.keys(this.account).length > 0);
+      return !!(this._account && Object.keys(this._account).length > 0);
     },
 
     attached: function() {
       this.$.restAPI.getAccount().then(function(account) {
-        this.account = account;
+        this._account = account;
+      }.bind(this));
+      this.$.restAPI.getConfig().then(function(config) {
+        this._serverConfig = config;
+      }.bind(this));
+      this.$.restAPI.getVersion().then(function(version) {
+        this._version = version;
       }.bind(this));
     },
 
@@ -105,11 +99,13 @@
 
     _accountChanged: function() {
       this._resolveAccountReady();
-      if (this.loggedIn) {
-        this.$.diffPreferencesXHR.generateRequest();
 
+      if (this.loggedIn) {
         this.$.restAPI.getPreferences().then(function(preferences) {
           this._preferences = preferences;
+        }.bind(this));
+        this.$.restAPI.getDiffPreferences().then(function(prefs) {
+          this._diffPreferences = prefs;
         }.bind(this));
       } else {
         // These defaults should match the defaults in
@@ -135,10 +131,6 @@
           changes_per_page: 25,
         };
       }
-    },
-
-    _configChanged: function(config) {
-      this._resolveConfigReady(config);
     },
 
     _viewChanged: function(view) {

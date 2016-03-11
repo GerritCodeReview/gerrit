@@ -42,7 +42,7 @@ limitations under the License.
       var testJSON = ')]}\'\n{"hello": "bonjour"}';
 
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({ text: function() {
+        return Promise.resolve({text: function() {
           return Promise.resolve(testJSON);
         }});
       });
@@ -65,7 +65,7 @@ limitations under the License.
 
       Promise.all(promises).then(function(results) {
         assert.deepEqual(results, [1, 1, 1]);
-         element._fetchSharedCacheURL('/foo').then(function(foo) {
+        element._fetchSharedCacheURL('/foo').then(function(foo) {
           assert.equal(foo, 1);
           fetchJSONStub.restore();
           done();
@@ -84,7 +84,7 @@ limitations under the License.
 
     test('params are properly encoded', function() {
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({ text: function() {
+        return Promise.resolve({text: function() {
           return Promise.resolve(')]}\'\n{}');
         }});
       });
@@ -101,7 +101,7 @@ limitations under the License.
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({ body: {
+        return Promise.resolve({body: {
           cancel: function() { cancelCalled = true; }
         }});
       });
@@ -140,6 +140,7 @@ limitations under the License.
           assert.deepEqual(obj.comments[0], {
             message: 'this isn’t quite right',
           });
+          fetchJSONStub.restore();
           done();
         });
     });
@@ -190,6 +191,7 @@ limitations under the License.
           assert.deepEqual(obj.comments[1], {
             message: '¯\\_(ツ)_/¯',
           });
+          fetchJSONStub.restore();
           done();
         });
     });

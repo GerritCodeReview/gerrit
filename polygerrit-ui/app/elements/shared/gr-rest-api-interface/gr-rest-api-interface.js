@@ -82,6 +82,18 @@
       }.bind(this));
     },
 
+    getConfig: function() {
+      return this._fetchSharedCacheURL('/config/server/info');
+    },
+
+    getVersion: function() {
+      return this._fetchSharedCacheURL('/config/server/version');
+    },
+
+    getDiffPreferences: function() {
+      return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+    },
+
     getAccount: function() {
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },

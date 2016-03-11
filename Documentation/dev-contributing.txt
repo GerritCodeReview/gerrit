@@ -164,7 +164,8 @@ Highlighted/additional styling notes:
     contributors may also like to open several editors side by
     side while editing new changes.
   * Use 2 spaces for indent (no tabs)
-  * Use brackets in all ifs, spaces before/after if parens.
+  * Use braces in all if/else/for/do/while/catch blocks, spaces before/after
+    if/for/while/catch parens.
   * Use /** */ style Javadocs for variables.
 
 Additionally, you will notice that most of the newline spacing

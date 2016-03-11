@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1722718a_65e2a6eb",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "don’t need the 0. It can be just .75em;\n\nhere and below.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_a512dea7",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "don\u0027t set margin within a host itself. set it outside the element by the encompassing element. you may have different margins depending on the circumstances.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_66e2aeeb",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "you don’t need this wrapper. the host element itself is the wrapper.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_850de28e",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "separate this out into it\u0027s own JS file per the current directory structure.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_860dea8e",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "s/event/e",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_a612e6a7",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "e.preventDefault();",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_c507da68",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "single-quotes",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_e50cd68f",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:22:25Z",
+      "side": 1,
+      "message": "yeah you need to rebase to HEAD",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

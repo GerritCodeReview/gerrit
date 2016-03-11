@@ -51,14 +51,14 @@ public class EventBroker implements EventDispatcher {
    * Listeners to receive changes as they happen (limited by visibility of
    * user).
    */
-  private final DynamicSet<UserScopedEventListener> listeners;
+  protected final DynamicSet<UserScopedEventListener> listeners;
 
   /** Listeners to receive all changes as they happen. */
-  private final DynamicSet<EventListener> unrestrictedListeners;
+  protected final DynamicSet<EventListener> unrestrictedListeners;
 
-  private final ProjectCache projectCache;
+  protected final ProjectCache projectCache;
 
-  private final ChangeNotes.Factory notesFactory;
+  protected final ChangeNotes.Factory notesFactory;
 
   @Inject
   public EventBroker(DynamicSet<UserScopedEventListener> listeners,
@@ -92,7 +92,7 @@ public class EventBroker implements EventDispatcher {
     fireEvent(event, db);
   }
 
-  private void fireEventForUnrestrictedListeners(Event event) {
+  protected void fireEventForUnrestrictedListeners(Event event) {
     for (EventListener listener : unrestrictedListeners) {
       listener.onEvent(event);
     }

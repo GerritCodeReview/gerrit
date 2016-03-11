@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "575789e9_0f2ca5df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-11T08:11:01Z",
+      "side": 1,
+      "message": "Would it be reasonable to make Gerrit ignore unknown fields, rather than failing?",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "e81cc45e12ed3c36b61c690b6adbabf793bec368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1457675930 -0500\nnonce AO+Zq7iX2YMKQQgtZGRPv3GYjC5wy+Qdv68eWXdC0DXH+rQLm4g7r8eC2EyDXI+BgSOv2B51FElg\n\n0000000000000000000000000000000000000000 18aa39913b09b377602fcec1e5624b8cc72bc4a3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW4l6aAAoJEF/XxZqaEoiMCswQAKP4H7JefQDNY0AZazXsTLjN\npytqQtwWfz4vjHqsKwHKN1xc9G4a8xlnD9w7pqfyryVgRRB4niuyft1o1gjLQ0sn\nDwggwTcHP4Cf3B/BDV+S9iNbHg7TlQ0cxOOD4O92r/oFocRd3WcPKxk5f0YljFBe\nrpcbiY7AhVGeb0Yi1uy/tsuZUcLCarOV1om2EqKNBW3BHDTTIgyKTY5v+R7BAGeU\nodpY11D4DkS10NaNTn5rxAssw6MpRmew26mTE6W5V0k+jfitv0ALWkpgI5Rr9hGe\nZ8JHKvgs/CCXw9tn08THzP8RzGOkVIssHm92iIHlhKJB/e9AMiHQ29TxzmGOW6fZ\nlBkzxCeXxqfGQe10/qDuNQuIZFWmS8jgPUD5rfTpqEmgbB8xcDtG4maFwPBNipPz\n0wJRqEcbBkG/6mAkaGglb+aHmcprtc054VybvSz3/ebmU0da1c9+w4GqKu1EgonC\nt9796bUrXL+tAXVHqJ3rvv7oLdv4ia3w58ZLZMob4RWMKEOMXtke0rlZnV4tV+3J\ngGcB6AdNTV6WPGs0hiI41FUco4gK9XRtpc/YyRycB7RQYhgJ+UkYOb6TTNx69jKK\nKJb3xY9Rjy69LulsffilwdSVfY/XemAwxZHrRTa6yKWPYRGIRRIACpI6TJyKgEuA\new7924eOGwjU4sOFR8Vr\n\u003dj6VC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7479d3c_2c425388",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:53:45Z",
+      "side": 1,
+      "message": "This is regenerating a new serverId each time when init is run, but it should set the serverId only when it is missing.",
+      "revId": "563f3b48ff0afde06389d02be24039e158b4e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d742992f_8b824df3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/GerritServerIdProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:53:45Z",
+      "side": 1,
+      "message": "Is this needed? We don\u0027t do it for any other value that we read from the config.",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 53
+      },
+      "revId": "563f3b48ff0afde06389d02be24039e158b4e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

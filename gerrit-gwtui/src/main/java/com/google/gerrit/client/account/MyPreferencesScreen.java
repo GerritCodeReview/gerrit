@@ -199,6 +199,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.emailFieldLabel());
     formGrid.setWidget(row, fieldIdx, emailStrategy);
+    row++;
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, signedOffBy);

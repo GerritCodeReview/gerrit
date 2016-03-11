@@ -165,6 +165,15 @@ Tag the plugins:
 * Sanity check WAR
 * Test the new Gerrit version
 
+* Verify plugin versions
++
+Sometimes `buck` doesn't rebuild plugins after they are tagged, and the
+versions don't reflect the tag. Verify the versions:
++
+----
+  java -jar ./buck-out/gen/release/release.war init --list-plugins
+----
+
 [[publish-gerrit]]
 === Publish the Gerrit Release
 
@@ -336,16 +345,11 @@ Push the new Release Tag on the plugins:
   make -C ReleaseNotes
 ----
 
-* Build the documentation:
-+
-----
-  buck build docs
-----
+* Extract the documentation files from the zip file generated during
+the release build: `buck-out/gen/Documentation/html/html.zip`.
 
-* Extract the documentation html files from the generated zip file
-`buck-out/gen/Documentation/searchfree.zip`.
-
-* Upload the html files manually via web browser to the
+* Upload the files manually via web browser to the appropriate folder
+in the
 link:https://console.developers.google.com/project/164060093628/storage/gerrit-documentation/[
 gerrit-documentation] storage bucket.
 
@@ -383,13 +387,12 @@ including some or all of the following in the email:
 ** A link to the release and the release notes (if a final release)
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
-
-* Add an entry to the `NEWS` section of the main Gerrit project web page
-** Go to: http://code.google.com/p/gerrit/admin
-** Add entry like:
-----
- * Jun 14, 2012 - Gerrit 2.4.1 [https://groups.google.com/d/topic/repo-discuss/jHg43gixqzs/discussion Released]
-----
+** Hash values (SHA1, SHA256, MD5) for the release WAR file.
++
+The SHA1 and MD5 can be taken from the artifact page on Sonatype. The
+SHA256 can be generated with
+`openssl sha -sha256 buck-out/gen/release/release.war` or an equivalent
+command.
 
 * Update the new discussion group announcement to be sticky
 ** Go to: http://groups.google.com/group/repo-discuss/topics

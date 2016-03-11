@@ -177,6 +177,8 @@ public class EventBroker implements EventDispatcher {
         return isVisibleTo(change, user, db);
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);
+    } else if (event instanceof ProjectEvent) {
+      return isVisibleTo(((ProjectEvent) event).getProjectNameKey(), user);
     }
     return true;
   }

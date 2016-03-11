@@ -392,6 +392,12 @@ including some or all of the following in the email:
 ** A link to the release and the release notes (if a final release)
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
+** Hash values (SHA1, SHA256, MD5) for the release WAR file.
++
+The SHA1 and MD5 can be taken from the artifact page on Sonatype. The
+SHA256 can be generated with
+`openssl sha -sha256 buck-out/gen/release/release.war` or an equivalent
+command.
 
 * Update the new discussion group announcement to be sticky
 ** Go to: http://groups.google.com/group/repo-discuss/topics

@@ -43,6 +43,7 @@ public interface AccountConstants extends Constants {
   String showLegacycidInChangeTable();
   String muteCommonPathPrefixes();
   String signedOffBy();
+  String publishDraftCommentsOnPush();
   String myMenu();
   String myMenuInfo();
   String myMenuName();

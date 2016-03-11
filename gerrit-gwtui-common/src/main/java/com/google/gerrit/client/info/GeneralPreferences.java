@@ -52,6 +52,7 @@ public class GeneralPreferences extends JavaScriptObject {
     p.legacycidInChangeTable(d.legacycidInChangeTable);
     p.muteCommonPathPrefixes(d.muteCommonPathPrefixes);
     p.signedOffBy(d.signedOffBy);
+    p.publishDraftCommentsOnPush(d.publishDraftCommentsOnPush);
     p.reviewCategoryStrategy(d.getReviewCategoryStrategy());
     p.diffView(d.getDiffView());
     p.emailStrategy(d.emailStrategy);
@@ -112,6 +113,9 @@ public class GeneralPreferences extends JavaScriptObject {
 
   public final native boolean signedOffBy()
   /*-{ return this.signed_off_by || false }-*/;
+
+  public final native boolean publishDraftCommentsOnPush()
+  /*-{ return this.publish_draft_comments_on_push || false }-*/;
 
   public final ReviewCategoryStrategy reviewCategoryStrategy() {
     String s = reviewCategeoryStrategyRaw();
@@ -182,6 +186,9 @@ public class GeneralPreferences extends JavaScriptObject {
 
   public final native void signedOffBy(boolean s)
   /*-{ this.signed_off_by = s }-*/;
+
+  public final native void publishDraftCommentsOnPush(boolean s)
+  /*-{ this.publish_draft_comments_on_push = s }-*/;
 
   public final void reviewCategoryStrategy(ReviewCategoryStrategy s) {
     reviewCategoryStrategyRaw(s != null ? s.toString() : null);

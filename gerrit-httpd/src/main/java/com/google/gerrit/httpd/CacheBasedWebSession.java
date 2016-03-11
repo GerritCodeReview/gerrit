@@ -16,8 +16,8 @@ package com.google.gerrit.httpd;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
-import com.google.gerrit.common.data.HostPageData;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d742992f_2b423988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:06:22Z",
+      "side": 1,
+      "message": "I\u0027m fine with this, although I would prefer not to update lastUpdatedOn when adding reviewers. Just because it makes the change go back to the top of the dashboard, but there is nothing new which is of interest for current reviewers.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "32683cb7b69b94c9c05ec2111b4c94412e16b8d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -38,8 +38,8 @@ limitations under the License.
       padding: .3em 0;
     }
     gr-avatar {
-      height: 1.3em;
-      width: 1.3em;
+      height: 2em;
+      width: 2em;
       vertical-align: -.25em;
     }
     ul {
@@ -68,7 +68,7 @@ limitations under the License.
         on-tap="_showDropdownTapHandler">
       <span hidden$="[[_hasAvatars]]" hidden>[[account.name]]</span>
       <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden
-          image-size="32"></gr-avatar>
+          image-size="56"></gr-avatar>
     </gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"

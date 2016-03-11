@@ -63,21 +63,9 @@ function build_and_deploy
     -Dfile=target/$module-$ver.jar
 }
 
-function confirm
-{
-  read -n1 -p "Are you sure you want to deploy? [N/y]: " ready
-  if [[ ! $ready == [Yy] ]]; then
-    if [[ $ready == [Nn] || -z $ready ]]; then
-      echo; exit
-    else
-      echo; confirm
-    fi
-  fi
-}
-
 function run
 {
-  test ${dryRun:-'false'} == 'false'  && confirm
+  test ${dryRun:-'false'} == 'false'
   root=$(instroot)
   cd "$root"
   ver=$(getver GERRIT_VERSION)

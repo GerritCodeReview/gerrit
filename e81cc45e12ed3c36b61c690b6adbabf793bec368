@@ -118,6 +118,30 @@
       "revId": "e81cc45e12ed3c36b61c690b6adbabf793bec368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d742992f_2bff997b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T08:37:10Z",
+      "side": 1,
+      "message": "\u003e In that case how long do we wait before removing the \n \u003e deprecated field? \n\nAFAIK we don\u0027t have a policy for this yet.\n\n \u003e I thought it was reasonable to remove for 2.13 since it \n \u003e was marked as deprecated in 2.12.\n\nMaybe, if we expect clients to check on the Gerrit server version and construct requests based on this version. At least there are some clients that need to support multiple server versions and doing the version check complicates things for them.",
+      "parentUuid": "575789e9_6f2371ee",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "e81cc45e12ed3c36b61c690b6adbabf793bec368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

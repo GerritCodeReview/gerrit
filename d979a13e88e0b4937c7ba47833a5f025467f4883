@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "575789e9_cf9e1d7d",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-11T00:22:59Z",
+      "side": 1,
+      "message": "Could just be **/*_test.html",
+      "revId": "d979a13e88e0b4937c7ba47833a5f025467f4883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

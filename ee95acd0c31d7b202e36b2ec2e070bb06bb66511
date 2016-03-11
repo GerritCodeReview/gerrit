@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3727759a_c607e268",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3727759a_06dbba34",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3727759a_26d8b635",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-11T23:12:04Z",
       "side": 1,
       "message": "odd break... does this go over 80?",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_25ffce7b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3727759a_26d8b635",
       "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3727759a_e60cde8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1722718a_05dbb234",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3727759a_46e5b2f0",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1722718a_45fcca84",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:31:21Z",
+      "side": 1,
+      "message": "Sort of. It’s testing both. And while I agree it’s good to stick to your own components, a semblance of an end-to-end workflow that somewhat resembles user interaction is better as long as it’s not too complex.",
+      "parentUuid": "3727759a_46e5b2f0",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1722718a_25d8ae35",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2016-03-11T23:12:04Z",
       "side": 1,
       "message": "At some point I think it will be useful to pull apart this rest-interface into multiple components that can be coalesced within this element.",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_65f9c693",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-11T23:31:21Z",
+      "side": 1,
+      "message": "agreed.",
+      "parentUuid": "1722718a_25d8ae35",
       "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

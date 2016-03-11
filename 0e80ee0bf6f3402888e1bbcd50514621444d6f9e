@@ -45,6 +45,54 @@
       "revId": "0e80ee0bf6f3402888e1bbcd50514621444d6f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575789e9_ef91213c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T08:56:31Z",
+      "side": 1,
+      "message": "I think it meant the space before/after the parens in \"if (foo) {}\".",
+      "parentUuid": "b73365d6_ea3f470a",
+      "range": {
+        "startLine": 167,
+        "startChar": 77,
+        "endLine": 167,
+        "endChar": 83
+      },
+      "revId": "0e80ee0bf6f3402888e1bbcd50514621444d6f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_2a423f88",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-11T08:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "575789e9_cf8c5d29",
+      "range": {
+        "startLine": 167,
+        "startChar": 22,
+        "endLine": 167,
+        "endChar": 42
+      },
+      "revId": "0e80ee0bf6f3402888e1bbcd50514621444d6f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -298,6 +298,30 @@
     },
     {
       "key": {
+        "uuid": "d71b7959_a399fa97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-11T16:13:09Z",
+      "side": 1,
+      "message": "To clarify a bit more: loading a diff of merge-commit vs first parent should be nothing different than loading a diff of a normal commit vs its parent.",
+      "parentUuid": "f7207d84_8494065f",
+      "range": {
+        "startLine": 358,
+        "startChar": 15,
+        "endLine": 358,
+        "endChar": 33
+      },
+      "revId": "0e414fea9d20a5fd1934fbc1de62a00633118d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02522dad_bf40f380",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 14

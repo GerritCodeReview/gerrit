@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
@@ -29,6 +30,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -49,9 +51,13 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -129,8 +135,18 @@ public class RevisionIT extends AbstractDaemonTest {
         .submit();
   }
 
-  @Test(expected = AuthException.class)
+  private void allowSubmitOnBehalfOf() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg,
+        Permission.SUBMIT_AS,
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
+        "refs/heads/*");
+    saveProjectConfig(project, cfg);
+  }
+
+  @Test
   public void submitOnBehalfOf() throws Exception {
+    allowSubmitOnBehalfOf();
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(project.get() + "~master~" + r.getChangeId())
@@ -138,6 +154,41 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
+    gApi.changes()
+        .id(project.get() + "~master~" + r.getChangeId())
+        .current()
+        .submit(in);
+  }
+
+  @Test
+  public void submitOnBehalfOfInvalidUser() throws Exception {
+    allowSubmitOnBehalfOf();
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(project.get() + "~master~" + r.getChangeId())
+        .current()
+        .review(ReviewInput.approve());
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = "doesnotexist";
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Account Not Found: doesnotexist");
+    gApi.changes()
+        .id(project.get() + "~master~" + r.getChangeId())
+        .current()
+        .submit(in);
+  }
+
+  @Test
+  public void submitOnBehalfOfNotPermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(project.get() + "~master~" + r.getChangeId())
+        .current()
+        .review(ReviewInput.approve());
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = admin2.email;
+    exception.expect(AuthException.class);
+    exception.expectMessage("submit on behalf of not permitted");
     gApi.changes()
         .id(project.get() + "~master~" + r.getChangeId())
         .current()

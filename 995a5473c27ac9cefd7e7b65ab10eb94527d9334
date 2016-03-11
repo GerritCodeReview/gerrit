@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7479d3c_6ce29beb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:01:11Z",
+      "side": 1,
+      "message": "database",
+      "range": {
+        "startLine": 14,
+        "startChar": 59,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_54c72c5d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +54,41 @@
       "side": 1,
       "message": "Discussed offline with jrn. We think this is basically ok.\n\nIn the most ideal of worlds (according to one set of assumptions), changes for deleted projects would be frozen such that you could poke around on the change screen but not perform any writes. However, we\u0027re so far from that ideal today that it\u0027s not really worth pursuing here.\n\nCurrently, changes for deleted projects are almost certainly going to fail to show the change screen. One example of a thing that\u0027ll break is opening the repo to check the tip of the dest branch to get the key to look up in the MergeabilityCache. So, insofar as changes for deleted projects show up in search results that can\u0027t be loaded, it\u0027s considered a feature to remove them from the index during conversion.\n\nSo the remaining question is whether it\u0027s ok to throw away this data entirely as opposed to storing it in a lost+found repo. I think we agreed the answer is yes, because we\u0027re already going to strongly strongly recommend to people that they have a full SQL database backup (or you know, just don\u0027t throw away the live database) before attempting a NoteDb conversion.",
       "parentUuid": "f716bdff_54c72c5d",
+      "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7479d3c_8c0d078f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:01:11Z",
+      "side": 1,
+      "message": "I wouldn\u0027t worry about changes of deleted projects. If you care about them, don\u0027t delete the project, but set the project state to read-only or hidden.\nOr are we worrying about loosing change data for repositories that are temporary missing while the conversion is done?",
+      "parentUuid": "1718b12b_754fc8af",
+      "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d742992f_eb3f510a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-11T09:01:11Z",
+      "side": 1,
+      "message": "Should we rather have an extra field for such information than overwriting the change subject?",
       "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "a90124b1dd503d54ec19db223535ce10342818d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d742992f_8bdc0d00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-11T13:01:26Z",
+      "side": 0,
+      "message": "OK, I see... and the current approach is likely not going to work because in the DB we need to update the same set which we need to delete in the notedb. I think the LabelNormalizer should be left unchanged and the \"update to zero instead delete\" logic for DB has to be handled in this method.",
+      "parentUuid": "37c9357a_d66f243a",
+      "revId": "a90124b1dd503d54ec19db223535ce10342818d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -393,13 +393,6 @@ including some or all of the following in the email:
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
 
-* Add an entry to the `NEWS` section of the main Gerrit project web page
-** Go to: http://code.google.com/p/gerrit/admin
-** Add entry like:
-----
- * Jun 14, 2012 - Gerrit 2.4.1 [https://groups.google.com/d/topic/repo-discuss/jHg43gixqzs/discussion Released]
-----
-
 * Update the new discussion group announcement to be sticky
 ** Go to: http://groups.google.com/group/repo-discuss/topics
 ** Click on the announcement thread

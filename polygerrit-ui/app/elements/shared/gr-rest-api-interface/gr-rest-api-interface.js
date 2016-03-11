@@ -130,6 +130,48 @@
       return this._sharedFetchPromises[url];
     },
 
+    getChangeFiles: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this._changeBaseURL(changeNum, patchNum) + '/files');
+    },
+
+    getReviewedFiles: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this._changeBaseURL(changeNum, patchNum) + '/files?reviewed');
+    },
+
+    saveFileReviewed: function(changeNum, patchNum, path, reviewed, opt_errFn,
+        opt_ctx) {
+      var method = reviewed ? 'PUT' : 'DELETE';
+      var url = this._changeBaseURL(changeNum, patchNum) + '/files/' +
+          encodeURIComponent(path) + '/reviewed';
+
+      return this._save(method, url, null, opt_errFn, opt_ctx);
+    },
+
+    _save: function(method, url, opt_body, opt_errFn, opt_ctx) {
+      var headers = new Headers({
+        'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
+      });
+
+      if (opt_body) {
+        headers.append('Content-Type', 'application/json');
+        options.body = body;
+      }
+      var options = {
+        method: method,
+        headers: headers,
+        credentials: 'same-origin',
+      };
+      return fetch(url, options).catch(function(err) {
+        if (opt_errFn) {
+          opt_errFn.call(opt_ctx || this);
+        } else {
+          throw err;
+        }
+      });
+    },
+
     getDiff: function(changeNum, basePatchNum, patchNum, path,
         opt_cancelCondition) {
       var url = this._getDiffFetchURL(changeNum, patchNum, path);
@@ -165,7 +207,7 @@
         opt_patchNum, opt_path) {
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
         return this.fetchJSON(
-            this._getDiffCommentsFetchURL(changeNum, null, '/drafts'));
+            this._getDiffCommentsFetchURL(changeNum, '/drafts'));
       }
 
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
@@ -210,6 +252,21 @@
         v += '/revisions/' + opt_patchNum;
       }
       return v;
+    },
+
+    _getCookie: function(name) {
+      var key = name + '=';
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var c = cookies[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(key) == 0) {
+          return c.substring(key.length, c.length);
+        }
+      }
+      return '';
     },
 
   });

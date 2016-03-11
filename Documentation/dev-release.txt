@@ -165,6 +165,15 @@ Tag the plugins:
 * Sanity check WAR
 * Test the new Gerrit version
 
+* Verify plugin versions
++
+Sometimes `buck` doesn't rebuild plugins after they are tagged, and the
+versions don't reflect the tag. Verify the versions:
++
+----
+  java -jar ./buck-out/gen/release/release.war init --list-plugins
+----
+
 [[publish-gerrit]]
 === Publish the Gerrit Release
 

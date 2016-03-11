@@ -159,15 +159,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     final Grid formGrid = new Grid(12 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, showSiteHeader);
-    row++;
-
-    if (flashClippy) {
-      formGrid.setText(row, labelIdx, "");
-      formGrid.setWidget(row, fieldIdx, useFlashClipboard);
-      row++;
-    }
 
     formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
     formGrid.setWidget(row, fieldIdx, reviewCategoryStrategy);
@@ -179,6 +170,18 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.dateFormatLabel());
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
+    row++;
+
+    formGrid.setText(row, labelIdx, Util.C.emailFieldLabel());
+    formGrid.setWidget(row, fieldIdx, emailStrategy);
+    row++;
+
+    formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
+    formGrid.setWidget(row, fieldIdx, diffView);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, showSiteHeader);
     row++;
 
     formGrid.setText(row, labelIdx, "");
@@ -197,15 +200,14 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, muteCommonPathPrefixes);
     row++;
 
-    formGrid.setText(row, labelIdx, Util.C.emailFieldLabel());
-    formGrid.setWidget(row, fieldIdx, emailStrategy);
-
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, signedOffBy);
     row++;
 
-    formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
-    formGrid.setWidget(row, fieldIdx, diffView);
+    if (flashClippy) {
+      formGrid.setText(row, labelIdx, "");
+      formGrid.setWidget(row, fieldIdx, useFlashClipboard);
+    }
 
     add(formGrid);
 

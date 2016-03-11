@@ -119,8 +119,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final AllUsersName allUsers;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
-    private final ChangeNoteUtil changeNoteUtil;
-    private final CommentsInNotesUtil commentsUtil;
+    private final ChangeNoteUtil noteUtil;
 
     @VisibleForTesting
     @Inject
@@ -129,15 +128,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         AllUsersName allUsers,
         Provider<InternalChangeQuery> queryProvider,
         ProjectCache projectCache,
-        ChangeNoteUtil changeNoteUtil,
-        CommentsInNotesUtil commentsUtil) {
+        ChangeNoteUtil noteUtil) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsers = allUsers;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
-      this.changeNoteUtil = changeNoteUtil;
-      this.commentsUtil = commentsUtil;
+      this.noteUtil = noteUtil;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
@@ -182,8 +179,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           project, changeId, change.getProject());
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
-      return new ChangeNotes(repoManager, migration, allUsers, changeNoteUtil,
-          commentsUtil, project, change).load();
+      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
+          project, change).load();
     }
 
     /**
@@ -195,13 +192,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * @return change notes
      */
     public ChangeNotes createFromIndexedChange(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsers, changeNoteUtil,
-          commentsUtil, change.getProject(), change);
+      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
+          change.getProject(), change);
     }
 
     public ChangeNotes createForNew(Change change) throws OrmException {
-      return new ChangeNotes(repoManager, migration, allUsers, changeNoteUtil,
-          commentsUtil, change.getProject(), change).load();
+      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
+          change.getProject(), change).load();
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
@@ -210,8 +207,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     checkState(!migration.readChanges(), "do not call"
         + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
       Change change = unwrap(db).changes().get(changeId);
-      return new ChangeNotes(repoManager, migration, allUsers, changeNoteUtil,
-          commentsUtil, change.getProject(), change).load();
+      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
+          change.getProject(), change).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -223,8 +220,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throws OrmException {
       checkState(!migration.readChanges(), "do not call"
           + " createFromChangeWhenNotedbDisabled when notedb is enabled");
-      return new ChangeNotes(repoManager, migration, allUsers, changeNoteUtil,
-          commentsUtil, change.getProject(), change).load();
+      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
+          change.getProject(), change).load();
     }
 
     public CheckedFuture<ChangeNotes, OrmException> createAsync(
@@ -244,7 +241,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
                               + " but actual project is %s",
                           project, changeId, change.getProject());
                       return new ChangeNotes(repoManager, migration, allUsers,
-                          changeNoteUtil, commentsUtil, project, change).load();
+                          noteUtil, project, change).load();
                     }
                   });
                 }
@@ -383,8 +380,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
-  private final ChangeNoteUtil changeNoteUtil;
-  private final CommentsInNotesUtil commentsUtil;
+  private final ChangeNoteUtil noteUtil;
   private final Project.NameKey project;
   private final Change change;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
@@ -406,13 +402,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersName allUsers, ChangeNoteUtil changeNoteUtil,
-      CommentsInNotesUtil commentsUtil, Project.NameKey project,
-      Change change) {
+      AllUsersName allUsers, ChangeNoteUtil noteUtil,
+      Project.NameKey project, Change change) {
     super(repoManager, migration, change != null ? change.getId() : null);
     this.allUsers = allUsers;
-    this.changeNoteUtil = changeNoteUtil;
-    this.commentsUtil = commentsUtil;
+    this.noteUtil = noteUtil;
     this.project = project;
     this.change = change != null ? new Change(change) : null;
   }
@@ -510,7 +504,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
       draftCommentNotes = new DraftCommentNotes(repoManager, migration,
-          allUsers, commentsUtil, getChangeId(), author);
+          allUsers, noteUtil, getChangeId(), author);
       draftCommentNotes.load();
     }
   }
@@ -556,9 +550,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return;
     }
     try (RevWalk walk = new RevWalk(reader);
-        ChangeNotesParser parser = new ChangeNotesParser(project,
-            change.getId(), rev, walk, repoManager, changeNoteUtil,
-            commentsUtil)) {
+        ChangeNotesParser parser = new ChangeNotesParser(
+            project, change.getId(), rev, walk, repoManager, noteUtil)) {
       parser.parseAll();
 
       if (parser.status != null) {

@@ -108,10 +108,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   protected AllUsersName allUsers;
 
   @Inject
-  protected ChangeNoteUtil changeNoteUtil;
-
-  @Inject
-  protected CommentsInNotesUtil commentsUtil;
+  protected ChangeNoteUtil noteUtil;
 
   private Injector injector;
   private String systemTimeZone;
@@ -207,8 +204,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, MIGRATION, allUsers, changeNoteUtil,
-        commentsUtil, c.getProject(), c).load();
+    return new ChangeNotes(repoManager, MIGRATION, allUsers, noteUtil,
+        c.getProject(), c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

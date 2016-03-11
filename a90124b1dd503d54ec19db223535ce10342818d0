@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "575789e9_8f94155f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-11T00:01:11Z",
+      "side": 0,
+      "message": "As I mentioned to Andy in IM, we could make this class of error cause a build failure, by moving all the test-only stuff out of the main tree similar to the way we do with Java classes. Then the files we absolutely don\u0027t want, like fake-app.js, wouldn\u0027t be available as a src to vulcanize, and vulcanize would fail.",
+      "revId": "a90124b1dd503d54ec19db223535ce10342818d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

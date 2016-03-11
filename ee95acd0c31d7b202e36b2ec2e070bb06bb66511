@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3727759a_06dbba34",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-11T23:12:04Z",
+      "side": 1,
+      "message": "typically when i go this deep with .bind(this) i just fold and use var self \u003d",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_26d8b635",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-11T23:12:04Z",
+      "side": 1,
+      "message": "odd break... does this go over 80?",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_05dbb234",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-11T23:12:04Z",
+      "side": 1,
+      "message": "consider extracting this normalization work into a named fn",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_46e5b2f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-11T23:12:04Z",
+      "side": 1,
+      "message": "so I think that you can drop interacting with the DOM in this test and instead just call the fns directly because you end up testing polymer here and not just your logic.",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_25d8ae35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-11T23:12:04Z",
+      "side": 1,
+      "message": "At some point I think it will be useful to pull apart this rest-interface into multiple components that can be coalesced within this element.",
+      "revId": "ee95acd0c31d7b202e36b2ec2e070bb06bb66511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

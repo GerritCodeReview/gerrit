@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7479d3c_0c183796",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-11T14:56:18Z",
+      "side": 1,
+      "message": "At this point I must first click the destination branch field in order to start typing. Can we have focus set on this field?",
+      "revId": "e877140440695494ec6e96d053bdc791038056f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

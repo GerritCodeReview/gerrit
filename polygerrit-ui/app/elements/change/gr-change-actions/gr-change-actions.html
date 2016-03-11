@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-request/gr-request.html">
 
+<link rel="import" href="../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
 
 <dom-module id="gr-change-actions">
@@ -78,6 +79,12 @@ limitations under the License.
           on-confirm="_handleRebaseConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-rebase-dialog>
+      <gr-confirm-cherrypick-dialog id="confirmCherrypick"
+          class="confirmDialog"
+          message="[[commitMessage]]"
+          on-confirm="_handleCherrypickConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          hidden></gr-confirm-cherrypick-dialog>
     </gr-overlay>
   </template>
   <script src="gr-change-actions.js"></script>

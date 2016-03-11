@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "575789e9_4fca2d69",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-11T02:24:39Z",
+      "side": 1,
+      "message": "There are two concerns:\n1) This class is leaking it\u0027s internal data by returning a reference to its field. A client can update the collection directly, bypassing any verification or side effects that addRefSpec() enforces. Making refSpecs private and using Collections.unmodifiableCollection(refSpecs) will fix that.\n2) If there isn\u0027t an established \"end of writing\" before any reads, then the collection may change while a reader is reading it, which is generally bad. In that case, you can either find a way to make establish that sequence, or return an immutable copy of the current \"snapshot\" of the data.",
+      "parentUuid": "f716bdff_1442d487",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 20
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_d4ba1ce4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 10
@@ -178,6 +202,30 @@
       "writtenOn": "2016-03-10T19:49:47Z",
       "side": 1,
       "message": "Is this fully covered in unit tests? I saw you added a negative test when the source didn\u0027t match the destination branch, but are you covering success cases for exact matches and wildcard matches?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73365d6_0ad01b15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-11T02:24:39Z",
+      "side": 1,
+      "message": "Ping.",
+      "parentUuid": "f716bdff_14cdb47f",
       "range": {
         "startLine": 100,
         "startChar": 0,

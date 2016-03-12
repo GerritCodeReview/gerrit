@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7207d84_64f9ca93",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:11:46Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1722718a_65e2a6eb",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1
@@ -47,6 +70,46 @@
       "writtenOn": "2016-03-11T23:22:25Z",
       "side": 1,
       "message": "you don’t need this wrapper. the host element itself is the wrapper.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d71b7959_0302ce58",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:11:46Z",
+      "side": 1,
+      "message": "You could use × here (which is also used in other places).",
+      "range": {
+        "startLine": 34,
+        "startChar": 65,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_44fcce84",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:11:46Z",
+      "side": 1,
+      "message": "This a element is not opened before.",
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +195,29 @@
       "writtenOn": "2016-03-11T23:22:25Z",
       "side": 1,
       "message": "yeah you need to rebase to HEAD",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d71b7959_23ffca7b",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:11:46Z",
+      "side": 1,
+      "message": "wrong indention",
+      "range": {
+        "startLine": 83,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 25
+      },
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

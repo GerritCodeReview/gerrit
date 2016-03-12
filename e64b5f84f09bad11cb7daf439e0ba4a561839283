@@ -159,6 +159,30 @@
       "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1722718a_a5357e2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-12T00:11:22Z",
+      "side": 1,
+      "message": "So to do that we would need an (abstract) class\nSubmoduleOpInterface which defines all methods from SubmoduleOp. then we\u0027d have a SubmoduleOpInterface.Factory, which would construct the real SubmoduleOp (which inherits from SubmoduleOpInterface) or the NullSubmoduleOp(which would also inherit from SubmoduleOpInterface, but has empty methods)?\n\nThis is probably badly worded as the SubmoduleOpInterface would be an abstract class and not an actual java interface. So maybe just two classes SubmoduleOp (which is empty) and RealSubmoduleOp (inheriting from SubmoduleOp). The SubmoduleOp.Factory would either return a SubmoduleOp or a RealSubmoduleOp ?",
+      "parentUuid": "b73365d6_aaeb8fcb",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

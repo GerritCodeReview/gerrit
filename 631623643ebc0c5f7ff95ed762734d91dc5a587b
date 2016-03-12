@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7207d84_a435822e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:24:00Z",
+      "side": 1,
+      "message": "Do you want to start using them also in other places? What is the rule for using them in this project?",
+      "revId": "631623643ebc0c5f7ff95ed762734d91dc5a587b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_c43a7e1d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:24:00Z",
+      "side": 1,
+      "message": "I prefer \u0027me\u0027 over \u0027self\u0027 since \u0027self\u0027 is already a window scope variable [1]. When you forget to define it, you probably won\u0027t get warned by your IDE and strange things may happen. See also: http://stackoverflow.com/a/18973115\n\n[1] https://developer.mozilla.org/en-US/docs/Web/API/Window/self",
+      "revId": "631623643ebc0c5f7ff95ed762734d91dc5a587b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_e43f7a0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:24:00Z",
+      "side": 1,
+      "message": ";",
+      "range": {
+        "startLine": 183,
+        "startChar": 30,
+        "endLine": 183,
+        "endChar": 31
+      },
+      "revId": "631623643ebc0c5f7ff95ed762734d91dc5a587b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_0445768f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-12T11:24:00Z",
+      "side": 1,
+      "message": "This file grows up quite fast. We could probably think about splitting it up in files per endpoint (changes, accounts, config...) at some point. Something like com.google.gerrit.extensions.api.GerritApi.",
+      "revId": "631623643ebc0c5f7ff95ed762734d91dc5a587b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

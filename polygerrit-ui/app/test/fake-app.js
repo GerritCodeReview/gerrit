@@ -19,10 +19,7 @@
  */
 var app = {
   accountReady: {
-    then: function(cb) { cb(); },
-  },
-  configReady: {
-    then: function(cb) { cb(); },
+    then: function(cb) { return cb(); },
   },
   loggedIn: false,
 };

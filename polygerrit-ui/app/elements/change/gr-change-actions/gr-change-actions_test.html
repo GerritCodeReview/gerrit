@@ -36,7 +36,7 @@ limitations under the License.
     var element;
     var server;
 
-    setup(function() {
+    setup(function(done) {
       element = fixture('basic');
       server = sinon.fakeServer.create();
 
@@ -91,7 +91,9 @@ limitations under the License.
 
       element.changeNum = '42';
       element.patchNum = '2';
-      element.reload();
+      element.reload().then(function() {
+        done();
+      });
 
       server.respond();
     });

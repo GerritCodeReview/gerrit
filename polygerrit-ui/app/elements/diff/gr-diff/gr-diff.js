@@ -87,7 +87,6 @@
       },
       _savedPrefs: Object,
 
-      _diffRequestsPromise: Object,  // Used for testing.
       _diffPreferencesPromise: Object,  // Used for testing.
     },
 
@@ -157,7 +156,7 @@
           }.bind(this)));
         }
 
-        this._diffRequestsPromise = Promise.all(promises).then(function() {
+        return Promise.all(promises).then(function() {
           this._render();
           this._loading = false;
         }.bind(this)).catch(function(err) {

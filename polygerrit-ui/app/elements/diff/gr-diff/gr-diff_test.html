@@ -162,86 +162,85 @@ limitations under the License.
         patchNum: 2,
       };
 
-      element.reload();
-      server.respond();
-
-      // Allow events to fire and the threads to render.
-      flush(function() {
-        var leftThreadEls =
-            Polymer.dom(element.$.leftDiff.root).querySelectorAll(
-                'gr-diff-comment-thread');
-        assert.equal(leftThreadEls.length, 1);
-        assert.equal(leftThreadEls[0].comments.length, 1);
-
-        var rightThreadEls =
-            Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                'gr-diff-comment-thread');
-        assert.equal(rightThreadEls.length, 1);
-        assert.equal(rightThreadEls[0].comments.length, 2);
-
-        var index = leftThreadEls[0].getAttribute('data-index');
-        var leftFillerEls =
-            Polymer.dom(element.$.leftDiff.root).querySelectorAll(
-                '.commentThread.filler[data-index="' + index + '"]');
-        assert.equal(leftFillerEls.length, 1);
-        var rightFillerEls =
-            Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                '[data-index="' + index + '"]');
-        assert.equal(rightFillerEls.length, 2);
-
-        for (var i = 0; i < rightFillerEls.length; i++) {
-          assert.isTrue(rightFillerEls[i].classList.contains('filler'));
-        }
-        var originalHeight = rightFillerEls[0].offsetHeight;
-        assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
-        assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
-        assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
-
-        // Create a comment on the opposite side of the first comment.
-        var rightLineEL = element.$.rightDiff.$$(
-              '.lineNum[data-index="' + (index - 1) + '"]');
-        assert.ok(rightLineEL);
-        MockInteractions.tap(rightLineEL);
+      element.reload().then(function() {
         flush(function() {
-          var newThreadEls =
-            Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                '[data-index="' + index + '"]');
-          assert.equal(newThreadEls.length, 2);
-          for (var i = 0; i < newThreadEls.length; i++) {
-            assert.isTrue(
-                newThreadEls[i].classList.contains('commentThread') ||
-                newThreadEls[i].tagName == 'GR-DIFF-COMMENT-THREAD');
+          var leftThreadEls =
+              Polymer.dom(element.$.leftDiff.root).querySelectorAll(
+                  'gr-diff-comment-thread');
+          assert.equal(leftThreadEls.length, 1);
+          assert.equal(leftThreadEls[0].comments.length, 1);
+
+          var rightThreadEls =
+              Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                  'gr-diff-comment-thread');
+          assert.equal(rightThreadEls.length, 1);
+          assert.equal(rightThreadEls[0].comments.length, 2);
+
+          var index = leftThreadEls[0].getAttribute('data-index');
+          var leftFillerEls =
+              Polymer.dom(element.$.leftDiff.root).querySelectorAll(
+                  '.commentThread.filler[data-index="' + index + '"]');
+          assert.equal(leftFillerEls.length, 1);
+          var rightFillerEls =
+              Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                  '[data-index="' + index + '"]');
+          assert.equal(rightFillerEls.length, 2);
+
+          for (var i = 0; i < rightFillerEls.length; i++) {
+            assert.isTrue(rightFillerEls[i].classList.contains('filler'));
           }
-          var newHeight = newThreadEls[0].offsetHeight;
-          assert.equal(newThreadEls[1].offsetHeight, newHeight);
-          assert.equal(leftFillerEls[0].offsetHeight, newHeight);
-          assert.equal(leftThreadEls[0].offsetHeight, newHeight);
+          var originalHeight = rightFillerEls[0].offsetHeight;
+          assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
+          assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
+          assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
 
-          // The editing mode height of the right comment will be greater than
-          // the non-editing mode height of the left comment.
-          assert.isAbove(newHeight, originalHeight);
-
-          // Discard the right thread and ensure the left comment heights are
-          // back to their original values.
-          newThreadEls[1].addEventListener('discard', function() {
-            rightFillerEls =
-                Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                    '[data-index="' + index + '"]');
-            assert.equal(rightFillerEls.length, 2);
-
-            for (var i = 0; i < rightFillerEls.length; i++) {
-              assert.isTrue(rightFillerEls[i].classList.contains('filler'));
+          // Create a comment on the opposite side of the first comment.
+          var rightLineEL = element.$.rightDiff.$$(
+                '.lineNum[data-index="' + (index - 1) + '"]');
+          assert.ok(rightLineEL);
+          MockInteractions.tap(rightLineEL);
+          flush(function() {
+            var newThreadEls =
+              Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                  '[data-index="' + index + '"]');
+            assert.equal(newThreadEls.length, 2);
+            for (var i = 0; i < newThreadEls.length; i++) {
+              assert.isTrue(
+                  newThreadEls[i].classList.contains('commentThread') ||
+                  newThreadEls[i].tagName == 'GR-DIFF-COMMENT-THREAD');
             }
-            var originalHeight = rightFillerEls[0].offsetHeight;
-            assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
-            assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
-            assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
-            done();
+            var newHeight = newThreadEls[0].offsetHeight;
+            assert.equal(newThreadEls[1].offsetHeight, newHeight);
+            assert.equal(leftFillerEls[0].offsetHeight, newHeight);
+            assert.equal(leftThreadEls[0].offsetHeight, newHeight);
+
+            // The editing mode height of the right comment will be greater than
+            // the non-editing mode height of the left comment.
+            assert.isAbove(newHeight, originalHeight);
+
+            // Discard the right thread and ensure the left comment heights are
+            // back to their original values.
+            newThreadEls[1].addEventListener('discard', function() {
+              rightFillerEls =
+                  Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                      '[data-index="' + index + '"]');
+              assert.equal(rightFillerEls.length, 2);
+
+              for (var i = 0; i < rightFillerEls.length; i++) {
+                assert.isTrue(rightFillerEls[i].classList.contains('filler'));
+              }
+              var originalHeight = rightFillerEls[0].offsetHeight;
+              assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
+              assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
+              assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
+              done();
+            });
+            var commentEl = newThreadEls[1].$$('gr-diff-comment');
+            commentEl.fire('discard', null, {bubbles: false});
           });
-          var commentEl = newThreadEls[1].$$('gr-diff-comment');
-          commentEl.fire('discard', null, {bubbles: false});
         });
       });
+      server.respond();
     });
 
     test('intraline normalization', function() {

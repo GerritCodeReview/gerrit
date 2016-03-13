@@ -97,6 +97,13 @@ public class FakeEmailSender implements EmailSender {
     messages.add(Message.create(from, rcpt, headers, body));
   }
 
+  public void clear() {
+    waitForEmails();
+    synchronized (messages) {
+      messages.clear();
+    }
+  }
+
   public ImmutableList<Message> getMessages() {
     waitForEmails();
     synchronized (messages) {

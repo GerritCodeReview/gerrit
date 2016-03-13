@@ -1775,6 +1775,7 @@ public class ReceiveCommits {
             .setExtraCC(recipients.getCcOnly())
             .setApprovals(approvals)
             .setMessage(msg)
+            .setNotify(magicBranch.notify)
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
             .setUpdateRef(true));

@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.AfterClass;
@@ -124,6 +126,40 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master%topic=" + topic);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic);
+  }
+
+  @Test
+  public void testPushForMasterWithNotify() throws Exception {
+    TestAccount user2 = accounts.user2();
+    String pushSpec = "refs/for/master"
+        + "%reviewer=" + user.email
+        + ",cc=" + user2.email;
+
+    sender.clear();
+    PushOneCommit.Result r =
+        pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
+    r.assertOkStatus();
+    assertThat(sender.getMessages()).hasSize(0);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.OWNER);
+    r.assertOkStatus();
+    // no email notification about own changes
+    assertThat(sender.getMessages()).hasSize(0);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.OWNER_REVIEWERS);
+    r.assertOkStatus();
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+
+    sender.clear();
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
+    r.assertOkStatus();
+    assertThat(sender.getMessages()).hasSize(1);
+    m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
   }
 
   @Test

@@ -67,6 +67,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -511,6 +512,14 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
+    assertThat(m.body()).contains("I'd like you to do a code review.");
+    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
 
     ChangeInfo c = gApi.changes()
         .id(r.getChangeId())

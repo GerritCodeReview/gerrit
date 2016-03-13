@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.mail.Address;
 
 import com.jcraft.jsch.KeyPair;
 
@@ -58,6 +59,7 @@ public class TestAccount {
   public final Account.Id id;
   public final String username;
   public final String email;
+  public final Address emailAddress;
   public final String fullName;
   public final KeyPair sshKey;
   public final String httpPassword;
@@ -67,6 +69,7 @@ public class TestAccount {
     this.id = id;
     this.username = username;
     this.email = email;
+    this.emailAddress = new Address(fullName, email);
     this.fullName = fullName;
     this.sshKey = sshKey;
     this.httpPassword = httpPassword;

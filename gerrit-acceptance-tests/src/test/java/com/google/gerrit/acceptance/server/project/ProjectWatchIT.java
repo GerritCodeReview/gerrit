@@ -23,9 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-import com.google.inject.Inject;
 
 import org.junit.Test;
 
@@ -34,9 +32,6 @@ import java.util.List;
 
 @NoHttpd
 public class ProjectWatchIT extends AbstractDaemonTest {
-  @Inject
-  private FakeEmailSender sender;
-
   /**
    * Tests message project watches on new patch sets
    * <p>

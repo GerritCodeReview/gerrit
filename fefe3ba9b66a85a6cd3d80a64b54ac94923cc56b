@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc19de73_b3cad864",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1022607
+      },
+      "writtenOn": "2016-03-14T10:24:27Z",
+      "side": 1,
+      "message": "Since for merge commits there are many \u0027Bases\u0027 (at least two), it\u0027s good to distinguish them explicitly: first parent of a merge is more explicit definition then merge base. Also this will become unavoidable for octopus merge (however in this case this list should be generated).",
+      "parentUuid": "f7207d84_045e564b",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 26
+      },
+      "revId": "fefe3ba9b66a85a6cd3d80a64b54ac94923cc56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc19de73_13a3cccb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 17

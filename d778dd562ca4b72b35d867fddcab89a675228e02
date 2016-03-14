@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c259aa0_96e0ece2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-14T21:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c20d690_b5e3e0ee",
+      "revId": "d778dd562ca4b72b35d867fddcab89a675228e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c259aa0_f6d9603a",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder-side-by-side.js",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "so upon going over more of this I see what you are doing, however I think you can get away with no prototype and just by using a flat object. and Object.assign({}, {})",
       "parentUuid": "3c259aa0_f6d9603a",
+      "revId": "d778dd562ca4b72b35d867fddcab89a675228e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c20d690_150e1486",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder-side-by-side.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-14T21:08:12Z",
+      "side": 1,
+      "message": "State will come in future changes as there’s a diff config that will be passed to GrDiffBuilder, so `this` will be used for sure.",
+      "parentUuid": "3c259aa0_b6e3e8ee",
       "revId": "d778dd562ca4b72b35d867fddcab89a675228e02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

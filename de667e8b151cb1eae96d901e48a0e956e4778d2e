@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c259aa0_96234cee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-14T21:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c20d690_95e0e4e2",
+      "revId": "de667e8b151cb1eae96d901e48a0e956e4778d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c20d690_750f8885",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-14T15:43:59Z",
       "side": 1,
       "message": "if we only care about .line_length instead of using a * observer just watch for this one prop",
+      "revId": "de667e8b151cb1eae96d901e48a0e956e4778d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c259aa0_7682f0f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-14T21:08:12Z",
+      "side": 1,
+      "message": "We’ll care about others (tab-width, context, etc.)",
+      "parentUuid": "3c259aa0_d6d6640a",
       "revId": "de667e8b151cb1eae96d901e48a0e956e4778d2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

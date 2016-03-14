@@ -6,7 +6,42 @@ Gerrit 2.12.2 is now available:
 link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.2.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.12.2.war]
 
-There are no schema changes from link:ReleaseNotes-2.12.1.html[2.12.1].
+Schema Upgrade
+--------------
+
+*WARNING:* There are no schema changes from link:ReleaseNotes-2.12.1.html[
+2.12.1] but a manual schema upgrade is necessary when upgrading from 2.12.
+
+When upgrading a site that is already running version 2.12, the `patch_sets`
+table must be manually migrated using the `gerrit gsql` SSH command or the
+`gqsl` site program.
+
+For the default H2 database, execute the command:
+
+----
+  alter table patch_sets modify push_certficate clob;
+----
+
+For MySQL, execute the command:
+
+----
+  alter table patch_sets modify push_certficate text;
+----
+
+For PostgreSQL, execute the command:
+
+----
+  alter table patch_sets alter column push_certficate type text;
+----
+
+For other database types, execute the appropriate equivalent command.
+
+Note that the misspelled `push_certficate` is the actual name of the
+column.
+
+When upgrading from a version earlier than 2.12, or from 2.12.1 having already
+done the migration, this manual step is not necessary and should be omitted.
+
 
 Bug Fixes
 ---------

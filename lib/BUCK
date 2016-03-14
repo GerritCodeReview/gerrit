@@ -15,6 +15,7 @@ define_license(name = 'h2')
 define_license(name = 'jgit')
 define_license(name = 'jsch')
 define_license(name = 'MPL1.1')
+define_license(name = 'moment')
 define_license(name = 'ow2')
 define_license(name = 'page.js')
 define_license(name = 'polymer')
@@ -258,4 +259,3 @@ maven_jar(
   sha1 = 'd9a09f7732226af26bf99f19e2cffe0ae219db5b',
   license = 'DO_NOT_DISTRIBUTE',
 )
-

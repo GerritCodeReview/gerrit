@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7207d84_045e564b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-14T09:37:10Z",
+      "side": 1,
+      "message": "Why not just use \"Base\" instead. Base actually already means \"first parent\" for non-merge commits... and we could take the same meaning for the merge commit?",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 26
+      },
+      "revId": "fefe3ba9b66a85a6cd3d80a64b54ac94923cc56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_13a3cccb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-14T09:37:10Z",
+      "side": 1,
+      "message": "When diffType \u003d\u003d FIRST_PARENT, set the \"a\" to be the OID of the first parent. After that we can stop propagating the diffType",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 74
+      },
+      "revId": "fefe3ba9b66a85a6cd3d80a64b54ac94923cc56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_e4685af8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-14T09:37:10Z",
+      "side": 1,
+      "message": "move these two inside the try(Repository git ...) { .. } block and set aId to the ID of the first parent.. this way we can stop propagating the diffType.\n\nThe PatchSetKey.oldId is null when diff-ing against the auto-merge and is set to the first (or any other) parent ID when diff-ing against a parent.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 32
+      },
+      "revId": "fefe3ba9b66a85a6cd3d80a64b54ac94923cc56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

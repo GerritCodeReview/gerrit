@@ -126,8 +126,8 @@ limitations under the License.
     test('html field in link config', function() {
       element.content = 'google:do a barrel roll';
       var linkEl = element.$.output.childNodes[0];
-      assert.equal(linkEl.href,
-          'https://google.com/search?q=do%20a%20barrel%20roll');
+      assert.equal(linkEl.getAttribute('href'),
+          'https://google.com/search?q=do a barrel roll');
       assert.equal(linkEl.textContent, 'do a barrel roll');
     });
 

@@ -40,10 +40,6 @@ import java.util.Map;
 public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 
-  @Deprecated
-  @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format = OutputFormat.TEXT;
-
   @Option(name = "--all", aliases = {"-a"}, usage = "List all plugins, including disabled plugins")
   private boolean all;
 
@@ -52,23 +48,12 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     this.pluginLoader = pluginLoader;
   }
 
-  public OutputFormat getFormat() {
-    return format;
-  }
-
-  public ListPlugins setFormat(OutputFormat fmt) {
-    this.format = fmt;
-    return this;
-  }
-
   @Override
   public Object apply(TopLevelResource resource) {
-    format = OutputFormat.JSON;
     return display(null);
   }
 
   public JsonElement display(PrintWriter stdout) {
-    Map<String, PluginInfo> output = Maps.newTreeMap();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(plugins, new Comparator<Plugin>() {
       @Override
@@ -77,33 +62,28 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
       }
     });
 
-    if (!format.isJson()) {
+    if (stdout == null) {
+      Map<String, PluginInfo> output = Maps.newTreeMap();
+      for (Plugin p : plugins) {
+        PluginInfo info = new PluginInfo(p);
+        output.put(p.getName(), info);
+      }
+      return OutputFormat.JSON.newGson().toJsonTree(
+          output,
+          new TypeToken<Map<String, Object>>() {}.getType());
+    } else {
       stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
       stdout.print("-------------------------------------------------------------------------------\n");
-    }
-
-    for (Plugin p : plugins) {
-      PluginInfo info = new PluginInfo(p);
-      if (format.isJson()) {
-        output.put(p.getName(), info);
-      } else {
+      for (Plugin p : plugins) {
+        PluginInfo info = new PluginInfo(p);
         stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
             Strings.nullToEmpty(info.version),
             p.isDisabled() ? "DISABLED" : "ENABLED",
             p.getSrcFile().getFileName());
+        stdout.print('\n');
       }
+      stdout.flush();
     }
-
-    if (stdout == null) {
-      return OutputFormat.JSON.newGson().toJsonTree(
-          output,
-          new TypeToken<Map<String, Object>>() {}.getType());
-    } else if (format.isJson()) {
-      format.newGson().toJson(output,
-          new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
-      stdout.print('\n');
-    }
-    stdout.flush();
     return null;
   }
 

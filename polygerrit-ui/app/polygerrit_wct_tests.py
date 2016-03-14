@@ -93,11 +93,11 @@ class PolyGerritWctTests(unittest.TestCase):
           # WCT_ARGS='--plugin sauce' buck test --no-results-cache --include web
           'disabled': True,
           'browsers': [
-            'Linux/chrome',
             'OS X 10.11/chrome',
             'Windows 10/chrome',
             'Linux/firefox',
             'OS X 10.11/safari',
+            'Windows 10/microsoftedge',
           ],
         },
       },

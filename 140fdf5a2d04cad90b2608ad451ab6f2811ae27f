@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7207d84_24799256",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SupplierDeserializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-14T22:38:02Z",
+      "side": 1,
+      "message": "parameterizedType. Sorry, I missed that one.",
+      "range": {
+        "startLine": 34,
+        "startChar": 22,
+        "endLine": 34,
+        "endChar": 38
+      },
+      "revId": "140fdf5a2d04cad90b2608ad451ab6f2811ae27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

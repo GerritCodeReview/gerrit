@@ -54,8 +54,8 @@ maven_jar(
 
 maven_jar(
   name = 'gson',
-  id = 'com.google.code.gson:gson:2.3.1',
-  sha1 = 'ecb6e1f8e4b0e84c4b886c2f14a1500caf309757',
+  id = 'com.google.code.gson:gson:2.6.2',
+  sha1 = 'f1bc476cc167b18e66c297df599b2377131a8947',
   license = 'Apache2.0',
 )
 

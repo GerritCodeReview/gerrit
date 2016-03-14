@@ -64,7 +64,7 @@
       }).then(function(loggedIn) {
         if (!loggedIn) { return; }
 
-        _this._getReviewedFiles().then(function(reviewed) {
+        return _this._getReviewedFiles().then(function(reviewed) {
           _this._reviewed = reviewed;
         });
       }));

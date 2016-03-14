@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7207d84_c457dece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-14T18:39:57Z",
+      "side": 1,
+      "message": "You probably want to use your full name.",
+      "revId": "2d50b7132721e032531e49c642a35752ccc31b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_e45cdaf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-14T18:39:57Z",
+      "side": 1,
+      "message": "Remove \"Issue 3872\" and \"Fixed\" from subject and add it to footer as \"Bug: Issue 3872\".",
+      "revId": "2d50b7132721e032531e49c642a35752ccc31b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_0452d6de",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-14T18:39:57Z",
+      "side": 1,
+      "message": "Not sure, but this could probably also be \"Sign in\". But better let a native English speaking person decide.",
+      "revId": "2d50b7132721e032531e49c642a35752ccc31b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

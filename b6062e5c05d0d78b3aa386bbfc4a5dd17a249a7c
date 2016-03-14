@@ -93,6 +93,30 @@
       "revId": "b6062e5c05d0d78b3aa386bbfc4a5dd17a249a7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_64c1caf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-14T14:18:47Z",
+      "side": 1,
+      "message": "Sorry I missed this on the last push.  I\u0027ve changed it to \u0027union\u0027 since it\u0027s a union of labels.  Not sure if that\u0027s any better.  You\u0027ll have to make a suggestion if you don\u0027t like this option.",
+      "parentUuid": "dc19de73_73e68007",
+      "range": {
+        "startLine": 534,
+        "startChar": 25,
+        "endLine": 534,
+        "endChar": 38
+      },
+      "revId": "b6062e5c05d0d78b3aa386bbfc4a5dd17a249a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

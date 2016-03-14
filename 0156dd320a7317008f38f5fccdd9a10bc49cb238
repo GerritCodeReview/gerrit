@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc19de73_d3c7940f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-14T22:18:32Z",
+      "side": 1,
+      "message": "Point in the end of this statement.",
+      "revId": "0156dd320a7317008f38f5fccdd9a10bc49cb238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_449f6ed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-14T22:18:32Z",
+      "side": 1,
+      "message": "May be add that the working class EventDeserializer was broken in this commit, after memoization was added: [1]?\n\n* [1] https://gerrit-review.googlesource.com/73527",
+      "revId": "0156dd320a7317008f38f5fccdd9a10bc49cb238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_8467a6b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SupplierDeserializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-14T22:18:32Z",
+      "side": 1,
+      "message": "parametrizedType.",
+      "range": {
+        "startLine": 34,
+        "startChar": 22,
+        "endLine": 34,
+        "endChar": 37
+      },
+      "revId": "0156dd320a7317008f38f5fccdd9a10bc49cb238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_a46ca29c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SupplierDeserializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-14T22:18:32Z",
+      "side": 1,
+      "message": "Ma be call it supplierOf?",
+      "range": {
+        "startLine": 39,
+        "startChar": 9,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "0156dd320a7317008f38f5fccdd9a10bc49cb238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

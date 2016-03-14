@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "dc19de73_333a481d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1022607
+      },
+      "writtenOn": "2016-03-14T12:33:04Z",
+      "side": 1,
+      "message": "It is also important to know that this change does not provide diff against commit computed with \u0027git merge-base\u0027 tool. The purpose of this change is to provide emulation for github\u0027s pull request functionality, so if you decide that \u0027Pull request diff\u0027 or similar label would be better, I won\u0027t object. But I will object to \u0027Base\u0027 label, because it is both misleading (aka git merge-base) and too implicit.",
+      "parentUuid": "dc19de73_3309287e",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 26
+      },
+      "revId": "fefe3ba9b66a85a6cd3d80a64b54ac94923cc56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc19de73_13a3cccb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 17

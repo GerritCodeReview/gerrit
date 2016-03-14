@@ -43,6 +43,7 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -154,44 +155,72 @@ class SshPanel extends Composite {
     closeAddKeyBlock.setVisible(on);
   }
 
+  private class AddKeyCallback extends GerritCallback<SshKeyInfo> {
+    private boolean isLast;
+
+    public AddKeyCallback(boolean isLast) {
+      this.isLast = isLast;
+    }
+
+    @Override
+    public void onSuccess(SshKeyInfo key) {
+      keys.addOneKey(key);
+
+      if (!keys.isVisible()) {
+        setKeyTableVisible(true);
+        keys.updateDeleteButton();
+      }
+
+      if (isLast) {
+        showAddKeyBlock(false);
+        addNew.setEnabled(true);
+        addTxt.setText("");
+      }
+    }
+
+    @Override
+    public void onFailure(final Throwable caught) {
+      if (!isLast) {
+        return;
+      }
+
+      addNew.setEnabled(true);
+
+      if (isInvalidSshKey(caught)) {
+        new ErrorDialog(Util.C.invalidSshKeyError()).center();
+      } else {
+        super.onFailure(caught);
+      }
+    }
+
+    private boolean isInvalidSshKey(final Throwable caught) {
+      if (caught instanceof InvalidSshKeyException) {
+        return true;
+      }
+      return caught instanceof RemoteJsonException
+          && InvalidSshKeyException.MESSAGE.equals(caught.getMessage());
+    }
+  }
+
   void doAddNew() {
     final String txt = addTxt.getText();
-    if (txt != null && txt.length() > 0) {
-      addNew.setEnabled(false);
-      AccountApi.addSshKey("self", txt, new GerritCallback<SshKeyInfo>() {
-        @Override
-        public void onSuccess(final SshKeyInfo k) {
-          addNew.setEnabled(true);
-          addTxt.setText("");
-          keys.addOneKey(k);
-          if (!keys.isVisible()) {
-            showAddKeyBlock(false);
-            setKeyTableVisible(true);
-            keys.updateDeleteButton();
-          }
-        }
-
-        @Override
-        public void onFailure(final Throwable caught) {
-          addNew.setEnabled(true);
-
-          if (isInvalidSshKey(caught)) {
-            new ErrorDialog(Util.C.invalidSshKeyError()).center();
-
-          } else {
-            super.onFailure(caught);
-          }
-        }
-
-        private boolean isInvalidSshKey(final Throwable caught) {
-          if (caught instanceof InvalidSshKeyException) {
-            return true;
-          }
-          return caught instanceof RemoteJsonException
-              && InvalidSshKeyException.MESSAGE.equals(caught.getMessage());
-        }
-      });
+    if (txt == null || txt.length() == 0) {
+      return;
     }
+
+    List<String> sshKeys = new ArrayList<>();
+    for (String sshKey : txt.split("\\r?\\n")) {
+      if (sshKey.trim().length() > 0) {
+        sshKeys.add(sshKey);
+      }
+    }
+
+    if (sshKeys.isEmpty()) {
+      return;
+    }
+
+    addNew.setEnabled(false);
+    AccountApi.addSshKeys("self", sshKeys, new AddKeyCallback(false), new AddKeyCallback(true));
   }
 
   @Override

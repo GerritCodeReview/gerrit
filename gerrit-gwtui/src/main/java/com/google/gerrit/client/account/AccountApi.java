@@ -27,6 +27,8 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -101,11 +103,25 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("sshkeys").get(cb);
   }
 
-  /** Add a new SSH keys */
+  /** Add a new SSH key */
   public static void addSshKey(String account, String sshPublicKey,
       AsyncCallback<SshKeyInfo> cb) {
     new RestApi("/accounts/").id(account).view("sshkeys")
         .post(sshPublicKey, cb);
+  }
+
+  /** Add new SSH keys */
+  public static void addSshKeys(String account, List<String> sshPublicKeys,
+      final AsyncCallback<SshKeyInfo> keyCb,
+      final AsyncCallback<SshKeyInfo> doneCb) {
+    CallbackGroup group = new CallbackGroup();
+
+    for (Iterator<String> it = sshPublicKeys.iterator(); it.hasNext(); ) {
+      String sshPublicKey = it.next();
+      AsyncCallback<SshKeyInfo> cb = it.hasNext() ? group.add(keyCb) : group.addFinal(doneCb);
+
+      new RestApi("/accounts/").id(account).view("sshkeys").post(sshPublicKey, cb);
+    }
   }
 
   /**

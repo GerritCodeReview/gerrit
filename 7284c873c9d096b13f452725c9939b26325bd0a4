@@ -17,6 +17,24 @@
       "revId": "7284c873c9d096b13f452725c9939b26325bd0a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_a47d828f",
+        "filename": "project.config",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-14T14:40:34Z",
+      "side": 1,
+      "message": "No, but on gerrit-review we still use the old phrase for the \u0027Code-Review\u0027 label. For consistency we should use the same phrase for the \u0027PolyGerrit-Review\u0027 label. We may change that later for both labels.",
+      "parentUuid": "f7207d84_64aaaa4c",
+      "revId": "7284c873c9d096b13f452725c9939b26325bd0a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

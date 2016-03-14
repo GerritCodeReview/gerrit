@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc19de73_f3d05018",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-14T10:01:08Z",
+      "side": 1,
+      "message": "Is TreeMap really needed here? The entries from this map are later put into this.categories which is a (not sorted) HashMap.",
+      "range": {
+        "startLine": 519,
+        "startChar": 38,
+        "endLine": 519,
+        "endChar": 45
+      },
+      "revId": "b6062e5c05d0d78b3aa386bbfc4a5dd17a249a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

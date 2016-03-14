@@ -88,9 +88,6 @@ limitations under the License.
   .addContainer:hover {
     background-color: selectionColor;
   }
-  .addSelector {
-    font-size: 80%;
-  }
 
   .deleteIcon {
     position: absolute;
@@ -139,9 +136,7 @@ limitations under the License.
       ui:field='permissionContainer'
       styleName='{style.permissionList}'/>
   <div ui:field='addContainer' class='{style.addContainer}'>
-    <g:ValueListBox
-        ui:field='permissionSelector'
-        styleName='{style.addSelector}' />
+    <g:ValueListBox ui:field='permissionSelector'/>
   </div>
 </div>
 

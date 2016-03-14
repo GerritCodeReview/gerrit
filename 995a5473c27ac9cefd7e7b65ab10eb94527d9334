@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f7207d84_243c32c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-14T16:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7479d3c_6ce29beb",
+      "range": {
+        "startLine": 14,
+        "startChar": 59,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f716bdff_54c72c5d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "I wouldn\u0027t worry about changes of deleted projects. If you care about them, don\u0027t delete the project, but set the project state to read-only or hidden.\nOr are we worrying about loosing change data for repositories that are temporary missing while the conversion is done?",
       "parentUuid": "1718b12b_754fc8af",
+      "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_f375f0d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-14T16:38:54Z",
+      "side": 1,
+      "message": "Temporary errors during conversion should generally show up as IOExceptions rather than RepositoryNotFoundExceptions, so I\u0027m not too worried.",
+      "parentUuid": "f7479d3c_8c0d078f",
       "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

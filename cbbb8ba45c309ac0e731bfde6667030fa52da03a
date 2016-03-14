@@ -33,6 +33,23 @@
       "revId": "cbbb8ba45c309ac0e731bfde6667030fa52da03a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_a462e2b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-14T18:28:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t work?!\n* \u0027options\u0027 is not defined; gets defined on line 161; this block should probably be moved after \u0027options\u0027 definition.\n* \u0027body\u0027 should be named \u0027opt_body\u0027",
+      "revId": "cbbb8ba45c309ac0e731bfde6667030fa52da03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

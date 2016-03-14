@@ -58,38 +58,6 @@ public final class SystemConfig {
   @Column(id = 3, notNull = false)
   public transient String sitePath;
 
-
-  // DO NOT LOOK BELOW THIS LINE. These fields have all been deleted,
-  // but survive to support schema upgrade code.
-
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 2, length = 36, notNull = false)
-  public transient String registerEmailPrivateKey;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 4, notNull = false)
-  public AccountGroup.Id adminGroupId;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 10, notNull = false)
-  public AccountGroup.UUID adminGroupUUID;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 5, notNull = false)
-  public AccountGroup.Id anonymousGroupId;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 6, notNull = false)
-  public AccountGroup.Id registeredGroupId;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 7, notNull = false)
-  public Project.NameKey wildProjectName;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 9, notNull = false)
-  public AccountGroup.Id ownerGroupId;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 8, notNull = false)
-  public AccountGroup.Id batchUsersGroupId;
-  /** DEPRECATED DO NOT USE */
-  @Column(id = 11, notNull = false)
-  public AccountGroup.UUID batchUsersGroupUUID;
-
   protected SystemConfig() {
   }
 }

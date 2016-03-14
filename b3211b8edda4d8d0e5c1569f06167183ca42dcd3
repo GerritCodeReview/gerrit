@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c259aa0_369eb87d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_4020ce91",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a2cdc0_201dca53",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-10T01:39:10Z",
       "side": 1,
       "message": "I think it would be nice to pull all of these date formats into an \"enum\" object at the top since they are essentially constants and config.",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c259aa0_56993493",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "Done\nI couldn\u0027t figure out where to put magic HHMM_12/24 and will be happy to do that if a suitable place is found.",
+      "parentUuid": "77a2cdc0_201dca53",
       "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "57a5c9c5_9f59932e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "There are few downsides to this approach:\n- whatever is ever added to attached() is never tested\n- calling private _fetchPreferences is a code smell\n\nI took a stab at this over the weekend trying to isolate tested element from outside, stubbing out rest API.\nAlso re-arranged tests and used Chai-as-promised style tests setup.\n\nLet me know what you think.",
+      "parentUuid": "57a5c9c5_5f8aebd9",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_ff789fa0",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-10T01:32:49Z",
       "side": 1,
       "message": "s/quitely/quietly",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a2cdc0_20170a25",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57a5c9c5_ff789fa0",
       "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1c20d690_7594285f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77a2cdc0_8026d6ae",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_9f8753d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
         "patchSetId": 4
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "3c259aa0_7694305f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "My understanding is that WCT is used, which means Mocha.\nhttps://www.polymer-project.org/1.0/tools/tests.html",
+      "parentUuid": "57a5c9c5_9f8753d1",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_7f8dafef",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -115,6 +223,24 @@
       "writtenOn": "2016-03-10T01:32:49Z",
       "side": 1,
       "message": "This is incorrect. null is a valid value for the cache. For instance, when the account call is made on a logged-out session, the response is cached as null. Urs made a fix in https://gerrit-review.googlesource.com/c/75635/ but this will most likely land before that.\n\nThe key is replacing return this._cache[url]; with return Promise.resolve(this._cache[url]);\n\nI would pull that and the regression test into this change and update the commit message.",
+      "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3727759a_86308a3f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-14T04:23:12Z",
+      "side": 1,
+      "message": "Indeed, this is a better solution.\nSince the underlying issue is fixed, reverted.",
+      "parentUuid": "57a5c9c5_7f8dafef",
       "revId": "b3211b8edda4d8d0e5c1569f06167183ca42dcd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

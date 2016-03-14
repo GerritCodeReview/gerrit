@@ -48,7 +48,6 @@ limitations under the License.
 
   .addContainer {
     margin-top: 5px;
-    font-size: 80%;
   }
   .addContainer:hover {
     background-color: selectionColor;

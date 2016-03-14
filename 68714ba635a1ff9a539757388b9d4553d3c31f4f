@@ -73,6 +73,29 @@
     },
     {
       "key": {
+        "uuid": "dc19de73_d3ff9478",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 2093,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-14T12:23:26Z",
+      "side": 1,
+      "message": "how about abstracting this class into something like\n\n  public abstract LfsHttpPluginModule extends HttpPluginModule {\n    @Override\n    protected void configureServlets() {\n      serveRegex(URL_REGEX).with(lfsServletClass());\n    }\n\n    protected abstract Class\u003cLfsProtocolServlet\u003e lfsServletClass();\n  }\n\nthen plugin implementation would look like:\n\n  public class HttpModule extends LfsHttpPluginModule {\n    @Override\n    protected Class\u003cLfsProtocolServlet\u003e lfsServletClass() {\n      return LfsApiServlet.class;\n    }\n  }",
+      "range": {
+        "startLine": 2087,
+        "startChar": 0,
+        "endLine": 2093,
+        "endChar": 1
+      },
+      "revId": "68714ba635a1ff9a539757388b9d4553d3c31f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "425fc5cb_6622ee9c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
         "patchSetId": 12

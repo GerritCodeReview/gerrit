@@ -1,0 +1,116 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-request/gr-request.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
+
+<dom-module id="gr-new-diff">
+  <template>
+    <style>
+      :host {
+        --light-remove-highlight-color: #fee;
+        --dark-remove-highlight-color: #ffd4d4;
+        --light-add-highlight-color: #efe;
+        --dark-add-highlight-color: #d4ffd4;
+      }
+      .loading {
+        padding: 0 var(--default-horizontal-margin) 1em;
+        color: #666;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .prefsButton {
+        text-align: right;
+      }
+      .diffContainer {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+        display: flex;
+        font: 12px var(--monospace-font-family);
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        border-right: 1px solid #ddd;
+      }
+      .lineNum,
+      .content {
+        vertical-align: top;
+        white-space: pre;
+      }
+      .lineNum {
+        background-color: #eee;
+        color: #666;
+        padding: 0 .75em;
+        text-align: right;
+      }
+      .lineNum:before {
+        content: attr(data-line-num);
+      }
+      .content {
+        overflow: hidden;
+        width: var(--content-width, 80ch);
+      }
+      .add {
+        background-color: var(--dark-add-highlight-color);
+      }
+      .remove {
+        background-color: var(--dark-remove-highlight-color);
+      }
+    </style>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <div class="header">
+        <gr-patch-range-select
+            path="[[path]]"
+            change-num="[[changeNum]]"
+            patch-range="[[patchRange]]"
+            available-patches="[[availablePatches]]"></gr-patch-range-select>
+        <gr-button link
+           class="prefsButton"
+           on-tap="_handlePrefsTap"
+           hidden$="[[!prefs]]"
+           hidden>Diff View Preferences</gr-button>
+      </div>
+      <gr-overlay id="prefsOverlay" with-backdrop>
+        <gr-diff-preferences
+            prefs="{{prefs}}"
+            on-save="_handlePrefsSave"
+            on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+      </gr-overlay>
+
+      <div class="diffContainer">
+        <table id="diffTable"></table>
+      </div>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-diff-line.js"></script>
+  <script src="gr-diff-group.js"></script>
+  <script src="gr-diff-builder.js"></script>
+  <script src="gr-diff-builder-side-by-side.js"></script>
+  <script src="gr-diff-builder-unified.js"></script>
+  <script src="gr-new-diff.js"></script>
+</dom-module>

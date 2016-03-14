@@ -91,7 +91,7 @@ class RevisionNoteBuilder {
     this.pushCert = pushCert;
   }
 
-  byte[] build(CommentsInNotesUtil commentsUtil) {
+  byte[] build(ChangeNoteUtil noteUtil) {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     if (pushCert != null) {
       byte[] certBytes = pushCert.getBytes(UTF_8);
@@ -107,7 +107,7 @@ class RevisionNoteBuilder {
       }
     }
     Collections.sort(all, PLC_ORDER);
-    commentsUtil.buildNote(all, out);
+    noteUtil.buildNote(all, out);
     return out.toByteArray();
   }
 

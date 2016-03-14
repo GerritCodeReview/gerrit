@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.api.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Binding;
 import com.google.inject.Guice;
@@ -43,6 +44,7 @@ class InitDatabase implements InitStep {
   private final SitePaths site;
   private final Libraries libraries;
   private final Section database;
+  private final Section idSection;
 
   @Inject
   InitDatabase(final ConsoleUI ui, final SitePaths site, final Libraries libraries,
@@ -51,6 +53,7 @@ class InitDatabase implements InitStep {
     this.site = site;
     this.libraries = libraries;
     this.database = sections.get("database", null);
+    this.idSection = sections.get(GerritServerIdProvider.SECTION, null);
   }
 
   @Override
@@ -91,6 +94,13 @@ class InitDatabase implements InitStep {
     }
 
     dci.initConfig(database);
+
+    // Initialize UUID for NoteDb on first init.
+    String id = idSection.get(GerritServerIdProvider.KEY);
+    if (Strings.isNullOrEmpty(id)) {
+      idSection.set(
+          GerritServerIdProvider.KEY, GerritServerIdProvider.generate());
+    }
   }
 
   @Override

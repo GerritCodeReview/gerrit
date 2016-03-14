@@ -78,7 +78,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private final AllUsersName draftsProject;
   private final Account.Id accountId;
-  private final CommentsInNotesUtil commentsUtil;
 
   // TODO: can go back to a list?
   private Map<Key, PatchLineComment> put;
@@ -91,12 +90,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsers,
-      CommentsInNotesUtil commentsUtil,
+      ChangeNoteUtil noteUtil,
       @Assisted ChangeControl ctl,
       @Assisted Date when) {
-    super(migration, repoManager, ctl, serverIdent, anonymousCowardName, when);
+    super(migration, repoManager, ctl, serverIdent, anonymousCowardName,
+        noteUtil, when);
     this.draftsProject = allUsers;
-    this.commentsUtil = commentsUtil;
     checkState(ctl.getUser().isIdentifiedUser(),
         "Current user must be identified");
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();
@@ -150,7 +149,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedRevs.add(e.getKey());
       ObjectId id = ObjectId.fromString(e.getKey().get());
-      byte[] data = e.getValue().build(commentsUtil);
+      byte[] data = e.getValue().build(noteUtil);
       if (data.length == 0) {
         rnm.noteMap.remove(id);
       } else {
@@ -195,7 +194,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        ctl.getId(), rw.getObjectReader(), noteMap, true);
+        noteUtil, ctl.getId(), rw.getObjectReader(), noteMap, true);
   }
 
   @Override

@@ -825,7 +825,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         + "File: a.txt\n"
         + "\n"
         + "1:2-3:4\n"
-        + CommentsInNotesUtil.formatTime(serverIdent, ts) + "\n"
+        + ChangeNoteUtil.formatTime(serverIdent, ts) + "\n"
         + "Author: Change Owner <1@gerrit>\n"
         + "UUID: uuid1\n"
         + "Bytes: 7\n"
@@ -910,7 +910,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithComments = new ChangeNotesParser(project,
-          c.getId(), commitWithComments.copy(), rw, repoManager)) {
+          c.getId(), commitWithComments.copy(), rw, repoManager, noteUtil)) {
         notesWithComments.parseAll();
         ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
             notesWithComments.buildApprovals();
@@ -921,7 +921,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithApprovals = new ChangeNotesParser(project,
-          c.getId(), commitWithApprovals.copy(), rw, repoManager)) {
+          c.getId(), commitWithApprovals.copy(), rw, repoManager,
+          noteUtil)) {
         notesWithApprovals.parseAll();
         ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
             notesWithApprovals.buildApprovals();
@@ -1166,14 +1167,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           + "File: file1\n"
           + "\n"
           + "1:1-2:1\n"
-          + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
+          + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
           + "Author: Other Account <2@gerrit>\n"
           + "UUID: uuid1\n"
           + "Bytes: 9\n"
           + "comment 1\n"
           + "\n"
           + "2:1-3:1\n"
-          + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
+          + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
           + "Author: Other Account <2@gerrit>\n"
           + "UUID: uuid2\n"
           + "Bytes: 9\n"
@@ -1182,7 +1183,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           + "File: file2\n"
           + "\n"
           + "3:0-4:1\n"
-          + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
+          + ChangeNoteUtil.formatTime(serverIdent, time3) + "\n"
           + "Author: Other Account <2@gerrit>\n"
           + "UUID: uuid3\n"
           + "Bytes: 9\n"
@@ -1236,14 +1237,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           + "File: file1\n"
           + "\n"
           + "1:1-2:1\n"
-          + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
+          + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
           + "Author: Other Account <2@gerrit>\n"
           + "UUID: uuid1\n"
           + "Bytes: 9\n"
           + "comment 1\n"
           + "\n"
           + "2:1-3:1\n"
-          + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
+          + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
           + "Author: Other Account <2@gerrit>\n"
           + "UUID: uuid2\n"
           + "Bytes: 9\n"

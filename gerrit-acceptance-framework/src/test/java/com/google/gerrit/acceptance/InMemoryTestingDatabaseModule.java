@@ -43,6 +43,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provides;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
@@ -50,6 +51,8 @@ import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.eclipse.jgit.lib.Config;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -67,9 +70,11 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
       .toInstance(cfg);
 
     // TODO(dborowitz): Use jimfs.
+    Path p = Paths.get(cfg.getString("gerrit", null, "tempSiteDir"));
     bind(Path.class)
       .annotatedWith(SitePath.class)
-      .toInstance(Paths.get(cfg.getString("gerrit", null, "tempSiteDir")));
+      .toInstance(p);
+    makeSiteDirs(p);
 
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());
@@ -133,6 +138,16 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     @Override
     public void stop() {
       mem.drop();
+    }
+  }
+
+  private static void makeSiteDirs(Path p) {
+    try {
+      Files.createDirectories(p.resolve("etc"));
+    } catch (IOException e) {
+      ProvisionException pe = new ProvisionException(e.getMessage());
+      pe.initCause(e);
+      throw pe;
     }
   }
 }

@@ -16,9 +16,8 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-request/gr-request.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-file-list">
   <template>
@@ -48,6 +47,9 @@ limitations under the License.
         justify-content: flex-start;
         visibility: hidden;
         width: 1.25em;
+      }
+      .row:not(.header):hover {
+        background-color: #f5fafd;
       }
       .row[selected] {
         background-color: #ebf5fb;
@@ -112,17 +114,6 @@ limitations under the License.
         }
       }
     </style>
-    <gr-ajax id="filesXHR"
-        url="[[_computeFilesURL(changeNum, patchNum)]]"
-        on-response="_handleResponse"></gr-ajax>
-    <gr-ajax id="draftsXHR"
-        url="[[_computeDraftsURL(changeNum, patchNum)]]"
-        last-response="{{_drafts}}"></gr-ajax>
-    <gr-ajax id="reviewedXHR"
-        url="[[_computeReviewedURL(changeNum, patchNum)]]"
-        last-response="{{_reviewed}}"></gr-ajax>
-    </gr-ajax>
-
     <div class="row header">
       <div class="positionIndicator"></div>
       <div class="reviewed" hidden$="[[!_loggedIn]]" hidden></div>
@@ -131,7 +122,7 @@ limitations under the License.
       <div class="comments">Comments</div>
       <div class="stats">Stats</div>
     </div>
-    <template is="dom-repeat" items="{{files}}" as="file">
+    <template is="dom-repeat" items="{{_files}}" as="file">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
         <div class="positionIndicator">&#x25b6;</div>
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
@@ -145,7 +136,7 @@ limitations under the License.
           [[_computeFileDisplayName(file.__path)]]
         </a>
         <div class="comments">
-          <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
+          <span class="drafts">[[_computeDraftsString(drafts, patchNum, file.__path)]]</span>
           [[_computeCommentsString(comments, patchNum, file.__path)]]
         </div>
         <div class$="[[_computeClass('stats', file.__path)]]">
@@ -154,6 +145,7 @@ limitations under the License.
         </div>
       </div>
     </template>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-file-list.js"></script>
 </dom-module>

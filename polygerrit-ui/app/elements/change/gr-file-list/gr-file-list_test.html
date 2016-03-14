@@ -36,202 +36,91 @@ limitations under the License.
 <script>
   suite('gr-file-list tests', function() {
     var element;
-    var server;
+    var getLoggedInStub;
 
     setup(function() {
       element = fixture('basic');
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/1/files',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({
-            '/COMMIT_MSG': {
-              status: 'A',
-              lines_inserted: 9,
-              size_delta: 317,
-              size: 317
-            },
-            'myfile.txt': {
-              lines_inserted: 35,
-              size_delta: 1146,
-              size: 1167
-            }
-          }),
-        ]
-      );
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/2/files',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({
-            '/COMMIT_MSG': {
-              status: 'A',
-              lines_inserted: 9,
-              size_delta: 317,
-              size: 317
-            },
-            'myfile.txt': {
-              lines_inserted: 35,
-              size_delta: 1146,
-              size: 1167
-            },
-            'file_added_in_rev2.txt': {
-              lines_inserted: 98,
-              size_delta: 234,
-              size: 136
-            }
-          }),
-        ]
-      );
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/1/drafts',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '{}',
-        ]
-      );
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/2/drafts',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '{}',
-        ]
-      );
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/1/files?reviewed',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '["/COMMIT_MSG"]',
-        ]
-      );
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/2/files?reviewed',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '["/COMMIT_MSG","myfile.txt"]',
-        ]
-      );
-      server.respondWith(
-        'PUT',
-        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
-        [
-          201,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '""',
-        ]
-      );
-      server.respondWith(
-        'DELETE',
-        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
-        [
-          204,
-          {'Content-Type': 'application/json'},
-          '',
-        ]
-      );
-
-      app.loggedIn = true;
+      getLoggedInStub = sinon.stub(element, '_getLoggedIn', function() {
+        return Promise.resolve(true);
+      });
     });
 
     teardown(function() {
-      server.restore();
+      getLoggedInStub.restore();
     });
 
-    test('requests', function(done) {
-      element.changeNum = '42';
-      element.patchNum = '1';
-      element.reload();
-      server.respond();
-
-      Promise.all([
-          element._filesRequestPromise,
-          element._reviewedRequestPromise,
-      ]).then(function() {
-        flushAsynchronousOperations();
-        var filenames = element.files.map(function(f) {
-          return f.__path;
-        });
-        assert.deepEqual(filenames, ['/COMMIT_MSG', 'myfile.txt']);
-        assert.deepEqual(element._reviewed, ['/COMMIT_MSG']);
-
-        element.patchNum = '2';
-        element.reload();
-        server.respond();
-        Promise.all([
-            element._filesRequestPromise,
-            element._reviewedRequestPromise,
-        ]).then(function() {
-          flushAsynchronousOperations();
-          filenames = element.files.map(function(f) {
-            return f.__path;
+    test('get file list', function(done) {
+      var getChangeFilesStub = sinon.stub(element.$.restAPI, 'getChangeFiles',
+          function() {
+            return Promise.resolve({
+              '/COMMIT_MSG': {lines_inserted: 9},
+              'tags.html': {lines_deleted: 123},
+              'about.txt': {},
+            });
           });
-          assert.deepEqual(filenames,
-              ['/COMMIT_MSG', 'file_added_in_rev2.txt', 'myfile.txt']);
-          assert.deepEqual(element._reviewed, ['/COMMIT_MSG', 'myfile.txt']);
-          done();
+
+      element._getFiles().then(function(files) {
+        var filenames = files.map(function(f) { return f.__path; });
+        assert.deepEqual(filenames, ['/COMMIT_MSG', 'about.txt', 'tags.html']);
+        assert.deepEqual(files[0], {
+          lines_inserted: 9,
+          lines_deleted: 0,
+          __path: '/COMMIT_MSG',
         });
-      });
-    });
+        assert.deepEqual(files[1], {
+          lines_inserted: 0,
+          lines_deleted: 0,
+          __path: 'about.txt',
+        });
+        assert.deepEqual(files[2], {
+          lines_inserted: 0,
+          lines_deleted: 123,
+          __path: 'tags.html',
+        });
 
-    test('keyboard shortcuts', function(done) {
-      element.changeNum = '42';
-      element.patchNum = '2';
-      element.selectedIndex = 0;
-      element.reload();
-      server.respond();
-
-      element._filesRequestPromise.then(function() {
-        flushAsynchronousOperations();
-        var elementItems = Polymer.dom(element.root).querySelectorAll(
-            '.row:not(.header)');
-        assert.equal(elementItems.length, 3);
-        assert.isTrue(elementItems[0].hasAttribute('selected'));
-        assert.isFalse(elementItems[1].hasAttribute('selected'));
-        assert.isFalse(elementItems[2].hasAttribute('selected'));
-        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
-        assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
-
-        var showStub = sinon.stub(page, 'show');
-        assert.equal(element.selectedIndex, 2);
-        MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
-        assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
-            'Should navigate to /c/42/2/myfile.txt');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-        assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'o'
-        assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
-            'Should navigate to /c/42/2/file_added_in_rev2.txt');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-        assert.equal(element.selectedIndex, 0);
-
-        showStub.restore();
         done();
       });
+    });
+
+    test('keyboard shortcuts', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG'},
+        {__path: 'file_added_in_rev2.txt'},
+        {__path: 'myfile.txt'},
+      ];
+      element.changeNum = '42',
+      element.patchNum = '2';
+      element.selectedIndex = 0;
+
+      flushAsynchronousOperations();
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
+          '.row:not(.header)');
+      assert.equal(elementItems.length, 3);
+      assert.isTrue(elementItems[0].hasAttribute('selected'));
+      assert.isFalse(elementItems[1].hasAttribute('selected'));
+      assert.isFalse(elementItems[2].hasAttribute('selected'));
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+
+      var showStub = sinon.stub(page, 'show');
+      assert.equal(element.selectedIndex, 2);
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
+          'Should navigate to /c/42/2/myfile.txt');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'o'
+      assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
+          'Should navigate to /c/42/2/file_added_in_rev2.txt');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      assert.equal(element.selectedIndex, 0);
+
+      showStub.restore();
     });
 
     test('comment filtering', function() {
@@ -248,24 +137,24 @@ limitations under the License.
         ],
       };
       assert.equal(
-          element._computeCommentsString(comments, '1', '/COMMIT_MSG'),
+          element._computeCountString(comments, '1', '/COMMIT_MSG', 'comment'),
           '2 comments');
       assert.equal(
-          element._computeCommentsString(comments, '1', 'myfile.txt'),
+          element._computeCountString(comments, '1', 'myfile.txt', 'comment'),
           '1 comment');
       assert.equal(
-          element._computeCommentsString(comments, '1',
-              'file_added_in_rev2.txt'),
+          element._computeCountString(comments, '1',
+              'file_added_in_rev2.txt', 'comment'),
           '');
       assert.equal(
-          element._computeCommentsString(comments, '2', '/COMMIT_MSG'),
+          element._computeCountString(comments, '2', '/COMMIT_MSG', 'comment'),
           '1 comment');
       assert.equal(
-          element._computeCommentsString(comments, '2', 'myfile.txt'),
+          element._computeCountString(comments, '2', 'myfile.txt', 'comment'),
           '2 comments');
       assert.equal(
-          element._computeCommentsString(comments, '2',
-              'file_added_in_rev2.txt'),
+          element._computeCountString(comments, '2',
+              'file_added_in_rev2.txt', 'comment'),
           '');
     });
 
@@ -284,50 +173,37 @@ limitations under the License.
           'clazz invisible');
     });
 
-    test('file review status', function(done) {
+    test('file review status', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG'},
+        {__path: 'file_added_in_rev2.txt'},
+        {__path: 'myfile.txt'},
+      ];
+      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element.changeNum = '42';
       element.patchNum = '2';
-      element.reload();
-      server.respond();
+      element.selectedIndex = 0;
 
-      Promise.all([
-          element._filesRequestPromise,
-          element._reviewedRequestPromise,
-      ]).then(function() {
-        flushAsynchronousOperations();
-        var fileRows =
-            Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-        var commitMsg = fileRows[0].querySelector('input[type="checkbox"]');
-        var fileAdded = fileRows[1].querySelector('input[type="checkbox"]');
-        var myFile = fileRows[2].querySelector('input[type="checkbox"]');
+      flushAsynchronousOperations();
+      var fileRows =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      var commitMsg = fileRows[0].querySelector('input[type="checkbox"]');
+      var fileAdded = fileRows[1].querySelector('input[type="checkbox"]');
+      var myFile = fileRows[2].querySelector('input[type="checkbox"]');
 
-        assert.isTrue(commitMsg.checked);
-        assert.isFalse(fileAdded.checked);
-        assert.isTrue(myFile.checked);
+      assert.isTrue(commitMsg.checked);
+      assert.isFalse(fileAdded.checked);
+      assert.isTrue(myFile.checked);
 
-        assert.equal(element._reviewed.length, 2);
+      var saveStub = sinon.stub(element, '_saveReviewedState',
+          function() { return Promise.resolve(); });
 
-        MockInteractions.tap(commitMsg);
-        server.respond();
-        element._xhrPromise.then(function(req) {
-          assert.equal(element._reviewed.length, 1);
-          assert.equal(req.status, 204);
-          assert.equal(req.url,
-              '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
+      MockInteractions.tap(commitMsg);
+      assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
+      MockInteractions.tap(commitMsg);
+      assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
 
-          MockInteractions.tap(commitMsg);
-          server.respond();
-        }).then(function() {
-          element._xhrPromise.then(function(req) {
-            assert.equal(element._reviewed.length, 2);
-            assert.equal(req.status, 201);
-            assert.equal(req.url,
-                '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
-
-            done();
-          });
-        });
-      });
+      saveStub.restore();
     });
   });
 </script>

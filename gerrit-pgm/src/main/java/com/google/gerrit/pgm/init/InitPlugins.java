@@ -111,7 +111,7 @@ public class InitPlugins implements InitStep {
       String pluginName = plugin.name;
       try {
         final File tmpPlugin = plugin.pluginFile;
-	File p = new File(site.plugins_dir, plugin.name + ".jar");
+        File p = new File(site.plugins_dir, plugin.name + ".jar");
         boolean upgrade = p.exists();
 
         if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(upgrade,

@@ -22,6 +22,30 @@
       "revId": "6c5dfadb56534933c9f4505870f37af44c2b20f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c259aa0_163f3c0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-14T17:49:23Z",
+      "side": 1,
+      "message": "Reworded.",
+      "parentUuid": "d742992f_4b4f85af",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "6c5dfadb56534933c9f4505870f37af44c2b20f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

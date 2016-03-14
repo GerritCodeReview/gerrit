@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c20d690_15f5f4a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-14T14:57:47Z",
+      "side": 1,
+      "message": "trailing comma",
+      "revId": "167d86cf75462d59ddec8c0ae6e557615ce5d73a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c20d690_f5d9583a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-14T14:57:47Z",
+      "side": 1,
+      "message": "👍",
+      "revId": "167d86cf75462d59ddec8c0ae6e557615ce5d73a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

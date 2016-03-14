@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "f7207d84_a4e102bd",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "1722718a_65e2a6eb",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1722718a_a512dea7",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "f7207d84_c4e6fed1",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "That doesn\u0027t work. The margin must be on the inner element to make sure the rounded border in the host element doesnt print on top of the reviewer name.",
+      "parentUuid": "1722718a_a512dea7",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3727759a_66e2aeeb",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1
@@ -70,6 +106,24 @@
       "writtenOn": "2016-03-11T23:22:25Z",
       "side": 1,
       "message": "you don’t need this wrapper. the host element itself is the wrapper.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_93aebcac",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "how is it decided that the wrapper should be a span rather than div?",
+      "parentUuid": "3727759a_66e2aeeb",
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +153,30 @@
     },
     {
       "key": {
+        "uuid": "f7207d84_04f1f685",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d71b7959_0302ce58",
+      "range": {
+        "startLine": 34,
+        "startChar": 65,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7207d84_44fcce84",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1
@@ -110,6 +188,24 @@
       "writtenOn": "2016-03-12T11:11:46Z",
       "side": 1,
       "message": "This a element is not opened before.",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_e4ebfa98",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7207d84_44fcce84",
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "f7207d84_04f9f62e",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1722718a_850de28e",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3727759a_860dea8e",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1
@@ -144,6 +258,42 @@
       "writtenOn": "2016-03-11T23:22:25Z",
       "side": 1,
       "message": "s/event/e",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_24f6f23d",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3727759a_860dea8e",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_84e4068d",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3727759a_860dea8e",
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "f7207d84_641d4a53",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3727759a_a612e6a7",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1722718a_c507da68",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1
@@ -178,6 +346,24 @@
       "writtenOn": "2016-03-11T23:22:25Z",
       "side": 1,
       "message": "single-quotes",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_4403eef2",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1722718a_c507da68",
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "dc19de73_f3ef30a3",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1722718a_e50cd68f",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71b7959_23ffca7b",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 1
@@ -218,6 +422,24 @@
         "endLine": 83,
         "endChar": 25
       },
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_d3ec34b1",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-14T17:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d71b7959_23ffca7b",
       "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

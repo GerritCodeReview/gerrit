@@ -153,16 +153,15 @@
       var headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
       });
-
-      if (opt_body) {
-        headers.append('Content-Type', 'application/json');
-        options.body = body;
-      }
       var options = {
         method: method,
         headers: headers,
         credentials: 'same-origin',
       };
+      if (opt_body) {
+        headers.append('Content-Type', 'application/json');
+        options.body = opt_body;
+      }
       return fetch(url, options).catch(function(err) {
         if (opt_errFn) {
           opt_errFn.call(opt_ctx || this);

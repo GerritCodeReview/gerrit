@@ -134,6 +134,24 @@
       "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_93f6bc7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-14T17:40:54Z",
+      "side": 1,
+      "message": "Any comment on this?",
+      "parentUuid": "d742992f_eb3f510a",
+      "revId": "995a5473c27ac9cefd7e7b65ab10eb94527d9334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

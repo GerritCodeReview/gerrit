@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
@@ -82,7 +81,7 @@ public class SchemaCreator {
     sVer.versionNbr = SchemaVersion.getBinaryVersion();
     db.schemaVersion().insert(Collections.singleton(sVer));
 
-    initSystemConfig(db);
+    initDefaultGroups(db);
     allProjectsCreator
       .setAdministrators(GroupReference.forGroup(admin))
       .setBatchUsers(GroupReference.forGroup(batch))
@@ -104,7 +103,7 @@ public class SchemaCreator {
         uuid);
   }
 
-  private SystemConfig initSystemConfig(final ReviewDb c) throws OrmException {
+  private void initDefaultGroups(final ReviewDb c) throws OrmException {
     admin = newGroup(c, "Administrators", null);
     admin.setDescription("Gerrit Site Administrators");
     c.accountGroups().insert(Collections.singleton(admin));
@@ -117,14 +116,5 @@ public class SchemaCreator {
     c.accountGroups().insert(Collections.singleton(batch));
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(batch)));
-
-    final SystemConfig s = SystemConfig.create();
-    try {
-      s.sitePath = site_path.toRealPath().normalize().toString();
-    } catch (IOException e) {
-      s.sitePath = site_path.toAbsolutePath().normalize().toString();
-    }
-    c.systemConfig().insert(Collections.singleton(s));
-    return s;
   }
 }

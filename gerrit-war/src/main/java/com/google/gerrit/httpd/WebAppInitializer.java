@@ -77,6 +77,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -110,6 +111,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     implements Filter {
   private static final Logger log =
       LoggerFactory.getLogger(WebAppInitializer.class);
+  private static final String GERRIT_SITE_PATH = "gerrit.site_path";
 
   private Path sitePath;
   private Injector dbInjector;
@@ -132,9 +134,11 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   private synchronized void init() {
     if (manager == null) {
-      final String path = System.getProperty("gerrit.site_path");
+      final String path = System.getProperty(GERRIT_SITE_PATH);
       if (path != null) {
         sitePath = Paths.get(path);
+      } else {
+        throw new ProvisionException(GERRIT_SITE_PATH + " must be defined");
       }
 
       if (System.getProperty("gerrit.init") != null) {
@@ -146,7 +150,7 @@ public class WebAppInitializer extends GuiceServletContextListener
           pluginsToInstall = Splitter.on(",").trimResults().omitEmptyStrings()
               .splitToList(installPlugins);
         }
-        new SiteInitializer(path, System.getProperty("gerrit.init_path"),
+        new SiteInitializer(path, System.getProperty(GERRIT_SITE_PATH),
             new UnzippedDistribution(servletContext), pluginsToInstall).init();
       }
 
@@ -270,20 +274,6 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<>();
-    if (sitePath == null) {
-      // If we didn't get the site path from the system property
-      // we need to get it from the database, as that's our old
-      // method of locating the site path on disk.
-      //
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(Path.class).annotatedWith(SitePath.class).toProvider(
-              SitePathFromSystemConfigProvider.class).in(SINGLETON);
-        }
-      });
-      modules.add(new GerritServerConfigModule());
-    }
     modules.add(new SchemaModule());
     modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(new ConfigNotesMigration.Module());

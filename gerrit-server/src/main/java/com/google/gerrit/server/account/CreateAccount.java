@@ -213,12 +213,13 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   }
 
   private AccountSshKey createSshKey(Account.Id id, String sshKey)
-      throws BadRequestException {
+      throws BadRequestException, OrmException {
     if (sshKey == null) {
       return null;
     }
     try {
-      return sshKeyCache.create(new AccountSshKey.Id(id, 1), sshKey.trim());
+      return sshKeyCache.create(new AccountSshKey.Id(id,
+        db.nextAccountSshKeyId()), sshKey.trim());
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());
     }

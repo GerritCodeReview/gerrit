@@ -179,6 +179,11 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
+  public int nextAccountSshKeyId() throws OrmException {
+    return delegate.nextAccountSshKeyId();
+  }
+
+  @Override
   @SuppressWarnings("deprecation")
   public int nextChangeId() throws OrmException {
     return delegate.nextChangeId();

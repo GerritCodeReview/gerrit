@@ -63,13 +63,22 @@ limitations under the License.
 
   <developers>
     <developer>
+      <name>Andrew Bonventre</name>
+    </developer>
+    <developer>
       <name>Dave Borowitz</name>
+    </developer>
+    <developer>
+      <name>David Ostrovsky</name>
     </developer>
     <developer>
       <name>David Pursehouse</name>
     </developer>
     <developer>
       <name>Edwin Kempin</name>
+    </developer>
+    <developer>
+      <name>Hugo Arès</name>
     </developer>
     <developer>
       <name>Martin Fick</name>

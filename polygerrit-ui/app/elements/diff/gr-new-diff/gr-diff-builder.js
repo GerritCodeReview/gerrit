@@ -14,7 +14,8 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  function GrDiffBuilder(diff, outputEl) {
+  function GrDiffBuilder(diff, prefs, outputEl) {
+    this._prefs = prefs;
     this._outputEl = outputEl;
     this._groups = [];
 
@@ -38,6 +39,9 @@
   },
 
   GrDiffBuilder.prototype._processContent = function(content, groups) {
+    var WHOLE_FILE = -1;
+    var context = content.length > 1 ? this._prefs.context : WHOLE_FILE;
+
     var leftLineNum = 0;
     var rightLineNum = 0;
     for (var i = 0; i < content.length; i++) {
@@ -53,7 +57,37 @@
           line.afterNumber = ++rightLineNum;
           lines.push(line);
         }
-        groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
+
+        var hiddenStart;
+        var hiddenEnd;
+        hiddenStart = context;
+        hiddenEnd = rows.length - context;
+        if (i === 0) {
+          hiddenStart = 0;
+        } else if (i === content.length - 1) {
+          hiddenEnd = rows.length;
+        }
+
+        if (context !== WHOLE_FILE && hiddenEnd - hiddenStart > 0) {
+          // TODO: Split around comments as well.
+          var linesBeforeCtx = lines.slice(0, hiddenStart);
+          var hiddenLines = lines.slice(hiddenStart, hiddenEnd);
+          var linesAfterCtx = lines.slice(hiddenEnd);
+          if (i === 0) {
+            linesBeforeCtx = [];
+          } else if (i === content.length - 1) {
+            linesAfterCtx = [];
+          }
+
+          groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
+          var ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+          ctxLine.contextLines = hiddenLines;
+          groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
+              [ctxLine]));
+          groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesAfterCtx));
+        } else {
+          groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
+        }
         continue;
       }
 
@@ -79,6 +113,28 @@
     }
   };
 
+  GrDiffBuilder.prototype._createContextControl = function(section, line) {
+    if (!line.contextLines.length) {
+      return null;
+    }
+    var td = this._createElement('td');
+    var button = this._createElement('gr-button', 'showContext');
+    button.setAttribute('link', true);
+    var commonLines = line.contextLines.length;
+    var text = 'Show ' + commonLines + ' common line';
+    if (commonLines > 1) {
+      text += 's';
+    }
+    text += '...';
+    button.textContent = text;
+    button.addEventListener('tap', function(e) {
+      e.detail = {section: section, line: line};
+      // Let it bubble up the DOM tree.
+    });
+    td.appendChild(button);
+    return td;
+  };
+
   GrDiffBuilder.prototype._createBlankSideEl = function() {
     var td = this._createElement('td');
     td.setAttribute('colspan', '2');
@@ -87,8 +143,10 @@
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
     var td = this._createElement('td', 'lineNum');
-    if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
-      td.setAttribute('data-line-num', number);
+    if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.setAttribute('data-value', '@@');
+    } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+      td.setAttribute('data-value', number);
     }
     return td;
   };

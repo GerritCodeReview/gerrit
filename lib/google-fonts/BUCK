@@ -1,0 +1,20 @@
+genrule(
+  name = 'sourcecodepro',
+  cmd = 'zip -rq $OUT .',
+  srcs = ['sourcecodepro-regular.woff2'],
+  out = 'sourcecodepro.zip',
+  license = 'OFL1.1',
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'opensans',
+  cmd = 'zip -rq $OUT .',
+  srcs = [
+    'opensans-regular.woff2',
+    'opensans-bold.woff2'
+  ],
+  out = 'opensans.zip',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)

@@ -72,6 +72,7 @@ public class ChangeNoteUtil {
   static final FooterKey FOOTER_SUBMITTED_WITH =
       new FooterKey("Submitted-with");
   static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
+  static final FooterKey FOOTER_TAG = new FooterKey("Tag");
 
   private static final String AUTHOR = "Author";
   private static final String BASE_PATCH_SET = "Base-for-patch-set";
@@ -82,6 +83,7 @@ public class ChangeNoteUtil {
   private static final String PATCH_SET = "Patch-set";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
+  private static final String TAG = FOOTER_TAG.getName();
 
   public static String changeRefName(Change.Id id) {
     StringBuilder r = new StringBuilder();
@@ -205,6 +207,14 @@ public class ChangeNoteUtil {
     }
 
     String uuid = parseStringField(note, curr, changeId, UUID);
+
+    boolean hasTag =
+        (RawParseUtils.match(note, curr.value, TAG.getBytes(UTF_8))) != -1;
+    String tag = null;
+    if (hasTag) {
+      tag = parseStringField(note, curr, changeId, TAG);
+    }
+
     int commentLength = parseCommentLength(note, curr, changeId);
 
     String message = RawParseUtils.decode(
@@ -215,6 +225,7 @@ public class ChangeNoteUtil {
         new PatchLineComment.Key(new Patch.Key(psId, currentFileName), uuid),
         range.getEndLine(), aId, parentUUID, commentTime);
     plc.setMessage(message);
+    plc.setTag(tag);
     plc.setSide((short) (isForBase ? 0 : 1));
     if (range.getStartCharacter() != -1) {
       plc.setRange(range);
@@ -493,6 +504,10 @@ public class ChangeNoteUtil {
         }
 
         appendHeaderField(writer, UUID, c.getKey().get());
+
+        if (c.getTag() != null) {
+          appendHeaderField(writer, TAG, c.getTag());
+        }
 
         byte[] messageBytes = c.getMessage().getBytes(UTF_8);
         appendHeaderField(writer, LENGTH,

@@ -197,7 +197,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
               int nb = lf + 1;
               int p = 0;
               while (p < ae - ab) {
-                if (cmp.equals(a, ab + p, a, ab + p)) {
+                if (cmp.equals(a, ab + p, a, ae + p)) {
                   p++;
                 } else {
                   break;
@@ -234,7 +234,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
               int nb = lf + 1;
               int p = 0;
               while (p < be - bb) {
-                if (cmp.equals(b, bb + p, b, bb + p)) {
+                if (cmp.equals(b, bb + p, b, be + p)) {
                   p++;
                 } else {
                   break;

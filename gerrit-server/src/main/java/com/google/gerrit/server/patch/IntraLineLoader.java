@@ -98,6 +98,80 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     }
   }
 
+  static int getShift(CharText text, int lf, int start, int end) {
+    CharTextComparator cmp = new CharTextComparator();
+
+    // If the part from line start to our edit contains of whitespace only and
+    // the edit itself consists of the same whitespaces only we will assume that
+    // the edit was indeed an indentation change. In this case we will shift the
+    // diff to the left margin.
+    if (lf < start && text.charAt(lf) == '\n' && isOnlyWhitespace(text, lf + 1, start)) {
+      int nb = lf + 1;
+      int p = 0;
+
+      // Check that the line start and our edit consist of the same whitespaces
+      // only. Otherwise we would be displaying wrong information if the
+      // whitespaces were not consistently of one type only.
+      while (nb < (end - p)) {
+        if (cmp.equals(text, nb, text, end - p)) {
+          p++;
+        } else {
+          break;
+        }
+      }
+
+      if (nb == (end - p)) {
+        return -p;
+      }
+      return 0;
+    }
+    // If the change contains only whitespace but not an indentation change we
+    // try to shift the change to the right.
+    else if (isOnlyWhitespace(text, start, end)) {
+      int p = 0;
+
+      while (p < (end - start)) {
+        if (cmp.equals(text, start + p, text, end + p)) {
+          p++;
+        } else {
+          break;
+        }
+      }
+
+      if (p == (end - start)) {
+        return p;
+      }
+      return 0;
+    }
+    // The leading part of an edit and its trailing part in the same text might
+    // be identical (see IntraLineLoaderTest.preferInsertAtLineBreak). Slide the
+    // edit to the right and use the tail rather than the leading bit.
+    else {
+      int p = 0;
+
+      while (0 < start && start < end && text.charAt(start - 1) != '\n'
+          && cmp.equals(text, start - 1, text, end - 1)) {
+        start--;
+        end--;
+        p--;
+      }
+
+      if (!text.isLineStart(start) || !text.contains(start, end, '\n')) {
+        while (start < end && start < text.size()
+            && cmp.equals(text, start, text, end)) {
+          start++;
+          end++;
+          p++;
+          if (text.charAt(end - 1) == '\n') {
+            break;
+          }
+        }
+      }
+
+      return p;
+    }
+  }
+
   static IntraLineDiff compute(Text aText, Text bText, List<Edit> edits)
       throws Exception {
     combineLineEdits(edits, aText, bText);
@@ -184,85 +258,15 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
             be--;
           }
 
-          // The leading part of an edit and its trailing part in the same
-          // text might be identical. Slide down that edit and use the tail
-          // rather than the leading bit. If however the edit is only on a
-          // whitespace block try to shift it to the left margin, assuming
-          // that it is an indentation change.
-          //
-          boolean aShift = true;
-          if (ab < ae && isOnlyWhitespace(a, ab, ae)) {
-            int lf = findLF(wordEdits, j, a, ab);
-            if (lf < ab && a.charAt(lf) == '\n') {
-              int nb = lf + 1;
-              int p = 0;
-              while (p < ae - ab) {
-                if (cmp.equals(a, ab + p, a, ab + p)) {
-                  p++;
-                } else {
-                  break;
-                }
-              }
-              if (p == ae - ab) {
-                ab = nb;
-                ae = nb + p;
-                aShift = false;
-              }
-            }
-          }
-          if (aShift) {
-            while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
-                && cmp.equals(a, ab - 1, a, ae - 1)) {
-              ab--;
-              ae--;
-            }
-            if (!a.isLineStart(ab) || !a.contains(ab, ae, '\n')) {
-              while (ab < ae && ae < a.size() && cmp.equals(a, ab, a, ae)) {
-                ab++;
-                ae++;
-                if (a.charAt(ae - 1) == '\n') {
-                  break;
-                }
-              }
-            }
-          }
+          int lf = findLF(wordEdits, j, a, ab);
+          int shift = getShift(a, lf, ab, ae);
+          ab = ab + shift;
+          ae = ae + shift;
 
-          boolean bShift = true;
-          if (bb < be && isOnlyWhitespace(b, bb, be)) {
-            int lf = findLF(wordEdits, j, b, bb);
-            if (lf < bb && b.charAt(lf) == '\n') {
-              int nb = lf + 1;
-              int p = 0;
-              while (p < be - bb) {
-                if (cmp.equals(b, bb + p, b, bb + p)) {
-                  p++;
-                } else {
-                  break;
-                }
-              }
-              if (p == be - bb) {
-                bb = nb;
-                be = nb + p;
-                bShift = false;
-              }
-            }
-          }
-          if (bShift) {
-            while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
-                && cmp.equals(b, bb - 1, b, be - 1)) {
-              bb--;
-              be--;
-            }
-            if (!b.isLineStart(bb) || !b.contains(bb, be, '\n')) {
-              while (bb < be && be < b.size() && cmp.equals(b, bb, b, be)) {
-                bb++;
-                be++;
-                if (b.charAt(be - 1) == '\n') {
-                  break;
-                }
-              }
-            }
-          }
+          lf = findLF(wordEdits, j, b, bb);
+          shift = getShift(b, lf, bb, be);
+          bb = bb + shift;
+          be = be + shift;
 
           // If most of a line was modified except the LF was common, make
           // the LF part of the modification region. This is easier to read.

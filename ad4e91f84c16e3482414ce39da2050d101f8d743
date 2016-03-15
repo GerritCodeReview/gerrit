@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c8766d1_e1a746d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-15T19:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c8766d1_81999a96",
+      "revId": "ad4e91f84c16e3482414ce39da2050d101f8d743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c40f242_3065a81f",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-15T19:36:30Z",
       "side": 1,
       "message": "In should not be capitalized.\n\n“Sign in”",
+      "revId": "ad4e91f84c16e3482414ce39da2050d101f8d743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c8766d1_01a58acb",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-15T19:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c40f242_3065a81f",
       "revId": "ad4e91f84c16e3482414ce39da2050d101f8d743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

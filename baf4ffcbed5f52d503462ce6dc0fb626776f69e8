@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7207d84_845326b6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3561,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T08:55:07Z",
+      "side": 1,
+      "message": "you may want to make this setting the default; 1024 bit groups are considered suspect nowadays.",
+      "range": {
+        "startLine": 3561,
+        "startChar": 16,
+        "endLine": 3561,
+        "endChar": 23
+      },
+      "revId": "baf4ffcbed5f52d503462ce6dc0fb626776f69e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_f3f7303a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T08:55:07Z",
+      "side": 1,
+      "message": "I thought the cipher preference is determined by the client.",
+      "range": {
+        "startLine": 3564,
+        "startChar": 34,
+        "endLine": 3564,
+        "endChar": 44
+      },
+      "revId": "baf4ffcbed5f52d503462ce6dc0fb626776f69e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

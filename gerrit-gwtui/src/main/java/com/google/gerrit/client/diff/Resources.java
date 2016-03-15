@@ -24,6 +24,7 @@ interface Resources extends ClientBundle {
 
   @Source("CommentBox.css") CommentBox.Style style();
   @Source("Scrollbar.css") Scrollbar.Style scrollbarStyle();
+  @Source("DiffTable.css") DiffTable.Style diffTableStyle();
 
   /**
    * tango icon library (public domain):

@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1458045058 +0100\nnonce AO+Zq7jVrlbGjupvzijoWOyws7CVWaohhtcmVoeE8LOrCHDlT8AEdP06hJlPOPxSu/6NjKNJxYaE\n\n0000000000000000000000000000000000000000 c680be8f5e35d6b0e536a1fc7511b6f2458d31be refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW6ACCAAoJEF/XxZqaEoiMjRsP/30ScYlR9xjFtJwyuuxVs9kq\nx//Y50S5iMFeWyM5ufzzhQwmvLK+rqxMVyzTHYVCaFiBzw0UYSvuRfbWaIJGJgOS\npdl37Y039gJV59TUpKYzmMox4iztdEn9H0fnI9bf4+5UILffAjWIbYUsiR9sNIhe\nztV0/yzrUWIp961lWYsI/rbMXZGsQxaoLnYWU1X2qpzTZqI2VYbigfGMEBLCZhFV\nAasKqkKKVSfbWDUUHqe6eyl1rVKH3pWSiaFTd0L6svS4vroP1QeyMuD++OMBV0gn\nEy7VnjO08KF7KeG5xvrYezgP3q7iYjw6L0MXT9rpHFfuytjj0U81JYl9WHRu1r/h\nkaQ7JdCsxE84hxyW3Dyd5STHjMw6PhCC7A8cWcp/768ctQ9YZFuXFD6ezD56vPK0\nRACYglzd7xmx6dO672Za2ZNz58zTKjnLUXR55k0DaLbTzgvUTMvlc+NThoKV2ZUh\nefBUaKAsC6rVPNQJBO9p+VXE+ZL9qq7ENKf2idrEja1ZxoSc1wkvj5Al+10Hfnrs\nivblfaChTyMoci17nyl1n6njGAh3UwdxFolbtbXdsmStc5CgmW8pD5gv2hhNY57l\nBb0shTlC73QbAGPrhzCVwTW0Ec6Yr8V4NSGfBIoVQC1Y+fuzMCnKSz4sLjrsEJVR\niJSk+EZDbBKQRCsAz6IO\n\u003dL5v2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c2536a9_cdffe978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T14:54:15Z",
+      "side": 1,
+      "message": "Do you mean PS1 here? PS2 should be loaded since it\u0027s the patch set on which the REST endpoint is invoked, isn\u0027t it?",
+      "range": {
+        "startLine": 16,
+        "startChar": 39,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_4c141f96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T14:54:15Z",
+      "side": 1,
+      "message": "I find this comment confusing, isn\u0027t byChangeAsMa always loading the patch sets?",
+      "range": {
+        "startLine": 474,
+        "startChar": 57,
+        "endLine": 475,
+        "endChar": 30
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_6c0fdb85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T14:54:15Z",
+      "side": 1,
+      "message": "Is it worth to check whether there are any comments on a patch set other than ps before loading the patch sets?\n\nAt least we should if there are any draft comments at all.",
+      "range": {
+        "startLine": 476,
+        "startChar": 10,
+        "endLine": 477,
+        "endChar": 64
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -24,6 +24,8 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,14 +56,27 @@ public class GerritServerIdProvider implements Provider<String> {
     // RebuildNoteDb, which otherwise would have been a reasonable place to do
     // the ID generation. Fortunately, it's not much work, and it happens once.
     id = generate();
-    Config cfgCopy = new Config();
-    cfgCopy.fromText(cfg.toText());
-    cfg.setString(SECTION, null, KEY, id);
-    Files.write(sitePaths.gerrit_config, cfg.toText().getBytes(UTF_8));
+    Config newCfg = readGerritConfig(sitePaths);
+    newCfg.setString(SECTION, null, KEY, id);
+    Files.write(sitePaths.gerrit_config, newCfg.toText().getBytes(UTF_8));
   }
 
   @Override
   public String get() {
     return id;
+  }
+
+  private static Config readGerritConfig(SitePaths sitePaths)
+      throws IOException, ConfigInvalidException {
+    // Reread gerrit.config from disk before writing. We can't just use
+    // cfg.toText(), as the @GerritServerConfig only has gerrit.config as a
+    // fallback.
+    FileBasedConfig cfg =
+        new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    if (!cfg.getFile().exists()) {
+      return new Config();
+    }
+    cfg.load();
+    return cfg;
   }
 }

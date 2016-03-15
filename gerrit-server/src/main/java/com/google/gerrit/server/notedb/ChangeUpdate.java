@@ -29,6 +29,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -121,6 +122,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String commit;
   private Set<String> hashtags;
   private String changeMessage;
+  private String tag;
   private PatchSetState psState;
   private Iterable<String> groups;
   private String pushCert;
@@ -293,6 +295,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.changeMessage = changeMessage;
   }
 
+  public void setTag(String tag) {
+    this.tag = tag;
+  }
+
   public void putComment(PatchLineComment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
@@ -393,6 +399,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
     for (PatchLineComment c : comments) {
+      c.setTag(tag);
       cache.get(c.getRevId()).putComment(c);
     }
     if (pushCert != null) {
@@ -526,6 +533,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
     }
 
+    if (tag != null) {
+      addFooter(msg, FOOTER_TAG, tag);
+    }
+
     if (groups != null) {
       addFooter(msg, FOOTER_GROUPS, comma.join(groups));
     }
@@ -621,7 +632,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && topic == null
         && commit == null
         && psState == null
-        && groups == null;
+        && groups == null
+        && tag == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

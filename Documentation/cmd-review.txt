@@ -19,6 +19,7 @@ gerrit review - Apply reviews to one or more patch sets
   [--delete]
   [--verified <N>] [--code-review <N>]
   [--label Label-Name=<N>]
+  [--tag TAG]
   {COMMIT | CHANGEID,PATCHSET}...
 --
 
@@ -133,6 +134,15 @@ branch.
 	If the vote is invalid (invalid label or invalid name), the vote is not
 	permitted for the user, or the vote is on an outdated or closed patch set,
 	return an error instead of silently discarding the vote.
+
+--tag::
+-t::
+  Apply a 'TAG' to the change message, votes, and inline comments. The 'TAG'
+  can represent an external system like CI that does automated verification
+  of the change. Comments with specific 'TAG' values can be filtered out in
+  the web UI.
+  NOTE: To apply different tags on on different votes/comments multiple
+  invocations of the SSH command are required.
 
 == ACCESS
 Any user who has configured an SSH key.

@@ -18,4 +18,5 @@ import com.google.gerrit.extensions.client.Comment;
 
 public class CommentInfo extends Comment {
   public AccountInfo author;
+  public String tag;
 }

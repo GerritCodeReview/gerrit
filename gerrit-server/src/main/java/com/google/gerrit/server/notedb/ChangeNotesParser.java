@@ -25,6 +25,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
@@ -85,6 +86,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeMap;
@@ -113,6 +115,7 @@ class ChangeNotesParser implements AutoCloseable {
   String subject;
   String originalSubject;
   String submissionId;
+  String tag;
   PatchSet.Id currentPatchSetId;
   RevisionNoteMap revisionNoteMap;
 
@@ -123,7 +126,7 @@ class ChangeNotesParser implements AutoCloseable {
   private final RevWalk walk;
   private final Repository repo;
   private final Map<PatchSet.Id,
-      Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
+      Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
@@ -206,6 +209,9 @@ class ChangeNotesParser implements AutoCloseable {
 
     boolean updateTs = commit.getParentCount() == 0;
     createdOn = ts;
+    parseTag(commit);
+    updateTs |= tag != null;
+
     if (branch == null) {
       branch = parseBranch(commit);
       updateTs |= branch != null;
@@ -405,6 +411,18 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
+  private void parseTag(RevCommit commit) throws ConfigInvalidException {
+    tag = null;
+    List<String> tagLines = commit.getFooterLines(FOOTER_TAG);
+    if (tagLines.isEmpty()) {
+      return;
+    } else if (tagLines.size() == 1) {
+      tag = tagLines.get(0);
+    } else {
+      throw expectedOneFooter(FOOTER_TAG, tagLines);
+    }
+  }
+
   private Change.Status parseStatus(RevCommit commit)
       throws ConfigInvalidException {
     List<String> statusLines = commit.getFooterLines(FOOTER_STATUS);
@@ -505,6 +523,7 @@ class ChangeNotesParser implements AutoCloseable {
         ts,
         psId);
     changeMessage.setMessage(changeMsgString);
+    changeMessage.setTag(tag);
     changeMessagesByPatchSet.put(psId, changeMessage);
     allChangeMessages.add(changeMessage);
     return changeMessage;
@@ -570,36 +589,39 @@ class ChangeNotesParser implements AutoCloseable {
       throw pe;
     }
 
-    Table<Account.Id, String, Optional<PatchSetApproval>> curr =
-        getApprovalsTableIfNoVotePresent(psId, accountId, l.label());
+    Entry<String, String> label = Maps.immutableEntry(l.label(), tag);
+    Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>> curr =
+        getApprovalsTableIfNoVotePresent(psId, accountId, label);
     if (curr != null) {
-      curr.put(accountId, l.label(), Optional.of(new PatchSetApproval(
+      PatchSetApproval psa = new PatchSetApproval(
           new PatchSetApproval.Key(
               psId,
               accountId,
               new LabelId(l.label())),
           l.value(),
-          ts)));
+          ts);
+      psa.setTag(tag);
+      curr.put(accountId, label, Optional.of(psa));
     }
   }
 
   private void parseRemoveApproval(PatchSet.Id psId, Account.Id committerId,
       String line) throws ConfigInvalidException {
     Account.Id accountId;
-    String label;
+    Entry<String, String> label;
     int s = line.indexOf(' ');
     if (s > 0) {
-      label = line.substring(1, s);
+      label = Maps.immutableEntry(line.substring(1, s), tag);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
       accountId = noteUtil.parseIdent(ident, id);
     } else {
-      label = line.substring(1);
+      label = Maps.immutableEntry(line.substring(1), tag);
       accountId = committerId;
     }
 
     try {
-      LabelType.checkNameInternal(label);
+      LabelType.checkNameInternal(label.getKey());
     } catch (IllegalArgumentException e) {
       ConfigInvalidException pe =
           parseException("invalid %s: %s", FOOTER_LABEL, line);
@@ -607,18 +629,18 @@ class ChangeNotesParser implements AutoCloseable {
       throw pe;
     }
 
-    Table<Account.Id, String, Optional<PatchSetApproval>> curr =
+    Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>> curr =
         getApprovalsTableIfNoVotePresent(psId, accountId, label);
     if (curr != null) {
       curr.put(accountId, label, Optional.<PatchSetApproval> absent());
     }
   }
 
-  private Table<Account.Id, String, Optional<PatchSetApproval>>
+  private Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>
       getApprovalsTableIfNoVotePresent(PatchSet.Id psId, Account.Id accountId,
-        String label) {
+        Entry<String, String> label) {
 
-    Table<Account.Id, String, Optional<PatchSetApproval>> curr =
+    Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>> curr =
         approvals.get(psId);
     if (curr != null) {
       if (curr.contains(accountId, label)) {
@@ -626,11 +648,11 @@ class ChangeNotesParser implements AutoCloseable {
       }
     } else {
       curr = Tables.newCustomTable(
-          Maps.<Account.Id, Map<String, Optional<PatchSetApproval>>>
+          Maps.<Account.Id, Map<Entry<String, String>, Optional<PatchSetApproval>>>
               newHashMapWithExpectedSize(2),
-          new Supplier<Map<String, Optional<PatchSetApproval>>>() {
+          new Supplier<Map<Entry<String, String>, Optional<PatchSetApproval>>>() {
             @Override
-            public Map<String, Optional<PatchSetApproval>> get() {
+            public Map<Entry<String, String>, Optional<PatchSetApproval>> get() {
               return Maps.newLinkedHashMap();
             }
           });

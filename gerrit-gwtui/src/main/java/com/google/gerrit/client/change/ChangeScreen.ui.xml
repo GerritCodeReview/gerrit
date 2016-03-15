@@ -591,6 +591,19 @@ limitations under the License.
           <ui:attribute name='title'/>
           <div><ui:msg>Collapse All</ui:msg></div>
         </g:Button>
+        <g:Button ui:field='hideBotComments'
+            styleName=''
+            title='Hide bot comments'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Hide bot comments</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='showBotComments'
+            styleName=''
+            visible='false'
+            title='Show bot comments'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Show bot comments</ui:msg></div>
+        </g:Button>
       </div>
     </div>
     <c:History ui:field='history'/>

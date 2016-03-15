@@ -386,7 +386,7 @@ abstract class DiffScreen extends Screen {
   }
 
   void maybeRegisterRenderEntireFileKeyMap(CodeMirror cm) {
-    if (prefs.renderEntireFile()) {
+    if (renderEntireFile()) {
       cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     }
   }

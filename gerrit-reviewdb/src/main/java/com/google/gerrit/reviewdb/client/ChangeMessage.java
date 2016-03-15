@@ -74,12 +74,21 @@ public final class ChangeMessage {
   @Column(id = 5, notNull = false)
   protected PatchSet.Id patchset;
 
+  @Column(id = 6, notNull = false)
+  protected String tag;
+
   protected ChangeMessage() {
   }
 
   public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
       final Timestamp wo, final PatchSet.Id psid) {
+    this(k, a, wo, psid, null);
+  }
+
+  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
+      final Timestamp wo, final PatchSet.Id psid, String t) {
     key = k;
+    tag = t;
     author = a;
     writtenOn = wo;
     patchset = psid;
@@ -117,6 +126,14 @@ public final class ChangeMessage {
     message = s;
   }
 
+  public String getTag() {
+    return tag;
+  }
+
+  public void setTag(String tag) {
+    this.tag = tag;
+  }
+
   public PatchSet.Id getPatchSetId() {
     return patchset;
   }
@@ -132,6 +149,7 @@ public final class ChangeMessage {
         + ", author=" + author
         + ", writtenOn=" + writtenOn
         + ", patchset=" + patchset
+        + ", tag=" + tag
         + ", message=[" + message
         + "]}";
   }

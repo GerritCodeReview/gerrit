@@ -306,7 +306,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void verifyComment(PatchLineComment c) {
-    checkArgument(c.getRevId() != null);
+    checkArgument(c.getRevId() != null, "RevId required for comment: %s", c);
     checkArgument(c.getAuthor().equals(getUser().getAccountId()),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", getUser().getAccountId(), c);

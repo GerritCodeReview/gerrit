@@ -545,6 +545,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         } else if (c != null && c.getValue() != ent.getValue()) {
           c.setValue(ent.getValue());
           c.setGranted(ctx.getWhen());
+          c.setTag(in.tag);
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           categories.put(normName, c.getValue());
@@ -556,7 +557,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   psId,
                   user.getAccountId(),
                   lt.getLabelId()),
-              ent.getValue(), ctx.getWhen());
+              ent.getValue(), ctx.getWhen(), in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
           addLabelDelta(normName, c.getValue());
@@ -590,7 +591,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               user.getAccountId(),
               ctx.getControl().getLabelTypes().getLabelTypes().get(0)
                   .getLabelId()),
-              (short) 0, ctx.getWhen());
+              (short) 0, ctx.getWhen(), in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
         } else {
@@ -653,7 +654,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             psId.getParentKey(), ChangeUtil.messageUUID(ctx.getDb())),
           user.getAccountId(),
           ctx.getWhen(),
-          psId);
+          psId, in.tag);
       message.setMessage(String.format(
           "Patch Set %d:%s",
           psId.get(),

@@ -17,7 +17,6 @@ package com.google.gerrit.server.api.config;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,8 +39,10 @@ public class GerritServerIdProvider implements Provider<String> {
   private final String id;
 
   @Inject
-  GerritServerIdProvider(@GerritServerConfig Config cfg,
-      SitePaths sitePaths) throws IOException, ConfigInvalidException {
+  GerritServerIdProvider(SitePaths sitePaths)
+      throws IOException, ConfigInvalidException {
+    Config cfg = new Config();
+    cfg.fromText(new String(Files.readAllBytes(sitePaths.gerrit_config)));
     String origId = cfg.getString(SECTION, null, KEY);
     if (!Strings.isNullOrEmpty(origId)) {
       id = origId;
@@ -54,8 +55,6 @@ public class GerritServerIdProvider implements Provider<String> {
     // RebuildNoteDb, which otherwise would have been a reasonable place to do
     // the ID generation. Fortunately, it's not much work, and it happens once.
     id = generate();
-    Config cfgCopy = new Config();
-    cfgCopy.fromText(cfg.toText());
     cfg.setString(SECTION, null, KEY, id);
     Files.write(sitePaths.gerrit_config, cfg.toText().getBytes(UTF_8));
   }

@@ -20,7 +20,6 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -125,12 +124,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       }
     }
     return this;
-  }
-
-  public SystemConfig getSystemConfig() throws OrmException {
-    try (ReviewDb c = open()) {
-      return c.systemConfig().get(new SystemConfig.Key());
-    }
   }
 
   public CurrentSchemaVersion getSchemaVersion() throws OrmException {

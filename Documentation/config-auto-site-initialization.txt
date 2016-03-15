@@ -27,15 +27,14 @@ If the `gerrit.site_path` system property is defined then the init is
 run for that site. The database connectivity, in that case, is defined
 in the `etc/gerrit.config`.
 
-If `gerrit.site_path` is not defined then Gerrit will try to find the
-`gerrit.init_path` system property. If defined this property will be
-used to determine the site path. The database connectivity, also for
-this case, is defined by the `jdbc/ReviewDb` JNDI property.
+`gerrit.site_path` system property must be defined to run the init for
+that site.
 
 [WARNING]
 Defining the `jdbc/ReviewDb` JNDI property for an H2 database under the
-path defined by either `gerrit.site_path` or `gerrit.init_path` will
-cause an incomplete auto initialization and Gerrit will fail to start.
+path defined by `gerrit.site_path` will cause an incomplete auto
+initialization and Gerrit will fail to start.
+
 Opening a connection to such a database will create a subfolder under the
 site path folder (in order to create the H2 database) and Gerrit will
 no longer consider that site path to be new and, because of that,

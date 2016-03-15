@@ -5090,16 +5090,6 @@ command.
 The format is one Base-64 encoded public key per line.
 
 
-== Database system_config
-
-Several columns in the `system_config` table within the metadata
-database may be set to control how Gerrit behaves.
-
-[NOTE]
-The contents of the `system_config` table are cached at startup
-by Gerrit.  If you modify any columns in this table, Gerrit needs
-to be restarted before it will use the new values.
-
 == Configuring the Polygerrit UI
 
 Please see link:dev-polygerrit.html[UI] on configuring the Polygerrit UI.

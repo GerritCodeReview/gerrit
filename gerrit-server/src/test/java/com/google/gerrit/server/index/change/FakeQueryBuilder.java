@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index.change;
 
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -25,7 +24,7 @@ import org.junit.Ignore;
 
 @Ignore
 public class FakeQueryBuilder extends ChangeQueryBuilder {
-  FakeQueryBuilder(IndexCollection indexes) {
+  FakeQueryBuilder(ChangeIndexCollection indexes) {
     super(
         new FakeQueryBuilder.Definition<>(
           FakeQueryBuilder.class),

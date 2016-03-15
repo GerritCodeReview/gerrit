@@ -28,11 +28,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemas;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
@@ -100,7 +100,8 @@ public class Reindex extends SiteProgram {
     projectCache = sysInjector.getInstance(ProjectCache.class);
     repoManager = sysInjector.getInstance(GitRepositoryManager.class);
 
-    index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
+    index = sysInjector.getInstance(ChangeIndexCollection.class)
+        .getSearchIndex();
     int result = 0;
     try {
       index.markReady(false);

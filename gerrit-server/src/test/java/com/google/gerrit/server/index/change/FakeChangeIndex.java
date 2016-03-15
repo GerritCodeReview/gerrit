@@ -17,12 +17,12 @@ package com.google.gerrit.server.index.change;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 

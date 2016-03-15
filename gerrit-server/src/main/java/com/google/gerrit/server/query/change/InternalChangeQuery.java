@@ -33,10 +33,10 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -85,14 +85,14 @@ public class InternalChangeQuery {
 
   private final IndexConfig indexConfig;
   private final QueryProcessor qp;
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
   InternalChangeQuery(IndexConfig indexConfig,
       QueryProcessor queryProcessor,
-      IndexCollection indexes,
+      ChangeIndexCollection indexes,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory) {
     this.indexConfig = indexConfig;
@@ -305,7 +305,8 @@ public class InternalChangeQuery {
     }
   }
 
-  private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
+  private static Schema<ChangeData> schema(
+      @Nullable ChangeIndexCollection indexes) {
     ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;
   }

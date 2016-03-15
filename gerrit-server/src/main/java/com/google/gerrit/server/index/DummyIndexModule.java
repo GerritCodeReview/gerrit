@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
 import com.google.inject.AbstractModule;
 
@@ -24,6 +23,6 @@ public class DummyIndexModule extends AbstractModule {
   protected void configure() {
     install(new IndexModule(1));
     bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
-    bind(ChangeIndex.class).toInstance(new DummyChangeIndex());
+    bind(Index.class).toInstance(new DummyChangeIndex());
   }
 }

@@ -27,8 +27,8 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -36,7 +36,6 @@ import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gerrit.testutil.GerritBaseTests;
 
 import org.junit.Before;
@@ -50,14 +49,14 @@ public class IndexRewriterTest extends GerritBaseTests {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
 
   private FakeChangeIndex index;
-  private IndexCollection indexes;
+  private ChangeIndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriter rewrite;
 
   @Before
   public void setUp() throws Exception {
     index = new FakeChangeIndex(FakeChangeIndex.V2);
-    indexes = new IndexCollection();
+    indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriter(indexes,
@@ -288,7 +287,7 @@ public class IndexRewriterTest extends GerritBaseTests {
   }
 
   private static QueryOptions options(int start, int limit) {
-    return QueryOptions.create(CONFIG, start, limit,
+    return IndexedChangeQuery.createOptions(CONFIG, start, limit,
         ImmutableSet.<String> of());
   }
 

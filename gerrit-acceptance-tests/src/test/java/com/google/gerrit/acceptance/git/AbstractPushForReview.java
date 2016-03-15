@@ -42,8 +42,8 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.AfterClass;

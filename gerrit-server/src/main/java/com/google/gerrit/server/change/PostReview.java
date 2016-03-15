@@ -68,6 +68,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -99,6 +100,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private final Provider<ReviewDb> db;
+  private final NotesMigration notesMigration;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangesCollection changes;
   private final ChangeData.Factory changeDataFactory;
@@ -113,6 +115,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Inject
   PostReview(Provider<ReviewDb> db,
+      NotesMigration notesMigration,
       BatchUpdate.Factory batchUpdateFactory,
       ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
@@ -125,6 +128,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
+    this.notesMigration = notesMigration;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
     this.changeDataFactory = changeDataFactory;
@@ -466,18 +470,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           del.addAll(drafts.values());
           break;
         case PUBLISH:
-        case PUBLISH_ALL_REVISIONS:
           for (PatchLineComment e : drafts.values()) {
-            e.setStatus(PatchLineComment.Status.PUBLISHED);
-            e.setWrittenOn(ctx.getWhen());
-            setCommentRevId(e, patchListCache, ctx.getChange(), ps);
-            ups.add(e);
+            ups.add(publishComment(ctx, e, ps));
+          }
+          break;
+        case PUBLISH_ALL_REVISIONS:
+          // Read all patch sets to fill in RevId field, but only if writing to
+          // NoteDb is enabled.
+          Map<PatchSet.Id, PatchSet> patchSets =
+              notesMigration.writeChanges()
+                  ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
+                  : Collections.<PatchSet.Id, PatchSet> emptyMap();
+          for (PatchLineComment e : drafts.values()) {
+            ups.add(publishComment(ctx, e, patchSets.get(e.getPatchSetId())));
           }
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      // TODO(dborowitz): Currently doesn't work for PUBLISH_ALL_REVISIONS with
-      // notedb.
       plcUtil.deleteComments(ctx.getDb(), u, del);
       plcUtil.putComments(ctx.getDb(), u, ups);
       comments.addAll(ups);
@@ -512,6 +521,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         drafts.put(c.getKey().get(), c);
       }
       return drafts;
+    }
+
+    private PatchLineComment publishComment(ChangeContext ctx,
+        PatchLineComment c, PatchSet ps) throws OrmException {
+      c.setStatus(PatchLineComment.Status.PUBLISHED);
+      c.setWrittenOn(ctx.getWhen());
+      if (notesMigration.writeChanges()) {
+        setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
+      }
+      return c;
     }
 
     private boolean updateLabels(ChangeContext ctx)

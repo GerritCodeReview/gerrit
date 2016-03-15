@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
@@ -131,12 +130,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       }
       openHandle = null;
       database = null;
-    }
-  }
-
-  public SystemConfig getSystemConfig() throws OrmException {
-    try (ReviewDb c = open()) {
-      return c.systemConfig().get(new SystemConfig.Key());
     }
   }
 

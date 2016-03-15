@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -38,22 +37,18 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
 
 /** Creates or updates the current database schema. */
 public class SchemaUpdater {
   private final SchemaFactory<ReviewDb> schema;
-  private final SitePaths site;
   private final SchemaCreator creator;
   private final Provider<SchemaVersion> updater;
 
   @Inject
   SchemaUpdater(SchemaFactory<ReviewDb> schema,
-      SitePaths site,
       SchemaCreator creator,
       Injector parent) {
     this.schema = schema;
-    this.site = site;
     this.creator = creator;
     this.updater = buildInjector(parent).getProvider(SchemaVersion.class);
   }
@@ -108,8 +103,6 @@ public class SchemaUpdater {
         } catch (SQLException e) {
           throw new OrmException("Cannot upgrade schema", e);
         }
-
-        updateSystemConfig(db);
       }
     }
   }
@@ -120,18 +113,5 @@ public class SchemaUpdater {
     } catch (OrmException e) {
       return null;
     }
-  }
-
-  private void updateSystemConfig(final ReviewDb db) throws OrmException {
-    final SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
-    if (sc == null) {
-      throw new OrmException("No record in system_config table");
-    }
-    try {
-      sc.sitePath = site.site_path.toRealPath().normalize().toString();
-    } catch (IOException e) {
-      sc.sitePath = site.site_path.toAbsolutePath().normalize().toString();
-    }
-    db.systemConfig().update(Collections.singleton(sc));
   }
 }

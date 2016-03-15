@@ -23,27 +23,14 @@ The site initialization will be performed only if the `gerrit.init`
 system property exists (the value of the property is not used, only the
 existence of the property matters).
 
-If the `gerrit.site_path` system property is defined then the init is
-run for that site. The database connectivity, in that case, is defined
-in the `etc/gerrit.config`.
-
-If `gerrit.site_path` is not defined then Gerrit will try to find an
-existing site by looking into the `system_config` table in the database
-defined via the `jdbc/ReviewDb` JNDI property. If the `system_config`
-table exists then the `site_path` from that table is used for the
-initialization. The database connectivity is defined by the
-`jdbc/ReviewDb` JNDI property.
-
-Finally, if neither the `gerrit.site_path` property nor the
-`system_config` table exists, the `gerrit.init_path` system property,
-if defined, will be used to determine the site path. The database
-connectivity, also for this case, is defined by the `jdbc/ReviewDb`
-JNDI property.
+`gerrit.site_path` system property must be defined to run the init for
+that site.
 
 [WARNING]
 Defining the `jdbc/ReviewDb` JNDI property for an H2 database under the
-path defined by either `gerrit.site_path` or `gerrit.init_path` will
-cause an incomplete auto initialization and Gerrit will fail to start.
+path defined by either `gerrit.site_path` will cause an incomplete auto
+initialization and Gerrit will fail to start.
+
 Opening a connection to such database will create a subfolder under the
 site path folder (in order to create the H2 database) and Gerrit will
 not any more consider that site path to be new and, because of that,
@@ -71,7 +58,7 @@ database is defined in `etc/gerrit.config` of that site:
 === Example 2
 
 Prepare Tomcat so that an existing site with the path defined in the
-`system_config` table is initialized (upgraded) on Gerrit startup. The
+`gerrit.site_path` is initialized (upgraded) on Gerrit startup. The
 assumption is that the `jdbc/ReviewDb` JNDI property is defined in
 Tomcat:
 
@@ -87,8 +74,8 @@ via the `jdbc/ReviewDb` JNDI property, initialize a new site using that
 database and a given path:
 
 ----
-  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.init_path=/path/to/site'
-  $ catalina.sh start
+  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.site_path=/path/to/site'
+site  $ catalina.sh start
 ----
 
 GERRIT

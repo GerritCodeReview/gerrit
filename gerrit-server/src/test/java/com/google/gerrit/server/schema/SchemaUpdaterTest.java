@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -136,7 +135,5 @@ public class SchemaUpdaterTest {
     });
 
     db.assertSchemaVersion();
-    final SystemConfig sc = db.getSystemConfig();
-    assertEquals(paths.site_path.toAbsolutePath().toString(), sc.sitePath);
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.SystemConfig;
@@ -108,9 +109,13 @@ public interface ReviewDb extends Schema {
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;
 
-  /** Next unique id for a {@link AccountGroup}. */
+  /** Next unique id for an {@link AccountGroup}. */
   @Sequence
   int nextAccountGroupId() throws OrmException;
+
+  /** Next unique id for an {@link AccountSshKey}. */
+  @Sequence
+  int nextAccountSshKeyId() throws OrmException;
 
   int FIRST_CHANGE_ID = 1;
 

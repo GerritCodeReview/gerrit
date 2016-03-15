@@ -45,6 +45,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
@@ -156,6 +157,10 @@ public abstract class SiteProgram extends AbstractProgram {
       dbType = getDbType(dsProvider);
     } else {
       dbType = cfg.getString("database", null, "type");
+    }
+
+    if (dbType == null) {
+      throw new ProvisionException("database.type must be defined");
     }
 
     final DataSourceType dst = Guice.createInjector(new DataSourceModule(), configModule,

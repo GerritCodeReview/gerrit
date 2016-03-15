@@ -3655,6 +3655,40 @@ hmac-sha2-256, hmac-sha2-512.
 +
 By default, all supported MACs are available.
 
+[[sshd.kex]]sshd.kex::
++
+--
+Available key exchange algorithms. To permit multiple algorithms,
+specify multiple `sshd.kex` keys in the configuration file, one key
+exchange algorithm per key.  Key exchange algorithm names starting
+with `+` are enabled in addition to the default key exchange
+algorithms, key exchange algorithm names starting with `-` are
+removed from the default key exchange algorithms.
+
+In the following example configuration, support for the 1024-bit
+`diffie-hellman-group1-sha1` key exchange is disabled while leaving
+all of the other default algorithms enabled:
+
+----
+[sshd]
+  kex = -diffie-hellman-group1-sha1
+----
+
+Supported key exchange algorithms:
+
+* `ecdh-sha2-nistp521`
+* `ecdh-sha2-nistp384`
+* `ecdh-sha2-nistp256`
+* `diffie-hellman-group-exchange-sha256`
+* `diffie-hellman-group-exchange-sha1`
+* `diffie-hellman-group14-sha1`
+* `diffie-hellman-group1-sha1`
+
+By default, all supported key exchange algorithms are available.
+Without Bouncy Castle, `diffie-hellman-group1-sha1` is the only
+available algorithm.
+--
+
 [[sshd.kerberosKeytab]]sshd.kerberosKeytab::
 +
 Enable kerberos authentication for SSH connections.  To permit

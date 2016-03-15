@@ -30,8 +30,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -81,13 +81,28 @@ public class SchemaUtil {
     if (person == null) {
       return ImmutableSet.of();
     }
-    HashSet<String> parts = Sets.newHashSet();
-    String email = person.getEmailAddress().toLowerCase();
-    parts.add(email);
-    parts.addAll(Arrays.asList(email.split("@")));
+    return getPersonParts(
+        person.getName(),
+        Collections.singleton(person.getEmailAddress()));
+  }
+
+  public static Set<String> getPersonParts(String name,
+      Iterable<String> emails) {
+    Splitter at = Splitter.on('@');
     Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
-    Iterables.addAll(parts, s.split(email));
-    Iterables.addAll(parts, s.split(person.getName().toLowerCase()));
+    HashSet<String> parts = Sets.newHashSet();
+    for (String email : emails) {
+      if (email == null) {
+        continue;
+      }
+      String lowerEmail = email.toLowerCase();
+      parts.add(lowerEmail);
+      Iterables.addAll(parts, at.split(lowerEmail));
+      Iterables.addAll(parts, s.split(lowerEmail));
+    }
+    if (name != null) {
+      Iterables.addAll(parts, s.split(name.toLowerCase()));
+    }
     return parts;
   }
 

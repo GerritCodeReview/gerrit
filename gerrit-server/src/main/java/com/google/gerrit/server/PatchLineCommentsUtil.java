@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -353,13 +354,18 @@ public class PatchLineCommentsUtil {
 
   public static RevId setCommentRevId(PatchLineComment c,
       PatchListCache cache, Change change, PatchSet ps) throws OrmException {
+    checkArgument(c.getPatchSetId().equals(ps.getId()),
+        "cannot set RevId for patch set %s on comment %s", ps.getId(), c);
     if (c.getRevId() == null) {
       try {
-        // TODO(dborowitz): Bypass cache if side is REVISION.
-        PatchList patchList = cache.get(change, ps);
-        c.setRevId((c.getSide() == (short) 0)
-          ? new RevId(ObjectId.toString(patchList.getOldId()))
-          : new RevId(ObjectId.toString(patchList.getNewId())));
+        if (Side.fromShort(c.getSide()) == Side.REVISION) {
+          c.setRevId(ps.getRevision());
+        } else {
+          PatchList patchList = cache.get(change, ps);
+          c.setRevId((c.getSide() == (short) 0)
+            ? new RevId(ObjectId.toString(patchList.getOldId()))
+            : new RevId(ObjectId.toString(patchList.getNewId())));
+        }
       } catch (PatchListNotAvailableException e) {
         throw new OrmException(e);
       }

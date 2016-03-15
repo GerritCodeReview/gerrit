@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
 import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -70,6 +71,20 @@ public class PatchSetUtil {
           db.patchSets().byChange(notes.getChangeId()));
     }
     return notes.load().getPatchSets().values();
+  }
+
+  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ReviewDb db,
+        ChangeNotes notes) throws OrmException {
+    if (!migration.readChanges()) {
+      ImmutableMap.Builder<PatchSet.Id, PatchSet> result =
+          ImmutableMap.builder();
+      for (PatchSet ps : ChangeUtil.PS_ID_ORDER.sortedCopy(
+          db.patchSets().byChange(notes.getChangeId()))) {
+        result.put(ps.getId(), ps);
+      }
+      return result.build();
+    }
+    return notes.load().getPatchSets();
   }
 
   public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,

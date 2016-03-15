@@ -110,11 +110,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public SystemConfigAccess systemConfig() {
-    return delegate.systemConfig();
-  }
-
-  @Override
   public ChangeAccess changes() {
     return delegate.changes();
   }

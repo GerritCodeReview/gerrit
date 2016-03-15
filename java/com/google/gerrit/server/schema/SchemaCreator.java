@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequences;
@@ -150,7 +149,6 @@ public class SchemaCreator {
     GroupReference admins = createGroupReference("Administrators");
     GroupReference batchUsers = createGroupReference("Non-Interactive Users");
 
-    initSystemConfig(db);
     allProjectsCreator.setAdministrators(admins).setBatchUsers(batchUsers).create();
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();
@@ -273,16 +271,5 @@ public class SchemaCreator {
         .setId(new AccountGroup.Id(next))
         .setGroupUUID(groupReference.getUUID())
         .build();
-  }
-
-  private SystemConfig initSystemConfig(ReviewDb db) throws OrmException {
-    SystemConfig s = SystemConfig.create();
-    try {
-      s.sitePath = site_path.toRealPath().normalize().toString();
-    } catch (IOException e) {
-      s.sitePath = site_path.toAbsolutePath().normalize().toString();
-    }
-    db.systemConfig().insert(Collections.singleton(s));
-    return s;
   }
 }

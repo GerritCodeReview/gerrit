@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc19de73_730d601b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T11:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc19de73_93a8fc51",
+      "range": {
+        "startLine": 82,
+        "startChar": 72,
+        "endLine": 82,
+        "endChar": 90
+      },
+      "revId": "da1433781aa5da64f52df89a009f442acf8c5d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc19de73_d39e7429",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-14T19:00:42Z",
       "side": 1,
       "message": "Please don\u0027t use inline styling - move it to the style element.",
+      "revId": "da1433781aa5da64f52df89a009f442acf8c5d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_5312643b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T11:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc19de73_d39e7429",
       "revId": "da1433781aa5da64f52df89a009f442acf8c5d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +124,48 @@
         "endLine": 31,
         "endChar": 11
       },
+      "revId": "da1433781aa5da64f52df89a009f442acf8c5d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_e4521aaf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T11:02:17Z",
+      "side": 1,
+      "message": "yeah, the caller has it inverted too.",
+      "parentUuid": "dc19de73_b3abf84d",
+      "range": {
+        "startLine": 31,
+        "startChar": 23,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "da1433781aa5da64f52df89a009f442acf8c5d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7207d84_e40dbad2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T11:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7207d84_444cce42",
       "revId": "da1433781aa5da64f52df89a009f442acf8c5d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

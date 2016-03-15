@@ -14,19 +14,17 @@
 
 package com.google.gerrit.httpd.init;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public final class SiteInitializer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final String GERRIT_SITE_PATH = "gerrit.site_path";
 
   private final String sitePath;
   private final String initPath;
@@ -53,42 +51,29 @@ public final class SiteInitializer {
         return;
       }
 
-      try (Connection conn = connectToDb()) {
-        Path site = getSiteFromReviewDb(conn);
-        if (site == null && initPath != null) {
-          site = Paths.get(initPath);
-        }
-        if (site != null) {
-          logger.atInfo().log("Initializing site at %s", site.toRealPath().normalize());
-          new BaseInit(
-                  site,
-                  new ReviewDbDataSourceProvider(),
-                  false,
-                  false,
-                  pluginsDistribution,
-                  pluginsToInstall)
-              .run();
-        }
+      String path = System.getProperty(GERRIT_SITE_PATH);
+      Path site = null;
+      if (!Strings.isNullOrEmpty(path)) {
+        site = Paths.get(path);
+      }
+
+      if (site == null && initPath != null) {
+        site = Paths.get(initPath);
+      }
+      if (site != null) {
+        logger.atInfo().log("Initializing site at %s", site.toRealPath().normalize());
+        new BaseInit(
+                site,
+                new ReviewDbDataSourceProvider(),
+                false,
+                false,
+                pluginsDistribution,
+                pluginsToInstall)
+            .run();
       }
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Site init failed");
       throw new RuntimeException(e);
     }
-  }
-
-  private Connection connectToDb() throws SQLException {
-    return new ReviewDbDataSourceProvider().get().getConnection();
-  }
-
-  private Path getSiteFromReviewDb(Connection conn) {
-    try (Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT site_path FROM system_config")) {
-      if (rs.next()) {
-        return Paths.get(rs.getString(1));
-      }
-    } catch (SQLException e) {
-      return null;
-    }
-    return null;
   }
 }

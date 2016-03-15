@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -146,7 +145,5 @@ public class SchemaUpdaterTest {
     u.update(new TestUpdateUI());
 
     db.assertSchemaVersion();
-    final SystemConfig sc = db.getSystemConfig();
-    assertThat(sc.sitePath).isEqualTo(paths.site_path.toAbsolutePath().toString());
   }
 }

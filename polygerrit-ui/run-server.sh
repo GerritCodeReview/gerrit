@@ -23,7 +23,9 @@ if [[ ! -f .buckconfig ]]; then
   exit 1
 fi
 
-buck build //polygerrit-ui/app:polygerrit_tests
+buck build \
+  //polygerrit-ui/app:polygerrit_tests \
+  //polygerrit-ui:fonts
 cd polygerrit-ui/app
 rm -rf bower_components
 unzip -q ../../buck-out/gen/polygerrit-ui/app/test_components/test_components.bower_components.zip

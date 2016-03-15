@@ -19,16 +19,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
-import java.util.Map;
 
 /** Secondary index schemas for changes. */
 public class ChangeSchemas {
@@ -118,7 +114,8 @@ public class ChangeSchemas {
     return schema(ImmutableList.copyOf(fields));
   }
 
-  public static final ImmutableMap<Integer, Schema<ChangeData>> ALL;
+  public static final ImmutableMap<Integer, Schema<ChangeData>> ALL =
+      SchemaUtil.schemasFromClass(ChangeSchemas.class, ChangeData.class);
 
   public static Schema<ChangeData> get(int version) {
     Schema<ChangeData> schema = ALL.get(version);
@@ -128,34 +125,5 @@ public class ChangeSchemas {
 
   public static Schema<ChangeData> getLatest() {
     return Iterables.getLast(ALL.values());
-  }
-
-  static {
-    Map<Integer, Schema<ChangeData>> all = Maps.newTreeMap();
-    for (Field f : ChangeSchemas.class.getDeclaredFields()) {
-      if (Modifier.isStatic(f.getModifiers())
-          && Modifier.isFinal(f.getModifiers())
-          && Schema.class.isAssignableFrom(f.getType())) {
-        ParameterizedType t = (ParameterizedType) f.getGenericType();
-        if (t.getActualTypeArguments()[0] == ChangeData.class) {
-          try {
-            @SuppressWarnings("unchecked")
-            Schema<ChangeData> schema = (Schema<ChangeData>) f.get(null);
-            checkArgument(f.getName().startsWith("V"));
-            schema.setVersion(Integer.parseInt(f.getName().substring(1)));
-            all.put(schema.getVersion(), schema);
-          } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new ExceptionInInitializerError(e);
-          }
-        } else {
-          throw new ExceptionInInitializerError(
-              "non-ChangeData schema: " + f);
-        }
-      }
-    }
-    if (all.isEmpty()) {
-      throw new ExceptionInInitializerError("no ChangeSchemas found");
-    }
-    ALL = ImmutableMap.copyOf(all);
   }
 }

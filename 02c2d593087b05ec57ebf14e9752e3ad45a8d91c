@@ -130,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "3c259aa0_d672e4e9",
+        "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-15T00:36:03Z",
+      "side": 1,
+      "message": "The element itself will be displayed as inline-block per the :host declaration.",
+      "parentUuid": "dc19de73_93aebcac",
+      "revId": "02c2d593087b05ec57ebf14e9752e3ad45a8d91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71b7959_0302ce58",
         "filename": "polygerrit-ui/app/elements/gr-account-chip.html",
         "patchSetId": 1

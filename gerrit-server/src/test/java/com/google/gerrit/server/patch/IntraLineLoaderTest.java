@@ -102,7 +102,7 @@ public class IntraLineLoaderTest {
     assertThat(intraline(a, b)).isEqualTo(wordEdit(6, 6, 6, 7));
   }
 
-  @Test(expected = AssertionError.class) // issue #3423
+  @Test // issue #3423
   public void insertedWhitespaceIsRecognizedInIdenticalLines() throws Exception {
     //         |0    5   10  |  5   20    5   30
     String a = " int *foobar\n int *foobar\n";

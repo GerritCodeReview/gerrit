@@ -392,6 +392,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
+  private String tag;
 
   // Parsed note map state, used by ChangeUpdate to make in-place editing of
   // notes easier.
@@ -433,6 +434,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    */
   public ImmutableSet<String> getHashtags() {
     return ImmutableSortedSet.copyOf(hashtags);
+  }
+
+  /**
+   *
+   * @return a value of tag
+   */
+  public String getTag() {
+    return tag;
   }
 
   /**
@@ -586,6 +595,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       } else {
         hashtags = ImmutableSet.of();
       }
+
+      if (parser.tag != null) {
+        tag = parser.tag;
+      }
+
       ImmutableSetMultimap.Builder<ReviewerStateInternal, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
       for (Map.Entry<Account.Id, ReviewerStateInternal> e

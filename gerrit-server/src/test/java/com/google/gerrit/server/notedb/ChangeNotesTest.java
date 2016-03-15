@@ -69,6 +69,41 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   private DraftCommentNotes.Factory draftNotesFactory;
 
   @Test
+  public void tagChangeMessage() throws Exception {
+    String tag = "jenkins";
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("verification from jenkins");
+    update.setTag(tag);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    assertThat(notes.getTag()).isEqualTo(tag);
+    assertThat(notes.getChangeMessages()).hasSize(1);
+    assertThat(notes.getChangeMessages().get(0).getTag()).isEqualTo(tag);
+  }
+
+  @Test
+  public void tagInlineCommenrts() throws Exception {
+    String tag = "jenkins";
+    Change c = newChange();
+    RevCommit commit = tr.commit().message("PS2").create();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putComment(newPublishedComment(c.currentPatchSetId(), "a.txt",
+        "uuid1", new CommentRange(1, 2, 3, 4), 1, changeOwner, null,
+        TimeUtil.nowTs(), "Comment", (short) 1, commit.name(), tag));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    assertThat(notes.getComments()).hasSize(1);
+    assertThat(
+        notes.getComments().entries().asList().get(0).getValue().getTag())
+            .isEqualTo(tag);
+  }
+
+  @Test
   public void approvalsOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

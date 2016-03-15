@@ -25,6 +25,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 
 import com.google.common.base.Enums;
@@ -111,6 +112,7 @@ class ChangeNotesParser implements AutoCloseable {
   String subject;
   String originalSubject;
   String submissionId;
+  String tag;
   PatchSet.Id currentPatchSetId;
   RevisionNoteMap revisionNoteMap;
 
@@ -232,6 +234,11 @@ class ChangeNotesParser implements AutoCloseable {
       }
       originalSubject = currSubject;
       updateTs = true;
+    }
+
+    if (tag == null) {
+      parseTag(commit);
+      updateTs |= tag != null;
     }
 
     updateTs |= parseChangeMessage(psId, accountId, commit, ts) != null;
@@ -395,6 +402,20 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
+  private void parseTag(RevCommit commit) throws ConfigInvalidException {
+    if (tag != null) {
+      return;
+    }
+    List<String> tagLines = commit.getFooterLines(FOOTER_TAG);
+    if (tagLines.isEmpty()) {
+      return;
+    } else if (tagLines.size() == 1) {
+      tag = tagLines.get(0);
+    } else {
+      throw invalidFooter(FOOTER_TAG, tagLines.toString());
+    }
+  }
+
   private Change.Status parseStatus(RevCommit commit)
       throws ConfigInvalidException {
     List<String> statusLines = commit.getFooterLines(FOOTER_STATUS);
@@ -495,6 +516,7 @@ class ChangeNotesParser implements AutoCloseable {
         ts,
         psId);
     changeMessage.setMessage(changeMsgString);
+    changeMessage.setTag(tag);
     changeMessagesByPatchSet.put(psId, changeMessage);
     allChangeMessages.add(changeMessage);
     return changeMessage;

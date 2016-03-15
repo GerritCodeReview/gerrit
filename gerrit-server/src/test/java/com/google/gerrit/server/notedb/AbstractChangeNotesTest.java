@@ -232,9 +232,17 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       String filename, String UUID, CommentRange range, int line,
       IdentifiedUser commenter, String parentUUID, Timestamp t,
       String message, short side, String commitSHA1) {
+    return newPublishedComment(psId, filename, UUID, range, line, commenter,
+        parentUUID, t, message, side, commitSHA1, null);
+  }
+
+  protected PatchLineComment newPublishedComment(PatchSet.Id psId,
+      String filename, String UUID, CommentRange range, int line,
+      IdentifiedUser commenter, String parentUUID, Timestamp t,
+      String message, short side, String commitSHA1, String tag) {
     return newComment(psId, filename, UUID, range, line, commenter,
         parentUUID, t, message, side, commitSHA1,
-        PatchLineComment.Status.PUBLISHED);
+        PatchLineComment.Status.PUBLISHED, tag);
   }
 
   protected PatchLineComment newComment(PatchSet.Id psId,
@@ -242,6 +250,15 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       IdentifiedUser commenter, String parentUUID, Timestamp t,
       String message, short side, String commitSHA1,
       PatchLineComment.Status status) {
+    return newComment(psId, filename, UUID, range, line, commenter, parentUUID,
+        t, message, side, commitSHA1, status, null);
+  }
+
+  protected PatchLineComment newComment(PatchSet.Id psId,
+      String filename, String UUID, CommentRange range, int line,
+      IdentifiedUser commenter, String parentUUID, Timestamp t,
+      String message, short side, String commitSHA1,
+      PatchLineComment.Status status, String tag) {
     PatchLineComment comment = new PatchLineComment(
         new PatchLineComment.Key(
             new Patch.Key(psId, filename), UUID),
@@ -251,6 +268,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     comment.setRange(range);
     comment.setRevId(new RevId(commitSHA1));
     comment.setStatus(status);
+    comment.setTag(tag);
     return comment;
   }
 

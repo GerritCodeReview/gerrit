@@ -9,6 +9,7 @@ APP_SRCS = glob(
   ['**'],
   excludes = [
     'BUCK',
+    'fonts/**',
     'index.html',
   ] + WCT_TEST_PATTERNS + PY_TEST_PATTERNS)
 
@@ -24,7 +25,8 @@ genrule(
   cmd = ' && '.join([
     'mkdir $TMP/polygerrit_ui',
     'cd $TMP/polygerrit_ui',
-    'mkdir -p {elements,bower_components/webcomponentsjs}',
+    'mkdir -p {fonts,elements,bower_components/webcomponentsjs}',
+    'unzip -qd fonts $(location //polygerrit-ui/app/fonts:fonts)',
     'unzip -qd elements $(location :gr-app)',
     'cp -rp $SRCDIR/* .',
     'unzip -p $(location //polygerrit-ui:polygerrit_components) %s>%s' % (WEBJS, WEBJS),

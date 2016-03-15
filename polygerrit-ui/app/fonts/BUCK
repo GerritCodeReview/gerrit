@@ -1,0 +1,33 @@
+genrule(
+  name = 'fonts',
+  cmd = ' && '.join([
+    'cd $TMP',
+    'for file in $SRCS; do unzip -q $file; done',
+    'zip -q $OUT *',
+  ]),
+  srcs = [
+    ':sourcecodepro',
+    ':opensans'
+  ],
+  out = 'fonts.zip',
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'sourcecodepro',
+  cmd = 'zip -rq $OUT .',
+  srcs = ['sourcecodepro-regular.woff2'],
+  out = 'sourcecodepro.zip',
+  license = 'OFL',
+)
+
+genrule(
+  name = 'opensans',
+  cmd = 'zip -rq $OUT .',
+  srcs = [
+      'opensans-regular.woff2',
+      'opensans-bold.woff2'
+  ],
+  out = 'opensans.zip',
+  license = 'Apache2.0',
+)

@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c2536a9_adfc9d84",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "Matching \u0027]\u0027 is missing.",
+      "range": {
+        "startLine": 134,
+        "startChar": 161,
+        "endLine": 134,
+        "endChar": 162
+      },
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_ec02ab58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "[optional] !approvals.isEmpty()",
+      "range": {
+        "startLine": 749,
+        "startChar": 18,
+        "endLine": 749,
+        "endChar": 38
+      },
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_ccffef78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "Just name this \u0027reviewer\u0027?",
+      "range": {
+        "startLine": 107,
+        "startChar": 26,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c2536a9_8df9e194",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "unneeded check, if del was empty we would have thrown ResourceNotFoundException above in line 142",
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_8cf9e794",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "unneeded check",
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c2536a9_6d30f53e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "remove this comment? The method name already make clear what this is about.",
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_6c30fb3e",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteReviewer.vm",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:14:47Z",
+      "side": 1,
+      "message": "Copy\u0026Paste? This needs to be updated.",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "2470e31491f54445fa88981cfb0b39bf4baebedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

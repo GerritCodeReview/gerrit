@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "fc3302f3_ec2cebe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T15:37:42Z",
+      "side": 1,
+      "message": "Sure, but the sentence says \u0027posting a review for PS2\u0027, for me this sounds like in this example the REST endpoint is invoked on PS2.",
+      "parentUuid": "1c2536a9_ed2ce5e1",
+      "range": {
+        "startLine": 16,
+        "startChar": 39,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_4c141f96",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2

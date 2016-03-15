@@ -221,10 +221,11 @@ public class StaticModule extends ServletModule {
       Path buckOut = getPaths().buckOut;
       if (buckOut != null) {
         serve("/bower_components/*").with(BowerComponentsServlet.class);
+        serve("/fonts/*").with(FontsServlet.class);
       } else {
-        // In the war case, bower_components are either inlined by vulcanize, or
-        // live under /polygerrit_ui in the war file, so we don't need a
-        // separate servlet.
+        // In the war case, bower_components and fonts are either inlined
+        // by vulcanize, or live under /polygerrit_ui in the war file,
+        // so we don't need a separate servlet.
       }
 
       Key<HttpServlet> indexKey = named(POLYGERRIT_INDEX_SERVLET);
@@ -257,6 +258,13 @@ public class StaticModule extends ServletModule {
     BowerComponentsServlet getBowerComponentsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
       return new BowerComponentsServlet(cache, getPaths().buckOut);
+    }
+
+    @Provides
+    @Singleton
+    FontsServlet getFontsServlet(
+        @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
+      return new FontsServlet(cache, getPaths().buckOut);
     }
 
     private Path polyGerritBasePath() {

@@ -124,6 +124,9 @@ public class ReviewCommand extends SshCommand {
       + "specified can be applied to the given patch set(s)")
   private boolean strictLabels;
 
+  @Option(name = "--tag", aliases = "-t", usage = "")
+  private String changeTag;
+
   @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
   void addLabel(final String token) {
     LabelVote v = LabelVote.parseWithEquals(token);
@@ -198,6 +201,9 @@ public class ReviewCommand extends SshCommand {
       if (rebaseChange) {
         throw error("json and rebase actions are mutually exclusive");
       }
+      if (changeTag != null) {
+        throw error("json and tag actions are mutually exclusive");
+      }
     }
     if (rebaseChange) {
       if (deleteDraftPatchSet) {
@@ -268,6 +274,7 @@ public class ReviewCommand extends SshCommand {
 
     ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);
+    review.tag = Strings.emptyToNull(changeTag);
     review.notify = notify;
     review.labels = Maps.newTreeMap();
     review.drafts = ReviewInput.DraftHandling.PUBLISH;

@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 
 public class ChangeMessageInfo {
   public String id;
+  public String tag;
   public AccountInfo author;
   public Timestamp date;
   public String message;

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c259aa0_b66e48cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-15T15:09:32Z",
+      "side": 1,
+      "message": "Please extend the commit message to explain why this table is being removed.",
+      "revId": "9e370aa8498c9a0d345be25219c556047832e830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c2536a9_4d99b993",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 2

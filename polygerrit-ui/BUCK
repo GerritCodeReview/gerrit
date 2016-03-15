@@ -16,3 +16,18 @@ bower_components(
     '//lib/js:promise-polyfill',
   ],
 )
+
+genrule(
+  name = 'fonts',
+  cmd = ' && '.join([
+    'cd $TMP',
+    'for file in $SRCS; do unzip -q $file; done',
+    'zip -q $OUT *',
+  ]),
+  srcs = [
+    '//lib/fonts:sourcecodepro',
+    '//lib/fonts:opensans',
+  ],
+  out = 'fonts.zip',
+  visibility = ['PUBLIC'],
+)

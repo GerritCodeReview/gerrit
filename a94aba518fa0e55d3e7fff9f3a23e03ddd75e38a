@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c40f242_b0cab864",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-15T02:15:02Z",
+      "side": 1,
+      "message": "you might find this crazy but each of these if blocks I think i would split off into named functions \n\neasier to test easier to debug, easier to DRY things up in the future",
+      "revId": "a94aba518fa0e55d3e7fff9f3a23e03ddd75e38a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

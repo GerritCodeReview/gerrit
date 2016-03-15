@@ -14,11 +14,12 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  function GrDiffBuilder(diff, outputEl) {
+  function GrDiffBuilder(diff, prefs, outputEl) {
+    this._prefs = prefs;
     this._outputEl = outputEl;
     this._groups = [];
 
-    this._processContent(diff.content, this._groups);
+    this._processContent(diff.content, this._groups, prefs.context);
   }
 
   GrDiffBuilder.GroupType = {
@@ -37,46 +38,120 @@
     throw Error('Subclasses must implement emitGroup');
   },
 
-  GrDiffBuilder.prototype._processContent = function(content, groups) {
-    var leftLineNum = 0;
-    var rightLineNum = 0;
+  GrDiffBuilder.prototype._processContent = function(content, groups, context) {
+    var WHOLE_FILE = -1;
+    context = content.length > 1 ? context : WHOLE_FILE;
+
+    var lineNums = {
+      left: 0,
+      right: 0,
+    };
+
     for (var i = 0; i < content.length; i++) {
       var group = content[i];
       var lines = [];
 
       if (group[GrDiffBuilder.GroupType.BOTH] !== undefined) {
         var rows = group[GrDiffBuilder.GroupType.BOTH];
-        for (var j = 0; j < rows.length; j++) {
-          var line = new GrDiffLine(GrDiffLine.Type.BOTH);
-          line.text = rows[j];
-          line.beforeNumber = ++leftLineNum;
-          line.afterNumber = ++rightLineNum;
-          lines.push(line);
+        this._appendCommonLines(rows, lines, lineNums);
+
+        var hiddenRange = [context, rows.length - context];
+        if (i === 0) {
+          hiddenRange[0] = 0;
+        } else if (i === content.length - 1) {
+          hiddenRange[1] = rows.length;
         }
-        groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
+
+        if (context !== WHOLE_FILE && hiddenRange[1] - hiddenRange[0] > 0) {
+          this._insertContextGroups(groups, lines, hiddenRange);
+        } else {
+          groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
+        }
         continue;
       }
 
       if (group[GrDiffBuilder.GroupType.REMOVED] !== undefined) {
-        var rows = group[GrDiffBuilder.GroupType.REMOVED];
-        for (var j = 0; j < rows.length; j++) {
-          var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
-          line.text = rows[j];
-          line.beforeNumber = ++leftLineNum;
-          lines.push(line);
-        }
+        this._appendRemovedLines(group[GrDiffBuilder.GroupType.REMOVED], lines,
+            lineNums);
       }
       if (group[GrDiffBuilder.GroupType.ADDED] !== undefined) {
-        var rows = group[GrDiffBuilder.GroupType.ADDED];
-        for (var j = 0; j < rows.length; j++) {
-          var line = new GrDiffLine(GrDiffLine.Type.ADD);
-          line.text = rows[j];
-          line.afterNumber = ++rightLineNum;
-          lines.push(line);
-        }
+        this._appendAddedLines(group[GrDiffBuilder.GroupType.ADDED], lines,
+            lineNums);
       }
       groups.push(new GrDiffGroup(GrDiffGroup.Type.DELTA, lines));
     }
+  };
+
+  GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
+      hiddenRange) {
+    // TODO: Split around comments as well.
+    var linesBeforeCtx = lines.slice(0, hiddenRange[0]);
+    var hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
+    var linesAfterCtx = lines.slice(hiddenRange[1]);
+
+    if (linesBeforeCtx.length > 0) {
+      groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
+    }
+
+    var ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+    ctxLine.contextLines = hiddenLines;
+    groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
+        [ctxLine]));
+
+    if (linesAfterCtx.length > 0) {
+      groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesAfterCtx));
+    }
+  };
+
+  GrDiffBuilder.prototype._appendCommonLines = function(rows, lines, lineNums) {
+    for (var i = 0; i < rows.length; i++) {
+      var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.text = rows[i];
+      line.beforeNumber = ++lineNums.left;
+      line.afterNumber = ++lineNums.right;
+      lines.push(line);
+    }
+  };
+
+  GrDiffBuilder.prototype._appendRemovedLines = function(rows, lines,
+      lineNums) {
+    for (var i = 0; i < rows.length; i++) {
+      var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      line.text = rows[i];
+      line.beforeNumber = ++lineNums.left;
+      lines.push(line);
+    }
+  };
+
+  GrDiffBuilder.prototype._appendAddedLines = function(rows, lines, lineNums) {
+    for (var i = 0; i < rows.length; i++) {
+      var line = new GrDiffLine(GrDiffLine.Type.ADD);
+      line.text = rows[i];
+      line.afterNumber = ++lineNums.right;
+      lines.push(line);
+    }
+  };
+
+  GrDiffBuilder.prototype._createContextControl = function(section, line) {
+    if (!line.contextLines.length) {
+      return null;
+    }
+    var td = this._createElement('td');
+    var button = this._createElement('gr-button', 'showContext');
+    button.setAttribute('link', true);
+    var commonLines = line.contextLines.length;
+    var text = 'Show ' + commonLines + ' common line';
+    if (commonLines > 1) {
+      text += 's';
+    }
+    text += '...';
+    button.textContent = text;
+    button.addEventListener('tap', function(e) {
+      e.detail = {section: section, line: line};
+      // Let it bubble up the DOM tree.
+    });
+    td.appendChild(button);
+    return td;
   };
 
   GrDiffBuilder.prototype._createBlankSideEl = function() {
@@ -87,8 +162,10 @@
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
     var td = this._createElement('td', 'lineNum');
-    if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
-      td.setAttribute('data-line-num', number);
+    if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.setAttribute('data-value', '@@');
+    } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+      td.setAttribute('data-value', number);
     }
     return td;
   };

@@ -14,8 +14,8 @@
 (function(window, GrDiffBuilder) {
   'use strict';
 
-  function GrDiffBuilderUnified(diff, outputEl) {
-    GrDiffBuilder.call(this, diff, outputEl);
+  function GrDiffBuilderUnified(diff, prefs, outputEl) {
+    GrDiffBuilder.call(this, diff, prefs, outputEl);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;
@@ -36,7 +36,13 @@
         GrDiffLine.Type.REMOVE));
     row.appendChild(this._createLineEl(line, line.afterNumber,
         GrDiffLine.Type.ADD));
-    row.appendChild(this._createTextEl(line));
+
+    var action = this._createContextControl(row, line);
+    if (action) {
+      row.appendChild(action);
+    } else {
+      row.appendChild(this._createTextEl(line));
+    }
     return row;
   };
 

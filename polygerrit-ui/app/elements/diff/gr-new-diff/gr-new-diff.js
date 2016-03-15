@@ -39,12 +39,13 @@
       },
       _viewMode: {
         type: String,
-        value: DiffViewMode.SIDE_BY_SIDE,
+        value: DiffViewMode.UNIFIED,
       },
+      _diff: Object,
     },
 
     observers: [
-      '_prefsChanged(prefs.*)',
+      '_render(_diff, prefs.*)',
     ],
 
     reload: function() {
@@ -52,17 +53,22 @@
       this._loading = true;
 
       return this._getDiff().then(function(diff) {
-        var builder = this._getDiffBuilder(diff);
-        builder.emitDiff(diff.content);
-
+        this._diff = diff;
         this._loading = false;
       }.bind(this));
     },
 
-    _prefsChanged: function(changeRecord) {
-      var prefs = changeRecord.base;
+    _handleTap: function(e) {
+      console.table(e)
+    },
+
+    _render: function(diff, prefsChangeRecord) {
+      var prefs = prefsChangeRecord.base;
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
       this.updateStyles();
+
+      var builder = this._getDiffBuilder(diff, prefs);
+      builder.emitDiff(diff.content);
     },
 
     _getDiff: function() {
@@ -73,11 +79,11 @@
           this.path);
     },
 
-    _getDiffBuilder: function(diff) {
+    _getDiffBuilder: function(diff, prefs) {
       if (this._viewMode === DiffViewMode.SIDE_BY_SIDE) {
-        return new GrDiffBuilderSideBySide(diff, this.$.diffTable);
+        return new GrDiffBuilderSideBySide(diff, prefs, this.$.diffTable);
       } else if (this._viewMode === DiffViewMode.UNIFIED) {
-        return new GrDiffBuilderUnified(diff, this.$.diffTable);
+        return new GrDiffBuilderUnified(diff, prefs, this.$.diffTable);
       }
       throw Error('Unsupported diff view mode: ' + this._viewMode);
     },

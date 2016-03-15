@@ -74,12 +74,21 @@ public final class ChangeMessage {
   @Column(id = 5, notNull = false)
   protected PatchSet.Id patchset;
 
+  @Column(id = 6, notNull = false)
+  protected String tag;
+
   protected ChangeMessage() {
   }
 
   public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
       final Timestamp wo, final PatchSet.Id psid) {
+    this(k, a, wo, psid, null);
+  }
+
+  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
+      final Timestamp wo, final PatchSet.Id psid, String t) {
     key = k;
+    tag = t;
     author = a;
     writtenOn = wo;
     patchset = psid;
@@ -103,6 +112,10 @@ public final class ChangeMessage {
 
   public Timestamp getWrittenOn() {
     return writtenOn;
+  }
+
+  public String getTag() {
+    return tag;
   }
 
   public void setWrittenOn(Timestamp ts) {
@@ -133,6 +146,7 @@ public final class ChangeMessage {
         + ", writtenOn=" + writtenOn
         + ", patchset=" + patchset
         + ", message=[" + message
+        + ", tag=[" + tag
         + "]}";
   }
 }

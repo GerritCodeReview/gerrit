@@ -90,6 +90,9 @@ public final class PatchSetApproval {
   @Column(id = 3)
   protected Timestamp granted;
 
+  @Column(id = 6, notNull = false)
+  protected String tag;
+
   // DELETED: id = 4 (changeOpen)
   // DELETED: id = 5 (changeSortKey)
 
@@ -97,7 +100,12 @@ public final class PatchSetApproval {
   }
 
   public PatchSetApproval(PatchSetApproval.Key k, short v, Date ts) {
+    this(k, v, ts, null);
+  }
+
+  public PatchSetApproval(PatchSetApproval.Key k, short v, Date ts, String t) {
     key = k;
+    tag = t;
     setValue(v);
     setGranted(ts);
   }
@@ -145,12 +153,20 @@ public final class PatchSetApproval {
     }
   }
 
+  public void setTag(String t) {
+    tag = t;
+  }
+
   public String getLabel() {
     return getLabelId().get();
   }
 
   public boolean isLegacySubmit() {
     return LabelId.LEGACY_SUBMIT_NAME.equals(getLabel());
+  }
+
+  public String getTag() {
+    return tag;
   }
 
   @Override
@@ -165,13 +181,14 @@ public final class PatchSetApproval {
       PatchSetApproval p = (PatchSetApproval) o;
       return Objects.equals(key, p.key)
           && Objects.equals(value, p.value)
-          && Objects.equals(granted, p.granted);
+          && Objects.equals(granted, p.granted)
+          && Objects.equals(tag, p.tag);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value, granted);
+    return Objects.hash(key, value, granted, tag);
   }
 }

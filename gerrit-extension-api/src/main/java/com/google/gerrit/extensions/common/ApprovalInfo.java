@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common;
 import java.sql.Timestamp;
 
 public class ApprovalInfo extends AccountInfo {
+  public String tag;
   public Integer value;
   public Timestamp date;
 

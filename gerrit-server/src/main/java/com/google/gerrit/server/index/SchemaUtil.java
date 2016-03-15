@@ -16,13 +16,23 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class SchemaUtil {
   public static <V> ImmutableMap<Integer, Schema<V>> schemasFromClass(
@@ -53,6 +63,36 @@ public class SchemaUtil {
       throw new ExceptionInInitializerError("no ChangeSchemas found");
     }
     return ImmutableMap.copyOf(schemas);
+  }
+
+  // TODO(dborowitz): Tests for this that we can run prior to refactoring.
+  public static Set<String> getPersonParts(PersonIdent person) {
+    if (person == null) {
+      return ImmutableSet.of();
+    }
+    return getPersonParts(
+        person.getName(),
+        Collections.singleton(person.getEmailAddress()));
+  }
+
+  public static Set<String> getPersonParts(String name,
+      Iterable<String> emails) {
+    Splitter at = Splitter.on('@');
+    Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
+    HashSet<String> parts = Sets.newHashSet();
+    for (String email : emails) {
+      if (email == null) {
+        continue;
+      }
+      String lowerEmail = email.toLowerCase();
+      parts.add(lowerEmail);
+      Iterables.addAll(parts, at.split(lowerEmail));
+      Iterables.addAll(parts, s.split(lowerEmail));
+    }
+    if (name != null) {
+      Iterables.addAll(parts, s.split(name.toLowerCase()));
+    }
+    return parts;
   }
 
   static {

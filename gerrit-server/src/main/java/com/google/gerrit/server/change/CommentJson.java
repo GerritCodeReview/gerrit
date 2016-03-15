@@ -136,6 +136,7 @@ class CommentJson {
     r.message = Strings.emptyToNull(c.getMessage());
     r.updated = c.getWrittenOn();
     r.range = toRange(c.getRange());
+    r.tag = c.getTag();
     if (loader != null) {
       r.author = loader.get(c.getAuthor());
     }

@@ -81,13 +81,34 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertMessage(secondMessage, it.next().message);
   }
 
+  @Test
+  public void postMessageWithTag() throws Exception {
+    String changeId = createChange().getChangeId();
+    String tag = "jenkins";
+    String msg = "Message with tag.";
+    postMessage(changeId, msg, tag);
+    ChangeInfo c = get(changeId);
+    assertThat(c.messages).isNotNull();
+    assertThat(c.messages).hasSize(2);
+    Iterator<ChangeMessageInfo> it = c.messages.iterator();
+    assertThat(it.next().message).isEqualTo("Uploaded patch set 1.");
+    ChangeMessageInfo actual = it.next();
+    assertMessage(msg, actual.message);
+    assertThat(actual.tag).isEqualTo(tag);
+  }
+
   private void assertMessage(String expected, String actual) {
     assertThat(actual).isEqualTo("Patch Set 1:\n\n" + expected);
   }
 
   private void postMessage(String changeId, String msg) throws Exception {
+    postMessage(changeId, msg, null);
+  }
+
+  private void postMessage(String changeId, String msg, String tag) throws Exception {
     ReviewInput in = new ReviewInput();
     in.message = msg;
+    in.tag = tag;
     gApi.changes().id(changeId).current().review(in);
   }
 }

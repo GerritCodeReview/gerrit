@@ -272,6 +272,23 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         update.getResult());
   }
 
+  @Test
+  public void changeMessageWithTag() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Change message with tag");
+    update.setTag("jenkins");
+    update.commit();
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Change message with tag\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Tag: jenkins\n",
+        update.getResult());
+  }
+
   private RevCommit parseCommit(ObjectId id) throws Exception {
     if (id instanceof RevCommit) {
       return (RevCommit) id;

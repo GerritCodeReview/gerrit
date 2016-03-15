@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c259aa0_96f6ac7b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1013112
+      },
+      "writtenOn": "2016-03-15T06:17:17Z",
+      "side": 0,
+      "message": "It\u0027s worth noting that this double-call to setKeyExchangeFactories() was added in e8a52144. My recollection was that listing unsupported KEX for JCE caused problems in the older version of the Apache SSHD.\n\nI am assuming that is no longer a problem since this code has been here for 3 months now. With that in mind, the KEX setup is the same for BC and JCE, so I factored it out into a new initKeyExchanges() method.",
+      "revId": "0f7fe000798619542b31a4db020caeea78ae155d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

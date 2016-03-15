@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-group</title>
+
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="gr-diff-line.js"></script>
+<script src="gr-diff-group.js"></script>
+
+<script>
+  suite('gr-diff-group tests', function() {
+
+    test('delta line pairs', function() {
+      var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      var l1 = new GrDiffLine(GrDiffLine.Type.ADD);
+      var l2 = new GrDiffLine(GrDiffLine.Type.ADD);
+      var l3 = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      group.addLine(l1);
+      group.addLine(l2);
+      group.addLine(l3);
+      assert.deepEqual(group.lines, [l1, l2, l3]);
+      assert.deepEqual(group.adds, [l1, l2]);
+      assert.deepEqual(group.removes, [l3]);
+
+      var pairs = group.getSideBySidePairs();
+      assert.deepEqual(pairs, [
+        {left: l3, right: l1},
+        {left: GrDiffLine.BLANK_LINE, right: l2},
+      ]);
+
+      group = new GrDiffGroup(GrDiffGroup.Type.DELTA, [l1, l2, l3]);
+      assert.deepEqual(group.lines, [l1, l2, l3]);
+      assert.deepEqual(group.adds, [l1, l2]);
+      assert.deepEqual(group.removes, [l3]);
+
+      pairs = group.getSideBySidePairs();
+      assert.deepEqual(pairs, [
+        {left: l3, right: l1},
+        {left: GrDiffLine.BLANK_LINE, right: l2},
+      ]);
+    });
+
+    test('group/header line pairs', function() {
+      var l1 = new GrDiffLine(GrDiffLine.Type.BOTH);
+      var l2 = new GrDiffLine(GrDiffLine.Type.BOTH);
+      var l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
+      var group = new GrDiffGroup(GrDiffGroup.Type.BOTH, [l1, l2, l3]);
+
+      assert.deepEqual(group.lines, [l1, l2, l3]);
+      assert.deepEqual(group.adds, []);
+      assert.deepEqual(group.removes, []);
+
+      var pairs = group.getSideBySidePairs();
+      assert.deepEqual(pairs, [
+        {left: l1, right: l1},
+        {left: l2, right: l2},
+        {left: l3, right: l3},
+      ]);
+
+      group = new GrDiffGroup(GrDiffGroup.Type.HEADER, [l1, l2, l3]);
+      assert.deepEqual(group.lines, [l1, l2, l3]);
+      assert.deepEqual(group.adds, []);
+      assert.deepEqual(group.removes, []);
+
+      pairs = group.getSideBySidePairs();
+      assert.deepEqual(pairs, [
+        {left: l1, right: l1},
+        {left: l2, right: l2},
+        {left: l3, right: l3},
+      ]);
+    });
+
+    test('adding delta lines to non-delta group', function() {
+      var l1 = new GrDiffLine(GrDiffLine.Type.ADD);
+      var l2 = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      var l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
+
+      var group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+      assert.throws(group.addLine.bind(group, l1));
+      assert.throws(group.addLine.bind(group, l2));
+      assert.doesNotThrow(group.addLine.bind(group, l3));
+
+      group = new GrDiffGroup(GrDiffGroup.Type.HEADER);
+      assert.throws(group.addLine.bind(group, l1));
+      assert.throws(group.addLine.bind(group, l2));
+      assert.doesNotThrow(group.addLine.bind(group, l3));
+    });
+  });
+
+</script>

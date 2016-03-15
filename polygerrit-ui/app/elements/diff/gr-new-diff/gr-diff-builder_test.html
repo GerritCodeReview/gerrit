@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-builder</title>
+
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="gr-diff-line.js"></script>
+<script src="gr-diff-group.js"></script>
+<script src="gr-diff-builder.js"></script>
+
+<script>
+  suite('gr-diff-builder tests', function() {
+
+    test('process loaded content', function() {
+      var content = [
+        {
+          ab: [
+            '<!DOCTYPE html>',
+            '<meta charset="utf-8">',
+          ]
+        },
+        {
+          a: [
+            '  Welcome ',
+            '  to the wooorld of tomorrow!',
+          ],
+          b: [
+            '  Hello, world!',
+          ],
+        },
+        {
+          ab: [
+            'Leela: This is the only place the ship can’t hear us, so ',
+            'everyone pretend to shower.',
+            'Fry: Same as every day. Got it.',
+          ]
+        },
+      ];
+      var groups = [];
+      GrDiffBuilder.prototype._processContent(content, groups);
+
+      assert.equal(groups.length, 3);
+
+      var group = groups[0];
+      assert.equal(group.type, GrDiffGroup.Type.BOTH);
+      assert.equal(group.lines.length, 2);
+      assert.equal(group.lines.length, 2);
+
+      function beforeNumberFn(l) { return l.beforeNumber; }
+      function afterNumberFn(l) { return l.afterNumber; }
+      function textFn(l) { return l.text; }
+
+      assert.deepEqual(group.lines.map(beforeNumberFn), [1, 2]);
+      assert.deepEqual(group.lines.map(afterNumberFn), [1, 2]);
+      assert.deepEqual(group.lines.map(textFn), [
+        '<!DOCTYPE html>',
+        '<meta charset="utf-8">',
+      ]);
+
+      group = groups[1];
+      assert.equal(group.type, GrDiffGroup.Type.DELTA);
+      assert.equal(group.lines.length, 3);
+      assert.equal(group.adds.length, 1);
+      assert.equal(group.removes.length, 2);
+      assert.deepEqual(group.removes.map(beforeNumberFn), [3, 4]);
+      assert.deepEqual(group.adds.map(afterNumberFn), [3]);
+      assert.deepEqual(group.removes.map(textFn), [
+        '  Welcome ',
+        '  to the wooorld of tomorrow!',
+      ]);
+      assert.deepEqual(group.adds.map(textFn), [
+        '  Hello, world!',
+      ]);
+
+      group = groups[2];
+      assert.equal(group.type, GrDiffGroup.Type.BOTH);
+      assert.equal(group.lines.length, 3);
+      assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
+      assert.deepEqual(group.lines.map(afterNumberFn), [4, 5, 6]);
+      assert.deepEqual(group.lines.map(textFn), [
+        'Leela: This is the only place the ship can’t hear us, so ',
+        'everyone pretend to shower.',
+        'Fry: Same as every day. Got it.',
+      ]);
+    });
+
+  });
+</script>

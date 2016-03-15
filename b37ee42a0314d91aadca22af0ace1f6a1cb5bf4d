@@ -22,6 +22,30 @@
       "revId": "b37ee42a0314d91aadca22af0ace1f6a1cb5bf4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_f3297068",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-15T12:29:49Z",
+      "side": 1,
+      "message": "I opted not to because this is literally the only user.",
+      "parentUuid": "7c40f242_7019f0bc",
+      "range": {
+        "startLine": 289,
+        "startChar": 10,
+        "endLine": 289,
+        "endChar": 50
+      },
+      "revId": "b37ee42a0314d91aadca22af0ace1f6a1cb5bf4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

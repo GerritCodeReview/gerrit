@@ -57,6 +57,7 @@ import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.kex.BuiltinDHFactories;
+import org.apache.sshd.common.kex.KeyExchange;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.JceRandomFactory;
@@ -223,6 +224,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       initProviderJce();
     }
     initCiphers(cfg);
+    initKeyExchanges(cfg);
     initMacs(cfg);
     initSignatures();
     initChannels();
@@ -425,14 +427,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return r.toString();
   }
 
+  @SuppressWarnings("unchecked")
+  private void initKeyExchanges(final Config cfg) {
+    final List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    setKeyExchangeFactories(filter(cfg, "kex",
+        (NamedFactory<KeyExchange>[])a.toArray(new NamedFactory[a.size()])));
+  }
+
   private void initProviderBouncyCastle(Config cfg) {
-    setKeyExchangeFactories(
-        NamedFactory.Utils.setUpTransformedFactories(true,
-            Collections.unmodifiableList(Arrays.asList(
-                BuiltinDHFactories.dhg14,
-                BuiltinDHFactories.dhg1
-            )),
-        ServerBuilder.DH2KEX));
     NamedFactory<Random> factory;
     if (cfg.getBoolean("sshd", null, "testUseInsecureRandom", false)) {
       factory = new InsecureBouncyCastleRandom.Factory();
@@ -507,13 +509,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initProviderJce() {
-    setKeyExchangeFactories(
-        NamedFactory.Utils.setUpTransformedFactories(true,
-            Collections.unmodifiableList(Arrays.asList(
-                BuiltinDHFactories.dhg1
-            )),
-        ServerBuilder.DH2KEX));
-    setKeyExchangeFactories(ServerBuilder.setUpDefaultKeyExchanges(true));
     setRandomFactory(new SingletonRandomFactory(JceRandomFactory.INSTANCE));
   }
 

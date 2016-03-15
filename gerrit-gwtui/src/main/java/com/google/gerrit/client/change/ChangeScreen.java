@@ -224,6 +224,8 @@ public class ChangeScreen extends Screen {
   @UiField Button renameFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
+  @UiField Button hideBotComments;
+  @UiField Button showBotComments;
   @UiField QuickApprove quickApprove;
 
   private ReplyAction replyAction;
@@ -901,6 +903,30 @@ public class ChangeScreen extends Screen {
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
       loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+    }
+  }
+
+  @UiHandler("showBotComments")
+  void onShowBotComments(@SuppressWarnings("unused") ClickEvent e) {
+    showBotComments.setVisible(false);
+    hideBotComments.setVisible(true);
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message m = ((Message) history.getWidget(i));
+      m.setVisible(true);
+    }
+  }
+
+  @UiHandler("hideBotComments")
+  void onHideBotComments(@SuppressWarnings("unused") ClickEvent e) {
+    hideBotComments.setVisible(false);
+    showBotComments.setVisible(true);
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message m = ((Message) history.getWidget(i));
+      if (m.getMessageInfo().tag() != null) {
+        m.setVisible(false);
+      }
     }
   }
 

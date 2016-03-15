@@ -16,6 +16,24 @@
       "revId": "a94aba518fa0e55d3e7fff9f3a23e03ddd75e38a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c259aa0_564ff463",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-15T15:35:23Z",
+      "side": 1,
+      "message": "I’ll keep in mind in future changes. If this func gets ANY bigger then yes I agree.",
+      "parentUuid": "7c40f242_b0cab864",
+      "revId": "a94aba518fa0e55d3e7fff9f3a23e03ddd75e38a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

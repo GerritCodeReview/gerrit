@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import "//fonts.googleapis.com/css?family=Open+Sans:400,700";
-@import "//fonts.googleapis.com/css?family=Source+Code+Pro";
+@import "fonts.css";
 
 *,
 *::after,

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -30,8 +28,8 @@ import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testutil.FakeEmailSender;
-import com.google.gerrit.testutil.GerritServerTests;
 import com.google.gerrit.testutil.NoteDbChecker;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -286,10 +284,7 @@ public class GerritServer {
 
   void stop() throws Exception {
     try {
-      if (GerritServerTests.isEnvVarTrue("GERRIT_CHECK_NOTEDB")) {
-        checkState(!GerritServerTests.isNoteDbTestEnabled(),
-            "cannot rebuild and check NoteDb when starting from scratch with"
-                + " NoteDb enabled");
+      if (NoteDbMode.get().equals(NoteDbMode.CHECK)) {
         testInjector.getInstance(NoteDbChecker.class).checkAllChanges();
       }
     } finally {

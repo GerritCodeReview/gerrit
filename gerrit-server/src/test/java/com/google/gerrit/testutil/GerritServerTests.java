@@ -14,8 +14,6 @@
 
 package com.google.gerrit.testutil;
 
-import com.google.common.collect.ImmutableList;
-
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -23,13 +21,8 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-import java.util.Collection;
-
 @RunWith(ConfigSuite.class)
 public class GerritServerTests extends GerritBaseTests {
-  private static final Collection<String> ENV_VAR_TRUE_VALUES =
-      ImmutableList.of("yes", "y", "true", "1");
-
   @ConfigSuite.Parameter
   public Config config;
 
@@ -37,15 +30,6 @@ public class GerritServerTests extends GerritBaseTests {
   private String configName;
 
   protected TestNotesMigration notesMigration;
-
-  public static boolean isNoteDbTestEnabled() {
-    return isEnvVarTrue("GERRIT_ENABLE_NOTEDB");
-  }
-
-  public static boolean isEnvVarTrue(String name) {
-    String value = System.getenv(name);
-    return value != null && ENV_VAR_TRUE_VALUES.contains(value.toLowerCase());
-  }
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -66,8 +50,7 @@ public class GerritServerTests extends GerritBaseTests {
   };
 
   public void beforeTest() throws Exception {
-    notesMigration = new TestNotesMigration()
-        .setAllEnabled(isNoteDbTestEnabled());
+    notesMigration = new TestNotesMigration().setFromEnv();
   }
 
   public void afterTest() {

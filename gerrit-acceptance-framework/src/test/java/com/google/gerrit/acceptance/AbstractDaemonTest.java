@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -288,7 +287,7 @@ public abstract class AbstractDaemonTest {
     }
 
     server.getTestInjector().injectMembers(this);
-    notesMigration.setAllEnabled(isNoteDbTestEnabled());
+    notesMigration.setFromEnv();
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
     admin = accounts.admin();

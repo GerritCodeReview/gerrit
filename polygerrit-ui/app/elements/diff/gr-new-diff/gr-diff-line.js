@@ -22,12 +22,19 @@
 
   GrDiffLine.prototype.afterNumber = 0;
 
+  GrDiffLine.prototype.contextLinesStart = 0;
+
+  GrDiffLine.prototype.contextLinesEnd = 0;
+
+  GrDiffLine.prototype.context = false;
+
   GrDiffLine.prototype.text = '';
 
   GrDiffLine.Type = {
     ADD: 'add',
     BOTH: 'both',
     BLANK: 'blank',
+    CONTEXT_CONTROL: 'contextControl',
     REMOVE: 'remove',
   };
 

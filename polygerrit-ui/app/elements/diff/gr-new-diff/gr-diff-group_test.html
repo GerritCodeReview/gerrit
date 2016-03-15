@@ -72,7 +72,7 @@ limitations under the License.
         {left: l3, right: l3},
       ]);
 
-      group = new GrDiffGroup(GrDiffGroup.Type.HEADER, [l1, l2, l3]);
+      group = new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL, [l1, l2, l3]);
       assert.deepEqual(group.lines, [l1, l2, l3]);
       assert.deepEqual(group.adds, []);
       assert.deepEqual(group.removes, []);
@@ -95,7 +95,7 @@ limitations under the License.
       assert.throws(group.addLine.bind(group, l2));
       assert.doesNotThrow(group.addLine.bind(group, l3));
 
-      group = new GrDiffGroup(GrDiffGroup.Type.HEADER);
+      group = new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL);
       assert.throws(group.addLine.bind(group, l1));
       assert.throws(group.addLine.bind(group, l2));
       assert.doesNotThrow(group.addLine.bind(group, l3));

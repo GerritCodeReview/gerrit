@@ -14,11 +14,12 @@
 (function(window, GrDiffLine) {
   'use strict';
 
-  function GrDiffGroup(type, opt_lines) {
+  function GrDiffGroup(type, opt_lines, opt_hiddenRange) {
     this.type = type;
     this.lines = [];
     this.adds = [];
     this.removes = [];
+    this.hiddenRange = opt_hiddenRange || [Infinity, -Infinity];
 
     if (opt_lines) {
       opt_lines.forEach(this.addLine, this);
@@ -27,15 +28,15 @@
 
   GrDiffGroup.Type = {
     BOTH: 'both',
+    CONTEXT_CONTROL: 'contextControl',
     DELTA: 'delta',
-    HEADER: 'header',
   };
 
   GrDiffGroup.prototype.addLine = function(line) {
     this.lines.push(line);
 
     var notDelta = (this.type === GrDiffGroup.Type.BOTH ||
-        this.type === GrDiffGroup.Type.HEADER);
+        this.type === GrDiffGroup.Type.CONTEXT_CONTROL);
     if (notDelta && (line.type === GrDiffLine.Type.ADD ||
         line.type === GrDiffLine.Type.REMOVE)) {
       throw Error('Cannot add delta line to a non-delta group.');
@@ -50,8 +51,10 @@
 
   GrDiffGroup.prototype.getSideBySidePairs = function() {
     if (this.type === GrDiffGroup.Type.BOTH ||
-        this.type === GrDiffGroup.Type.HEADER) {
-      return this.lines.map(function(line) {
+        this.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
+      return this.lines.filter(function(_, i) {
+        return i < this.hiddenRange[0] || i > this.hiddenRange[1];
+      }.bind(this)).map(function(line) {
         return {
           left: line,
           right: line,

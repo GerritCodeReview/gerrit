@@ -50,6 +50,7 @@ limitations under the License.
         display: flex;
         font: 12px var(--monospace-font-family);
         overflow-x: auto;
+        will-change: transform;
       }
       table {
         border-collapse: collapse;
@@ -67,7 +68,7 @@ limitations under the License.
         text-align: right;
       }
       .lineNum:before {
-        content: attr(data-line-num);
+        content: attr(data-value);
       }
       .content {
         overflow: hidden;
@@ -78,6 +79,18 @@ limitations under the License.
       }
       .remove {
         background-color: var(--dark-remove-highlight-color);
+      }
+      .contextControl,
+      .contextControl .lineNum {
+        color: #849;
+        background-color: #fef;
+      }
+      .contextControl gr-button {
+        font-family: var(--monospace-font-family);
+        text-decoration: none;
+      }
+      .contextControl td:not(.lineNum) {
+        text-align: center;
       }
     </style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>

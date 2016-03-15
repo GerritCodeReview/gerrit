@@ -14,7 +14,8 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  function GrDiffBuilder(diff, outputEl) {
+  function GrDiffBuilder(diff, prefs, outputEl) {
+    this._prefs = prefs;
     this._outputEl = outputEl;
     this._groups = [];
 
@@ -77,6 +78,74 @@
       }
       groups.push(new GrDiffGroup(GrDiffGroup.Type.DELTA, lines));
     }
+
+    if (this._prefs.context !== -1) {
+      this._applyContext(groups, this._prefs.context);
+    }
+  };
+
+  GrDiffBuilder.prototype._applyContext = function(groups, context) {
+    return;
+    if (groups.length === 1) { return; }
+
+    var headers = {};
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].type === GrDiffGroup.Type.DELTA) {
+        continue;
+      }
+
+      var hiddenStart = context - 1;
+      var hiddenEnd = groups[i].lines.length - context - 1;
+      if (i === 0) {
+        hiddenStart = 0;
+      } else if (i === groups.length - 1) {
+        hiddenEnd = groups[i].lines.length - 1;
+      }
+      if (hiddenEnd - hiddenStart > 0) {
+        groups[i].hiddenRange = [hiddenStart, hiddenEnd];
+        // Split the group up since a context control will be inserted right in
+        // the middle of it.
+        var topLines = groups[i].lines.splice(0, hiddenStart + 1);
+        var topGroup = new GrDiffGroup(GrDiffGroup.Type.BOTH, topLines);
+
+        topLines.forEach(function(line) {
+          console.log(line.text);
+        });
+        console.log('---')
+      } else {
+        continue;
+      }
+
+      var line = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+      line.context = true;
+      line.contextLinesStart = hiddenStart + 1;
+      line.contextLinesEnd = hiddenEnd + 1;
+      headers[i] = new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL, [line]);
+    }
+    for (var idx in headers) {
+      // groups.splice(idx, 0, headers[idx]);
+    }
+  };
+
+  GrDiffBuilder.prototype._createContextControl = function(section, line) {
+    if (!line.context) {
+      return null;
+    }
+    var td = this._createElement('td');
+    var button = this._createElement('gr-button', 'showContext');
+    button.setAttribute('link', true);
+    var commonLines = line.contextLinesEnd - line.contextLinesStart;
+    var text = 'Show ' + commonLines + ' common line';
+    if (commonLines > 1) {
+      text += 's';
+    }
+    text += '...';
+    button.textContent = text;
+  // TODO:andybons: need a way to propagate these values up to the tap handler.
+    // action.line = line;
+    // action.section = section;
+    td.appendChild(button);
+    return td;
   };
 
   GrDiffBuilder.prototype._createBlankSideEl = function() {
@@ -87,8 +156,10 @@
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
     var td = this._createElement('td', 'lineNum');
-    if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
-      td.setAttribute('data-line-num', number);
+    if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.setAttribute('data-value', '@@');
+    } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+      td.setAttribute('data-value', number);
     }
     return td;
   };

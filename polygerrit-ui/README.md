@@ -57,8 +57,11 @@ sudo npm install -g web-component-tester
 Run all web tests:
 
 ```sh
-buck test --include web
+buck test --no-results-cache --include web
 ```
+
+The `--no-results-cache` flag prevents flaky test failures from being
+cached.
 
 If you need to pass additional arguments to `wct`:
 
@@ -70,4 +73,3 @@ WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
 with a few exceptions. When in doubt, remain consistent with the code around you.
-

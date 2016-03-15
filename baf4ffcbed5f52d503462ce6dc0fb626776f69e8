@@ -93,6 +93,30 @@
       "revId": "baf4ffcbed5f52d503462ce6dc0fb626776f69e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c2536a9_2db78dff",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-15T13:45:45Z",
+      "side": 1,
+      "message": "i looked it up. https://tools.ietf.org/html/rfc4253#page-15\n\nnow I remember again; on the server side, the ordering may be used to do guess the algorithm to use; this saves a round-trip, but I don\u0027t know which clients/servers actually attempt to do this.\n\nhow about just\n\n  Supported algorithms\n\nif you want to take preferences into account, you should probably put p256 at the top. It\u0027s faster than the others, and provides enough security given that the ciphers (eg. AES) are typically 128 bit; they\u0027re also more likely to have constant time implementations.",
+      "parentUuid": "7c40f242_f02cc0e1",
+      "range": {
+        "startLine": 3564,
+        "startChar": 34,
+        "endLine": 3564,
+        "endChar": 44
+      },
+      "revId": "baf4ffcbed5f52d503462ce6dc0fb626776f69e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

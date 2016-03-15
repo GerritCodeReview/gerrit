@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -67,6 +68,116 @@ import java.util.Map;
 public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject
   private DraftCommentNotes.Factory draftNotesFactory;
+
+  @Test
+  public void tagChangeMessage() throws Exception {
+    String tag = "jenkins";
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("verification from jenkins");
+    update.setTag(tag);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    assertThat(notes.getChangeMessages()).hasSize(1);
+    assertThat(notes.getChangeMessages().get(0).getTag()).isEqualTo(tag);
+  }
+
+  @Test
+  public void tagInlineCommenrts() throws Exception {
+    String tag = "jenkins";
+    Change c = newChange();
+    RevCommit commit = tr.commit().message("PS2").create();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putComment(newPublishedComment(c.currentPatchSetId(), "a.txt",
+        "uuid1", new CommentRange(1, 2, 3, 4), 1, changeOwner, null,
+        TimeUtil.nowTs(), "Comment", (short) 1, commit.name(), tag));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    ImmutableListMultimap<RevId, PatchLineComment> comments = notes.getComments();
+    assertThat(comments).hasSize(1);
+    assertThat(
+        comments.entries().asList().get(0).getValue().getTag())
+            .isEqualTo(tag);
+  }
+
+  @Test
+  public void tagApprovals() throws Exception {
+    String tag1 = "jenkins";
+    String tag2 = "ip";
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Verified", (short) -1);
+    update.setTag(tag1);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Verified", (short) 1);
+    update.setTag(tag2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    ImmutableListMultimap<Id, PatchSetApproval> approvals =
+        notes.getApprovals();
+    assertThat(approvals).hasSize(2);
+    assertThat(approvals.entries().asList().get(0).getValue().getTag())
+        .isEqualTo(tag1);
+    assertThat(approvals.entries().asList().get(1).getValue().getTag())
+        .isEqualTo(tag2);
+  }
+
+  @Test
+  public void multipleTags() throws Exception {
+    String ipTag = "ip";
+    String coverageTag = "coverage";
+    String integrationTag = "integration";
+    Change c = newChange();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Verified", (short) -1);
+    update.setChangeMessage("integration verification");
+    update.setTag(integrationTag);
+    update.commit();
+
+    RevCommit commit = tr.commit().message("PS2").create();
+    update = newUpdate(c, changeOwner);
+    update.putComment(newPublishedComment(c.currentPatchSetId(), "a.txt",
+        "uuid1", new CommentRange(1, 2, 3, 4), 1, changeOwner, null,
+        TimeUtil.nowTs(), "Comment", (short) 1, commit.name(), coverageTag));
+    update.setChangeMessage("coverage verification");
+    update.setTag(coverageTag);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setChangeMessage("ip clear");
+    update.setTag(ipTag);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    ImmutableListMultimap<Id, PatchSetApproval> approvals =
+        notes.getApprovals();
+    assertThat(approvals).hasSize(1);
+    PatchSetApproval approval = approvals.entries().asList().get(0).getValue();
+    assertThat(approval.getTag()).isEqualTo(integrationTag);
+    assertThat(approval.getValue()).isEqualTo(-1);
+
+    ImmutableListMultimap<RevId, PatchLineComment> comments =
+        notes.getComments();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.entries().asList().get(0).getValue().getTag())
+        .isEqualTo(coverageTag);
+
+    ImmutableList<ChangeMessage> messages = notes.getChangeMessages();
+    assertThat(messages).hasSize(3);
+    assertThat(messages.get(0).getTag()).isEqualTo(integrationTag);
+    assertThat(messages.get(1).getTag()).isEqualTo(coverageTag);
+    assertThat(messages.get(2).getTag()).isEqualTo(ipTag);
+  }
 
   @Test
   public void approvalsOnePatchSet() throws Exception {

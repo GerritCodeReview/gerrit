@@ -633,6 +633,7 @@ public class ChangeJson {
           continue;
         }
         Integer value;
+        String tag = null;
         Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
         if (psa != null) {
@@ -643,6 +644,7 @@ public class ChangeJson {
             // label.
             value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
           }
+          tag = psa.getTag();
           date = psa.getGranted();
         } else {
           // Either the user cannot vote on this label, or they were added as a
@@ -650,7 +652,8 @@ public class ChangeJson {
           // user can vote on this label.
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
-        addApproval(e.getValue().label(), approvalInfo(accountId, value, date));
+        addApproval(e.getValue().label(),
+            approvalInfo(accountId, value, tag, date));
       }
     }
   }
@@ -708,7 +711,7 @@ public class ChangeJson {
 
       if (detailed) {
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
-          ApprovalInfo ai = approvalInfo(accountId, 0, null);
+          ApprovalInfo ai = approvalInfo(accountId, 0, null, null);
           byLabel.put(entry.getKey(), ai);
           addApproval(entry.getValue().label(), ai);
         }
@@ -724,6 +727,7 @@ public class ChangeJson {
         if (info != null) {
           info.value = Integer.valueOf(val);
           info.date = psa.getGranted();
+          info.tag = psa.getTag();
         }
         if (!standard) {
           continue;
@@ -735,10 +739,12 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
+  private ApprovalInfo approvalInfo(Account.Id id, Integer value, String tag,
+      Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.date = date;
+    ai.tag = tag;
     accountLoader.put(ai);
     return ai;
   }
@@ -816,6 +822,7 @@ public class ChangeJson {
         cmi.author = accountLoader.get(message.getAuthor());
         cmi.date = message.getWrittenOn();
         cmi.message = message.getMessage();
+        cmi.tag = message.getTag();
         cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
         result.add(cmi);
       }

@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.server.schema;
 
-import java.sql.Timestamp;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public class ApprovalInfo extends AccountInfo {
-  public String tag;
-  public Integer value;
-  public Timestamp date;
-
-  public ApprovalInfo(Integer id) {
-    super(id);
+public class Schema_120 extends SchemaVersion {
+  @Inject
+  Schema_120(Provider<Schema_119> prior) {
+    super(prior);
   }
+
+  // Adds tag column
 }

@@ -586,6 +586,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       } else {
         hashtags = ImmutableSet.of();
       }
+
       ImmutableSetMultimap.Builder<ReviewerStateInternal, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
       for (Map.Entry<Account.Id, ReviewerStateInternal> e

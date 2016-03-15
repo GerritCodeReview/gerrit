@@ -442,11 +442,11 @@ public class ChangeNoteUtil {
       for (PatchLineComment c : comments) {
         PatchSet.Id currentPsId = PatchLineCommentsUtil.getCommentPsId(c);
         checkArgument(psId.equals(currentPsId),
-            "All comments being added must all have the same PatchSet.Id. The"
+            "All comments being added must all have the same PatchSet.Id. The "
             + "comment below does not have the same PatchSet.Id as the others "
             + "(%s).\n%s", psId.toString(), c.toString());
         checkArgument(side == c.getSide(),
-            "All comments being added must all have the same side. The"
+            "All comments being added must all have the same side. The "
             + "comment below does not have the same side as the others "
             + "(%s).\n%s", side, c.toString());
         String commentFilename =

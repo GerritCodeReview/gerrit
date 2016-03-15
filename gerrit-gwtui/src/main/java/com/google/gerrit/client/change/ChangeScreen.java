@@ -278,8 +278,7 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
-            addExtensionPoints(info);
-            initCurrentRevision(info);
+            addExtensionPoints(info, initCurrentRevision(info));
             loadConfigInfo(info, base);
           }
         }));
@@ -324,22 +323,23 @@ public class ChangeScreen extends Screen {
     return resolveRevisionToDisplay(info);
   }
 
-  private void addExtensionPoints(ChangeInfo change) {
+  private void addExtensionPoints(ChangeInfo change, RevisionInfo rev) {
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
-        headerExtension, change);
+        headerExtension, change, rev);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
-        headerExtensionMiddle, change);
+        headerExtensionMiddle, change, rev);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
-        headerExtensionRight, change);
+        headerExtensionRight, change, rev);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        changeExtension, change);
+        changeExtension, change, rev);
   }
 
   private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,
-      Panel p, ChangeInfo change) {
+      Panel p, ChangeInfo change, RevisionInfo rev) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.REVISION_INFO, rev);
     p.add(extensionPanel);
   }
 

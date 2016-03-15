@@ -1065,6 +1065,9 @@ Panel will be shown below the change info block.
 +
 The link:rest-api-changes.html#change-info[ChangeInfo] entity for the
 current change.
++
+The link:rest-api-changes.html#revision-info[RevisionInfo] entity for
+the current patch set.
 
 * Project Info Screen:
 ** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP`:

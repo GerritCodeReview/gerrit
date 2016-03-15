@@ -98,6 +98,10 @@ limitations under the License.
       server.respond();
     });
 
+    teardown(function() {
+      server.restore();
+    });
+
     test('submit, rebase, and cherry-pick buttons show', function(done) {
       flush(function() {
         var buttonEls = Polymer.dom(element.root).querySelectorAll('gr-button');

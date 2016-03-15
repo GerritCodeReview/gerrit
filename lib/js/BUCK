@@ -257,6 +257,14 @@ bower_component(
 )
 
 bower_component(
+  name = 'moment',
+  package = 'moment/moment',
+  version = '2.12.0',
+  license = 'moment',
+  sha1 = '508d53de8f49ab87f03e209e5073e339107ed3e6',
+)
+
+bower_component(
   name = 'neon-animation',
   package = 'polymerelements/neon-animation',
   version = '1.1.1',
@@ -325,6 +333,14 @@ bower_component(
   version = '2.1.4',
   license = 'Apache2.0',
   sha1 = '92f06d8417a51f1f75c94b7a19616e19695cc6db',
+)
+
+bower_component(
+  name = 'moment',
+  package = 'moment/moment',
+  version = '2.12.0',
+  license = 'moment',
+  sha1 = '508d53de8f49ab87f03e209e5073e339107ed3e6',
 )
 
 bower_component(

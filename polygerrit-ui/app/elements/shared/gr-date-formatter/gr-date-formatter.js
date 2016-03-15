@@ -19,10 +19,12 @@
     DAY: 1000 * 60 * 60 * 24,
   };
 
-  var ShortMonthNames = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
-    'Nov', 'Dec'
-  ];
+  var TimeFormats = {
+    TIME_12: 'h:mm A', // 2:14 PM
+    TIME_24: 'H:mm', // 14:14
+    MONTH_DAY: 'MMM DD', // Aug 29
+    MONTH_DAY_YEAR: 'MMM DD, YYYY', // Aug 29, 1997
+  };
 
   Polymer({
     is: 'gr-date-formatter',
@@ -31,46 +33,58 @@
       dateStr: {
         type: String,
         value: null,
-        notify: true
-      }
+        notify: true,
+      },
+      timeFormat: {
+        type: String,
+        value: 'HHMM_24',
+        notify: true,
+      },
     },
 
-    _computeDateStr: function(dateStr) {
-      return this._dateStr(this._parseDateStr(dateStr), new Date());
+    attached: function() {
+      this._fetchPreferences();
     },
 
-    _parseDateStr: function(dateStr) {
-      if (!dateStr) { return null; }
-      return util.parseDate(dateStr);
+    _fetchPreferences: function() {
+      this.$.restAPI.getPreferences().then(function(preferences) {
+        this.timeFormat = preferences && preferences.time_format;
+      }.bind(this));
     },
 
-    _dateStr: function(t, now) {
-      if (!t) { return ''; }
-      var diff = now.getTime() - t.getTime();
-      if (diff < Duration.DAY && t.getDay() == now.getDay()) {
-        // Within 24 hours and on the same day:
-        // '2:14 AM'
-        var pm = t.getHours() >= 12;
-        var hours = t.getHours();
-        if (hours == 0) {
-          hours = 12;
-        } else if (hours > 12) {
-          hours = t.getHours() - 12;
+    /**
+     * Return true if date is within 24 hours and on the same day.
+     */
+    _isWithinDay: function(now, date) {
+      var diff = -date.diff(now);
+      return diff < Duration.DAY && date.day() == now.getDay();
+    },
+
+    /**
+     * Returns true if date is from one to six months.
+     */
+    _isWithinHalfYear: function(now, date) {
+      var diff = -date.diff(now);
+      return (date.day() != now.getDay() || diff >= Duration.DAY) &&
+          diff < 180 * Duration.DAY;
+    },
+
+    _computeDateStr: function(dateStr, timeFormat) {
+      if (!dateStr) { return ''; }
+      var date = moment(dateStr + 'Z');
+      if (!date.isValid()) { return ''; }
+      var now = new Date();
+      var format = TimeFormats.MONTH_DAY_YEAR;
+      if (this._isWithinDay(now, date)) {
+        if (this.timeFormat == 'HHMM_12') {
+          format = TimeFormats.TIME_12;
+        } else {
+          format = TimeFormats.TIME_24;
         }
-        var minutes = t.getMinutes() < 10 ? '0' + t.getMinutes() :
-            t.getMinutes();
-        return hours + ':' + minutes + (pm ? ' PM' : ' AM');
-      } else if ((t.getDay() != now.getDay() || diff >= Duration.DAY) &&
-                 diff < 180 * Duration.DAY) {
-        // From one to six months:
-        // 'Aug 29'
-        return ShortMonthNames[t.getMonth()] + ' ' + t.getDate();
-      } else if (diff >= 180 * Duration.DAY) {
-        // More than six months:
-        // 'Aug 29, 1997'
-        return ShortMonthNames[t.getMonth()] + ' ' + t.getDate() + ', ' +
-            t.getFullYear();
+      } else if (this._isWithinHalfYear(now, date)) {
+        format = TimeFormats.MONTH_DAY;
       }
+      return date.format(format);
     },
   });
 })();

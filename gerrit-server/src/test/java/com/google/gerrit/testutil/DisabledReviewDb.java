@@ -189,6 +189,11 @@ public class DisabledReviewDb implements ReviewDb {
   }
 
   @Override
+  public int nextAccountSshKeyId() {
+    throw new Disabled();
+  }
+
+  @Override
   public int nextChangeId() {
     throw new Disabled();
   }
@@ -197,4 +202,5 @@ public class DisabledReviewDb implements ReviewDb {
   public int nextChangeMessageId() {
     throw new Disabled();
   }
+
 }

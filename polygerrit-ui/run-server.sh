@@ -25,6 +25,8 @@ fi
 
 cd polygerrit-ui
 rm -rf bower_components
-buck build //polygerrit-ui:polygerrit_components
+buck build \
+  //polygerrit-ui:polygerrit_components \
+  //polygerrit-ui:fonts
 unzip -q ../buck-out/gen/polygerrit-ui/polygerrit_components/polygerrit_components.bower_components.zip
 exec go run server.go

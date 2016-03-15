@@ -466,18 +466,21 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           del.addAll(drafts.values());
           break;
         case PUBLISH:
-        case PUBLISH_ALL_REVISIONS:
           for (PatchLineComment e : drafts.values()) {
-            e.setStatus(PatchLineComment.Status.PUBLISHED);
-            e.setWrittenOn(ctx.getWhen());
-            setCommentRevId(e, patchListCache, ctx.getChange(), ps);
-            ups.add(e);
+            ups.add(publishComment(ctx, e, ps));
+          }
+          break;
+        case PUBLISH_ALL_REVISIONS:
+          // Read all patch sets to fill in RevId field, but only if writing to
+          // NoteDb is enabled.
+          Map<PatchSet.Id, PatchSet> patchSets =
+              psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes());
+          for (PatchLineComment e : drafts.values()) {
+            ups.add(publishComment(ctx, e, patchSets.get(e.getPatchSetId())));
           }
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      // TODO(dborowitz): Currently doesn't work for PUBLISH_ALL_REVISIONS with
-      // notedb.
       plcUtil.deleteComments(ctx.getDb(), u, del);
       plcUtil.putComments(ctx.getDb(), u, ups);
       comments.addAll(ups);
@@ -512,6 +515,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         drafts.put(c.getKey().get(), c);
       }
       return drafts;
+    }
+
+    private PatchLineComment publishComment(ChangeContext ctx,
+        PatchLineComment c, PatchSet ps) throws OrmException {
+      c.setStatus(PatchLineComment.Status.PUBLISHED);
+      c.setWrittenOn(ctx.getWhen());
+      setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
+      return c;
     }
 
     private boolean updateLabels(ChangeContext ctx)

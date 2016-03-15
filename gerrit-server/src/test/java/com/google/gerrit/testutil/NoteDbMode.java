@@ -23,6 +23,9 @@ public enum NoteDbMode {
   /** NoteDb is disabled. */
   OFF,
 
+  /** Writing data to NoteDb is enabled. */
+  WRITE,
+
   /** Reading and writing all data to NoteDb is enabled. */
   READ_WRITE,
 

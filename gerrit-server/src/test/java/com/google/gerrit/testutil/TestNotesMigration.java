@@ -53,6 +53,10 @@ public class TestNotesMigration extends NotesMigration {
         setWriteChanges(true);
         setReadChanges(true);
         break;
+      case WRITE:
+        setWriteChanges(true);
+        setReadChanges(false);
+        break;
       case CHECK:
       case OFF:
       default:

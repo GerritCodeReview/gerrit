@@ -16,7 +16,6 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
@@ -65,11 +64,10 @@ public class Schema<T> {
 
   private int version;
 
-  protected Schema(Iterable<FieldDef<T, ?>> fields) {
+  public Schema(Iterable<FieldDef<T, ?>> fields) {
     this(0, fields);
   }
 
-  @VisibleForTesting
   public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
@@ -190,7 +188,7 @@ public class Schema<T> {
         .toString();
   }
 
-  void setVersion(int version) {
+  public void setVersion(int version) {
     this.version = version;
   }
 }

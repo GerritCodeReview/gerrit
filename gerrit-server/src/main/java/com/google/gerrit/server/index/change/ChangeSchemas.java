@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -20,6 +20,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
 
 import java.lang.reflect.Field;

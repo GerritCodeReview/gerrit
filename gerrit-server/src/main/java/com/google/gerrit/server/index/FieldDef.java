@@ -36,7 +36,7 @@ import org.eclipse.jgit.lib.Config;
 public abstract class FieldDef<I, T> {
   /** Definition of a single (non-repeatable) field. */
   public abstract static class Single<I, T> extends FieldDef<I, T> {
-    Single(String name, FieldType<T> type, boolean stored) {
+    protected Single(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
     }
 
@@ -49,7 +49,7 @@ public abstract class FieldDef<I, T> {
   /** Definition of a repeatable field. */
   public abstract static class Repeatable<I, T>
       extends FieldDef<I, Iterable<T>> {
-    Repeatable(String name, FieldType<T> type, boolean stored) {
+    protected Repeatable(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
       Preconditions.checkArgument(type != FieldType.INTEGER_RANGE,
           "Range queries against repeated fields are unsupported");
@@ -63,8 +63,8 @@ public abstract class FieldDef<I, T> {
 
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
-    final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
+    public final TrackingFooters trackingFooters;
+    public final boolean allowsDrafts;
 
     @Inject
     FillArgs(TrackingFooters trackingFooters,

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;

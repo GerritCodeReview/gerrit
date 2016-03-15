@@ -44,7 +44,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
-import com.google.gerrit.server.index.ReindexAfterUpdate;
+import com.google.gerrit.server.index.change.ReindexAfterUpdate;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.NotesMigration;

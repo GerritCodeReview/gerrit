@@ -76,7 +76,8 @@ public class AccountCreator {
       Account.Id id = new Account.Id(db.nextAccountId());
       KeyPair sshKey = genSshKey();
       AccountSshKey key =
-          new AccountSshKey(new AccountSshKey.Id(id, 1), publicKey(sshKey, email));
+          new AccountSshKey(new AccountSshKey.Id(id, db.nextAccountSshKeyId()),
+              publicKey(sshKey, email));
       AccountExternalId extUser =
           new AccountExternalId(id, new AccountExternalId.Key(
               AccountExternalId.SCHEME_USERNAME, username));

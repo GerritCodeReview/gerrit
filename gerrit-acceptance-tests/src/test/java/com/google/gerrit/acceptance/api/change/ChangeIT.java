@@ -26,7 +26,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -68,6 +67,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.NoteDbMode;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -529,7 +529,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // in notedb. When notedb is disabled adding a reviewer results in a dummy 0
     // approval on the change which is treated as CC when the ChangeInfo is
     // created.
-    Collection<AccountInfo> reviewers = isNoteDbTestEnabled()
+    Collection<AccountInfo> reviewers = NoteDbMode.readWrite()
         ? c.reviewers.get(REVIEWER)
         : c.reviewers.get(CC);
     assertThat(reviewers).isNotNull();
@@ -574,7 +574,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .get();
     reviewers = c.reviewers.get(REVIEWER);
-    if (isNoteDbTestEnabled()) {
+    if (NoteDbMode.readWrite()) {
       // When notedb is enabled adding a reviewer records that user as reviewer
       // in notedb.
       assertThat(reviewers).hasSize(2);
@@ -653,7 +653,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .reviewer(user.getId().toString())
         .votes();
 
-    if (isNoteDbTestEnabled()) {
+    if (NoteDbMode.readWrite()) {
       // When notedb is enabled each reviewer is explicitly recorded in the
       // notedb and this record stays even when all votes of that user have been
       // deleted, hence there is no dummy 0 approval left when a vote is
@@ -674,7 +674,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(message.author._accountId).isEqualTo(admin.getId().get());
     assertThat(message.message).isEqualTo(
         "Removed Code-Review+1 by User <user@example.com>\n");
-    if (isNoteDbTestEnabled()) {
+    if (NoteDbMode.readWrite()) {
       // When notedb is enabled each reviewer is explicitly recorded in the
       // notedb and this record stays even when all votes of that user have been
       // deleted.

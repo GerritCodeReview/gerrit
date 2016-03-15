@@ -15,12 +15,12 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.NoteDbChecker;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
 
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() {
-    assume().that(isNoteDbTestEnabled()).isFalse();
+    assume().that(NoteDbMode.readWrite()).isFalse();
     notesMigration.setAllEnabled(false);
   }
 

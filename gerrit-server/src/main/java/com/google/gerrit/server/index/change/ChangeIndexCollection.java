@@ -15,8 +15,11 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Singleton;
 
-public interface ChangeIndex extends Index<Change.Id, ChangeData> {
+@Singleton
+public class ChangeIndexCollection extends
+    IndexCollection<Change.Id, ChangeData, ChangeIndex> {
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c40f242_706b30f5",
+        "filename": "polygerrit-ui/app/styles/fonts.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-15T18:42:07Z",
+      "side": 1,
+      "message": "Let’s use the woff2 format. It’s what Google Fonts uses and was developed for better compression: https://www.w3.org/TR/WOFF2/",
+      "revId": "ff0c014c6956da22ab1c215711ad08ee3818010a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

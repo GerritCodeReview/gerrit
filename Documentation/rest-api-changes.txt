@@ -3892,6 +3892,9 @@ user is permitted to vote on the label. If absent, the user is not
 permitted to vote on that label.
 |`date`        |optional|
 The time and date describing when the approval was made.
+|`tag`                 |optional|
+Value of the `tag` field from link:#review-input[ReviewInput] set
+while posting the review.
 |===========================
 
 [[change-edit-input]]
@@ -4054,6 +4057,9 @@ Unset if written by the Gerrit system.
 |`date`            ||
 The link:rest-api.html#timestamp[timestamp] this message was posted.
 |`message`            ||The text left by the user.
+|`tag`                 |optional|
+Value of the `tag` field from link:#review-input[ReviewInput] set
+while posting the review.
 |`_revision_number`    |optional|
 Which patchset (if any) generated this message.
 |==================================
@@ -4104,6 +4110,9 @@ written.
 The author of the message as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Unset for draft comments, assumed to be the calling user.
+|`tag`                 |optional|
+Value of the `tag` field from link:#review-input[ReviewInput] set
+while posting the review.
 |===========================
 
 [[comment-input]]
@@ -4625,6 +4634,11 @@ revision.
 |Field Name               ||Description
 |`message`                |optional|
 The message to be added as review comment.
+|`tag`                    |optional|
+Apply this tag to the review comment message, votes, and inline
+comments. Tags may be used by CI or other automated systems to
+distinguish them from human reviews. Comments with specific tag
+values can be filtered out in the web UI.
 |`labels`                 |optional|
 The votes that should be added to the revision as a map that maps the
 label names to the voting values.

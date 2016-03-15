@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -32,6 +31,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.NoteDbMode;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -129,7 +129,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all.get(0)._accountId).isEqualTo(user.id.get());
     assertThat(label.all.get(0).value).isEqualTo(0);
 
-    ReviewerState rs = isNoteDbTestEnabled()
+    ReviewerState rs = NoteDbMode.readWrite()
         ? ReviewerState.REVIEWER : ReviewerState.CC;
     Collection<AccountInfo> ccs = info.reviewers.get(rs);
     assertThat(ccs).hasSize(1);

@@ -14,8 +14,8 @@
 (function(window, GrDiffBuilder) {
   'use strict';
 
-  function GrDiffBuilderUnified(diff, outputEl) {
-    GrDiffBuilder.call(this, diff, outputEl);
+  function GrDiffBuilderUnified(diff, prefs, outputEl) {
+    GrDiffBuilder.call(this, diff, prefs, outputEl);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;

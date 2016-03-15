@@ -16,6 +16,7 @@
 
   function GrDiffLine(type) {
     this.type = type;
+    this.contextLines = [];
   }
 
   GrDiffLine.prototype.beforeNumber = 0;
@@ -28,6 +29,7 @@
     ADD: 'add',
     BOTH: 'both',
     BLANK: 'blank',
+    CONTEXT_CONTROL: 'contextControl',
     REMOVE: 'remove',
   };
 

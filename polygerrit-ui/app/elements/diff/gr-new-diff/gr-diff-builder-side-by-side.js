@@ -14,8 +14,8 @@
 (function(window, GrDiffBuilder) {
   'use strict';
 
-  function GrDiffBuilderSideBySide(diff, outputEl) {
-    GrDiffBuilder.call(this, diff, outputEl);
+  function GrDiffBuilderSideBySide(diff, prefs, outputEl) {
+    GrDiffBuilder.call(this, diff, prefs, outputEl);
   }
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
@@ -23,8 +23,9 @@
   GrDiffBuilderSideBySide.prototype._emitGroup = function(group,
       opt_beforeSection) {
     var sectionEl = this._createElement('tbody', 'section');
+    sectionEl.classList.add(group.type);
     var pairs = group.getSideBySidePairs();
-    for (var i = 0; i < pairs.length; ++i) {
+    for (var i = 0; i < pairs.length; i++) {
       sectionEl.appendChild(this._createRow(pairs[i].left, pairs[i].right));
     }
     this._outputEl.insertBefore(sectionEl, opt_beforeSection);
@@ -45,7 +46,12 @@
     }
 
     row.appendChild(this._createLineEl(line, lineNumber, line.type));
-    row.appendChild(this._createTextEl(line));
+    var action = this._createContextControl(row, line);
+    if (action) {
+      row.appendChild(action);
+    } else {
+      row.appendChild(this._createTextEl(line));
+    }
     return row;
   };
 

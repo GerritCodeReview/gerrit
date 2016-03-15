@@ -52,7 +52,7 @@ limitations under the License.
         },
       ];
       var groups = [];
-      GrDiffBuilder.prototype._processContent(content, groups);
+      GrDiffBuilder.prototype._processContent(content, groups, -1);
 
       assert.equal(groups.length, 3);
 
@@ -99,5 +99,107 @@ limitations under the License.
       ]);
     });
 
+    test('insert context groups', function() {
+      var content = [
+        {ab: []},
+        {a: ['all work and no play make andybons a dull boy']},
+        {ab: []},
+        {b: ['elgoog elgoog elgoog']},
+        {ab: []},
+      ];
+      for (var i = 0; i < 100; i++) {
+        content[0].ab.push('all work and no play make jack a dull boy');
+        content[4].ab.push('all work and no play make jill a dull girl');
+      }
+      for (var i = 0; i < 5; i++) {
+        content[2].ab.push('no tv and no beer make homer go crazy');
+      }
+      var groups = [];
+      var context = 10;
+
+      GrDiffBuilder.prototype._processContent(content, groups, context);
+
+      assert.equal(groups[0].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(groups[0].lines[0].contextLines.length, 90);
+      groups[0].lines[0].contextLines.forEach(function(l) {
+        assert.equal(l.text, content[0].ab[0]);
+      });
+
+      assert.equal(groups[1].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[1].lines.length, context);
+      groups[1].lines.forEach(function(l) {
+        assert.equal(l.text, content[0].ab[0]);
+      });
+
+      assert.equal(groups[2].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[2].lines.length, 1);
+      assert.equal(groups[2].removes.length, 1);
+      assert.equal(groups[2].removes[0].text,
+          'all work and no play make andybons a dull boy');
+
+      assert.equal(groups[3].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[3].lines.length, 5);
+      groups[3].lines.forEach(function(l) {
+        assert.equal(l.text, content[2].ab[0]);
+      });
+
+      assert.equal(groups[4].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[4].lines.length, 1);
+      assert.equal(groups[4].adds.length, 1);
+      assert.equal(groups[4].adds[0].text, 'elgoog elgoog elgoog');
+
+      assert.equal(groups[5].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[5].lines.length, context);
+      groups[5].lines.forEach(function(l) {
+        assert.equal(l.text, content[4].ab[0]);
+      });
+
+      assert.equal(groups[6].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(groups[6].lines[0].contextLines.length, 90);
+      groups[6].lines[0].contextLines.forEach(function(l) {
+        assert.equal(l.text, content[4].ab[0]);
+      });
+
+      content = [
+        {a: ['all work and no play make andybons a dull boy']},
+        {ab: []},
+        {b: ['elgoog elgoog elgoog']},
+      ];
+      for (var i = 0; i < 50; i++) {
+        content[1].ab.push('no tv and no beer make homer go crazy');
+      }
+      groups = [];
+
+      GrDiffBuilder.prototype._processContent(content, groups, 10);
+
+      assert.equal(groups[0].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[0].lines.length, 1);
+      assert.equal(groups[0].removes.length, 1);
+      assert.equal(groups[0].removes[0].text,
+          'all work and no play make andybons a dull boy');
+
+      assert.equal(groups[1].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[1].lines.length, context);
+      groups[1].lines.forEach(function(l) {
+        assert.equal(l.text, content[1].ab[0]);
+      });
+
+      assert.equal(groups[2].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(groups[2].lines[0].contextLines.length, 30);
+      groups[2].lines[0].contextLines.forEach(function(l) {
+        assert.equal(l.text, content[1].ab[0]);
+      });
+
+      assert.equal(groups[3].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[3].lines.length, context);
+      groups[3].lines.forEach(function(l) {
+        assert.equal(l.text, content[1].ab[0]);
+      });
+
+      assert.equal(groups[4].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[4].lines.length, 1);
+      assert.equal(groups[4].adds.length, 1);
+      assert.equal(groups[4].adds[0].text, 'elgoog elgoog elgoog');
+    });
   });
 </script>

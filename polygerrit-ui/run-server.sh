@@ -23,9 +23,14 @@ if [[ ! -f .buckconfig ]]; then
   exit 1
 fi
 
-buck build //polygerrit-ui/app:polygerrit_tests
+buck build \
+  //polygerrit-ui/app:test_components \
+  //polygerrit-ui:fonts
+
 cd polygerrit-ui/app
 rm -rf bower_components
 unzip -q ../../buck-out/gen/polygerrit-ui/app/test_components/test_components.bower_components.zip
+rm -rf fonts
+unzip -q ../../buck-out/gen/polygerrit-ui/fonts/fonts.zip -d fonts
 cd ..
 exec go run server.go "$@"

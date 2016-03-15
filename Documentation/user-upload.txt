@@ -388,9 +388,7 @@ make undesired changes to the public repository.
 Changes can be directly submitted on push.  This is primarily useful
 for teams that don't want to do code review but want to use Gerrit's
 submit strategies to handle contention on busy branches.  Using
-`%submit` creates a change and submits it immediately, if the caller
-has link:access-control.html#category_submit[Submit] permission on
-`refs/for/<ref>` (e.g. on `refs/for/refs/heads/master`).
+`%submit` creates a change and submits it immediately:
 
 ====
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%submit
@@ -400,6 +398,11 @@ On auto-merge of a change neither labels nor submit rules are checked.
 If the merge fails the change stays open, but when pushing a new patch
 set the merge can be reattempted by using `%submit` again.
 
+This requires the caller to have link:access-control.html#category_submit[Submit]
+permission on `refs/for/<ref>` (e.g. on `refs/for/refs/heads/master`).
+Note how this is different from the `Submit` permission on `refs/heads/<ref>`,
+and in particular you typically do not want to apply the `Submit` permission
+on `refs/*` (unless you are ok with bypassing submit rules).
 
 [[base]]
 === Selecting Merge Base

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1457973141 +0100\nnonce AO+Zq7iz0mMdCORU4KFVfp3mDQXbr3n7GS9KfluLV8FD+uJ0h4uMHlue4phz8h815+q59P9mDsmJ\n\n0000000000000000000000000000000000000000 cf2fa7983f4046a97f01d58ae6dcd4f8bc095386 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW5ueVAAoJEF/XxZqaEoiMq6QP/0dolXPHf9PxbrWmelRp9Xqd\nklTSkQObgVO1RDO4PsWljEwWF1VRiGjMX3FBsWeKHkyShQt7p6aAXBIfDNiAfs+Z\nVZn/yMYcMaJLLaDUSIgk8LWkxTrOin0A8cO/IgXFHBNgH7IKfZOdvt2a11fP3LtG\nuzHkOENZiH1snfu5XaKDj6MvblwNFxQGhUZCNoteKJfv3AHZlweAP/pCEDpM5V2z\nypchjhEHxhHCiMBmf0Qd8OYe5660pQRNxPhSU/rnJ7g2YP0MPPhskHBPArkz0v0A\nmoVj8bxknRFUfaid1/iRuoKiv9tGriSXGka3cbeWaZS37ZTRVd6kh5afX9k8jiYa\nFm/3BMkx77r5VOa9IwiUSKmCvwLS/cw6SFKs/zvlTuTRp/l5lC09do8aOOyLvD22\n4s8IAQcuVXjj8U7+3Ab1rIvrbc8Tet1iehRg9+XczOFLCKS5WxNTFBUaf06ba6FR\nzqAszjPZPWjYXbECubVSKXLmXsPTbaF6wXi7wJLpEo+1GshmYzTeBKaN9nEMRepB\noYaCk/OG4y3GhBdeoWSMWmzl3BbmtFP6Ey0gr538QBXJAXicVKpKlqZfa5AuClk5\nOa/y4fnuk6rH3wbLaEpSfjq/qOCZCPddwWVWztQlQaZ2DPK3u+r+yJiLO87z6KmN\nAYBj/TUQ1/Jxs/sCdyIT\n\u003dJeKc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c259aa0_560a5444",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/config/GerritServerIdProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-15T07:50:50Z",
+      "side": 1,
+      "message": "I haven\u0027t debugged, but I suspect this has overwritten the existing gerrit.config file somehow.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 71
+      },
+      "revId": "f367b5d3aee7dc84e9be799646f4076d9db9a0d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

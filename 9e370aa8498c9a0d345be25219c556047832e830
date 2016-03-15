@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c2536a9_4d99b993",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-15T12:56:35Z",
+      "side": 1,
+      "message": "path is the same as System.getProperty(GERRIT_SITE_PATH). I think the second argument just needs to be removed from SiteInitializer.",
+      "revId": "9e370aa8498c9a0d345be25219c556047832e830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

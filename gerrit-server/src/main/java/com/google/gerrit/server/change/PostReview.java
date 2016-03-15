@@ -23,6 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -469,18 +470,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           del.addAll(drafts.values());
           break;
         case PUBLISH:
-        case PUBLISH_ALL_REVISIONS:
           for (PatchLineComment e : drafts.values()) {
-            e.setStatus(PatchLineComment.Status.PUBLISHED);
-            e.setWrittenOn(ctx.getWhen());
-            setCommentRevId(e, patchListCache, ctx.getChange(), ps);
-            ups.add(e);
+            ups.add(publishComment(ctx, e, ps));
           }
+          break;
+        case PUBLISH_ALL_REVISIONS:
+          publishAllRevisions(ctx, drafts, ups);
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      // TODO(dborowitz): Currently doesn't work for PUBLISH_ALL_REVISIONS with
-      // NoteDb.
       plcUtil.deleteComments(ctx.getDb(), u, del);
       plcUtil.putComments(ctx.getDb(), u, ups);
       comments.addAll(ups);
@@ -524,6 +522,32 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         labels.put(psa.getLabel(), psa.getValue());
       }
       return labels;
+    }
+
+    private PatchLineComment publishComment(ChangeContext ctx,
+        PatchLineComment c, PatchSet ps) throws OrmException {
+      c.setStatus(PatchLineComment.Status.PUBLISHED);
+      c.setWrittenOn(ctx.getWhen());
+      setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
+      return c;
+    }
+
+    private void publishAllRevisions(ChangeContext ctx,
+        Map<String, PatchLineComment> drafts, List<PatchLineComment> ups)
+        throws OrmException {
+      boolean needOtherPatchSets = false;
+      for (PatchLineComment c : drafts.values()) {
+        if (!c.getPatchSetId().equals(psId)) {
+          needOtherPatchSets = true;
+          break;
+        }
+      }
+      Map<PatchSet.Id, PatchSet> patchSets = needOtherPatchSets
+          ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
+          : ImmutableMap.of(psId, ps);
+      for (PatchLineComment e : drafts.values()) {
+        ups.add(publishComment(ctx, e, patchSets.get(e.getPatchSetId())));
+      }
     }
 
     private boolean updateLabels(ChangeContext ctx)

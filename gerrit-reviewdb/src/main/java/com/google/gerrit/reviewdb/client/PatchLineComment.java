@@ -148,6 +148,10 @@ public final class PatchLineComment {
     return key;
   }
 
+  public PatchSet.Id getPatchSetId() {
+    return key.getParentKey().getParentKey();
+  }
+
   public int getLine() {
     return lineNbr;
   }

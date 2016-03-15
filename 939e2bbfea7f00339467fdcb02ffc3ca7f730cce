@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc3302f3_acb1430e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "inline this variable",
+      "range": {
+        "startLine": 80,
+        "startChar": 22,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c2536a9_4dc2d955",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "You should store the RegistrationHandle that is returned in a local variable so that you can call remove() on it in a test cleanup method (see how it is done in AbstractSubmit).",
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc19de73_b312d873",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "unneeded final",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c2536a9_0dbcd1dd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "call this \u0027input\u0027?",
+      "range": {
+        "startLine": 160,
+        "startChar": 16,
+        "endLine": 160,
+        "endChar": 21
+      },
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_8cae87ac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "better: + label.message",
+      "range": {
+        "startLine": 170,
+        "startChar": 73,
+        "endLine": 170,
+        "endChar": 76
+      },
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_6cbd9bdd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "maybe \"allApprovals\"?",
+      "range": {
+        "startLine": 533,
+        "startChar": 25,
+        "endLine": 533,
+        "endChar": 30
+      },
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_4cc2df55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-15T13:55:15Z",
+      "side": 1,
+      "message": "Why is inLabels only added if current !\u003d null?",
+      "revId": "939e2bbfea7f00339467fdcb02ffc3ca7f730cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

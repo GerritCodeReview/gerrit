@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c259aa0_567db48b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3561,
+      "author": {
+        "id": 1013112
+      },
+      "writtenOn": "2016-03-15T13:33:19Z",
+      "side": 1,
+      "message": "I didn\u0027t want to break backward compatibility, but OpenSSH 7.0 disables this by default, so it\u0027s certainly an option.",
+      "parentUuid": "f7207d84_845326b6",
+      "range": {
+        "startLine": 3561,
+        "startChar": 16,
+        "endLine": 3561,
+        "endChar": 23
+      },
+      "revId": "baf4ffcbed5f52d503462ce6dc0fb626776f69e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc19de73_f3f7303a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-15T08:55:07Z",
       "side": 1,
       "message": "I thought the cipher preference is determined by the client.",
+      "range": {
+        "startLine": 3564,
+        "startChar": 34,
+        "endLine": 3564,
+        "endChar": 44
+      },
+      "revId": "baf4ffcbed5f52d503462ce6dc0fb626776f69e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c40f242_f02cc0e1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1013112
+      },
+      "writtenOn": "2016-03-15T13:33:19Z",
+      "side": 1,
+      "message": "That\u0027s a good point. The server sends an ordered list, but the client ultimately gets to select which one it wants, so I am not sure how much it really matters. My understanding is that OpenSSH completely ignores the server order, so if nothing else, it is not a very effective preference order. I am happy to revise this language.",
+      "parentUuid": "dc19de73_f3f7303a",
       "range": {
         "startLine": 3564,
         "startChar": 34,

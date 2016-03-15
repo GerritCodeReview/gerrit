@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.index.ChangeField.SUBMISSIONID;
+import static com.google.gerrit.server.index.change.ChangeField.SUBMISSIONID;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
 import static com.google.gerrit.server.query.Predicate.or;
@@ -33,10 +33,10 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;

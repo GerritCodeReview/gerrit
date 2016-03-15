@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.FUZZY_TOPIC;
+import static com.google.gerrit.server.index.change.ChangeField.FUZZY_TOPIC;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;

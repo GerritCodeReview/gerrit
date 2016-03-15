@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.index.ChangeField.CHANGE;
-import static com.google.gerrit.server.index.ChangeField.PROJECT;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
+import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;

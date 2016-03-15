@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.server.index.change.ChangeIndex;
 
 import org.eclipse.jgit.lib.Config;
 

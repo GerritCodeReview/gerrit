@@ -14,7 +14,7 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
+import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;

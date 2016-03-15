@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc19de73_d31d5446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SupplierDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-15T11:07:08Z",
+      "side": 1,
+      "message": "unneeded modification",
+      "revId": "a81e21e245fc3809ae5b5a872ae6e65a561e0c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

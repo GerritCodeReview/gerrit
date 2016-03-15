@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc3302f3_ec186b97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-15T20:45:35Z",
+      "side": 1,
+      "message": "Is this unused now?",
+      "revId": "76dfaa93237fd2eb609eca61061f5f4a6a922594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_2cff934e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-15T20:45:35Z",
+      "side": 1,
+      "message": "Unnecessary semicolon.",
+      "revId": "76dfaa93237fd2eb609eca61061f5f4a6a922594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_0c04d734",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-15T20:45:35Z",
+      "side": 1,
+      "message": "Unnecessary semicolon.",
+      "revId": "76dfaa93237fd2eb609eca61061f5f4a6a922594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c2536a9_ad125d73",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-15T20:45:35Z",
+      "side": 1,
+      "message": "Unnecessary semicolon.",
+      "revId": "76dfaa93237fd2eb609eca61061f5f4a6a922594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc3302f3_4c0adf44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-15T20:45:35Z",
+      "side": 1,
+      "message": "Missing semicolon after statement.",
+      "revId": "76dfaa93237fd2eb609eca61061f5f4a6a922594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

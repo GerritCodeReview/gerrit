@@ -449,6 +449,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native AccountInfo author() /*-{ return this.author; }-*/;
     public final native String message() /*-{ return this.message; }-*/;
     public final native int _revisionNumber() /*-{ return this._revision_number || 0; }-*/;
+    public final native String tag() /*-{ return this.tag; }-*/;
     private final native String dateRaw() /*-{ return this.date; }-*/;
 
     public final Timestamp date() {

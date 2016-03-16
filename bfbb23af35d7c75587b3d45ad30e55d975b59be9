@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca1425f_3ca311cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T08:50:14Z",
+      "side": 1,
+      "message": "This could be an immutable LinkedHashSet instead? Like ImmutableSet.copyOf(...);",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "bfbb23af35d7c75587b3d45ad30e55d975b59be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca1425f_dca78dd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T08:50:14Z",
+      "side": 1,
+      "message": "And we won\u0027t need this map anymore?",
+      "range": {
+        "startLine": 112,
+        "startChar": 31,
+        "endLine": 112,
+        "endChar": 40
+      },
+      "revId": "bfbb23af35d7c75587b3d45ad30e55d975b59be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

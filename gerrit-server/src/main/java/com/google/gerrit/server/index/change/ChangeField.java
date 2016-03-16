@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -30,6 +29,9 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -39,14 +41,12 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
 
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -370,23 +370,9 @@ public class ChangeField {
         }
       };
 
-  private static Set<String> getPersonParts(PersonIdent person) {
-    if (person == null) {
-      return ImmutableSet.of();
-    }
-    HashSet<String> parts = Sets.newHashSet();
-    String email = person.getEmailAddress().toLowerCase();
-    parts.add(email);
-    parts.addAll(Arrays.asList(email.split("@")));
-    Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
-    Iterables.addAll(parts, s.split(email));
-    Iterables.addAll(parts, s.split(person.getName().toLowerCase()));
-    return parts;
-  }
-
   public static Set<String> getAuthorParts(ChangeData cd) throws OrmException {
     try {
-      return getPersonParts(cd.getAuthor());
+      return SchemaUtil.getPersonParts(cd.getAuthor());
     } catch (IOException e) {
       throw new OrmException(e);
     }
@@ -394,7 +380,7 @@ public class ChangeField {
 
   public static Set<String> getCommitterParts(ChangeData cd) throws OrmException {
     try {
-      return getPersonParts(cd.getCommitter());
+      return SchemaUtil.getPersonParts(cd.getCommitter());
     } catch (IOException e) {
       throw new OrmException(e);
     }

@@ -14,57 +14,54 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.QueryOptions;
 
 import java.io.IOException;
 
 /**
- * Secondary index implementation for change documents.
+ * Secondary index implementation for arbitrary documents.
  * <p>
- * {@link ChangeData} objects are inserted into the index and are queried by
- * converting special {@link com.google.gerrit.server.query.Predicate} instances
- * into index-aware predicates that use the index search results as a source.
+ * Documents are inserted into the index and are queried by converting special
+ * {@link com.google.gerrit.server.query.Predicate} instances into index-aware
+ * predicates that use the index search results as a source.
  * <p>
  * Implementations must be thread-safe and should batch inserts/updates where
  * appropriate.
  */
-public interface ChangeIndex {
+public interface Index<K, V> {
   /** @return the schema version used by this index. */
-  Schema<ChangeData> getSchema();
+  Schema<V> getSchema();
 
   /** Close this index. */
   void close();
 
   /**
-   * Update a change document in the index.
+   * Update a document in the index.
    * <p>
    * Semantically equivalent to deleting the document and reinserting it with
    * new field values. A document that does not already exist is created. Results
    * may not be immediately visible to searchers, but should be visible within a
    * reasonable amount of time.
    *
-   * @param cd change document
+   * @param obj document object
    *
    * @throws IOException
    */
-  void replace(ChangeData cd) throws IOException;
+  void replace(V obj) throws IOException;
 
   /**
-   * Delete a change document from the index by id.
+   * Delete a document from the index by key.
    *
-   * @param id change id
+   * @param key document key
    *
    * @throws IOException
    */
-  void delete(Change.Id id) throws IOException;
+  void delete(K key) throws IOException;
 
   /**
-   * Delete all change documents from the index.
+   * Delete all documents from the index.
    *
    * @throws IOException
    */
@@ -84,13 +81,13 @@ public interface ChangeIndex {
    *     leaves.
    * @param opts query options not implied by the predicate, such as start and
    *     limit.
-   * @return a source of documents matching the predicate. Documents must be
-   *     returned in descending updated timestamp order.
+   * @return a source of documents matching the predicate, returned in a
+   *     defined order depending on the type of documents.
    *
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.
    */
-  ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
+  DataSource<V> getSource(Predicate<V> p, QueryOptions opts)
       throws QueryParseException;
 
   /**

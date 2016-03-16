@@ -26,11 +26,13 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.IndexRewriter;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
@@ -50,7 +52,7 @@ public class QueryProcessor {
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final IndexRewriter rewriter;
   private final IndexConfig indexConfig;
   private final Metrics metrics;
@@ -65,7 +67,7 @@ public class QueryProcessor {
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
-      IndexCollection indexes,
+      ChangeIndexCollection indexes,
       IndexRewriter rewriter,
       IndexConfig indexConfig,
       Metrics metrics) {
@@ -168,7 +170,7 @@ public class QueryProcessor {
             "Cannot go beyond page " + indexConfig.maxPages() + "of results");
       }
 
-      QueryOptions opts = QueryOptions.create(
+      QueryOptions opts = IndexedChangeQuery.createOptions(
           indexConfig, start, limit + 1, getRequestedFields());
       Predicate<ChangeData> s = rewriter.rewrite(q, opts);
       if (!(s instanceof ChangeDataSource)) {

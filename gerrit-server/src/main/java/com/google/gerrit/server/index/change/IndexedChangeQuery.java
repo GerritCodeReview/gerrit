@@ -12,26 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
+
+import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
+import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.Paginated;
-import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Wrapper combining an {@link IndexPredicate} together with a
@@ -43,6 +52,22 @@ import java.util.List;
  */
 public class IndexedChangeQuery extends Predicate<ChangeData>
     implements ChangeDataSource, Paginated {
+  public static QueryOptions oneResult() {
+    return createOptions(IndexConfig.createDefault(), 0, 1,
+        ImmutableSet.<String> of());
+  }
+
+  public static QueryOptions createOptions(IndexConfig config, int start,
+      int limit, Set<String> fields) {
+    // Always include project since it is needed to load the change from notedb.
+    if (!fields.contains(CHANGE.getName())
+        && !fields.contains(PROJECT.getName())) {
+      fields = new HashSet<>(fields);
+      fields.add(PROJECT.getName());
+    }
+    return QueryOptions.create(config, start, limit, fields);
+  }
+
   @VisibleForTesting
   static QueryOptions convertOptions(QueryOptions opts) {
     // Increase the limit rather than skipping, since we don't know how many
@@ -50,14 +75,14 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     int backendLimit = opts.config().maxLimit();
     int limit = Ints.saturatedCast((long) opts.limit() + opts.start());
     limit = Math.min(limit, backendLimit);
-    return QueryOptions.create(opts.config(), 0, limit, opts.fields());
+    return IndexedChangeQuery.createOptions(opts.config(), 0, limit, opts.fields());
   }
 
   private final ChangeIndex index;
 
   private QueryOptions opts;
   private Predicate<ChangeData> pred;
-  private ChangeDataSource source;
+  private DataSource<ChangeData> source;
 
   public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,
       QueryOptions opts) throws QueryParseException {
@@ -102,7 +127,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    final ChangeDataSource currSource = source;
+    final DataSource<ChangeData> currSource = source;
     final ResultSet<ChangeData> rs = currSource.read();
 
     return new ResultSet<ChangeData>() {

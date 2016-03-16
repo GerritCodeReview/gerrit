@@ -17,9 +17,10 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.SiteIndexer;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -39,7 +40,7 @@ public class OnlineReindexer {
     OnlineReindexer create(int version);
   }
 
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final SiteIndexer batchIndexer;
   private final ProjectCache projectCache;
   private final int version;
@@ -48,7 +49,7 @@ public class OnlineReindexer {
 
   @Inject
   OnlineReindexer(
-      IndexCollection indexes,
+      ChangeIndexCollection indexes,
       SiteIndexer batchIndexer,
       ProjectCache projectCache,
       @Assisted int version) {
@@ -84,7 +85,7 @@ public class OnlineReindexer {
     return version;
   }
 
-  private static int version(ChangeIndex i) {
+  private static int version(Index<?, ?> i) {
     return i.getSchema().getVersion();
   }
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -24,7 +24,7 @@ import org.junit.Ignore;
 
 @Ignore
 public class FakeQueryBuilder extends ChangeQueryBuilder {
-  FakeQueryBuilder(IndexCollection indexes) {
+  FakeQueryBuilder(ChangeIndexCollection indexes) {
     super(
         new FakeQueryBuilder.Definition<>(
           FakeQueryBuilder.class),

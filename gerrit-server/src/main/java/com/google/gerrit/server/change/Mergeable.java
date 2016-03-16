@@ -28,7 +28,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;

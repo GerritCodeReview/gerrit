@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -50,7 +51,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   private final OneOffRequestContext requestContext;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeIndexer.Factory indexerFactory;
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final ChangeNotes.Factory notesFactory;
   private final ListeningExecutorService executor;
 
@@ -59,7 +60,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       OneOffRequestContext requestContext,
       Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,
-      IndexCollection indexes,
+      ChangeIndexCollection indexes,
       ChangeNotes.Factory notesFactory,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;

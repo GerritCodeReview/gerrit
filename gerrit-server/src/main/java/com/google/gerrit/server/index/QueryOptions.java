@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.index.ChangeField.CHANGE;
-import static com.google.gerrit.server.index.ChangeField.PROJECT;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.server.index.IndexConfig;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @AutoValue
@@ -31,21 +27,8 @@ public abstract class QueryOptions {
       Set<String> fields) {
     checkArgument(start >= 0, "start must be nonnegative: %s", start);
     checkArgument(limit > 0, "limit must be positive: %s", limit);
-
-    // Always include project since it is needed to load the change from notedb.
-    if (!fields.contains(CHANGE.getName())
-        && !fields.contains(PROJECT.getName())) {
-      fields = new HashSet<>(fields);
-      fields.add(PROJECT.getName());
-    }
-
     return new AutoValue_QueryOptions(config, start, limit,
         ImmutableSet.copyOf(fields));
-  }
-
-  public static QueryOptions oneResult() {
-    return create(IndexConfig.createDefault(), 0, 1,
-        ImmutableSet.<String> of());
   }
 
   public abstract IndexConfig config();

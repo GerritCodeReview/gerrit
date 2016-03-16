@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -63,7 +64,7 @@ public class ChangeIndexer {
   public interface Factory {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
     ChangeIndexer create(ListeningExecutorService executor,
-        IndexCollection indexes);
+        ChangeIndexCollection indexes);
   }
 
   public static CheckedFuture<?, IOException> allAsList(
@@ -90,7 +91,7 @@ public class ChangeIndexer {
     }
   };
 
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
@@ -120,7 +121,7 @@ public class ChangeIndexer {
       ThreadLocalRequestContext context,
       DynamicSet<ChangeIndexedListener> indexedListener,
       @Assisted ListeningExecutorService executor,
-      @Assisted IndexCollection indexes) {
+      @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
@@ -164,7 +165,7 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
+    for (Index<?, ChangeData> i : getWriteIndexes()) {
       i.replace(cd);
     }
     fireChangeIndexedEvent(cd);

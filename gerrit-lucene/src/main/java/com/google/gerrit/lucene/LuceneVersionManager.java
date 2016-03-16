@@ -22,9 +22,9 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeSchemas;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.ChangeSchemas;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
@@ -92,7 +92,7 @@ public class LuceneVersionManager implements LifecycleListener {
 
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final OnlineReindexer.Factory reindexerFactory;
   private final boolean onlineUpgrade;
   private OnlineReindexer reindexer;
@@ -102,7 +102,7 @@ public class LuceneVersionManager implements LifecycleListener {
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
-      IndexCollection indexes,
+      ChangeIndexCollection indexes,
       OnlineReindexer.Factory reindexerFactory) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;

@@ -22,6 +22,9 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.IndexRewriter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -67,8 +70,7 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(IndexRewriter.class);
-    bind(IndexCollection.class);
-    listener().to(IndexCollection.class);
+    listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
   }
 
@@ -77,7 +79,7 @@ public class IndexModule extends LifecycleModule {
   ChangeIndexer getChangeIndexer(
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeIndexer.Factory factory,
-      IndexCollection indexes) {
+      ChangeIndexCollection indexes) {
     // Bind default indexer to interactive executor; callers who need a
     // different executor can use the factory directly.
     return factory.create(executor, indexes);

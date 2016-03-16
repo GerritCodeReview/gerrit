@@ -34,7 +34,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

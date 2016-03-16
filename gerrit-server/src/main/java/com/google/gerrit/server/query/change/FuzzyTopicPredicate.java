@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.FUZZY_TOPIC;
+import static com.google.gerrit.server.index.change.ChangeField.FUZZY_TOPIC;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -45,7 +46,7 @@ class FuzzyTopicPredicate extends IndexPredicate<ChangeData> {
     try {
       Predicate<ChangeData> thisId = new LegacyChangeIdPredicate(cd.getId());
       Iterable<ChangeData> results =
-          index.getSource(and(thisId, this), QueryOptions.oneResult()).read();
+          index.getSource(and(thisId, this), IndexedChangeQuery.oneResult()).read();
       return !Iterables.isEmpty(results);
     } catch (QueryParseException e) {
       throw new OrmException(e);

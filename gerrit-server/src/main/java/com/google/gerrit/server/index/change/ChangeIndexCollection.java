@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.index.change;
 
-import com.google.gerrit.server.index.QueryOptions;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Singleton;
 
-public interface Paginated {
-  QueryOptions getOptions();
-
-  ResultSet<ChangeData> restart(int start) throws OrmException;
+@Singleton
+public class ChangeIndexCollection extends
+    IndexCollection<Change.Id, ChangeData, ChangeIndex> {
 }

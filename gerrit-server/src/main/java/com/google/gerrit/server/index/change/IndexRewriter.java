@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -28,7 +31,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.LimitPredicate;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -118,11 +120,11 @@ public class IndexRewriter {
     return null;
   }
 
-  private final IndexCollection indexes;
+  private final ChangeIndexCollection indexes;
   private final IndexConfig config;
 
   @Inject
-  IndexRewriter(IndexCollection indexes,
+  IndexRewriter(ChangeIndexCollection indexes,
       IndexConfig config) {
     this.indexes = indexes;
     this.config = config;
@@ -205,7 +207,8 @@ public class IndexRewriter {
     return partitionChildren(in, newChildren, isIndexed, index, opts);
   }
 
-  private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
+  private boolean isIndexPredicate(Predicate<ChangeData> in,
+      ChangeIndex index) {
     if (!(in instanceof IndexPredicate)) {
       return false;
     }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
@@ -20,13 +20,15 @@ import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
 import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
-import static com.google.gerrit.server.index.IndexedChangeQuery.convertOptions;
+import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.or;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -34,7 +36,6 @@ import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gerrit.testutil.GerritBaseTests;
 
 import org.junit.Before;
@@ -47,15 +48,15 @@ import java.util.Set;
 public class IndexRewriterTest extends GerritBaseTests {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
 
-  private FakeIndex index;
-  private IndexCollection indexes;
+  private FakeChangeIndex index;
+  private ChangeIndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriter rewrite;
 
   @Before
   public void setUp() throws Exception {
-    index = new FakeIndex(FakeIndex.V2);
-    indexes = new IndexCollection();
+    index = new FakeChangeIndex(FakeChangeIndex.V2);
+    indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriter(indexes,
@@ -219,7 +220,7 @@ public class IndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> in = parse("status:merged file:a");
     assertThat(rewrite(in)).isEqualTo(query(in));
 
-    indexes.setSearchIndex(new FakeIndex(FakeIndex.V1));
+    indexes.setSearchIndex(new FakeChangeIndex(FakeChangeIndex.V1));
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out).isInstanceOf(AndPredicate.class);
     assertThat(out.getChildren())
@@ -286,7 +287,7 @@ public class IndexRewriterTest extends GerritBaseTests {
   }
 
   private static QueryOptions options(int start, int limit) {
-    return QueryOptions.create(CONFIG, start, limit,
+    return IndexedChangeQuery.createOptions(CONFIG, start, limit,
         ImmutableSet.<String> of());
   }
 

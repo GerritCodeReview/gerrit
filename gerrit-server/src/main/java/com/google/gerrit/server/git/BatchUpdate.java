@@ -36,7 +36,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeDelete;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;

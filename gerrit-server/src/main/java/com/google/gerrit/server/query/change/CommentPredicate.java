@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -35,7 +36,7 @@ class CommentPredicate extends IndexPredicate<ChangeData> {
       Predicate<ChangeData> p = Predicate.and(
           new LegacyChangeIdPredicate(object.getId()), this);
       for (ChangeData cData
-          : index.getSource(p, QueryOptions.oneResult()).read()) {
+          : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
         if (cData.getId().equals(object.getId())) {
           return true;
         }

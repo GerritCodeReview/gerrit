@@ -49,13 +49,13 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
-import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.IndexRewriter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -205,7 +205,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
-        IndexCollection indexes,
+        ChangeIndexCollection indexes,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,

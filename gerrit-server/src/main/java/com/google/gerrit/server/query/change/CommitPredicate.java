@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.COMMIT;
-import static com.google.gerrit.server.index.ChangeField.EXACT_COMMIT;
+import static com.google.gerrit.server.index.change.ChangeField.COMMIT;
+import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import com.google.gerrit.reviewdb.client.PatchSet;

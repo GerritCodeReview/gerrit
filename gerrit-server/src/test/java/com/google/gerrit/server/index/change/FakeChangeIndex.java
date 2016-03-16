@@ -12,22 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import org.junit.Ignore;
 
 @Ignore
-class FakeIndex implements ChangeIndex {
+class FakeChangeIndex implements ChangeIndex {
   static Schema<ChangeData> V1 = new Schema<>(1,
     ImmutableList.<FieldDef<ChangeData, ?>> of(
       ChangeField.STATUS));
@@ -68,7 +70,7 @@ class FakeIndex implements ChangeIndex {
 
   private final Schema<ChangeData> schema;
 
-  FakeIndex(Schema<ChangeData> schema) {
+  FakeChangeIndex(Schema<ChangeData> schema) {
     this.schema = schema;
   }
 
@@ -90,7 +92,7 @@ class FakeIndex implements ChangeIndex {
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
-    return new FakeIndex.Source(p);
+    return new FakeChangeIndex.Source(p);
   }
 
   @Override

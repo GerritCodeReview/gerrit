@@ -24,7 +24,7 @@ import org.eclipse.jgit.lib.Config;
  * Implementation-specific configuration for secondary indexes.
  * <p>
  * Contains configuration that is tied to a specific index implementation but is
- * otherwise global, i.e. not tied to a specific {@link ChangeIndex} and schema
+ * otherwise global, i.e. not tied to a specific {@link Index} and schema
  * version.
  */
 @AutoValue

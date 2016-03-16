@@ -194,6 +194,7 @@ java_test(
     '//gerrit-antlr:query_exception',
     '//gerrit-common:annotations',
     '//gerrit-server/src/main/prolog:common',
+    '//gerrit-patch-jgit:server',
     '//lib:args4j',
     '//lib:grappa',
     '//lib:guava',

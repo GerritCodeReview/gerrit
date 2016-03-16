@@ -29,8 +29,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SiteIndexer;
+import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemas;
@@ -164,9 +165,9 @@ public class Reindex extends SiteProgram {
     }
     pm.endTask();
 
-    SiteIndexer batchIndexer =
-        sysInjector.getInstance(SiteIndexer.class);
-    SiteIndexer.Result result = batchIndexer.setNumChanges(changeCount)
+    AllChangesIndexer batchIndexer =
+        sysInjector.getInstance(AllChangesIndexer.class);
+    SiteIndexer.Result result = batchIndexer.setTotalWork(changeCount)
         .setProgressOut(System.err)
         .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)
         .indexAll(index, projects);

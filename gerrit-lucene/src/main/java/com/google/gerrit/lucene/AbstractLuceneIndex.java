@@ -20,6 +20,9 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.Schema;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
@@ -32,12 +35,12 @@ import org.apache.lucene.search.ReferenceManager.RefreshListener;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -45,25 +48,41 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/** Piece of the change index that is implemented as a separate Lucene index. */
-public class SubIndex {
-  private static final Logger log = LoggerFactory.getLogger(SubIndex.class);
+/** Basic Lucene index implementation. */
+public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
+  private static final Logger log =
+      LoggerFactory.getLogger(AbstractLuceneIndex.class);
 
+  public static void setReady(SitePaths sitePaths, int version, boolean ready)
+      throws IOException {
+    try {
+      // TODO(dborowitz): Totally broken for non-change indexes.
+      FileBasedConfig cfg =
+          LuceneVersionManager.loadGerritIndexConfig(sitePaths);
+      LuceneVersionManager.setReady(cfg, version, ready);
+      cfg.save();
+    } catch (ConfigInvalidException e) {
+      throw new IOException(e);
+    }
+  }
+
+  private final Schema<V> schema;
+  private final SitePaths sitePaths;
   private final Directory dir;
   private final TrackingIndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
 
-  SubIndex(Path path, GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory) throws IOException {
-    this(FSDirectory.open(path), path.getFileName().toString(), writerConfig,
-        searcherFactory);
-  }
-
-  SubIndex(Directory dir, final String dirName,
+  AbstractLuceneIndex(
+      Schema<V> schema,
+      SitePaths sitePaths,
+      Directory dir,
+      final String name,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory) throws IOException {
+    this.schema = schema;
+    this.sitePaths = sitePaths;
     this.dir = dir;
     IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
@@ -79,7 +98,7 @@ public class SubIndex {
       delegateWriter = autoCommitWriter;
 
       new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
-          .setNameFormat("Commit-%d " + dirName)
+          .setNameFormat("Commit-%d " + name)
           .setDaemon(true)
           .build())
           .scheduleAtFixedRate(new Runnable() {
@@ -91,14 +110,14 @@ public class SubIndex {
                   autoCommitWriter.commit();
                 }
               } catch (IOException e) {
-                log.error("Error committing Lucene index " + dirName, e);
+                log.error("Error committing " + name + " Lucene index", e);
               } catch (OutOfMemoryError e) {
-                log.error("Error committing Lucene index " + dirName, e);
+                log.error("Error committing " + name + " Lucene index", e);
                 try {
                   autoCommitWriter.close();
                 } catch (IOException e2) {
-                  log.error("SEVERE: Error closing Lucene index " + dirName
-                      + " after OOM; index may be corrupted.", e);
+                  log.error("SEVERE: Error closing " + name
+                      + " Lucene index  after OOM; index may be corrupted.", e);
                 }
               }
             }
@@ -114,7 +133,7 @@ public class SubIndex {
         writer, searcherManager,
         0.500 /* maximum stale age (seconds) */,
         0.010 /* minimum stale age (seconds) */);
-    reopenThread.setName("NRT " + dirName);
+    reopenThread.setName("NRT " + name);
     reopenThread.setPriority(Math.min(
         Thread.currentThread().getPriority() + 2,
         Thread.MAX_PRIORITY));
@@ -144,7 +163,13 @@ public class SubIndex {
     reopenThread.start();
   }
 
-  void close() {
+  @Override
+  public void markReady(boolean ready) throws IOException {
+    setReady(sitePaths, schema.getVersion(), ready);
+  }
+
+  @Override
+  public void close() {
     reopenThread.close();
 
     // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we
@@ -186,7 +211,8 @@ public class SubIndex {
     return new NrtFuture(writer.deleteDocuments(term));
   }
 
-  void deleteAll() throws IOException {
+  @Override
+  public void deleteAll() throws IOException {
     writer.deleteAll();
   }
 
@@ -285,5 +311,10 @@ public class SubIndex {
         return false;
       }
     }
+  }
+
+  @Override
+  public Schema<V> getSchema() {
+    return schema;
   }
 }

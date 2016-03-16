@@ -39,6 +39,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -94,15 +95,12 @@ abstract class DiffScreen extends Screen {
     }
   }
 
-  enum DiffScreenType {
-    SIDE_BY_SIDE, UNIFIED
-  }
-
   private final Change.Id changeId;
   final PatchSet.Id base;
   final PatchSet.Id revision;
   final String path;
   final DiffPreferences prefs;
+  final DiffView diffScreenType;
 
   private DisplaySide startSide;
   private int startLine;
@@ -129,13 +127,14 @@ abstract class DiffScreen extends Screen {
       String path,
       DisplaySide startSide,
       int startLine,
-      DiffScreenType diffScreenType) {
+      DiffView diffScreenType) {
     this.base = base;
     this.revision = revision;
     this.changeId = revision.getParentKey();
     this.path = path;
     this.startSide = startSide;
     this.startLine = startLine;
+    this.diffScreenType = diffScreenType;
 
     prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);

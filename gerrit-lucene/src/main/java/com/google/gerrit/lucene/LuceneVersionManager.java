@@ -50,7 +50,7 @@ public class LuceneVersionManager implements LifecycleListener {
   private static final Logger log = LoggerFactory
       .getLogger(LuceneVersionManager.class);
 
-  private static final String CHANGES_PREFIX = "changes_";
+  static final String CHANGES_PREFIX = "changes_";
 
   private static class Version {
     private final Schema<ChangeData> schema;
@@ -68,9 +68,9 @@ public class LuceneVersionManager implements LifecycleListener {
     }
   }
 
-  static Path getDir(SitePaths sitePaths, Schema<ChangeData> schema) {
+  static Path getDir(SitePaths sitePaths, String prefix, Schema<?> schema) {
     return sitePaths.index_dir.resolve(String.format("%s%04d",
-        CHANGES_PREFIX, schema.getVersion()));
+        prefix, schema.getVersion()));
   }
 
   static FileBasedConfig loadGerritIndexConfig(SitePaths sitePaths)
@@ -224,7 +224,7 @@ public class LuceneVersionManager implements LifecycleListener {
   private TreeMap<Integer, Version> scanVersions(Config cfg) {
     TreeMap<Integer, Version> versions = Maps.newTreeMap();
     for (Schema<ChangeData> schema : ChangeSchemas.ALL.values()) {
-      Path p = getDir(sitePaths, schema);
+      Path p = getDir(sitePaths, CHANGES_PREFIX, schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
         log.warn("Not a directory: %s", p.toAbsolutePath());

@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.gerrit.lucene.LuceneVersionManager.CHANGES_PREFIX;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
@@ -191,7 +192,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           searcherFactory);
     } else {
       Path dir = base != null ? Paths.get(base)
-          : LuceneVersionManager.getDir(sitePaths, schema);
+          : LuceneVersionManager.getDir(sitePaths, CHANGES_PREFIX, schema);
       openIndex = new SubIndex(dir.resolve(CHANGES_OPEN), openConfig,
           searcherFactory);
       closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig,

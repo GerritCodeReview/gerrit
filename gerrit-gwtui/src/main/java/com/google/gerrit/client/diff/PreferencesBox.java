@@ -168,7 +168,7 @@ public class PreferencesBox extends Composite {
 
     setIgnoreWhitespace(prefs.ignoreWhitespace());
     tabWidth.setIntValue(prefs.tabSize());
-    if (view != null && Patch.COMMIT_MSG.equals(view.getPath())) {
+    if (view != null && Patch.COMMIT_MSG.equals(view.path)) {
       lineLength.setEnabled(false);
       lineLength.setIntValue(72);
     } else {

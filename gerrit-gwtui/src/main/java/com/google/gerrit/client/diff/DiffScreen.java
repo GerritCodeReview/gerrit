@@ -99,12 +99,13 @@ abstract class DiffScreen extends Screen {
   }
 
   private final Change.Id changeId;
-  private final PatchSet.Id base;
-  private final PatchSet.Id revision;
-  private final String path;
+  final PatchSet.Id base;
+  final PatchSet.Id revision;
+  final String path;
+  final DiffPreferences prefs;
+
   private DisplaySide startSide;
   private int startLine;
-  private DiffPreferences prefs;
   private Change.Status changeStatus;
 
   private HandlerRegistration resizeHandler;
@@ -250,7 +251,7 @@ abstract class DiffScreen extends Screen {
 
     Window.enableScrolling(false);
     JumpKeys.enable(false);
-    if (getPrefs().hideTopMenu()) {
+    if (prefs.hideTopMenu()) {
       Gerrit.setHeaderVisible(false);
     }
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
@@ -642,18 +643,6 @@ abstract class DiffScreen extends Screen {
 
   abstract SkipManager getSkipManager();
 
-  DiffPreferences getPrefs() {
-    return prefs;
-  }
-
-  PatchSet.Id getRevision() {
-    return revision;
-  }
-
-  PatchSet.Id getBase() {
-    return base;
-  }
-
   Change.Status getChangeStatus() {
     return changeStatus;
   }
@@ -795,10 +784,6 @@ abstract class DiffScreen extends Screen {
   }
 
   abstract void setAutoHideDiffHeader(boolean hide);
-
-  String getPath() {
-    return path;
-  }
 
   void prefetchNextFile() {
     String nextPath = header.getNextPath();

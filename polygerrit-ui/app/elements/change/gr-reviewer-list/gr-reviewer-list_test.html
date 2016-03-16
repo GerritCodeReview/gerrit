@@ -175,16 +175,19 @@ limitations under the License.
         ]
       };
       flushAsynchronousOperations();
-      var removeEls =
-          Polymer.dom(element.root).querySelectorAll('.reviewer > .remove');
-      assert.equal(removeEls.length, 3);
-      Array.from(removeEls).forEach(function(el) {
+      var chips =
+        Polymer.dom(element.root).querySelectorAll('gr-account-chip');
+      assert.equal(chips.length, 3);
+      Array.from(chips).forEach(function(el) {
         var accountID = parseInt(el.getAttribute('data-account-id'), 10);
         assert.ok(accountID);
+
+        var buttonEl = el.$$('gr-button');
+        assert.isNotNull(buttonEl);
         if (accountID == 2) {
-          assert.isTrue(el.hasAttribute('hidden'));
+          assert.isTrue(buttonEl.hasAttribute('hidden'));
         } else {
-          assert.isFalse(el.hasAttribute('hidden'));
+          assert.isFalse(buttonEl.hasAttribute('hidden'));
         }
       });
     });
@@ -240,7 +243,6 @@ limitations under the License.
 
         element._inputVal = 'andyb';
         server.respond();
-
         element._lastAutocompleteRequest.completes.then(function() {
           assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
           var itemEls = Polymer.dom(element.root).querySelectorAll('.reviewer');
@@ -257,7 +259,7 @@ limitations under the License.
             var reviewerEls =
                 Polymer.dom(element.root).querySelectorAll('.reviewer');
             assert.equal(reviewerEls.length, 1);
-            MockInteractions.tap(element.$$('.reviewer > .remove'));
+            MockInteractions.tap(element.$$('.reviewer').$$('gr-button'));
             flushAsynchronousOperations();
             assert.isTrue(element.disabled);
             server.respond();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_fa4fe935",
+        "filename": "polygerrit-ui/app/fonts/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T22:21:47Z",
+      "side": 1,
+      "message": "By convention third-party stuff should go in lib/. Otherwise, the structure here looks good. (Forgot I added license to genrule, that was easy :)",
+      "revId": "d97f7d33ef9bed8df6127cece0a96ac442d2b32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

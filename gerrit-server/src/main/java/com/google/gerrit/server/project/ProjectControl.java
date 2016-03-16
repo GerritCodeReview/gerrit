@@ -272,15 +272,18 @@ public class ProjectControl {
     return labelTypes;
   }
 
-  private boolean isHidden() {
+  public boolean isHidden() {
     return getProject().getState().equals(
         com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
+  public boolean isReadable() {
+    return (user.isInternalUser()
+        || canPerformOnAnyRef(Permission.READ));
+  }
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return (user.isInternalUser()
-        || canPerformOnAnyRef(Permission.READ)) && !isHidden();
+    return isReadable() && !isHidden();
   }
 
   public boolean canAddRefs() {

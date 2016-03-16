@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca1425f_bc7c01bc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T21:47:37Z",
+      "side": 1,
+      "message": "Extra line.",
+      "revId": "75508b0308e8b8cfa81ab02d472cc49c8f6a816c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

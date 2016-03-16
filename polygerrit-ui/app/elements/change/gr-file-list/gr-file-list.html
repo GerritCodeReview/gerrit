@@ -25,7 +25,7 @@ limitations under the License.
       :host {
         display: block;
       }
-      .row {
+      .row:not([hidden]) {
         display: flex;
         padding: .1em .25em;
       }
@@ -33,7 +33,7 @@ limitations under the License.
         font-weight: bold;
       }
       .positionIndicator,
-      .reviewed,
+      .reviewed:not([hidden]),
       .status {
         align-items: center;
         display: inline-flex;
@@ -90,7 +90,7 @@ limitations under the License.
       .removed {
         color: #D32F2F;
       }
-      .reviewed input[type="checkbox"] {
+      .reviewed input[type="checkbox"]:not([hidden]) {
         display: inline-block;
       }
       .drafts {

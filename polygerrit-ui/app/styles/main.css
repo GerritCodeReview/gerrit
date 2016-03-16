@@ -17,13 +17,6 @@ limitations under the License.
 @import "//fonts.googleapis.com/css?family=Open+Sans:400,700";
 @import "//fonts.googleapis.com/css?family=Source+Code+Pro";
 
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 html {
   -webkit-text-size-adjust: none;
 }
@@ -34,4 +27,6 @@ body {
 }
 body {
   font: 14px 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
 }

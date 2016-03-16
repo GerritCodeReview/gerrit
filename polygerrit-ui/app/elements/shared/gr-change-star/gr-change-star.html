@@ -20,7 +20,7 @@ limitations under the License.
 <dom-module id="gr-change-star">
   <template>
     <style>
-      :host {
+      :host:not([hidden]) {
         display: inline-block;
         overflow: hidden;
       }
@@ -32,6 +32,7 @@ limitations under the License.
         width: 1.2em;
         height: 1.2em;
         outline: none;
+        padding: 0;
       }
       .starButton svg {
         fill: #ccc;

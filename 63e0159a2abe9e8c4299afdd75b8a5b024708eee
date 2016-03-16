@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "1c937619_3df54fa4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T10:02:31Z",
+      "side": 1,
+      "message": "I probably missed this but what about having multiple tags per change?",
+      "revId": "63e0159a2abe9e8c4299afdd75b8a5b024708eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c8e32f1_00cee67b",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "12ef388146b3decc709a4fd22d7b0e0dad088c3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_7b1e7fa7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-16T21:44:20Z",
+      "side": 1,
+      "message": "Yeah. In the future I want to have something like https://gist.github.com/fat/1f6da6b3bd0311a1f8a0#file-gistfile1-less",
+      "parentUuid": "fca1425f_3c18f1b5",
+      "revId": "12ef388146b3decc709a4fd22d7b0e0dad088c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

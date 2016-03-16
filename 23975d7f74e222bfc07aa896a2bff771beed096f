@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fca1425f_dcd0ed18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-16T11:12:44Z",
+      "side": 1,
+      "message": "Put this as a footer in the commit message:\n\n Bug: Issue 3423",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "23975d7f74e222bfc07aa896a2bff771beed096f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_fdd6070a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
         "patchSetId": 1

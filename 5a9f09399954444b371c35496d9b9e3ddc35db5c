@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_7a35192d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024958
+      },
+      "writtenOn": "2016-03-16T12:05:07Z",
+      "side": 1,
+      "message": "It doesn\u0027t really look correct to put this in here as it is not specific to AddSshKeys at all",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

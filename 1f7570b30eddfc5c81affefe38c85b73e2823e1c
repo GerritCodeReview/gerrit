@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_1a65fd1e",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T13:53:31Z",
+      "side": 1,
+      "message": "Optionally these could be **/*.js, not sure if we plan to put too much in this directory eventually.",
+      "revId": "1f7570b30eddfc5c81affefe38c85b73e2823e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_7a70b9dd",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T13:53:31Z",
+      "side": 1,
+      "message": "Just add \u0027test/**\u0027 in the list above (i.e. after l. 13)",
+      "revId": "1f7570b30eddfc5c81affefe38c85b73e2823e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

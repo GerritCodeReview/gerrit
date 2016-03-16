@@ -21,10 +21,21 @@ import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.Schema.Values;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.IntField;
+import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
@@ -41,6 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -52,6 +64,10 @@ import java.util.concurrent.TimeoutException;
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final Logger log =
       LoggerFactory.getLogger(AbstractLuceneIndex.class);
+
+  static String sortFieldName(FieldDef<?, ?> f) {
+    return f.getName() + "_SORT";
+  }
 
   public static void setReady(SitePaths sitePaths, int version, boolean ready)
       throws IOException {
@@ -226,6 +242,55 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   void release(IndexSearcher searcher) throws IOException {
     searcherManager.release(searcher);
+  }
+
+  Document toDocument(V obj, FillArgs fillArgs) {
+    Document result = new Document();
+    for (Values<V> vs : schema.buildFields(obj, fillArgs)) {
+      if (vs.getValues() != null) {
+        add(result, vs);
+      }
+    }
+    return result;
+  }
+
+  void add(Document doc, Values<V> values) {
+    String name = values.getField().getName();
+    FieldType<?> type = values.getField().getType();
+    Store store = store(values.getField());
+
+    if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
+      for (Object value : values.getValues()) {
+        doc.add(new IntField(name, (Integer) value, store));
+      }
+    } else if (type == FieldType.LONG) {
+      for (Object value : values.getValues()) {
+        doc.add(new LongField(name, (Long) value, store));
+      }
+    } else if (type == FieldType.TIMESTAMP) {
+      for (Object value : values.getValues()) {
+        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
+      }
+    } else if (type == FieldType.EXACT
+        || type == FieldType.PREFIX) {
+      for (Object value : values.getValues()) {
+        doc.add(new StringField(name, (String) value, store));
+      }
+    } else if (type == FieldType.FULL_TEXT) {
+      for (Object value : values.getValues()) {
+        doc.add(new TextField(name, (String) value, store));
+      }
+    } else if (type == FieldType.STORED_ONLY) {
+      for (Object value : values.getValues()) {
+        doc.add(new StoredField(name, (byte[]) value));
+      }
+    } else {
+      throw FieldType.badFieldType(type);
+    }
+  }
+
+  private static Field.Store store(FieldDef<?, ?> f) {
+    return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 
   private final class NrtFuture extends AbstractFuture<Void> {

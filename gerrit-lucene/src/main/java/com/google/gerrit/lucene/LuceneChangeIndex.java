@@ -15,7 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.lucene.LuceneVersionManager.CHANGES_PREFIX;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
@@ -37,13 +37,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
-import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.Schema.Values;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoField;
@@ -62,14 +59,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.LongField;
-import org.apache.lucene.document.NumericDocValuesField;
-import org.apache.lucene.document.StoredField;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
@@ -90,7 +79,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -113,6 +101,11 @@ public class LuceneChangeIndex implements ChangeIndex {
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
 
+  static final String UPDATED_SORT_FIELD =
+      sortFieldName(ChangeField.UPDATED);
+  static final String ID_SORT_FIELD =
+      sortFieldName(ChangeField.LEGACY_ID);
+
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
@@ -121,10 +114,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
-  private static final String UPDATED_SORT_FIELD =
-      sortFieldName(ChangeField.UPDATED);
-  private static final String ID_SORT_FIELD =
-      sortFieldName(ChangeField.LEGACY_ID);
 
   static Term idTerm(ChangeData cd) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
@@ -132,10 +121,6 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   static Term idTerm(Change.Id id) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
-  }
-
-  private static String sortFieldName(FieldDef<?, ?> f) {
-    return f.getName() + "_SORT";
   }
 
   static interface Factory {
@@ -216,7 +201,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   @Override
   public void replace(ChangeData cd) throws IOException {
     Term id = LuceneChangeIndex.idTerm(cd);
-    Document doc = toDocument(cd);
+    // toDocument is essentially static and doesn't depend on the specific
+    // sub-index, so just pick one.
+    Document doc = openIndex.toDocument(cd, fillArgs);
     try {
       if (cd.change().getStatus().isOpen()) {
         Futures.allAsList(
@@ -494,65 +481,5 @@ public class LuceneChangeIndex implements ChangeIndex {
       result.add(codec.decode(r.bytes, r.offset, r.length));
     }
     return result;
-  }
-
-  private Document toDocument(ChangeData cd) {
-    Document result = new Document();
-    for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
-      if (vs.getValues() != null) {
-        add(result, vs);
-      }
-    }
-    return result;
-  }
-
-  private static <V> void add(Document doc, Values<V> values) {
-    String name = values.getField().getName();
-    FieldType<?> type = values.getField().getType();
-    Store store = store(values.getField());
-
-    FieldDef<V, ?> f = values.getField();
-
-    // Add separate DocValues fields for those fields needed for sorting.
-    if (f == ChangeField.LEGACY_ID) {
-      int v = (Integer) getOnlyElement(values.getValues());
-      doc.add(new NumericDocValuesField(sortFieldName(f), v));
-    } else if (f == ChangeField.UPDATED) {
-      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
-      doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
-    }
-
-    if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
-      for (Object value : values.getValues()) {
-        doc.add(new IntField(name, (Integer) value, store));
-      }
-    } else if (type == FieldType.LONG) {
-      for (Object value : values.getValues()) {
-        doc.add(new LongField(name, (Long) value, store));
-      }
-    } else if (type == FieldType.TIMESTAMP) {
-      for (Object value : values.getValues()) {
-        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
-      }
-    } else if (type == FieldType.EXACT
-        || type == FieldType.PREFIX) {
-      for (Object value : values.getValues()) {
-        doc.add(new StringField(name, (String) value, store));
-      }
-    } else if (type == FieldType.FULL_TEXT) {
-      for (Object value : values.getValues()) {
-        doc.add(new TextField(name, (String) value, store));
-      }
-    } else if (type == FieldType.STORED_ONLY) {
-      for (Object value : values.getValues()) {
-        doc.add(new StoredField(name, (byte[]) value));
-      }
-    } else {
-      throw FieldType.badFieldType(type);
-    }
-  }
-
-  private static Field.Store store(FieldDef<?, ?> f) {
-    return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 }

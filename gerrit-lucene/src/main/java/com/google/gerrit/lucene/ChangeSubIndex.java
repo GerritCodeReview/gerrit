@@ -14,22 +14,32 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
+import static com.google.gerrit.lucene.LuceneChangeIndex.UPDATED_SORT_FIELD;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.Schema.Values;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 
 public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     implements ChangeIndex {
@@ -70,5 +80,19 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       QueryOptions opts) throws QueryParseException {
     throw new UnsupportedOperationException(
         "don't use ChangeSubIndex directly");
+  }
+
+  @Override
+  void add(Document doc, Values<ChangeData> values) {
+    // Add separate DocValues fields for those fields needed for sorting.
+    FieldDef<ChangeData, ?> f = values.getField();
+    if (f == ChangeField.LEGACY_ID) {
+      int v = (Integer) getOnlyElement(values.getValues());
+      doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
+    } else if (f == ChangeField.UPDATED) {
+      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+      doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
+    }
+    super.add(doc, values);
   }
 }

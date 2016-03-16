@@ -22,6 +22,30 @@
       "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_dbd9d33a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-16T12:10:46Z",
+      "side": 1,
+      "message": "At the moment AddSshKey is the only endpoint that needs it.\n\nThis is moved from SetAccountCommand which invokes AddSshKey, rather than doing the same implementation in AccountApiImpl which also invokes AddSshKey.\n\nIf in future it\u0027s needed elsewhere, it can be moved to a common place, but I see no need to do it now.",
+      "parentUuid": "bc6d0aef_7a35192d",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

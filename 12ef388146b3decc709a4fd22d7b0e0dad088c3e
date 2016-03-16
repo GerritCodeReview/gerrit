@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca1425f_3c18f1b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-16T21:42:39Z",
+      "side": 1,
+      "message": "we should maybe find the smallest number and use that\n\nas you know the z-index game quickly gets out of control\n\nz-index:9999999999",
+      "revId": "12ef388146b3decc709a4fd22d7b0e0dad088c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

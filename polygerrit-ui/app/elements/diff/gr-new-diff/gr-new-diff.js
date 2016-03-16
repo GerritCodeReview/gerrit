@@ -39,9 +39,10 @@
       },
       _viewMode: {
         type: String,
-        value: DiffViewMode.UNIFIED,
+        value: DiffViewMode.SIDE_BY_SIDE,
       },
       _diff: Object,
+      _diffBuilder: Object,
     },
 
     observers: [
@@ -59,7 +60,15 @@
     },
 
     _handleTap: function(e) {
-      console.table(e)
+      var el = Polymer.dom(e).rootTarget;
+      if (el.classList.contains('showContext')) {
+        this._showContext(e.detail.group, e.detail.section);
+      }
+    },
+
+    _showContext: function(group, sectionEl) {
+      this._builder.emitGroup(group, sectionEl);
+      sectionEl.parentNode.removeChild(sectionEl);
     },
 
     _render: function(diff, prefsChangeRecord) {
@@ -67,8 +76,8 @@
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
       this.updateStyles();
 
-      var builder = this._getDiffBuilder(diff, prefs);
-      builder.emitDiff(diff.content);
+      this._builder = this._getDiffBuilder(diff, prefs);
+      this._builder.emitDiff(diff.content);
     },
 
     _getDiff: function() {

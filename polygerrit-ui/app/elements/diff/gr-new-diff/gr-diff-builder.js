@@ -30,11 +30,11 @@
 
   GrDiffBuilder.prototype.emitDiff = function() {
     for (var i = 0; i < this._groups.length; i++) {
-      this._emitGroup(this._groups[i]);
+      this.emitGroup(this._groups[i]);
     }
   };
 
-  GrDiffBuilder.prototype._emitGroup = function(group, opt_beforeSection) {
+  GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
     throw Error('Subclasses must implement emitGroup');
   },
 
@@ -147,7 +147,10 @@
     text += '...';
     button.textContent = text;
     button.addEventListener('tap', function(e) {
-      e.detail = {section: section, line: line};
+      e.detail = {
+        group: new GrDiffGroup(GrDiffGroup.Type.BOTH, line.contextLines),
+        section: section,
+      };
       // Let it bubble up the DOM tree.
     });
     td.appendChild(button);

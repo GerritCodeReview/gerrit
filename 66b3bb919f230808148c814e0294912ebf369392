@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca1425f_3c91d13b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-16T21:46:12Z",
+      "side": 1,
+      "message": "based on what is happening on line 61 there is the potential for this to be false.\n\nshould we handle that here? or is false what you want",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca1425f_bc23a1ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-16T21:46:12Z",
+      "side": 1,
+      "message": "make this default a property?",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_fb292fcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-16T21:46:12Z",
+      "side": 1,
+      "message": "ditto class level default",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca1425f_dc754dd4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-16T21:46:12Z",
+      "side": 1,
+      "message": "ditto class level default",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

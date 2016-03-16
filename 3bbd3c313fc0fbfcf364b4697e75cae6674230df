@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_7d875705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-16T13:36:07Z",
+      "side": 0,
+      "message": "How does testing the submit rule work now if the input is ignored?",
+      "range": {
+        "startLine": 76,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_3a91e13b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-16T13:36:07Z",
+      "side": 0,
+      "message": "Also here, testing can\u0027t work without setting the input, can it?",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

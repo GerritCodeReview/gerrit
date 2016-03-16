@@ -22,6 +22,30 @@
       "revId": "0f2112e552280bd62954bbba5d110e565bebd4b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca1425f_1c65f51e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T21:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc9c7e2c_1b3adb1c",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "0f2112e552280bd62954bbba5d110e565bebd4b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

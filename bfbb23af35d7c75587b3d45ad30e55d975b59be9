@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "1c937619_5d829bf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-16T12:38:38Z",
+      "side": 1,
+      "message": "Nit: authorized_keys, without point.",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "bfbb23af35d7c75587b3d45ad30e55d975b59be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca1425f_3ca311cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
         "patchSetId": 2

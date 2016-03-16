@@ -16,6 +16,23 @@
       "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_5b82a3f6",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-16T21:51:49Z",
+      "side": 1,
+      "message": "So this pattern is an abstraction leak imho.\n\nWe should never have to worry if an element can be hidden or not (this will be a constant battle and one that is super easy to forget about or miss). If we want to enforce this kind of style omission let\u0027s include a \n\n*[hidden] {} rule that will reset a bunch of values",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

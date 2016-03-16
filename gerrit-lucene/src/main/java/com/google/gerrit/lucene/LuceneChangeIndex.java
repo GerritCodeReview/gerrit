@@ -22,10 +22,7 @@ import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.IndexRewriter.OPEN_STATUSES;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -37,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef;
@@ -64,8 +60,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -76,8 +70,6 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
@@ -105,7 +97,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -137,9 +128,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String ID_SORT_FIELD =
       sortFieldName(ChangeField.LEGACY_ID);
 
-  private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
-      "_", " ", ".", " ");
-
   public static void setReady(SitePaths sitePaths, int version, boolean ready)
       throws IOException {
     try {
@@ -158,42 +146,6 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   static interface Factory {
     LuceneChangeIndex create(Schema<ChangeData> schema);
-  }
-
-  static class GerritIndexWriterConfig {
-    private final IndexWriterConfig luceneConfig;
-    private long commitWithinMs;
-
-    private GerritIndexWriterConfig(Config cfg, String name) {
-      CustomMappingAnalyzer analyzer =
-          new CustomMappingAnalyzer(new StandardAnalyzer(
-              CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
-      luceneConfig = new IndexWriterConfig(analyzer)
-          .setOpenMode(OpenMode.CREATE_OR_APPEND)
-          .setCommitOnClose(true);
-      double m = 1 << 20;
-      luceneConfig.setRAMBufferSizeMB(cfg.getLong(
-          "index", name, "ramBufferSize",
-          (long) (IndexWriterConfig.DEFAULT_RAM_BUFFER_SIZE_MB * m)) / m);
-      luceneConfig.setMaxBufferedDocs(cfg.getInt(
-          "index", name, "maxBufferedDocs",
-          IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
-      try {
-        commitWithinMs =
-            ConfigUtil.getTimeUnit(cfg, "index", name, "commitWithin",
-                MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
-      } catch (IllegalArgumentException e) {
-        commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
-      }
-    }
-
-    IndexWriterConfig getLuceneConfig() {
-      return luceneConfig;
-    }
-
-    long getCommitWithinMs() {
-      return commitWithinMs;
-    }
   }
 
   private final SitePaths sitePaths;
@@ -222,18 +174,15 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
 
-    CustomMappingAnalyzer analyzer =
-        new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
-            CUSTOM_CHAR_MAPPING);
-    queryBuilder = new QueryBuilder(analyzer);
-
-    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
-        BooleanQuery.getMaxClauseCount()));
-
     GerritIndexWriterConfig openConfig =
         new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig =
         new GerritIndexWriterConfig(cfg, "changes_closed");
+
+    queryBuilder = new QueryBuilder(openConfig.getAnalyzer());
+
+    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
+        BooleanQuery.getMaxClauseCount()));
 
     SearcherFactory searcherFactory = new SearcherFactory();
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {

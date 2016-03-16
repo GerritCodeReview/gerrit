@@ -20,7 +20,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.google.gerrit.lucene.LuceneChangeIndex.GerritIndexWriterConfig;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;

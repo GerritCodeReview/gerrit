@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fca1425f_dcd9cd3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraftComment.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T14:53:26Z",
+      "side": 0,
+      "message": "I guess this shouldn\u0027t be removed.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "28c7bfdd7df89b8df925994fad4d5cc33fd830f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_1de653d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDraftComment.java",
         "patchSetId": 12

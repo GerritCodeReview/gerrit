@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "fca1425f_3cf551a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraftComment.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T14:53:26Z",
+      "side": 1,
+      "message": "Unused import.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "3ce05aea01b4eb5bbf028326ad8685d0ca0e697d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_ddef8ba3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraftComment.java",
         "patchSetId": 12

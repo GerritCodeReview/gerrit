@@ -84,9 +84,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,18 +126,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String ID_SORT_FIELD =
       sortFieldName(ChangeField.LEGACY_ID);
 
-  public static void setReady(SitePaths sitePaths, int version, boolean ready)
-      throws IOException {
-    try {
-      FileBasedConfig cfg =
-          LuceneVersionManager.loadGerritIndexConfig(sitePaths);
-      LuceneVersionManager.setReady(cfg, version, ready);
-      cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
-    }
-  }
-
   private static String sortFieldName(FieldDef<?, ?> f) {
     return f.getName() + "_SORT";
   }
@@ -155,8 +141,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
   private final QueryBuilder queryBuilder;
-  private final SubIndex openIndex;
-  private final SubIndex closedIndex;
+  private final ChangeSubIndex openIndex;
+  private final ChangeSubIndex closedIndex;
 
   @AssistedInject
   LuceneChangeIndex(
@@ -183,16 +169,16 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     SearcherFactory searcherFactory = new SearcherFactory();
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
-      openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig,
-          searcherFactory);
-      closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig,
-          searcherFactory);
+      openIndex = new ChangeSubIndex(schema, sitePaths, new RAMDirectory(),
+          "ramOpen", openConfig, searcherFactory);
+      closedIndex = new ChangeSubIndex(schema, sitePaths, new RAMDirectory(),
+          "ramClosed", closedConfig, searcherFactory);
     } else {
-      Path dir = LuceneVersionManager.getDir(sitePaths, schema);
-      openIndex = new SubIndex(dir.resolve(CHANGES_OPEN), openConfig,
-          searcherFactory);
-      closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig,
-          searcherFactory);
+      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES_PREFIX, schema);
+      openIndex = new ChangeSubIndex(schema, sitePaths,
+          dir.resolve(CHANGES_OPEN), openConfig, searcherFactory);
+      closedIndex = new ChangeSubIndex(schema, sitePaths,
+          dir.resolve(CHANGES_CLOSED), closedConfig, searcherFactory);
     }
   }
 
@@ -260,7 +246,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriter.getPossibleStatus(p);
-    List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
+    List<ChangeSubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);
     }
@@ -272,7 +258,9 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    setReady(sitePaths, schema.getVersion(), ready);
+    // Do not delegate to SubIndex#markReady, since changes have an additional
+    // level of directory nesting.
+    AbstractLuceneIndex.setReady(sitePaths, schema.getVersion(), ready);
   }
 
   private Sort getSort() {
@@ -281,21 +269,17 @@ public class LuceneChangeIndex implements ChangeIndex {
         new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
   }
 
-  public SubIndex getOpenChangesIndex() {
-    return openIndex;
-  }
-
-  public SubIndex getClosedChangesIndex() {
+  public ChangeSubIndex getClosedChangesIndex() {
     return closedIndex;
   }
 
   private class QuerySource implements ChangeDataSource {
-    private final List<SubIndex> indexes;
+    private final List<ChangeSubIndex> indexes;
     private final Query query;
     private final QueryOptions opts;
     private final Sort sort;
 
-    private QuerySource(List<SubIndex> indexes, Query query, QueryOptions opts,
+    private QuerySource(List<ChangeSubIndex> indexes, Query query, QueryOptions opts,
         Sort sort) {
       this.indexes = indexes;
       this.query = checkNotNull(query, "null query from Lucene");

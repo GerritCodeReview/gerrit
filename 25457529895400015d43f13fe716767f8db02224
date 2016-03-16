@@ -16,6 +16,24 @@
       "revId": "25457529895400015d43f13fe716767f8db02224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_5a5ff5ea",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-16T21:33:21Z",
+      "side": 0,
+      "message": "Yes, that would work (as far as I have tested it). (Of course the stuff for \u0027hidden\u0027 is still required.)\n\nBut I\u0027m not sure if I like this idea - it\u0027s basically a CSS reset. Since it is required only for a few elements, we could add it just there.\n\nIf we decide to go with this \"reset\" idea, we could use a shared style-module [1] (shared style sheets are deprecated [2]).\n\n[1] https://www.polymer-project.org/1.0/docs/devguide/styling.html#style-modules\n[2] https://www.polymer-project.org/1.0/docs/devguide/styling.html#external-stylesheets",
+      "parentUuid": "fca1425f_5c193dbc",
+      "revId": "25457529895400015d43f13fe716767f8db02224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

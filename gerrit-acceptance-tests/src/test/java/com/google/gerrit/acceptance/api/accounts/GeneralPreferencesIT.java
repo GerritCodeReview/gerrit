@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.account;
+package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
@@ -34,6 +34,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
   private TestAccount user42;
 
@@ -44,20 +45,11 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getDiffPreferencesOfNonExistingAccount_NotFound()
-      throws Exception {
-    RestResponse r = adminSession.get("/accounts/non-existing/preferences");
-    r.assertNotFound();
-  }
-
-  @Test
   public void getAndSetPreferences() throws Exception {
-    RestResponse r = adminSession.get("/accounts/" + user42.email
-        + "/preferences");
-    r.assertOK();
+    GeneralPreferencesInfo o = gApi.accounts()
+        .id(user42.id.toString())
+        .getPreferences();
     GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
-    GeneralPreferencesInfo o =
-        newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
 
     assertThat(o.changesPerPage).isEqualTo(d.changesPerPage);
     assertThat(o.showSiteHeader).isEqualTo(d.showSiteHeader);
@@ -102,9 +94,9 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.urlAliases = new HashMap<>();
     i.urlAliases.put("foo", "bar");
 
-    r = adminSession.put("/accounts/" + user42.email + "/preferences", i);
-    r.assertOK();
-    o = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
+    o = gApi.accounts()
+        .id(user42.getId().toString())
+        .setPreferences(i);
 
     assertThat(o.changesPerPage).isEqualTo(i.changesPerPage);
     assertThat(o.showSiteHeader).isNull();

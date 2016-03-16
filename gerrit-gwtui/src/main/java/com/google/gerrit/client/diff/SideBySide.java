@@ -23,6 +23,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -73,7 +74,7 @@ public class SideBySide extends DiffScreen {
       String path,
       DisplaySide startSide,
       int startLine) {
-    super(base, revision, path, startSide, startLine, DiffScreenType.SIDE_BY_SIDE);
+    super(base, revision, path, startSide, startLine, DiffView.SIDE_BY_SIDE);
 
     diffTable = new SideBySideTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));

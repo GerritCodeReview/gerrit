@@ -72,7 +72,6 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -180,9 +179,6 @@ public class LuceneChangeIndex implements ChangeIndex {
         new GerritIndexWriterConfig(cfg, "changes_closed");
 
     queryBuilder = new QueryBuilder(openConfig.getAnalyzer());
-
-    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
-        BooleanQuery.getMaxClauseCount()));
 
     SearcherFactory searcherFactory = new SearcherFactory();
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {

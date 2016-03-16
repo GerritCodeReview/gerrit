@@ -175,16 +175,17 @@ limitations under the License.
         ]
       };
       flushAsynchronousOperations();
-      var removeEls =
-          Polymer.dom(element.root).querySelectorAll('.reviewer > .remove');
-      assert.equal(removeEls.length, 3);
-      Array.from(removeEls).forEach(function(el) {
+      var chips =
+        Polymer.dom(element.root).querySelectorAll('gr-account-chip');
+      assert.equal(chips.length, 3);
+      Array.from(chips).forEach(function(el) {
         var accountID = parseInt(el.getAttribute('data-account-id'), 10);
         assert.ok(accountID);
+        var buttonEl = el.querySelector('* > gr-button');
         if (accountID == 2) {
-          assert.isTrue(el.hasAttribute('hidden'));
+          assert.isTrue(buttonEl.hasAttribute('hidden'));
         } else {
-          assert.isFalse(el.hasAttribute('hidden'));
+          assert.isFalse(buttonEl.hasAttribute('hidden'));
         }
       });
     });

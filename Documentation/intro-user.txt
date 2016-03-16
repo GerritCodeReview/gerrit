@@ -583,22 +583,6 @@ The user's preferences are stored in a `git config` style file named
 
 The following preferences can be configured:
 
-- [[show-site-header]]`Show Site Header`:
-+
-Whether the site header should be shown.
-
-- [[use-flash]]`Use Flash Clipboard Widget`:
-+
-Whether the Flash clipboard widget should be used. If enabled Gerrit
-offers a copy-to-clipboard icon next to IDs and commands that need to
-be copied frequently, such as the Change-Ids, commit IDs and download
-commands.
-
-- [[cc-me]]`CC Me On Comments I Write`:
-+
-Whether you get notified by email as CC on comments that you write
-yourself.
-
 - [[review-category]]`Display In Review Category`:
 +
 This setting controls how the values of the review labels in change
@@ -638,6 +622,32 @@ when paging through changes, projects, branches or groups.
 +
 The format that should be used to render dates and timestamps.
 
+- [[email-notifications]]`Email Notifications`:
++
+This setting controls the email notifications.
++
+** `Enabled`:
++
+Email notifications are enabled.
++
+** [[cc-me]]`CC Me On Comments I Write`:
++
+Email notifications are enabled and you get notified by email as CC
+on comments that you write yourself.
++
+** `Disabled`:
++
+Email notifications are disabled.
+
+- [[diff-view]]`Diff View`:
++
+Whether the Side-by-Side diff view or the Unified diff view should be
+shown when clicking on a file path in the change screen.
+
+- [[show-site-header]]`Show Site Header`:
++
+Whether the site header should be shown.
+
 - [[relative-dates]]`Show Relative Dates In Changes Table`:
 +
 Whether timestamps in change lists and dashboards should be shown as
@@ -660,10 +670,12 @@ change IDs should be shown.
 Whether common path prefixes in the file list on the change screen
 should be link:user-review-ui.html#repeating-path-segments[grayed out].
 
-- [[diff-view]]`Diff View`:
+- [[inline-signed-off]]`Insert Signed-off-by Footer For Inline Edit Changes`:
 +
-Whether the Side-by-Side diff view or the Unified diff view should be
-shown when clicking on a file path in the change screen.
+Whether a `Signed-off-by` footer should be automatically inserted into
+changes that are created from the web UI (e.g. by the `Create Change`
+and `Edit Config` buttons on the project screen, and the `Follow-Up`
+button on the change screen).
 
 [[my-menu]]
 In addition it is possible to customize the menu entries of the `My`

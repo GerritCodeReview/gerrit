@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_fac7e90e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-16T16:56:34Z",
+      "side": 1,
+      "message": "We discussed this during the hackathon and decided that we will go with DB implementation, NoteDB will follow.\n\nOne good example for such a approach is the history of hashtags. They were initially implemented only for the NoteDB and until today we can\u0027t use them because NoteDB is not yet finished.\n\nWe all want to use to have this feature in next release of gerrit :) and we also want to use it, not only having it in the code base ;)",
+      "parentUuid": "7c8e32f1_a0ca9a64",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 31
+      },
+      "revId": "63e0159a2abe9e8c4299afdd75b8a5b024708eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_3df54fa4",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-16T10:02:31Z",
       "side": 1,
       "message": "I probably missed this but what about having multiple tags per change?",
+      "revId": "63e0159a2abe9e8c4299afdd75b8a5b024708eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_daca2518",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-16T16:56:34Z",
+      "side": 1,
+      "message": "I would prefer to keep this simple. If one would need to have multiple tags for one review comment then it should be split into multiple comments.\n\nFrom the CI perspective one would rather have multiple jobs for multiple verifications then each job will post theirs comments on their own. Since they can be easily hidden in the UI it doesn\u0027t make sense any more to post them as a single comment.\n\nAlso from the REST API perspective we expose only single property on the ReviewInput object. Then it is copied to the change message, votes and (soon to be) in-comments. This IMO make it easier to adopt his API since you don\u0027t need to set this in multiple places.",
+      "parentUuid": "1c937619_3df54fa4",
       "revId": "63e0159a2abe9e8c4299afdd75b8a5b024708eee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "1c937619_7d7d178c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-16T16:56:34Z",
+      "side": 1,
+      "message": "yes it was a copy paste ;)",
+      "parentUuid": "3c983a33_ded0e518",
+      "range": {
+        "startLine": 43,
+        "startChar": 17,
+        "endLine": 43,
+        "endChar": 61
+      },
+      "revId": "63e0159a2abe9e8c4299afdd75b8a5b024708eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c983a33_fecda17f",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -93,6 +159,30 @@
       "writtenOn": "2016-03-16T03:08:45Z",
       "side": 1,
       "message": "No help text for this option?",
+      "range": {
+        "startLine": 127,
+        "startChar": 50,
+        "endLine": 127,
+        "endChar": 52
+      },
+      "revId": "63e0159a2abe9e8c4299afdd75b8a5b024708eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_3ad6c1c5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-16T16:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c983a33_fecda17f",
       "range": {
         "startLine": 127,
         "startChar": 50,

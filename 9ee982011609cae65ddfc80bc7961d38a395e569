@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc9c7e2c_1bf09bb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-16T11:42:13Z",
+      "side": 1,
+      "message": "Add javadocs on these new public methods?",
+      "revId": "9ee982011609cae65ddfc80bc7961d38a395e569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_7bebdfcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-16T11:42:13Z",
+      "side": 1,
+      "message": "nit: missing newline after",
+      "revId": "9ee982011609cae65ddfc80bc7961d38a395e569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

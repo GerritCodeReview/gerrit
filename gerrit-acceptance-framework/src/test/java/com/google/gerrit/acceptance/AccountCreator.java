@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -168,6 +169,6 @@ public class AccountCreator {
       throws UnsupportedEncodingException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePublicKey(out, comment);
-    return out.toString("ASCII");
+    return out.toString(US_ASCII.name());
   }
 }

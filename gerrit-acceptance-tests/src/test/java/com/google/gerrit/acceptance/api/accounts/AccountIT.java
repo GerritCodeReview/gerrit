@@ -30,11 +30,13 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -331,6 +333,28 @@ public class AccountIT extends AbstractDaemonTest {
     infos = gApi.accounts().self().putGpgKeys(
         ImmutableList.of(key2.getPublicKeyArmored()),
         ImmutableList.of(key2.getKeyIdString()));
+  }
+
+  @Test
+  public void sshKeys() throws Exception {
+    // The test account should initially have exactly one ssh key
+    List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(1);
+    SshKeyInfo key = info.get(0);
+    String inital = AccountCreator.publicKey(admin.sshKey, admin.email);
+    assertThat(key.sshPublicKey).isEqualTo(inital);
+
+    // Add a new key
+    String newKey = AccountCreator.publicKey(
+        AccountCreator.genSshKey(), admin.email);
+    gApi.accounts().self().addSshKey(newKey);
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(2);
+
+    // Add an existing key again
+    gApi.accounts().self().addSshKey(inital);
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(3);
   }
 
   private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {

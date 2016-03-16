@@ -20,9 +20,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.OnlineReindexer;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.AllChangesIndexer;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemas;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -93,9 +97,9 @@ public class LuceneVersionManager implements LifecycleListener {
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
   private final ChangeIndexCollection indexes;
-  private final OnlineReindexer.Factory reindexerFactory;
+  private final AllChangesIndexer allChangesIndexer;
   private final boolean onlineUpgrade;
-  private OnlineReindexer reindexer;
+  private OnlineReindexer<Change.Id, ChangeData, ChangeIndex> reindexer;
 
   @Inject
   LuceneVersionManager(
@@ -103,11 +107,11 @@ public class LuceneVersionManager implements LifecycleListener {
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
       ChangeIndexCollection indexes,
-      OnlineReindexer.Factory reindexerFactory) {
+      AllChangesIndexer allChangesIndexer) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;
     this.indexes = indexes;
-    this.reindexerFactory = reindexerFactory;
+    this.allChangesIndexer = allChangesIndexer;
     this.onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
   }
 
@@ -171,7 +175,7 @@ public class LuceneVersionManager implements LifecycleListener {
 
     int latest = write.get(0).version;
     if (onlineUpgrade && latest != search.version) {
-      reindexer = reindexerFactory.create(latest);
+      reindexer = new OnlineReindexer<>(indexes, allChangesIndexer, latest);
       reindexer.start();
     }
   }

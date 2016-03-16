@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1c937619_5d305b3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-03-16T11:47:31Z",
+      "side": 1,
+      "message": "We\u0027d definitely need JavaDocs for all three methods as any sane person would assume isHidden() is the exact opposite of isVisible(), which it is not as isVisible() also checks for isReadable().",
+      "parentUuid": "dc9c7e2c_1bf09bb3",
+      "revId": "9ee982011609cae65ddfc80bc7961d38a395e569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc9c7e2c_7bebdfcb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 2

@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
+import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends LifecycleModule {
@@ -57,6 +58,8 @@ public class LuceneIndexModule extends LifecycleModule {
   @Provides
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
+    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
+        BooleanQuery.getMaxClauseCount()));
     return IndexConfig.fromConfig(cfg);
   }
 

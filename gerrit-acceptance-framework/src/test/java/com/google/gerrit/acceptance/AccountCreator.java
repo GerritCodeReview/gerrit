@@ -160,12 +160,12 @@ public class AccountCreator {
     return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }
 
-  private static KeyPair genSshKey() throws JSchException {
+  public static KeyPair genSshKey() throws JSchException {
     JSch jsch = new JSch();
     return KeyPair.genKeyPair(jsch, KeyPair.RSA);
   }
 
-  private static String publicKey(KeyPair sshKey, String comment)
+  public static String publicKey(KeyPair sshKey, String comment)
       throws UnsupportedEncodingException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePublicKey(out, comment);

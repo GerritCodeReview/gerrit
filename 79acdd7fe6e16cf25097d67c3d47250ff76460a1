@@ -16,6 +16,24 @@
       "revId": "79acdd7fe6e16cf25097d67c3d47250ff76460a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_9b4d8bb8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-16T21:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_7a3bd9b1",
+      "revId": "79acdd7fe6e16cf25097d67c3d47250ff76460a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

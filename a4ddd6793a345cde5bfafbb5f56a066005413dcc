@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_3d454f22",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-16T20:48:05Z",
+      "side": 1,
+      "message": "This could also be done into \u0027gr-rest-api-interface\u0027 for all methods using stuff which is only available when logged in. WDYT?",
+      "revId": "a4ddd6793a345cde5bfafbb5f56a066005413dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_dd29cb68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-16T20:48:05Z",
+      "side": 1,
+      "message": "It looks that such a flush is required as soon as more than one promise is chained.",
+      "revId": "a4ddd6793a345cde5bfafbb5f56a066005413dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_3a0c811c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-16T20:48:05Z",
+      "side": 1,
+      "message": "I had to create separate tests since they are async now. Any better solutions are welcome.",
+      "revId": "a4ddd6793a345cde5bfafbb5f56a066005413dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

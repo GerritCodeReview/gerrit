@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "dc9c7e2c_3bbc77de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T10:08:29Z",
+      "side": 1,
+      "message": "Sorry I meant just an ImmutableSet, which provides reliable iteration order.",
+      "parentUuid": "fca1425f_3ca311cc",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "bfbb23af35d7c75587b3d45ad30e55d975b59be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca1425f_dca78dd4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
         "patchSetId": 2

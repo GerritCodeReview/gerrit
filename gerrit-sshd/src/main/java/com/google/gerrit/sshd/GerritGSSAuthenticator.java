@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Goldman Sachs
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,8 +36,10 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   private final GenericFactory userFactory;
 
   @Inject
-  GerritGSSAuthenticator(final AccountCache accounts, final SshScope sshScope,
-      final SshLog sshLog, final IdentifiedUser.GenericFactory userFactory) {
+  GerritGSSAuthenticator(AccountCache accounts,
+      SshScope sshScope,
+      SshLog sshLog,
+      IdentifiedUser.GenericFactory userFactory) {
     this.accounts = accounts;
     this.sshScope = sshScope;
     this.sshLog = sshLog;

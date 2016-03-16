@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
@@ -55,26 +56,19 @@ public class GetSshKeys implements RestReadView<AccountResource> {
     List<SshKeyInfo> sshKeys = Lists.newArrayList();
     for (AccountSshKey sshKey : dbProvider.get().accountSshKeys()
         .byAccount(user.getAccountId()).toList()) {
-      sshKeys.add(new SshKeyInfo(sshKey));
+      sshKeys.add(newSshKeyInfo(sshKey));
     }
     return sshKeys;
   }
 
-  public static class SshKeyInfo {
-    public SshKeyInfo(AccountSshKey sshKey) {
-      seq = sshKey.getKey().get();
-      sshPublicKey = sshKey.getSshPublicKey();
-      encodedKey = sshKey.getEncodedKey();
-      algorithm = sshKey.getAlgorithm();
-      comment = Strings.emptyToNull(sshKey.getComment());
-      valid = sshKey.isValid();
-    }
-
-    public int seq;
-    public String sshPublicKey;
-    public String encodedKey;
-    public String algorithm;
-    public String comment;
-    public boolean valid;
+  public static SshKeyInfo newSshKeyInfo(AccountSshKey sshKey) {
+    SshKeyInfo info = new SshKeyInfo();
+    info.seq = sshKey.getKey().get();
+    info.sshPublicKey = sshKey.getSshPublicKey();
+    info.encodedKey = sshKey.getEncodedKey();
+    info.algorithm = sshKey.getAlgorithm();
+    info.comment = Strings.emptyToNull(sshKey.getComment());
+    info.valid = sshKey.isValid();
+    return info;
   }
 }

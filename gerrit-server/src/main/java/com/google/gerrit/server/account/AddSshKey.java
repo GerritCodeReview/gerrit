@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -30,7 +31,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AddSshKey.Input;
-import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
@@ -112,7 +112,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
             + user.getAccount().getPreferredEmail(), e);
       }
       sshKeyCache.evict(user.getUserName());
-      return Response.<SshKeyInfo>created(new SshKeyInfo(sshKey));
+      return Response.<SshKeyInfo>created(GetSshKeys.newSshKeyInfo(sshKey));
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());
     }

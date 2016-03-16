@@ -42,6 +42,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -66,6 +67,29 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
     this.dbProvider = dbProvider;
     this.sshKeyCache = sshKeyCache;
     this.addKeyFactory = addKeyFactory;
+  }
+
+  public static RawInput newRawInput(String content) {
+    return newRawInput(content.getBytes(UTF_8));
+  }
+
+  public static RawInput newRawInput(final byte[] bytes) {
+    return new RawInput() {
+      @Override
+      public InputStream getInputStream() throws IOException {
+        return new ByteArrayInputStream(bytes);
+      }
+
+      @Override
+      public String getContentType() {
+        return "application/octet-stream";
+      }
+
+      @Override
+      public long getContentLength() {
+        return bytes.length;
+      }
+    };
   }
 
   @Override

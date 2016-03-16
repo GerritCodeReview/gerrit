@@ -31,6 +31,10 @@ import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends LifecycleModule {
+  static boolean isInMemoryTest(Config cfg) {
+    return cfg.getBoolean("index", "lucene", "testInmemory", false);
+  }
+
   private final Integer singleVersion;
   private final int threads;
   private final String base;

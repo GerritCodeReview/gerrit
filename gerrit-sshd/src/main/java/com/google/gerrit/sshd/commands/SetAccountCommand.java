@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -51,9 +50,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -225,22 +222,7 @@ final class SetAccountCommand extends SshCommand {
       OrmException, IOException {
     for (final String sshKey : sshKeys) {
       AddSshKey.Input in = new AddSshKey.Input();
-      in.raw = new RawInput() {
-        @Override
-        public InputStream getInputStream() throws IOException {
-          return new ByteArrayInputStream(sshKey.getBytes(UTF_8));
-        }
-
-        @Override
-        public String getContentType() {
-          return "plain/text";
-        }
-
-        @Override
-        public long getContentLength() {
-          return sshKey.length();
-        }
-      };
+      in.raw = AddSshKey.newRawInput(sshKey);
       addSshKey.apply(rsrc, in);
     }
   }

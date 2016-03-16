@@ -16,6 +16,24 @@
       "revId": "297b07975f10cd3e9175fd6b9c6ebdf9c3b910e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9c7e2c_9bca6b65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-16T11:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca1425f_1cb735ff",
+      "revId": "297b07975f10cd3e9175fd6b9c6ebdf9c3b910e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

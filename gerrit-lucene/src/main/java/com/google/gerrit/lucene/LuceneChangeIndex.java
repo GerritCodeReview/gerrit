@@ -128,6 +128,14 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String ID_SORT_FIELD =
       sortFieldName(ChangeField.LEGACY_ID);
 
+  public static Term idTerm(ChangeData cd) {
+    return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
+  }
+
+  public static Term idTerm(Change.Id id) {
+    return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
+  }
+
   private static String sortFieldName(FieldDef<?, ?> f) {
     return f.getName() + "_SORT";
   }
@@ -142,7 +150,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
-  private final QueryBuilder queryBuilder;
+  private final QueryBuilder<ChangeData> queryBuilder;
   private final ChangeSubIndex openIndex;
   private final ChangeSubIndex closedIndex;
 
@@ -168,7 +176,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     GerritIndexWriterConfig closedConfig =
         new GerritIndexWriterConfig(cfg, "changes_closed");
 
-    queryBuilder = new QueryBuilder(openConfig.getAnalyzer());
+    queryBuilder = new QueryBuilder<>(schema, openConfig.getAnalyzer());
 
     SearcherFactory searcherFactory = new SearcherFactory();
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
@@ -211,7 +219,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    Term id = QueryBuilder.idTerm(cd);
+    Term id = LuceneChangeIndex.idTerm(cd);
     Document doc = toDocument(cd);
     try {
       if (cd.change().getStatus().isOpen()) {
@@ -230,7 +238,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void delete(Change.Id id) throws IOException {
-    Term idTerm = QueryBuilder.idTerm(id);
+    Term idTerm = LuceneChangeIndex.idTerm(id);
     try {
       Futures.allAsList(
           openIndex.delete(idTerm),
@@ -502,12 +510,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     return result;
   }
 
-  private void add(Document doc, Values<ChangeData> values) {
+  private static <V> void add(Document doc, Values<V> values) {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
 
-    FieldDef<ChangeData, ?> f = values.getField();
+    FieldDef<V, ?> f = values.getField();
 
     // Add separate DocValues fields for those fields needed for sorting.
     if (f == ChangeField.LEGACY_ID) {

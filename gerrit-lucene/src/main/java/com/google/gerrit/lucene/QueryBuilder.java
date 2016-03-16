@@ -14,24 +14,23 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
+import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.index.RegexPredicate;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
@@ -48,23 +47,22 @@ import org.apache.lucene.util.NumericUtils;
 import java.util.Date;
 import java.util.List;
 
-public class QueryBuilder {
-
-  public static Term idTerm(ChangeData cd) {
-    return intTerm(LEGACY_ID.getName(), cd.getId().get());
+public class QueryBuilder<V> {
+  static Term intTerm(String name, int value) {
+    BytesRefBuilder builder = new BytesRefBuilder();
+    NumericUtils.intToPrefixCodedBytes(value, 0, builder);
+    return new Term(name, builder.get());
   }
 
-  public static Term idTerm(Change.Id id) {
-    return intTerm(LEGACY_ID.getName(), id.get());
-  }
-
+  private final Schema<V> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 
-  public QueryBuilder(Analyzer analyzer) {
+  public QueryBuilder(Schema<V> schema, Analyzer analyzer) {
+    this.schema = schema;
     queryBuilder = new org.apache.lucene.util.QueryBuilder(analyzer);
   }
 
-  public Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
+  public Query toQuery(Predicate<V> p) throws QueryParseException {
     if (p instanceof AndPredicate) {
       return and(p);
     } else if (p instanceof OrPredicate) {
@@ -72,13 +70,13 @@ public class QueryBuilder {
     } else if (p instanceof NotPredicate) {
       return not(p);
     } else if (p instanceof IndexPredicate) {
-      return fieldQuery((IndexPredicate<ChangeData>) p);
+      return fieldQuery((IndexPredicate<V>) p);
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }
   }
 
-  private Query or(Predicate<ChangeData> p)
+  private Query or(Predicate<V> p)
       throws QueryParseException {
     try {
       BooleanQuery.Builder q = new BooleanQuery.Builder();
@@ -91,17 +89,17 @@ public class QueryBuilder {
     }
   }
 
-  private Query and(Predicate<ChangeData> p)
+  private Query and(Predicate<V> p)
       throws QueryParseException {
     try {
       BooleanQuery.Builder b = new BooleanQuery.Builder();
       List<Query> not = Lists.newArrayListWithCapacity(p.getChildCount());
       for (int i = 0; i < p.getChildCount(); i++) {
-        Predicate<ChangeData> c = p.getChild(i);
+        Predicate<V> c = p.getChild(i);
         if (c instanceof NotPredicate) {
-          Predicate<ChangeData> n = c.getChild(0);
+          Predicate<V> n = c.getChild(0);
           if (n instanceof TimestampRangePredicate) {
-            b.add(notTimestamp((TimestampRangePredicate<ChangeData>) n), MUST);
+            b.add(notTimestamp((TimestampRangePredicate<V>) n), MUST);
           } else {
             not.add(toQuery(n));
           }
@@ -118,11 +116,11 @@ public class QueryBuilder {
     }
   }
 
-  private Query not(Predicate<ChangeData> p)
+  private Query not(Predicate<V> p)
       throws QueryParseException {
-    Predicate<ChangeData> n = p.getChild(0);
+    Predicate<V> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
-      return notTimestamp((TimestampRangePredicate<ChangeData>) n);
+      return notTimestamp((TimestampRangePredicate<V>) n);
     }
 
     // Lucene does not support negation, start with all and subtract.
@@ -132,8 +130,11 @@ public class QueryBuilder {
       .build();
   }
 
-  private Query fieldQuery(IndexPredicate<ChangeData> p)
+  private Query fieldQuery(IndexPredicate<V> p)
       throws QueryParseException {
+    checkArgument(schema.hasField(p.getField()),
+        "field not in schema v%s: %s", schema.getVersion(),
+        p.getField().getName());
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
     } else if (p.getType() == FieldType.INTEGER_RANGE) {
@@ -151,13 +152,7 @@ public class QueryBuilder {
     }
   }
 
-  private static Term intTerm(String name, int value) {
-    BytesRefBuilder builder = new BytesRefBuilder();
-    NumericUtils.intToPrefixCodedBytes(value, 0, builder);
-    return new Term(name, builder.get());
-  }
-
-  private Query intQuery(IndexPredicate<ChangeData> p)
+  private Query intQuery(IndexPredicate<V> p)
       throws QueryParseException {
     int value;
     try {
@@ -170,11 +165,11 @@ public class QueryBuilder {
     return new TermQuery(intTerm(p.getField().getName(), value));
   }
 
-  private Query intRangeQuery(IndexPredicate<ChangeData> p)
+  private Query intRangeQuery(IndexPredicate<V> p)
       throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
-      IntegerRangePredicate<ChangeData> r =
-          (IntegerRangePredicate<ChangeData>) p;
+      IntegerRangePredicate<V> r =
+          (IntegerRangePredicate<V>) p;
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
@@ -192,11 +187,11 @@ public class QueryBuilder {
     throw new QueryParseException("not an integer range: " + p);
   }
 
-  private Query timestampQuery(IndexPredicate<ChangeData> p)
+  private Query timestampQuery(IndexPredicate<V> p)
       throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<ChangeData> r =
-          (TimestampRangePredicate<ChangeData>) p;
+      TimestampRangePredicate<V> r =
+          (TimestampRangePredicate<V>) p;
       return NumericRangeQuery.newLongRange(
           r.getField().getName(),
           r.getMinTimestamp().getTime(),
@@ -206,7 +201,7 @@ public class QueryBuilder {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private Query notTimestamp(TimestampRangePredicate<ChangeData> r)
+  private Query notTimestamp(TimestampRangePredicate<V> r)
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return NumericRangeQuery.newLongRange(
@@ -218,7 +213,7 @@ public class QueryBuilder {
     throw new QueryParseException("cannot negate: " + r);
   }
 
-  private Query exactQuery(IndexPredicate<ChangeData> p) {
+  private Query exactQuery(IndexPredicate<V> p) {
     if (p instanceof RegexPredicate<?>) {
       return regexQuery(p);
     } else {
@@ -226,7 +221,7 @@ public class QueryBuilder {
     }
   }
 
-  private Query regexQuery(IndexPredicate<ChangeData> p) {
+  private Query regexQuery(IndexPredicate<V> p) {
     String re = p.getValue();
     if (re.startsWith("^")) {
       re = re.substring(1);
@@ -237,11 +232,11 @@ public class QueryBuilder {
     return new RegexpQuery(new Term(p.getField().getName(), re));
   }
 
-  private Query prefixQuery(IndexPredicate<ChangeData> p) {
+  private Query prefixQuery(IndexPredicate<V> p) {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private Query fullTextQuery(IndexPredicate<ChangeData> p)
+  private Query fullTextQuery(IndexPredicate<V> p)
       throws QueryParseException {
     String value = p.getValue();
     if (value == null) {

@@ -22,6 +22,30 @@
       "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_da18e597",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024958
+      },
+      "writtenOn": "2016-03-16T15:07:42Z",
+      "side": 0,
+      "message": "There is another occurrence in CreateAccount.createSshKey where we set the ID to 1",
+      "parentUuid": "dc9c7e2c_bbc7275e",
+      "range": {
+        "startLine": 79,
+        "startChar": 53,
+        "endLine": 79,
+        "endChar": 54
+      },
+      "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

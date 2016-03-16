@@ -272,15 +272,27 @@ public class ProjectControl {
     return labelTypes;
   }
 
-  private boolean isHidden() {
+  /** Returns whether the project is hidden. */
+  public boolean isHidden() {
     return getProject().getState().equals(
         com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
-  /** Can this user see this project exists? */
-  public boolean isVisible() {
+  /**
+   * Returns whether the project is readable to the current user. Note
+   * that the project could still be hidden.
+   */
+  public boolean isReadable() {
     return (user.isInternalUser()
-        || canPerformOnAnyRef(Permission.READ)) && !isHidden();
+        || canPerformOnAnyRef(Permission.READ));
+  }
+
+  /**
+   * Returns whether the project is accessible to the current user, i.e.
+   * readable and not hidden.
+   */
+  public boolean isVisible() {
+    return isReadable() && !isHidden();
   }
 
   public boolean canAddRefs() {

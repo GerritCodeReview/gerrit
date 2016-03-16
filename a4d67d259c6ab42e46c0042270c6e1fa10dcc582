@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1458136891 +0100\nnonce AO+Zq7gnBGqwqhWxEdne/vsh4Ruz0Qu8ihm3kD7xmcz+2NXrUnOQF1Y9xCJewBEmGiS3Kb/BaBVx\n\n0000000000000000000000000000000000000000 4bbddd0acaeed26c3f7fb9c94dc918b29b579ef1 refs/for/master%topic\u003daccount-index,r\u003ddavid.pursehouse@sonymobile.com,r\u003dekempin@google.com,r\u003dsop@google.com,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW6Wc7AAoJEF/XxZqaEoiMNqcQAJF4bP91uiJ390rHJSfFfyFe\n7wweQCET0R8AaKu8RuPYMjflti5aB9gxiOj8y1pjmB557M0dx9Mz2Bb2tOnqNeNs\nwZc+dZ/FMM4XNjqJd1pkcY6DDt7YiLlR+tb9ToHqmbNMrGs525dC1e1nTwlcZ1Xq\n09T/w7vWwwyvktfYtgR7C7lDGW+gzGgfcag4JRn5OX5BlAK0lt4XUSsXXxhFSMVg\n+qlt7Q4XTysnIGY3edhiRalt8ddJOezYnkKPZaZL6+0vhaJDodfqMMTkbvwOi/Fe\noWYcfbVULQF3fwglhvHjlr8tWHcPzxdet67rGhMZykUsIgwA0AukETcG/T8qPHzo\nnp2EWe6V5dE5yu7cBj7xWS9Mn3LCf9f0lwYtd5Z8sWudQojSO8ae3FN/7AtsdgXN\nwT5pcKAcsQuYgB4OlNVNDaZyqfOX9OQnqwzzOvMJVsRogbKlPlnsbcDM5g+BWCT6\nSssfrqsO928RaIGqot8Xy834YWM7pcZzKz8bYxh5QwGAohLW9hdQLNXdnGZhYnIp\n+5gWA6IgGdCz6V14Yonl4M4ZVSYxLdWBTI1wXg6PkKZaHFV3k+HGxPnECiq3TbsD\n8iZoOrAz9sSVrrNS++xThGGyvkIC6341LJRIxlP/ZjGELdcXaQKISb9nhSS2qnYW\nXjrmKm3oSHndeCVFoJmG\n\u003dgj2N\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_dd746ba1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/SchemaUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-16T17:24:41Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be less confusing to use here and below ChangeData as type argument instead? Or you are using String here because AccountIndex and GroupIndex would use the same class and we dont wan\u0027t to use change specific stuff even in the tests?",
+      "range": {
+        "startLine": 28,
+        "startChar": 24,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "a4d67d259c6ab42e46c0042270c6e1fa10dcc582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -15,10 +15,12 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
 import com.google.gerrit.testutil.GerritBaseTests;
 
+import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
 import java.util.Map;
@@ -46,5 +48,24 @@ public class SchemaUtilTest extends GerritBaseTests {
 
     exception.expect(IllegalArgumentException.class);
     SchemaUtil.schemasFromClass(TestSchemas.class, Object.class);
+  }
+
+  @Test
+  public void getPersonPartsExtractsParts() {
+    // PersonIdent allows empty email, which should be extracted as the empty
+    // string. However, it converts empty names to null internally.
+    assertThat(getPersonParts(new PersonIdent("", ""))).containsExactly("");
+    assertThat(getPersonParts(new PersonIdent("foo bar", "")))
+        .containsExactly("foo", "bar", "");
+
+    assertThat(getPersonParts(new PersonIdent("", "foo@example.com")))
+        .containsExactly(
+            "foo@example.com", "foo", "example.com", "example", "com");
+    assertThat(
+            getPersonParts(new PersonIdent("foO J. bAr", "bA-z@exAmple.cOm")))
+        .containsExactly(
+            "foo", "j", "bar",
+            "ba-z@example.com", "ba-z", "ba", "z",
+            "example.com", "example", "com");
   }
 }

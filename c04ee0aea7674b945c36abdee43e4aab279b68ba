@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_ba23b1ed",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T12:59:38Z",
+      "side": 1,
+      "message": "How about globbing *.js and *.html as a compromise between over-eager ** and under-eager forgetting to add the files to this list.",
+      "revId": "c04ee0aea7674b945c36abdee43e4aab279b68ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_7a875905",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T12:59:38Z",
+      "side": 1,
+      "message": "WCT_TEST_PATTERNS is excluded, so if you restrict that to not be test/** then you would want to add test/** as an explicit exclude here.",
+      "revId": "c04ee0aea7674b945c36abdee43e4aab279b68ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 include_defs('//lib/js.defs')
 
 WCT_TEST_PATTERNS = [
-  'test/**',
+  'test/fake-app.js',
+  'test/index.html',
   '**/*_test.html',
 ]
 PY_TEST_PATTERNS = ['polygerrit_wct_tests.py']

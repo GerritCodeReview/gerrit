@@ -270,7 +270,7 @@ public class Header extends Composite {
   }
 
   private String url(FileInfo info) {
-    return diffScreenType == DiffScreenType.UNIFIED || info.binary()
+    return diffScreenType == DiffScreenType.SIDE_BY_SIDE || info.binary()
         ? Dispatcher.toUnified(base, patchSetId, info.path())
         : Dispatcher.toSideBySide(base, patchSetId, info.path());
   }

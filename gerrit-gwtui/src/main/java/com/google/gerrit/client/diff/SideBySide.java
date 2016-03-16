@@ -18,7 +18,6 @@ import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
@@ -89,7 +88,7 @@ public class SideBySide extends DiffScreen {
       protected void preDisplay(ConfigInfoCache.Entry result) {
         commentManager = new SideBySideCommentManager(
             SideBySide.this,
-            getBase(), getRevision(), getPath(),
+            base, revision, path,
             result.getCommentLinkProcessor(),
             getChangeStatus().isOpen());
         setTheme(result.getTheme());
@@ -111,7 +110,7 @@ public class SideBySide extends DiffScreen {
         cmB.refresh();
       }
     });
-    setLineLength(Patch.COMMIT_MSG.equals(getPath()) ? 72 : getPrefs().lineLength());
+    setLineLength(Patch.COMMIT_MSG.equals(prefs) ? 72 : prefs.lineLength());
     diffTable.refresh();
 
     if (getStartLine() == 0) {
@@ -134,7 +133,7 @@ public class SideBySide extends DiffScreen {
       cmA.setCursor(Pos.create(0));
       cmA.focus();
     }
-    if (Gerrit.isSignedIn() && getPrefs().autoReview()) {
+    if (Gerrit.isSignedIn() && prefs.autoReview()) {
       header.autoReview();
     }
     prefetchNextFile();
@@ -181,7 +180,6 @@ public class SideBySide extends DiffScreen {
   }
 
   private void display(final CommentsCollections comments) {
-    final DiffPreferences prefs = getPrefs();
     final DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
@@ -231,7 +229,7 @@ public class SideBySide extends DiffScreen {
     toUnifiedDiffLink.setHTML(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
     toUnifiedDiffLink.setTargetHistoryToken(
-        Dispatcher.toUnified(getBase(), getRevision(), getPath()));
+        Dispatcher.toUnified(base, revision, path));
     toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
     return Collections.singletonList(toUnifiedDiffLink);
   }
@@ -241,8 +239,6 @@ public class SideBySide extends DiffScreen {
       DiffInfo.FileMeta meta,
       String contents,
       Element parent) {
-    DiffPreferences prefs = getPrefs();
-
     return CodeMirror.create(parent, Configuration.create()
       .set("cursorBlinkRate", prefs.cursorBlinkRate())
       .set("cursorHeight", 0.85)
@@ -275,7 +271,6 @@ public class SideBySide extends DiffScreen {
   @Override
   void setSyntaxHighlighting(boolean b) {
     final DiffInfo diff = getDiff();
-    final DiffPreferences prefs = getPrefs();
     if (b) {
       injectMode(diff, new AsyncCallback<Void>() {
         @Override

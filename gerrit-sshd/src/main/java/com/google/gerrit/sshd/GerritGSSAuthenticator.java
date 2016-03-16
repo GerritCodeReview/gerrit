@@ -41,9 +41,11 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   private final Config config;
 
   @Inject
-  GerritGSSAuthenticator(final AccountCache accounts, final SshScope sshScope,
-      final SshLog sshLog, final IdentifiedUser.GenericFactory userFactory,
-      final @GerritServerConfig Config config) {
+  GerritGSSAuthenticator(AccountCache accounts,
+      SshScope sshScope,
+      SshLog sshLog,
+      IdentifiedUser.GenericFactory userFactory,
+      @GerritServerConfig Config config) {
     this.accounts = accounts;
     this.sshScope = sshScope;
     this.sshLog = sshLog;

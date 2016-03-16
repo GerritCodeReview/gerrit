@@ -49,6 +49,18 @@ import java.util.Collections;
 import java.util.Map;
 
 public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
+  private static final String LABEL_SCORES_CONFIG =
+      "  copyMinScore = " + !LabelType.DEF_COPY_MIN_SCORE + "\n" //
+      + "  copyMaxScore = " + !LabelType.DEF_COPY_MAX_SCORE + "\n" //
+      + "  copyAllScoresOnMergeFirstParentUpdate = "
+      + !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE + "\n" //
+      + "  copyAllScoresOnTrivialRebase = "
+      + !LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE + "\n" //
+      + "  copyAllScoresIfNoCodeChange = "
+      + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE + "\n" //
+      + "  copyAllScoresIfNoChange = "
+      + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE + "\n";
+
   private final GroupReference developers = new GroupReference(
       new AccountGroup.UUID("X"), "Developers");
   private final GroupReference staff = new GroupReference(
@@ -167,6 +179,30 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
+  public void testReadConfigLabelScores() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"CustomLabel\"]\n" //
+            + LABEL_SCORES_CONFIG)) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    LabelType type = labels.entrySet().iterator().next().getValue();
+    assertThat(type.isCopyMinScore()).isNotEqualTo(LabelType.DEF_COPY_MIN_SCORE);
+    assertThat(type.isCopyMaxScore()).isNotEqualTo(LabelType.DEF_COPY_MAX_SCORE);
+    assertThat(type.isCopyAllScoresOnMergeFirstParentUpdate())
+      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    assertThat(type.isCopyAllScoresOnTrivialRebase())
+      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    assertThat(type.isCopyAllScoresIfNoCodeChange())
+      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    assertThat(type.isCopyAllScoresIfNoChange())
+      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+  }
+
+  @Test
   public void testEditConfig() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
@@ -183,7 +219,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "  description = A simple description\n" //
             + "  accepted = group Developers\n" //
             + "  autoVerify = group Developers\n" //
-            + "  agreementUrl = http://www.example.com/agree\n")) //
+            + "  agreementUrl = http://www.example.com/agree\n" //
+            + "[label \"CustomLabel\"]\n" //
+            + LABEL_SCORES_CONFIG)) //
         ));
     update(rev);
 
@@ -210,7 +248,11 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "[contributor-agreement \"Individual\"]\n" //
         + "  description = A new description\n" //
         + "  accepted = group Staff\n" //
-        + "  agreementUrl = http://www.example.com/agree\n");
+        + "  agreementUrl = http://www.example.com/agree\n"
+        + "[label \"CustomLabel\"]\n" //
+        + LABEL_SCORES_CONFIG
+        + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
+        + "\tdefaultValue = 0\n"); //  label gets this value when it is created
   }
 
   @Test

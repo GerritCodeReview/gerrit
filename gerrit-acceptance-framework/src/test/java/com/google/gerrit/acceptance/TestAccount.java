@@ -81,6 +81,10 @@ public class TestAccount {
     return out.toByteArray();
   }
 
+  public KeyPair getSshKey() {
+    return sshKey;
+  }
+
   public PersonIdent getIdent() {
     return new PersonIdent(fullName, email);
   }

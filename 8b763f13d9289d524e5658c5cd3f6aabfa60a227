@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_3a456122",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-16T21:13:30Z",
+      "side": 1,
+      "message": "This is just for testing purposes here - will remove it in final version of course.",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

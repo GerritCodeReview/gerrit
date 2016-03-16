@@ -112,12 +112,12 @@ public class Dispatcher {
 
   public static String toSideBySide(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName) {
-    return toPatch("", diffBase, revision, fileName, null, 0);
+    return toPatch("sidebyside", diffBase, revision, fileName, null, 0);
   }
 
   public static String toSideBySide(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName, DisplaySide side, int line) {
-    return toPatch("", diffBase, revision, fileName, side, line);
+    return toPatch("sidebyside", diffBase, revision, fileName, side, line);
   }
 
   public static String toUnified(PatchSet.Id diffBase,
@@ -477,7 +477,7 @@ public class Dispatcher {
         codemirror(token, baseId, id, side, line, false);
       }
     } else if ("sidebyside".equals(panel)) {
-      codemirror(token, null, id, side, line, false);
+      codemirror(token, baseId, id, side, line, false);
     } else if ("unified".equals(panel)) {
       unified(token, baseId, id, side, line);
     } else if ("unified1".equals(panel)) {

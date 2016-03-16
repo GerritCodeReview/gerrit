@@ -20,7 +20,6 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffInfo.Region;
-import com.google.gerrit.client.diff.DiffScreen.DiffScreenType;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.FileInfo;
@@ -34,6 +33,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -90,7 +90,7 @@ public class Header extends Composite {
   private final PatchSet.Id base;
   private final PatchSet.Id patchSetId;
   private final String path;
-  private final DiffScreenType diffScreenType;
+  private final DiffView diffScreenType;
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
@@ -98,7 +98,7 @@ public class Header extends Composite {
   private ReviewedState reviewedState;
 
   Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
-      String path, DiffScreenType diffSreenType) {
+      String path, DiffView diffSreenType) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
     this.base = base;
@@ -270,7 +270,7 @@ public class Header extends Composite {
   }
 
   private String url(FileInfo info) {
-    return diffScreenType == DiffScreenType.UNIFIED || info.binary()
+    return diffScreenType == DiffView.UNIFIED_DIFF || info.binary()
         ? Dispatcher.toUnified(base, patchSetId, info.path())
         : Dispatcher.toSideBySide(base, patchSetId, info.path());
   }

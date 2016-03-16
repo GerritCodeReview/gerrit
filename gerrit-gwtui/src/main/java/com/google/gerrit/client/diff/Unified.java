@@ -23,6 +23,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -77,7 +78,7 @@ public class Unified extends DiffScreen {
       String path,
       DisplaySide startSide,
       int startLine) {
-    super(base, revision, path, startSide, startLine, DiffScreenType.UNIFIED);
+    super(base, revision, path, startSide, startLine, DiffView.UNIFIED_DIFF);
 
     diffTable = new UnifiedTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
@@ -205,7 +206,7 @@ public class Unified extends DiffScreen {
     registerCmEvents(cm);
 
     setPrefsAction(new PreferencesAction(this, prefs));
-    header.init(getPrefsAction(), getSideBySideDiffLink(), diff.sideBySideWebLinks());
+    header.init(getPrefsAction(), getSideBySideDiffLink(), diff.unifiedWebLinks());
     setAutoHideDiffHeader(prefs.autoHideDiffTableHeader());
 
     setupSyntaxHighlighting();

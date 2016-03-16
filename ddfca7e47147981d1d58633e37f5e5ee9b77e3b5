@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_7a7d198c",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-16T17:32:57Z",
+      "side": 1,
+      "message": "Keep this list sorted.",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 33
+      },
+      "revId": "ddfca7e47147981d1d58633e37f5e5ee9b77e3b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_bd6b9fbc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-16T17:32:57Z",
+      "side": 1,
+      "message": "2016.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ddfca7e47147981d1d58633e37f5e5ee9b77e3b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_5d4a9b55",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-16T17:32:57Z",
+      "side": 1,
+      "message": "java.nio.charset.StandardCharsets.UTF_8",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "ddfca7e47147981d1d58633e37f5e5ee9b77e3b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_3a87a1d4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-16T17:32:57Z",
+      "side": 1,
+      "message": "Unnedeed new line.",
+      "revId": "ddfca7e47147981d1d58633e37f5e5ee9b77e3b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

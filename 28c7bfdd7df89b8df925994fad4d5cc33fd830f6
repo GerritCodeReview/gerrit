@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fca1425f_5c0ffd84",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-16T16:12:31Z",
+      "side": 1,
+      "message": "Or package private \"final DiffType diffType\".",
+      "parentUuid": "1c937619_3dbd4f93",
+      "range": {
+        "startLine": 71,
+        "startChar": 19,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "28c7bfdd7df89b8df925994fad4d5cc33fd830f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc9c7e2c_7bc2ff55",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
         "patchSetId": 22

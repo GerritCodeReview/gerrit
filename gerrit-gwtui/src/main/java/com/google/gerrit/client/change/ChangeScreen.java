@@ -833,22 +833,26 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("showBotComments")
   void onShowBotComments(@SuppressWarnings("unused") ClickEvent e) {
-    int n = history.getWidgetCount();
     showBotComments.setVisible(false);
     hideBotComments.setVisible(true);
-//    for (int i = 0; i < n; i++) {
-//      ((Message) history.getWidget(i)).setOpen(true);
-//    }
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message m = ((Message) history.getWidget(i));
+      m.removeStyleName(m.style.botComments());
+    }
   }
 
   @UiHandler("hideBotComments")
   void onHideBotComments(@SuppressWarnings("unused") ClickEvent e) {
-    int n = history.getWidgetCount();
     hideBotComments.setVisible(false);
     showBotComments.setVisible(true);
-//    for (int i = 0; i < n; i++) {
-//      ((Message) history.getWidget(i)).setOpen(true);
-//    }
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message m = ((Message) history.getWidget(i));
+      if ( m.getMessageInfo().tag() != null) {
+        m.addStyleName(m.style.botComments());
+      }
+    }
   }
 
   @UiHandler("expandAll")

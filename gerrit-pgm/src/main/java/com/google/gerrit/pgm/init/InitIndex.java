@@ -15,7 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.lucene.LuceneChangeIndex;
+import com.google.gerrit.lucene.AbstractLuceneIndex;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -57,7 +57,7 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-    LuceneChangeIndex.setReady(
+    AbstractLuceneIndex.setReady(
         site, ChangeSchemas.getLatest().getVersion(), true);
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
     } else {

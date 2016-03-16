@@ -181,7 +181,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     queryBuilder = new QueryBuilder(openConfig.getAnalyzer());
 
     SearcherFactory searcherFactory = new SearcherFactory();
-    if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
+    if (LuceneIndexModule.isInMemoryTest(cfg)) {
       openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig,
           searcherFactory);
       closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig,

@@ -43,7 +43,10 @@
     },
 
     attached: function() {
-      this._fetchPreferences();
+      this.$.restAPI.getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+        this._fetchPreferences();
+      }.bind(this));
     },
 
     _fetchPreferences: function() {

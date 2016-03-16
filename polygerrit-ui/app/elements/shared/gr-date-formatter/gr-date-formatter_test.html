@@ -38,7 +38,7 @@ limitations under the License.
      * Parse server-formatter date and normalize into current timezone.
      */
     function normalizedDate(dateStr) {
-      var d = new Date(util.parseDate(dateStr));
+      var d = util.parseDate(dateStr);
       d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
       return d;
     }
@@ -47,32 +47,30 @@ limitations under the License.
       // Normalize and convert the date to mimic server response.
       dateStr = normalizedDate(dateStr)
           .toJSON().replace('T', ' ').slice(0, -1);
-      var clock = sinon.useFakeTimers(
-          new Date(normalizedDate(nowStr)).getTime());
+      var clock = sinon.useFakeTimers(normalizedDate(nowStr).getTime());
       element.dateStr = dateStr;
       assert.equal(element.$$('span').textContent, expected);
       clock.restore();
     }
 
-    function stubPreferences(preferences) {
-      var preferencesPromise = Promise.resolve(preferences);
-      stub('gr-rest-api-interface', {
-        getPreferences: sinon.stub().returns(preferencesPromise),
+    function stubGetTimeFormat(timeFormat) {
+      var timeFormatPromise = Promise.resolve(timeFormat);
+      stub('gr-date-formatter', {
+        _getTimeFormat: sinon.stub().returns(timeFormatPromise),
       });
-      return preferencesPromise;
+      return timeFormatPromise;
     }
 
-    suite('not signed in', function() {
+    suite('24 hours time format preference', function() {
       setup(function() {
-        return stubPreferences(null).then(function() {
+        return stubGetTimeFormat('HHMM_24').then(function() {
           element = fixture('basic');
         });
       });
 
       test('invalid dates are quietly rejected', function() {
         assert.notOk((new Date('foo')).valueOf());
-        element.dateStr = 'foo';
-        assert.equal(element.$$('span').textContent, '');
+        assert.equal(element._computeDateStr('foo', 'HHMM_12'), '');
       });
 
       test('Within 24 hours on same day', function() {
@@ -103,9 +101,9 @@ limitations under the License.
       });
     });
 
-    suite('signed in with 12 hours time format preference', function() {
+    suite('12 hours time format preference', function() {
       setup(function() {
-        return stubPreferences({time_format: 'HHMM_12'}).then(function() {
+        return stubGetTimeFormat('HHMM_12').then(function() {
           element = fixture('basic');
         });
       });
@@ -120,20 +118,43 @@ limitations under the License.
       });
     });
 
-    suite('signed in with 24 hours time format preference', function() {
+    function stubRestAPI(loggedIn, preferences) {
+      var loggedInPromise = Promise.resolve(loggedIn);
+      var preferencesPromise = Promise.resolve(preferences);
+      stub('gr-rest-api-interface', {
+        getLoggedIn: sinon.stub().returns(loggedInPromise),
+        getPreferences: sinon.stub().returns(preferencesPromise),
+      });
+      return Promise.all([loggedInPromise, preferences]);
+    }
+
+    suite('logged in', function() {
       setup(function() {
-        return stubPreferences({time_format: 'HHMM_24'}).then(function() {
+        return stubRestAPI(true, {time_format: 'HHMM_12'}).then(function() {
           element = fixture('basic');
         });
       });
 
-      test('Within 24 hours on same day', function() {
-        testDates('2015-07-29 20:34:14.985000000',
-                  '2015-07-29 15:34:14.985000000',
-                  '15:34');
-        testDates('2016-01-27 17:41:14.985000000',
-                  '2016-01-27 12:41:14.985000000',
-                  '12:41');
+      test('Preferences are respected', function(done) {
+        flush(function() {
+          assert.equal(element._timeFormat, 'HHMM_12');
+          done();
+        });
+      });
+    });
+
+    suite('logged out', function() {
+      setup(function() {
+        return stubRestAPI(false, null).then(function() {
+          element = fixture('basic');
+        });
+      });
+
+      test('Default preferences are respected', function(done) {
+        flush(function() {
+          assert.equal(element._timeFormat, 'HHMM_24');
+          done();
+        });
       });
     });
   });

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1c937619_fd15a75e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T15:02:44Z",
+      "side": 1,
+      "message": "Correct, this approach SGTM. However. There are lots of places in the code where we do like \"if (c.getSide() \u003d\u003d 1) {...} else {...}\" where we probably need to tweak the logic. I haven\u0027t looked through this change to make sure you\u0027ve done that; maybe you have.\n\nMy suggestion would be to precede this change with another one that makes PatchLineComment.getSide() return a Side enum, then inspect that using a switch statement rather than if/else. That way you get a helpful Eclipse warning at every place where you need to modify it to account for the new case :)",
+      "revId": "3ce05aea01b4eb5bbf028326ad8685d0ca0e697d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_fd5b6757",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/CommentDetail.java",
         "patchSetId": 12

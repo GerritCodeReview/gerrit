@@ -14,20 +14,24 @@
 
 package com.google.gerrit.server.api.accounts;
 
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.GetAvatar;
+import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -36,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +57,8 @@ public class AccountApiImpl implements AccountApi {
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
   private final GpgApiAdapter gpgApiAdapter;
+  private final GetSshKeys getSshKeys;
+  private final AddSshKey addSshKey;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -61,6 +68,8 @@ public class AccountApiImpl implements AccountApi {
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
       GpgApiAdapter gpgApiAdapter,
+      GetSshKeys getSshKeys,
+      AddSshKey addSshKey,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -69,6 +78,8 @@ public class AccountApiImpl implements AccountApi {
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
+    this.getSshKeys = getSshKeys;
+    this.addSshKey = addSshKey;
     this.gpgApiAdapter = gpgApiAdapter;
   }
 
@@ -127,6 +138,26 @@ public class AccountApiImpl implements AccountApi {
       createEmailFactory.create(input.email).apply(rsrc, input);
     } catch (EmailException | OrmException e) {
       throw new RestApiException("Cannot add email", e);
+    }
+  }
+
+  @Override
+  public List<SshKeyInfo> listSshKeys() throws RestApiException {
+    try {
+      return getSshKeys.apply(account);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot list SSH keys", e);
+    }
+  }
+
+  @Override
+  public SshKeyInfo addSshKey(String key) throws RestApiException {
+    AddSshKey.Input in = new AddSshKey.Input();
+    in.raw = RawInputUtil.create(key);
+    try {
+      return addSshKey.apply(account, in).value();
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot add SSH key", e);
     }
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_da5ea54a",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-16T14:25:44Z",
+      "side": 1,
+      "message": "we\u0027ll fix it when it becomes an issue?",
+      "parentUuid": "bc6d0aef_1a65fd1e",
+      "revId": "1f7570b30eddfc5c81affefe38c85b73e2823e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_7a70b9dd",
         "filename": "polygerrit-ui/app/BUCK",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-16T13:53:31Z",
       "side": 1,
       "message": "Just add \u0027test/**\u0027 in the list above (i.e. after l. 13)",
+      "revId": "1f7570b30eddfc5c81affefe38c85b73e2823e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_bd55df25",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-03-16T14:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_7a70b9dd",
       "revId": "1f7570b30eddfc5c81affefe38c85b73e2823e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

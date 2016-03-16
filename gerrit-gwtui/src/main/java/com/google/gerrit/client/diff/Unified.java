@@ -234,6 +234,7 @@ public class Unified extends DiffScreen {
         .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
         .set("gutters", gutters)
+        .set("inputStyle", "textarea")
         .set("keyMap", "vim_ro")
         .set("lineNumbers", false)
         .set("lineWrapping", false)

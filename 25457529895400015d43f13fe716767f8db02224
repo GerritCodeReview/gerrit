@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca1425f_5c193dbc",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-16T21:22:09Z",
+      "side": 0,
+      "message": "Does placing this reset at the top of each element’s style tag work?",
+      "revId": "25457529895400015d43f13fe716767f8db02224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

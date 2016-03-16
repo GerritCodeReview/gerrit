@@ -23,6 +23,30 @@
       "revId": "a4d67d259c6ab42e46c0042270c6e1fa10dcc582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_5a6135e3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/SchemaUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-16T17:37:35Z",
+      "side": 1,
+      "message": "Right, I want to make sure it works with an arbitrary class. Maybe there is a less confusing choice than String.",
+      "parentUuid": "1c937619_dd746ba1",
+      "range": {
+        "startLine": 28,
+        "startChar": 24,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "a4d67d259c6ab42e46c0042270c6e1fa10dcc582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

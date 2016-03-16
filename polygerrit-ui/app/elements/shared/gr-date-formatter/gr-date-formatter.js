@@ -35,20 +35,31 @@
         value: null,
         notify: true,
       },
-      timeFormat: {
-        type: String,
-        value: 'HHMM_24',
-        notify: true,
-      },
+
+      _timeFormat: String,
     },
 
     attached: function() {
-      this._fetchPreferences();
+      this._getTimeFormat().then(function(timeFormat) {
+        this._timeFormat = timeFormat;
+      }.bind(this));
     },
 
-    _fetchPreferences: function() {
-      this.$.restAPI.getPreferences().then(function(preferences) {
-        this.timeFormat = preferences && preferences.time_format;
+    _getLoggedIn: function() {
+      return this.$.restAPI.getLoggedIn();
+    },
+
+    _getPreferences: function() {
+      return this.$.restAPI.getPreferences();
+    },
+
+    _getTimeFormat: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return 'HHMM_24'; }
+
+        return this._getPreferences().then(function(preferences) {
+          return preferences && preferences.time_format;
+        });
       }.bind(this));
     },
 
@@ -57,7 +68,7 @@
      */
     _isWithinDay: function(now, date) {
       var diff = -date.diff(now);
-      return diff < Duration.DAY && date.day() == now.getDay();
+      return diff < Duration.DAY && date.day() === now.getDay();
     },
 
     /**
@@ -65,21 +76,23 @@
      */
     _isWithinHalfYear: function(now, date) {
       var diff = -date.diff(now);
-      return (date.day() != now.getDay() || diff >= Duration.DAY) &&
+      return (date.day() !== now.getDay() || diff >= Duration.DAY) &&
           diff < 180 * Duration.DAY;
     },
 
     _computeDateStr: function(dateStr, timeFormat) {
       if (!dateStr) { return ''; }
-      var date = moment(dateStr + 'Z');
+      var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       var now = new Date();
       var format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
-        if (this.timeFormat == 'HHMM_12') {
+        if (timeFormat === 'HHMM_12') {
           format = TimeFormats.TIME_12;
-        } else {
+        } else if (timeFormat === 'HHMM_24') {
           format = TimeFormats.TIME_24;
+        } else {
+          throw Error('Invalid time format: ' + timeFormat);
         }
       } else if (this._isWithinHalfYear(now, date)) {
         format = TimeFormats.MONTH_DAY;

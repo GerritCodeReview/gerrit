@@ -18,6 +18,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.GetAvatar;
+import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -36,6 +38,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +53,7 @@ public class AccountApiImpl implements AccountApi {
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<GetAvatar> getAvatar;
+  private final Provider<GetPreferences> getPreferences;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
@@ -57,6 +63,7 @@ public class AccountApiImpl implements AccountApi {
   AccountApiImpl(AccountLoader.Factory ailf,
       ChangesCollection changes,
       Provider<GetAvatar> getAvatar,
+      Provider<GetPreferences> getPreferences,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
@@ -66,6 +73,7 @@ public class AccountApiImpl implements AccountApi {
     this.accountLoaderFactory = ailf;
     this.changes = changes;
     this.getAvatar = getAvatar;
+    this.getPreferences = getPreferences;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
@@ -90,6 +98,16 @@ public class AccountApiImpl implements AccountApi {
     GetAvatar myGetAvatar = getAvatar.get();
     myGetAvatar.setSize(size);
     return myGetAvatar.apply(account).location();
+  }
+
+  @Override
+  public GeneralPreferencesInfo getPreferences() throws RestApiException {
+    GetPreferences myGetPreferences = getPreferences.get();
+    try {
+      return myGetPreferences.apply(account);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot query preferences", e);
+    }
   }
 
   @Override

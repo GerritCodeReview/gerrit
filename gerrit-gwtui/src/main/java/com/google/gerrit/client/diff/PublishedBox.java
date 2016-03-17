@@ -52,6 +52,7 @@ class PublishedBox extends CommentBox {
 
   private final PatchSet.Id psId;
   private final CommentInfo comment;
+  private final DisplaySide displaySide;
   private DraftBox replyBox;
 
   @UiField Style style;
@@ -73,11 +74,13 @@ class PublishedBox extends CommentBox {
       CommentLinkProcessor clp,
       PatchSet.Id psId,
       CommentInfo info,
+      DisplaySide displaySide,
       boolean open) {
     super(group, info.range());
 
     this.psId = psId;
     this.comment = info;
+    this.displaySide = displaySide;
 
     if (info.author() != null) {
       avatar = new AvatarImage(info.author());
@@ -152,7 +155,7 @@ class PublishedBox extends CommentBox {
       commentReply.message(ReplyBox.quote(comment.message()));
     }
     getCommentManager().addDraftBox(
-      getCm().side(),
+      displaySide,
       commentReply).setEdit(true);
   }
 
@@ -196,7 +199,7 @@ class PublishedBox extends CommentBox {
             public void onSuccess(CommentInfo result) {
               done.setEnabled(true);
               setOpen(false);
-              getCommentManager().addDraftBox(getCm().side(), result);
+              getCommentManager().addDraftBox(displaySide, result);
             }
           });
     } else {

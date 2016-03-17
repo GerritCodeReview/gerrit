@@ -98,7 +98,7 @@ abstract class ChunkManager {
 
   abstract Runnable diffChunkNav(final CodeMirror cm, final Direction dir);
 
-  void diffChunkNavHelper(List<? extends DiffChunkInfo> chunks, CodeMirror cm, int res, Direction dir) {
+  void diffChunkNavHelper(List<? extends DiffChunkInfo> chunks, DiffScreen host, int res, Direction dir) {
     if (res < 0) {
       res = -res - (dir == Direction.PREV ? 1 : 2);
     }
@@ -117,11 +117,12 @@ abstract class ChunkManager {
     }
 
     DiffChunkInfo target = chunks.get(res);
-    cm.setCursor(Pos.create(getCmLine(target.getStart(), target.getSide())));
-    cm.focus();
-    cm.scrollToY(
-        cm.heightAtLine(target.getStart(), "local") -
-        0.5 * cm.scrollbarV().getClientHeight());
+    CodeMirror targetCm = host.getCmFromSide(target.getSide());
+    targetCm.setCursor(Pos.create(getCmLine(target.getStart(), target.getSide())));
+    targetCm.focus();
+    targetCm.scrollToY(
+        targetCm.heightAtLine(target.getStart(), "local") -
+        0.5 * targetCm.scrollbarV().getClientHeight());
   }
 
   Comparator<DiffChunkInfo> getDiffChunkComparator() {

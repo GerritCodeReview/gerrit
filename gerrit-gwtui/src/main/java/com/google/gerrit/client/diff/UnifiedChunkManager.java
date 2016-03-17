@@ -227,7 +227,7 @@ class UnifiedChunkManager extends ChunkManager {
                 chunks,
                 new UnifiedDiffChunkInfo(cm.side(), 0, 0, line, false),
                 getDiffChunkComparatorCmLine());
-        diffChunkNavHelper(chunks, cm, res, dir);
+        diffChunkNavHelper(chunks, host, res, dir);
       }
     };
   }
@@ -255,12 +255,15 @@ class UnifiedChunkManager extends ChunkManager {
       res = -res - 1;
       if (res > 0) {
         UnifiedDiffChunkInfo info = chunks.get(res - 1);
-        if (info.getSide() == side && info.getStart() <= line && line <= info.getEnd()) {
+        if (side == DisplaySide.A && info.isEdit()) {
+          // Need to use the start and cmLine of the deletion chunk
+          info = chunks.get(res - 2);
+        }
+        if (info.getSide() == side) {
           return info.getCmLine() + line - info.getStart();
         } else {
-          return info.getCmLine() + (side == info.getSide()
-              ? line
-              : getLineMapper().lineOnOther(side, line).getLine()) - info.getStart();
+          return info.getCmLine()
+              + getLineMapper().lineOnOther(side, line).getLine() - info.getStart();
         }
       } else {
         return line;

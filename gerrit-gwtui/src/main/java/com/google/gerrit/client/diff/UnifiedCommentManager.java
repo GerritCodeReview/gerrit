@@ -139,6 +139,7 @@ class UnifiedCommentManager extends CommentManager {
             getCommentLinkProcessor(),
             getPatchSetIdFromSide(side),
             info,
+            side,
             isOpen());
         group.add(box);
         box.setAnnotation(getDiffScreen().getDiffTable().scrollbar.comment(

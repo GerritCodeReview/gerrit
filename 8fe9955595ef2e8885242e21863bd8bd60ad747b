@@ -39,6 +39,24 @@
       "revId": "8fe9955595ef2e8885242e21863bd8bd60ad747b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_1d9e577d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T11:34:26Z",
+      "side": 1,
+      "message": "It was copied from the GitOverHttpServlet.URL_REGEX (and slightly modified) for which, btw, we also don\u0027t have tests. Of course this is not a justification, so I will write some tests.",
+      "parentUuid": "bc6d0aef_3ab00123",
+      "revId": "8fe9955595ef2e8885242e21863bd8bd60ad747b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

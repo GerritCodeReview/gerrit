@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c08f263_b07558d5",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDbWrapper.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-17T09:40:12Z",
+      "side": 1,
+      "message": "unneeded blank line",
+      "revId": "6b6a6e6ed15cd71f7277d27a71a217f268f5f682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf2faa7_4ea3b3ca",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/DisabledReviewDb.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-17T09:40:12Z",
+      "side": 1,
+      "message": "unneeded blank line",
+      "revId": "6b6a6e6ed15cd71f7277d27a71a217f268f5f682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

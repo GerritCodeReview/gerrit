@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_3dd78f3a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:27:14Z",
+      "side": 1,
+      "message": "Is db.close() necessary here? Other ITs don\u0027t usually take care of this themselves.",
+      "revId": "2b7659ba9d65c8568266ce387768bc252d8ca8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_dddb0b61",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:27:14Z",
+      "side": 1,
+      "message": "I think you want a slightly stronger check here, that the set of label names is exactly {label, P}. The test as written would pass if, for example, approvals contained only two duplicate approvals for P+1",
+      "revId": "2b7659ba9d65c8568266ce387768bc252d8ca8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_1dd2d349",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:27:14Z",
+      "side": 1,
+      "message": "There are lots of ways that PSAs can be converted to a map. Maybe give this a more descriptive name like \"bykey\" or \"approvalsByKey\"",
+      "range": {
+        "startLine": 516,
+        "startChar": 31,
+        "endLine": 516,
+        "endChar": 39
+      },
+      "revId": "2b7659ba9d65c8568266ce387768bc252d8ca8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_7dcd17aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:27:14Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t follow. What is a \"quick approve vote\"? It looks like you\u0027re just collecting all current approvals independent of what was actually sent in this ReviewInput.",
+      "range": {
+        "startLine": 534,
+        "startChar": 39,
+        "endLine": 534,
+        "endChar": 57
+      },
+      "revId": "2b7659ba9d65c8568266ce387768bc252d8ca8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_9abeedf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:27:14Z",
+      "side": 1,
+      "message": "This is now in all branches of this if/else, so it could be moved outside:\n\n categories.put(ent.getKey(), firstNonNull(ent.getValue(), (short) 0));\n\nAlso, while we\u0027re at it, can we give this map a better name? We got rid of the term \"approval category\" long ago.",
+      "revId": "2b7659ba9d65c8568266ce387768bc252d8ca8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

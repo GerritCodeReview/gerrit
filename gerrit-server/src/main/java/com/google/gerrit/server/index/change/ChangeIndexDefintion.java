@@ -14,17 +14,19 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 
 /** Secondary index schemas for changes. */
-public class ChangeSchemas {
+public class ChangeIndexDefintion
+    extends IndexDefinition<Change.Id, ChangeData, ChangeIndex> {
+  public static final String NAME = "changes";
+
   @Deprecated
   static final Schema<ChangeData> V25 = schema(
       ChangeField.LEGACY_ID,
@@ -102,16 +104,11 @@ public class ChangeSchemas {
 
   static final Schema<ChangeData> V27 = schema(V26.getFields().values());
 
-  public static final ImmutableMap<Integer, Schema<ChangeData>> ALL =
-      SchemaUtil.schemasFromClass(ChangeSchemas.class, ChangeData.class);
-
-  public static Schema<ChangeData> get(int version) {
-    Schema<ChangeData> schema = ALL.get(version);
-    checkArgument(schema != null, "Unrecognized schema version: %s", version);
-    return schema;
-  }
-
-  public static Schema<ChangeData> getLatest() {
-    return Iterables.getLast(ALL.values());
+  @Inject
+  ChangeIndexDefintion(
+      ChangeIndexCollection indexCollection,
+      ChangeIndex.Factory indexFactory,
+      AllChangesIndexer allChangesIndexer) {
+    super(NAME, indexCollection, indexFactory, allChangesIndexer, ChangeData.class);
   }
 }

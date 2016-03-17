@@ -21,8 +21,8 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.change.ChangeSchemas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 /** Initialize the {@code index} configuration section. */
 @Singleton
@@ -39,17 +40,20 @@ class InitIndex implements InitStep {
   private final SitePaths site;
   private final InitFlags initFlags;
   private final Section gerrit;
+  private final Collection<IndexDefinition<?, ?, ?>> defs;
 
   @Inject
   InitIndex(ConsoleUI ui,
       Section.Factory sections,
       SitePaths site,
-      InitFlags initFlags) {
+      InitFlags initFlags,
+      Collection<IndexDefinition<?, ?, ?>> defs) {
     this.ui = ui;
     this.index = sections.get("index", null);
     this.gerrit = sections.get("gerrit", null);
     this.site = site;
     this.initFlags = initFlags;
+    this.defs = defs;
   }
 
   @Override
@@ -57,8 +61,11 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-    AbstractLuceneIndex.setReady(
-        site, ChangeSchemas.getLatest().getVersion(), true);
+    for (IndexDefinition<?, ?, ?> def : defs) {
+      // TODO(dborowitz): Totally broken for non-change indexes.
+      AbstractLuceneIndex.setReady(
+          site, def.getLatest().getVersion(), true);
+    }
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
     } else {
       final String message = String.format(

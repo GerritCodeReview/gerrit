@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cf2faa7_eeb1bf0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:59:29Z",
+      "side": 1,
+      "message": "This method should be annotated with @Override",
+      "revId": "6e6806be8340c5f1173b347bd67786ddb3f12185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf2faa7_8ea47bd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:59:29Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile.\n\n The method max(int, int) is undefined for the type Integer\n\nI guess the intention was to use Math.max?",
+      "revId": "6e6806be8340c5f1173b347bd67786ddb3f12185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c08f263_9072d4e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:59:29Z",
+      "side": 1,
+      "message": "Wrap this line.  And it would be cleaner to use String.format(...)",
+      "revId": "6e6806be8340c5f1173b347bd67786ddb3f12185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

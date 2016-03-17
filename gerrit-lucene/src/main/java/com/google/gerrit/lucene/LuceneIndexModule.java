@@ -32,17 +32,14 @@ import org.eclipse.jgit.lib.Config;
 public class LuceneIndexModule extends LifecycleModule {
   private final Integer singleVersion;
   private final int threads;
-  private final String base;
 
   public LuceneIndexModule() {
-    this(null, 0, null);
+    this(null, 0);
   }
 
-  public LuceneIndexModule(Integer singleVersion, int threads,
-      String base) {
+  public LuceneIndexModule(Integer singleVersion, int threads) {
     this.singleVersion = singleVersion;
     this.threads = threads;
-    this.base = base;
   }
 
   @Override
@@ -50,7 +47,7 @@ public class LuceneIndexModule extends LifecycleModule {
     factory(LuceneChangeIndex.Factory.class);
     factory(OnlineReindexer.Factory.class);
     install(new IndexModule(threads));
-    if (singleVersion == null && base == null) {
+    if (singleVersion == null) {
       install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule());
@@ -82,7 +79,7 @@ public class LuceneIndexModule extends LifecycleModule {
       Schema<ChangeData> schema = singleVersion != null
           ? ChangeSchemas.get(singleVersion)
           : ChangeSchemas.getLatest();
-      return factory.create(schema, base);
+      return factory.create(schema);
     }
   }
 

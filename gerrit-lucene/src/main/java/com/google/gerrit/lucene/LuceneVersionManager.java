@@ -157,12 +157,12 @@ public class LuceneVersionManager implements LifecycleListener {
     }
 
     markNotReady(cfg, versions.values(), write);
-    LuceneChangeIndex searchIndex = indexFactory.create(search.schema, null);
+    LuceneChangeIndex searchIndex = indexFactory.create(search.schema);
     indexes.setSearchIndex(searchIndex);
     for (Version v : write) {
       if (v.schema != null) {
         if (v.version != search.version) {
-          indexes.addWriteIndex(indexFactory.create(v.schema, null));
+          indexes.addWriteIndex(indexFactory.create(v.schema));
         } else {
           indexes.addWriteIndex(searchIndex);
         }

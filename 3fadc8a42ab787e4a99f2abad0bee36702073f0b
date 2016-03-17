@@ -39,6 +39,30 @@
       "revId": "3fadc8a42ab787e4a99f2abad0bee36702073f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c08f263_90ff7479",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-17T05:02:15Z",
+      "side": 1,
+      "message": "getSideBySideDiffLink() refers to that red and green icon with a magnifier. Clicking on that icon should take the user to the side by side screen. unifiedWebLinks() refer to the arrow links, which should keep the user on the unified screen.",
+      "parentUuid": "5c0b2e61_efca6165",
+      "range": {
+        "startLine": 209,
+        "startChar": 34,
+        "endLine": 209,
+        "endChar": 81
+      },
+      "revId": "3fadc8a42ab787e4a99f2abad0bee36702073f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

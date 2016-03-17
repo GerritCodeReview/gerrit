@@ -36,11 +36,10 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private final AtomicBoolean running = new AtomicBoolean();
 
   public OnlineReindexer(
-      IndexCollection<K, V, I> indexes,
-      SiteIndexer<K, V, I> batchIndexer,
+      IndexDefinition<K, V, I> def,
       int version) {
-    this.indexes = indexes;
-    this.batchIndexer = batchIndexer;
+    this.indexes = def.getIndexCollection();
+    this.batchIndexer = def.getSiteIndexer();
     this.version = version;
   }
 

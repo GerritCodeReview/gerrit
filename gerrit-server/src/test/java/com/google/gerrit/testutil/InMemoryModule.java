@@ -14,7 +14,6 @@
 
 package com.google.gerrit.testutil;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.util.concurrent.MoreExecutors;
@@ -49,7 +48,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.change.ChangeSchemas;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
@@ -74,10 +73,12 @@ import com.google.inject.servlet.RequestScoped;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 public class InMemoryModule extends FactoryModule {
@@ -97,8 +98,6 @@ public class InMemoryModule extends FactoryModule {
     cfg.unset("cache", null, "directory");
     cfg.setString("index", null, "type", "lucene");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
-    cfg.setInt("index", "lucene", "testVersion",
-        ChangeSchemas.getLatest().getVersion());
     cfg.setInt("sendemail", null, "threadPoolSize", 0);
     cfg.setBoolean("receive", null, "enableSignedPush", false);
     cfg.setString("receive", null, "certNonceSeed", "sekret");
@@ -234,16 +233,20 @@ public class InMemoryModule extends FactoryModule {
 
   private Module luceneIndexModule() {
     try {
+      Map<String, Integer> singleVersions = new HashMap<>();
       int version = cfg.getInt("index", "lucene", "testVersion", -1);
-      checkState(ChangeSchemas.ALL.containsKey(version),
-          "invalid index.lucene.testVersion %s", version);
+      if (version > 0) {
+        singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
+      }
       Class<?> clazz =
           Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
-      Constructor<?> c = clazz.getConstructor(Integer.class, int.class);
-      return (Module) c.newInstance(version, 0);
+      Method m = clazz.getMethod(
+          "singleVersionWithExplicitVersions", Map.class, int.class);
+      return (Module) m.invoke(null, singleVersions, 0);
     } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
-        | IllegalArgumentException | InstantiationException
-        | IllegalAccessException | InvocationTargetException e) {
+        | IllegalArgumentException | IllegalAccessException
+        | InvocationTargetException e) {
+      e.printStackTrace();
       ProvisionException pe = new ProvisionException(e.getMessage());
       pe.initCause(e);
       throw pe;

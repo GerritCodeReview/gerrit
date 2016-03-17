@@ -17,20 +17,30 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.ChangeIndexDefintion;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexRewriter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Module for non-indexer-specific secondary index setup.
@@ -42,6 +52,10 @@ public class IndexModule extends LifecycleModule {
   public enum IndexType {
     LUCENE
   }
+
+  public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
+      ImmutableList.<SchemaDefinitions<?>> of(
+          ChangeSchemaDefinitions.INSTANCE);
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
@@ -72,6 +86,33 @@ public class IndexModule extends LifecycleModule {
     bind(IndexRewriter.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
+  }
+
+  @Provides
+  Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+      ChangeIndexDefintion changes) {
+    Collection<IndexDefinition<?, ?, ?>> result =
+        ImmutableList.<IndexDefinition<?, ?, ?>> of(changes);
+    Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
+        .transform(new Function<SchemaDefinitions<?>, String>() {
+          @Override
+          public String apply(SchemaDefinitions<?> in) {
+            return in.getName();
+          }
+        }).toSet();
+    Set<String> actual = FluentIterable.from(result)
+        .transform(new Function<IndexDefinition<?, ?, ?>, String>() {
+          @Override
+          public String apply(IndexDefinition<?, ?, ?> in) {
+            return in.getName();
+          }
+        }).toSet();
+    if (!expected.equals(actual)) {
+      throw new ProvisionException(
+          "need index definitions for all schemas: "
+          + expected + " != " + actual);
+    }
+    return result;
   }
 
   @Provides

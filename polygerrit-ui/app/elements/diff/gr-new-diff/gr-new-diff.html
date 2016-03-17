@@ -92,6 +92,18 @@ limitations under the License.
       .contextControl td:not(.lineNum) {
         text-align: center;
       }
+      .br:after {
+        /* Line feed */
+        content: '\A';
+      }
+      .tab {
+        display: inline-block;
+      }
+      .tab.withIndicator:before {
+        color: #C62828;
+        /* >> character */
+        content: '\00BB';
+      }
     </style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>

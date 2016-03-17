@@ -132,7 +132,7 @@ class UnifiedCommentManager extends CommentManager {
     for (CommentInfo info : Natives.asList(in)) {
       DisplaySide side = displaySide(info, forSide);
       if (side != null) {
-        int cmLinePlusOne = host.getCmLine(info.line() - 1, side);
+        int cmLinePlusOne = host.getCmLine(info.line() - 1, side) + 1;
         UnifiedCommentGroup group = group(side, cmLinePlusOne);
         PublishedBox box = new PublishedBox(
             group,
@@ -363,7 +363,7 @@ class UnifiedCommentManager extends CommentManager {
     if (cm.somethingSelected()) {
       // TODO: Handle range comment
     } else {
-      insertNewDraft(side, cmLine);
+      insertNewDraft(side, cmLine + 1);
     }
   }
 

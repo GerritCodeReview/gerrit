@@ -281,14 +281,7 @@ class UnifiedChunkManager extends ChunkManager {
       res = -res - 1;
       if (res > 0) {
         UnifiedDiffChunkInfo info = chunks.get(res - 1);
-        int delta = info.getCmLine() - 1 + info.getEnd() - info.getStart() - cmLine;
-        if (delta > 0) {
-          return new LineSidePair(info.getStart() + delta, info.getSide());
-        } else {
-          delta = cmLine - info.getCmLine();
-          int result = info.getStart() + delta;
-          return new LineSidePair(result, info.getSide());
-        }
+        return new LineSidePair(info.getStart() + cmLine - info.getCmLine(), info.getSide());
       } else {
         // Always return side B
         return new LineSidePair(cmLine, DisplaySide.B);

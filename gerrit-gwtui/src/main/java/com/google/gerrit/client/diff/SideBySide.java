@@ -242,6 +242,7 @@ public class SideBySide extends DiffScreen {
     return CodeMirror.create(parent, Configuration.create()
       .set("cursorBlinkRate", prefs.cursorBlinkRate())
       .set("cursorHeight", 0.85)
+      .set("inputStyle", "textarea")
       .set("keyMap", "vim_ro")
       .set("lineNumbers", prefs.showLineNumbers())
       .set("lineWrapping", false)

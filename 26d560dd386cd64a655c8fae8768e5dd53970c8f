@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_9a97cd6d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4641,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T13:35:07Z",
+      "side": 1,
+      "message": "Suggestions for slight rewording:\n\n\"Apply this tag to the review comment message, votes, and inline comments. Tags may be used by CI or other automated systems to distinguish them from human reviews. Comments with specific tag values can be filtered out in the web UI.\"",
+      "range": {
+        "startLine": 4638,
+        "startChar": 0,
+        "endLine": 4641,
+        "endChar": 30
+      },
+      "revId": "26d560dd386cd64a655c8fae8768e5dd53970c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_a0e374ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T13:35:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t the schema updater do this automatically? See e.g. Schema_103",
+      "revId": "26d560dd386cd64a655c8fae8768e5dd53970c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

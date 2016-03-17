@@ -32,7 +32,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -101,7 +100,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -159,7 +157,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   static interface Factory {
-    LuceneChangeIndex create(Schema<ChangeData> schema, String base);
+    LuceneChangeIndex create(Schema<ChangeData> schema);
   }
 
   static class GerritIndexWriterConfig {
@@ -216,8 +214,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
-      @Assisted Schema<ChangeData> schema,
-      @Assisted @Nullable String base) throws IOException {
+      @Assisted Schema<ChangeData> schema) throws IOException {
     this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
@@ -245,8 +242,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig,
           searcherFactory);
     } else {
-      Path dir = base != null ? Paths.get(base)
-          : LuceneVersionManager.getDir(sitePaths, schema);
+      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES_PREFIX, schema);
       openIndex = new SubIndex(dir.resolve(CHANGES_OPEN), openConfig,
           searcherFactory);
       closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig,

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1458220648 +0100\nnonce AO+Zq7j0ROjXX/9ijGXnn3d+KVaOlBsLf3UdmOPfkmbPGOPaxKnJKzozP9pLRMXeeMn5af03Pick\n\n0000000000000000000000000000000000000000 2d0eb9f02f9c0fcbab4d9b86cd549812829a29ca refs/for/master%topic\u003daccount-index-gh16,r\u003dhugo.ares@ericsson.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW6q5oAAoJEF/XxZqaEoiMiwwQAJRRLCaMaM8+yscU3QrPGFgI\nYDdVZ632wZ/OpGIjQsh2q0vtHvcArx7Ql/bnia23iWg5sYs+UXvf2fWcJ/DYG0I8\ng02S8e4bbJZntlnqx//F5WJkjQHqxBoF0GwfojVTES8qoAQkDox9x3I/TJvfieWq\nrH1hme93wnBEoQw0x2N9UbKbnmWd3HGkMOBkzL+8aXnrQkHU3tAWGZYuJxAeZTWR\nfzTqAEv6sg8TWCvkVSjYBGIArAxA8xRrjf88knrl+greKWX9fQXkfGydO6oa4euR\n5Z9BKR22tPeeCqJ4biMeAKfHvxf3cApI8lbWAiHA+XfeItLNqpQU1qUat4VvsEfu\n3E5vdvF9q3qpW34cyxwTzyXl9FjB6w/EaA0Ib7YahmpMVymcX5dqBt9Pg8jWn7ph\nQ/I+ckzN5WjAp/8/j9tTQMrQMcGQGENmMrT3wv7h14af78/cgQwZ0VnIlXTM8rHR\nVdxRcws2vkJ8/Vp90+hmwubvaJ8k72F02cn4Nn1W0QEXbw4eIuul+lbClxhBBrVF\n7CzC+hBHuFdHn99I2w8RWOSVXtvimDT4UnfsTuK8DVhfwQKsAch3MK84tD4ct4Sv\nvIrptLDRU7rKg167w7RU62eQzUz4v6YvLXgXtxWu9tJpxV7nQgW+QyCv0xDQhfv/\n6B7zaCeKFrUYX/Bcu66o\n\u003dPbpg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c08f263_100a6443",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-17T14:16:31Z",
+      "side": 1,
+      "message": "pass CHANGES_PREFIX, here otherwise there is a compilation error.",
+      "range": {
+        "startLine": 191,
+        "startChar": 55,
+        "endLine": 191,
+        "endChar": 56
+      },
+      "revId": "68a21c98fff8990a5a96698c0f109c74aa003cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

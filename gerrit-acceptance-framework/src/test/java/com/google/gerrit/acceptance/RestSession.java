@@ -28,9 +28,7 @@ import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class RestSession extends HttpSession {
 
@@ -112,31 +110,5 @@ public class RestSession extends HttpSession {
 
   public RestResponse delete(String endPoint) throws IOException {
     return execute(Request.Delete(url + "/a" + endPoint));
-  }
-
-
-  public static RawInput newRawInput(String content) {
-    return newRawInput(content.getBytes(UTF_8));
-  }
-
-  public static RawInput newRawInput(final byte[] bytes) {
-    Preconditions.checkNotNull(bytes);
-    Preconditions.checkArgument(bytes.length > 0);
-    return new RawInput() {
-      @Override
-      public InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream(bytes);
-      }
-
-      @Override
-      public String getContentType() {
-        return "application/octet-stream";
-      }
-
-      @Override
-      public long getContentLength() {
-        return bytes.length;
-      }
-    };
   }
 }

@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Change;
@@ -579,7 +579,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     Change ch2 = getChange(c2_1).change();
     editModifier.createEdit(ch2, getPatchSet(ch2.currentPatchSetId()));
     editModifier.modifyFile(editUtil.byChange(ch2).get(), "a.txt",
-        RestSession.newRawInput(new byte[] {'a'}));
+        RawInputUtil.create(new byte[] {'a'}));
     ObjectId editRev =
         ObjectId.fromString(editUtil.byChange(ch2).get().getRevision().get());
 

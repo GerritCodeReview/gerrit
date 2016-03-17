@@ -33,6 +33,7 @@ java_library(
   ],
   provided_deps = [
     '//lib/bouncycastle:bcprov',
+    '//lib:servlet-api-3_1',
   ],
   visibility = ['PUBLIC'],
 )

@@ -16,6 +16,24 @@
       "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_90a754d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-17T18:33:19Z",
+      "side": 1,
+      "message": "Sorry about this comment. Now it looks like this line was actually not too long. I\u0027m sure that some of the words were behind the dotted line, when I looked at this in the train :(",
+      "parentUuid": "1c937619_c0c1e0fa",
+      "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

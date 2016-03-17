@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_c0c1e0fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-03-17T16:58:29Z",
+      "side": 1,
+      "message": "nit: wrap lines at 80 characters",
+      "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -69,6 +69,24 @@
       "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_100fe485",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-17T20:44:36Z",
+      "side": 1,
+      "message": "\u003e So long as we are not using shadow DOM, We can put it in out app.css file or really any main css filter.\n\nThis change is not required as long as we are not using shadow DOM. It works fine at the moment.\n\nCould it probably even be classified as issue in Polymer since it works with shady DOM, but not with shadow DOM? We do not have any special CSS rule (AFAIK) at the moment for \u0027hidden\u0027. If you think so, I would be glad to create an isolated test-case and report it to Polymer issue tracker.",
+      "parentUuid": "1c729620_85d00218",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

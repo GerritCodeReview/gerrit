@@ -16,6 +16,24 @@
       "revId": "e5c6fb53e53cd6429c2edadd678a9d9ff54b8c40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c729620_650ea687",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-17T21:49:41Z",
+      "side": 1,
+      "message": "I can separate them into 3 changes if you prefer.",
+      "parentUuid": "3c8e7a42_6e0e8f87",
+      "revId": "e5c6fb53e53cd6429c2edadd678a9d9ff54b8c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

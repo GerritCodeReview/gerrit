@@ -45,6 +45,30 @@
       "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_daf1c5f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T09:43:19Z",
+      "side": 0,
+      "message": "Edwin has a good point here :)\n\nI also wonder why this wasn\u0027t caught in tests, since we do have SubmitTypeRuleIT. But I just looked at that and it only uses TestSubmitType to ensure that rules can be set without producing any error--it doesn\u0027t actually check the results of TestSubmitType. So that test will not catch this particular class of failure.\n\nI think the tests need to be improved as part of this series.",
+      "parentUuid": "bc6d0aef_3a91e13b",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

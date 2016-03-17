@@ -45,6 +45,23 @@
       "revId": "c90ed497f6997035c0674c0f93a0209186e3719d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_5dfe1bcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleFlags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T09:43:19Z",
+      "side": 1,
+      "message": "Nit: I would probably call this \"SubmitRuleOptions\" since it\u0027s not obvious that these will always all be boolean.\n\nI might also prefer that this be converted to @AutoValue later. But I\u0027m somewhat undecided and I think keeping the existing builder pattern for SubmitRuleEvaluator is fine.",
+      "revId": "c90ed497f6997035c0674c0f93a0209186e3719d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

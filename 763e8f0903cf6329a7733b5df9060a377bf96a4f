@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "1c937619_9d626382",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_ecd06b18",
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_cccdaf80",
         "filename": "Documentation/json.txt",
         "patchSetId": 20
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_9a626d82",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_cccdaf80",
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_acca6364",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
         "patchSetId": 20
@@ -70,6 +106,30 @@
       "writtenOn": "2016-03-15T14:25:43Z",
       "side": 1,
       "message": "isNull()",
+      "range": {
+        "startLine": 203,
+        "startChar": 33,
+        "endLine": 203,
+        "endChar": 48
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_5afe15cc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_acca6364",
       "range": {
         "startLine": 203,
         "startChar": 33,
@@ -128,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_7a03d9a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "DavidP says final is ok here (discussed in PS 11 review).   I\u0027ve changed the var name.",
+      "parentUuid": "fc3302f3_8cc7a75e",
+      "range": {
+        "startLine": 426,
+        "startChar": 35,
+        "endLine": 426,
+        "endChar": 49
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_6ce6bb07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 20
@@ -139,6 +223,24 @@
       "writtenOn": "2016-03-15T14:25:43Z",
       "side": 1,
       "message": "name this \u0027oldApprovals\u0027 and update the description",
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_9afb4dd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_6ce6bb07",
       "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "1c937619_20b764ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "re added. done",
+      "parentUuid": "fc3302f3_2cf0b3b3",
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c2536a9_8dc7a15e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 20
@@ -173,6 +293,30 @@
       "writtenOn": "2016-03-15T14:25:43Z",
       "side": 1,
       "message": "Do we need this code?\nChangeInserter is inserting a new change so there can\u0027t be any old approvals.",
+      "range": {
+        "startLine": 399,
+        "startChar": 8,
+        "endLine": 415,
+        "endChar": 9
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_3df55ba4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Yes, this is needed when user pushes a change with vote(s).\n\nScenarios for this:\n 1.  push new change (no votes) -\u003e patchset-created event but no comment-added event \n 2.  push new change with vote(s) -\u003e patchset-created event and a comment-added event.  This event will display all labels and will show  info for 0-\u003e $new_vote transition.",
+      "parentUuid": "1c2536a9_8dc7a15e",
       "range": {
         "startLine": 399,
         "startChar": 8,
@@ -208,6 +352,30 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_1a7dfdf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c2536a9_4debf9cb",
+      "range": {
+        "startLine": 353,
+        "startChar": 31,
+        "endLine": 353,
+        "endChar": 45
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_ecd98b3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 20
@@ -231,6 +399,30 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_5d94cf5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "No, current does not contain label info on new changes/patchesets. Cases where it does not contain label info:\n 1.  push of new change/patchset with a vote.\n 2.  reply to a new change with a message only (but no vote)\n\nThe previous votes needs to be determined for the above cases.",
+      "parentUuid": "fc3302f3_ecd98b3a",
+      "range": {
+        "startLine": 534,
+        "startChar": 5,
+        "endLine": 537,
+        "endChar": 7
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_0cf5f7a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 20
@@ -242,6 +434,24 @@
       "writtenOn": "2016-03-15T14:25:43Z",
       "side": 1,
       "message": "Remove the comment, here and below.",
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_baf891d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_0cf5f7a3",
       "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -294,6 +504,54 @@
     },
     {
       "key": {
+        "uuid": "1c937619_3d0d4fd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/ApprovalAttribute.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c2536a9_2df0adb3",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_00cee87b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/ApprovalAttribute.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c2536a9_0df5f1a3",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c2536a9_cdd6c90a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 20
@@ -305,6 +563,30 @@
       "writtenOn": "2016-03-15T14:25:43Z",
       "side": 1,
       "message": "Better get the old approvals already in updateChange above and store them in a local variable so that you have them available here.\n\nWhy do you only either write \u0027null\u0027 or \u00270\u0027 into approvalsStatus? Shouldn\u0027t this map contain the actual old approvals?",
+      "range": {
+        "startLine": 400,
+        "startChar": 6,
+        "endLine": 416,
+        "endChar": 7
+      },
+      "revId": "763e8f0903cf6329a7733b5df9060a377bf96a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_bde08be2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-17T14:15:02Z",
+      "side": 1,
+      "message": "Since pushing a new patchset always resets votes I think it makes more sense show 0-\u003e$new_vote transition in the comment-added event than \nshow $prev_vote-\u003e$new_vote transition.\n\nScenarios:\n 1.  push new patchset (no votes) -\u003e patchset-created event but no comment-added event \n 2.  push new patchset with vote(s) -\u003e patchset-created event and a comment-added event.  This event will show info for 0-\u003e $new_vote transition.",
+      "parentUuid": "1c2536a9_cdd6c90a",
       "range": {
         "startLine": 400,
         "startChar": 6,

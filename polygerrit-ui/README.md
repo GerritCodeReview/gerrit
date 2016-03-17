@@ -13,6 +13,26 @@ brew install node
 All other platforms: [download from
 nodejs.org](https://nodejs.org/en/download/).
 
+## Optional: installing [go] (https://golang.org/)
+
+This is only required for running the ```run-server.sh``` script for testing. See below.
+
+```sh
+# Debian/Ubuntu
+sudo apt-get install golang
+
+# OS X with Homebrew
+brew install go
+```
+
+All other platforms: [download from golang.org] (https//golang.org/)
+
+# Add [go] to your path
+
+```
+PATH=$PATH:/usr/local/go/bin
+```
+
 ## Local UI, Production Data
 
 To test the local UI against gerrit-review.googlesource.com:

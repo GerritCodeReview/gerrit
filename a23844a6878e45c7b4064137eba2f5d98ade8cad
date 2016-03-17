@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "1c937619_a0129473",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2016-03-17T16:27:44Z",
+      "side": 1,
+      "message": "Yeah, the current code is completely broken with regard to insert/delete edits.\nWhen start and end index are the same on one side, then it does not always update these indices even when shifting the insert/delete on the other side.\n\nAs our UI currently does not use these indices (insertion/deletion point is not highlighted on the other side at all), this has never been a problem.\nBut of course we should try to improve here.\nThen we could e.g. use the information to highlight the corresponding part of the edits when hovering over them.\n\nThe correct result for this test would be \u0027wordEdit(6, 6, 6, 16)\u0027.",
+      "parentUuid": "1c937619_80875804",
+      "range": {
+        "startLine": 76,
+        "startChar": 42,
+        "endLine": 76,
+        "endChar": 65
+      },
+      "revId": "a23844a6878e45c7b4064137eba2f5d98ade8cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_4091503a",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
         "patchSetId": 9
@@ -93,6 +117,30 @@
       "writtenOn": "2016-03-17T15:54:28Z",
       "side": 1,
       "message": "after the previous Edit removed one character at the beginning, shouldn\u0027t this actually be 5, 6",
+      "range": {
+        "startLine": 118,
+        "startChar": 26,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "a23844a6878e45c7b4064137eba2f5d98ade8cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_7db3d3ca",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2016-03-17T16:27:44Z",
+      "side": 1,
+      "message": "No, these are not edits which are applied one after the other.\nThese are direct indices into the Texts a and b.\n\nSo it just means: one character has been removed at position 6, and the corresponding position on the other side is 5.",
+      "parentUuid": "bc6d0aef_3deb1b9b",
       "range": {
         "startLine": 118,
         "startChar": 26,

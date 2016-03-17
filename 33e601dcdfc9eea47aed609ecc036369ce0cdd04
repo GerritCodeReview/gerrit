@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0b2e61_cff95d94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T08:04:53Z",
+      "side": 1,
+      "message": "Put this in the footer so it gets indexed and is searchable with the tr: query",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "33e601dcdfc9eea47aed609ecc036369ce0cdd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0b2e61_2f30e93d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T08:04:53Z",
+      "side": 1,
+      "message": "Do you intend to upload a change to fix this test, and the next one that\u0027s also annotated the same?\n\nIt might be better to omit these tests from this change, and add them in the follow-up changes that fix those cases.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "33e601dcdfc9eea47aed609ecc036369ce0cdd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

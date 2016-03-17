@@ -115,6 +115,30 @@
       "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_50132c9d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-03-17T22:19:28Z",
+      "side": 1,
+      "message": "The documentation specifies the \"git\" operation whilst here it is a bit more widely used when validating any user against GSSAuthenticator.\n\nStill worth updating it IMHO :-)",
+      "parentUuid": "7ca472ba_b040d880",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7c08f263_b02c38e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:04:56Z",
+      "side": 1,
+      "message": "Use the Bug: footer.  It\u0027s just a cross-reference; it won\u0027t cause any state transition on the tracker.",
+      "parentUuid": "1c937619_fdc287a7",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "33e601dcdfc9eea47aed609ecc036369ce0cdd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0b2e61_2f30e93d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
         "patchSetId": 6
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Well, I really want to already add all test-cases to specify the expected behavior.\nAnd then document \"this is an expected failure where the code does not behave properly\".\nThis way it\u0027s easy for the next change which fixes the behavior to just remove the \"expected failure\" annotation and be sure to really fix the issue.\n\nIf we just add these test-cases in the fix-up commit, then it\u0027s not clear if they are just new test cases or whether that change really had an influence on the behavior.",
       "parentUuid": "5c0b2e61_2f30e93d",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "33e601dcdfc9eea47aed609ecc036369ce0cdd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c08f263_902934d1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:04:56Z",
+      "side": 1,
+      "message": "OK, that\u0027s fine, but I would suggest adding comments in the test to explicitly mention what\u0027s known to fail (and why, if known).  Also the commit message should list which cases are known to be failing and are therefore annotated with an \u0027expected\u0027.",
+      "parentUuid": "bc6d0aef_5a2cd54b",
       "range": {
         "startLine": 81,
         "startChar": 2,

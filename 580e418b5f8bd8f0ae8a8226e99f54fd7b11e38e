@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c08f263_10142495",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedChunkManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T04:38:09Z",
+      "side": 1,
+      "message": "nit: wrap this line.",
+      "revId": "580e418b5f8bd8f0ae8a8226e99f54fd7b11e38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

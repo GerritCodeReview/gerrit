@@ -1,7 +1,7 @@
 include_defs('//lib/maven.defs')
 
 # This version must match the version that also appears in
-# gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config
+# gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config
 VERSION = '1.52'
 
 maven_jar(

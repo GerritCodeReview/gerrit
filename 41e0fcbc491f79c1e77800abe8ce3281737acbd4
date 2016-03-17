@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_babbb102",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/rules/DefaultSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:39:06Z",
+      "side": 1,
+      "message": "Nit: unnecessary final",
+      "revId": "41e0fcbc491f79c1e77800abe8ce3281737acbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_7a9f598a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/rules/DefaultSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:39:06Z",
+      "side": 1,
+      "message": "I think you need to check the r.status field before scanning the labels.",
+      "revId": "41e0fcbc491f79c1e77800abe8ce3281737acbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_9de58325",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/rules/DefaultSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:39:06Z",
+      "side": 1,
+      "message": "I don\u0027t care too much but you could do this in some other ways:\n\n* use switch(function.toLowerCase())\n* have a Map\u003cString, Class\u003c? extends LabelCheck\u003e\u003e and use reflection to construct the objects.",
+      "revId": "41e0fcbc491f79c1e77800abe8ce3281737acbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_bde2bf18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/rules/DefaultSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:39:06Z",
+      "side": 1,
+      "message": "These seem like they would be easily testable units. But I guess we are confident at this point that CustomLabelTypeIT gives us sufficient test coverage?",
+      "revId": "41e0fcbc491f79c1e77800abe8ce3281737acbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_1aa41de2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/rules/DefaultSubmitTypeRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T10:39:06Z",
+      "side": 1,
+      "message": "Hm, aren\u0027t errorMessages in Submit(Type)Records generally shown to the end user? Whereas OrmException messages generally should not be. Maybe this should be a generic error message (\"internal error evaluating submit type rule\") and we log the full stack trace?",
+      "revId": "41e0fcbc491f79c1e77800abe8ce3281737acbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

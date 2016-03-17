@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c937619_fdc287a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2016-03-17T08:57:59Z",
+      "side": 1,
+      "message": "Should I use the \"Bug:\" footer here, or would that be interpreted as \"this commit fixes that issue\"?",
+      "parentUuid": "5c0b2e61_cff95d94",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "33e601dcdfc9eea47aed609ecc036369ce0cdd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0b2e61_2f30e93d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-17T08:04:53Z",
       "side": 1,
       "message": "Do you intend to upload a change to fix this test, and the next one that\u0027s also annotated the same?\n\nIt might be better to omit these tests from this change, and add them in the follow-up changes that fix those cases.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "33e601dcdfc9eea47aed609ecc036369ce0cdd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_5a2cd54b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2016-03-17T08:57:59Z",
+      "side": 1,
+      "message": "Well, I really want to already add all test-cases to specify the expected behavior.\nAnd then document \"this is an expected failure where the code does not behave properly\".\nThis way it\u0027s easy for the next change which fixes the behavior to just remove the \"expected failure\" annotation and be sure to really fix the issue.\n\nIf we just add these test-cases in the fix-up commit, then it\u0027s not clear if they are just new test cases or whether that change really had an influence on the behavior.",
+      "parentUuid": "5c0b2e61_2f30e93d",
       "range": {
         "startLine": 81,
         "startChar": 2,

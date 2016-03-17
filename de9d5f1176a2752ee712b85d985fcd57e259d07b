@@ -16,6 +16,23 @@
       "revId": "de9d5f1176a2752ee712b85d985fcd57e259d07b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c729620_a5a41ed1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-17T19:38:35Z",
+      "side": 1,
+      "message": "hi you should read this -\u003e https://mathiasbynens.be/notes/javascript-unicode\n\n:)",
+      "revId": "de9d5f1176a2752ee712b85d985fcd57e259d07b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

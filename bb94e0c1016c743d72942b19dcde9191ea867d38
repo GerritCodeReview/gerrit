@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_5d304f3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024958
+      },
+      "writtenOn": "2016-03-17T13:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c937619_9d97c36d",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "bb94e0c1016c743d72942b19dcde9191ea867d38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_bd94ff68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 14
@@ -53,6 +77,48 @@
       "writtenOn": "2016-03-17T12:09:29Z",
       "side": 1,
       "message": "the \";\" is normally not needed for SQL statements executed from Java",
+      "range": {
+        "startLine": 47,
+        "startChar": 58,
+        "endLine": 47,
+        "endChar": 59
+      },
+      "revId": "bb94e0c1016c743d72942b19dcde9191ea867d38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_400e3087",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024958
+      },
+      "writtenOn": "2016-03-17T13:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c937619_bd94ff68",
+      "revId": "bb94e0c1016c743d72942b19dcde9191ea867d38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_7d35132d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024958
+      },
+      "writtenOn": "2016-03-17T13:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_9db1070f",
       "range": {
         "startLine": 47,
         "startChar": 58,

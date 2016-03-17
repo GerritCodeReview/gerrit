@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cf2faa7_0e99ab94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:31:14Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "6a159ec8ceac164c79959034e801038d369c4db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c08f263_10870406",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:31:14Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "6a159ec8ceac164c79959034e801038d369c4db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c08f263_308208f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T09:31:14Z",
+      "side": 1,
+      "message": "nit: too many semicolons.",
+      "range": {
+        "startLine": 44,
+        "startChar": 88,
+        "endLine": 44,
+        "endChar": 89
+      },
+      "revId": "6a159ec8ceac164c79959034e801038d369c4db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

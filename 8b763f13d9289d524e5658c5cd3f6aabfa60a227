@@ -87,6 +87,24 @@
       "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c729620_c5e3daed",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-17T21:27:15Z",
+      "side": 1,
+      "message": "+1 to adding a regular css at the top of each element regardless (this can be automated via an element generator for the project... {for every project I do, I end up having a generator for new elements to cut down on the tedium})",
+      "parentUuid": "3c8e7a42_2eeba7cc",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

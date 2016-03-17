@@ -16,6 +16,24 @@
       "revId": "7209b57cca7b9d1fc04b0f1fe5d94a97ce33ff25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c08f263_70e650d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-17T13:12:20Z",
+      "side": 0,
+      "message": "No, I moved the list() method call from the constructor to the LifecycleListener.start method. We still want to list all projects early in the bootstrap but not in the constructor.\n\nThe problem with having the list method in the constructor is that it prevents subclass from overriding it. Theoretically they could but overriding a method used in a super class constructor can end up calling a method in a partially initialized sub class.",
+      "parentUuid": "1c937619_a0ca9464",
+      "revId": "7209b57cca7b9d1fc04b0f1fe5d94a97ce33ff25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

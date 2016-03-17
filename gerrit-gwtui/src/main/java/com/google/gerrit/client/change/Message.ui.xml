@@ -30,10 +30,6 @@ limitations under the License.
       -webkit-border-bottom-right-radius: 8px;
     }
 
-    .botComments {
-      display: NONE;
-    }
-
     .header {
       cursor: pointer;
     }

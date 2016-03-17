@@ -281,6 +281,13 @@ public class ChangeScreen extends Screen {
           public void onSuccess(ChangeInfo info) {
             info.init();
             loadConfigInfo(info, base);
+            JsArray<MessageInfo> mAr = info.messages();
+            for (int i = 0; i < mAr.length(); i++) {
+              if ( mAr.get(i).tag() != null) {
+                hideBotComments.setVisible(true);
+                break;
+              }
+            }
           }
         }));
   }
@@ -838,7 +845,7 @@ public class ChangeScreen extends Screen {
     int n = history.getWidgetCount();
     for (int i = 0; i < n; i++) {
       Message m = ((Message) history.getWidget(i));
-      m.removeStyleName(m.style.botComments());
+      m.setVisible(true);
     }
   }
 
@@ -850,7 +857,7 @@ public class ChangeScreen extends Screen {
     for (int i = 0; i < n; i++) {
       Message m = ((Message) history.getWidget(i));
       if ( m.getMessageInfo().tag() != null) {
-        m.addStyleName(m.style.botComments());
+        m.setVisible(false);
       }
     }
   }

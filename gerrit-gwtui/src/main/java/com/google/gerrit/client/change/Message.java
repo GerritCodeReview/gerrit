@@ -52,7 +52,6 @@ class Message extends Composite {
 
   static interface Style extends CssResource {
     String closed();
-    String botComments();
   }
 
   @UiField Style style;

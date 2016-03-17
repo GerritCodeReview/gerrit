@@ -353,9 +353,13 @@ public class Header extends Composite {
   }
 
   void setNoDiff(DiffInfo diff) {
-    JsArray<Region> regions = diff.content();
-    boolean b = regions.length() == 0
-        || (regions.length() == 1 && regions.get(0).ab() != null);
-    UIObject.setVisible(noDiff, b);
+    if (diff.binary()) {
+      UIObject.setVisible(noDiff, false); // Don't bother showing "No Differences"
+    } else {
+      JsArray<Region> regions = diff.content();
+      boolean b = regions.length() == 0
+          || (regions.length() == 1 && regions.get(0).ab() != null);
+      UIObject.setVisible(noDiff, b);
+    }
   }
 }

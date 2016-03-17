@@ -116,10 +116,11 @@ abstract class DiffTable extends Composite {
       StringBuilder b = new StringBuilder();
       for (int i = 1; i < hdr.length(); i++) {
         String s = hdr.get(i);
-        if (s.startsWith("diff --git ")
+        if (!info.binary()
+            && (s.startsWith("diff --git ")
             || s.startsWith("index ")
             || s.startsWith("+++ ")
-            || s.startsWith("--- ")) {
+            || s.startsWith("--- "))) {
           continue;
         }
         b.append(s).append('\n');

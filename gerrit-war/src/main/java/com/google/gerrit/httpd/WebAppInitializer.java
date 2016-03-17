@@ -337,7 +337,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Module createIndexModule() {
     switch (indexType) {
       case LUCENE:
-        return new LuceneIndexModule();
+        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

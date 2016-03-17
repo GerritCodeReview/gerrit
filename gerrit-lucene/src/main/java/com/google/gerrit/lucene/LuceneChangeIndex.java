@@ -123,10 +123,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
   }
 
-  static interface Factory {
-    LuceneChangeIndex create(Schema<ChangeData> schema);
-  }
-
   private final SitePaths sitePaths;
   private final FillArgs fillArgs;
   private final ListeningExecutorService executor;

@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.ChangeIndexDefintion;
 import com.google.gerrit.server.index.change.IndexRewriter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -31,6 +33,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Collection;
 
 /**
  * Module for non-indexer-specific secondary index setup.
@@ -72,6 +76,12 @@ public class IndexModule extends LifecycleModule {
     bind(IndexRewriter.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
+  }
+
+  @Provides
+  Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+      ChangeIndexDefintion changes) {
+    return ImmutableList.<IndexDefinition<?, ?, ?>> of(changes);
   }
 
   @Provides

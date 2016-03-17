@@ -403,7 +403,9 @@ public class Daemon extends SiteProgram {
     }
     switch (indexType) {
       case LUCENE:
-        return luceneModule != null ? luceneModule : new LuceneIndexModule();
+        return luceneModule != null
+            ? luceneModule
+            : LuceneIndexModule.latestVersionWithOnlineUpgrade();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_20ff644e",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:04:51Z",
+      "side": 1,
+      "message": "Mention that this is only necessary if you want to use run-server.sh.\n\nThis is not necessary if you are just building a Gerrit frontend and don\u0027t care about hacking on PolyGerrit. The only hard requirement for that is node.js.",
+      "revId": "ab3a146d070e0dc5cd373d683e3ecb989b8e75bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

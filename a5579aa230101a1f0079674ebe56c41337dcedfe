@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_dd43ff8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T14:01:56Z",
+      "side": 1,
+      "message": "Do you refer to the GERRIT_USER variable or to the container.user configuration parameter here?",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a5579aa230101a1f0079674ebe56c41337dcedfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

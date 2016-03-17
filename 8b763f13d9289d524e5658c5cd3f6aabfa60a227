@@ -51,6 +51,24 @@
       "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c729620_85d00218",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-17T20:38:38Z",
+      "side": 1,
+      "message": "So long as we are not using shadow DOM, We can put it in out app.css file or really any main css filter.\n\nSans that we will have to have a _reset.css or something that we will use in every element, again not the worst thing and probably an OK thing to do.",
+      "parentUuid": "7ca472ba_10e60406",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

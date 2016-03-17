@@ -22,6 +22,16 @@
     this._processContent(diff.content, this._groups, prefs.context);
   }
 
+  GrDiffBuilder.LESS_THAN_CODE = '<'.charCodeAt(0);
+  GrDiffBuilder.GREATER_THAN_CODE = '>'.charCodeAt(0);
+  GrDiffBuilder.AMPERSAND_CODE = '&'.charCodeAt(0);
+  GrDiffBuilder.SEMICOLON_CODE = ';'.charCodeAt(0);
+
+  GrDiffBuilder.TAB_REGEX = /\t/g;
+
+  GrDiffBuilder.LINE_FEED_HTML =
+      '<span class="style-scope gr-new-diff br"></span>';
+
   GrDiffBuilder.GroupType = {
     ADDED: 'b',
     BOTH: 'ab',
@@ -178,6 +188,10 @@
     td.classList.add(line.type);
     var text = line.text || '\n';
     var html = util.escapeHTML(text);
+    if (text.length > this._prefs.line_length) {
+      html = this._addNewlines(text, html);
+    }
+    html = this._addTabWrappers(html);
 
     // If the html is equivalent to the text then it didn't get highlighted
     // or escaped. Use textContent which is faster than innerHTML.
@@ -187,6 +201,85 @@
       td.innerHTML = html;
     }
     return td;
+  };
+
+  // Advance `index` by the appropriate number of characters that would
+  // represent one source code character and return that index. For
+  // example, for source code '<span>' the escaped html string is
+  // '&lt;span&gt;'. Advancing from index 0 on the prior html string would
+  // return 4, since &lt; maps to one source code character ('<').
+  GrDiffBuilder.prototype._advanceChar = function(html, index) {
+    // TODO(andybons): Unicode is all kinds of messed up in JS. Account for it.
+    // https://mathiasbynens.be/notes/javascript-unicode
+
+    // Tags don't count as characters
+    while (index < html.length &&
+           html.charCodeAt(index) == GrDiffBuilder.LESS_THAN_CODE) {
+      while (index < html.length &&
+             html.charCodeAt(index) != GrDiffBuilder.GREATER_THAN_CODE) {
+        index++;
+      }
+      index++;  // skip the ">" itself
+    }
+    // An HTML entity (e.g., &lt;) counts as one character.
+    if (index < html.length &&
+        html.charCodeAt(index) == GrDiffBuilder.AMPERSAND_CODE) {
+      while (index < html.length &&
+             html.charCodeAt(index) != GrDiffBuilder.SEMICOLON_CODE) {
+        index++;
+      }
+    }
+    return index + 1;
+  };
+
+  GrDiffBuilder.prototype._addNewlines = function(text, html) {
+    var htmlIndex = 0;
+    var indices = [];
+    var numChars = 0;
+    for (var i = 0; i < text.length; i++) {
+      if (numChars > 0 && numChars % this._prefs.line_length === 0) {
+        indices.push(htmlIndex);
+      }
+      htmlIndex = this._advanceChar(html, htmlIndex);
+      if (text[i] === '\t') {
+        numChars += this._prefs.tab_size;
+      } else {
+        numChars++;
+      }
+    }
+    var result = html;
+    // Since the result string is being altered in place, start from the end
+    // of the string so that the insertion indices are not affected as the
+    // result string changes.
+    for (var i = indices.length - 1; i >= 0; i--) {
+      result = result.slice(0, indices[i]) + GrDiffBuilder.LINE_FEED_HTML +
+          result.slice(indices[i]);
+    }
+    return result;
+  };
+
+  GrDiffBuilder.prototype._addTabWrappers = function(html) {
+    var htmlStr = this._getTabWrapper(this._prefs.tab_size,
+        this._prefs.show_tabs);
+    return html.replace(GrDiffBuilder.TAB_REGEX, htmlStr);
+  };
+
+  GrDiffBuilder.prototype._getTabWrapper = function(tabSize, showTabs) {
+    // Force this to be a number to prevent arbitrary injection.
+    tabSize = +tabSize;
+    if (isNaN(tabSize)) {
+      throw Error('Invalid tab size from preferences.');
+    }
+
+    var str = '<span class="style-scope gr-new-diff tab ';
+    if (showTabs) {
+      str += 'withIndicator';
+    }
+    str += '" ';
+    // TODO(andybons): CSS tab-size is not supported in IE.
+    str += 'style="tab-size:' + tabSize + ';';
+    str += 'style="-moz-tab-size:' + tabSize + ';';
+    str += '">\t</span>';
   };
 
   GrDiffBuilder.prototype._createElement = function(tagName, className) {

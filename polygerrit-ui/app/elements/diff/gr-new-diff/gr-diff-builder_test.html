@@ -201,5 +201,54 @@ limitations under the License.
       assert.equal(groups[4].adds.length, 1);
       assert.equal(groups[4].adds[0].text, 'elgoog elgoog elgoog');
     });
+
+    test('newlines', function() {
+      var prefs = {
+        line_length: 10,
+        tab_size: 4,
+      };
+      var builder = new GrDiffBuilder({content: []}, prefs);
+
+      var text = 'abcdef';
+      assert.equal(builder._addNewlines(text, text), text);
+      text = 'a'.repeat(20);
+      assert.equal(builder._addNewlines(text, text),
+          'a'.repeat(10) +
+          GrDiffBuilder.LINE_FEED_HTML +
+          'a'.repeat(10));
+
+      text = '<span class="thumbsup">👍</span>';
+      var html = '&lt;span class=&quot;thumbsup&quot;&gt;👍&lt;&#x2F;span&gt;';
+      assert.equal(builder._addNewlines(text, html),
+          '&lt;span clas' +
+          GrDiffBuilder.LINE_FEED_HTML +
+          's=&quot;thumbsu' +
+          GrDiffBuilder.LINE_FEED_HTML +
+          'p&quot;&gt;👍&lt;&#x2F;spa' +
+          GrDiffBuilder.LINE_FEED_HTML +
+          'n&gt;');
+
+      text = '01234\t56789';
+      assert.equal(builder._addNewlines(text, text),
+          '01234\t5' +
+          GrDiffBuilder.LINE_FEED_HTML +
+          '6789');
+    });
+
+    test('tab wrapper insertion', function() {
+      var prefs = {
+        show_tabs: true,
+        tab_size: 4,
+      };
+      var builder = new GrDiffBuilder({content: []}, prefs);
+
+      var html = 'abc\tdef';
+      var wrapper = builder._getTabWrapper(prefs.tab_size, prefs.show_tabs);
+      assert.equal(builder._addTabWrappers(html), 'abc' + wrapper + 'def');
+      assert.throws(builder._getTabWrapper.bind(
+          builder,
+          '"><img src="/" onerror="alert(1);"><span class="',
+          true));
+    });
   });
 </script>

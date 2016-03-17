@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1c729620_a5d6de08",
+        "filename": "lib/LICENSE-OFL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-17T21:27:40Z",
+      "side": 1,
+      "message": "So the files were converted from google fonts, and corresponding licence is here:\nhttps://github.com/google/fonts/blob/master/ofl/sourcecodepro/OFL.txt\nAlso, this license is known as SIL OFL 1.1, but even official site uses names like OFL and OFL 1.1:\nhttp://scripts.sil.org/OFL\n\nSo Adobe probably shouldn\u0027t be included into the name, but the version probably should.\nAnyways, that\u0027s just my best guess and if I\u0027m completely wrong - sorry, I\u0027ll be happy to fix.",
+      "parentUuid": "7c08f263_90a494d1",
+      "revId": "d97f7d33ef9bed8df6127cece0a96ac442d2b32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_fa4fe935",
         "filename": "polygerrit-ui/app/fonts/BUCK",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2016-03-16T22:21:47Z",
       "side": 1,
       "message": "By convention third-party stuff should go in lib/. Otherwise, the structure here looks good. (Forgot I added license to genrule, that was easy :)",
+      "revId": "d97f7d33ef9bed8df6127cece0a96ac442d2b32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c729620_85d9e23b",
+        "filename": "polygerrit-ui/app/fonts/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-17T21:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_fa4fe935",
       "revId": "d97f7d33ef9bed8df6127cece0a96ac442d2b32a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

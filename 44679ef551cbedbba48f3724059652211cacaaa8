@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0b2e61_0fc24554",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T04:39:27Z",
+      "side": 1,
+      "message": "Thanks for fixing this, it\u0027s been annoying me for ages.",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "44679ef551cbedbba48f3724059652211cacaaa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cf2faa7_0ec24b54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T11:24:42Z",
+      "side": 1,
+      "message": "Was there any reason that the keys are added as String, rather than RawInput like in the SshKeys endpoint?",
+      "revId": "ed170f35f6bb3d8ec2e1fb4709bf119401ab1233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

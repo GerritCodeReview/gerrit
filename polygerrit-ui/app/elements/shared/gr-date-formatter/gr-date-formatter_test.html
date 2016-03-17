@@ -125,7 +125,7 @@ limitations under the License.
         getLoggedIn: sinon.stub().returns(loggedInPromise),
         getPreferences: sinon.stub().returns(preferencesPromise),
       });
-      return Promise.all([loggedInPromise, preferences]);
+      return Promise.all([loggedInPromise, preferencesPromise]);
     }
 
     suite('logged in', function() {

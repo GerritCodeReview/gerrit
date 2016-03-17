@@ -176,7 +176,8 @@
       var url = this._getDiffFetchURL(changeNum, patchNum, path);
       var params =  {
         context: 'ALL',
-        intraline: null
+        intraline: null,
+        whitespace: 'IGNORE_NONE',
       };
       if (basePatchNum != PARENT_PATCH_NUM) {
         params.base = basePatchNum;

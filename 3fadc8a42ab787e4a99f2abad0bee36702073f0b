@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c08f263_7009307d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T04:45:18Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "revId": "3fadc8a42ab787e4a99f2abad0bee36702073f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0b2e61_efca6165",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T04:45:18Z",
+      "side": 1,
+      "message": "why are we changing the weblinks call, but not the diff link call?",
+      "range": {
+        "startLine": 209,
+        "startChar": 34,
+        "endLine": 209,
+        "endChar": 81
+      },
+      "revId": "3fadc8a42ab787e4a99f2abad0bee36702073f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

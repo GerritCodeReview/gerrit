@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "1c729620_0594125e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-17T18:48:49Z",
+      "side": 1,
+      "message": "Sorry, late for the party, but here\u0027s a slightly different idea - why not make this check in restAPI, keep, and serve defaults there?\n\nThis would simplify other usage of getPreferences() in future\n\nJust a thought, up to you.",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca1425f_bc23a1ed",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 4
@@ -64,6 +81,29 @@
       "writtenOn": "2016-03-16T21:46:12Z",
       "side": 1,
       "message": "ditto class level default",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc92be65_4b9e257e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-17T18:48:49Z",
+      "side": 1,
+      "message": "/me expresses general concern about stubbing private methods.\nhttps://www.objc.io/issues/15-testing/bad-testing-practices/#don-t-stub-private-methods\n\nWhat you could do here, is to add multiple stubs to gr-rest-api-interface (for getLoggedIn and getPreferences), and then return Promise.all(allOfThem) so tests will wait for them to resolve and trigger thenables in gr-date-formatter",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 22
+      },
       "revId": "66b3bb919f230808148c814e0294912ebf369392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

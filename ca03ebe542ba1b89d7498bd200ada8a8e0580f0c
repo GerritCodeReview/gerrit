@@ -16,6 +16,24 @@
       "revId": "ca03ebe542ba1b89d7498bd200ada8a8e0580f0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_8ed01b18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-17T18:51:16Z",
+      "side": 1,
+      "message": "\u003e Can we maybe only show these buttons if there are any bot comments at all?\n\nRight. We must show these buttons then and only then when there are any bot comments at all. There are 4 cases to consider:\n\n* 1. Site doesn\u0027t use any verification, and even don\u0027t have VRFY label. There is not point for this site to see disabled (not to mention enabled!) button that doesn\u0027t do anything useful.\n* 2. Site use verification, but always wan\u0027t to see bots. No point to offer these buttons.\n* 3. Site user verifications, want to be able to hide the bt comments, but it takes for admin ages to re-configure their CI, to enable usage of new option from review SSH-command to tag bot reviews. I already see, how the users could be frustraited, if this button is disabled but visible.\n* 4. Site use verification, CI tags its votes, but the current change wasn\u0027t verified and there are no any comment from the bots yet, so there is nothing to hide. Arguably in this case we could show the buttons as enabled. But we would need to figure this specific case out and/or add we certainly don\u0027t want to add another configuration option for this specific use case.\n\n \u003e On the other hand, maybe adding this button will be an indication to users that there is a new feature they don\u0027t know about that they will want to start using :)\n\nLet\u0027s anounce new features in the relase notes instead ;-)",
+      "parentUuid": "bc6d0aef_fdffe377",
+      "revId": "ca03ebe542ba1b89d7498bd200ada8a8e0580f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

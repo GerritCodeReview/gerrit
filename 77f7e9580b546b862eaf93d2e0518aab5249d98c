@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_203a041d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T14:19:24Z",
+      "side": 1,
+      "message": "Since it is \"max(seq) + 1\", strictly speaking this is not maxId but rather nextId.",
+      "revId": "77f7e9580b546b862eaf93d2e0518aab5249d98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_9d4d87b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T14:19:24Z",
+      "side": 1,
+      "message": "I think this is doing one more call to the nextAccountSshKeyId() than necessary. If max(seq) was 5, then maxId is 6 and this will make 6 calls.\nSo when, after this migration, a first SSH key gets uploaded it will get 7.\n\nHowever, it doesn\u0027t really matter if one gap is created at the beginning.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "77f7e9580b546b862eaf93d2e0518aab5249d98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

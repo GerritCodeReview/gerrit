@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_9df9076e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "Unnecessary?\n\nYou say there\u0027s another test that does this, but that doesn\u0027t mean that other test is right :)",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_1dff374e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "Should this be moved into the other IT?",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_e0189c97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "Why do we want to pretend there are 0 votes for every single label when a new change is created?",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_fd15a35e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "Above, for labels that *do not* appear in approvals, the old value is null.\n\nHere, for labels that *do* appear in approvals, the old value is 0.\n\nWhy the discrepancy?",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_60aecc66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "!currentLabels.containsKey(ent.getKey())",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_c00fa04c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "normName instead of ent.getKey() here and below",
+      "range": {
+        "startLine": 567,
+        "startChar": 22,
+        "endLine": 567,
+        "endChar": 34
+      },
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_bd0f2b4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "I think you misunderstood my previous suggestion.\n\nYou only need a single call to approvals.put on this line:\n\n approvals.put(normName, firstNonNull(c.getValue(), (short) 0));\n\nIf you have this, then you can remove the calls to approvals.put on lines 585, 590, and 601. They do the same thing and are redundant.",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_1db897a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "This method is getting pretty long, please factor out the hook call into a separate private method.",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_80b3d8c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T16:24:07Z",
+      "side": 1,
+      "message": "Same questions as in ChangeInserter",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

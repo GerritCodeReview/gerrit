@@ -33,6 +33,24 @@
       "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_10e60406",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-17T19:44:41Z",
+      "side": 1,
+      "message": "I fully agree here.\n\nWhere do you want to place the \u0027*[hidden] {}\u0027 rule? In every element which uses \u0027hidden\u0027?\n\nIt looks related to: https://github.com/Polymer/polymer/issues/1748",
+      "parentUuid": "dc9c7e2c_5b82a3f6",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

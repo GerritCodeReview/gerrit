@@ -67,6 +67,29 @@
       "revId": "66b3bb919f230808148c814e0294912ebf369392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_ceb1430e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-17T18:28:24Z",
+      "side": 1,
+      "message": "I think this should be preferencesPromise.",
+      "range": {
+        "startLine": 128,
+        "startChar": 43,
+        "endLine": 128,
+        "endChar": 54
+      },
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

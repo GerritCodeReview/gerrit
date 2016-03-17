@@ -268,7 +268,7 @@ class SideBySideChunkManager extends ChunkManager {
                 chunks,
                 new DiffChunkInfo(cm.side(), line, 0, false),
                 getDiffChunkComparator());
-        diffChunkNavHelper(chunks, cm, res, dir);
+        diffChunkNavHelper(chunks, host, res, dir);
       }
     };
   }

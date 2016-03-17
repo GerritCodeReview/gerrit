@@ -59,9 +59,6 @@ public class Reindex extends SiteProgram {
       usage = "Schema version to reindex; default is most recent version")
   private Integer version;
 
-  @Option(name = "--output", usage = "Prefix for output; path for local disk index, or prefix for remote index")
-  private String outputBase;
-
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
 
@@ -127,7 +124,7 @@ public class Reindex extends SiteProgram {
     Module changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
+        changeIndexModule = new LuceneIndexModule(version, threads);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

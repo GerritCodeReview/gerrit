@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c937619_fd736724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T12:35:39Z",
+      "side": 1,
+      "message": "this line should also belong to the last paragraph of the commit message",
+      "revId": "d93ee9b46eef47d04f93620aa4c4691bb764917c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_209e847d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T12:35:39Z",
+      "side": 1,
+      "message": "Was this variable name justified?\nThe type of \"text\" variable is Edit and the type of aText and bText is Text.\n\nFor me, this looks less intuitive now than it was before the rename.",
+      "revId": "d93ee9b46eef47d04f93620aa4c4691bb764917c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_9d70231a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-17T12:35:39Z",
+      "side": 1,
+      "message": "remove this comment?",
+      "revId": "d93ee9b46eef47d04f93620aa4c4691bb764917c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

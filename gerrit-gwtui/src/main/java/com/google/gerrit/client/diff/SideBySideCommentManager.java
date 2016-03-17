@@ -143,6 +143,7 @@ class SideBySideCommentManager extends CommentManager {
             getCommentLinkProcessor(),
             getPatchSetIdFromSide(side),
             info,
+            side,
             isOpen());
         group.add(box);
         box.setAnnotation(host.getDiffTable().scrollbar.comment(

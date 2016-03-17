@@ -25,10 +25,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.OnlineReindexer;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.ChangeSchemas;
+import com.google.gerrit.server.index.change.ChangeIndexDefintion;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
@@ -97,7 +96,7 @@ public class LuceneVersionManager implements LifecycleListener {
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
   private final ChangeIndexCollection indexes;
-  private final AllChangesIndexer allChangesIndexer;
+  private final ChangeIndexDefintion changeDef;
   private final boolean onlineUpgrade;
   private OnlineReindexer<Change.Id, ChangeData, ChangeIndex> reindexer;
 
@@ -107,11 +106,11 @@ public class LuceneVersionManager implements LifecycleListener {
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
       ChangeIndexCollection indexes,
-      AllChangesIndexer allChangesIndexer) {
+      ChangeIndexDefintion changeDef) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;
     this.indexes = indexes;
-    this.allChangesIndexer = allChangesIndexer;
+    this.changeDef = changeDef;
     this.onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
   }
 
@@ -161,7 +160,8 @@ public class LuceneVersionManager implements LifecycleListener {
     }
 
     markNotReady(cfg, versions.values(), write);
-    LuceneChangeIndex searchIndex = indexFactory.create(search.schema);
+    LuceneChangeIndex searchIndex =
+        (LuceneChangeIndex) indexFactory.create(search.schema);
     indexes.setSearchIndex(searchIndex);
     for (Version v : write) {
       if (v.schema != null) {
@@ -175,7 +175,7 @@ public class LuceneVersionManager implements LifecycleListener {
 
     int latest = write.get(0).version;
     if (onlineUpgrade && latest != search.version) {
-      reindexer = new OnlineReindexer<>(indexes, allChangesIndexer, latest);
+      reindexer = new OnlineReindexer<>(changeDef, latest);
       reindexer.start();
     }
   }
@@ -227,7 +227,7 @@ public class LuceneVersionManager implements LifecycleListener {
 
   private TreeMap<Integer, Version> scanVersions(Config cfg) {
     TreeMap<Integer, Version> versions = Maps.newTreeMap();
-    for (Schema<ChangeData> schema : ChangeSchemas.ALL.values()) {
+    for (Schema<ChangeData> schema : changeDef.getSchemas().values()) {
       Path p = getDir(sitePaths, CHANGES_PREFIX, schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {

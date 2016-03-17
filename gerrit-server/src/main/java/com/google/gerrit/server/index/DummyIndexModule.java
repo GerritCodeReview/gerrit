@@ -14,15 +14,24 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 
 public class DummyIndexModule extends AbstractModule {
+  private static class DummyChangeIndexFactory implements ChangeIndex.Factory {
+    @Override
+    public ChangeIndex create(Schema<ChangeData> schema) {
+      throw new UnsupportedOperationException();
+    }
+  }
 
   @Override
   protected void configure() {
     install(new IndexModule(1));
     bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     bind(Index.class).toInstance(new DummyChangeIndex());
+    bind(ChangeIndex.Factory.class).toInstance(new DummyChangeIndexFactory());
   }
 }

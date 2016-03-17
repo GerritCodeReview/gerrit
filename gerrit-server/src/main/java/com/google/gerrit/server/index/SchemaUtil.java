@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -37,9 +37,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class SchemaUtil {
-  public static <V> ImmutableMap<Integer, Schema<V>> schemasFromClass(
+  public static <V> ImmutableSortedMap<Integer, Schema<V>> schemasFromClass(
       Class<?> schemasClass, Class<V> valueClass) {
-    Map<Integer, Schema<V>> schemas = Maps.newTreeMap();
+    Map<Integer, Schema<V>> schemas = Maps.newHashMap();
     for (Field f : schemasClass.getDeclaredFields()) {
       if (Modifier.isStatic(f.getModifiers())
           && Modifier.isFinal(f.getModifiers())
@@ -65,7 +65,7 @@ public class SchemaUtil {
     if (schemas.isEmpty()) {
       throw new ExceptionInInitializerError("no ChangeSchemas found");
     }
-    return ImmutableMap.copyOf(schemas);
+    return ImmutableSortedMap.copyOf(schemas);
   }
 
   public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields) {

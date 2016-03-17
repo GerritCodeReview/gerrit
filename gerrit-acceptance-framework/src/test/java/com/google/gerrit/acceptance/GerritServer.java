@@ -26,7 +26,6 @@ import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
-import com.google.gerrit.server.index.change.ChangeSchemas;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
@@ -142,8 +141,7 @@ public class GerritServer {
       cfg.setBoolean("index", "lucene", "testInmemory", true);
       cfg.setString("gitweb", null, "cgi", "");
       daemon.setEnableHttpd(desc.httpd());
-      daemon.setLuceneModule(new LuceneIndexModule(
-          ChangeSchemas.getLatest().getVersion(), 0));
+      daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
       daemon.setDatabaseForTesting(ImmutableList.<Module>of(
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();

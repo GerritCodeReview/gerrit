@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc92be65_abcdc980",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-17T21:33:44Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "7ba8e0c7ff57d398573c60e08e5de4e699931390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -182,6 +183,18 @@ public class CommitValidators {
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {
+    private static final int SHA1_LENGTH = 8;
+    private static final String CHANGE_ID_PREFIX =
+        FooterConstants.CHANGE_ID.getName() + ":";
+    private static final String MISSING_CHANGE_ID_MSG =
+        "[%s] missing Change-Id in commit message footer";
+    private static final String MISSING_SUBJECT_MSG =
+        "[%s] missing subject; Change-Id must be in commit message footer";
+    private static final String MULTIPLE_CHANGE_ID_MSG =
+        "[%s] multiple Change-Id lines in commit message footer";
+    private static final String INVALID_CHANGE_ID_MSG =
+        "[%s] invalid Change-Id line format in commit message footer";
+
     private final ProjectControl projectControl;
     private final String canonicalWebUrl;
     private final String installCommitMsgHookCommand;
@@ -200,39 +213,39 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      final List<String> idList = receiveEvent.commit.getFooterLines(
+      RevCommit commit = receiveEvent.commit;
+      final List<String> idList = commit.getFooterLines(
           FooterConstants.CHANGE_ID);
 
       List<CommitValidationMessage> messages = new LinkedList<>();
 
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
-          String shortMsg = receiveEvent.commit.getShortMessage();
-          String changeIdPrefix = FooterConstants.CHANGE_ID.getName() + ":";
-          if (shortMsg.startsWith(changeIdPrefix)
-              && shortMsg.substring(changeIdPrefix.length()).trim()
-                  .matches("^I[0-9a-f]{8,}.*$")) {
-            throw new CommitValidationException(
-                "missing subject; Change-Id must be in commit message footer");
-          } else {
-            String errMsg = "missing Change-Id in commit message footer";
-            messages.add(getMissingChangeIdErrorMsg(
-                errMsg, receiveEvent.commit));
-            throw new CommitValidationException(errMsg, messages);
+          String shortMsg = commit.getShortMessage();
+          String sha1 = commit.getId().name().substring(0, SHA1_LENGTH);
+          if (shortMsg.startsWith(CHANGE_ID_PREFIX)
+              && shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()
+                  .matches(CHANGE_ID_PATTERN)) {
+            String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
+            throw new CommitValidationException(errMsg);
           }
-        }
-      } else if (idList.size() > 1) {
-        throw new CommitValidationException(
-            "multiple Change-Id lines in commit message footer", messages);
-      } else {
-        final String v = idList.get(idList.size() - 1).trim();
-        if (!v.matches("^I[0-9a-f]{8,}.*$")) {
-          final String errMsg =
-              "missing or invalid Change-Id line format in commit message footer";
-          messages.add(
-              getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
+          String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
+          messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
           throw new CommitValidationException(errMsg, messages);
         }
+      } else if (idList.size() > 1) {
+        String sha1 = commit.getId().name().substring(0, SHA1_LENGTH);
+        String errMsg = String.format(
+            MULTIPLE_CHANGE_ID_MSG, sha1);
+        throw new CommitValidationException(errMsg, messages);
+      }
+      String v = idList.get(idList.size() - 1).trim();
+      if (!v.matches(CHANGE_ID_PATTERN)) {
+        String sha1 = commit.getId().name().substring(0, SHA1_LENGTH);
+        String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
+        messages.add(
+          getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
+        throw new CommitValidationException(errMsg, messages);
       }
       return Collections.emptyList();
     }

@@ -50,6 +50,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -113,7 +114,6 @@ import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -620,22 +620,7 @@ public class RestApiServlet extends HttpServlet {
     for (Field f : obj.getClass().getDeclaredFields()) {
       if (f.getType() == RawInput.class) {
         f.setAccessible(true);
-        f.set(obj, new RawInput() {
-          @Override
-          public String getContentType() {
-            return req.getContentType();
-          }
-
-          @Override
-          public long getContentLength() {
-            return req.getContentLength();
-          }
-
-          @Override
-          public InputStream getInputStream() throws IOException {
-            return req.getInputStream();
-          }
-        });
+        f.set(obj, RawInputUtil.create(req));
         return obj;
       }
     }

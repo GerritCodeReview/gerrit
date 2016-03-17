@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c0b2e61_afd9793b",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/TestAccount.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T05:33:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_9aab4d4e",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_7a35192d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Given that RestSession needs the same code, how about to move that code from there to some common location that can be re-used from both server and acceptance-framework? I gave it a try and extracted the code to common sub-project: [1]. We did the same with TimeUtil class as well. May be do this refactoring in its own change?\n\n* [1] http://paste.openstack.org/show/490753",
       "parentUuid": "dc9c7e2c_dbd9d33a",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "5a9f09399954444b371c35496d9b9e3ddc35db5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0b2e61_8fd63509",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T05:33:59Z",
+      "side": 1,
+      "message": "Done.  New change will be pushed shortly.",
+      "parentUuid": "1c937619_fdc7e70e",
       "range": {
         "startLine": 72,
         "startChar": 0,

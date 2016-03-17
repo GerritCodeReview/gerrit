@@ -23,6 +23,30 @@
       "revId": "68a21c98fff8990a5a96698c0f109c74aa003cdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c937619_401870b6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-17T14:40:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c08f263_100a6443",
+      "range": {
+        "startLine": 191,
+        "startChar": 55,
+        "endLine": 191,
+        "endChar": 56
+      },
+      "revId": "68a21c98fff8990a5a96698c0f109c74aa003cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

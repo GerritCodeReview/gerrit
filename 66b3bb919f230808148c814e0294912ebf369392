@@ -128,6 +128,24 @@
     },
     {
       "key": {
+        "uuid": "1c729620_65f5c6a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-17T21:04:05Z",
+      "side": 1,
+      "message": "in this case, since _getTimeFormat is a helper to hit a REST endpoint and return a value, stubbing at this level is fine.\n\nThe fn isprivate to external consumers however internally it still has a contract that it is following, by stubbing it here we are simply bypassing the request and assuming that the contract has been fulfilled with a given value.\n\nIn general, I agree with you about not stubbing private fns, but in the end with any rule, we need to critically think about if it is the correct move to follow said rule.\n\nIn this case +1 to roll as is.",
+      "parentUuid": "dc92be65_4b9e257e",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8e7a42_ceb1430e",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
         "patchSetId": 4

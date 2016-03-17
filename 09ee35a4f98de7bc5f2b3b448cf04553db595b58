@@ -91,6 +91,30 @@
       "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_b040d880",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-03-17T21:58:46Z",
+      "side": 1,
+      "message": "Probably not because the auth.userNameToLowerCase is already documented in the Git documentation, and worked for other providers already. It was just missing from this implementation in the first instance.\n\nhttps://gerrit-review.googlesource.com/Documentation/config-gerrit.html#auth.userNameToLowerCase",
+      "parentUuid": "bc6d0aef_7ab3d9ca",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

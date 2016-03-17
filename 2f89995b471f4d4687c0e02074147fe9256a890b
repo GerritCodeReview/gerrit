@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7c08f263_f0f9a06c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-17T13:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c937619_20f0c4b3",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 4
+      },
+      "revId": "2f89995b471f4d4687c0e02074147fe9256a890b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_fdd6030a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 22
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-17T13:38:16Z",
       "side": 1,
       "message": "The format of the \u003cname\u003e could be explained here. Is it a (full) project name, a name-prefix, a namespace ending with start (like \"abc*\") or a full regex.",
+      "range": {
+        "startLine": 3193,
+        "startChar": 39,
+        "endLine": 3193,
+        "endChar": 45
+      },
+      "revId": "2f89995b471f4d4687c0e02074147fe9256a890b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf2faa7_6ef02fb5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 3193,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-17T13:59:04Z",
+      "side": 1,
+      "message": "It\u0027s explained in the beginning of the repository section, from line 3176 to 3191",
+      "parentUuid": "bc6d0aef_fdd6030a",
       "range": {
         "startLine": 3193,
         "startChar": 39,

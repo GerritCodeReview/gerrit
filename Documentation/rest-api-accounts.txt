@@ -637,9 +637,10 @@ describes the SSH key.
 'POST /accounts/link:#account-id[\{account-id\}]/sshkeys'
 --
 
-Adds an SSH key for a user.
+Adds one or more SSH keys for a user.
 
-The SSH public key must be provided as raw content in the request body.
+The SSH public keys must be delimited by newlines and provided as raw
+content in the request body.
 
 .Request
 ----
@@ -649,8 +650,8 @@ The SSH public key must be provided as raw content in the request body.
   AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d
 ----
 
-As response an link:#ssh-key-info[SshKeyInfo] entity is returned that
-describes the new SSH key.
+As response a list of link:#ssh-key-info[SshKeyInfo] entities is returned that
+describes the new SSH keys.
 
 .Response
 ----
@@ -659,14 +660,16 @@ describes the new SSH key.
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "seq": 2,
-    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
-    "algorithm": "ssh-rsa",
-    "comment": "john.doe@example.com",
-    "valid": true
-  }
+  [
+    {
+      "seq": 2,
+      "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
+      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+      "algorithm": "ssh-rsa",
+      "comment": "john.doe@example.com",
+      "valid": true
+    }
+  ]
 ----
 
 [[delete-ssh-key]]

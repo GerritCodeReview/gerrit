@@ -24,6 +24,7 @@ import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -335,6 +336,15 @@ public class AccountIT extends AbstractDaemonTest {
         ImmutableList.of(key2.getKeyIdString()));
   }
 
+  private void assertInvalidSshKeyException(String keys) throws Exception {
+    try {
+      gApi.accounts().self().addSshKey(keys);
+      fail("Expected a BadRequestException");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo("Invalid SSH Key");
+    }
+  }
+
   @Test
   public void sshKeys() throws Exception {
     // The test account should initially have exactly one ssh key
@@ -355,6 +365,38 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().self().addSshKey(inital);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
+
+    // Add more than one key in the same request
+    String twoKeys = String.format("%s\n%s",
+        AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email),
+        AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email));
+    gApi.accounts().self().addSshKeys(twoKeys);
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(5);
+
+    // Add more than one key in the same request, with extra newlines
+    String newKey2 =
+        AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
+    gApi.accounts().self().addSshKeys(
+        String.format("\n%s\n\n\n%s\n", twoKeys, newKey2));
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(8);
+
+    // Adding an invalid key does not succeed
+    assertInvalidSshKeyException("This is not an ssh key");
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(8);
+
+    // Adding multiple invalid keys does not succeed
+    assertInvalidSshKeyException("This is not an ssh key\nAnd nor is this");
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(8);
+
+    // Adding a valid key and an invalid key in the same request does not
+    // succeed
+    assertInvalidSshKeyException(newKey2 + "\nThis is not an ssh key");
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(8);
   }
 
   private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {

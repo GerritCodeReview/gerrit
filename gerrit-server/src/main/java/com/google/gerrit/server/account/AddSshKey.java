@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -23,8 +25,8 @@ import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RawInput;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -42,7 +44,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class AddSshKey implements RestModifyView<AccountResource, Input> {
@@ -67,7 +73,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<SshKeyInfo> apply(AccountResource rsrc, Input input)
+  public List<SshKeyInfo> apply(AccountResource rsrc, Input input)
       throws AuthException, BadRequestException, OrmException, IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
@@ -76,7 +82,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
     return apply(rsrc.getUser(), input);
   }
 
-  public Response<SshKeyInfo> apply(IdentifiedUser user, Input input)
+  public List<SshKeyInfo> apply(IdentifiedUser user, Input input)
       throws BadRequestException, OrmException, IOException {
     if (input == null) {
       input = new Input();
@@ -85,20 +91,37 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
       throw new BadRequestException("SSH public key missing");
     }
 
-    final RawInput rawKey = input.raw;
-    String sshPublicKey = new ByteSource() {
-      @Override
-      public InputStream openStream() throws IOException {
-        return rawKey.getInputStream();
-      }
-    }.asCharSource(UTF_8).read();
+    final RawInput rawInput = input.raw;
+    ArrayList<String> keys = Lists.newArrayList(
+        Splitter.on('\n').trimResults().omitEmptyStrings().split(
+          new ByteSource() {
+            @Override
+            public InputStream openStream() throws IOException {
+              return rawInput.getInputStream();
+            }
+          }.asCharSource(UTF_8).read()));
 
-    try {
-      AccountSshKey sshKey =
-          sshKeyCache.create(new AccountSshKey.Id(
-              user.getAccountId(),
-              dbProvider.get().nextAccountSshKeyId()),
-              sshPublicKey);
+    if (keys.isEmpty()) {
+      throw new BadRequestException("SSH public key missing");
+    }
+
+    // Iterate over all the given keys, and fail early if any of them is
+    // invalid.
+    Account.Id accountId = user.getAccountId();
+    Map<String, AccountSshKey> keysToAdd = new HashMap<>(keys.size());
+    for (String key : keys) {
+      try {
+        keysToAdd.put(key, sshKeyCache.create(new AccountSshKey.Id(
+            accountId,
+            dbProvider.get().nextAccountSshKeyId()),
+            key));
+      } catch (InvalidSshKeyException e) {
+        throw new BadRequestException(e.getMessage());
+      }
+    }
+
+    List<SshKeyInfo> added = Lists.newArrayList();
+    for (AccountSshKey sshKey : keysToAdd.values()) {
       dbProvider.get().accountSshKeys().insert(Collections.singleton(sshKey));
       try {
         addKeyFactory.create(user, sshKey).send();
@@ -106,10 +129,9 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
         log.error("Cannot send SSH key added message to "
             + user.getAccount().getPreferredEmail(), e);
       }
-      sshKeyCache.evict(user.getUserName());
-      return Response.<SshKeyInfo>created(GetSshKeys.newSshKeyInfo(sshKey));
-    } catch (InvalidSshKeyException e) {
-      throw new BadRequestException(e.getMessage());
+      added.add(GetSshKeys.newSshKeyInfo(sshKey));
     }
+    sshKeyCache.evict(user.getUserName());
+    return added;
   }
 }

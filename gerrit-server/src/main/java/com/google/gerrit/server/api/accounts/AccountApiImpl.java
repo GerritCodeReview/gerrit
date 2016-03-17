@@ -155,9 +155,20 @@ public class AccountApiImpl implements AccountApi {
     AddSshKey.Input in = new AddSshKey.Input();
     in.raw = RawInputUtil.create(key);
     try {
-      return addSshKey.apply(account, in).value();
+      return addSshKey.apply(account, in).get(0);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot add SSH key", e);
+    }
+  }
+
+  @Override
+  public List<SshKeyInfo> addSshKeys(String keys) throws RestApiException {
+    AddSshKey.Input in = new AddSshKey.Input();
+    in.raw = RawInputUtil.create(keys);
+    try {
+      return addSshKey.apply(account, in);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot add SSH keys", e);
     }
   }
 

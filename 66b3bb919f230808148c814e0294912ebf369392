@@ -110,6 +110,24 @@
     },
     {
       "key": {
+        "uuid": "1c729620_25ebcecc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-17T21:03:38Z",
+      "side": 1,
+      "message": "Considering the method we’re stubbing is one line I don’t think having a hard rule about stubbing private methods is really a concern here. If the solution is going to make the code more complex then I don’t think we should do it. If not, then go for it.",
+      "parentUuid": "dc92be65_4b9e257e",
+      "revId": "66b3bb919f230808148c814e0294912ebf369392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8e7a42_ceb1430e",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter_test.html",
         "patchSetId": 4

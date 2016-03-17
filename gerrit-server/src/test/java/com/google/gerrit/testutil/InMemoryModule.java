@@ -239,9 +239,8 @@ public class InMemoryModule extends FactoryModule {
           "invalid index.lucene.testVersion %s", version);
       Class<?> clazz =
           Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
-      Constructor<?> c =
-          clazz.getConstructor(Integer.class, int.class, String.class);
-      return (Module) c.newInstance(version, 0, null);
+      Constructor<?> c = clazz.getConstructor(Integer.class, int.class);
+      return (Module) c.newInstance(version, 0);
     } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
         | IllegalArgumentException | InstantiationException
         | IllegalAccessException | InvocationTargetException e) {

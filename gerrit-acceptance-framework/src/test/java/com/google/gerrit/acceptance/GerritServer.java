@@ -143,7 +143,7 @@ public class GerritServer {
       cfg.setString("gitweb", null, "cgi", "");
       daemon.setEnableHttpd(desc.httpd());
       daemon.setLuceneModule(new LuceneIndexModule(
-          ChangeSchemas.getLatest().getVersion(), 0, null));
+          ChangeSchemas.getLatest().getVersion(), 0));
       daemon.setDatabaseForTesting(ImmutableList.<Module>of(
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();

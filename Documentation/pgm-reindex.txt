@@ -18,9 +18,6 @@ Rebuilds the secondary index.
 --schema-version::
 	Schema version to reindex; default is most recent version.
 
---output::
-	Prefix for output; path for local disk index, or prefix for remote index.
-
 --verbose::
 	Output debug information for each change.
 

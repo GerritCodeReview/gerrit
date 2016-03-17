@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c08f263_d07c5cbd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-03-17T10:19:59Z",
+      "side": 1,
+      "message": "Before this assertion we need to get the info again.",
+      "revId": "dce80a32f224842df8638f0fdd12812f5f001f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

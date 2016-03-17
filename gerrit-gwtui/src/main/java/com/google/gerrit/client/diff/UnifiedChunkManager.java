@@ -227,7 +227,7 @@ class UnifiedChunkManager extends ChunkManager {
                 chunks,
                 new UnifiedDiffChunkInfo(cm.side(), 0, 0, line, false),
                 getDiffChunkComparatorCmLine());
-        diffChunkNavHelper(chunks, cm, res, dir);
+        diffChunkNavHelper(chunks, host, res, dir);
       }
     };
   }

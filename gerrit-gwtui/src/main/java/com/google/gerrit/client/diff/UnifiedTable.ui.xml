@@ -57,7 +57,7 @@ limitations under the License.
 
     /* Hide scrollbars. */
     .difftable .CodeMirror-scroll { padding-right: 0; }
-    .difftable .CodeMirror-vscrollbar { display: none !important; } */
+    .difftable .CodeMirror-vscrollbar { display: none !important; }
 
     .diffDelete { background-color: #faa; }
     .diffInsert { background-color: #9f9; }

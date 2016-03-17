@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c729620_e5c7f65c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-17T20:42:55Z",
+      "side": 1,
+      "message": "This could be an ImmutableSet instead? Like ImmutableSet.copyOf(...);",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "f863710c78929d91b976cb35ada86084db40337d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc92be65_2bc2b954",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-17T20:42:55Z",
+      "side": 1,
+      "message": "And we won\u0027t need this Map anymore.",
+      "range": {
+        "startLine": 111,
+        "startChar": 31,
+        "endLine": 111,
+        "endChar": 40
+      },
+      "revId": "f863710c78929d91b976cb35ada86084db40337d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

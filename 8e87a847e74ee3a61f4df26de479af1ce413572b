@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c8e7a42_ae7237e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-17T23:11:04Z",
+      "side": 1,
+      "message": "There is a feature to add a label on new change creation/new patch set upload by using magic branch option: \"l\". This way, it is already possible to put a bot vote during change creation/new patch set upload:\n\n  git push review HEAD:refs/for/master%l\u003dVerify+1\n\nWould it make sense to consider to suport initial votes through magic branch as well? Mention in the commit message, that this use case is not supported yet?",
+      "revId": "8e87a847e74ee3a61f4df26de479af1ce413572b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_108284f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 6
@@ -13,6 +30,30 @@
       "writtenOn": "2016-03-17T22:49:40Z",
       "side": 1,
       "message": "currently tag\u0027s are not set on the approvals, simply because this data type do not allow to add additional info.\n\nShould the value be changed from Optional\u003cShort\u003e to a custom object that will have Short (vote) and String (tag), or whole approval should be a \"full blown java object\" (eg. PatchLineComment)?",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 69
+      },
+      "revId": "8e87a847e74ee3a61f4df26de479af1ce413572b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_508c0c26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-17T23:11:04Z",
+      "side": 1,
+      "message": "May be:\n\n  class ApprovalData {\n    Optional\u003cShort\u003e vote; // or score\n    Optional\u003cString\u003e tag;\n  }",
+      "parentUuid": "7ca472ba_108284f5",
       "range": {
         "startLine": 107,
         "startChar": 16,

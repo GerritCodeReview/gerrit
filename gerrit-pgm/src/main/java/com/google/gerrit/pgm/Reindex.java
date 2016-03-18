@@ -37,6 +37,7 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -71,9 +72,18 @@ public class Reindex extends SiteProgram {
   private Injector dbInjector;
   private Injector sysInjector;
   private Config globalConfig;
-  private ChangeIndex index;
-  private ProjectCache projectCache;
+
+  @Inject
+  private AllChangesIndexer batchIndexer;
+
+  @Inject
+  private ChangeIndexCollection changeIndexes;
+
+  @Inject
   private GitRepositoryManager repoManager;
+
+  @Inject
+  private ProjectCache projectCache;
 
   @Override
   public int run() throws Exception {
@@ -93,17 +103,14 @@ public class Reindex extends SiteProgram {
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
+    sysInjector.injectMembers(this);
 
-    projectCache = sysInjector.getInstance(ProjectCache.class);
-    repoManager = sysInjector.getInstance(GitRepositoryManager.class);
-
-    index = sysInjector.getInstance(ChangeIndexCollection.class)
-        .getSearchIndex();
+    ChangeIndex index = changeIndexes.getSearchIndex();
     int result = 0;
     try {
       index.markReady(false);
       index.deleteAll();
-      result = indexAll();
+      result = indexAll(index);
       index.markReady(true);
     } catch (Exception e) {
       throw die(e.getMessage(), e);
@@ -154,7 +161,7 @@ public class Reindex extends SiteProgram {
     globalConfig.setLong("cache", "changes", "maximumWeight", 0);
   }
 
-  private int indexAll() throws Exception {
+  private int indexAll(ChangeIndex index) throws Exception {
     ProgressMonitor pm = new TextProgressMonitor();
     pm.start(1);
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
@@ -169,8 +176,6 @@ public class Reindex extends SiteProgram {
     }
     pm.endTask();
 
-    AllChangesIndexer batchIndexer =
-        sysInjector.getInstance(AllChangesIndexer.class);
     SiteIndexer.Result result = batchIndexer.setTotalWork(changeCount)
         .setProgressOut(System.err)
         .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)

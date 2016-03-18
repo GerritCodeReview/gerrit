@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce3021d_cc864f08",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-18T21:16:58Z",
+      "side": 1,
+      "message": "required comment about maybe using a switch here :)",
+      "revId": "a3772d76674161246af16eb5726fbf0645c3777b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

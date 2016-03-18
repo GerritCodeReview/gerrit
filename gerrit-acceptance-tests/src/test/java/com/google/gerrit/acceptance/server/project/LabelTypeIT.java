@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -168,6 +169,26 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void copyAllScoresOnMergeFirstParentUpdateAppliesToMergeParentUpdate()
+      throws Exception {
+    codeReview.setCopyAllScoresOnMergeFirstParentUpdate(true);
+    saveLabelConfig();
+
+    PushOneCommit.Result merge = createMergeCommitAndUpdateFirstParent();
+    assertApproval(merge, 1);
+  }
+
+  @Test
+  public void copyAllScoresOnMergeFirstParentUpdateNotAppliesIfNotSet()
+      throws Exception {
+    codeReview.setCopyAllScoresOnMergeFirstParentUpdate(false);
+    saveLabelConfig();
+
+    PushOneCommit.Result merge = createMergeCommitAndUpdateFirstParent();
+    assertApproval(merge, 0);
+  }
+
+  @Test
   public void copyAllScoresIfNoChange() throws Exception {
     PushOneCommit.Result patchSet = readyPatchSetForNoChangeRebase();
     rebase(patchSet);
@@ -317,6 +338,47 @@ public class LabelTypeIT extends AbstractDaemonTest {
             .revision(r2.getCommit().name())
             .cherryPick(in)
             .get());
+  }
+
+  private PushOneCommit.Result createMergeCommitAndUpdateFirstParent()
+      throws Exception {
+    String file = "m.txt";
+    String contents = "contents";
+    PushOneCommit.Result base = pushToMaster(file, contents);
+
+    // create feature commit and push it to feature branch
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, file, contents + "feature");
+    PushOneCommit.Result feature = push.to("refs/heads/feature");
+
+    // create merge commit and push it for review
+    testRepo.reset(base.getCommit());
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    push.setParents(ImmutableList.of(base.getCommit(), feature.getCommit()));
+    PushOneCommit.Result merge = push.to("refs/for/master");
+    revision(merge).review(ReviewInput.recommend());
+
+    // advance master
+    testRepo.reset(base.getCommit());
+    PushOneCommit.Result advanced = pushToMaster(file, contents + "master_advances");
+
+    // update first parent of merge commit
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT,
+        merge.getChangeId());
+    push.setParents(ImmutableList.of(advanced.getCommit(), feature.getCommit()));
+    merge = push.to("refs/for/master");
+    return merge;
+  }
+
+  private PushOneCommit.Result pushToMaster(String file, String contents)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, file, contents);
+    PushOneCommit.Result base = push.to("refs/for/master");
+    merge(base);
+    return base;
   }
 
   private PushOneCommit.Result readyPatchSetForNoChangeRebase()

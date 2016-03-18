@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce3021d_ac12e397",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2016-03-18T20:54:04Z",
+      "side": 1,
+      "message": "I upgrade from cd0a900 to current latest version\n$ java -jar buck-out/gen/release/release.war --version\ngerrit version 2.12.2-1596-gd08bb71\n\nfailed with info: \n[1] http://paste.openstack.org/show/491159/",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "1e6acf27a1fef6cae99c3bc289e41cf92373133d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

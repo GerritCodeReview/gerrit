@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1458236446 +0100\nnonce AO+Zq7i+6HGZ4hxT4xweL/ZrY82X31WXM+MNf3IvniBhsix1vbsc/MRDfyt9WP0RagoOOnoqrddY\n\n0000000000000000000000000000000000000000 44c72c98d6cc69a84b0ab505038845f185646039 refs/for/master%topic\u003daccount-index-gh16,r\u003dhugo.ares@ericsson.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW6uweAAoJEF/XxZqaEoiMVkgP+wUXwYY0xhD4wHAwXn4cjcdK\nkBVmi3wUzXjmiWGM68lrHmhuNsXBdMBAcXf9nhaSS1YJqkU8yMRBMNmx+zM9lmOR\njB3+RK/lWv28eG5VBlYCgWv7+RKhmFjQRfPs/aD/c7OpWnklEBirJZvVP/t1k3ZM\n7uRfMMFQzvAOGTv5duUSOJh2Z97hssrOtNCjXgCpzTuX8wihlRq6sW//X4a7+7aB\nHzMpL0Xt67hEKrGv9op5yi/U69mBU75t0riYiHlHowed8ot2mPGftgXTLZhEgbBK\nU5YuqnN813QJNYYoLsAz4g0qv42GPjPsoODiqlfqcFzspkrwRkcvvY12Yifc3Lz6\nVA9fBd56xAhYV1EGD/Yx7ZWNYMXLW6FmSohMpOY0hA0XXgLE6qvKRHhKGpnc9AVv\n/ZgELlTKXoK7znyDgwpu3SaOPDRZ38Ooa76e8W7iXJvl2ahLcxgaAgSzf0hoNYtn\nrELk0mcNdX50VVVU6R2xqSFz7ehYWJD1AU+FGnMKi1GzqJq0stHFqWxmGF8OQ4RE\nMNROQ0kvTnlHAX0rbQlnv1P4JUZ5agtf32SEllxBhWLQQoNuGF8PqWGRNrUBi16m\nAnE1pWMivObGDJ9Lq4s0dNlqfRGeupMSELbaSzeqABZtCxZahrEMURCsBR637f+7\n/wzgYylrpAneB9BCiZIo\n\u003dH3Sp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ca472ba_50ffac4c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T07:03:36Z",
+      "side": 1,
+      "message": "changeReindexer? Or are you going to wait wit hrenaming until reindexer for new indices are added?",
+      "range": {
+        "startLine": 102,
+        "startChar": 62,
+        "endLine": 102,
+        "endChar": 71
+      },
+      "revId": "6b54a1a92fb05a3a59acac9d3450983b3fe78e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_7004b036",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T07:03:36Z",
+      "side": 1,
+      "message": "batchChangeIndexer?",
+      "range": {
+        "startLine": 168,
+        "startChar": 22,
+        "endLine": 168,
+        "endChar": 34
+      },
+      "revId": "6b54a1a92fb05a3a59acac9d3450983b3fe78e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

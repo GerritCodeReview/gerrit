@@ -278,28 +278,28 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
+            addExtensionPoints(info);
             loadConfigInfo(info, base);
           }
         }));
   }
 
-  private void addExtensionPoints(ChangeInfo change, RevisionInfo rev) {
+  private void addExtensionPoints(ChangeInfo change) {
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
-        headerExtension, change, rev);
+        headerExtension, change);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
-        headerExtensionMiddle, change, rev);
+        headerExtensionMiddle, change);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
-        headerExtensionRight, change, rev);
+        headerExtensionRight, change);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        changeExtension, change, rev);
+        changeExtension, change);
   }
 
   private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,
-      Panel p, ChangeInfo change, RevisionInfo rev) {
+      Panel p, ChangeInfo change) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
-    extensionPanel.putObject(GerritUiExtensionPoint.Key.REVISION_INFO, rev);
     p.add(extensionPanel);
   }
 
@@ -895,7 +895,6 @@ public class ChangeScreen extends Screen {
       }
     }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
-    addExtensionPoints(info, rev);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();

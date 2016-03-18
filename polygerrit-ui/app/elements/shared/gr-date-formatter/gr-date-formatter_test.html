@@ -43,14 +43,17 @@ limitations under the License.
       return d;
     }
 
-    function testDates(nowStr, dateStr, expected) {
+    function testDates(nowStr, dateStr, expected, done) {
       // Normalize and convert the date to mimic server response.
       dateStr = normalizedDate(dateStr)
           .toJSON().replace('T', ' ').slice(0, -1);
       var clock = sinon.useFakeTimers(normalizedDate(nowStr).getTime());
       element.dateStr = dateStr;
-      assert.equal(element.$$('span').textContent, expected);
-      clock.restore();
+      flush(function() {
+        assert.equal(element.$$('span').textContent, expected);
+        clock.restore();
+        done();
+      });
     }
 
     function stubGetTimeFormat(timeFormat) {
@@ -62,9 +65,10 @@ limitations under the License.
     }
 
     suite('24 hours time format preference', function() {
-      setup(function() {
+      setup(function(done) {
         return stubGetTimeFormat('HHMM_24').then(function() {
           element = fixture('basic');
+          done();
         });
       });
 
@@ -73,48 +77,43 @@ limitations under the License.
         assert.equal(element._computeDateStr('foo', 'HHMM_12'), '');
       });
 
-      test('Within 24 hours on same day', function() {
+      test('Within 24 hours on same day', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-07-29 15:34:14.985000000',
-                  '15:34');
-        testDates('2016-01-27 17:41:14.985000000',
-                  '2016-01-27 12:41:14.985000000',
-                  '12:41');
+                  '15:34', done);
       });
 
-      test('Within 24 hours on different days', function() {
+      test('Within 24 hours on different days', function(done) {
         testDates('2015-07-29 03:34:14.985000000',
                   '2015-07-28 20:25:14.985000000',
-                  'Jul 28');
+                  'Jul 28', done);
       });
 
-      test('More than 24 hours but less than six months', function() {
+      test('More than 24 hours but less than six months', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-06-15 03:25:14.985000000',
-                  'Jun 15');
+                  'Jun 15', done);
       });
 
-      test('More than six months', function() {
+      test('More than six months', function(done) {
         testDates('2015-09-15 20:34:00.000000000',
                   '2015-01-15 03:25:00.000000000',
-                  'Jan 15, 2015');
+                  'Jan 15, 2015', done);
       });
     });
 
     suite('12 hours time format preference', function() {
-      setup(function() {
+      setup(function(done) {
         return stubGetTimeFormat('HHMM_12').then(function() {
           element = fixture('basic');
+          done();
         });
       });
 
-      test('Within 24 hours on same day', function() {
+      test('Within 24 hours on same day', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-07-29 15:34:14.985000000',
-                  '3:34 PM');
-        testDates('2016-01-27 17:41:14.985000000',
-                  '2016-01-27 12:41:14.985000000',
-                  '12:41 PM');
+                  '3:34 PM', done);
       });
     });
 
@@ -129,9 +128,10 @@ limitations under the License.
     }
 
     suite('logged in', function() {
-      setup(function() {
+      setup(function(done) {
         return stubRestAPI(true, {time_format: 'HHMM_12'}).then(function() {
           element = fixture('basic');
+          done();
         });
       });
 
@@ -144,9 +144,10 @@ limitations under the License.
     });
 
     suite('logged out', function() {
-      setup(function() {
+      setup(function(done) {
         return stubRestAPI(false, null).then(function() {
           element = fixture('basic');
+          done();
         });
       });
 

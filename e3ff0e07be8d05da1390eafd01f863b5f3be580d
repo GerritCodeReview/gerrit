@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_2eaca764",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:54:29Z",
+      "side": 1,
+      "message": "Unrelated to this change, but is this actually intended behavior, that adding another key causes there to be duplicates?",
+      "revId": "e3ff0e07be8d05da1390eafd01f863b5f3be580d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

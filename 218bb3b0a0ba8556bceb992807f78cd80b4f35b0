@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3cdafa64_eebc5fe3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T12:40:39Z",
+      "side": 1,
+      "message": "Ah. Path is special because it is both Comparable and Iterable. Indeed it is ambiguous.",
+      "parentUuid": "1cd53633_ed934576",
+      "revId": "218bb3b0a0ba8556bceb992807f78cd80b4f35b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_6fa871a4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 26

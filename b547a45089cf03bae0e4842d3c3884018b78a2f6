@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5cf32eea_cf4e3d67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-03-18T20:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_4e7253b4",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 57
+      },
+      "revId": "b547a45089cf03bae0e4842d3c3884018b78a2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2fc5c906",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefValidationHelper.java",
         "patchSetId": 16
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-18T16:38:14Z",
       "side": 1,
       "message": "Why not add another create method to the RefOperationValidator.Factory instead of providing this helper class?\n\nActually this helper is doing (almost) nothing else.",
+      "revId": "b547a45089cf03bae0e4842d3c3884018b78a2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_ef490161",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefValidationHelper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-03-18T20:59:14Z",
+      "side": 1,
+      "message": "I guess that I can\u0027t make all people happy :) see https://gerrit-review.googlesource.com/#/c/59963/4/gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java@137",
+      "parentUuid": "5cf32eea_2fc5c906",
       "revId": "b547a45089cf03bae0e4842d3c3884018b78a2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

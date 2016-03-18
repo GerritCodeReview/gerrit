@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
@@ -56,18 +55,17 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
@@ -80,7 +78,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AllChangesIndexer
-    implements SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
+    extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
   private static final Logger log =
       LoggerFactory.getLogger(AllChangesIndexer.class);
 
@@ -92,11 +90,6 @@ public class AllChangesIndexer
   private final ChangeNotes.Factory notesFactory;
   private final ProjectCache projectCache;
   private final ThreeWayMergeStrategy mergeStrategy;
-
-  private int totalWork = -1;
-  private OutputStream progressOut = NullOutputStream.INSTANCE;
-  private PrintWriter verboseWriter =
-      new PrintWriter(NullOutputStream.INSTANCE);
 
   @Inject
   AllChangesIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -117,24 +110,26 @@ public class AllChangesIndexer
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
   }
 
-  public AllChangesIndexer setTotalWork(int num) {
-    totalWork = num;
-    return this;
-  }
-
-  public AllChangesIndexer setProgressOut(OutputStream out) {
-    progressOut = checkNotNull(out);
-    return this;
-  }
-
-  public AllChangesIndexer setVerboseOut(OutputStream out) {
-    verboseWriter = new PrintWriter(checkNotNull(out));
-    return this;
-  }
-
   @Override
   public Result indexAll(ChangeIndex index) {
-    return indexAll(index, projectCache.all());
+    ProgressMonitor pm = new TextProgressMonitor();
+    pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
+    Set<Project.NameKey> projects = Sets.newTreeSet();
+    int changeCount = 0;
+    Stopwatch sw = Stopwatch.createStarted();
+    for (Project.NameKey project : projectCache.all()) {
+      try (Repository repo = repoManager.openRepository(project)) {
+        changeCount += ChangeNotes.Factory.scan(repo).size();
+      } catch (IOException e) {
+        log.error("Error collecting projects", e);
+        return new Result(sw, false, 0, 0);
+      }
+      projects.add(project);
+      pm.update(1);
+    }
+    pm.endTask();
+    setTotalWork(changeCount);
+    return indexAll(index, projects);
   }
 
   public SiteIndexer.Result indexAll(ChangeIndex index,

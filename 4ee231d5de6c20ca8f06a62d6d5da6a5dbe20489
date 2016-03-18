@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce3021d_0ce1f7e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-18T19:12:50Z",
+      "side": 1,
+      "message": "Maybe combine this with the next condition by just saying:\n\n  if (prev !\u003d null\n    \u0026\u0026 ...",
+      "revId": "4ee231d5de6c20ca8f06a62d6d5da6a5dbe20489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_2dfdcd7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-18T19:12:50Z",
+      "side": 1,
+      "message": "The project coding style places \u0026\u0026 at the start of the next line.",
+      "revId": "4ee231d5de6c20ca8f06a62d6d5da6a5dbe20489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_ec0eab87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-18T19:12:50Z",
+      "side": 1,
+      "message": "spaces around - inside the expression",
+      "revId": "4ee231d5de6c20ca8f06a62d6d5da6a5dbe20489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_ed2fc5de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-18T19:12:50Z",
+      "side": 1,
+      "message": "return shifted !\u003d 0 ? new Edit(beginA, endA, beginB, endB) : edit;",
+      "revId": "4ee231d5de6c20ca8f06a62d6d5da6a5dbe20489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_cc13efad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-18T19:12:50Z",
+      "side": 1,
+      "message": "Since there is only one CharText here maybe consider calling it \"t\" instead of \"a\".",
+      "revId": "4ee231d5de6c20ca8f06a62d6d5da6a5dbe20489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

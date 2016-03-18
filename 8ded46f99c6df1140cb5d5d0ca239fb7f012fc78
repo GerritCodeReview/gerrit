@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "fce3021d_4ccedf7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "b73365d6_0ad01b15",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "8ded46f99c6df1140cb5d5d0ca239fb7f012fc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1718b12b_9535442f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 10

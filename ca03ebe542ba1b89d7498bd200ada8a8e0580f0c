@@ -34,6 +34,24 @@
       "revId": "ca03ebe542ba1b89d7498bd200ada8a8e0580f0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_ef04613a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:49:19Z",
+      "side": 1,
+      "message": "I disagree with your idea of tying the bot comments button to the presence of the Verified label. The review tagging feature is completely orthogonal to labels. Admins may want to set up bots to give completely optional feedback in comments but provide no votes whatsoever. There are lots of potential uses for this feature, I don\u0027t want to shut them down now.\n\nI don\u0027t even think we need a configuration option to turn the whole \"tagging labels\" feature on or off, but maybe that\u0027s a separate question.",
+      "parentUuid": "3c8e7a42_8ed01b18",
+      "revId": "ca03ebe542ba1b89d7498bd200ada8a8e0580f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

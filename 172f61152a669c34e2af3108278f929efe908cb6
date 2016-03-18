@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "bc6d0aef_7d1e73a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:28:39Z",
+      "side": 1,
+      "message": "Because that would change the semantics of the fields in ChangeField that use that helper method. That would require creating new fields with the new semantics and doing a reindex. It didn\u0027t seem worth it to me at this point.",
+      "parentUuid": "3cf2faa7_2ee62706",
+      "range": {
+        "startLine": 76,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 74
+      },
+      "revId": "172f61152a669c34e2af3108278f929efe908cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c08f263_90ec94b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2016-03-17T13:33:24Z",
       "side": 1,
       "message": "nit: extra blank line",
+      "revId": "172f61152a669c34e2af3108278f929efe908cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6d0aef_1d13b79e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c08f263_90ec94b0",
       "revId": "172f61152a669c34e2af3108278f929efe908cb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

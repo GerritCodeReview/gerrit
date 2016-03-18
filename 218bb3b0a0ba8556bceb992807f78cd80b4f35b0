@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_ed934576",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T12:39:17Z",
+      "side": 1,
+      "message": "yes otherwise I get the following error:\n\nThe method assertThat(Path) is ambiguous for the type RepositoryConfigTest",
+      "parentUuid": "5cf32eea_8fa275c5",
+      "revId": "218bb3b0a0ba8556bceb992807f78cd80b4f35b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_6fa871a4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 26

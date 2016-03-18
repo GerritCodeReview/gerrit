@@ -23,6 +23,7 @@ import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
@@ -74,6 +75,10 @@ public class LuceneIndexModule extends LifecycleModule {
         new FactoryModuleBuilder()
             .implement(ChangeIndex.class, LuceneChangeIndex.class)
             .build(ChangeIndex.Factory.class));
+    install(
+        new FactoryModuleBuilder()
+            .implement(AccountIndex.class, LuceneAccountIndex.class)
+            .build(AccountIndex.Factory.class));
 
     install(new IndexModule(threads));
     if (singleVersions == null) {

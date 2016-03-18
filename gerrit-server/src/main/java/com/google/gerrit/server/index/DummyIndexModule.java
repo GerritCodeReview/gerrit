@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -27,11 +29,19 @@ public class DummyIndexModule extends AbstractModule {
     }
   }
 
+  private static class DummyAccountIndexFactory implements AccountIndex.Factory {
+    @Override
+    public AccountIndex create(Schema<AccountState> schema) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
   @Override
   protected void configure() {
     install(new IndexModule(1));
     bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     bind(Index.class).toInstance(new DummyChangeIndex());
+    bind(AccountIndex.Factory.class).toInstance(new DummyAccountIndexFactory());
     bind(ChangeIndex.Factory.class).toInstance(new DummyChangeIndexFactory());
   }
 }

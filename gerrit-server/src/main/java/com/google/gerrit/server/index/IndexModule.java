@@ -94,9 +94,12 @@ public class IndexModule extends LifecycleModule {
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+      AccountIndexDefinition accounts,
       ChangeIndexDefinition changes) {
     Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>> of(changes);
+        ImmutableList.<IndexDefinition<?, ?, ?>> of(
+            accounts,
+            changes);
     Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
         .transform(new Function<SchemaDefinitions<?>, String>() {
           @Override

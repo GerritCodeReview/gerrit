@@ -27,7 +27,6 @@ import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -152,43 +151,11 @@ public class AllChangesIndexer
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final Project.NameKey project : projects) {
-      final ListenableFuture<?> future = executor.submit(reindexProject(
+      ListenableFuture<?> future = executor.submit(reindexProject(
           indexerFactory.create(executor, index), project, doneTask, failedTask,
           verboseWriter));
+      addErrorListener(future, "project " + project, projTask, ok);
       futures.add(future);
-      future.addListener(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            future.get();
-          } catch (ExecutionException | InterruptedException e) {
-            fail(project, e);
-          } catch (RuntimeException e) {
-            failAndThrow(project, e);
-          } catch (Error e) {
-            // Can't join with RuntimeException because "RuntimeException |
-            // Error" becomes Throwable, which messes with signatures.
-            failAndThrow(project, e);
-          } finally {
-            projTask.update(1);
-          }
-        }
-
-        private void fail(Project.NameKey project, Throwable t) {
-          log.error("Failed to index project " + project, t);
-          ok.set(false);
-        }
-
-        private void failAndThrow(Project.NameKey project, RuntimeException e) {
-          fail(project, e);
-          throw e;
-        }
-
-        private void failAndThrow(Project.NameKey project, Error e) {
-          fail(project, e);
-          throw e;
-        }
-      }, MoreExecutors.directExecutor());
     }
 
     try {

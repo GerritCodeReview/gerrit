@@ -16,6 +16,24 @@
       "revId": "7ba8e0c7ff57d398573c60e08e5de4e699931390",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc92be65_6b0e8187",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/FontsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-18T00:53:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc92be65_abcdc980",
+      "revId": "7ba8e0c7ff57d398573c60e08e5de4e699931390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

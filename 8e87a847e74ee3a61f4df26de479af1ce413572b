@@ -87,6 +87,30 @@
       "revId": "8e87a847e74ee3a61f4df26de479af1ce413572b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_f01d0054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T10:48:41Z",
+      "side": 1,
+      "message": "(Note that this means that it\u0027s not possible within a single update to set some approvals to one tag and other approvals to a different tag. I think this is a perfectly reasonable restriction. If there is some obscure use case that really needs this, they can just split it into two updates with the same timestamp.)",
+      "parentUuid": "7ca472ba_10052435",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 69
+      },
+      "revId": "8e87a847e74ee3a61f4df26de479af1ce413572b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

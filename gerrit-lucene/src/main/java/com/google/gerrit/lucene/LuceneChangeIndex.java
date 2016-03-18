@@ -123,7 +123,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
   }
 
-  private final SitePaths sitePaths;
   private final FillArgs fillArgs;
   private final ListeningExecutorService executor;
   private final Provider<ReviewDb> db;
@@ -142,7 +141,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema) throws IOException {
-    this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.db = db;
@@ -249,9 +247,9 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    // Do not delegate to ChangeSubIndex#markReady, since changes have an
-    // additional level of directory nesting.
-    AbstractLuceneIndex.setReady(sitePaths, schema.getVersion(), ready);
+    // Arbitrary done on open index, as ready bit is set
+    // per index and not sub index
+    openIndex.markReady(ready);
   }
 
   private Sort getSort() {

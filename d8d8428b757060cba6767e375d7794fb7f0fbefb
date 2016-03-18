@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_af8bf90d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:13:27Z",
+      "side": 1,
+      "message": "s/equals/isEqualTo/",
+      "range": {
+        "startLine": 465,
+        "startChar": 42,
+        "endLine": 465,
+        "endChar": 48
+      },
+      "revId": "d8d8428b757060cba6767e375d7794fb7f0fbefb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ce6f63fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:13:27Z",
+      "side": 1,
+      "message": "you are now calling equals on the object not on the assertion framework. This line should look like:\n\n  assertThat(m.headers().get(\"Subject\")).isEqualTo(\"[Gerrit Code Review] New GPG Keys Added\");",
+      "range": {
+        "startLine": 465,
+        "startChar": 4,
+        "endLine": 465,
+        "endChar": 93
+      },
+      "revId": "d8d8428b757060cba6767e375d7794fb7f0fbefb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

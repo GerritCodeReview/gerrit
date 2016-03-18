@@ -63,6 +63,30 @@
       "revId": "8e87a847e74ee3a61f4df26de479af1ce413572b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_10052435",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T06:07:34Z",
+      "side": 1,
+      "message": "No, don\u0027t go creating new types.\n\nI think within a ChangeUpdate you just need to set the single Tag footer on the commit. Then when parsing you apply that tag to all ChangeMessage and PatchSetApproval objects from that commit.\n\nPatchLineComments are different, you store and parse all fields from each comment in the note.",
+      "parentUuid": "7ca472ba_508c0c26",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 69
+      },
+      "revId": "8e87a847e74ee3a61f4df26de479af1ce413572b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

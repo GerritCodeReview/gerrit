@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_ee499f31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-18T12:07:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_d01abc4b",
+      "range": {
+        "startLine": 18,
+        "startChar": 50,
+        "endLine": 19,
+        "endChar": 11
+      },
+      "revId": "8fe9955595ef2e8885242e21863bd8bd60ad747b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_3ab00123",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
         "patchSetId": 14

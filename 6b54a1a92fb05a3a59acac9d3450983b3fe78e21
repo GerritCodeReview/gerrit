@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_4eb8f3a3",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:40:12Z",
+      "side": 1,
+      "message": "Done in Id6c58a59",
+      "parentUuid": "7ca472ba_50ffac4c",
+      "range": {
+        "startLine": 102,
+        "startChar": 62,
+        "endLine": 102,
+        "endChar": 71
+      },
+      "revId": "6b54a1a92fb05a3a59acac9d3450983b3fe78e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_7004b036",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2016-03-18T07:03:36Z",
       "side": 1,
       "message": "batchChangeIndexer?",
+      "range": {
+        "startLine": 168,
+        "startChar": 22,
+        "endLine": 168,
+        "endChar": 34
+      },
+      "revId": "6b54a1a92fb05a3a59acac9d3450983b3fe78e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_6ebdaf92",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:40:12Z",
+      "side": 1,
+      "message": "Doesn\u0027t really seem worth it, it\u0027s only used within this method, and is going to change later anyway.",
+      "parentUuid": "7ca472ba_7004b036",
       "range": {
         "startLine": 168,
         "startChar": 22,

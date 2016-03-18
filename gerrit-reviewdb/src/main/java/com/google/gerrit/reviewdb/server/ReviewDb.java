@@ -97,6 +97,7 @@ public interface ReviewDb extends Schema {
   PatchLineCommentAccess patchComments();
 
   @Relation(id = 28)
+  // TODO(sbeller): delete this.
   SubmoduleSubscriptionAccess submoduleSubscriptions();
 
   @Relation(id = 29)

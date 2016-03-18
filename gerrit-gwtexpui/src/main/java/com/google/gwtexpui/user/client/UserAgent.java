@@ -152,6 +152,16 @@ public class UserAgent {
   private static native void bustOutOfIFrame(String newloc)
   /*-{ top.location.href = newloc }-*/;
 
+  /**
+   * Test if Gerrit is running on a mobile browser. This check could be
+   * incomplete, but should cover most cases. Regexes shamelessly borrowed from
+   * CodeMirror.
+   */
+  public static native boolean isMobile() /*-{
+    var ios = /AppleWebKit/.test(userAgent) && /Mobile\/\w+/.test(userAgent);
+    return ios || /Android|webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(userAgent);
+  }-*/;
+
   private UserAgent() {
   }
 }

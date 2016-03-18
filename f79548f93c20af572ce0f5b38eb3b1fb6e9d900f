@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3cdafa64_8ebcbb97",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:51:35Z",
+      "side": 1,
+      "message": "pushToMaster should maybe move to the bottom of the file but I\u0027m ok with createMergeCommitAndUpdateFirstParent where it is now.",
+      "parentUuid": "5cf32eea_8fea7594",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 230,
+        "endChar": 3
+      },
+      "revId": "f79548f93c20af572ce0f5b38eb3b1fb6e9d900f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_6ff07183",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1

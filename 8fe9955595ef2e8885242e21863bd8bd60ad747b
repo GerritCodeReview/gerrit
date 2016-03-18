@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_3012283b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-18T11:06:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c937619_bd115fe1",
+      "range": {
+        "startLine": 18,
+        "startChar": 50,
+        "endLine": 19,
+        "endChar": 11
+      },
+      "revId": "8fe9955595ef2e8885242e21863bd8bd60ad747b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_3ab00123",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
         "patchSetId": 14
@@ -53,6 +77,24 @@
       "writtenOn": "2016-03-17T11:34:26Z",
       "side": 1,
       "message": "It was copied from the GitOverHttpServlet.URL_REGEX (and slightly modified) for which, btw, we also don\u0027t have tests. Of course this is not a justification, so I will write some tests.",
+      "parentUuid": "bc6d0aef_3ab00123",
+      "revId": "8fe9955595ef2e8885242e21863bd8bd60ad747b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_4eee336c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-18T11:06:02Z",
+      "side": 1,
+      "message": "So, yes this was a *good* idea.\n\nIt turns out that the text matched a nested non-capturing group is still included in the nesting group. Knowing that I removed the nesting of\n\n  (?:info/lfs...)\n\nThe purpose of the non-capturing group in a regex passed to the guice\u0027s serveRegex is also not clear... actually it turns out that guice doesn\u0027t care about then and will NOT remove the parts matched by the non-capturing group(s) from the request path. So, we could remove the non-capturing flag or keep it as a \"documentation\". Testing URL_REGEX\nis easier with the non-capturing flag, so I will keep it.\n\nInterestingly the GitOverHttpServlet.URL_REGEX also makes use of non-capturing group(s) but the removal of the \"info/refs\" and other possible suffixes does NOT happen due to the non-capturing group which matches these suffixes. This was a long lasting misconception I had...",
       "parentUuid": "bc6d0aef_3ab00123",
       "revId": "8fe9955595ef2e8885242e21863bd8bd60ad747b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

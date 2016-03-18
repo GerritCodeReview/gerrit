@@ -46,6 +46,30 @@
       "revId": "a5579aa230101a1f0079674ebe56c41337dcedfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_6e876fd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-18T09:51:00Z",
+      "side": 1,
+      "message": "OK, in that case please also use uppercase GERRIT_USER in the commit message",
+      "parentUuid": "7ca472ba_307dc88d",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a5579aa230101a1f0079674ebe56c41337dcedfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

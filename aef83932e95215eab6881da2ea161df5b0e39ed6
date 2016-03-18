@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_8e181b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024634
+      },
+      "writtenOn": "2016-03-18T08:29:49Z",
+      "side": 1,
+      "message": "No problem, it\u0027s often even restricted to 72 characters and I fixed my setup now to break automatically.",
+      "parentUuid": "7ca472ba_90a754d5",
+      "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_50b7acfd",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2016-03-17T19:20:08Z",
       "side": 1,
       "message": "nit: Why do you add a new line after this method, but not before?",
+      "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_30b308cc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024634
+      },
+      "writtenOn": "2016-03-18T08:29:49Z",
+      "side": 1,
+      "message": "To visually seperate these getters from the void methods below. Should I remove it or add a line above?",
+      "parentUuid": "7ca472ba_50b7acfd",
       "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

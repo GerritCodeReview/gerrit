@@ -1,0 +1,60 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.lucene;
+
+import com.google.common.primitives.Ints;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+
+import java.io.IOException;
+
+class GerritIndexConfig {
+  private static final String SECTION = "index";
+  private static final String KEY_READY = "ready";
+
+  private final FileBasedConfig cfg;
+
+  static void convertLegacyConfig(Config cfg) {
+    // Convert legacy [index "25"] to modern [index "changes_0025"].
+    for (String subsection : cfg.getSubsections(SECTION)) {
+      Integer v = Ints.tryParse(subsection);
+      if (v != null) {
+        String ready = cfg.getString(SECTION, subsection, KEY_READY);
+        if (ready != null) {
+          cfg.unset(SECTION, subsection, KEY_READY);
+          cfg.set(indexDirName(ChangeSchemaDefinitions.NAME, v));
+        }
+      }
+    }
+  }
+
+  static String indexDirName(String indexName, int version) {
+    return String.format("%s_%04d", indexName, version);
+  }
+
+  GerritIndexConfig(SitePaths sitePaths)
+      throws ConfigInvalidException, IOException {
+    cfg = new FileBasedConfig(
+        sitePaths.index_dir.resolve("gerrit_index.config").toFile(),
+        FS.detect());
+    cfg.load();
+    convertLegacyConfig(cfg);
+  }
+}

@@ -167,15 +167,11 @@
     return td;
   };
 
-  GrDiffBuilder.prototype._createBlankSideEl = function() {
-    var td = this._createElement('td');
-    td.setAttribute('colspan', '2');
-    return td;
-  };
-
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
     var td = this._createElement('td', 'lineNum');
-    if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+    if (line.type === GrDiffLine.Type.BLANK) {
+      return td;
+    } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
       td.setAttribute('data-value', '@@');
     } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
       td.setAttribute('data-value', number);
@@ -184,9 +180,12 @@
   };
 
   GrDiffBuilder.prototype._createTextEl = function(line) {
-    var td = this._createElement('td', 'content');
+    var td = this._createElement('td');
+    if (line.type !== GrDiffLine.Type.BLANK) {
+      td.classList.add('content');
+    }
     td.classList.add(line.type);
-    var text = line.text || '\n';
+    var text = line.text;
     var html = util.escapeHTML(text);
     if (text.length > this._prefs.line_length) {
       html = this._addNewlines(text, html);

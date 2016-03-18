@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_ad39bd29",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73365d6_aac0ef4b",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "c2ce4fca27c4adad66613c5063eda3681eed7b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b73365d6_cab523f5",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 11
@@ -37,6 +61,30 @@
       "writtenOn": "2016-03-11T02:24:39Z",
       "side": 1,
       "message": "Still a bit confusing:\nWhen a commit in a project is merged, Gerrit checks for superprojects\nthat are subscribed to the the project and automatically updates those superprojects with a commit that updates the gitlink for the project.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "c2ce4fca27c4adad66613c5063eda3681eed7b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_8d3e010e",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73365d6_cab523f5",
       "range": {
         "startLine": 25,
         "startChar": 0,

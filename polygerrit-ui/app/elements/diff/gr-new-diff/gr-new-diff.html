@@ -74,6 +74,18 @@ limitations under the License.
         overflow: hidden;
         width: var(--content-width, 80ch);
       }
+      .content.left {
+        -webkit-user-select: var(--left-user-select, text);
+        -moz-user-select: var(--left-user-select, text);
+        -ms-user-select: var(--left-user-select, text);
+        user-select: var(--left-user-select, text);
+      }
+      .content.right {
+        -webkit-user-select: var(--right-user-select, text);
+        -moz-user-select: var(--right-user-select, text);
+        -ms-user-select: var(--right-user-select, text);
+        user-select: var(--right-user-select, text);
+      }
       .add {
         background-color: var(--dark-add-highlight-color);
       }
@@ -126,7 +138,10 @@ limitations under the License.
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
 
-      <div class="diffContainer" on-tap="_handleTap">
+      <div class="diffContainer"
+          on-tap="_handleTap"
+          on-mousedown="_handleMouseDown"
+          on-copy="_handleCopy">
         <table id="diffTable"></table>
       </div>
     </div>

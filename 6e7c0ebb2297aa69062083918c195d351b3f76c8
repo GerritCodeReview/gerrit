@@ -23,6 +23,30 @@
       "revId": "6e7c0ebb2297aa69062083918c195d351b3f76c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_ae4f9736",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T12:01:28Z",
+      "side": 1,
+      "message": "I wonder which is more likely: wanting to reindex all of everything, or wanting to reindex just one type.",
+      "parentUuid": "3c8e7a42_2e6487c3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "6e7c0ebb2297aa69062083918c195d351b3f76c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

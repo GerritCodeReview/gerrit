@@ -112,129 +112,24 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
 
         List<Edit> wordEdits = MyersDiff.INSTANCE.diff(cmp, a, b);
 
-        // Combine edits that are really close together. If they are
-        // just a few characters apart we tend to get better results
-        // by joining them together and taking the whole span.
-        //
-        for (int j = 0; j < wordEdits.size() - 1;) {
-          Edit c = wordEdits.get(j);
-          Edit n = wordEdits.get(j + 1);
-
-          if (n.getBeginA() - c.getEndA() <= 5
-              || n.getBeginB() - c.getEndB() <= 5) {
-            int ab = c.getBeginA();
-            int ae = n.getEndA();
-
-            int bb = c.getBeginB();
-            int be = n.getEndB();
-
-            if (canCoalesce(a, c.getEndA(), n.getBeginA())
-                && canCoalesce(b, c.getEndB(), n.getBeginB())) {
-              wordEdits.set(j, new Edit(ab, ae, bb, be));
-              wordEdits.remove(j + 1);
-              continue;
-            }
-          }
-
-          j++;
-        }
-
-        // Apply some simple rules to fix up some of the edits. Our
-        // logic above, along with our per-character difference tends
-        // to produce some crazy stuff.
-        //
+        Edit prev = null;
         for (int j = 0; j < wordEdits.size(); j++) {
-          Edit c = wordEdits.get(j);
-          int ab = c.getBeginA();
-          int ae = c.getEndA();
+          Edit edit = wordEdits.get(j);
 
-          int bb = c.getBeginB();
-          int be = c.getEndB();
+          edit = shiftEdit(a, b, edit);
 
-          // Sometimes the diff generator produces an INSERT or DELETE
-          // right up against a REPLACE, but we only find this after
-          // we've also played some shifting games on the prior edit.
-          // If that happened to us, coalesce them together so we can
-          // correct this mess for the user. If we don't we wind up
-          // with silly stuff like "es" -> "es = Addresses".
-          //
-          if (1 < j) {
-            Edit p = wordEdits.get(j - 1);
-            if (p.getEndA() == ab || p.getEndB() == bb) {
-              if (p.getEndA() == ab && p.getBeginA() < p.getEndA()) {
-                ab = p.getBeginA();
-              }
-              if (p.getEndB() == bb && p.getBeginB() < p.getEndB()) {
-                bb = p.getBeginB();
-              }
-              wordEdits.remove(--j);
-            }
+          Edit combined = combineCloseEdits(a, b, prev, edit);
+          if (combined != null) {
+            edit = combined;
+            wordEdits.remove(j-1);
+            j--;
           }
 
-          // We sometimes collapsed an edit together in a strange way,
-          // such that the edges of each text is identical. Fix by
-          // by dropping out that incorrectly replaced region.
-          //
-          while (ab < ae && bb < be && cmp.equals(a, ab, b, bb)) {
-            ab++;
-            bb++;
-          }
-          while (ab < ae && bb < be && cmp.equals(a, ae - 1, b, be - 1)) {
-            ae--;
-            be--;
-          }
+          edit = cmp.reduceCommonStartEnd(a, b, edit);
+          edit = combineEditWithLF(a, b, edit);
 
-          // The leading part of an edit and its trailing part in the same
-          // text might be identical. Slide down that edit and use the tail
-          // rather than the leading bit.
-          //
-          while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
-              && cmp.equals(a, ab - 1, a, ae - 1)) {
-            ab--;
-            ae--;
-          }
-          if (!a.isLineStart(ab) || !a.contains(ab, ae, '\n')) {
-            while (ab < ae && ae < a.size() && cmp.equals(a, ab, a, ae)) {
-              ab++;
-              ae++;
-              if (a.charAt(ae - 1) == '\n') {
-                break;
-              }
-            }
-          }
-
-          while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
-              && cmp.equals(b, bb - 1, b, be - 1)) {
-            bb--;
-            be--;
-          }
-          if (!b.isLineStart(bb) || !b.contains(bb, be, '\n')) {
-            while (bb < be && be < b.size() && cmp.equals(b, bb, b, be)) {
-              bb++;
-              be++;
-              if (b.charAt(be - 1) == '\n') {
-                break;
-              }
-            }
-          }
-
-          // If most of a line was modified except the LF was common, make
-          // the LF part of the modification region. This is easier to read.
-          //
-          if (ab < ae //
-              && (ab == 0 || a.charAt(ab - 1) == '\n') //
-              && ae < a.size() && a.charAt(ae - 1) != '\n'
-              && a.charAt(ae) == '\n') {
-            ae++;
-          }
-          if (bb < be //
-              && (bb == 0 || b.charAt(bb - 1) == '\n') //
-              && be < b.size() && b.charAt(be - 1) != '\n'
-              && b.charAt(be) == '\n') {
-            be++;
-          }
-
-          wordEdits.set(j, new Edit(ab, ae, bb, be));
+          wordEdits.set(j, edit);
+          prev = edit;
         }
 
         edits.set(i, new ReplaceEdit(e, wordEdits));
@@ -288,12 +183,84 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     return CONTROL_BLOCK_START_RE.matcher(a.getString(idx)).find();
   }
 
-  private static boolean canCoalesce(CharText a, int b, int e) {
-    while (b < e) {
-      if (a.charAt(b++) == '\n') {
-        return false;
+  // Combine edits that are really close together. If they are
+  // just a few characters apart we tend to get better results
+  // by joining them together and taking the whole span.
+  private static Edit combineCloseEdits(CharText a, CharText b, Edit prev, Edit next) {
+    if (prev == null) {
+      return null;
+    }
+    if ((next.getBeginA() - prev.getEndA() <= 5 || next.getBeginB() - prev.getEndB() <= 5) &&
+        !a.contains(prev.getEndA(), next.getBeginA(), '\n') &&
+        !b.contains(prev.getEndB(), next.getBeginB(), '\n')) {
+      return new Edit(prev.getBeginA(), next.getEndA(), prev.getBeginB(), next.getEndB());
+    }
+    return null;
+  }
+
+  // If most of a line was modified except the LF was common, make
+  // the LF part of the modification region. This is easier to read.
+  private static Edit combineEditWithLF(CharText a, CharText b, Edit edit) {
+    if (edit.getLengthA() > 0 && edit.getLengthB() > 0 &&
+        edit.getEndA() < a.size() && edit.getEndB() < b.size() &&
+        a.isLineStart(edit.getBeginA()) && b.isLineStart(edit.getBeginB()) &&
+        a.charAt(edit.getEndA()-1) != '\n' && a.charAt(edit.getEndA()) == '\n' &&
+        b.charAt(edit.getEndB()-1) != '\n' && b.charAt(edit.getEndB()) == '\n') {
+      // we can extend into the LF:
+      edit.extendA();
+      edit.extendB();
+    }
+    return edit;
+  }
+
+  // The leading part of an edit and its trailing part in the same
+  // text might be identical. Slide down that edit and use the tail
+  // rather than the leading bit.
+  private static Edit shiftEdit(CharText a, CharText b, Edit edit) {
+    int beginA = edit.getBeginA();
+    int endA = edit.getEndA();
+    int beginB = edit.getBeginB();
+    int endB = edit.getEndB();
+    int shifted = 0;
+
+    // first try to shift left until the start of the line
+    while (canShiftLeft(a, beginA, endA) && canShiftLeft(b, beginB, endB)) {
+      beginA--;
+      endA--;
+      beginB--;
+      endB--;
+      shifted--;
+    }
+
+    // if we cannot reach the start, then shift right as far as possible
+    if (!a.isLineStart(beginA) && !b.isLineStart(beginB)) {
+      while (canShiftRight(a, beginA, endA) && canShiftRight(b, beginB, endB)) {
+        beginA++;
+        endA++;
+        beginB++;
+        endB++;
+        shifted++;
       }
     }
-    return true;
+
+    if (shifted != 0) {
+      edit = new Edit(beginA, endA, beginB, endB);
+    }
+
+    return edit;
+  }
+
+  private static boolean canShiftLeft(CharText a, int begin, int end) {
+    if (begin == 0 || a.charAt(begin-1) == '\n') {
+      return false;
+    }
+    return begin == end || a.charAt(begin-1) == a.charAt(end-1);
+  }
+
+  private static boolean canShiftRight(CharText a, int begin, int end) {
+    if (end >= a.size() || a.charAt(end) == '\n') {
+      return false;
+    }
+    return begin == end || a.charAt(begin) == a.charAt(end);
   }
 }

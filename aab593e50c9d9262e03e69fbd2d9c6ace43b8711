@@ -17,6 +17,24 @@
       "revId": "aab593e50c9d9262e03e69fbd2d9c6ace43b8711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_ae15d75f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:28:39Z",
+      "side": 1,
+      "message": "Well this is really about preserving existing behavior, which is to emit a field for \"\" if the email is empty. See the comment and examples in SchemaUtilTest.",
+      "parentUuid": "3c8e7a42_0ebd0bde",
+      "revId": "aab593e50c9d9262e03e69fbd2d9c6ace43b8711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

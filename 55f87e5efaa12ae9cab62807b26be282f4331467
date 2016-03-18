@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_cfeabdc7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T13:11:22Z",
+      "side": 1,
+      "message": "I don\u0027t know how much effort you want to put into this, and what you have is fine. But it\u0027s a little hard to read the tests and verify that they are obviously correct; I am not good at doing these substring operations in my head.\n\nI think these tests could be a whole lot more readable if you could express them as:\n\n assertThat(intraline(a, b)).containsExactly(\n          common(\"start middle\"),\n          insert(\"middle\"),\n          common(\" end\\n\")\n     ).inOrder();\n\nDo you think that\u0027s feasible?",
+      "revId": "55f87e5efaa12ae9cab62807b26be282f4331467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_2fcb896c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T13:11:22Z",
+      "side": 1,
+      "message": "Style nits here and below:\n\n* private comes before static\n* wrap lines at 80 chars",
+      "revId": "55f87e5efaa12ae9cab62807b26be282f4331467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

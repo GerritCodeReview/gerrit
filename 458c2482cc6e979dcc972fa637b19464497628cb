@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c8e7a42_ee443f44",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T10:20:38Z",
+      "side": 1,
+      "message": "We can probably use the similar approach also for other site programs:\n\n  $ git grep -l getInstance\n  src/main/java/com/google/gerrit/pgm/Daemon.java\n  src/main/java/com/google/gerrit/pgm/Gsql.java\n  src/main/java/com/google/gerrit/pgm/Init.java\n  src/main/java/com/google/gerrit/pgm/RebuildNotedb.java\n  src/main/java/com/google/gerrit/pgm/Reindex.java\n  src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java\n  src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java\n  src/main/java/com/google/gerrit/pgm/init/BaseInit.java\n  src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java\n  src/main/java/com/google/gerrit/pgm/init/InitDatabase.java\n  src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java\n  src/main/java/com/google/gerrit/pgm/init/api/ConsoleUI.java\n  src/main/java/com/google/gerrit/pgm/init/api/InitUtil.java\n  src/main/java/com/google/gerrit/pgm/util/SiteProgram.java\n  src/main/java/com/google/gerrit/pgm/util/ThreadLimiter.java",
+      "revId": "458c2482cc6e979dcc972fa637b19464497628cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

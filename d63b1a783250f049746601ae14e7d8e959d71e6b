@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_8ea1fb72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_b0153860",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8e7a42_2e99e794",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexDefinition.java",
         "patchSetId": 4
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_ceab034d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_d012bc74",
+      "range": {
+        "startLine": 27,
+        "startChar": 40,
+        "endLine": 27,
+        "endChar": 42
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8e7a42_4eff134d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexDefintion.java",
         "patchSetId": 4
@@ -107,6 +155,30 @@
       "writtenOn": "2016-03-18T07:28:30Z",
       "side": 1,
       "message": "definition? Schema is only one attribute from the definition.",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_b09e1828",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexDefintion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:39:53Z",
+      "side": 1,
+      "message": "Just removed this comment entirely, considering how trivial this class is. In order to know what an \"index definition\" is you have to read the IndexDefinition javadoc anyway, at which point it\u0027s obvious that ChangeIndexDefinition is \"the index definition for changes\" :)",
+      "parentUuid": "3c8e7a42_4eff134d",
       "range": {
         "startLine": 22,
         "startChar": 20,

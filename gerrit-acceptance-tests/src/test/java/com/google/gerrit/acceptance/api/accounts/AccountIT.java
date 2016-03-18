@@ -45,7 +45,9 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -60,7 +62,6 @@ import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -226,6 +227,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     assertKeyMapContains(key, addGpgKey(key.getPublicKeyArmored()));
     assertKeys(key);
+    assertGpgKeyEmailNotificationSent(admin);
 
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
@@ -241,11 +243,13 @@ public class AccountIT extends AbstractDaemonTest {
     PGPPublicKey pk = key.getPublicKey();
 
     GpgKeyInfo info = addGpgKey(armor(pk)).get(id);
+    assertGpgKeyEmailNotificationSent(admin);
     assertThat(info.userIds).hasSize(2);
     assertIteratorSize(2, getOnlyKeyFromStore(key).getUserIDs());
 
     pk = PGPPublicKey.removeCertification(pk, "foo:myId");
     info = addGpgKey(armor(pk)).get(id);
+    assertGpgKeyEmailNotificationSent(admin);
     assertThat(info.userIds).hasSize(1);
     assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
   }
@@ -261,8 +265,9 @@ public class AccountIT extends AbstractDaemonTest {
 
     TestKey key = validKeyWithSecondUserId();
     addGpgKey(key.getPublicKeyArmored());
-    setApiUser(user);
+    assertGpgKeyEmailNotificationSent(admin);
 
+    setApiUser(user);
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("GPG key already associated with another account");
     addGpgKey(key.getPublicKeyArmored());
@@ -279,6 +284,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
     gApi.accounts().self().putGpgKeys(toAdd, ImmutableList.<String> of());
     assertKeys(keys);
+    assertGpgKeyEmailNotificationSent(admin);
   }
 
   @Test
@@ -288,6 +294,7 @@ public class AccountIT extends AbstractDaemonTest {
     addExternalIdEmail(admin, "test1@example.com");
     addGpgKey(key.getPublicKeyArmored());
     assertKeys(key);
+    assertGpgKeyEmailNotificationSent(admin);
 
     gApi.accounts().self().gpgKey(id).delete();
     assertKeys();
@@ -315,6 +322,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(infos.keySet())
         .containsExactly(key1.getKeyIdString(), key2.getKeyIdString());
     assertKeys(key1, key2);
+    assertGpgKeyEmailNotificationSent(admin);
 
     infos = gApi.accounts().self().putGpgKeys(
         ImmutableList.of(key5.getPublicKeyArmored()),
@@ -324,6 +332,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertKeyMapContains(key5, infos);
     assertThat(infos.get(key1.getKeyIdString()).key).isNull();
     assertKeys(key2, key5);
+    assertGpgKeyEmailNotificationSent(admin);
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("Cannot both add and delete key: "
@@ -331,6 +340,7 @@ public class AccountIT extends AbstractDaemonTest {
     infos = gApi.accounts().self().putGpgKeys(
         ImmutableList.of(key2.getPublicKeyArmored()),
         ImmutableList.of(key2.getKeyIdString()));
+    assertGpgKeyEmailNotificationSent(admin);
   }
 
   private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {
@@ -446,5 +456,33 @@ public class AccountIT extends AbstractDaemonTest {
     return gApi.accounts().self().putGpgKeys(
         ImmutableList.of(armored),
         ImmutableList.<String> of());
+  }
+
+  private void assertGpgKeyEmailNotificationSent(TestAccount account) {
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(account.emailAddress);
+    assertThat(extractSubject(m)).isEqualTo("[Gerrit Code Review] New GPG Keys Added");
+    assertThat(m.body()).contains("One or more new GPG keys have been added");
+    assertThat(m.body())
+        .contains("You can also manage your GPG keys by visiting");
+    assertThat(m.body())
+        .contains(canonicalWebUrl.get() + "#/settings/gpg-keys");
+    assertThat(m.body())
+        .contains("(while signed in as " + account.emailAddress + ")");
+    sender.clear();
+  }
+
+  private static String extractSubject(Message message) {
+    String subject = "";
+    EmailHeader subjectHeader = message.headers().get("Subject");
+    if (subjectHeader != null) {
+      try {
+        subject = ((EmailHeader.String) subjectHeader).getString();
+      } catch (ClassCastException e) {
+      }
+    }
+    return subject;
   }
 }

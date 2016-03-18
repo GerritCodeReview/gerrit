@@ -16,6 +16,24 @@
       "revId": "458c2482cc6e979dcc972fa637b19464497628cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_303868cc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T10:34:59Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m fixing these as I find them.",
+      "parentUuid": "3c8e7a42_ee443f44",
+      "revId": "458c2482cc6e979dcc972fa637b19464497628cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

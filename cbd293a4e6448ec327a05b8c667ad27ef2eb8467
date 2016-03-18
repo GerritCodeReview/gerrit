@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cd53633_6d7635e1",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-03-18T21:59:03Z",
+      "side": 1,
+      "message": "It will work even if there is no reference there, for some definition of working. :)",
+      "range": {
+        "startLine": 228,
+        "startChar": 31,
+        "endLine": 229,
+        "endChar": 15
+      },
+      "revId": "cbd293a4e6448ec327a05b8c667ad27ef2eb8467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fce3021d_8cbba7e7",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "5cf32eea_2f2709fd",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_ce864308",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 12
@@ -60,6 +84,24 @@
       "writtenOn": "2016-03-18T15:09:03Z",
       "side": 1,
       "message": "Link to the documentation of the option in server-settings.txt.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_0dc8d16b",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_ce864308",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_ede585f9",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "How about: [allowSubscription \"\u003csuperproject\u003e\"] ?",
+      "parentUuid": "3cdafa64_ae8bf70d",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_8e903b39",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 12
@@ -94,6 +154,30 @@
       "writtenOn": "2016-03-18T15:09:03Z",
       "side": 1,
       "message": "submit the change",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 13
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_6cd19b1a",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_8e903b39",
       "range": {
         "startLine": 91,
         "startChar": 0,
@@ -129,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_adef7dd5",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_cf863d08",
+      "range": {
+        "startLine": 137,
+        "startChar": 67,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_4e7373ef",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 12
@@ -140,6 +248,24 @@
       "writtenOn": "2016-03-18T15:09:03Z",
       "side": 1,
       "message": "It wasn\u0027t obvious to me why the refspect is written submodule:superproject rather than the reverse. Then I realized that this is shaped like a \"push\" refspec in a normal git remote config, which reflects the fact that changes flow from the submodule to the superproject.\n\nYou might want to add a note about that here, or maybe it\u0027s clear enough as-is, I\u0027m undecided.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_cdeac9c7",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "I reworded the above to only reference Git style push RefSpecs (and not mention the similarity to fetch ref specs at all)",
+      "parentUuid": "3cdafa64_4e7373ef",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_8df4c1a8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done, it is the default now, so I\u0027ll just remove all those lines.",
+      "parentUuid": "3cdafa64_ee6a1ff0",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_ae641723",
         "filename": "gerrit-common/BUCK",
         "patchSetId": 12
@@ -180,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_6ddab530",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "If not excluded the SubscribeSection is part of the client which cannot import org.eclipse.jgit.transport.RefSpec;",
+      "parentUuid": "3cdafa64_ae641723",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_8e695bfb",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
         "patchSetId": 12
@@ -191,6 +353,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Can these be final?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_2ccb936c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_8e695bfb",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -220,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "fce3021d_0cc8d76b",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_4f736def",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 33
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_6e5f4f47",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
         "patchSetId": 12
@@ -237,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_4dd7f906",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_6e5f4f47",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_4e5c9350",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
         "patchSetId": 12
@@ -248,6 +470,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Usually we just delete these and then use JDBC directly in the SchemaVersion upgrade code.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_ece58bf9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Ok, I deleted it here, what does \n\u003e then use JDBC directly in the SchemaVersion upgrade code.\n\nmean? Do we need to have a schema upgrade (we do have one in this change)?\n\nEdit: We want to delete it in a followup, else we\u0027d break the schema migration in this change.",
+      "parentUuid": "3cdafa64_4e5c9350",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -282,6 +522,48 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Use {} placeholders instead of eager string concatenation. That\u0027s why logDebug takes Object... args.",
+      "range": {
+        "startLine": 80,
+        "startChar": 37,
+        "endLine": 80,
+        "endChar": 51
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_2de4adf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_6f5f5147",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_0de1f1e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_6ef06f83",
       "range": {
         "startLine": 80,
         "startChar": 37,
@@ -358,6 +640,30 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_ed0ea587",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "I moved it into the \n\n    if (tw !\u003d null || tw.getRawmode(..) \u0026 MASK !\u003d FILE) {\n        return;\n     }\n\nsuch that !\u003d is the right fit.",
+      "parentUuid": "3cdafa64_8e039b2e",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 63
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_8f6955fb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 12
@@ -369,6 +675,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Do you have to do this dynamically within this method? Can this URL actually change over the lifetime of a server?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_cceacfc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "No, we don\u0027t have to do that dynamically. It is just a leftover from before. (This code was moved over from SubmoduleOp).\n\nWe can pass in the thisServer string from outside, where we can construct it statically.",
+      "parentUuid": "5cf32eea_8f6955fb",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -392,6 +716,24 @@
     },
     {
       "key": {
+        "uuid": "fce3021d_8cf4c7a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_4eedb3a9",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2f594960",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 12
@@ -403,6 +745,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Maybe catch IAE here and wrap in a ConfigInvalidException?\n\nProjectConfig is used in some places like commit validation during MergeOp, where we catch CIE and use that to report a useful error message back to the user. Letting IAE propagate would just result in a 500 if you tried to submit a change with an invalid refspec.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_acef83d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_2f594960",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -426,6 +786,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_cd13e9ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "There is no such a thing as getRefs in a Repository.\n\nI\u0027ll go with repo.getRefDatabase().getRefs(\n                RefNames.REFS_HEADS).values()\nfor now.",
+      "parentUuid": "5cf32eea_efdb4105",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_ee045f3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 12
@@ -437,6 +815,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "MetaDataUpdate is just for writes, which you\u0027re not doing here.\n\nSkip all this and just use projectCache.get(project).getConfig().",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_6cdabb30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_ee045f3a",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -460,6 +856,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_ad089d7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "It is trying to be unique and identify all things which go in together, i.e. after a submission from MergeOp you would pass on the submissionId, maybe we\u0027d want to have some pseudorandom string in ReveiveCommit as well.\n\nI\u0027d go with updateId for now.",
+      "parentUuid": "3cdafa64_0ef7ab79",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2f8029e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -471,6 +885,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Well, I dunno if it\u0027ll be you, but, somebody\u0027s gonna have to rebase here :)\n\nhttps://gerrit-review.googlesource.com/#/q/file:Schema_120.java",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_4cd7ff06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ll rebase if necessary. As long as no other got 120 in, I remain hopeful :)",
+      "parentUuid": "5cf32eea_2f8029e6",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -500,6 +932,30 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_8d0de18a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_cee083ba",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 11
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_eedb3f05",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -511,6 +967,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "Taking into account my comment below, maybe you should check for an existing subscribe section so that this operation is idempotent?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_4d001950",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "The duplication only matters during the update in memory.\n\nWhen writing out the configuration, we\u0027d have many \n\n  rc.setString(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_REFS, r.toString());\n\nwith p.get() being equal, so it groups into one section in the config file.",
+      "parentUuid": "3cdafa64_eedb3f05",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -534,6 +1008,24 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_6d03d55e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_0f7d65b6",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_ef6a21f0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -545,6 +1037,24 @@
       "writtenOn": "2016-03-18T15:33:26Z",
       "side": 1,
       "message": "I see what you\u0027re trying to do here but we don\u0027t do this anywhere else, I don\u0027t think. We just leave a partially-converted state and let the user try again.\n\nDo you really think if like 50 conversions fail then someone is going to manually query the database and edit project configs?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_2ce4b3f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:15:49Z",
+      "side": 1,
+      "message": "What other option do they have?\nTry again with a better script?\nYou\u0027d need to at least know that you need to try again, are you saying I want to reword the ui.message ?",
+      "parentUuid": "5cf32eea_ef6a21f0",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

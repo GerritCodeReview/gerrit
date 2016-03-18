@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.account.AccountIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexDefintion;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -90,9 +91,12 @@ public class IndexModule extends LifecycleModule {
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+      AccountIndexDefinition accounts,
       ChangeIndexDefintion changes) {
     Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>> of(changes);
+        ImmutableList.<IndexDefinition<?, ?, ?>> of(
+            accounts,
+            changes);
     Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
         .transform(new Function<SchemaDefinitions<?>, String>() {
           @Override

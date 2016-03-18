@@ -34,6 +34,24 @@
       "revId": "203cc44bf1eb9db44b69b7d9cf933dcc4346de5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce3021d_2c4ef3b2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-18T20:33:42Z",
+      "side": 1,
+      "message": "but like, why are you using a \"for\" control flow structure here?\n\nPerhaps a while loop would be more accurate or even call into a recursive fn that you could define to do this work.\n\nA \"for\" in my mind at least, implies that you are iterating over a \"list\" where in this case you are doing a graph search :)",
+      "parentUuid": "fce3021d_8c3e070e",
+      "revId": "203cc44bf1eb9db44b69b7d9cf933dcc4346de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

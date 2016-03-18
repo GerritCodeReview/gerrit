@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_8fea7594",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-03-18T15:40:46Z",
+      "side": 1,
+      "message": "move private methods to their place",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 230,
+        "endChar": 3
+      },
+      "revId": "f79548f93c20af572ce0f5b38eb3b1fb6e9d900f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6ff07183",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-03-18T15:40:46Z",
+      "side": 1,
+      "message": "didn\u0027t notice that extract method went that far :D",
+      "range": {
+        "startLine": 390,
+        "startChar": 31,
+        "endLine": 390,
+        "endChar": 60
+      },
+      "revId": "f79548f93c20af572ce0f5b38eb3b1fb6e9d900f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

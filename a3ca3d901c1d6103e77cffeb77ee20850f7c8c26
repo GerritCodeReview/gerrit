@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_0f568530",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:29:28Z",
+      "side": 1,
+      "message": "it would be better to read this property once in the constructor and don\u0027t load it on each call to validateIdentity()",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 63
+      },
+      "revId": "a3ca3d901c1d6103e77cffeb77ee20850f7c8c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "a5579aa230101a1f0079674ebe56c41337dcedfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_307dc88d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024297
+      },
+      "writtenOn": "2016-03-18T09:07:44Z",
+      "side": 1,
+      "message": "I refer to the GERRIT_USER variable which get the content from container.user\n\nsee gerrit.sh line 291\n\nGERRIT_USER\u003d`get_config --get container.user`",
+      "parentUuid": "bc6d0aef_dd43ff8b",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a5579aa230101a1f0079674ebe56c41337dcedfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

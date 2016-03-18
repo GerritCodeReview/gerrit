@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_8fa275c5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T12:31:08Z",
+      "side": 1,
+      "message": "Is this cast necessary?",
+      "revId": "218bb3b0a0ba8556bceb992807f78cd80b4f35b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6fa871a4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T12:31:08Z",
+      "side": 1,
+      "message": "Unnecessary cast?",
+      "revId": "218bb3b0a0ba8556bceb992807f78cd80b4f35b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

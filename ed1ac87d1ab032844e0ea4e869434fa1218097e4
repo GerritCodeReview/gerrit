@@ -1,4 +1,148 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1457719778 -0800\nnonce AO+Zq7gt1xKWtZ4YTIyhHFX44zR8YR2z+JK3isfkzHz8ZQ5GNR2ZhuKiCicFdYzY3e+Y7IjbxdKu\n\n0000000000000000000000000000000000000000 ed1ac87d1ab032844e0ea4e869434fa1218097e4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW4wniAAoJEGt7+xNJsB0bomwH/AqQhKAqBS2RjN1pQS81T3sl\nlmdlpFLfWEdw3uhpeG0v9eYkn+H0t8ujhjQinSVt9ao94UYR/pIv9X5OeY/tPV6x\nL1TM7W4Zbjk5SViOir2lZ0jj2oorr8UA2JLw68IuaDtgSwJpBO9NZxKWtJJ+qMu9\nEVqK4MkoRuOdbylDVBl/PDs+50Nebg+B0DbtdJZlwn0nIKDCDkS+bL69tt/O1fOP\nbrte9ryFb5BAU89sKQFTq/twjmpHA9DQQJ0EAz5bZOk+S7vn1mK8iSZTXtqtTR/o\nX4fhs8+4/51i7iTZKXqRuZPc2SQpC9DU3v/Mm5RP5mjWLrEhUDRGwBitqbeGOKQ\u003d\n\u003dBjMm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc6d0aef_3a5ec1ec",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "Say I\u0027m familiar with git submodule but not with how this feature is used in Gerrit. I don\u0027t necessarily know what it means for a superproject to be \"subscribed\" to a submodule. This is not a term used in git-submodule(1) or gitmodules(1).\n\nI think you mostly explain it later on, but I feel like I\u0027m lost from reading this paragraph. Why is the \"overview\" section not the first section in the file?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_2f2709fd",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "Just checking my understanding, this means .gitmodules in dev contains submodule.sub.branch \u003d dev-of-sub?",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ce864308",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "Link to the documentation of the option in server-settings.txt.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ae8bf70d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "Hm...elsewhere in this file you say \"a superproject is subscribed to a submodule.\" But when you have \"subscribe \u003csuperproject\u003e\" in the *submodule* project.config, this sounds more like \"I am subscribed to this superproject\", the arrow is pointing in the other direction. Is it too late to come up with a different config option name here?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_8e903b39",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "submit the change",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 13
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_cf863d08",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "I think this is implied, but I would be explicit about the fact that you are only supporting git-style refspecs, not the regexes that are supported in ACL config entries.",
+      "range": {
+        "startLine": 137,
+        "startChar": 67,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_4e7373ef",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:09:03Z",
+      "side": 1,
+      "message": "It wasn\u0027t obvious to me why the refspect is written submodule:superproject rather than the reverse. Then I realized that this is shaped like a \"push\" refspec in a normal git remote config, which reflects the fact that changes flow from the submodule to the superproject.\n\nYou might want to add a note about that here, or maybe it\u0027s clear enough as-is, I\u0027m undecided.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

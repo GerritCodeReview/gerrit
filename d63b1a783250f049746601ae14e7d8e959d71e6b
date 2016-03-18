@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7ca472ba_b0153860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T07:28:30Z",
+      "side": 1,
+      "message": "Schema",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8e7a42_2e99e794",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexDefinition.java",
         "patchSetId": 4
@@ -19,6 +42,76 @@
         "startChar": 58,
         "endLine": 23,
         "endChar": 76
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_2e0ac743",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexDefinition.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T07:28:30Z",
+      "side": 1,
+      "message": "I like IndexDefinition as is. Also because the definition encapsulates different aspect of the uderlying implementations.\n\nIn this statement there are two words \"implementation\". I think one word implementation is enough. I would also extend it to factory and reindexing aspects \"along with the specific implementations used to create the index, query the secondary index in a runing server and reindexing gerrit site\" or similar.",
+      "parentUuid": "3c8e7a42_2e99e794",
+      "range": {
+        "startLine": 22,
+        "startChar": 58,
+        "endLine": 23,
+        "endChar": 76
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_d012bc74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T07:28:30Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 27,
+        "startChar": 40,
+        "endLine": 27,
+        "endChar": 42
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_4eff134d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexDefintion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T07:28:30Z",
+      "side": 1,
+      "message": "definition? Schema is only one attribute from the definition.",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 27
       },
       "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

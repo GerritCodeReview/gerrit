@@ -17,6 +17,24 @@
       "revId": "7c85929d879da0ed522d4a6085e04e810a15ddf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_6eebef99",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T06:04:20Z",
+      "side": 1,
+      "message": "Right, I plan to fix all these places in one go later in the series.",
+      "parentUuid": "3c8e7a42_cefce386",
+      "revId": "7c85929d879da0ed522d4a6085e04e810a15ddf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

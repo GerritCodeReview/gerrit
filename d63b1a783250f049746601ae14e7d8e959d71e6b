@@ -188,6 +188,30 @@
       "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_ee927f0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexDefintion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T10:03:00Z",
+      "side": 1,
+      "message": "Yep, no comments at all is better than not a accurate comment.",
+      "parentUuid": "7ca472ba_b09e1828",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "d63b1a783250f049746601ae14e7d8e959d71e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

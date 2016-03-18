@@ -110,10 +110,7 @@ public class IntraLineLoaderTest {
     assertThat(intraline(a, b)).isEqualTo(wordEdit(6, 6, 6, 7));
   }
 
-  //TODO: expected failure, issue #3423
-  // The current code wrongly marks the first space of the second line,
-  // instead of the one inserted after the '*'.
-  @Test(expected = AssertionError.class)
+  @Test
   public void insertedWhitespaceIsRecognizedInIdenticalLines() throws Exception {
     //         |0    5   10  |  5   20    5   30
     String a = " int *foobar\n int *foobar\n";

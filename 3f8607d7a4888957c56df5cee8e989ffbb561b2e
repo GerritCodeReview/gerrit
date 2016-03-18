@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c8e7a42_cef9436d",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/user/client/UserAgent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-18T06:44:42Z",
+      "side": 1,
+      "message": "When this also detect modern and big tablet devices as mobile, like iPad Pro: [1] with 12.9-inch screen, I don\u0027t think we should unconditionally default to unified change screen.\n\n* [1] https://en.wikipedia.org/wiki/IPad_Pro",
+      "revId": "3f8607d7a4888957c56df5cee8e989ffbb561b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

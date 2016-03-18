@@ -87,6 +87,24 @@
       "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_2e482755",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-18T17:16:01Z",
+      "side": 1,
+      "message": "Ah, I see. I let others decide on this. I don\u0027t think this is usual in this project, but it also doesn\u0027t hurt ;)",
+      "parentUuid": "7ca472ba_30b308cc",
+      "revId": "aef83932e95215eab6881da2ea161df5b0e39ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -183,6 +183,30 @@
       "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ee81fff1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T14:59:01Z",
+      "side": 1,
+      "message": "The way this generally works is you inspect the config from a Module and bind SubmoduleOpInterface.class to one of the two implementation classes.\n\nBut I think that could be done as a later cleanup.",
+      "parentUuid": "1722718a_a5357e2e",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "e64b5f84f09bad11cb7daf439e0ba4a561839283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

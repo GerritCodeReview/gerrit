@@ -45,6 +45,8 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
@@ -93,6 +95,7 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   private final PatchSetUtil psUtil;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeHooks hooks;
@@ -127,6 +130,7 @@ public class ReplaceOp extends BatchUpdate.Op {
   @AssistedInject
   ReplaceOp(PatchSetUtil psUtil,
       ChangeData.Factory changeDataFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
       ChangeHooks hooks,
@@ -149,6 +153,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       @Assisted @Nullable PushCertificate pushCertificate) {
     this.psUtil = psUtil;
     this.changeDataFactory = changeDataFactory;
+    this.changeControlFactory = changeControlFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
     this.hooks = hooks;
@@ -391,10 +396,43 @@ public class ReplaceOp extends BatchUpdate.Op {
       hooks.doChangeMergedHook(change, account, newPatchSet, ctx.getDb(),
           commit.getName());
     }
-    if (!approvals.isEmpty()) {
-      hooks.doCommentAddedHook(change, account, newPatchSet, null, approvals,
-          ctx.getDb());
+    try{
+      runHook(ctx);
+    } catch (Exception e) {
+      log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
     }
+  }
+
+  private void runHook(final Context ctx) throws NoSuchChangeException,
+    OrmException {
+    if (approvals.isEmpty()) {
+      return;
+    }
+
+    /** For labels that are not set in this operation, show the "current" value
+     * of 0, and no oldValue as the value was not modified by this operation.
+     * For labels that are set in this operation, the value was modified, so
+     * show a transition from an oldValue of 0 to the new value.
+     **/
+    ChangeControl changeControl = changeControlFactory.controlFor(
+        ctx.getDb(), change, ctx.getUser());
+    List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
+    Map<String, Short> allApprovals = new HashMap<>();
+    Map<String, Short> oldApprovals = new HashMap<>();
+    for (LabelType lt : labels){
+      allApprovals.put(lt.getName(), (short) 0);
+      oldApprovals.put(lt.getName(), null);
+    }
+    for (Map.Entry<String, Short> entry : approvals.entrySet()) {
+      if (entry.getValue() != 0) {
+        allApprovals.put(entry.getKey(), entry.getValue());
+        oldApprovals.put(entry.getKey(), (short) 0);
+      }
+    }
+
+    hooks.doCommentAddedHook(change,
+        ctx.getUser().asIdentifiedUser().getAccount(), newPatchSet, null,
+        allApprovals, oldApprovals, ctx.getDb());
   }
 
   private void sendMergedEmail(final Context ctx) {

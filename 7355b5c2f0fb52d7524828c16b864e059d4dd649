@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_103604cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T11:28:58Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "7cf0f2dc_90bbb4e7",
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_90f7543b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManagerModule.java",
         "patchSetId": 25

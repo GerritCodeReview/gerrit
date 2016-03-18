@@ -19,11 +19,11 @@ import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
-public class ChangeIndexDefintion
+public class ChangeIndexDefinition
     extends IndexDefinition<Change.Id, ChangeData, ChangeIndex> {
 
   @Inject
-  ChangeIndexDefintion(
+  ChangeIndexDefinition(
       ChangeIndexCollection indexCollection,
       ChangeIndex.Factory indexFactory,
       AllChangesIndexer allChangesIndexer) {

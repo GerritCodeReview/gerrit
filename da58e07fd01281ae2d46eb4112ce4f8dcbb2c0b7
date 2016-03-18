@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cf32eea_ef934176",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T12:47:40Z",
+      "side": 1,
+      "message": "I think I skimmed over this phrase without understanding what it meant. Maybe something like:\n\nThe previous approval score, only present if the value changed as a result of this event.",
+      "range": {
+        "startLine": 143,
+        "startChar": 60,
+        "endLine": 143,
+        "endChar": 71
+      },
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_9df9076e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 22
@@ -101,6 +124,24 @@
       "side": 1,
       "message": "This is to show all approvals when a new change is pushed to Gerrit.  I believe Gerrit stream event is setup to _not_ display keys that have null values.  New changes still retain null approval values in the system.",
       "parentUuid": "1c937619_e0189c97",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_6ed18f1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T12:47:40Z",
+      "side": 1,
+      "message": "Ok after discussing in person I understand this. I would propose the following comment at the top of this block, and at the block in ReplaceOp.\n\n\"For labels that are not set in this operation, show the \"current\" value of 0, and no oldValue as the value was not modified by this operation. For labels that are set in this operation, the value was modified, so show a transition from an oldValue of 0 to the new value.\"\n\nIf that seems like a lot of duplication, then maybe we should consider factoring this logic out somewhere ;). But I think it\u0027s fine for now to duplicate it.",
+      "parentUuid": "7ca472ba_d020fc94",
       "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

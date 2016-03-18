@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_0ff7a579",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:53:45Z",
+      "side": 1,
+      "message": "we don\u0027t update copyright year in the gerrit project",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_8f03952e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:53:45Z",
+      "side": 1,
+      "message": "should be package protected",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 8
+      },
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_4e9ff325",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:53:45Z",
+      "side": 1,
+      "message": "AFAIK most of the classes in gerrit do not have empty line between last two closing brackets",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

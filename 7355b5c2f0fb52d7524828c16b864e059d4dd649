@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7cf0f2dc_f0e560f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T12:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_103604cc",
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_90f7543b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManagerModule.java",
         "patchSetId": 25
@@ -66,6 +84,24 @@
       "writtenOn": "2016-03-18T11:05:25Z",
       "side": 1,
       "message": "If you convert getAllBasePaths to return List\u003cString\u003e then this is spelled .isEmpty()",
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cf0f2dc_d0ea5cc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManagerModule.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T12:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_90f7543b",
       "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -130,6 +166,24 @@
       "writtenOn": "2016-03-18T11:05:25Z",
       "side": 1,
       "message": "I think we want to prefer NIO here: Paths.get(alternateBasePath).isAbsolute()\n\nAlso more succinct if you use checkArgument:\n\n checkState(Paths.get(alternateBasePath).isAbsolute(),\n     \"repository.\u003cname\u003e.basePath must be absolute: %s\",\n     alternateBasePath);\n\nYou could also consider making RepositoryConfig expose Paths from its public API, then you wouldn\u0027t have to repeat Paths.get here and below.",
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c729620_45652a1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ShardedLocalDiskRepositoryManager.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T12:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_b0f45837",
       "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

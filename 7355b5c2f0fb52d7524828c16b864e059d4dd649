@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7cf0f2dc_90bbb4e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T11:26:23Z",
+      "side": 1,
+      "message": "I used an array to be consistent with above getOwnerGroups method. \n\nI can change getAllBasePaths to use a list and do a follow up commit to change getOwnerGroups. Is this ok?",
+      "parentUuid": "3c8e7a42_8e265bb0",
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_90f7543b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManagerModule.java",
         "patchSetId": 25
@@ -47,6 +65,30 @@
       "writtenOn": "2016-03-18T11:05:25Z",
       "side": 1,
       "message": "I\u0027m not sure I like the name \"sharded\". Sharding most often implies even spreading based on a hash function, whereas this is an explicit mapping and unlikely to be even. Maybe MultiBaseLocalDiskRepositoryManager?",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 20
+      },
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cf0f2dc_70d1701a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ShardedLocalDiskRepositoryManager.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T11:26:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c8e7a42_ce206395",
       "range": {
         "startLine": 31,
         "startChar": 13,
@@ -93,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "1c729620_25702edd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ShardedLocalDiskRepositoryManager.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T11:26:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c8e7a42_ee1d1f54",
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8e7a42_2ee9e762",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ShardedLocalDiskRepositoryManager.java",
         "patchSetId": 25
@@ -104,6 +164,30 @@
       "writtenOn": "2016-03-18T11:05:25Z",
       "side": 1,
       "message": "Paths.get(path)",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 52
+      },
+      "revId": "7355b5c2f0fb52d7524828c16b864e059d4dd649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cf0f2dc_50ce6c7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ShardedLocalDiskRepositoryManager.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-18T11:26:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c8e7a42_2ee9e762",
       "range": {
         "startLine": 76,
         "startChar": 29,

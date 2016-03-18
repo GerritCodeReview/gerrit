@@ -244,6 +244,7 @@ limitations under the License.
 
       var html = 'abc\tdef';
       var wrapper = builder._getTabWrapper(prefs.tab_size, prefs.show_tabs);
+      assert.ok(wrapper);
       assert.equal(builder._addTabWrappers(html), 'abc' + wrapper + 'def');
       assert.throws(builder._getTabWrapper.bind(
           builder,

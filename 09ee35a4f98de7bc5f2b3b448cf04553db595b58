@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_0e30ab3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-03-18T08:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c983a33_5ebdb5dc",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c8e32f1_c0aebead",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_90caf416",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-03-18T08:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c8e32f1_c0aebead",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 2
+      },
+      "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c8e32f1_60bd72dd",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-03-16T00:39:31Z",
       "side": 1,
       "message": "Unnecessary final, but it\u0027s probably OK as it\u0027s consistent with the existing code.\n\nAlso for @Inject annotated constructors we should put each parameter on a separate line.\n\nThis should be cleaned up in a separate commit.",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 11
+      },
+      "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_b0c7f80f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-03-18T08:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c8e32f1_60bd72dd",
       "range": {
         "startLine": 47,
         "startChar": 6,

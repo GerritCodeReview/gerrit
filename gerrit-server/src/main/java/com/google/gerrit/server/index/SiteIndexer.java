@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Stopwatch;
 
+import org.eclipse.jgit.util.io.NullOutputStream;
+
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
-public interface SiteIndexer<K, V, I extends Index<K, V>> {
-  public class Result {
+public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
+  public static class Result {
     private final long elapsedNanos;
     private final boolean success;
     private final int done;
@@ -49,5 +55,22 @@ public interface SiteIndexer<K, V, I extends Index<K, V>> {
     }
   }
 
-  Result indexAll(I index);
+  protected int totalWork = -1;
+  protected OutputStream progressOut = NullOutputStream.INSTANCE;
+  protected PrintWriter verboseWriter =
+      new PrintWriter(NullOutputStream.INSTANCE);
+
+  public void setTotalWork(int num) {
+    totalWork = num;
+  }
+
+  public void setProgressOut(OutputStream out) {
+    progressOut = checkNotNull(out);
+  }
+
+  public void setVerboseOut(OutputStream out) {
+    verboseWriter = new PrintWriter(checkNotNull(out));
+  }
+
+  public abstract Result indexAll(I index);
 }

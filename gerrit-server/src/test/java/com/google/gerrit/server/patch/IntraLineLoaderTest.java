@@ -55,6 +55,24 @@ public class IntraLineLoaderTest {
   }
 
   @Test
+  public void insertIntoEmptyLineDoesNotIncludeNewline() throws Exception {
+    String a = "\n";
+    String b = "def2\n";
+    assertThat(intraline(a, b)).isEqualTo(ref()
+        .insert("def2").common("\n").edits
+    );
+  }
+
+  @Test
+  public void deleteToEmptyLineDoesNotIncludeNewline() throws Exception {
+    String a = "abc1\n";
+    String b = "\n";
+    assertThat(intraline(a, b)).isEqualTo(ref()
+        .remove("def2").common("\n").edits
+    );
+  }
+
+  @Test
   public void closeEditsAreCombined() throws Exception {
     String a = "ab1cdef2gh\n";
     String b = "ab2cdef3gh\n";
@@ -85,20 +103,22 @@ public class IntraLineLoaderTest {
   public void preferInsertAtLineBreak1() throws Exception {
     String a = "multi\nline\n";
     String b = "multi\nlinemulti\nline\n";
-    assertThat(intraline(a, b)).isEqualTo(wordEdit(10, 10, 6, 16));
-    // better would be:
-    //assertThat(intraline(a, b)).isEqualTo(wordEdit(6, 6, 6, 16));
-    // or the equivalent:
-    //assertThat(intraline(a, b)).isEqualTo(ref()
-    //    .common("multi\n").insert("linemulti\n").common("line\n").edits
-    //);
+    assertThat(intraline(a, b)).isEqualTo(ref()
+        .common("multi\n").insert("linemulti\n").common("line\n").edits
+    );
   }
 
-  //TODO: expected failure
-  // the current code does not work on the first line
-  // and the insert marker is in the wrong location
-  @Test(expected = AssertionError.class)
+  @Test
   public void preferInsertAtLineBreak2() throws Exception {
+    String a = "abc def\n";
+    String b = "abcabc def\n";
+    assertThat(intraline(a, b)).isEqualTo(ref()
+        .insert("abc").common("abc def\n").edits
+    );
+  }
+
+  @Test
+  public void preferInsertAtLineBreak3() throws Exception {
     String a = "  abc\n    def\n";
     String b = "    abc\n      def\n";
     assertThat(intraline(a, b)).isEqualTo(ref()
@@ -107,9 +127,7 @@ public class IntraLineLoaderTest {
     );
   }
 
-  //TODO: expected failure
-  // the current code does not work on the first line
-  @Test(expected = AssertionError.class)
+  @Test
   public void preferDeleteAtLineBreak() throws Exception {
     String a = "    abc\n      def\n";
     String b = "  abc\n    def\n";
@@ -177,10 +195,6 @@ public class IntraLineLoaderTest {
   }
 
   // helpers to compute reference values
-
-  private static List<Edit> wordEdit(int as, int ae, int bs, int be) {
-    return EditList.singleton(new Edit(as, ae, bs, be));
-  }
 
   private static Reference ref() {
     return new Reference();

@@ -25,7 +25,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class IntraLineDiffKey implements Serializable {
-  static final long serialVersionUID = 4L;
+  static final long serialVersionUID = 5L;
 
   private transient boolean ignoreWhitespace;
   private transient ObjectId aId;

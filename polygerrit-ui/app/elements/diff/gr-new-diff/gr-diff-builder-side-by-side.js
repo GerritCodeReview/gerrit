@@ -35,24 +35,21 @@
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {
     var row = this._createElement('tr');
-    this._createPair(section, row, leftLine, leftLine.beforeNumber);
-    this._createPair(section, row, rightLine, rightLine.afterNumber);
+    this._createPair(section, row, leftLine, leftLine.beforeNumber, 'left');
+    this._createPair(section, row, rightLine, rightLine.afterNumber, 'right');
     return row;
   };
 
   GrDiffBuilderSideBySide.prototype._createPair = function(section, row, line,
-      lineNumber) {
-    if (line.type === GrDiffLine.Type.BLANK) {
-      row.appendChild(this._createBlankSideEl());
-      return row;
-    }
-
+      lineNumber, side) {
     row.appendChild(this._createLineEl(line, lineNumber, line.type));
     var action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
-      row.appendChild(this._createTextEl(line));
+      var el = this._createTextEl(line);
+      el.classList.add(side);
+      row.appendChild(el);
     }
     return row;
   };

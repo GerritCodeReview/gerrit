@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_6e04cf36",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_9df9076e",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_1dff374e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
         "patchSetId": 22
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-17T16:24:07Z",
       "side": 1,
       "message": "Should this be moved into the other IT?",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_ae9eb727",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_1dff374e",
       "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_d020fc94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "This is to show all approvals when a new change is pushed to Gerrit.  I believe Gerrit stream event is setup to _not_ display keys that have null values.  New changes still retain null approval values in the system.",
+      "parentUuid": "1c937619_e0189c97",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_fd15a35e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 22
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_ae23179f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "It\u0027s initialized to null in above because you we want to show the old approval if there\u0027s been a vote change.  Initializing it to null sets the oldApprovals to not show then here we set it to a value only if the vote was changed on push (i.e.  ..HEAD:refs/for/master%l\u003d%l\u003dCode-Review-1) so that it will get shown in the stream event.",
+      "parentUuid": "bc6d0aef_fd15a35e",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_60aecc66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 22
@@ -81,6 +153,24 @@
       "writtenOn": "2016-03-17T16:24:07Z",
       "side": 1,
       "message": "!currentLabels.containsKey(ent.getKey())",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_d0ab9c4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c937619_60aecc66",
       "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +217,48 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_70d670c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c937619_c00fa04c",
+      "range": {
+        "startLine": 567,
+        "startChar": 22,
+        "endLine": 567,
+        "endChar": 34
+      },
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c8e7a42_cec4e30d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "Your suggestion doesn\u0027t work.  PatchSetApproval can be null at this point so putting here will result in NullPointerException.  It is available in line 601 because a new PatchSetApproval is created before c.getValue() is called.",
+      "parentUuid": "bc6d0aef_bd0f2b4d",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_1db897a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 22
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_50408c12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6d0aef_1db897a2",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c937619_80b3d8c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 22
@@ -155,6 +305,24 @@
       "writtenOn": "2016-03-17T16:24:07Z",
       "side": 1,
       "message": "Same questions as in ChangeInserter",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_700cb01d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T11:52:41Z",
+      "side": 1,
+      "message": "same answer as in ChangeInserter",
+      "parentUuid": "1c937619_80b3d8c9",
       "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

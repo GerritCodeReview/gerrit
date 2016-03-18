@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3c8e7a42_2eb3a7cb",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_b05b7858",
+      "range": {
+        "startLine": 90,
+        "startChar": 40,
+        "endLine": 90,
+        "endChar": 56
+      },
+      "revId": "85fdea26e6aaebbd7920cbc2c9069892cde55466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_905e7449",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2016-03-17T23:55:42Z",
       "side": 1,
       "message": "package protected, so that this attribute could be used in ChangeSubIndex#add().",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 10
+      },
+      "revId": "85fdea26e6aaebbd7920cbc2c9069892cde55466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca472ba_90a11473",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca472ba_905e7449",
       "range": {
         "startLine": 106,
         "startChar": 2,

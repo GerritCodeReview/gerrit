@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_0e10cb6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefValidationHelper.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-18T15:45:02Z",
+      "side": 1,
+      "message": "s/2014/2016/",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "14588fb3684e180869d2b73062f0eb7fdc280bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

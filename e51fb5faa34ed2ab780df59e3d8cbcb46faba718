@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_affe594e",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RawInputUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:53:18Z",
+      "side": 1,
+      "message": "Any reason these static factory methods aren\u0027t just in RawInput? I think that\u0027s a pretty common practice...",
+      "revId": "e51fb5faa34ed2ab780df59e3d8cbcb46faba718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -677,6 +677,14 @@ changes that are created from the web UI (e.g. by the `Create Change`
 and `Edit Config` buttons on the project screen, and the `Follow-Up`
 button on the change screen).
 
+- [[use-flash]]`Use Flash Clipboard Widget`:
++
+Whether the Flash clipboard widget should be used. If enabled and the Flash
+plugin is available, Gerrit offers a copy-to-clipboard icon next to IDs and
+commands that need to be copied frequently, such as the Change-Ids, commit IDs
+and download commands. Note that this option is only shown if the Flash plugin
+is available and the JavaScript Clipboard API is unavailable.
+
 [[my-menu]]
 In addition it is possible to customize the menu entries of the `My`
 menu. This can be used to make the navigation to frequently used

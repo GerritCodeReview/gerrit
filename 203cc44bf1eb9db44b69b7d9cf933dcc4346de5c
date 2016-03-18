@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce3021d_cc340f34",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-18T20:28:59Z",
+      "side": 1,
+      "message": "whoa, why the for \"loop\" here?",
+      "revId": "203cc44bf1eb9db44b69b7d9cf933dcc4346de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

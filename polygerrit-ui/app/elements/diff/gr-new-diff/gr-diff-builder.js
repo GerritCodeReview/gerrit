@@ -280,6 +280,7 @@
     str += 'style="tab-size:' + tabSize + ';';
     str += 'style="-moz-tab-size:' + tabSize + ';';
     str += '">\t</span>';
+    return str;
   };
 
   GrDiffBuilder.prototype._createElement = function(tagName, className) {

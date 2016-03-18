@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "1cd53633_6d44f594",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "575789e9_6fc7f15d",
+      "range": {
+        "startLine": 59,
+        "startChar": 57,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57a5c9c5_5fc78b0f",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 9
@@ -321,6 +345,30 @@
       "side": 1,
       "message": "I\u0027m still not clear if this is a url or a canonical-server-relative URL.",
       "parentUuid": "1718b12b_152934d0",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 74
+      },
+      "revId": "78c15dc6cfb3d26366d10dc89cd1778e669a9dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd53633_4d413983",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-18T20:34:18Z",
+      "side": 1,
+      "message": "It is the name as it is hosted on the server. For this project it is \"gerrit\". Another one on this host is \"plugins/replication\" for example.",
+      "parentUuid": "b73365d6_eabae7e3",
       "range": {
         "startLine": 74,
         "startChar": 0,

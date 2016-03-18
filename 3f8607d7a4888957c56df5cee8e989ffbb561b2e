@@ -16,6 +16,24 @@
       "revId": "3f8607d7a4888957c56df5cee8e989ffbb561b2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cf0f2dc_b09d9881",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/user/client/UserAgent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-18T09:42:43Z",
+      "side": 1,
+      "message": "I\u0027d probably be fine with that. If you go to, say, github.com on an iPad Pro, I think they will take you their mobile site.\n\nI added an extra check for the width / height ratio. If it\u0027s mobile and the ratio is greater than 1 then use the unified screen.",
+      "parentUuid": "3c8e7a42_cef9436d",
+      "revId": "3f8607d7a4888957c56df5cee8e989ffbb561b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

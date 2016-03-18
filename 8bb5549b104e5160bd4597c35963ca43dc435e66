@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc92be65_ebf99193",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-18T03:06:52Z",
+      "side": 1,
+      "message": "s/toParentNo/toParentNumber ? Ditto in other places.",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "8bb5549b104e5160bd4597c35963ca43dc435e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

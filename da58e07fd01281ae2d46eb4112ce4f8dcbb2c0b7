@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5cf32eea_afb659ff",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T13:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_ef934176",
+      "range": {
+        "startLine": 143,
+        "startChar": 60,
+        "endLine": 143,
+        "endChar": 71
+      },
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_9df9076e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 22
@@ -148,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "5cf32eea_8f0dd58a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T13:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_6ed18f1a",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc6d0aef_fd15a35e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 22
@@ -177,6 +219,24 @@
       "side": 1,
       "message": "It\u0027s initialized to null in above because you we want to show the old approval if there\u0027s been a vote change.  Initializing it to null sets the oldApprovals to not show then here we set it to a value only if the vote was changed on push (i.e.  ..HEAD:refs/for/master%l\u003d%l\u003dCode-Review-1) so that it will get shown in the stream event.",
       "parentUuid": "bc6d0aef_fd15a35e",
+      "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_af08997a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-18T13:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c8e7a42_ae23179f",
       "revId": "da58e07fd01281ae2d46eb4112ce4f8dcbb2c0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

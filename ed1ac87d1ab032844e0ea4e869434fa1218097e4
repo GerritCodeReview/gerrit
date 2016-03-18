@@ -143,6 +143,387 @@
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ee6a1ff0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Are these @GerritConfig annotations necessary when setting to true? You don\u0027t have them on lots of other test methods in this file that I think assume it\u0027s true.\n\nIf it\u0027s not the default in the server code but you would like it to be the default for this test, you can use a @ConfigSuite.Default.\n\nThere is actually a reason to prefer not having these annotations, as the acceptance test framework starts a new server for *each* method with a @GerritConfig, as opposed to sharing the server between all tests using the default config. This typically costs a couple of seconds on an unloaded machine.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ae641723",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Just curious, is there any reason this has to be excluded? Or you just knew up front that you were not going to use it from the client so it doesn\u0027t hurt to exclude it?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_8e695bfb",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Can these be final?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_4f736def",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Project.NameKey, don\u0027t import (Id|(Name)?Key) directly.",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 33
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_6e5f4f47",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Considering you have a getter, maybe the fields themselves should be private?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_4e5c9350",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Usually we just delete these and then use JDBC directly in the SchemaVersion upgrade code.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6f5f5147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Long line. Probably branch.getParentKey() could get factored out.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_6ef06f83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Use {} placeholders instead of eager string concatenation. That\u0027s why logDebug takes Object... args.",
+      "range": {
+        "startLine": 80,
+        "startChar": 37,
+        "endLine": 80,
+        "endChar": 51
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_8eea7b94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Reduce nesting?\n\n if (tw !\u003d null) {\n    return;\n }",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_aee537c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "A shorter way to spell this is:\n\n (tw.getRawMode(0) \u0026 TYPE_MASK) !\u003d TYPE_FILE)",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 93,
+        "endChar": 63
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_8f6955fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Do you have to do this dynamically within this method? Can this URL actually change over the lifetime of a server?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_4eedb3a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_2f594960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Maybe catch IAE here and wrap in a ConfigInvalidException?\n\nProjectConfig is used in some places like commit validation during MergeOp, where we catch CIE and use that to report a useful error message back to the user. Letting IAE propagate would just result in a 500 if you tried to submit a change with an invalid refspec.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_efdb4105",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Did you mean getRefs(REFS_HEADS)? I don\u0027t think you really need 10k refs/changes/ refs in here.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ee045f3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "MetaDataUpdate is just for writes, which you\u0027re not doing here.\n\nSkip all this and just use projectCache.get(project).getConfig().",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_0ef7ab79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Change the name, since I see from ReceiveCommits that this is not always a submissionId.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_2f8029e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Well, I dunno if it\u0027ll be you, but, somebody\u0027s gonna have to rebase here :)\n\nhttps://gerrit-review.googlesource.com/#/q/file:Schema_120.java",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_cee083ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 11
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_eedb3f05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Taking into account my comment below, maybe you should check for an existing subscribe section so that this operation is idempotent?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_0f7d65b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "Maybe add a comment here that all data being migrated uses exact RefSpecs.",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_ef6a21f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T15:33:26Z",
+      "side": 1,
+      "message": "I see what you\u0027re trying to do here but we don\u0027t do this anywhere else, I don\u0027t think. We just leave a partially-converted state and let the user try again.\n\nDo you really think if like 50 conversions fail then someone is going to manually query the database and edit project configs?",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

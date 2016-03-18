@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7ca472ba_50b88ca3",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T08:39:58Z",
+      "side": 1,
+      "message": "Later when I fix all the setReady stuff for multiple indexes.",
+      "parentUuid": "3c8e7a42_ee235fec",
+      "revId": "319d9fa20c2f6534179efec571f2506feb59db46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ca472ba_902cb4e1",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 5

@@ -14,40 +14,69 @@
 
 package com.google.gerrit.lucene;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.ChangeSchemas;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
+import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
-public class LuceneIndexModule extends LifecycleModule {
-  private final Integer singleVersion;
-  private final int threads;
+import java.util.Collection;
+import java.util.Map;
 
-  public LuceneIndexModule() {
-    this(null, 0);
+public class LuceneIndexModule extends LifecycleModule {
+  private static final String SINGLE_VERSIONS =
+      "LuceneIndexModule/SingleVersions";
+
+  public static LuceneIndexModule singleVersionAllLatest(int threads) {
+    return new LuceneIndexModule(ImmutableMap.<String, Integer> of(), threads);
   }
 
-  public LuceneIndexModule(Integer singleVersion, int threads) {
-    this.singleVersion = singleVersion;
+  public static LuceneIndexModule singleVersionWithExplicitVersions(
+      Map<String, Integer> versions, int threads) {
+    return new LuceneIndexModule(versions, threads);
+  }
+
+  public static LuceneIndexModule latestVersionWithOnlineUpgrade() {
+    return new LuceneIndexModule(null, 0);
+  }
+
+  static boolean isInMemoryTest(Config cfg) {
+    return cfg.getBoolean("index", "lucene", "testInmemory", false);
+  }
+
+  private final int threads;
+  private final Map<String, Integer> singleVersions;
+
+  private LuceneIndexModule(Map<String, Integer> singleVersions, int threads) {
+    this.singleVersions = singleVersions;
     this.threads = threads;
   }
 
   @Override
   protected void configure() {
-    factory(LuceneChangeIndex.Factory.class);
-    factory(OnlineReindexer.Factory.class);
+    install(
+        new FactoryModuleBuilder()
+            .implement(ChangeIndex.class, LuceneChangeIndex.class)
+            .build(ChangeIndex.Factory.class));
+
     install(new IndexModule(threads));
-    if (singleVersion == null) {
+    if (singleVersions == null) {
       install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule());
@@ -57,6 +86,8 @@ public class LuceneIndexModule extends LifecycleModule {
   @Provides
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
+    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
+        BooleanQuery.getMaxClauseCount()));
     return IndexConfig.fromConfig(cfg);
   }
 
@@ -71,34 +102,48 @@ public class LuceneIndexModule extends LifecycleModule {
     @Override
     public void configure() {
       listener().to(SingleVersionListener.class);
-    }
-
-    @Provides
-    @Singleton
-    LuceneChangeIndex getIndex(LuceneChangeIndex.Factory factory) {
-      Schema<ChangeData> schema = singleVersion != null
-          ? ChangeSchemas.get(singleVersion)
-          : ChangeSchemas.getLatest();
-      return factory.create(schema);
+      bind(new TypeLiteral<Map<String, Integer>>() {})
+          .annotatedWith(Names.named(SINGLE_VERSIONS))
+          .toInstance(singleVersions);
     }
   }
 
   @Singleton
   static class SingleVersionListener implements LifecycleListener {
-    private final ChangeIndexCollection indexes;
-    private final LuceneChangeIndex index;
+    private final Collection<IndexDefinition<?, ?, ?>> defs;
+    private final Map<String, Integer> singleVersions;
 
     @Inject
-    SingleVersionListener(ChangeIndexCollection indexes,
-        LuceneChangeIndex index) {
-      this.indexes = indexes;
-      this.index = index;
+    SingleVersionListener(
+        Collection<IndexDefinition<?, ?, ?>> defs,
+        @Named(SINGLE_VERSIONS) Map<String, Integer> singleVersions) {
+      this.defs = defs;
+      this.singleVersions = singleVersions;
     }
 
     @Override
     public void start() {
-      indexes.setSearchIndex(index);
-      indexes.addWriteIndex(index);
+      for (IndexDefinition<?, ?, ?> def : defs) {
+        start(def);
+      }
+    }
+
+    private <K, V, I extends Index<K, V>> void start(
+        IndexDefinition<K, V, I> def) {
+      Schema<V> schema;
+      Integer v = singleVersions.get(def.getName());
+      if (v == null) {
+        schema = def.getLatest();
+      } else {
+        schema = def.getSchemas().get(v);
+        if (schema == null) {
+          throw new ProvisionException(String.format(
+                "Unrecognized %s schema version: %s", def.getName(), v));
+        }
+      }
+      I index = def.getIndexFactory().create(schema);
+      def.getIndexCollection().setSearchIndex(index);
+      def.getIndexCollection().addWriteIndex(index);
     }
 
     @Override

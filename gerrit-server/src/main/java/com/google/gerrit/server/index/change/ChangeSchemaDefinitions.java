@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,13 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.SchemaUtil;
+import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
-/** Secondary index schemas for changes. */
-public class ChangeSchemas {
+public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
   static final Schema<ChangeData> V25 = schema(
       ChangeField.LEGACY_ID,
@@ -102,16 +98,10 @@ public class ChangeSchemas {
 
   static final Schema<ChangeData> V27 = schema(V26.getFields().values());
 
-  public static final ImmutableMap<Integer, Schema<ChangeData>> ALL =
-      SchemaUtil.schemasFromClass(ChangeSchemas.class, ChangeData.class);
+  public static final ChangeSchemaDefinitions INSTANCE =
+      new ChangeSchemaDefinitions();
 
-  public static Schema<ChangeData> get(int version) {
-    Schema<ChangeData> schema = ALL.get(version);
-    checkArgument(schema != null, "Unrecognized schema version: %s", version);
-    return schema;
-  }
-
-  public static Schema<ChangeData> getLatest() {
-    return Iterables.getLast(ALL.values());
+  private ChangeSchemaDefinitions() {
+    super("changes", ChangeData.class);
   }
 }

@@ -20,11 +20,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.OnlineReindexer;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.ChangeSchemas;
+import com.google.gerrit.server.index.change.ChangeIndexDefintion;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
@@ -50,7 +53,7 @@ public class LuceneVersionManager implements LifecycleListener {
   private static final Logger log = LoggerFactory
       .getLogger(LuceneVersionManager.class);
 
-  private static final String CHANGES_PREFIX = "changes_";
+  static final String CHANGES_PREFIX = "changes_";
 
   private static class Version {
     private final Schema<ChangeData> schema;
@@ -68,9 +71,9 @@ public class LuceneVersionManager implements LifecycleListener {
     }
   }
 
-  static Path getDir(SitePaths sitePaths, Schema<ChangeData> schema) {
+  static Path getDir(SitePaths sitePaths, String prefix, Schema<?> schema) {
     return sitePaths.index_dir.resolve(String.format("%s%04d",
-        CHANGES_PREFIX, schema.getVersion()));
+        prefix, schema.getVersion()));
   }
 
   static FileBasedConfig loadGerritIndexConfig(SitePaths sitePaths)
@@ -93,9 +96,9 @@ public class LuceneVersionManager implements LifecycleListener {
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
   private final ChangeIndexCollection indexes;
-  private final OnlineReindexer.Factory reindexerFactory;
+  private final ChangeIndexDefintion changeDef;
   private final boolean onlineUpgrade;
-  private OnlineReindexer reindexer;
+  private OnlineReindexer<Change.Id, ChangeData, ChangeIndex> reindexer;
 
   @Inject
   LuceneVersionManager(
@@ -103,11 +106,11 @@ public class LuceneVersionManager implements LifecycleListener {
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
       ChangeIndexCollection indexes,
-      OnlineReindexer.Factory reindexerFactory) {
+      ChangeIndexDefintion changeDef) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;
     this.indexes = indexes;
-    this.reindexerFactory = reindexerFactory;
+    this.changeDef = changeDef;
     this.onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
   }
 
@@ -157,7 +160,8 @@ public class LuceneVersionManager implements LifecycleListener {
     }
 
     markNotReady(cfg, versions.values(), write);
-    LuceneChangeIndex searchIndex = indexFactory.create(search.schema);
+    LuceneChangeIndex searchIndex =
+        (LuceneChangeIndex) indexFactory.create(search.schema);
     indexes.setSearchIndex(searchIndex);
     for (Version v : write) {
       if (v.schema != null) {
@@ -171,7 +175,7 @@ public class LuceneVersionManager implements LifecycleListener {
 
     int latest = write.get(0).version;
     if (onlineUpgrade && latest != search.version) {
-      reindexer = reindexerFactory.create(latest);
+      reindexer = new OnlineReindexer<>(changeDef, latest);
       reindexer.start();
     }
   }
@@ -223,8 +227,8 @@ public class LuceneVersionManager implements LifecycleListener {
 
   private TreeMap<Integer, Version> scanVersions(Config cfg) {
     TreeMap<Integer, Version> versions = Maps.newTreeMap();
-    for (Schema<ChangeData> schema : ChangeSchemas.ALL.values()) {
-      Path p = getDir(sitePaths, schema);
+    for (Schema<ChangeData> schema : changeDef.getSchemas().values()) {
+      Path p = getDir(sitePaths, CHANGES_PREFIX, schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
         log.warn("Not a directory: %s", p.toAbsolutePath());

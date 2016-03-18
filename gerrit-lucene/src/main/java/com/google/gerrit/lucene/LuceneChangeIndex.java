@@ -15,17 +15,15 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
+import static com.google.gerrit.lucene.LuceneVersionManager.CHANGES_PREFIX;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.IndexRewriter.OPEN_STATUSES;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -37,16 +35,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
-import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.Schema.Values;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoField;
@@ -64,23 +58,10 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.LongField;
-import org.apache.lucene.document.NumericDocValuesField;
-import org.apache.lucene.document.StoredField;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -92,20 +73,16 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -124,6 +101,11 @@ public class LuceneChangeIndex implements ChangeIndex {
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
 
+  static final String UPDATED_SORT_FIELD =
+      sortFieldName(ChangeField.UPDATED);
+  static final String ID_SORT_FIELD =
+      sortFieldName(ChangeField.LEGACY_ID);
+
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
@@ -132,68 +114,13 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
-  private static final String UPDATED_SORT_FIELD =
-      sortFieldName(ChangeField.UPDATED);
-  private static final String ID_SORT_FIELD =
-      sortFieldName(ChangeField.LEGACY_ID);
 
-  private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
-      "_", " ", ".", " ");
-
-  public static void setReady(SitePaths sitePaths, int version, boolean ready)
-      throws IOException {
-    try {
-      FileBasedConfig cfg =
-          LuceneVersionManager.loadGerritIndexConfig(sitePaths);
-      LuceneVersionManager.setReady(cfg, version, ready);
-      cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
-    }
+  static Term idTerm(ChangeData cd) {
+    return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
   }
 
-  private static String sortFieldName(FieldDef<?, ?> f) {
-    return f.getName() + "_SORT";
-  }
-
-  static interface Factory {
-    LuceneChangeIndex create(Schema<ChangeData> schema);
-  }
-
-  static class GerritIndexWriterConfig {
-    private final IndexWriterConfig luceneConfig;
-    private long commitWithinMs;
-
-    private GerritIndexWriterConfig(Config cfg, String name) {
-      CustomMappingAnalyzer analyzer =
-          new CustomMappingAnalyzer(new StandardAnalyzer(
-              CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
-      luceneConfig = new IndexWriterConfig(analyzer)
-          .setOpenMode(OpenMode.CREATE_OR_APPEND)
-          .setCommitOnClose(true);
-      double m = 1 << 20;
-      luceneConfig.setRAMBufferSizeMB(cfg.getLong(
-          "index", name, "ramBufferSize",
-          (long) (IndexWriterConfig.DEFAULT_RAM_BUFFER_SIZE_MB * m)) / m);
-      luceneConfig.setMaxBufferedDocs(cfg.getInt(
-          "index", name, "maxBufferedDocs",
-          IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
-      try {
-        commitWithinMs =
-            ConfigUtil.getTimeUnit(cfg, "index", name, "commitWithin",
-                MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
-      } catch (IllegalArgumentException e) {
-        commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
-      }
-    }
-
-    IndexWriterConfig getLuceneConfig() {
-      return luceneConfig;
-    }
-
-    long getCommitWithinMs() {
-      return commitWithinMs;
-    }
+  static Term idTerm(Change.Id id) {
+    return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
   }
 
   private final SitePaths sitePaths;
@@ -202,9 +129,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
-  private final QueryBuilder queryBuilder;
-  private final SubIndex openIndex;
-  private final SubIndex closedIndex;
+  private final QueryBuilder<ChangeData> queryBuilder;
+  private final ChangeSubIndex openIndex;
+  private final ChangeSubIndex closedIndex;
 
   @AssistedInject
   LuceneChangeIndex(
@@ -222,31 +149,25 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
 
-    CustomMappingAnalyzer analyzer =
-        new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
-            CUSTOM_CHAR_MAPPING);
-    queryBuilder = new QueryBuilder(analyzer);
-
-    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
-        BooleanQuery.getMaxClauseCount()));
-
     GerritIndexWriterConfig openConfig =
         new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig =
         new GerritIndexWriterConfig(cfg, "changes_closed");
 
+    queryBuilder = new QueryBuilder<>(schema, openConfig.getAnalyzer());
+
     SearcherFactory searcherFactory = new SearcherFactory();
-    if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
-      openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig,
-          searcherFactory);
-      closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig,
-          searcherFactory);
+    if (LuceneIndexModule.isInMemoryTest(cfg)) {
+      openIndex = new ChangeSubIndex(schema, sitePaths, new RAMDirectory(),
+          "ramOpen", openConfig, searcherFactory);
+      closedIndex = new ChangeSubIndex(schema, sitePaths, new RAMDirectory(),
+          "ramClosed", closedConfig, searcherFactory);
     } else {
-      Path dir = LuceneVersionManager.getDir(sitePaths, schema);
-      openIndex = new SubIndex(dir.resolve(CHANGES_OPEN), openConfig,
-          searcherFactory);
-      closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig,
-          searcherFactory);
+      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES_PREFIX, schema);
+      openIndex = new ChangeSubIndex(schema, sitePaths,
+          dir.resolve(CHANGES_OPEN), openConfig, searcherFactory);
+      closedIndex = new ChangeSubIndex(schema, sitePaths,
+          dir.resolve(CHANGES_CLOSED), closedConfig, searcherFactory);
     }
   }
 
@@ -275,8 +196,10 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    Term id = QueryBuilder.idTerm(cd);
-    Document doc = toDocument(cd);
+    Term id = LuceneChangeIndex.idTerm(cd);
+    // toDocument is essentially static and doesn't depend on the specific
+    // sub-index, so just pick one.
+    Document doc = openIndex.toDocument(cd, fillArgs);
     try {
       if (cd.change().getStatus().isOpen()) {
         Futures.allAsList(
@@ -294,7 +217,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void delete(Change.Id id) throws IOException {
-    Term idTerm = QueryBuilder.idTerm(id);
+    Term idTerm = LuceneChangeIndex.idTerm(id);
     try {
       Futures.allAsList(
           openIndex.delete(idTerm),
@@ -314,7 +237,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriter.getPossibleStatus(p);
-    List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
+    List<ChangeSubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);
     }
@@ -326,7 +249,9 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    setReady(sitePaths, schema.getVersion(), ready);
+    // Do not delegate to ChangeSubIndex#markReady, since changes have an
+    // additional level of directory nesting.
+    AbstractLuceneIndex.setReady(sitePaths, schema.getVersion(), ready);
   }
 
   private Sort getSort() {
@@ -335,21 +260,17 @@ public class LuceneChangeIndex implements ChangeIndex {
         new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
   }
 
-  public SubIndex getOpenChangesIndex() {
-    return openIndex;
-  }
-
-  public SubIndex getClosedChangesIndex() {
+  public ChangeSubIndex getClosedChangesIndex() {
     return closedIndex;
   }
 
   private class QuerySource implements ChangeDataSource {
-    private final List<SubIndex> indexes;
+    private final List<ChangeSubIndex> indexes;
     private final Query query;
     private final QueryOptions opts;
     private final Sort sort;
 
-    private QuerySource(List<SubIndex> indexes, Query query, QueryOptions opts,
+    private QuerySource(List<ChangeSubIndex> indexes, Query query, QueryOptions opts,
         Sort sort) {
       this.indexes = indexes;
       this.query = checkNotNull(query, "null query from Lucene");
@@ -556,65 +477,5 @@ public class LuceneChangeIndex implements ChangeIndex {
       result.add(codec.decode(r.bytes, r.offset, r.length));
     }
     return result;
-  }
-
-  private Document toDocument(ChangeData cd) {
-    Document result = new Document();
-    for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
-      if (vs.getValues() != null) {
-        add(result, vs);
-      }
-    }
-    return result;
-  }
-
-  private void add(Document doc, Values<ChangeData> values) {
-    String name = values.getField().getName();
-    FieldType<?> type = values.getField().getType();
-    Store store = store(values.getField());
-
-    FieldDef<ChangeData, ?> f = values.getField();
-
-    // Add separate DocValues fields for those fields needed for sorting.
-    if (f == ChangeField.LEGACY_ID) {
-      int v = (Integer) getOnlyElement(values.getValues());
-      doc.add(new NumericDocValuesField(sortFieldName(f), v));
-    } else if (f == ChangeField.UPDATED) {
-      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
-      doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
-    }
-
-    if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
-      for (Object value : values.getValues()) {
-        doc.add(new IntField(name, (Integer) value, store));
-      }
-    } else if (type == FieldType.LONG) {
-      for (Object value : values.getValues()) {
-        doc.add(new LongField(name, (Long) value, store));
-      }
-    } else if (type == FieldType.TIMESTAMP) {
-      for (Object value : values.getValues()) {
-        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
-      }
-    } else if (type == FieldType.EXACT
-        || type == FieldType.PREFIX) {
-      for (Object value : values.getValues()) {
-        doc.add(new StringField(name, (String) value, store));
-      }
-    } else if (type == FieldType.FULL_TEXT) {
-      for (Object value : values.getValues()) {
-        doc.add(new TextField(name, (String) value, store));
-      }
-    } else if (type == FieldType.STORED_ONLY) {
-      for (Object value : values.getValues()) {
-        doc.add(new StoredField(name, (byte[]) value));
-      }
-    } else {
-      throw FieldType.badFieldType(type);
-    }
-  }
-
-  private static Field.Store store(FieldDef<?, ?> f) {
-    return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 }

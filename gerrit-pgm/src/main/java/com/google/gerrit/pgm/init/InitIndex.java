@@ -15,14 +15,15 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.lucene.LuceneChangeIndex;
+import com.google.gerrit.lucene.AbstractLuceneIndex;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.change.ChangeSchemas;
+import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -57,8 +58,11 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-    LuceneChangeIndex.setReady(
-        site, ChangeSchemas.getLatest().getVersion(), true);
+    for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
+      // TODO(dborowitz): Totally broken for non-change indexes.
+      AbstractLuceneIndex.setReady(
+          site, def.getLatest().getVersion(), true);
+    }
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
     } else {
       final String message = String.format(

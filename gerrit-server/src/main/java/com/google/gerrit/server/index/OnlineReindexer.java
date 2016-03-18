@@ -12,18 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.lucene;
+package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.SiteIndexer;
-import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,30 +25,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class OnlineReindexer {
+public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private static final Logger log = LoggerFactory
       .getLogger(OnlineReindexer.class);
 
-  public interface Factory {
-    OnlineReindexer create(int version);
-  }
-
-  private final ChangeIndexCollection indexes;
-  private final SiteIndexer batchIndexer;
-  private final ProjectCache projectCache;
+  private final IndexCollection<K, V, I> indexes;
+  private final SiteIndexer<K, V, I> batchIndexer;
   private final int version;
-  private ChangeIndex index;
+  private I index;
   private final AtomicBoolean running = new AtomicBoolean();
 
-  @Inject
-  OnlineReindexer(
-      ChangeIndexCollection indexes,
-      SiteIndexer batchIndexer,
-      ProjectCache projectCache,
-      @Assisted int version) {
-    this.indexes = indexes;
-    this.batchIndexer = batchIndexer;
-    this.projectCache = projectCache;
+  public OnlineReindexer(
+      IndexDefinition<K, V, I> def,
+      int version) {
+    this.indexes = def.getIndexCollection();
+    this.batchIndexer = def.getSiteIndexer();
     this.version = version;
   }
 
@@ -94,8 +78,7 @@ public class OnlineReindexer {
         "not an active write schema version: %s", version);
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
-    SiteIndexer.Result result =
-        batchIndexer.indexAll(index, projectCache.all());
+    SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
       log.error("Online reindex of schema version {} failed. Successfully"
           + " indexed {} changes, failed to index {} changes",
@@ -106,7 +89,7 @@ public class OnlineReindexer {
     activateIndex();
   }
 
-  void activateIndex() {
+  public void activateIndex() {
     indexes.setSearchIndex(index);
     log.info("Using schema version {}", version(index));
     try {
@@ -115,13 +98,13 @@ public class OnlineReindexer {
       log.warn("Error activating new schema version {}", version(index));
     }
 
-    List<ChangeIndex> toRemove = Lists.newArrayListWithExpectedSize(1);
-    for (ChangeIndex i : indexes.getWriteIndexes()) {
+    List<I> toRemove = Lists.newArrayListWithExpectedSize(1);
+    for (I i : indexes.getWriteIndexes()) {
       if (version(i) != version(index)) {
         toRemove.add(i);
       }
     }
-    for (ChangeIndex i : toRemove) {
+    for (I i : toRemove) {
       try {
         i.markReady(false);
         indexes.removeWriteIndex(version(i));

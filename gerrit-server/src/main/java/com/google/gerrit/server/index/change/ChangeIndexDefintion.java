@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,19 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 
-public interface ChangeIndex extends Index<Change.Id, ChangeData> {
-  public interface Factory extends
-      IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeIndex> {
+public class ChangeIndexDefintion
+    extends IndexDefinition<Change.Id, ChangeData, ChangeIndex> {
+
+  @Inject
+  ChangeIndexDefintion(
+      ChangeIndexCollection indexCollection,
+      ChangeIndex.Factory indexFactory,
+      AllChangesIndexer allChangesIndexer) {
+    super(ChangeSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
+        allChangesIndexer);
   }
 }

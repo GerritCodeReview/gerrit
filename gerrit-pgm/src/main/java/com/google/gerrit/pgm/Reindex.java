@@ -31,9 +31,10 @@ import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SiteIndexer;
+import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.ChangeSchemas;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Injector;
@@ -47,7 +48,9 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -55,9 +58,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--schema-version",
-      usage = "Schema version to reindex; default is most recent version")
-  private Integer version;
+  @Option(name = "--changes-schema-version",
+      usage = "Schema version to reindex, for changes; default is most recent version")
+  private Integer changesVersion;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
@@ -82,9 +85,6 @@ public class Reindex extends SiteProgram {
     checkNotSlaveMode();
     disableLuceneAutomaticCommit();
     disableChangeCache();
-    if (version == null) {
-      version = ChangeSchemas.getLatest().getVersion();
-    }
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
@@ -120,11 +120,16 @@ public class Reindex extends SiteProgram {
   }
 
   private Injector createSysInjector() {
+    Map<String, Integer> versions = new HashMap<>();
+    if (changesVersion != null) {
+      versions.put(ChangeSchemaDefinitions.INSTANCE.getName(), changesVersion);
+    }
     List<Module> modules = Lists.newArrayList();
     Module changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule(version, threads);
+        changeIndexModule = LuceneIndexModule.singleVersionWithExplicitVersions(
+            versions, threads);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");
@@ -164,9 +169,9 @@ public class Reindex extends SiteProgram {
     }
     pm.endTask();
 
-    SiteIndexer batchIndexer =
-        sysInjector.getInstance(SiteIndexer.class);
-    SiteIndexer.Result result = batchIndexer.setNumChanges(changeCount)
+    AllChangesIndexer batchIndexer =
+        sysInjector.getInstance(AllChangesIndexer.class);
+    SiteIndexer.Result result = batchIndexer.setTotalWork(changeCount)
         .setProgressOut(System.err)
         .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)
         .indexAll(index, projects);

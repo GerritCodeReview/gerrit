@@ -59,9 +59,8 @@ class InitIndex implements InitStep {
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
     for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-      // TODO(dborowitz): Totally broken for non-change indexes.
       AbstractLuceneIndex.setReady(
-          site, def.getLatest().getVersion(), true);
+          site, def.getName(), def.getLatest().getVersion(), true);
     }
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
       // Do nothing

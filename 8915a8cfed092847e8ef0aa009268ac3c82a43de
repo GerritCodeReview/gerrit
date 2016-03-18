@@ -25,6 +25,74 @@
     },
     {
       "key": {
+        "uuid": "3cdafa64_4ec8131f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T16:00:36Z",
+      "side": 1,
+      "message": "Not necessary to store this in a field in order to communicate between updateChange and postUpdate, you can call ctx.getUser() in postUpdate. (asIdentifiedUser() is literally just a cast, it\u0027s not like it\u0027s doing serious extra work.)",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6fa2b177",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T16:00:36Z",
+      "side": 1,
+      "message": "It was intended to reread the change inside of updateChange, which is guaranteed to execute inside a database transaction.\n\nDo like you do for changeMessage etc. and assign to this field within updateChange.",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_2ec5c706",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T16:00:36Z",
+      "side": 1,
+      "message": "This is fine, but optionally you can also use psUtil.current",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_0ec20bff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-18T16:00:36Z",
+      "side": 1,
+      "message": "Not sure how this could be null considering user is an IdentifiedUser",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_8f03952e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
         "patchSetId": 9

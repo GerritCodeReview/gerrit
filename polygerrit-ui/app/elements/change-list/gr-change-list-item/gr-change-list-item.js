@@ -52,18 +52,21 @@
     },
 
     _computeChangeStatusString: function(change) {
+      // "Closed" states should take precedence over "open" ones.
       if (change.status == this.ChangeStatus.MERGED) {
         return 'Merged';
       }
+      if (change.status == this.ChangeStatus.ABANDONED) {
+        return 'Abandoned';
+      }
+
       if (change.mergeable != null && change.mergeable == false) {
         return 'Merge Conflict';
       }
       if (change.status == this.ChangeStatus.DRAFT) {
         return 'Draft';
       }
-      if (change.status == this.ChangeStatus.ABANDONED) {
-        return 'Abandoned';
-      }
+
       return '';
     },
 

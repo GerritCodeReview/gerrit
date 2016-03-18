@@ -37,11 +37,12 @@
       },
 
       _timeFormat: String,
+      _timeFormatPromise: Object, // Used for testing.
     },
 
     attached: function() {
-      this._getTimeFormat().then(function(timeFormat) {
-        this._timeFormat = timeFormat;
+      this._timeFormatPromise = this._getTimeFormat().then(function(tf) {
+        this._timeFormat = tf;
       }.bind(this));
     },
 

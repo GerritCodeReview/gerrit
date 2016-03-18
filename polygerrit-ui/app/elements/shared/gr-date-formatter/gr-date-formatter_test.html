@@ -129,14 +129,15 @@ limitations under the License.
     }
 
     suite('logged in', function() {
-      setup(function() {
+      setup(function(done) {
         return stubRestAPI(true, {time_format: 'HHMM_12'}).then(function() {
           element = fixture('basic');
+          done();
         });
       });
 
       test('Preferences are respected', function(done) {
-        flush(function() {
+        element._timeFormatPromise.then(function() {
           assert.equal(element._timeFormat, 'HHMM_12');
           done();
         });
@@ -144,14 +145,15 @@ limitations under the License.
     });
 
     suite('logged out', function() {
-      setup(function() {
+      setup(function(done) {
         return stubRestAPI(false, null).then(function() {
           element = fixture('basic');
+          done();
         });
       });
 
       test('Default preferences are respected', function(done) {
-        flush(function() {
+        element._timeFormatPromise.then(function() {
           assert.equal(element._timeFormat, 'HHMM_24');
           done();
         });

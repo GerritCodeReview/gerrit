@@ -19,6 +19,11 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  var SelectionSide = {
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
   Polymer({
     is: 'gr-new-diff',
 
@@ -43,6 +48,10 @@
       },
       _diff: Object,
       _diffBuilder: Object,
+      _selectionSide: {
+        type: String,
+        observer: '_selectionSideChanged',
+      },
     },
 
     observers: [
@@ -64,6 +73,61 @@
       if (el.classList.contains('showContext')) {
         this._showContext(e.detail.group, e.detail.section);
       }
+    },
+
+    _handleMouseDown: function(e) {
+      var el = Polymer.dom(e).rootTarget;
+      var side;
+      for (var node = el; node != null; node = node.parentNode) {
+        if (el.classList.contains('left')) {
+          side = SelectionSide.LEFT;
+          break;
+        } else if (el.classList.contains('right')) {
+          side = SelectionSide.RIGHT;
+          break;
+        }
+      }
+      this._selectionSide = side;
+    },
+
+    _selectionSideChanged: function(side) {
+      if (side) {
+        var oppositeSide = side ==
+            SelectionSide.RIGHT ? SelectionSide.LEFT : SelectionSide.RIGHT;
+        this.customStyle['--' + side + '-user-select'] = 'text';
+        this.customStyle['--' + oppositeSide + '-user-select'] = 'none';
+      } else {
+        this.customStyle['--' + side + '-user-select'] = 'text';
+        this.customStyle['--' + oppositeSide + '-user-select'] = 'text';
+      }
+      this.updateStyles();
+    },
+
+    _handleCopy: function(e) {
+      var text = this._getSelectedText(this._selectionSide);
+      e.clipboardData.setData('Text', text);
+      e.preventDefault();
+    },
+
+    _getSelectedText: function(opt_side) {
+      var sel = window.getSelection();
+      var range = sel.getRangeAt(0);
+      var doc = range.cloneContents();
+      var selector = '.content';
+      if (opt_side) {
+        selector += '.' + opt_side
+      }
+      var contentEls = Polymer.dom(doc).querySelectorAll(selector);
+
+      if (contentEls.length === 0) {
+        return doc.textContent;
+      }
+
+      var text = '';
+      for (var i = 0; i < contentEls.length; i++) {
+        text += contentEls[i].textContent + '\n';
+      }
+      return text;
     },
 
     _showContext: function(group, sectionEl) {

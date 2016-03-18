@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cf32eea_0fc8c56b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2016-03-18T13:07:41Z",
+      "side": 1,
+      "message": "of the second patch set with its first parent",
+      "range": {
+        "startLine": 15,
+        "startChar": 63,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "8bb5549b104e5160bd4597c35963ca43dc435e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc92be65_ebf99193",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
         "patchSetId": 24

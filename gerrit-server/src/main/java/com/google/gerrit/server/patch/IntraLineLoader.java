@@ -186,80 +186,34 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
 
           // The leading part of an edit and its trailing part in the same
           // text might be identical. Slide down that edit and use the tail
-          // rather than the leading bit. If however the edit is only on a
-          // whitespace block try to shift it to the left margin, assuming
-          // that it is an indentation change.
+          // rather than the leading bit.
           //
-          boolean aShift = true;
-          if (ab < ae && isOnlyWhitespace(a, ab, ae)) {
-            int lf = findLF(wordEdits, j, a, ab);
-            if (lf < ab && a.charAt(lf) == '\n') {
-              int nb = lf + 1;
-              int p = 0;
-              while (p < ae - ab) {
-                if (cmp.equals(a, ab + p, a, ab + p)) {
-                  p++;
-                } else {
-                  break;
-                }
-              }
-              if (p == ae - ab) {
-                ab = nb;
-                ae = nb + p;
-                aShift = false;
-              }
-            }
+          while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
+              && cmp.equals(a, ab - 1, a, ae - 1)) {
+            ab--;
+            ae--;
           }
-          if (aShift) {
-            while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
-                && cmp.equals(a, ab - 1, a, ae - 1)) {
-              ab--;
-              ae--;
-            }
-            if (!a.isLineStart(ab) || !a.contains(ab, ae, '\n')) {
-              while (ab < ae && ae < a.size() && cmp.equals(a, ab, a, ae)) {
-                ab++;
-                ae++;
-                if (a.charAt(ae - 1) == '\n') {
-                  break;
-                }
+          if (!a.isLineStart(ab) || !a.contains(ab, ae, '\n')) {
+            while (ab < ae && ae < a.size() && cmp.equals(a, ab, a, ae)) {
+              ab++;
+              ae++;
+              if (a.charAt(ae - 1) == '\n') {
+                break;
               }
             }
           }
 
-          boolean bShift = true;
-          if (bb < be && isOnlyWhitespace(b, bb, be)) {
-            int lf = findLF(wordEdits, j, b, bb);
-            if (lf < bb && b.charAt(lf) == '\n') {
-              int nb = lf + 1;
-              int p = 0;
-              while (p < be - bb) {
-                if (cmp.equals(b, bb + p, b, bb + p)) {
-                  p++;
-                } else {
-                  break;
-                }
-              }
-              if (p == be - bb) {
-                bb = nb;
-                be = nb + p;
-                bShift = false;
-              }
-            }
+          while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
+              && cmp.equals(b, bb - 1, b, be - 1)) {
+            bb--;
+            be--;
           }
-          if (bShift) {
-            while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
-                && cmp.equals(b, bb - 1, b, be - 1)) {
-              bb--;
-              be--;
-            }
-            if (!b.isLineStart(bb) || !b.contains(bb, be, '\n')) {
-              while (bb < be && be < b.size() && cmp.equals(b, bb, b, be)) {
-                bb++;
-                be++;
-                if (b.charAt(be - 1) == '\n') {
-                  break;
-                }
+          if (!b.isLineStart(bb) || !b.contains(bb, be, '\n')) {
+            while (bb < be && be < b.size() && cmp.equals(b, bb, b, be)) {
+              bb++;
+              be++;
+              if (b.charAt(be - 1) == '\n') {
+                break;
               }
             }
           }
@@ -341,23 +295,5 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
       }
     }
     return true;
-  }
-
-  private static int findLF(List<Edit> edits, int j, CharText t, int b) {
-    int lf = b;
-    int limit = 0 < j ? edits.get(j - 1).getEndB() : 0;
-    while (limit < lf && t.charAt(lf) != '\n') {
-      lf--;
-    }
-    return lf;
-  }
-
-  private static boolean isOnlyWhitespace(CharText t, final int b, final int e) {
-    for (int c = b; c < e; c++) {
-      if (!Character.isWhitespace(t.charAt(c))) {
-        return false;
-      }
-    }
-    return b < e;
   }
 }

@@ -193,6 +193,7 @@ java_test(
     ':testutil',
     '//gerrit-antlr:query_exception',
     '//gerrit-common:annotations',
+    '//gerrit-patch-jgit:server',
     '//gerrit-server/src/main/prolog:common',
     '//lib:args4j',
     '//lib:grappa',

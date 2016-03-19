@@ -279,9 +279,49 @@ public class ChangeScreen extends Screen {
           public void onSuccess(ChangeInfo info) {
             info.init();
             addExtensionPoints(info);
+            initCurrentRevision(info);
             loadConfigInfo(info, base);
           }
         }));
+  }
+
+  private RevisionInfo initCurrentRevision(final ChangeInfo info) {
+    info.revisions().copyKeysIntoChildren("name");
+    if (edit != null) {
+      edit.setName(edit.commit().commit());
+      info.setEdit(edit);
+      if (edit.hasFiles()) {
+        edit.files().copyKeysIntoChildren("path");
+      }
+      info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+      JsArray<RevisionInfo> list = info.revisions().values();
+
+      // Edit is converted to a regular revision (with number = 0) and
+      // added to the list of revisions. Additionally under certain
+      // circumstances change edit is assigned to be the current revision
+      // and is selected to be shown on the change screen.
+      // We have two different strategies to assign edit to the current ps:
+      // 1. revision == null: no revision is selected, so use the edit only
+      //    if it is based on the latest patch set
+      // 2. edit was selected explicitly from ps drop down:
+      //    use the edit regardless of which patch set it is based on
+      if (revision == null) {
+        RevisionInfo.sortRevisionInfoByNumber(list);
+        RevisionInfo rev = list.get(list.length() - 1);
+        if (rev.isEdit()) {
+          info.setCurrentRevision(rev.name());
+        }
+      } else if (revision.equals("edit") || revision.equals("0")) {
+        for (int i = 0; i < list.length(); i++) {
+          RevisionInfo r = list.get(i);
+          if (r.isEdit()) {
+            info.setCurrentRevision(r.name());
+            break;
+          }
+        }
+      }
+    }
+    return resolveRevisionToDisplay(info);
   }
 
   private void addExtensionPoints(ChangeInfo change) {
@@ -859,42 +899,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadConfigInfo(final ChangeInfo info, String base) {
-    info.revisions().copyKeysIntoChildren("name");
-    if (edit != null) {
-      edit.setName(edit.commit().commit());
-      info.setEdit(edit);
-      if (edit.hasFiles()) {
-        edit.files().copyKeysIntoChildren("path");
-      }
-      info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
-      JsArray<RevisionInfo> list = info.revisions().values();
-
-      // Edit is converted to a regular revision (with number = 0) and
-      // added to the list of revisions. Additionally under certain
-      // circumstances change edit is assigned to be the current revision
-      // and is selected to be shown on the change screen.
-      // We have two different strategies to assign edit to the current ps:
-      // 1. revision == null: no revision is selected, so use the edit only
-      //    if it is based on the latest patch set
-      // 2. edit was selected explicitly from ps drop down:
-      //    use the edit regardless of which patch set it is based on
-      if (revision == null) {
-        RevisionInfo.sortRevisionInfoByNumber(list);
-        RevisionInfo rev = list.get(list.length() - 1);
-        if (rev.isEdit()) {
-          info.setCurrentRevision(rev.name());
-        }
-      } else if (revision.equals("edit") || revision.equals("0")) {
-        for (int i = 0; i < list.length(); i++) {
-          RevisionInfo r = list.get(i);
-          if (r.isEdit()) {
-            info.setCurrentRevision(r.name());
-            break;
-          }
-        }
-      }
-    }
-    RevisionInfo rev = resolveRevisionToDisplay(info);
+    RevisionInfo rev = info.revision(revision);
     RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();

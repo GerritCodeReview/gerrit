@@ -14,30 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Schema_116 extends SchemaVersion {
   @Inject
   Schema_116(Provider<Schema_115> prior) {
     super(prior);
-  }
-
-  @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
-    ui.message("Migrate user preference copySelfOnEmail to emailStrategy");
-    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement()) {
-      stmt.executeUpdate("UPDATE accounts SET "
-          + "EMAIL_STRATEGY='ENABLED' "
-          + "WHERE (COPY_SELF_ON_EMAIL='N')");
-      stmt.executeUpdate("UPDATE accounts SET "
-          + "EMAIL_STRATEGY='CC_ON_OWN_COMMENTS' "
-          + "WHERE (COPY_SELF_ON_EMAIL='Y')");
-    }
   }
 }

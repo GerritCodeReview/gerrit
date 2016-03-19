@@ -375,7 +375,7 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void gotoSibling(final int offset) {
+  private void gotoSibling(int offset) {
     if (offset > 0 && changeInfo.currentRevision().equals(revision)) {
       return;
     }
@@ -598,24 +598,24 @@ public class ChangeScreen extends Screen {
     KeyCommandSet keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
       @Override
-      public void onKeyPress(final KeyPressEvent event) {
+      public void onKeyPress(KeyPressEvent event) {
         Gerrit.displayLastChangeList();
       }
     });
     keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
       @Override
-      public void onKeyPress(final KeyPressEvent event) {
+      public void onKeyPress(KeyPressEvent event) {
         Gerrit.display(PageLinks.toChange(changeId));
       }
     });
     keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
         @Override
-        public void onKeyPress(final KeyPressEvent event) {
+        public void onKeyPress(KeyPressEvent event) {
           gotoSibling(1);
         }
       }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
         @Override
-        public void onKeyPress(final KeyPressEvent event) {
+        public void onKeyPress(KeyPressEvent event) {
           gotoSibling(-1);
         }
       });
@@ -858,7 +858,7 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, final String base) {
+  private void loadConfigInfo(final ChangeInfo info, String base) {
     info.revisions().copyKeysIntoChildren("name");
     if (edit != null) {
       edit.setName(edit.commit().commit());
@@ -894,8 +894,8 @@ public class ChangeScreen extends Screen {
         }
       }
     }
-    final RevisionInfo rev = resolveRevisionToDisplay(info);
-    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
+    RevisionInfo rev = resolveRevisionToDisplay(info);
+    RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -944,10 +944,10 @@ public class ChangeScreen extends Screen {
     return null;
   }
 
-  private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
-      final Timestamp myLastReply, CallbackGroup group) {
-    final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
-    final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
+  private void loadDiff(RevisionInfo base, RevisionInfo rev,
+      Timestamp myLastReply, CallbackGroup group) {
+    List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
+    List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     loadFileList(base, rev, myLastReply, group, comments, drafts);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {

@@ -87,6 +87,9 @@ public class Schema_119 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui)
       throws OrmException, SQLException {
     Map<Account.Id, GeneralPreferencesInfo> imports = new HashMap<>();
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(
           "select "

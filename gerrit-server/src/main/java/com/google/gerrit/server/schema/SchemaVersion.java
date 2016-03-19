@@ -80,6 +80,9 @@ public abstract class SchemaVersion {
     migrateData(pending, ui, curr, db);
 
     JdbcSchema s = (JdbcSchema) db;
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
     final List<String> pruneList = Lists.newArrayList();
     s.pruneSchema(new StatementExecutor() {
       @Override
@@ -115,7 +118,9 @@ public abstract class SchemaVersion {
       ui.message(String.format("Upgrading schema to %d ...", v.getVersionNbr()));
       v.preUpdateSchema(db);
     }
-
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
     JdbcSchema s = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.updateSchema(e);

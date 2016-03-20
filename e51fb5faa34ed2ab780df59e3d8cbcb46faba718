@@ -16,6 +16,24 @@
       "revId": "e51fb5faa34ed2ab780df59e3d8cbcb46faba718",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ce2be31a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RawInputUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T15:19:19Z",
+      "side": 1,
+      "message": "\u003e Any reason these static factory methods aren\u0027t just in RawInput?\n\nYes. RawInput is an interface, with RawInputUtil providing different implementations, based on HttpServletRequest and ByteArrayInputStream.",
+      "parentUuid": "5cf32eea_affe594e",
+      "revId": "e51fb5faa34ed2ab780df59e3d8cbcb46faba718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

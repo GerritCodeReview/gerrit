@@ -27,6 +27,10 @@ Rebuilds the secondary index.
 --list::
 	List available index names.
 
+--index::
+	Reindex only index with given name. This option can be supplied
+	more than once to reindex multiple indices.
+
 == CONTEXT
 The secondary index must be enabled. See
 link:config-gerrit.html#index.type[index.type].

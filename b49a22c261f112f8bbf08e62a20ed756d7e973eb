@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce3021d_ac642323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-20T14:45:15Z",
+      "side": 1,
+      "message": "I actually already have a draft of this, let me push it so we don\u0027t duplicate more work than we have already.",
+      "revId": "b49a22c261f112f8bbf08e62a20ed756d7e973eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

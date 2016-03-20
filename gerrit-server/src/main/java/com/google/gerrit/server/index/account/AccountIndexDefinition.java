@@ -16,11 +16,18 @@ package com.google.gerrit.server.index.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
+import com.google.inject.Inject;
 
-public interface AccountIndex extends Index<Account.Id, AccountState> {
-  public interface Factory extends
-    IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {
+public class AccountIndexDefinition
+    extends IndexDefinition<Account.Id, AccountState, AccountIndex> {
+
+  @Inject
+  AccountIndexDefinition(
+      AccountIndexCollection indexCollection,
+      AccountIndex.Factory indexFactory,
+      AllAccountsIndexer allChangesIndexer) {
+    super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
+        allChangesIndexer);
   }
 }

@@ -16,11 +16,10 @@ package com.google.gerrit.server.index.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.IndexDefinition;
+import com.google.gerrit.server.index.IndexCollection;
+import com.google.inject.Singleton;
 
-public interface AccountIndex extends Index<Account.Id, AccountState> {
-  public interface Factory extends
-    IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {
-  }
+@Singleton
+public class AccountIndexCollection extends
+  IndexCollection<Account.Id, AccountState, AccountIndex> {
 }

@@ -33,7 +33,6 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.lucene.document.Document;
@@ -60,7 +59,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-@Singleton
 public class LuceneAccountIndex
     extends AbstractLuceneIndex<Account.Id, AccountState>
     implements AccountIndex {
@@ -70,10 +68,6 @@ public class LuceneAccountIndex
   private static final String ACCOUNTS = "accounts";
 
   private static final String ID_SORT_FIELD = sortFieldName(ID);
-
-  static interface Factory {
-    LuceneAccountIndex create(Schema<AccountState> schema, @Nullable String base);
-  }
 
   private static Term idTerm(AccountState as) {
     return idTerm(as.getAccount().getId());

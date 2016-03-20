@@ -62,6 +62,29 @@
       "revId": "147ef2632198046da7371602781c2951ff7bf821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ae62d7a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T07:24:02Z",
+      "side": 1,
+      "message": "All these exceptions are actually never thrown in GetPreferences.apply() method. So after fixing it (in its own change, of course), this method could just be:\n\n  return getPreferences.get();",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 66
+      },
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

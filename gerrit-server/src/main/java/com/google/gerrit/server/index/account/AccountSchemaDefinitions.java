@@ -14,19 +14,17 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gerrit.server.index.SchemaUtil;
 
 import java.util.Collection;
 
-public class AccountSchemas {
+public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   static final Schema<AccountState> V1 = schema(
       AccountField.ID,
       AccountField.ACTIVE,
@@ -48,15 +46,11 @@ public class AccountSchemas {
   }
 
   public static final ImmutableMap<Integer, Schema<AccountState>> ALL =
-      SchemaUtil.schemasFromClass(AccountSchemas.class, AccountState.class);
+      SchemaUtil.schemasFromClass(AccountSchemaDefinitions.class, AccountState.class);
 
-  public static Schema<AccountState> get(int version) {
-    Schema<AccountState> schema = ALL.get(version);
-    checkArgument(schema != null, "Unrecognized schema version: %s", version);
-    return schema;
-  }
+  public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 
-  public static Schema<AccountState> getLatest() {
-    return Iterables.getLast(ALL.values());
+  private AccountSchemaDefinitions() {
+    super("accounts", AccountState.class);
   }
 }

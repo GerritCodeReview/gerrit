@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,18 @@ package com.google.gerrit.server.index.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
+import com.google.inject.Inject;
 
-public interface AccountIndex extends Index<Account.Id, AccountState> {
-  public interface Factory extends
-    IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {
+public class AccountIndexDefinition
+    extends IndexDefinition<Account.Id, AccountState, AccountIndex> {
+
+  @Inject
+  AccountIndexDefinition(
+      AccountIndexCollection indexCollection,
+      AccountIndex.Factory indexFactory,
+      AllAccountsIndexer allChangesIndexer) {
+    super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
+        allChangesIndexer);
   }
 }

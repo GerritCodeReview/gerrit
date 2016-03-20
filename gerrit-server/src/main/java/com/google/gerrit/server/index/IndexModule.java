@@ -26,6 +26,9 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.index.account.AccountIndexDefinition;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -55,7 +58,8 @@ public class IndexModule extends LifecycleModule {
 
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.<SchemaDefinitions<?>> of(
-          ChangeSchemaDefinitions.INSTANCE);
+          ChangeSchemaDefinitions.INSTANCE,
+          AccountSchemaDefinitions.INSTANCE);
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
@@ -84,15 +88,16 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(IndexRewriter.class);
+    listener().to(AccountIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
   }
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
-      ChangeIndexDefinition changes) {
+      ChangeIndexDefinition changes, AccountIndexDefinition accounts) {
     Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>> of(changes);
+        ImmutableList.<IndexDefinition<?, ?, ?>> of(changes, accounts);
     Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
         .transform(new Function<SchemaDefinitions<?>, String>() {
           @Override

@@ -16,18 +16,12 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
-import java.io.IOException;
 
 @Singleton
 public class GetPreferences implements RestReadView<AccountResource> {
@@ -43,8 +37,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
 
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException, ResourceNotFoundException, OrmException,
-      IOException, ConfigInvalidException {
+      throws AuthException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");

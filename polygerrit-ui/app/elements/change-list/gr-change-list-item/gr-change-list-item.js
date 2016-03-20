@@ -72,7 +72,7 @@
 
     _computeLabelTitle: function(change, labelName) {
       var label = change.labels[labelName];
-      if (!label) { return labelName; }
+      if (!label) { return 'Label not applicable'; }
       var significantLabel = label.rejected || label.approved ||
           label.disliked || label.recommended;
       if (significantLabel && significantLabel.name) {
@@ -102,6 +102,8 @@
         if (label.rejected) {
           classes['u-red'] = true;
         }
+      } else {
+        classes['u-not-applicable'] = true;
       }
       return Object.keys(classes).sort().join(' ');
     },

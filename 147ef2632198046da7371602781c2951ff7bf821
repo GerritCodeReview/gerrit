@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_ee68df89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T06:54:30Z",
+      "side": 1,
+      "message": "I understand that only getPreferrences() needed for now in Android client, but we usualy add both methods to the API: get/set. Also this change could make use of the new API method(s) in GErrit core.",
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6f53d1e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T06:54:30Z",
+      "side": 1,
+      "message": "No provider needed here, because GetPreferences is a singleton. Using Provider.get() on a singleton always returns the same instance.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 14
+      },
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

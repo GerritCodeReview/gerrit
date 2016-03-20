@@ -22,6 +22,30 @@
       "revId": "59ae392d62f7aa6483589fa2134a5664645c91a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_4eeff313",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T14:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_4f3dad6f",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "59ae392d62f7aa6483589fa2134a5664645c91a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

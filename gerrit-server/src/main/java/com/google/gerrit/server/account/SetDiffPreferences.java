@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -60,7 +59,7 @@ public class SetDiffPreferences implements
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo in)
       throws AuthException, BadRequestException, ConfigInvalidException,
-      RepositoryNotFoundException, IOException, OrmException {
+      RepositoryNotFoundException, IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");

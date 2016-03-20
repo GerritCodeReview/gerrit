@@ -12,25 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.account;
+package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 
 import org.junit.Test;
 
+@NoHttpd
 public class EditPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getSetEditPreferences() throws Exception {
-    String endPoint = "/accounts/" + admin.email + "/preferences.edit";
-    RestResponse r = adminSession.get(endPoint);
-    r.assertOK();
-    EditPreferencesInfo out = getEditPrefInfo(r);
+    EditPreferencesInfo out = gApi.accounts()
+        .id(admin.getId().toString())
+        .getEditPreferences();
 
     assertThat(out.lineLength).isEqualTo(100);
     assertThat(out.tabSize).isEqualTo(8);
@@ -59,29 +59,29 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.theme = Theme.TWILIGHT;
     out.keyMapType = KeyMapType.EMACS;
 
-    adminSession.put(endPoint, out).assertNoContent();
+    gApi.accounts()
+       .id(admin.getId().toString())
+        .setEditPreferences(out);
 
-    r = adminSession.get(endPoint);
-    r.assertOK();
-    EditPreferencesInfo info = getEditPrefInfo(r);
+    EditPreferencesInfo info = gApi.accounts()
+        .id(admin.getId().toString())
+        .getEditPreferences();
+
     assertEditPreferences(info, out);
 
     // Partially filled input record
     EditPreferencesInfo in = new EditPreferencesInfo();
     in.tabSize = 42;
-    adminSession.put(endPoint, in).assertNoContent();
 
-    r = adminSession.get(endPoint);
-    r.assertOK();
-    info = getEditPrefInfo(r);
+    gApi.accounts()
+        .id(admin.getId().toString())
+        .setEditPreferences(in);
+
+    info = gApi.accounts()
+        .id(admin.getId().toString())
+        .getEditPreferences();
     out.tabSize = in.tabSize;
     assertEditPreferences(info, out);
-  }
-
-  private EditPreferencesInfo getEditPrefInfo(RestResponse r)
-      throws Exception {
-    return newGson().fromJson(r.getReader(),
-        EditPreferencesInfo.class);
   }
 
   private void assertEditPreferences(EditPreferencesInfo out,

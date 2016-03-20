@@ -18,6 +18,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -29,7 +30,9 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.GetAvatar;
+import com.google.gerrit.server.account.GetEditPreferences;
 import com.google.gerrit.server.account.GetPreferences;
+import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
@@ -56,6 +59,8 @@ public class AccountApiImpl implements AccountApi {
   private final Provider<GetAvatar> getAvatar;
   private final GetPreferences getPreferences;
   private final SetPreferences setPreferences;
+  private final GetEditPreferences getEditPreferences;
+  private final SetEditPreferences setEditPreferences;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
@@ -67,6 +72,8 @@ public class AccountApiImpl implements AccountApi {
       Provider<GetAvatar> getAvatar,
       GetPreferences getPreferences,
       SetPreferences setPreferences,
+      GetEditPreferences getEditPreferences,
+      SetEditPreferences setEditPreferences,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
@@ -78,6 +85,8 @@ public class AccountApiImpl implements AccountApi {
     this.getAvatar = getAvatar;
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
+    this.getEditPreferences = getEditPreferences;
+    this.setEditPreferences = setEditPreferences;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
@@ -116,6 +125,25 @@ public class AccountApiImpl implements AccountApi {
       return setPreferences.apply(account, in);
     } catch (IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot set preferences", e);
+    }
+  }
+
+  @Override
+  public EditPreferencesInfo getEditPreferences() throws RestApiException {
+    try {
+      return getEditPreferences.apply(account);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot query edit preferences", e);
+    }
+  }
+
+  @Override
+  public void setEditPreferences(EditPreferencesInfo in)
+      throws RestApiException {
+    try {
+      setEditPreferences.apply(account, in);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot set edit preferences", e);
     }
   }
 

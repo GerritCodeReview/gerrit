@@ -51,9 +51,10 @@ limitations under the License.
       assert.equal(element._computeChangeStatusString({status: 'DRAFT'}),
           'Draft');
 
-      assert.equal(element._computeLabelClass({labels: {}}), 'cell label');
+      assert.equal(element._computeLabelClass({labels: {}}),
+          'cell label u-gray-background');
       assert.equal(element._computeLabelClass(
-          {labels: {}}, 'Verified'), 'cell label');
+          {labels: {}}, 'Verified'), 'cell label u-gray-background');
       assert.equal(element._computeLabelClass(
           {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
           'cell label u-green u-monospace');
@@ -66,12 +67,18 @@ limitations under the License.
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
           'cell label u-monospace u-red');
+      assert.equal(element._computeLabelClass(
+          {labels: {'Code-Review': {value: -1}}}, 'Verified'),
+          'cell label u-gray-background');
 
       assert.equal(element._computeLabelTitle({labels: {}}, 'Verified'),
-          'Verified');
+          'Label not applicable');
       assert.equal(element._computeLabelTitle(
           {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Verified'),
           'Verified\nby Diffy');
+      assert.equal(element._computeLabelTitle(
+          {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Code-Review'),
+          'Label not applicable');
       assert.equal(element._computeLabelTitle(
           {labels: {Verified: {rejected: {name: 'Diffy'}}}}, 'Verified'),
           'Verified\nby Diffy');

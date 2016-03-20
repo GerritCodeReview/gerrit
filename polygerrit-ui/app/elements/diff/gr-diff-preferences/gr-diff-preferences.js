@@ -33,7 +33,6 @@
       prefs: {
         type: Object,
         notify: true,
-        value: function() { return {}; },
       },
       disabled: {
         type: Boolean,

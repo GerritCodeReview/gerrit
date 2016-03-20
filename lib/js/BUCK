@@ -283,9 +283,9 @@ bower_component(
 bower_component(
   name = 'page',
   package = 'visionmedia/page.js',
-  version = '1.6.4',
+  version = '1.7.1',
   license = 'page.js',
-  sha1 = 'cc442386d4e392be26c85873f463db76fafbaeaf',
+  sha1 = '51a05428dd4f68fae1df5f12d0e2b61ba67f7757',
 )
 
 bower_component(

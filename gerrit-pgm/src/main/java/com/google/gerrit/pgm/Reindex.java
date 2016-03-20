@@ -17,6 +17,10 @@ package com.google.gerrit.pgm;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -47,6 +51,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 public class Reindex extends SiteProgram {
@@ -62,6 +68,9 @@ public class Reindex extends SiteProgram {
 
   @Option(name = "--list", usage = "List supported indices and exit")
   private boolean list;
+
+  @Option(name = "--index", usage = "Only reindex specified indices")
+  private List<String> indices = new ArrayList<>();
 
   private Injector dbInjector;
   private Injector sysInjector;
@@ -89,6 +98,7 @@ public class Reindex extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
     sysInjector.injectMembers(this);
+    checkIndicesOption();
 
     try {
       boolean ok = list ? list() : reindex();
@@ -111,9 +121,34 @@ public class Reindex extends SiteProgram {
   private boolean reindex() throws IOException {
     boolean ok = true;
     for (IndexDefinition<?, ?, ?> def : indexDefs) {
-      ok &= reindex(def);
+      if (indices.isEmpty() || indices.contains(def.getName())) {
+        ok &= reindex(def);
+      }
     }
     return ok;
+  }
+
+  private void checkIndicesOption() throws Die {
+    if (indices.isEmpty()) {
+      return;
+    }
+
+    checkNotNull(indexDefs, "Called this method before injectMembers?");
+    Set<String> valid = FluentIterable.from(indexDefs).transform(
+        new Function<IndexDefinition<?, ?, ?>, String>() {
+          @Override
+          public String apply(IndexDefinition<?, ?, ?> input) {
+            return input.getName();
+          }
+        }).toSortedSet(Ordering.natural());
+
+    Set<String> invalid = Sets.difference(Sets.newHashSet(indices), valid);
+    if (invalid.isEmpty()) {
+      return;
+    }
+
+    throw die("invalid index name(s): " + new TreeSet<>(invalid)
+        + " available indices are: " + valid);
   }
 
   private void checkNotSlaveMode() throws Die {

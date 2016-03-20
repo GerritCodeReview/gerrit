@@ -14,7 +14,8 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  function GrDiffBuilder(diff, prefs, outputEl) {
+  function GrDiffBuilder(diff, comments, prefs, outputEl) {
+    this._comments = comments;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this._groups = [];
@@ -36,6 +37,11 @@
     ADDED: 'b',
     BOTH: 'ab',
     REMOVED: 'a',
+  };
+
+  GrDiffBuilder.Side = {
+    LEFT: 'left',
+    RIGHT: 'right',
   };
 
   GrDiffBuilder.prototype.emitDiff = function() {
@@ -165,6 +171,40 @@
     });
     td.appendChild(button);
     return td;
+  };
+
+  GrDiffBuilder.prototype._getCommentsForLine = function(comments, line,
+      opt_side) {
+    var leftComments = comments[GrDiffBuilder.Side.LEFT].filter(
+        function(c) { return c.line === line.beforeNumber; });
+    var rightComments = comments[GrDiffBuilder.Side.RIGHT].filter(
+        function(c) { return c.line === line.afterNumber; });
+
+    var result;
+
+    switch (opt_side) {
+      case GrDiffBuilder.Side.LEFT:
+        result = leftComments;
+        break;
+      case GrDiffBuilder.Side.RIGHT:
+        result = rightComments;
+        break;
+      default:
+        result = leftComments.concat(rightComments);
+        break;
+    }
+
+    return result;
+  };
+
+  GrDiffBuilder.prototype._createCommentThread = function(line, opt_side) {
+    var comments = this._getCommentsForLine(this._comments, line, opt_side);
+    if (!comments || comments.length === 0) {
+      return null;
+    }
+    var threadEl = document.createElement('gr-diff-comment-thread');
+    threadEl.comments = comments;
+    return threadEl;
   };
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {

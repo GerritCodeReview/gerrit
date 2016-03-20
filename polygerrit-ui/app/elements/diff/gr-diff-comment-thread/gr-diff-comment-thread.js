@@ -37,9 +37,9 @@
       },
       patchNum: String,
       path: String,
-      showActions: Boolean,
       projectConfig: Object,
 
+      _showActions: Boolean,
       _boundWindowResizeHandler: {
         type: Function,
         value: function() { return this._handleWindowResize.bind(this); }
@@ -57,11 +57,19 @@
     ],
 
     attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
+        this._showActions = loggedIn;
+      }.bind(this));
+
       window.addEventListener('resize', this._boundWindowResizeHandler);
     },
 
     detached: function() {
       window.removeEventListener('resize', this._boundWindowResizeHandler);
+    },
+
+    _getLoggedIn: function() {
+      return this.$.restAPI.getLoggedIn();
     },
 
     _handleWindowResize: function(e) {

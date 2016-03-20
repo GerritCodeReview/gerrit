@@ -207,7 +207,8 @@ limitations under the License.
         line_length: 10,
         tab_size: 4,
       };
-      var builder = new GrDiffBuilder({content: []}, prefs);
+      var builder =
+          new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
 
       var text = 'abcdef';
       assert.equal(builder._addNewlines(text, text), text);
@@ -240,7 +241,8 @@ limitations under the License.
         show_tabs: true,
         tab_size: 4,
       };
-      var builder = new GrDiffBuilder({content: []}, prefs);
+      var builder =
+          new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
 
       var html = 'abc\tdef';
       var wrapper = builder._getTabWrapper(prefs.tab_size, prefs.show_tabs);
@@ -251,6 +253,46 @@ limitations under the License.
           builder,
           '"><img src="/" onerror="alert(1);"><span class="',
           true));
+    });
+
+    test('comments', function() {
+      var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.beforeNumber = 3;
+      line.afterNumber = 5;
+
+      var comments = {left: [], right:[]};
+      assert.deepEqual(
+          GrDiffBuilder.prototype._getCommentsForLine(comments, line), []);
+      assert.deepEqual(
+          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
+              GrDiffBuilder.Side.LEFT),
+          []);
+      assert.deepEqual(
+          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
+              GrDiffBuilder.Side.RIGHT),
+          []);
+
+      comments = {
+        left: [
+          {id: 'l3', line: 3},
+          {id: 'l5', line: 5},
+        ],
+        right: [
+          {id: 'r3', line: 3},
+          {id: 'r5', line: 5},
+        ],
+      };
+      assert.deepEqual(
+          GrDiffBuilder.prototype._getCommentsForLine(comments, line),
+          [{id: 'l3', line: 3}, {id: 'r5', line: 5}]);
+      assert.deepEqual(
+          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
+              GrDiffBuilder.Side.LEFT),
+          [{id: 'l3', line: 3}]);
+      assert.deepEqual(
+          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
+              GrDiffBuilder.Side.RIGHT),
+          [{id: 'r5', line: 5}]);
     });
   });
 </script>

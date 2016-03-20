@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3cdafa64_ced6436e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T07:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_ee68df89",
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_6f53d1e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5cf32eea_8f8ef5ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T07:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_6f53d1e4",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 14
+      },
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_ce6d2398",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2016-03-20T06:56:06Z",
       "side": 1,
       "message": "This is too verbose, after removing the Provider, just use getPreferences inline on line 107.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 59
+      },
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6f94f1ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T07:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_ce6d2398",
       "range": {
         "startLine": 105,
         "startChar": 4,
@@ -100,6 +166,30 @@
       "side": 1,
       "message": "Opp, I meant:\n\n  return getPreferences.apply(account);",
       "parentUuid": "3cdafa64_ae62d7a5",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 66
+      },
+      "revId": "147ef2632198046da7371602781c2951ff7bf821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_4f912dc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T07:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_6e7d0f41",
       "range": {
         "startLine": 108,
         "startChar": 13,

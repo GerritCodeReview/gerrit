@@ -24,6 +24,9 @@ Rebuilds the secondary index.
 --dry-run::
 	Dry run.  Don't write anything to index.
 
+--list::
+	List available index names.
+
 == CONTEXT
 The secondary index must be enabled. See
 link:config-gerrit.html#index.type[index.type].

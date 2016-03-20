@@ -97,8 +97,8 @@
         this.customStyle['--' + side + '-user-select'] = 'text';
         this.customStyle['--' + oppositeSide + '-user-select'] = 'none';
       } else {
-        this.customStyle['--' + side + '-user-select'] = 'text';
-        this.customStyle['--' + oppositeSide + '-user-select'] = 'text';
+        this.customStyle['--left-user-select'] = 'text';
+        this.customStyle['--right-user-select'] = 'text';
       }
       this.updateStyles();
     },
@@ -115,7 +115,7 @@
       var doc = range.cloneContents();
       var selector = '.content';
       if (opt_side) {
-        selector += '.' + opt_side
+        selector += '.' + opt_side;
       }
       var contentEls = Polymer.dom(doc).querySelectorAll(selector);
 

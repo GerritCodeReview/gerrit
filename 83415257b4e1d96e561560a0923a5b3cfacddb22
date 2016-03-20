@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1458290377 +0100\nnonce AB8gjyU+abNh0HF7f5TNeuhDz4orK14P/va98HbyjH7qG3g9LugkLQyfPhUr72kDTQfMnGTXp/vx\n\n0000000000000000000000000000000000000000 51550115a839121a31ae1b03da3d62bdd915ac3e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW677KAAoJEF/XxZqaEoiMS+EQAMk8MmEjaqe/c9MFtmQPkgBx\nB0PJy83hiUw16NtWFx5gRdNjPuzxQEkhmAHM8Wzr6/OagzpxOne3TwetjowxSbfT\noeQhV9sdprXy4BOuDa6bYMZSIBjM8Vy202hioXtQqiua1S1PgK1YgfLHk0iMgxhe\nVAzw84cX4eVCYv4tMc04dG0qyxSf1XtGjTgwX7PF4o7z+U86BUXaKG2XZSMozs4J\n640yrs2vyReKJ1LWx+oJ5l7uX7Em8qp3vPF7uw5pLGVpKJR+FDydBUjfA8zQ+Agc\nEQwi5Nm2FzgYQQJwvHKXM0+HkDZg4dYxl1lnQmpReThs+RPj48Iz0LqF1nIo14VD\nClO0CFP0yqgkBD3wG3tL1IMF8CvW97p2zVRgF/pbcSdJJolq0QeLIgn4aGvTv9xq\ny2oj3pjXZcN5KRi6haAeB6exsfZDeagRPi+b+F5XlnjRcWMOtTFjOJyElW4EGT/h\nCDK3Elp8SCDxUA7wBbuMeAGca54tkXPzxMbykoHg6pv0nMFoxGsEbITSFHRZbOSd\nwXa8DtkSopRNa2NeTKCY9uZjIisHe/5iFQ8u8opcd6ZI9jR+Mp6YLdnpfEtaucyC\nx7ieke0Qftj2oNI5TXl+bRCi8k7c0Gpubq81qf7HtBAz0oWZY7UJIHr9YNjlzg1W\neqGgQ24Mt439fW/j3MYc\n\u003de4it\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_cf9e3d8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:33:04Z",
+      "side": 1,
+      "message": "I think this should be FieldType.EXACT: [1].\n\n* [1] http://paste.openstack.org/show/491211",
+      "range": {
+        "startLine": 131,
+        "startChar": 24,
+        "endLine": 131,
+        "endChar": 28
+      },
+      "revId": "83415257b4e1d96e561560a0923a5b3cfacddb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_8e815b28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:33:04Z",
+      "side": 1,
+      "message": "Username could be null. This should be:\n\n  return Strings.isNullOrEmpty(input.getUserName())\n      ? null\n      : input.getUserName().toLowerCase();",
+      "range": {
+        "startLine": 134,
+        "startChar": 17,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "83415257b4e1d96e561560a0923a5b3cfacddb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

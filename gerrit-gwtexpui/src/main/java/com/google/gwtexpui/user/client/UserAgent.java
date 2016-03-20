@@ -152,6 +152,25 @@ public class UserAgent {
   private static native void bustOutOfIFrame(String newloc)
   /*-{ top.location.href = newloc }-*/;
 
+  /**
+   * Test if Gerrit is running on a mobile browser. This check could be
+   * incomplete, but should cover most cases. Regexes shamelessly borrowed from
+   * CodeMirror.
+   */
+  public static native boolean isMobile() /*-{
+    var ua = $wnd.navigator.userAgent;
+    var ios = /AppleWebKit/.test(ua) && /Mobile\/\w+/.test(ua);
+    return ios
+        || /Android|webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(ua);
+  }-*/;
+
+  /**
+   * Check if the height of the browser view is greater than its width.
+   */
+  public static boolean isPortrait() {
+    return Window.getClientHeight() > Window.getClientWidth();
+  }
+
   private UserAgent() {
   }
 }

@@ -255,11 +255,18 @@ class UnifiedChunkManager extends ChunkManager {
       res = -res - 1;
       if (res > 0) {
         UnifiedDiffChunkInfo info = chunks.get(res - 1);
-        if (side == DisplaySide.A && info.isEdit()) {
+        if (side == DisplaySide.A && info.isEdit()
+            && info.getSide() == DisplaySide.B) {
           // Need to use the start and cmLine of the deletion chunk
-          info = chunks.get(res - 2);
-        }
-        if (info.getSide() == side) {
+          UnifiedDiffChunkInfo delete = chunks.get(res - 2);
+          if (line <= delete.getEnd()) {
+            return delete.getCmLine() + line - delete.getStart();
+          } else {
+            // Need to add the length of the insertion chunk
+            return delete.getCmLine() + line - delete.getStart()
+                + info.getEnd() - info.getStart() + 1;
+          }
+        } else if (side == info.getSide()) {
           return info.getCmLine() + line - info.getStart();
         } else {
           return info.getCmLine()

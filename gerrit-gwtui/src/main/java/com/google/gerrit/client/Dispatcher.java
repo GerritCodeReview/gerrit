@@ -103,6 +103,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
+import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
@@ -471,7 +472,7 @@ public class Dispatcher {
     }
 
     if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
-      if (preferUnified()) {
+      if (preferUnified() || (UserAgent.isPortrait() && UserAgent.isMobile())) {
         unified(token, baseId, id, side, line);
       } else {
         codemirror(token, baseId, id, side, line, false);

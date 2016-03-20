@@ -22,55 +22,55 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-request/gr-request.html">
 
 <dom-module id="gr-reviewer-list">
-  <style>
-    :host {
-      display: block;
-    }
-    :host([disabled]) {
-      opacity: .8;
-      pointer-events: none;
-    }
-    .autocompleteContainer {
-      position: relative;
-    }
-    .inputContainer {
-      display: flex;
-      margin-top: .25em;
-    }
-    .inputContainer input {
-      flex: 1;
-      font: inherit;
-    }
-    .dropdown {
-      background-color: #fff;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-      position: absolute;
-      left: 0;
-      top: 100%;
-      z-index: 1000;
-    }
-    .dropdown .reviewer {
-      cursor: pointer;
-      padding: .5em .75em;
-    }
-    .dropdown .reviewer[selected] {
-      background-color: #ccc;
-    }
-    .remove,
-    .cancel {
-      color: #999;
-    }
-    .remove {
-      font-size: .9em;
-    }
-    .cancel {
-      font-size: 2em;
-      line-height: 1;
-      padding: 0 .15em;
-      text-decoration: none;
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: block;
+      }
+      :host([disabled]) {
+        opacity: .8;
+        pointer-events: none;
+      }
+      .autocompleteContainer {
+        position: relative;
+      }
+      .inputContainer {
+        display: flex;
+        margin-top: .25em;
+      }
+      .inputContainer input {
+        flex: 1;
+        font: inherit;
+      }
+      .dropdown {
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        position: absolute;
+        left: 0;
+        top: 100%;
+        z-index: 1000;
+      }
+      .dropdown .reviewer {
+        cursor: pointer;
+        padding: .5em .75em;
+      }
+      .dropdown .reviewer[selected] {
+        background-color: #ccc;
+      }
+      .remove,
+      .cancel {
+        color: #999;
+      }
+      .remove {
+        font-size: .9em;
+      }
+      .cancel {
+        font-size: 2em;
+        line-height: 1;
+        padding: 0 .15em;
+        text-decoration: none;
+      }
+    </style>
     <gr-ajax id="autocompleteXHR"
         url="[[_computeAutocompleteURL(change)]]"
         params="[[_computeAutocompleteParams(_inputVal)]]"
@@ -83,7 +83,7 @@ limitations under the License.
             class="remove"
             data-account-id$="[[reviewer._account_id]]"
             on-tap="_handleRemoveTap"
-            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-buttom>
+            hidden$="[[!_computeCanRemoveReviewer(reviewer, mutable)]]">remove</gr-button>
       </div>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">

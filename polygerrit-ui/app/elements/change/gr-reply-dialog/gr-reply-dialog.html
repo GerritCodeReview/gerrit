@@ -22,84 +22,84 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-request/gr-request.html">
 
 <dom-module id="gr-reply-dialog">
-  <style>
-    :host {
-      display: block;
-      max-height: 90vh;
-    }
-    :host([disabled]) {
-      pointer-events: none;
-    }
-    :host([disabled]) .container {
-      opacity: .5;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      max-height: 90vh;
-    }
-    section {
-      border-top: 1px solid #ddd;
-      padding: .5em .75em;
-    }
-    .labelsContainer,
-    .actionsContainer {
-      flex-shrink: 0;
-    }
-    .textareaContainer {
-      position: relative;
-      display: flex;
-    }
-    iron-autogrow-textarea {
-      padding: 0;
-      font-family: var(--monospace-font-family);
-    }
-    .message {
-      border: none;
-      width: 100%;
-    }
-    .labelContainer:not(:first-of-type) {
-      margin-top: .5em;
-    }
-    .labelName {
-      display: inline-block;
-      min-width: 7em;
-      margin-right: .5em;
-      white-space: nowrap;
-    }
-    iron-selector {
-      display: inline-flex;
-    }
-    iron-selector > gr-button {
-      margin-right: .25em;
-    }
-    iron-selector > gr-button:first-of-type {
-      border-top-left-radius: 2px;
-      border-bottom-left-radius: 2px;
-    }
-    iron-selector > gr-button:last-of-type {
-      border-top-right-radius: 2px;
-      border-bottom-right-radius: 2px;
-    }
-    iron-selector > gr-button.iron-selected {
-      background-color: #ddd;
-    }
-    .draftsContainer {
-      overflow-y: auto;
-    }
-    .draftsContainer h3 {
-      margin-top: .25em;
-    }
-    .actionsContainer {
-      display: flex;
-      justify-content: space-between;
-    }
-    .action:link,
-    .action:visited {
-      color: #00e;
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: block;
+        max-height: 90vh;
+      }
+      :host([disabled]) {
+        pointer-events: none;
+      }
+      :host([disabled]) .container {
+        opacity: .5;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
+      }
+      section {
+        border-top: 1px solid #ddd;
+        padding: .5em .75em;
+      }
+      .labelsContainer,
+      .actionsContainer {
+        flex-shrink: 0;
+      }
+      .textareaContainer {
+        position: relative;
+        display: flex;
+      }
+      iron-autogrow-textarea {
+        padding: 0;
+        font-family: var(--monospace-font-family);
+      }
+      .message {
+        border: none;
+        width: 100%;
+      }
+      .labelContainer:not(:first-of-type) {
+        margin-top: .5em;
+      }
+      .labelName {
+        display: inline-block;
+        min-width: 7em;
+        margin-right: .5em;
+        white-space: nowrap;
+      }
+      iron-selector {
+        display: inline-flex;
+      }
+      iron-selector > gr-button {
+        margin-right: .25em;
+      }
+      iron-selector > gr-button:first-of-type {
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
+      iron-selector > gr-button:last-of-type {
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+      iron-selector > gr-button.iron-selected {
+        background-color: #ddd;
+      }
+      .draftsContainer {
+        overflow-y: auto;
+      }
+      .draftsContainer h3 {
+        margin-top: .25em;
+      }
+      .actionsContainer {
+        display: flex;
+        justify-content: space-between;
+      }
+      .action:link,
+      .action:visited {
+        color: #00e;
+      }
+    </style>
     <div class="container">
       <section class="textareaContainer">
         <iron-autogrow-textarea

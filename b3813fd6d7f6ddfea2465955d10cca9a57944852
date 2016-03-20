@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cf32eea_0fe32520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:36:26Z",
+      "side": 1,
+      "message": "DummyIndexModule needs to be extended as well. Otherwise the tests are failing: [1].\n\n* [1] http://paste.openstack.org/show/491202",
+      "revId": "b3813fd6d7f6ddfea2465955d10cca9a57944852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_2e98279b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:36:26Z",
+      "side": 1,
+      "message": "AccountSchemaDefinitions.INSTANCE is missing here.",
+      "revId": "b3813fd6d7f6ddfea2465955d10cca9a57944852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_6e8e2f5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 1

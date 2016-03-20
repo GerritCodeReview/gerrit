@@ -38,6 +38,10 @@
       },
       projectConfig: Object,
 
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
       _loading: {
         type: Boolean,
         value: true,
@@ -52,20 +56,43 @@
         type: String,
         observer: '_selectionSideChanged',
       },
+      _comments: Object,
     },
 
     observers: [
-      '_render(_diff, prefs.*)',
+      '_render(_diff, _comments, prefs.*)',
     ],
+
+    attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
+        this._loggedIn = loggedIn;
+      }.bind(this));
+    },
 
     reload: function() {
       this.$.diffTable.innerHTML = null;
       this._loading = true;
 
-      return this._getDiff().then(function(diff) {
+      var promises = [];
+
+      promises.push(this._getDiff().then(function(diff) {
         this._diff = diff;
         this._loading = false;
-      }.bind(this));
+      }.bind(this)));
+
+      promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
+        this._comments = comments;
+      }.bind(this)));
+
+      return Promise.all(promises);
+    },
+
+    _computeContainerClass: function(loggedIn) {
+      var classes = ['diffContainer'];
+      if (loggedIn) {
+        classes.push('canComment');
+      }
+      return classes.join(' ');
     },
 
     _handleTap: function(e) {
@@ -135,12 +162,11 @@
       sectionEl.parentNode.removeChild(sectionEl);
     },
 
-    _render: function(diff, prefsChangeRecord) {
+    _render: function(diff, comments, prefsChangeRecord) {
       var prefs = prefsChangeRecord.base;
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
       this.updateStyles();
-
-      this._builder = this._getDiffBuilder(diff, prefs);
+      this._builder = this._getDiffBuilder(diff, comments, prefs);
       this._builder.emitDiff(diff.content);
     },
 
@@ -152,11 +178,63 @@
           this.path);
     },
 
-    _getDiffBuilder: function(diff, prefs) {
+    _getDiffComments: function() {
+      return this.$.restAPI.getDiffComments(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
+    },
+
+    _getDiffDrafts: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          return Promise.resolve({baseComments: [], comments: []});
+        }
+        return this.$.restAPI.getDiffDrafts(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this.patchRange.patchNum,
+            this.path);
+      }.bind(this));
+    },
+
+    _getDiffCommentsAndDrafts: function() {
+      var promises = [];
+      promises.push(this._getDiffComments());
+      promises.push(this._getDiffDrafts());
+      return Promise.all(promises).then(function(results) {
+        return Promise.resolve({
+          comments: results[0],
+          drafts: results[1],
+        });
+      }).then(this._normalizeDiffCommentsAndDrafts);
+    },
+
+    _normalizeDiffCommentsAndDrafts: function(results) {
+      function markAsDraft(d) {
+        d.__draft = true;
+        return d;
+      }
+      var baseDrafts = results.drafts.baseComments.map(markAsDraft);
+      var drafts = results.drafts.comments.map(markAsDraft);
+      return Promise.resolve({
+        left: results.comments.baseComments.concat(baseDrafts),
+        right: results.comments.comments.concat(drafts),
+      });
+    },
+
+    _getLoggedIn: function() {
+      return this.$.restAPI.getLoggedIn();
+    },
+
+    _getDiffBuilder: function(diff, comments, prefs) {
       if (this._viewMode === DiffViewMode.SIDE_BY_SIDE) {
-        return new GrDiffBuilderSideBySide(diff, prefs, this.$.diffTable);
+        return new GrDiffBuilderSideBySide(diff, comments, prefs,
+            this.$.diffTable);
       } else if (this._viewMode === DiffViewMode.UNIFIED) {
-        return new GrDiffBuilderUnified(diff, prefs, this.$.diffTable);
+        return new GrDiffBuilderUnified(diff, comments, prefs,
+            this.$.diffTable);
       }
       throw Error('Unsupported diff view mode: ' + this._viewMode);
     },

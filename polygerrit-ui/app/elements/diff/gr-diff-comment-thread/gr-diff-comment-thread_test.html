@@ -41,6 +41,9 @@ limitations under the License.
   suite('gr-diff-comment-thread tests', function() {
     var element;
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(false); },
+      });
       element = fixture('basic');
     });
 
@@ -124,6 +127,9 @@ limitations under the License.
     var server;
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(false); },
+      });
       element = fixture('withComment');
       element.comments = [{
         author: {

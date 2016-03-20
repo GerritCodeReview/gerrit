@@ -35,14 +35,98 @@ limitations under the License.
     var element;
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(false); },
+      })
       element = fixture('basic');
     });
 
     teardown(function() {
     });
 
-    test('basic', function() {
+    test('get drafts logged out', function(done) {
+      element.patchRange = {basePatchNum: 0, patchNum: 0};
 
+      var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts');
+      var loggedInStub = sinon.stub(element, '_getLoggedIn',
+          function() { return Promise.resolve(false); });
+      element._getDiffDrafts().then(function(result) {
+        assert.deepEqual(result, {baseComments: [], comments: []});
+        sinon.assert.notCalled(getDraftsStub);
+        loggedInStub.restore();
+        getDraftsStub.restore();
+        done();
+      });
+    });
+
+    test('get drafts logged in', function(done) {
+      element.patchRange = {basePatchNum: 0, patchNum: 0};
+      var draftsResponse = {
+        baseComments: [{id: 'foo'}],
+        comments: [{id: 'bar'}],
+      };
+      var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts',
+          function() { return Promise.resolve(draftsResponse); });
+      var loggedInStub = sinon.stub(element, '_getLoggedIn',
+          function() { return Promise.resolve(true); });
+      element._getDiffDrafts().then(function(result) {
+        assert.deepEqual(result, draftsResponse);
+        loggedInStub.restore();
+        getDraftsStub.restore();
+        done();
+      });
+    });
+
+    test('get comments and drafts', function(done) {
+      var loggedInStub = sinon.stub(element, '_getLoggedIn',
+          function() { return Promise.resolve(true); });
+      var comments = {
+        baseComments: [
+          {id: 'bc1'},
+          {id: 'bc2'},
+        ],
+        comments: [
+          {id: 'c1'},
+          {id: 'c2'},
+        ],
+      };
+      var diffCommentsStub = sinon.stub(element, '_getDiffComments',
+          function() { return Promise.resolve(comments); });
+
+      var drafts = {
+        baseComments: [
+          {id: 'bd1'},
+          {id: 'bd2'},
+        ],
+        comments: [
+          {id: 'd1'},
+          {id: 'd2'},
+        ],
+      };
+      var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
+          function() { return Promise.resolve(drafts); });
+
+      element._getDiffCommentsAndDrafts().then(function(result) {
+        assert.deepEqual(result, {
+          left: [
+            {id: 'bc1'},
+            {id: 'bc2'},
+            {id: 'bd1', __draft: true},
+            {id: 'bd2', __draft: true},
+          ],
+          right: [
+            {id: 'c1'},
+            {id: 'c2'},
+            {id: 'd1', __draft: true},
+            {id: 'd2', __draft: true},
+          ],
+        });
+
+        diffCommentsStub.restore();
+        diffDraftsStub.restore();
+        loggedInStub.restore();
+        done();
+      });
     });
   });
 </script>

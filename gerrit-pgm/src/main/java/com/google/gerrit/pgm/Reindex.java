@@ -62,6 +62,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
   private boolean dryRun;
 
+  @Option(name = "--list", usage = "List supported indices and exit")
+  private boolean listIndices;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Config globalConfig;
@@ -92,7 +95,11 @@ public class Reindex extends SiteProgram {
     try {
       boolean ok = true;
       for (IndexDefinition<?, ?, ?> def : indexDefs) {
-        ok &= reindex(def);
+        if (listIndices) {
+          System.out.format("%s\n", def.getName());
+        } else {
+          ok &= reindex(def);
+        }
       }
       return ok ? 0 : 1;
     } catch (Exception e) {

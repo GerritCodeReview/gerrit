@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_b19d9a81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:39:04Z",
+      "side": 1,
+      "message": "Accounts can be reindexed now:\n\n  $ java -jar gerrit.war reindex --site-path test --index accounts\n  Reindexing accounts: 100% (11/11)\n  Reindexed 11 documents in accounts index in 2.1s (5.1/s)",
+      "revId": "0d0ab9fbc007f8f1b625f5455b773843cd6eec89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

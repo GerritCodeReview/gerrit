@@ -34,6 +34,24 @@
       "revId": "8881cceb82c7e2680bb359227e7c8981e6311852",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_6e774f14",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_0ee32b20",
+      "revId": "8881cceb82c7e2680bb359227e7c8981e6311852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

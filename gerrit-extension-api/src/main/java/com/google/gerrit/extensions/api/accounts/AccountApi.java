@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -30,6 +31,10 @@ public interface AccountApi {
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
   GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
+      throws RestApiException;
+
+  EditPreferencesInfo getEditPreferences() throws RestApiException;
+  EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
       throws RestApiException;
 
   void starChange(String id) throws RestApiException;
@@ -63,6 +68,17 @@ public interface AccountApi {
 
     @Override
     public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditPreferencesInfo getEditPreferences() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
         throws RestApiException {
       throw new NotImplementedException();
     }

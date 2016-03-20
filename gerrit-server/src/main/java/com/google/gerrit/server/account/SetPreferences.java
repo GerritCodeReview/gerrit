@@ -29,14 +29,12 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -78,8 +76,8 @@ public class SetPreferences implements
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc,
       GeneralPreferencesInfo i)
-          throws AuthException, ResourceNotFoundException, BadRequestException,
-          OrmException, IOException, ConfigInvalidException {
+          throws AuthException, BadRequestException, IOException,
+          ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");

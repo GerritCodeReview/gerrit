@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_4e181305",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-20T15:19:42Z",
+      "side": 1,
+      "message": "else-Block seems to be identical.",
+      "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_ae209737",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-20T15:19:42Z",
+      "side": 1,
+      "message": "\u0027side\u0027 is falsy in this case.",
+      "range": {
+        "startLine": 100,
+        "startChar": 32,
+        "endLine": 100,
+        "endChar": 36
+      },
+      "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_8e25db47",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-20T15:19:42Z",
+      "side": 1,
+      "message": "\u0027oppositeSide\u0027 is outside of this scope.",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 44
+      },
+      "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_4f66cd99",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-20T15:19:42Z",
+      "side": 1,
+      "message": "missing ;",
+      "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

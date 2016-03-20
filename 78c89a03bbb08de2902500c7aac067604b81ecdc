@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_6e406fe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T10:31:41Z",
+      "side": 1,
+      "message": "@Dave, great job: generic cross-index reindexing operation already works with this change: [1] ;-)\n\n* [1] http://paste.openstack.org/show/491196",
+      "revId": "78c89a03bbb08de2902500c7aac067604b81ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

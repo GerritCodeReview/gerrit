@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -31,6 +32,10 @@ public interface AccountApi {
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
   GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
+      throws RestApiException;
+
+  DiffPreferencesInfo getDiffPreferences() throws RestApiException;
+  DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in)
       throws RestApiException;
 
   EditPreferencesInfo getEditPreferences() throws RestApiException;
@@ -67,6 +72,17 @@ public interface AccountApi {
 
     @Override
     public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffPreferencesInfo getDiffPreferences() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in)
         throws RestApiException {
       throw new NotImplementedException();
     }

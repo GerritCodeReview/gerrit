@@ -34,6 +34,24 @@
       "revId": "e51fb5faa34ed2ab780df59e3d8cbcb46faba718",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_51ce767c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RawInputUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T20:05:14Z",
+      "side": 1,
+      "message": "Because RawInput is a interface, and we are still not using Java8, where it would be possible to declare a static method in the interface: [1]. \"An interface can declare static methods, which are invoked without reference to a particular object.\". So what we could do, is to define static class Util inside the interface RawInput add the factoty methods there and move them to static method in the interface itself, once we switched to Java 8. Not sure, if this is what you meant?\n\n* [1] http://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.4",
+      "parentUuid": "5cf32eea_affe594e",
+      "revId": "e51fb5faa34ed2ab780df59e3d8cbcb46faba718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

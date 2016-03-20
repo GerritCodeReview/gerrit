@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cf32eea_4fd92d68",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:36:05Z",
+      "side": 1,
+      "message": "I had to remove @Singleton to make it work.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 10
+      },
+      "revId": "b24f2b435370fffd226e96fcc0f8629edec97c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_2fe6e92f",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:36:05Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be used.",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 3
+      },
+      "revId": "b24f2b435370fffd226e96fcc0f8629edec97c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2f638989",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneAccountIndex.java",
         "patchSetId": 5
@@ -19,6 +65,29 @@
         "startChar": 4,
         "endLine": 98,
         "endChar": 5
+      },
+      "revId": "b24f2b435370fffd226e96fcc0f8629edec97c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6fc51178",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T19:36:05Z",
+      "side": 1,
+      "message": "Not sure what base supposed to be? It\u0027s always \"\".",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 27
       },
       "revId": "b24f2b435370fffd226e96fcc0f8629edec97c1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce3021d_8c6967fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-20T15:12:16Z",
+      "side": 1,
+      "message": "I don\u0027t have a problem with you taking over this series, because I won\u0027t have time in the next couple weeks to pick it back up. However, I would request that you leave out these bindings and do them in a separate change like I have done in https://gerrit-review.googlesource.com/75980. We are going to have to revert this for googlesource.com until I have a chance to the implementation for our backend, and I think that is the minimal change that will allow us to implement almost everything.",
+      "revId": "1e98b64da17251c5facb716b9b99968bf2cc8f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

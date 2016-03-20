@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_6e8e2f5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T18:01:49Z",
+      "side": 1,
+      "message": "ChangeIndexDefinition",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "b3813fd6d7f6ddfea2465955d10cca9a57944852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

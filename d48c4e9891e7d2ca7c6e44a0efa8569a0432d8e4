@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_8fe03547",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T10:25:30Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 4
+      },
+      "revId": "d48c4e9891e7d2ca7c6e44a0efa8569a0432d8e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6fc631bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T10:25:30Z",
+      "side": 1,
+      "message": "2016.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d48c4e9891e7d2ca7c6e44a0efa8569a0432d8e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

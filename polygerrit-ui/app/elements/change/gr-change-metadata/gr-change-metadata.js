@@ -28,6 +28,7 @@
     properties: {
       change: Object,
       mutable: Boolean,
+      serverConfig: Object,
     },
 
     behaviors: [

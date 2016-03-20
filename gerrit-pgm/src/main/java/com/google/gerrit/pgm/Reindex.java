@@ -61,6 +61,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
 
+  @Option(name = "--list", usage = "List supported indices and exit")
+  private boolean list;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Config globalConfig;
@@ -89,10 +92,7 @@ public class Reindex extends SiteProgram {
     sysInjector.injectMembers(this);
 
     try {
-      boolean ok = true;
-      for (IndexDefinition<?, ?, ?> def : indexDefs) {
-        ok &= reindex(def);
-      }
+      boolean ok = list ? list() : reindex();
       return ok ? 0 : 1;
     } catch (Exception e) {
       throw die(e.getMessage(), e);
@@ -100,6 +100,21 @@ public class Reindex extends SiteProgram {
       sysManager.stop();
       dbManager.stop();
     }
+  }
+
+  private boolean list() {
+    for (IndexDefinition<?, ?, ?> def : indexDefs) {
+      System.out.format("%s\n", def.getName());
+    }
+    return true;
+  }
+
+  private boolean reindex() throws IOException {
+    boolean ok = true;
+    for (IndexDefinition<?, ?, ?> def : indexDefs) {
+      ok &= reindex(def);
+    }
+    return ok;
   }
 
   private void checkNotSlaveMode() throws Die {

@@ -92,6 +92,30 @@
       "revId": "b24f2b435370fffd226e96fcc0f8629edec97c1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_6aa857a4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-20T19:43:21Z",
+      "side": 1,
+      "message": "Yeah this should be removed, I removed the base arg from LuceneChangeIndex in a different series.",
+      "parentUuid": "5cf32eea_6fc51178",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 27
+      },
+      "revId": "b24f2b435370fffd226e96fcc0f8629edec97c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

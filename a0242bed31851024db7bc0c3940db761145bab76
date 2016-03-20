@@ -1,0 +1,823 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cf32eea_72a856a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "This is great, thank you very much! ;-)\n\nI tested it and it works as expected. One question: The original issue saying:\n\n* ... and the ability to get more information by clicking/hovering the commit id (the commit message, the file changes and potentially links to the commit in gitweb)\n\nNot that this would prevent it from being merged, but do you have plans to link the blame info to the gitweb, and open it on the click (in a new tab)?",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_d11386ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Should we mention that this depends on Gitiles now? There is gitiles-plugin that also depends on gitiles-servlet. So when Gerrit core includes gitiles-servlet for now (until blame caching stuff wasn\u0027t extract to JGit) gitiles-plugin shouldn\u0027t include it any more.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_d2c14251",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Can\u0027t it be just named Line? The class is already called BlameInfo, so it\u0027s always in the context of Blame.",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 31
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_b2b6beff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Same here, just Meta?",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_92bbbae7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_72d1761a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_314e4ab3",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_32e40ef6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/blame/BlameInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: blank between closing parenthesis and slash. Here and below.",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_7144d294",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 3
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_d21382ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "No final.",
+      "range": {
+        "startLine": 141,
+        "startChar": 33,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_114b4ea3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "May be use this wrapping style:\n\n  Anchor anchor \u003d new Anchor(\n      new ImageResourceRenderer().render(Gerrit.RESOURCES.blame()));",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_b208fe7a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "As pointed out by Dave, these click handlers clutter up the code considerably. It\u0027s also a lot code duplication. I would suggest the following approach to fix both problems: factor out one single method blameHandler(), that can be invoked with passing in the right parameters. So something like:\n\n  boolean isBase \u003d base \u003d\u003d null;\n  diffTable.set(prefs, list, diff,\n      blameHandler(cmA, isBase ? revision : base, isBase),\n      blameHandler(cmB, revision, false),\n      [...]\n\nWhere the blameHandler method defined something like:\n\n  private ClickHandler blameHandler(final CodeMirror cm,\n          final PatchSet.Id rev,\n          final boolean base) {\n        return new ClickHandler() {\n          @Override\n          public void onClick(ClickEvent event) {\n            if (cm.extras().getBlameInfo() !\u003d null) {\n              cm.extras().toggleAnnotation();\n            } else {\n              ChangeApi.blame(rev, path, base)\n                  .get(new GerritCallback\u003cBlameInfo\u003e() {\n                    @Override\n                    public void onSuccess(BlameInfo result) {\n                      cm.extras().toggleAnnotation(result);\n                    }\n                  });\n            }\n          }\n        };\n      }",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 15
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_f118c2bb",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/BlameConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Missing license header.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_d11dc6a9",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/BlameConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_920dfa8a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/BlameConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: long line.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_5141d682",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Not used. This and othe imports in this file.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_910dfe8a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit:",
+      "range": {
+        "startLine": 157,
+        "startChar": 55,
+        "endLine": 157,
+        "endChar": 56
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_52d79206",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: put comma on the previous line.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 18
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_2f71491d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "License header is missing.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_0f6e853d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: put comma on the previous line.",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 8
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_51d79606",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "put space befre and after \u0027+\u0027 char.",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_71da9230",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: 2 space indentation level.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_32b2ce12",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: blank between closing parenthesis and slash. Here and below.",
+      "range": {
+        "startLine": 32,
+        "startChar": 38,
+        "endLine": 32,
+        "endChar": 40
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_f1e562f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Not closed. Move it to the try with resources block above on line 102:\n\n  try (Repository repository \u003d repoManager.openRepository(project);\n      RevWalk revWalk \u003d new RevWalk(repository)) {",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 48
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_52ce727c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: 4 blanks on line continuation.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 8
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_31fd2a80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "You are passing the repository, pass revWalk too. Here and below.",
+      "range": {
+        "startLine": 126,
+        "startChar": 63,
+        "endLine": 126,
+        "endChar": 73
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_d2ea62c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "We only use final for instance variables in a class and only when required by the compiler in local variables. Here it\u0027s not needed. Sie also contribution documentation, where this and other rules documented, in Documentation/dev-contributing.txt:\n\nWhen to use `final` modifier and when not (in new code):\n\nAlways:\n\n  * final fields: marking fields as final forces them to be\n  initialised in the constructor or at declaration\n  * final static fields: clearly communicates the intent\n  * to use final variables in inner anonymous classes\n\nOptional:\n\n  * final classes: use when appropriate, e.g. API restriction\n  * final methods: similar to final classes\n\nNever:\n\n  * local variables: it clutters the code, and make the code less\n  readable. When copying old code to new location, finals should\n  be removed\n  * method parameters: similar to local variables",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 11
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_11fa2e88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: too long lines.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_11e10ee6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Not needed, see comments below.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 165,
+        "endChar": 5
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_6f775114",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: 4 spaces on line continuation.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 4
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_b1efdad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 35
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_72da9630",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "No final.",
+      "range": {
+        "startLine": 190,
+        "startChar": 8,
+        "endLine": 190,
+        "endChar": 13
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_f2e566f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: blank between switch and openning parenthesis.",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 10
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_4f748d0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 226,
+        "startChar": 11,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_32cbee6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be needed if you pass in RevWalk instance.",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 48
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_b1391a2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Too long method. Simplify it by extartcing parts of it in helper methods? E.g.:\n\n  RevCommit commit \u003d rw.parseCommit(commitId);\n  BlameInfo.BlameMeta meta \u003d toMeta(commit, region.getSourceAuthor());\n  addLines(from, result, region, meta);",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 9
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_913e1e0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: Too long line.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_92f4daa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Nit: 4 spaces.",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 12
+      },
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_f20e8687",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-20T22:21:28Z",
+      "side": 1,
+      "message": "Unfortunaltey, this only doesn\u0027t expose the REST endpoint. The client side is unaffected by this disabling attempt. So after using blame feature and disable it by setting:\n\n  change.allowBlame \u003d false\n\nwe have the following situation:\n\n* 1. for the files where blame was invoked and cached, blame feature still works\n* 2. for new files, it\u0027s failing with:\n\n  The page you requested was not found,\n  or you do not have permission to view this page.\n\nI think that disabling this feature (when we decide to do that) should be reflected on the client side as well. One approach would be to expose new server config flag, fetch it on the client side and propagate it to the side by side diff and hide the blame icon.",
+      "revId": "a0242bed31851024db7bc0c3940db761145bab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-request/gr-request.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
+<link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
 
@@ -69,6 +70,13 @@ limitations under the License.
       }
       .lineNum:before {
         content: attr(data-value);
+      }
+      .canComment .lineNum[data-value] {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .canComment .lineNum[data-value]:hover {
+        background-color: #ccc;
       }
       .content {
         overflow: hidden;
@@ -138,7 +146,7 @@ limitations under the License.
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
 
-      <div class="diffContainer"
+      <div class$="[[_computeContainerClass(_loggedIn)]]"
           on-tap="_handleTap"
           on-mousedown="_handleMouseDown"
           on-copy="_handleCopy">

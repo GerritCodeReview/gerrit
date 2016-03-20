@@ -411,7 +411,6 @@
       threadEl.patchNum = thread.patchNum || this.patchNum;
       threadEl.path = this.path;
       threadEl.comments = thread.comments;
-      threadEl.showActions = this.canComment;
       threadEl.projectConfig = this.projectConfig;
 
       this.$.numbers.insertBefore(lineEl, beforeLineEl);

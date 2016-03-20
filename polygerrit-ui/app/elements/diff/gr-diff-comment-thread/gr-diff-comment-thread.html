@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff-comment/gr-diff-comment.html">
 
 <dom-module id="gr-diff-comment-thread">
@@ -41,7 +42,7 @@ limitations under the License.
             change-num="[[changeNum]]"
             patch-num="[[patchNum]]"
             draft="[[comment.__draft]]"
-            show-actions="[[showActions]]"
+            show-actions="[[_showActions]]"
             project-config="[[projectConfig]]"
             on-height-change="_handleCommentHeightChange"
             on-reply="_handleCommentReply"
@@ -49,6 +50,7 @@ limitations under the License.
             on-done="_handleCommentDone"></gr-diff-comment>
       </template>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-diff-comment-thread.js"></script>
 </dom-module>

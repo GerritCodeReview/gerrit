@@ -137,6 +137,9 @@ public class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
+      ds.setRemoveAbandoned(cfg.getBoolean("database","removeabandoned", false));
+      ds.setRemoveAbandonedTimeout(cfg.getInt("database","removeabandonedtimeout",300));
+      ds.setLogAbandoned(cfg.getBoolean("database","logabandoned", false));
       exportPoolMetrics(ds);
       return intercept(interceptor, ds);
 

@@ -68,6 +68,7 @@ public class EditPreferencesBox extends Composite {
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton matchBrackets;
   @UiField ToggleButton autoCloseBrackets;
+  @UiField ToggleButton showOriginal;
   @UiField ListBox theme;
   @UiField ListBox keyMap;
   @UiField Button apply;
@@ -102,6 +103,7 @@ public class EditPreferencesBox extends Composite {
     lineNumbers.setValue(prefs.hideLineNumbers());
     matchBrackets.setValue(prefs.matchBrackets());
     autoCloseBrackets.setValue(prefs.autoCloseBrackets());
+    showOriginal.setValue(prefs.showOriginal());
     setTheme(prefs.theme());
     setKeyMapType(prefs.keyMapType());
   }
@@ -146,7 +148,7 @@ public class EditPreferencesBox extends Composite {
     prefs.hideTopMenu(!e.getValue());
     if (view != null) {
       Gerrit.setHeaderVisible(!prefs.hideTopMenu());
-      view.resizeCodeMirror();
+      view.adjustHeight();
     }
   }
 
@@ -195,6 +197,15 @@ public class EditPreferencesBox extends Composite {
     prefs.autoCloseBrackets(e.getValue());
     if (view != null) {
       view.getEditor().setOption("autoCloseBrackets", prefs.autoCloseBrackets());
+    }
+  }
+
+  @UiHandler("showOriginal")
+  void onShowOriginal(ValueChangeEvent<Boolean> e) {
+    Boolean value = e.getValue();
+    prefs.showOriginal(value);
+    if (view != null) {
+      view.showOriginal.setValue(value, true);
     }
   }
 

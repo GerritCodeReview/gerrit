@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c03da92_66d1ae1a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder-side-by-side.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-21T15:28:47Z",
+      "side": 1,
+      "message": "curious if you think creating new base helper fns like\n\n\nthis.createLeftPair\nthis.createRightPair\n\nmight help you encapsulate a bit of the _createPair argument complexity?",
+      "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_4e181305",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
         "patchSetId": 4
@@ -148,6 +165,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "5cf32eea_4f66cd99",
+      "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_aaef6fd5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-21T15:28:47Z",
+      "side": 1,
+      "message": "This could be a reduce..\n[].slice.call(document.querySelectorAll(\u0027div\u0027), 0).reduce(......)\n\nor a .map + join(\u0027\\n\u0027);",
       "revId": "81f0d1913ab70aba49be5dffb47ed10bddd3920b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

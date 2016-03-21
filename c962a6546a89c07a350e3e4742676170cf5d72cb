@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cdafa64_b1feba4e",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SystemInfoService.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-21T07:53:53Z",
+      "side": 1,
+      "message": "We are not using RPC in the new code. One reason is we want to support HTML 5 UI, like PolyGerrit and friends. Instead you should extend GET server info endpoint. See example in this attempt to disable inline edit feature: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/71408/6/gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java@162",
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_d1094650",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-21T07:53:53Z",
+      "side": 1,
+      "message": "We don\u0027t use old RPC services in new code. Those that still there there should be migrated to REST endpoints. See other comment and this example how to access server wide setting from the UI: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/71408/6/gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java@216",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_71197299",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SystemInfoServiceImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-21T07:53:53Z",
+      "side": 1,
+      "message": "No RPC service usage in new code.",
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cf32eea_d26f02fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-21T07:53:53Z",
+      "side": 1,
+      "message": "We don\u0027t put disabling logic in Guice modules. The pattern is to unconditionally bind REST endpoints (and other stuff) and put the logic in the endpoint itself. See for example, how allowsDrafts workflow is implemented: [1]. This is also a good example how the disabling of draft workflow is propagated to the UI. For example, Gerrit.info().change().allowDrafts() is used to pass DRAFT or NEW status for a change created in the browser. \n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChangeOp.java#L94-L96",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 58
+      },
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_9103be2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-21T07:53:53Z",
+      "side": 1,
+      "message": "Move this unconditionally to the GerritGlobalModule. All cache modules are bound there.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 54
+      },
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

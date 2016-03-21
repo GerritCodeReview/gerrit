@@ -79,7 +79,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -127,7 +126,6 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -643,17 +641,6 @@ public class ReceiveCommits {
                 break;
 
               case DELETE:
-                ResultSet<SubmoduleSubscription> submoduleSubscriptions = null;
-                Branch.NameKey projRef = new Branch.NameKey(project.getNameKey(),
-                    c.getRefName());
-                try {
-                  submoduleSubscriptions =
-                      db.submoduleSubscriptions().bySuperProject(projRef);
-                  db.submoduleSubscriptions().delete(submoduleSubscriptions);
-                } catch (OrmException e) {
-                  log.error("Cannot delete submodule subscription(s) of branch "
-                      + projRef + ": " + submoduleSubscriptions, e);
-                }
                 break;
             }
           }
@@ -681,11 +668,9 @@ public class ReceiveCommits {
     // Update superproject gitlinks if required.
     SubmoduleOp op = subOpProvider.get();
     try {
-       op.updateSubmoduleSubscriptions(db, branches);
-       op.updateSuperProjects(db, branches);
+      op.updateSuperProjects(db, branches, "receiveID");
     } catch (SubmoduleException e) {
-      log.error("Can't update submodule subscriptions "
-          + "or update the superprojects", e);
+      log.error("Can't update the superprojects", e);
     }
 
     closeProgress.end();

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_4ad7d306",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03da92_66a88ea4",
+      "range": {
+        "startLine": 140,
+        "startChar": 34,
+        "endLine": 140,
+        "endChar": 36
+      },
+      "revId": "1bf864a69023b31f87bbc9c7941ec30f9354c64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c03da92_46a592ca",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
         "patchSetId": 13
@@ -37,6 +61,24 @@
       "writtenOn": "2016-03-21T13:35:45Z",
       "side": 1,
       "message": "I thought you said elsewhere that this turned out to not be supported?",
+      "revId": "1bf864a69023b31f87bbc9c7941ec30f9354c64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_2ae49ff5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "It is not supported for Wildcards only. Non-Wildcards are supported here. However I\u0027ll check the non-test code and make sure the \u0027wildcarded left hand side only\u0027 spec is throwing the right error. [done]",
+      "parentUuid": "3c03da92_46a592ca",
       "revId": "1bf864a69023b31f87bbc9c7941ec30f9354c64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_86f4aaa8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0fcab0_6ad1771a",
+      "revId": "1bf864a69023b31f87bbc9c7941ec30f9354c64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c03da92_26b29612",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
         "patchSetId": 13
@@ -71,6 +131,24 @@
       "writtenOn": "2016-03-21T13:35:45Z",
       "side": 1,
       "message": "private final",
+      "revId": "1bf864a69023b31f87bbc9c7941ec30f9354c64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c03da92_a6efa6d5",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03da92_26b29612",
       "revId": "1bf864a69023b31f87bbc9c7941ec30f9354c64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

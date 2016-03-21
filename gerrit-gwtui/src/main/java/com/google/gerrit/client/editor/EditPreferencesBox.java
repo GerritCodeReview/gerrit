@@ -146,7 +146,7 @@ public class EditPreferencesBox extends Composite {
     prefs.hideTopMenu(!e.getValue());
     if (view != null) {
       Gerrit.setHeaderVisible(!prefs.hideTopMenu());
-      view.resizeCodeMirror();
+      view.adjustHeight();
     }
   }
 

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_8a0dcb8a",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Terry pointed out that the Description section would be nearly identical to the section below, so I moved it up here and merged them. Maybe that was a mistake for the first section as it is beginner unfriendly.\n\nThe overview below is Git specific IMHO, and doesn\u0027t contribute as an overview of \"Gerrit superprojects\".\n\nI\u0027ll revive the first sentence of the deleted paragraph, but not the rest as that goes into detail how to set it up already.",
+      "parentUuid": "3c03da92_c6c18251",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2f2709fd",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 12
@@ -179,6 +203,24 @@
       "side": 1,
       "message": "Maybe, I like having \"allow\" in there. Maybe \u0027allowSuperproject \"\u003csuperproject\u003e\"\u0027? So that when you\u0027re reading it you know that the thing in \"...\" is in fact a superproject name.",
       "parentUuid": "1cd53633_ede585f9",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c03da92_66dace30",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0fcab0_8abb8be7",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -571,6 +613,24 @@
       "side": 1,
       "message": "No, please delete this table in this change.\n\n\"Use JDBC directly\" means write your own SQL queries, see for example Schema_119.java, or whatever line from blame deleted any of the other relations from this file.\n\nDoing it later doesn\u0027t actually solve anything. The schema migration code doesn\u0027t go away when the @Relation goes away, so you\u0027d still have to write the non-gwtorm version of the mgiration later.",
       "parentUuid": "fce3021d_ece58bf9",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c03da92_46d7d206",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0fcab0_4aceb37c",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -975,6 +1035,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_6603ee5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03da92_06af9aaa",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2f8029e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -1110,6 +1188,24 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_aa088f7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0fcab0_2acb7f6c",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_0f7d65b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -1192,6 +1288,24 @@
       "side": 1,
       "message": "\u003e What other option do they have?\n\nYou said \"After fixing the errors above...\" so I figured you might have some better idea :)\n\nHonestly I think if (conversionError) { throw } would be fine. SchemaUpdater won\u0027t delete the table unless this method succeeds without an exception.\n\nReally what I imagine happening is if someone hits this error (and it\u0027s not obviously transient/doesn\u0027t succeed on a retry), then they are going to report a bug and we will need to fix it promptly.",
       "parentUuid": "fce3021d_2ce4b3f5",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c03da92_4600f24f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-03-21T19:06:46Z",
+      "side": 1,
+      "message": "Done, not catching the errors anymore, but the errors will be thrown and will stop us fromreaching the \"DROP TABLE\" in case of error.",
+      "parentUuid": "bc0fcab0_0ac8bb6b",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

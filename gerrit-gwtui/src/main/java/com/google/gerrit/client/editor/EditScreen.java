@@ -50,11 +50,14 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -63,16 +66,20 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
+import net.codemirror.addon.AddonInjector;
+import net.codemirror.addon.Addons;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.ChangesHandler;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
+import net.codemirror.lib.MergeView;
 import net.codemirror.lib.Pos;
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
@@ -84,13 +91,20 @@ public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  interface Style extends CssResource {
+    String fullWidth();
+    String hideOrig();
+  }
+
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
   private EditPreferences prefs;
   private EditPreferencesAction editPrefsAction;
-  private CodeMirror cm;
+  private MergeView mv;
+  private CodeMirror cmOrig;
+  private CodeMirror cmEdit;
   private HttpResponse<NativeString> content;
   private EditFileInfo editFileInfo;
   private JsArray<DiffWebLinkInfo> diffLinks;
@@ -102,9 +116,11 @@ public class EditScreen extends Screen {
   @UiField Element cursLine;
   @UiField Element cursCol;
   @UiField Element dirty;
+  @UiField CheckBox showOriginal;
   @UiField Button close;
   @UiField Button save;
   @UiField Element editor;
+  @UiField Style style;
 
   private HandlerRegistration resizeHandler;
   private HandlerRegistration closeHandler;
@@ -144,9 +160,18 @@ public class EditScreen extends Screen {
       public void onSuccess(Void result) {
         // Load theme after CM library to ensure theme can override CSS.
         ThemeLoader.loadTheme(prefs.theme(), themeCallback);
-
         group2.done();
-        group3.done();
+
+        new AddonInjector().add(Addons.I.merge().getName()).inject(new AsyncCallback<Void>() {
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+
+          @Override
+          public void onSuccess(Void result) {
+            group3.done();
+          }
+        });
       }
 
       @Override
@@ -250,7 +275,8 @@ public class EditScreen extends Screen {
       localKeyMap.on("Ctrl-S", save());
     }
 
-    cm.addKeyMap(localKeyMap);
+    cmOrig.addKeyMap(localKeyMap);
+    cmEdit.addKeyMap(localKeyMap);
   }
 
   private Runnable gotoLine() {
@@ -263,7 +289,7 @@ public class EditScreen extends Screen {
             int line = Integer.parseInt(n);
             line--;
             if (line >= 0) {
-              cm.scrollToLine(line);
+              cmEdit.scrollToLine(line);
             }
           } catch (NumberFormatException e) {
             // ignore non valid numbers
@@ -286,36 +312,36 @@ public class EditScreen extends Screen {
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
-        cm.adjustHeight(header.getOffsetHeight());
+        adjustHeight();
       }
     });
     closeHandler = Window.addWindowClosingHandler(new ClosingHandler() {
       @Override
       public void onWindowClosing(ClosingEvent event) {
-        if (!cm.isClean(generation)) {
+        if (!cmEdit.isClean(generation)) {
           event.setMessage(EditConstants.I.closeUnsavedChanges());
         }
       }
     });
 
-    generation = cm.changeGeneration(true);
+    generation = cmEdit.changeGeneration(true);
     setClean(true);
-    cm.on(new ChangesHandler() {
+    cmEdit.on(new ChangesHandler() {
       @Override
       public void handle(CodeMirror cm) {
         setClean(cm.isClean(generation));
       }
     });
 
-    cm.adjustHeight(header.getOffsetHeight());
-    cm.on("cursorActivity", updateCursorPosition());
+    adjustHeight();
+    cmEdit.on("cursorActivity", updateCursorPosition());
     setShowTabs(prefs.showTabs());
     setLineLength(prefs.lineLength());
-    cm.refresh();
-    cm.focus();
+    cmEdit.refresh();
+    cmEdit.focus();
 
     if (startLine > 0) {
-      cm.scrollToLine(startLine);
+      cmEdit.scrollToLine(startLine);
     }
     updateActiveLine();
     editPrefsAction = new EditPreferencesAction(this, prefs);
@@ -324,8 +350,11 @@ public class EditScreen extends Screen {
   @Override
   protected void onUnload() {
     super.onUnload();
-    if (cm != null) {
-      cm.getWrapperElement().removeFromParent();
+    if (cmOrig != null) {
+      cmOrig.getWrapperElement().removeFromParent();
+    }
+    if (cmEdit != null) {
+      cmEdit.getWrapperElement().removeFromParent();
     }
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
@@ -339,7 +368,7 @@ public class EditScreen extends Screen {
   }
 
   CodeMirror getEditor() {
-    return cm;
+    return cmEdit;
   }
 
   @UiHandler("editSettings")
@@ -354,36 +383,70 @@ public class EditScreen extends Screen {
 
   @UiHandler("close")
   void onClose(@SuppressWarnings("unused") ClickEvent e) {
-    if (cm.isClean(generation)
+    if (cmEdit.isClean(generation)
         || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
       upToChange();
     }
   }
 
+  @UiHandler("showOriginal")
+  void onShowOriginal(ValueChangeEvent<Boolean> e) {
+    if (e.getValue()) {
+      cmOrig.getWrapperElement().getParentElement()
+          .removeClassName(style.hideOrig());
+      cmEdit.getWrapperElement().getParentElement()
+          .removeClassName(style.fullWidth());
+      mv.getGapElement().removeClassName(style.hideOrig());
+      cmOrig.refresh();
+    } else {
+      cmOrig.getWrapperElement().getParentElement()
+          .addClassName(style.hideOrig());
+      cmEdit.getWrapperElement().getParentElement()
+          .addClassName(style.fullWidth());
+      mv.getGapElement().addClassName(style.hideOrig());
+    }
+  }
+
   void setLineLength(int length) {
-    cm.extras().lineLength(
+    cmOrig.extras().lineLength(
+        Patch.COMMIT_MSG.equals(path) ? 72 : length);
+    cmEdit.extras().lineLength(
         Patch.COMMIT_MSG.equals(path) ? 72 : length);
   }
 
   void setShowLineNumbers(boolean show) {
-    cm.setOption("lineNumbers", show);
+    cmOrig.setOption("lineNumbers", show);
+    cmEdit.setOption("lineNumbers", show);
   }
 
   void setShowWhitespaceErrors(final boolean show) {
-    cm.operation(new Runnable() {
+    cmOrig.operation(new Runnable() {
       @Override
       public void run() {
-        cm.setOption("showTrailingSpace", show);
+        cmEdit.setOption("showTrailingSpace", show);
+      }
+    });
+    cmOrig.operation(new Runnable() {
+      @Override
+      public void run() {
+        cmEdit.setOption("showTrailingSpace", show);
       }
     });
   }
 
   void setShowTabs(boolean show) {
-    cm.extras().showTabs(show);
+    cmOrig.extras().showTabs(show);
+    cmEdit.extras().showTabs(show);
   }
 
-  void resizeCodeMirror() {
-    cm.adjustHeight(header.getOffsetHeight());
+  void adjustHeight() {
+    int height = header.getOffsetHeight();
+    int rest = Gerrit.getHeaderFooterHeight()
+        + height
+        + 5; // Estimate
+    mv.getGapElement().getStyle().setHeight(Window.getClientHeight() - rest, Unit.PX);
+    cmOrig.adjustHeight(height);
+    cmEdit.adjustHeight(height);
   }
 
   void setSyntaxHighlighting(boolean b) {
@@ -393,7 +456,8 @@ public class EditScreen extends Screen {
       injectMode(mode, new AsyncCallback<Void>() {
         @Override
         public void onSuccess(Void result) {
-          cm.setOption("mode", mode);
+          cmOrig.setOption("mode", mode);
+          cmEdit.setOption("mode", mode);
         }
 
         @Override
@@ -402,7 +466,8 @@ public class EditScreen extends Screen {
         }
       });
     } else {
-      cm.setOption("mode", (String) null);
+      cmOrig.setOption("mode", (String) null);
+      cmEdit.setOption("mode", (String) null);
     }
   }
 
@@ -419,22 +484,24 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(file.getContentType(), path);
       }
     }
-    cm = CodeMirror.create(editor, Configuration.create()
-        .set("value", content)
-        .set("readOnly", false)
+    mv = MergeView.create(editor, Configuration.create()
+        .set("autoCloseBrackets", prefs.autoCloseBrackets())
         .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
+        .set("keyMap", prefs.keyMapType().name().toLowerCase())
         .set("lineNumbers", prefs.hideLineNumbers())
-        .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
         .set("matchBrackets", prefs.matchBrackets())
-        .set("autoCloseBrackets", prefs.autoCloseBrackets())
+        .set("mode", mode != null ? mode.mode() : null)
+        .set("origLeft", content)
         .set("scrollbarStyle", "overlay")
-        .set("styleSelectedText", true)
         .set("showTrailingSpace", prefs.showWhitespaceErrors())
-        .set("keyMap", prefs.keyMapType().name().toLowerCase())
+        .set("styleSelectedText", true)
+        .set("tabSize", prefs.tabSize())
         .set("theme", prefs.theme().name().toLowerCase())
-        .set("mode", mode != null ? mode.mode() : null));
+        .set("value", content));
+    cmOrig = mv.leftOriginal();
+    cmEdit = mv.editor();
   }
 
   private void renderLinks(EditFileInfo editInfo,
@@ -486,7 +553,7 @@ public class EditScreen extends Screen {
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           @Override
           public void execute() {
-            cm.operation(new Runnable() {
+            cmEdit.operation(new Runnable() {
               @Override
               public void run() {
                 updateActiveLine();
@@ -499,10 +566,10 @@ public class EditScreen extends Screen {
   }
 
   private void updateActiveLine() {
-    Pos p = cm.getCursor("end");
+    Pos p = cmEdit.getCursor("end");
     cursLine.setInnerText(Integer.toString(p.line() + 1));
     cursCol.setInnerText(Integer.toString(p.ch() + 1));
-    cm.extras().activeLine(cm.getLineHandleVisualStart(p.line()));
+    cmEdit.extras().activeLine(cmEdit.getLineHandleVisualStart(p.line()));
   }
 
   private void setClean(boolean clean) {
@@ -515,23 +582,23 @@ public class EditScreen extends Screen {
     return new Runnable() {
       @Override
       public void run() {
-        if (!cm.isClean(generation)) {
+        if (!cmEdit.isClean(generation)) {
           close.setEnabled(false);
-          String text = cm.getValue();
+          String text = cmEdit.getValue();
           if (Patch.COMMIT_MSG.equals(path)) {
             String trimmed = text.trim() + "\r";
             if (!trimmed.equals(text)) {
               text = trimmed;
-              cm.setValue(text);
+              cmEdit.setValue(text);
             }
           }
-          final int g = cm.changeGeneration(false);
+          final int g = cmEdit.changeGeneration(false);
           ChangeEditApi.put(revision.getParentKey().get(), path, text,
               new GerritCallback<VoidResult>() {
                 @Override
                 public void onSuccess(VoidResult result) {
                   generation = g;
-                  setClean(cm.isClean(g));
+                  setClean(cmEdit.isClean(g));
                 }
                 @Override
                 public void onFailure(final Throwable caught) {

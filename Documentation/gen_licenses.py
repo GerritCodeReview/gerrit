@@ -60,6 +60,7 @@ def parse_graph():
       # Skip it, even if --partial is not passed.
       if dep == '//lib/codemirror:js_minifier':
         if (target == '//lib/codemirror:js'
+            or target.startswith('//lib/codemirror:addon_')
             or target.startswith('//lib/codemirror:mode_')):
           continue
 

@@ -1,6 +1,7 @@
 CM_CSS = [
   'lib/codemirror.css',
   'addon/dialog/dialog.css',
+  'addon/merge/merge.css',
   'addon/scroll/simplescrollbars.css',
   'addon/search/matchesonscrollbar.css',
 ]

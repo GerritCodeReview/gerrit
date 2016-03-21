@@ -51,6 +51,24 @@
       "revId": "0d0ab9fbc007f8f1b625f5455b773843cd6eec89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_eae567f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T13:38:02Z",
+      "side": 1,
+      "message": "Hah, oops, sorry about that copy-paste error.",
+      "parentUuid": "7c09d2ae_28b26b12",
+      "revId": "0d0ab9fbc007f8f1b625f5455b773843cd6eec89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

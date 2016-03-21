@@ -69,6 +69,7 @@ public class EditPreferencesBox extends Composite {
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton matchBrackets;
   @UiField ToggleButton autoCloseBrackets;
+  @UiField ToggleButton showBase;
   @UiField ListBox theme;
   @UiField ListBox keyMap;
   @UiField Button apply;
@@ -104,6 +105,7 @@ public class EditPreferencesBox extends Composite {
     lineNumbers.setValue(prefs.hideLineNumbers());
     matchBrackets.setValue(prefs.matchBrackets());
     autoCloseBrackets.setValue(prefs.autoCloseBrackets());
+    showBase.setValue(prefs.showBase());
     setTheme(prefs.theme());
     setKeyMapType(prefs.keyMapType());
   }
@@ -114,7 +116,7 @@ public class EditPreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.tabSize(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
-        view.getEditor().setOption("tabSize", v);
+        view.setOption("tabSize", v);
       }
     }
   }
@@ -149,7 +151,7 @@ public class EditPreferencesBox extends Composite {
       // don't let user shoot himself in the foot.
       prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
       if (view != null) {
-        view.getEditor().setOption("cursorBlinkRate", prefs.cursorBlinkRate());
+        view.setOption("cursorBlinkRate", prefs.cursorBlinkRate());
       }
     }
   }
@@ -159,7 +161,7 @@ public class EditPreferencesBox extends Composite {
     prefs.hideTopMenu(!e.getValue());
     if (view != null) {
       Gerrit.setHeaderVisible(!prefs.hideTopMenu());
-      view.resizeCodeMirror();
+      view.adjustHeight();
     }
   }
 
@@ -199,7 +201,7 @@ public class EditPreferencesBox extends Composite {
   void onMatchBrackets(ValueChangeEvent<Boolean> e) {
     prefs.matchBrackets(e.getValue());
     if (view != null) {
-      view.getEditor().setOption("matchBrackets", prefs.matchBrackets());
+      view.setOption("matchBrackets", prefs.matchBrackets());
     }
   }
 
@@ -211,6 +213,15 @@ public class EditPreferencesBox extends Composite {
     }
   }
 
+  @UiHandler("showBase")
+  void onShowBase(ValueChangeEvent<Boolean> e) {
+    Boolean value = e.getValue();
+    prefs.showBase(value);
+    if (view != null) {
+      view.showBase.setValue(value, true);
+    }
+  }
+
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
     final Theme newTheme = Theme.valueOf(theme.getValue(theme.getSelectedIndex()));
@@ -219,13 +230,7 @@ public class EditPreferencesBox extends Composite {
       ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
         @Override
         public void onSuccess(Void result) {
-          view.getEditor().operation(new Runnable() {
-            @Override
-            public void run() {
-              String t = newTheme.name().toLowerCase();
-              view.getEditor().setOption("theme", t);
-            }
-          });
+          view.setTheme(newTheme);
         }
       });
     }
@@ -237,7 +242,7 @@ public class EditPreferencesBox extends Composite {
         keyMap.getValue(keyMap.getSelectedIndex()));
     prefs.keyMapType(keyMapType);
     if (view != null) {
-      view.getEditor().setOption("keyMap", keyMapType.name().toLowerCase());
+      view.setOption("keyMap", keyMapType.name().toLowerCase());
     }
   }
 

@@ -52,6 +52,17 @@ public class ChangeEditApi {
     editFile(id.getParentKey().get(), path).view("meta").get(cb);
   }
 
+  /** Get file from specific revision. */
+  public static void getFileContent(int id, String revision, String path,
+      HttpCallback<NativeString> cb) {
+    RestApi api = ChangeApi
+        .revision(id, revision)
+        .view("files")
+        .id(path)
+        .view("content");
+    api.get(cb);
+  }
+
   /** Put message into a change edit. */
   public static void putMessage(int id, String m, GerritCallback<VoidResult> cb) {
     editMessage(id).put(m, cb);

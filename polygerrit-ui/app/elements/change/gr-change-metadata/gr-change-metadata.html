@@ -53,15 +53,22 @@ limitations under the License.
         background-color: #ffd4d4;
       }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
-        section {
-          display: flex;
+        :host {
+          display: table;
         }
-        section:not(:first-of-type) {
-          margin-top: .25em;
+        section {
+          display: table-row;
+        }
+        section:not(:first-of-type) .title,
+        section:not(:first-of-type) .value {
+          padding-top: .5em;
+        }
+        .title,
+        .value {
+          display: table-cell;
         }
         .title {
-          margin-right: .5em;
-          min-width: 9em;
+          padding-right: .5em;
         }
       }
     </style>

@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_8abb8be7",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T13:35:45Z",
+      "side": 1,
+      "message": "Maybe, I like having \"allow\" in there. Maybe \u0027allowSuperproject \"\u003csuperproject\u003e\"\u0027? So that when you\u0027re reading it you know that the thing in \"...\" is in fact a superproject name.",
+      "parentUuid": "1cd53633_ede585f9",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_8e903b39",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 12
@@ -511,6 +529,24 @@
       "side": 1,
       "message": "Ok, I deleted it here, what does \n\u003e then use JDBC directly in the SchemaVersion upgrade code.\n\nmean? Do we need to have a schema upgrade (we do have one in this change)?\n\nEdit: We want to delete it in a followup, else we\u0027d break the schema migration in this change.",
       "parentUuid": "3cdafa64_4e5c9350",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_4aceb37c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T13:35:45Z",
+      "side": 1,
+      "message": "No, please delete this table in this change.\n\n\"Use JDBC directly\" means write your own SQL queries, see for example Schema_119.java, or whatever line from blame deleted any of the other relations from this file.\n\nDoing it later doesn\u0027t actually solve anything. The schema migration code doesn\u0027t go away when the @Relation goes away, so you\u0027d still have to write the non-gwtorm version of the mgiration later.",
+      "parentUuid": "fce3021d_ece58bf9",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -897,6 +933,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_06af9aaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T13:35:45Z",
+      "side": 1,
+      "message": "Yes, this is fine. (I know what it\u0027s for, my point was just that \"submissionId\" has a specific meaning in Gerrit that is related to submitting changes, so it doesn\u0027t make sense to reuse that name for this other concept.)",
+      "parentUuid": "1cd53633_ad089d7a",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_2f8029e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -1014,6 +1068,24 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_2acb7f6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T13:35:45Z",
+      "side": 1,
+      "message": "But each run of this schema migration makes a call to addRefSpec, so if you run it 10 times you end up with 10 identical refspecs. That is not idempotent.",
+      "parentUuid": "1cd53633_4d001950",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_0f7d65b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 12
@@ -1078,6 +1150,24 @@
       "side": 1,
       "message": "What other option do they have?\nTry again with a better script?\nYou\u0027d need to at least know that you need to try again, are you saying I want to reword the ui.message ?",
       "parentUuid": "5cf32eea_ef6a21f0",
+      "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_0ac8bb6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T13:35:45Z",
+      "side": 1,
+      "message": "\u003e What other option do they have?\n\nYou said \"After fixing the errors above...\" so I figured you might have some better idea :)\n\nHonestly I think if (conversionError) { throw } would be fine. SchemaUpdater won\u0027t delete the table unless this method succeeds without an exception.\n\nReally what I imagine happening is if someone hits this error (and it\u0027s not obviously transient/doesn\u0027t succeed on a retry), then they are going to report a bug and we will need to fix it promptly.",
+      "parentUuid": "fce3021d_2ce4b3f5",
       "revId": "ed1ac87d1ab032844e0ea4e869434fa1218097e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

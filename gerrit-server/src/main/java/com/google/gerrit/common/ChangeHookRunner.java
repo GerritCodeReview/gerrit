@@ -17,7 +17,6 @@ package com.google.gerrit.common;
 import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.data.LabelType;
@@ -845,7 +844,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
                 return eventFactory.asPatchSetAttribute(
                     revWalk, change, patchSet);
               } catch (IOException e) {
-                throw Throwables.propagate(e);
+                throw new RuntimeException(e);
               }
             }
           });

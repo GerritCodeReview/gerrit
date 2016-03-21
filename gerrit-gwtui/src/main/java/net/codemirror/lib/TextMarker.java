@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package net.codemirror.lib;
 import com.google.gerrit.client.diff.CommentRange;
 import com.google.gwt.core.client.JavaScriptObject;
 
-/** Object that represents a text marker within CodeMirror */
+/** CodeMirror interface for displaying and merging diffs */
 public class TextMarker extends JavaScriptObject {
   public final native void clear() /*-{ this.clear(); }-*/;
   public final native void changed() /*-{ this.changed(); }-*/;

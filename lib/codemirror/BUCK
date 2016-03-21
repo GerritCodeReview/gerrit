@@ -88,6 +88,36 @@ for n in CM_MODES:
     out = 'mode_%s.js' % n,
   )
 
+DIFF_MATCH_PATCH_VERSION = '20121119-1'
+DIFF_MATCH_PATCH_TOP = 'META-INF/resources/webjars/google-diff-match-patch/%s' % DIFF_MATCH_PATCH_VERSION
+
+maven_jar(
+  name = 'diff-match-patch',
+  id = 'org.webjars:google-diff-match-patch:' + DIFF_MATCH_PATCH_VERSION,
+  sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+genrule (
+  name = 'addon_merge_src',
+  cmd = ';'.join([
+    'unzip -p $(location :diff-match-patch) %s/diff_match_patch.js >$OUT' % DIFF_MATCH_PATCH_TOP,
+    "echo ';' >> $OUT",
+    "echo '/** @license' >>$OUT",
+    'unzip -p $(location :zip) %s/LICENSE >>$OUT' % TOP,
+    "echo '*/' >>$OUT",
+    'unzip -p $(location :zip) %s/addon/merge/merge.js >>$OUT' % TOP,
+    ]),
+  out = 'addon_merge_src.js',
+)
+js_minify(
+  name = 'addon_merge_js',
+  generated = [':addon_merge_src'],
+  compiler_args = CLOSURE_COMPILER_ARGS,
+  out = 'addon_merge.js',
+)
+
 prebuilt_jar(
   name = 'codemirror',
   binary_jar = ':jar',
@@ -102,14 +132,15 @@ genrule(
   name = 'jar',
   cmd = ';'.join([
     'cd $TMP',
-    'mkdir -p net/codemirror/{lib,mode,theme}',
+    'mkdir -p net/codemirror/{addon,lib,mode,theme}',
     'cp $(location :css) net/codemirror/lib',
     'cp $(location :js) net/codemirror/lib']
     + ['cp $(location :mode_%s_js) net/codemirror/mode/%s.js' % (n, n)
        for n in CM_MODES]
     + ['cp $(location :theme_%s) net/codemirror/theme/%s.css' % (n, n)
        for n in CM_THEMES]
-    + ['zip -qr $OUT net/codemirror/{lib,mode,theme}']),
+    + ['cp $(location :addon_merge_js) net/codemirror/addon/merge.js']
+    + ['zip -qr $OUT net/codemirror/{addon,lib,mode,theme}']),
   out = 'codemirror.jar',
 )
 
@@ -145,3 +176,4 @@ maven_jar(
   visibility = [],
   attach_source = False,
 )
+

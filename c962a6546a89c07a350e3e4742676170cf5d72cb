@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_08fa0788",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SystemInfoService.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-21T22:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_b1feba4e",
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_d1094650",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 11
@@ -30,6 +48,30 @@
       "writtenOn": "2016-03-21T07:53:53Z",
       "side": 1,
       "message": "We don\u0027t use old RPC services in new code. Those that still there there should be migrated to REST endpoints. See other comment and this example how to access server wide setting from the UI: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/71408/6/gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java@216",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c09d2ae_e82fb3de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-21T22:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_d1094650",
       "range": {
         "startLine": 92,
         "startChar": 2,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_28fdcb7f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SystemInfoServiceImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-21T22:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_71197299",
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_d26f02fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 11
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_a839bb29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-21T22:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_d26f02fe",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 58
+      },
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_9103be2e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 11
@@ -93,6 +177,30 @@
       "writtenOn": "2016-03-21T07:53:53Z",
       "side": 1,
       "message": "Move this unconditionally to the GerritGlobalModule. All cache modules are bound there.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 54
+      },
+      "revId": "c962a6546a89c07a350e3e4742676170cf5d72cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c09d2ae_883ef70d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-21T22:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_9103be2e",
       "range": {
         "startLine": 53,
         "startChar": 6,

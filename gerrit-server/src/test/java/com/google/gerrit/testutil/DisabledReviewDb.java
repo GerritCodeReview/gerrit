@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SchemaVersionAccess;
 import com.google.gerrit.reviewdb.server.StarredChangeAccess;
-import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
 import com.google.gerrit.reviewdb.server.SystemConfigAccess;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.StatementExecutor;
@@ -160,11 +159,6 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public PatchLineCommentAccess patchComments() {
-    throw new Disabled();
-  }
-
-  @Override
-  public SubmoduleSubscriptionAccess submoduleSubscriptions() {
     throw new Disabled();
   }
 

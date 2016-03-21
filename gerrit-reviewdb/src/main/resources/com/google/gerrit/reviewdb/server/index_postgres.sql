@@ -143,8 +143,3 @@ ON patch_sets (revision);
 CREATE INDEX starred_changes_byChange
 ON starred_changes (change_id);
 
--- *********************************************************************
--- SubmoduleSubscriptionAccess
-
-CREATE INDEX submodule_subscr_acc_byS
-ON submodule_subscriptions (submodule_project_name, submodule_branch_name);

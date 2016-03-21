@@ -154,11 +154,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public SubmoduleSubscriptionAccess submoduleSubscriptions() {
-    return delegate.submoduleSubscriptions();
-  }
-
-  @Override
   public AccountGroupByIdAccess accountGroupById() {
     return delegate.accountGroupById();
   }

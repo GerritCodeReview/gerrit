@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_0ae1dbe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_0ff7a579",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_4ec8131f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 9
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-18T16:00:36Z",
       "side": 1,
       "message": "Not necessary to store this in a field in order to communicate between updateChange and postUpdate, you can call ctx.getUser() in postUpdate. (asIdentifiedUser() is literally just a cast, it\u0027s not like it\u0027s doing serious extra work.)",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c03da92_e60ebe87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_4ec8131f",
       "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_860dca8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_6fa2b177",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_2ec5c706",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 9
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_a608c67a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_2ec5c706",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_0ec20bff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 9
@@ -87,6 +165,24 @@
       "writtenOn": "2016-03-18T16:00:36Z",
       "side": 1,
       "message": "Not sure how this could be null considering user is an IdentifiedUser",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c03da92_c613c2ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_0ec20bff",
       "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_ca13c3ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf32eea_8f03952e",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 8
+      },
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cdafa64_4e9ff325",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
         "patchSetId": 9
@@ -127,6 +247,24 @@
       "writtenOn": "2016-03-18T15:53:45Z",
       "side": 1,
       "message": "AFAIK most of the classes in gerrit do not have empty line between last two closing brackets",
+      "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_ea0e8787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-21T22:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdafa64_4e9ff325",
       "revId": "8915a8cfed092847e8ef0aa009268ac3c82a43de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -52,6 +52,24 @@
       "revId": "8881cceb82c7e2680bb359227e7c8981e6311852",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_2afdbf7f",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-21T20:42:29Z",
+      "side": 1,
+      "message": "+1, then we don\u0027t have to have the conversation about \"indexes\" vs. \"indices\" in a public interface :)\n\nhttp://stackoverflow.com/questions/1378781/proper-terminology-should-i-say-indexes-or-indices\n\n(I don\u0027t actually care about what it is in the code, you can say indices if you want.)",
+      "parentUuid": "3cdafa64_6e774f14",
+      "revId": "8881cceb82c7e2680bb359227e7c8981e6311852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

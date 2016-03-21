@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c09d2ae_08c8c76b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-21T15:56:49Z",
+      "side": 1,
+      "message": "optional: name this also just \"list\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "a3347937d46e4ba35088449fc985deeaf2c83090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_09c8c96b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-21T15:56:49Z",
+      "side": 1,
+      "message": "Maybe this is just a personal preference but I don\u0027t like this coding style because we will either always take the \"then\" branch or always take the \"else\" branch. It feels like kind of artificial reuse of the loop-ing code.\n\nI would prefer:\n\n  if (list) {\n    for (...) {\n    }\n  } else {\n    for (...) {\n    }\n  }\n\nor:\n\n  if (list) {\n    list(...);\n  } else {\n    reindex();\n  }",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "a3347937d46e4ba35088449fc985deeaf2c83090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

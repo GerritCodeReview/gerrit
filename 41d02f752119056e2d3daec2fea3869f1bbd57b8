@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c37666b_41af92a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T19:29:12Z",
+      "side": 1,
+      "message": "Would it be too unclear if this just said \"Single Page\" instead of repeating \"Open All\"?",
+      "revId": "41d02f752119056e2d3daec2fea3869f1bbd57b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_81a59acd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/AllDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T19:29:12Z",
+      "side": 1,
+      "message": "Remove this if it\u0027s unused.",
+      "revId": "41d02f752119056e2d3daec2fea3869f1bbd57b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_21b28e12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/AllDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T19:29:12Z",
+      "side": 1,
+      "message": "Nit: long line.",
+      "revId": "41d02f752119056e2d3daec2fea3869f1bbd57b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_4a5c7350",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/AllDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T19:29:12Z",
+      "side": 1,
+      "message": "Can we modify these so that the size per file is min(1 screen, total lines in file)? I tried this out on a test server with 100 files of 1 line each and it was kind of silly that they had these 50-line diff widgets with 49 lines of blank space.",
+      "revId": "41d02f752119056e2d3daec2fea3869f1bbd57b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

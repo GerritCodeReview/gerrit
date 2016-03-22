@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c37666b_21e4cef5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-22T20:52:47Z",
+      "side": 1,
+      "message": "Do you want a guard clause here in case the side is not left or right?",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_41e1d2e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-22T20:52:47Z",
+      "side": 1,
+      "message": "What ensures the c.line is unique? If there is a collision is last in the intended behavior?",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_2a137f7b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-22T20:52:47Z",
+      "side": 1,
+      "message": "Do we want a strict undefined check here? or else we might get bit by values like \u0027\u0027 or 0",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_0a10bb6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-22T20:52:47Z",
+      "side": 1,
+      "message": "ab and a/ and b/ are very confusing variable names :)\nor just using a more descriptive/verbose name\n\n---\nAt a minimum this might justify comments for readability",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_e10ee687",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-22T20:52:47Z",
+      "side": 1,
+      "message": "I am not sure I follow why we are incrementing the line numbers for each pass through the chunk.",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

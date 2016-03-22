@@ -192,10 +192,11 @@ public class Unified extends DiffScreen {
     operation(new Runnable() {
       @Override
       public void run() {
-        // Estimate initial CM3 height, fixed up in onShowView.
+        // Estimate initial CodeMirror height, fixed up in onShowView.
         int height = Window.getClientHeight()
             - (Gerrit.getHeaderFooterHeight() + 18);
-        cm.setHeight(height);
+        cm.setHeight(Math.min(height,
+            cm.extras().lineHeightPx() * cm.getDoc().lineCount()));
 
         render(diff);
         commentManager.render(comments, prefs.expandAllComments());

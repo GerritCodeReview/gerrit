@@ -28,6 +28,10 @@ public class CodeMirrorDoc extends JavaScriptObject {
     this.replaceRange(insertion, at);
   }-*/;
 
+  public final native int lineCount() /*-{
+    return this.lineCount();
+  }-*/;
+
   protected CodeMirrorDoc() {
   }
 }

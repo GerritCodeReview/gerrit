@@ -554,6 +554,12 @@ limitations under the License.
           <ui:attribute name='title'/>
           <div><ui:msg>Open All</ui:msg></div>
         </g:Button>
+        <g:Button ui:field='openAllSinglePage'
+            styleName=''
+            title='Open all files in a single new page'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Single Page</ui:msg></div>
+        </g:Button>
         <div class='{style.diffBase}'>
           <ui:msg>Diff against: <g:ListBox ui:field='diffBase' styleName=''/></ui:msg>
         </div>

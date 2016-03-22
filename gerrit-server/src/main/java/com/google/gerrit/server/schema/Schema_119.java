@@ -53,11 +53,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Schema_119 extends SchemaVersion {
   private static final Map<String, String> LEGACY_DISPLAYNAME_MAP =
@@ -86,6 +88,12 @@ public class Schema_119 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui)
       throws OrmException, SQLException {
+    JdbcSchema schema = (JdbcSchema) db;
+    Connection connection = schema.getConnection();
+    String tableName = "accounts";
+    String emailStrategy = "email_strategy";
+    Set<String> columns =
+        schema.getDialect().listColumns(connection, tableName);
     Map<Account.Id, GeneralPreferencesInfo> imports = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(
@@ -96,7 +104,9 @@ public class Schema_119 extends SchemaVersion {
           + "use_flash_clipboard, "
           + "download_url, "
           + "download_command, "
-          + "email_strategy, "
+          + (columns.contains(emailStrategy)
+              ? emailStrategy + ", "
+              : "copy_self_on_email, ")
           + "date_format, "
           + "time_format, "
           + "relative_date_in_change_table, "
@@ -105,7 +115,7 @@ public class Schema_119 extends SchemaVersion {
           + "legacycid_in_change_table, "
           + "review_category_strategy, "
           + "mute_common_path_prefixes "
-          + "from accounts")) {
+          + "from " + tableName)) {
         while (rs.next()) {
           GeneralPreferencesInfo p =
               new GeneralPreferencesInfo();
@@ -115,7 +125,8 @@ public class Schema_119 extends SchemaVersion {
           p.useFlashClipboard = toBoolean(rs.getString(4));
           p.downloadScheme = convertToModernNames(rs.getString(5));
           p.downloadCommand = toDownloadCommand(rs.getString(6));
-          p.emailStrategy = toEmailStrategy(rs.getString(7));
+          p.emailStrategy = toEmailStrategy(rs.getString(7),
+              columns.contains(emailStrategy));
           p.dateFormat = toDateFormat(rs.getString(8));
           p.timeFormat = toTimeFormat(rs.getString(9));
           p.relativeDateInChangeTable = toBoolean(rs.getString(10));
@@ -191,11 +202,25 @@ public class Schema_119 extends SchemaVersion {
     return DiffView.valueOf(v);
   }
 
-  private static EmailStrategy toEmailStrategy(String v) {
+  private static EmailStrategy toEmailStrategy(String v,
+      boolean emailStrategyColumnExists) throws OrmException {
     if (v == null) {
       return EmailStrategy.ENABLED;
     }
-    return EmailStrategy.valueOf(v);
+    if (emailStrategyColumnExists) {
+      return EmailStrategy.valueOf(v);
+    } else {
+      if (v.equals("N")) {
+        // EMAIL_STRATEGY='ENABLED' WHERE (COPY_SELF_ON_EMAIL='N')
+        return EmailStrategy.ENABLED;
+      } else if (v.equals("Y")) {
+        // EMAIL_STRATEGY='CC_ON_OWN_COMMENTS' WHERE (COPY_SELF_ON_EMAIL='Y')
+        return EmailStrategy.CC_ON_OWN_COMMENTS;
+      } else {
+        throw new OrmException(
+            "invalid value in accounts.copy_self_on_email: " + v);
+      }
+    }
   }
 
   private static ReviewCategoryStrategy toReviewCategoryStrategy(String v) {

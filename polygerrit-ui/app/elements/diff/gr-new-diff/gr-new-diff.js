@@ -19,7 +19,7 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
-  var SelectionSide = {
+  var DiffSide = {
     LEFT: 'left',
     RIGHT: 'right',
   };
@@ -36,7 +36,10 @@
         type: Object,
         notify: true,
       },
-      projectConfig: Object,
+      projectConfig: {
+        type: Object,
+        observer: '_projectConfigChanged',
+      },
 
       _loggedIn: {
         type: Boolean,
@@ -48,7 +51,7 @@
       },
       _viewMode: {
         type: String,
-        value: DiffViewMode.SIDE_BY_SIDE,
+        value: DiffViewMode.UNIFIED,
       },
       _diff: Object,
       _diffBuilder: Object,
@@ -87,8 +90,18 @@
       return Promise.all(promises);
     },
 
-    _computeContainerClass: function(loggedIn) {
+    _computeContainerClass: function(loggedIn, viewMode) {
       var classes = ['diffContainer'];
+      switch (viewMode) {
+        case DiffViewMode.UNIFIED:
+          classes.push('unified');
+          break;
+        case DiffViewMode.SIDE_BY_SIDE:
+          classes.push('sideBySide');
+          break
+        default:
+          throw Error('Invalid view mode: ', viewMode);
+      }
       if (loggedIn) {
         classes.push('canComment');
       }
@@ -97,20 +110,85 @@
 
     _handleTap: function(e) {
       var el = Polymer.dom(e).rootTarget;
+
       if (el.classList.contains('showContext')) {
         this._showContext(e.detail.group, e.detail.section);
+      } else if (el.classList.contains('lineNum')) {
+        this._handleLineTap(el);
       }
+    },
+
+    _handleLineTap: function(el) {
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        var value = el.getAttribute('data-value');
+        var lineNum = parseInt(value, 10);
+        if (isNaN(lineNum)) {
+          throw Error('Invalid line number: ' + value);
+        }
+        this._addDraft(el, lineNum);
+      }.bind(this));
+    },
+
+    _addDraft: function(lineEl, lineNum) {
+      var threadEl;
+
+      // Does a thread already exist at this line?
+      var contentEl = lineEl.nextSibling;
+      while (contentEl && !contentEl.classList.contains('content')) {
+        contentEl = contentEl.nextSibling;
+      }
+      if (contentEl.childNodes.length > 0 &&
+          contentEl.lastChild.nodeName === 'GR-DIFF-COMMENT-THREAD') {
+        threadEl = contentEl.lastChild;
+      } else {
+        var patchNum = this.patchRange.patchNum;
+        var side = 'REVISION';
+        if (contentEl.classList.contains(DiffSide.LEFT) ||
+            contentEl.classList.contains('remove')) {
+          if (this.patchRange.basePatchNum === 'PARENT') {
+            side = 'PARENT';
+          } else {
+            patchNum = this.patchRange.basePatchNum;
+          }
+        }
+        threadEl = this._createThreadEl(patchNum, side);
+        contentEl.appendChild(threadEl);
+      }
+      threadEl.addDraft(lineNum);
+    },
+
+    _createThreadEl: function(patchNum, side) {
+      var threadEl = document.createElement('gr-diff-comment-thread');
+      threadEl.changeNum = this.changeNum;
+      threadEl.path = this.path;
+      // TODO(andybons): Remove once migration is made to gr-new-diff.
+      threadEl.addEventListener('discard',
+          this._handleThreadDiscard.bind(this));
+      threadEl.projectConfig = this.projectConfig;
+      threadEl.patchNum = patchNum;
+      threadEl.side = side;
+      return threadEl;
+    },
+
+    _handleThreadDiscard: function(e) {
+      e.stopPropagation();
+      var el = Polymer.dom(e).rootTarget;
+      el.parentNode.removeChild(el);
     },
 
     _handleMouseDown: function(e) {
       var el = Polymer.dom(e).rootTarget;
       var side;
       for (var node = el; node != null; node = node.parentNode) {
-        if (node.classList.contains('left')) {
-          side = SelectionSide.LEFT;
+        if (!node.classList) { continue; }
+
+        if (node.classList.contains(DiffSide.LEFT)) {
+          side = DiffSide.LEFT;
           break;
-        } else if (node.classList.contains('right')) {
-          side = SelectionSide.RIGHT;
+        } else if (node.classList.contains(DiffSide.RIGHT)) {
+          side = DiffSide.RIGHT;
           break;
         }
       }
@@ -119,8 +197,8 @@
 
     _selectionSideChanged: function(side) {
       if (side) {
-        var oppositeSide = side ==
-            SelectionSide.RIGHT ? SelectionSide.LEFT : SelectionSide.RIGHT;
+        var oppositeSide = side === DiffSide.RIGHT ?
+            DiffSide.LEFT : DiffSide.RIGHT;
         this.customStyle['--' + side + '-user-select'] = 'text';
         this.customStyle['--' + oppositeSide + '-user-select'] = 'none';
       } else {
@@ -208,7 +286,7 @@
           comments: results[0],
           drafts: results[1],
         });
-      }).then(this._normalizeDiffCommentsAndDrafts);
+      }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
     },
 
     _normalizeDiffCommentsAndDrafts: function(results) {
@@ -219,6 +297,12 @@
       var baseDrafts = results.drafts.baseComments.map(markAsDraft);
       var drafts = results.drafts.comments.map(markAsDraft);
       return Promise.resolve({
+        meta: {
+          path: this.path,
+          changeNum: this.changeNum,
+          patchRange: this.patchRange,
+          projectConfig: this.projectConfig,
+        },
         left: results.comments.baseComments.concat(baseDrafts),
         right: results.comments.comments.concat(drafts),
       });
@@ -237,6 +321,14 @@
             this.$.diffTable);
       }
       throw Error('Unsupported diff view mode: ' + this._viewMode);
+    },
+
+    _projectConfigChanged: function(projectConfig) {
+      var threadEls =
+          Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+      for (var i = 0; i < threadEls.length; i++) {
+        threadEls[i].projectConfig = projectConfig;
+      }
     },
 
   });

@@ -57,25 +57,34 @@ limitations under the License.
         border-collapse: collapse;
         border-right: 1px solid #ddd;
       }
+      .section {
+        background-color: #eee;
+      }
+      .blank,
+      .content {
+        background-color: #fff;
+      }
       .lineNum,
       .content {
         vertical-align: top;
         white-space: pre;
       }
-      .lineNum {
-        background-color: #eee;
+      .contextLineNum:before,
+      .lineNum:before {
+        display: inline-block;
         color: #666;
+        content: attr(data-value);
         padding: 0 .75em;
         text-align: right;
-      }
-      .lineNum:before {
-        content: attr(data-value);
+        width: 100%;
       }
       .canComment .lineNum[data-value] {
         cursor: pointer;
+      }
+      .canComment .lineNum[data-value]:before {
         text-decoration: underline;
       }
-      .canComment .lineNum[data-value]:hover {
+      .canComment .lineNum[data-value]:hover:before {
         background-color: #ccc;
       }
       .content {
@@ -94,18 +103,18 @@ limitations under the License.
         -ms-user-select: var(--right-user-select, text);
         user-select: var(--right-user-select, text);
       }
-      .add {
+      .content.add {
         background-color: var(--dark-add-highlight-color);
       }
-      .remove {
+      .content.remove {
         background-color: var(--dark-remove-highlight-color);
       }
-      .contextControl,
-      .contextControl .lineNum {
+      .contextControl {
         color: #849;
         background-color: #fef;
       }
       .contextControl gr-button {
+        display: block;
         font-family: var(--monospace-font-family);
         text-decoration: none;
       }
@@ -146,7 +155,7 @@ limitations under the License.
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
 
-      <div class$="[[_computeContainerClass(_loggedIn)]]"
+      <div class$="[[_computeContainerClass(_loggedIn, _viewMode)]]"
           on-tap="_handleTap"
           on-mousedown="_handleMouseDown"
           on-copy="_handleCopy">

@@ -25,6 +25,16 @@ limitations under the License.
 
 <script>
   suite('gr-diff-builder tests', function() {
+    var builder;
+
+    setup(function() {
+      var prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+      };
+      builder = new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
+    });
 
     test('process loaded content', function() {
       var content = [
@@ -52,7 +62,8 @@ limitations under the License.
         },
       ];
       var groups = [];
-      GrDiffBuilder.prototype._processContent(content, groups, -1);
+
+      builder._processContent(content, groups, -1);
 
       assert.equal(groups.length, 3);
 
@@ -117,7 +128,7 @@ limitations under the License.
       var groups = [];
       var context = 10;
 
-      GrDiffBuilder.prototype._processContent(content, groups, context);
+      builder._processContent(content, groups, context);
 
       assert.equal(groups[0].type, GrDiffGroup.Type.CONTEXT_CONTROL);
       assert.equal(groups[0].lines[0].contextLines.length, 90);
@@ -170,7 +181,7 @@ limitations under the License.
       }
       groups = [];
 
-      GrDiffBuilder.prototype._processContent(content, groups, 10);
+      builder._processContent(content, groups, 10);
 
       assert.equal(groups[0].type, GrDiffGroup.Type.DELTA);
       assert.equal(groups[0].lines.length, 1);
@@ -203,13 +214,6 @@ limitations under the License.
     });
 
     test('newlines', function() {
-      var prefs = {
-        line_length: 10,
-        tab_size: 4,
-      };
-      var builder =
-          new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
-
       var text = 'abcdef';
       assert.equal(builder._addNewlines(text, text), text);
       text = 'a'.repeat(20);
@@ -237,15 +241,10 @@ limitations under the License.
     });
 
     test('tab wrapper insertion', function() {
-      var prefs = {
-        show_tabs: true,
-        tab_size: 4,
-      };
-      var builder =
-          new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
-
       var html = 'abc\tdef';
-      var wrapper = builder._getTabWrapper(prefs.tab_size, prefs.show_tabs);
+      var wrapper = builder._getTabWrapper(
+          builder._prefs.tab_size,
+          builder._prefs.show_tabs);
       assert.ok(wrapper);
       assert.isAbove(wrapper.length, 0);
       assert.equal(builder._addTabWrappers(html), 'abc' + wrapper + 'def');
@@ -261,16 +260,11 @@ limitations under the License.
       line.afterNumber = 5;
 
       var comments = {left: [], right:[]};
-      assert.deepEqual(
-          GrDiffBuilder.prototype._getCommentsForLine(comments, line), []);
-      assert.deepEqual(
-          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
-              GrDiffBuilder.Side.LEFT),
-          []);
-      assert.deepEqual(
-          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
-              GrDiffBuilder.Side.RIGHT),
-          []);
+      assert.deepEqual(builder._getCommentsForLine(comments, line), []);
+      assert.deepEqual(builder._getCommentsForLine(comments, line,
+          GrDiffBuilder.Side.LEFT), []);
+      assert.deepEqual(builder._getCommentsForLine(comments, line,
+          GrDiffBuilder.Side.RIGHT), []);
 
       comments = {
         left: [
@@ -282,17 +276,70 @@ limitations under the License.
           {id: 'r5', line: 5},
         ],
       };
-      assert.deepEqual(
-          GrDiffBuilder.prototype._getCommentsForLine(comments, line),
+      assert.deepEqual(builder._getCommentsForLine(comments, line),
           [{id: 'l3', line: 3}, {id: 'r5', line: 5}]);
-      assert.deepEqual(
-          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
-              GrDiffBuilder.Side.LEFT),
-          [{id: 'l3', line: 3}]);
-      assert.deepEqual(
-          GrDiffBuilder.prototype._getCommentsForLine(comments, line,
-              GrDiffBuilder.Side.RIGHT),
-          [{id: 'r5', line: 5}]);
+      assert.deepEqual(builder._getCommentsForLine(comments, line,
+          GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3}]);
+      assert.deepEqual(builder._getCommentsForLine(comments, line,
+          GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5}]);
+    });
+
+    test('break up common diff chunks', function() {
+      builder._commentLocations = {
+        left: {1: true},
+        right: {10: true},
+      };
+      var lineNums = {
+        left: 0,
+        right: 0,
+      };
+      var content = [
+        {
+          ab: [
+            'Copyright (C) 2015 The Android Open Source Project',
+            '',
+            'Licensed under the Apache License, Version 2.0 (the "License");',
+            'you may not use this file except in compliance with the License.',
+            'You may obtain a copy of the License at',
+            '',
+            'http://www.apache.org/licenses/LICENSE-2.0',
+            '',
+            'Unless required by applicable law or agreed to in writing, ',
+            'software distributed under the License is distributed on an ',
+            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
+            'either express or implied. See the License for the specific ',
+            'language governing permissions and limitations under the License.',
+          ]
+        }
+      ];
+      var result = builder._splitCommonGroupsWithComments(content, lineNums);
+      assert.deepEqual(result, [
+        {
+          ab: ['Copyright (C) 2015 The Android Open Source Project'],
+        },
+        {
+          ab: [
+            '',
+            'Licensed under the Apache License, Version 2.0 (the "License");',
+            'you may not use this file except in compliance with the License.',
+            'You may obtain a copy of the License at',
+            '',
+            'http://www.apache.org/licenses/LICENSE-2.0',
+            '',
+            'Unless required by applicable law or agreed to in writing, ',
+          ]
+        },
+        {
+          ab: ['software distributed under the License is distributed on an '],
+        },
+        {
+          ab: [
+            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
+            'either express or implied. See the License for the specific ',
+            'language governing permissions and limitations under the License.',
+          ]
+        }
+      ]);
     });
   });
 </script>

@@ -211,6 +211,7 @@ public class ChangeScreen extends Screen {
   @UiField Button deleteChange;
   @UiField Button deleteRevision;
   @UiField Button openAll;
+  @UiField Button openAllSinglePage;
   @UiField Button editMode;
   @UiField Button reviewMode;
   @UiField Button addFile;
@@ -826,6 +827,11 @@ public class ChangeScreen extends Screen {
   @UiHandler("openAll")
   void onOpenAll(@SuppressWarnings("unused") ClickEvent e) {
     files.openAll();
+  }
+
+  @UiHandler("openAllSinglePage")
+  void onOpenAllSinglePage(@SuppressWarnings("unused") ClickEvent e) {
+    files.openAllSinglePage();
   }
 
   @UiHandler("editMode")

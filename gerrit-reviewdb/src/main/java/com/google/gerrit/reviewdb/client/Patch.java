@@ -21,6 +21,8 @@ import com.google.gwtorm.client.StringKey;
 public final class Patch {
   /** Magical file name which represents the commit message. */
   public static final String COMMIT_MSG = "/COMMIT_MSG";
+  /** Magical file name which represents the whole file set in patch. */
+  public static final String ALL = "/ALL";
 
   public static class Key extends StringKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;

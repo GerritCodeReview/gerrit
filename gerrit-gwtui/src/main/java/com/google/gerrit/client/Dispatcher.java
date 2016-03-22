@@ -81,6 +81,7 @@ import com.google.gerrit.client.changes.ProjectDashboardScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
+import com.google.gerrit.client.diff.AllDiffScreen;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.diff.SideBySide;
 import com.google.gerrit.client.diff.Unified;
@@ -475,7 +476,9 @@ public class Dispatcher {
       panel = 0 <= c ? token.substring(c + 1) : "";
     }
 
-    if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
+    if (token.indexOf(Patch.ALL) > 0) {
+      allDiff(token, baseId, id, "unified".equals(panel) || preferUnified());
+    } else if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
       if (preferUnified()) {
         unified(token, baseId, id, side, line);
       } else {
@@ -495,6 +498,18 @@ public class Dispatcher {
   private static boolean preferUnified() {
     return DiffView.UNIFIED_DIFF.equals(Gerrit.getUserPreferences().diffView())
         || (UserAgent.isPortrait() && UserAgent.isMobile());
+  }
+
+  private static void allDiff(final String token, final PatchSet.Id baseId,
+      final Patch.Key id, final boolean isUnified) {
+    GWT.runAsync(new AsyncSplit(token) {
+      @Override
+      public void onSuccess() {
+        Gerrit.display(token,
+            new AllDiffScreen(baseId, id.getParentKey(),
+                isUnified ? DiffView.UNIFIED_DIFF : DiffView.SIDE_BY_SIDE));
+      }
+    });
   }
 
   private static void unified(final String token, final PatchSet.Id baseId,

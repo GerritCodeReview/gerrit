@@ -38,6 +38,10 @@
       patchNum: String,
       path: String,
       projectConfig: Object,
+      side: {
+        type: String,
+        value: 'REVISION',
+      },
 
       _showActions: Boolean,
       _boundWindowResizeHandler: {
@@ -66,6 +70,20 @@
 
     detached: function() {
       window.removeEventListener('resize', this._boundWindowResizeHandler);
+    },
+
+    addDraft: function(lineNum) {
+      if (this.comments.length > 0) {
+        var lastComment = this.comments[this.comments.length - 1];
+        if (lastComment.__draft) {
+          var commentEl = this._commentElWithDraftID(
+              lastComment.id || lastComment.__draftID);
+          commentEl.editing = true;
+          return;
+        }
+      }
+
+      this.push('comments', this._newDraft(lineNum));
     },
 
     _getLoggedIn: function() {
@@ -130,8 +148,7 @@
         var quoteStr = msg.split('\n').map(
             function(line) { return ' > ' + line; }).join('\n') + '\n\n';
       }
-      var reply =
-          this._newReply(comment.id, comment.line, this.path, quoteStr);
+      var reply = this._newReply(comment.id, comment.line, quoteStr);
       this.push('comments', reply);
 
       // Allow the reply to render in the dom-repeat.
@@ -144,7 +161,7 @@
 
     _handleCommentDone: function(e) {
       var comment = e.detail.comment;
-      var reply = this._newReply(comment.id, comment.line, this.path, 'Done');
+      var reply = this._newReply(comment.id, comment.line, 'Done');
       this.push('comments', reply);
 
       // Allow the reply to render in the dom-repeat.
@@ -155,30 +172,34 @@
       }.bind(this), 1);
     },
 
-    _commentElWithDraftID: function(draftID) {
-      var commentEls =
-          Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
-      for (var i = 0; i < commentEls.length; i++) {
-        if (commentEls[i].comment.__draftID == draftID) {
-          return commentEls[i];
+    _commentElWithDraftID: function(id) {
+      var els = Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+      for (var i = 0; i < els.length; i++) {
+        if (els[i].comment.id === id || els[i].comment.__draftID === id) {
+          return els[i];
         }
       }
       return null;
     },
 
-    _newReply: function(inReplyTo, line, path, opt_message) {
-      var c = {
+    _newReply: function(inReplyTo, lineNum, opt_message) {
+      var d = this._newDraft(lineNum);
+      d.in_reply_to = inReplyTo;
+      if (opt_message != null) {
+        d.message = opt_message;
+      }
+      return d;
+    },
+
+    _newDraft: function(lineNum) {
+      return {
         __draft: true,
         __draftID: Math.random().toString(36),
         __date: new Date(),
-        line: line,
-        path: path,
-        in_reply_to: inReplyTo,
+        line: lineNum,
+        path: this.path,
+        side: this.side,
       };
-      if (opt_message != null) {
-        c.message = opt_message;
-      }
-      return c;
     },
 
     _handleCommentDiscard: function(e) {

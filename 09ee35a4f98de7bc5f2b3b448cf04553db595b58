@@ -211,6 +211,30 @@
       "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdafa64_0eafabaa",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-03-22T14:05:16Z",
+      "side": 1,
+      "message": "It says \u0027git operation\u0027 and not \u0027git:// operation\u0027. The git:// protocol is unauthenticated, as you know :) In fact the next paragraph has as its example SSH anyway, and it has worked for SSH+PrivateKey in the past. This authenticator is SSH+Kerberos, so it\u0027s still the same SSH connection.",
+      "parentUuid": "7ca472ba_50132c9d",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "09ee35a4f98de7bc5f2b3b448cf04553db595b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

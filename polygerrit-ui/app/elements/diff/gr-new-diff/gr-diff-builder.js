@@ -107,7 +107,7 @@
     for (var side in comments) {
       if (side !== GrDiffBuilder.Side.LEFT &&
           side !== GrDiffBuilder.Side.RIGHT) {
-        throw Error('Invalid side: ' + side);
+        continue;
       }
       comments[side].forEach(function(c) {
         result[side][c.line] = true;
@@ -266,17 +266,33 @@
       return null;
     }
     var threadEl = document.createElement('gr-diff-comment-thread');
+
+    threadEl.changeNum = this._comments.meta.changeNum;
+    var patchNum = this._comments.meta.patchRange.patchNum;
+    if (line.type === GrDiffLine.Type.REMOVE ||
+        opt_side === GrDiffBuilder.Side.LEFT) {
+      if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
+        threadEl.side = 'PARENT';
+      } else {
+        patchNum = this._comments.meta.patchRange.basePatchNum;
+      }
+    }
+    threadEl.patchNum = patchNum;
+    threadEl.path = this._comments.meta.path;
+    threadEl.projectConfig = this._comments.meta.projectConfig;
     threadEl.comments = comments;
     return threadEl;
   };
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
-    var td = this._createElement('td', 'lineNum');
+    var td = this._createElement('td');
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.classList.add('contextLineNum');
       td.setAttribute('data-value', '@@');
     } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+      td.classList.add('lineNum');
       td.setAttribute('data-value', number);
     }
     return td;

@@ -22,6 +22,30 @@
       "revId": "a3ca3d901c1d6103e77cffeb77ee20850f7c8c26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_e96a15f0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-03-22T14:05:16Z",
+      "side": 1,
+      "message": "No, because then that would force you to restart the server if the configuration file was changed. This way it will be read when connecting and so if the config is reloaded the new setting will take effect immediately. Note also that the config is cached in memory and reloaded periodically, so it\u0027s an in-memory operation, and that the validate identity is itself an expensive process which happens once per connection rather than once per operation.\n\nFinally, the existing SSHD from the database (DatabasePubKeyAuth) performs the comparison in the authenticate method, similar to the validateIdentity here.",
+      "parentUuid": "5cf32eea_0f568530",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 63
+      },
+      "revId": "a3ca3d901c1d6103e77cffeb77ee20850f7c8c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

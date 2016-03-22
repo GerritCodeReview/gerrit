@@ -203,8 +203,13 @@ public class SideBySide extends DiffScreen {
       @Override
       public void run() {
         // Estimate initial CodeMirror height, fixed up in onShowView.
-        int height = Window.getClientHeight()
+        double height = Window.getClientHeight()
             - (Gerrit.getHeaderFooterHeight() + 18);
+        double docHeightA =
+            cmA.extras().lineHeightPx() * cmA.getDoc().lineCount();
+        double docHeightB =
+            cmB.extras().lineHeightPx() * cmB.getDoc().lineCount();
+        height = Math.min(height, Math.max(docHeightA, docHeightB));
         cmA.setHeight(height);
         cmB.setHeight(height);
 

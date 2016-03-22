@@ -262,6 +262,16 @@ public class FileTable extends FlowPanel {
     }
   }
 
+  void openAllSinglePage() {
+    if (table != null) {
+      String self = Gerrit.selfRedirect(null);
+      String allPath =
+          table.list.get(0).path().replace(Patch.COMMIT_MSG, Patch.ALL);
+      Window.open(self + "#" + Dispatcher.toPatch(base, curr, allPath),
+          "_blank", null);
+    }
+  }
+
   private void setTable(MyTable table) {
     clear();
     add(table);

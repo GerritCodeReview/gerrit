@@ -19,7 +19,7 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
-  var SelectionSide = {
+  var DiffSide = {
     LEFT: 'left',
     RIGHT: 'right',
   };
@@ -97,20 +97,75 @@
 
     _handleTap: function(e) {
       var el = Polymer.dom(e).rootTarget;
+
       if (el.classList.contains('showContext')) {
         this._showContext(e.detail.group, e.detail.section);
+      } else if (el.classList.contains('lineNum')) {
+        this._handleLineTap(el);
       }
+    },
+
+    _handleLineTap: function(el) {
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        var value = el.getAttribute('data-value');
+        var lineNum = parseInt(value, 10);
+        if (isNaN(lineNum)) {
+          throw Error('Invalid line number: ' + value);
+        }
+        this._addDraft(el, lineNum);
+      }.bind(this));
+    },
+
+    _addDraft: function(lineEl, lineNum) {
+      var threadEl;
+
+      // Does a thread already exist at this line?
+      var lastChildEl = lineEl.nextSibling.lastChild;
+      if (lastChildEl.nodeName === 'GR-DIFF-COMMENT-THREAD') {
+        threadEl = lastChildEl;
+      } else {
+        threadEl = document.createElement('gr-diff-comment-thread');
+        threadEl.changeNum = this.changeNum;
+
+        threadEl.path = this.path;
+        // Handle discards.
+        // Only deny adding a draft if there’s one from you.
+        threadEl.projectConfig = this.projectConfig;
+      }
+
+      var draft = {
+        __draft: true,
+        __draftID: Math.random().toString(36),
+        line: lineNum,
+        path: this.path,
+      };
+      if (lineEl.nextSibling.classList.contains(DiffSide.LEFT)) {
+        if (this.patchRange.basePatchNum === 'PARENT') {
+          draft.side = 'PARENT';
+          threadEl.patchNum = this.patchRange.patchNum;
+        } else {
+          threadEl.patchNum = this.patchRange.basePatchNum;
+        }
+      } else if (lineEl.nextSibling.classList.contains(DiffSide.RIGHT)) {
+        threadEl.patchNum = this.patchRange.patchNum;
+      }
+      threadEl.push('comments', draft);
+      lineEl.nextSibling.appendChild(threadEl);
     },
 
     _handleMouseDown: function(e) {
       var el = Polymer.dom(e).rootTarget;
       var side;
       for (var node = el; node != null; node = node.parentNode) {
-        if (node.classList.contains('left')) {
-          side = SelectionSide.LEFT;
+        if (!node.classList) { continue; }
+
+        if (node.classList.contains(DiffSide.LEFT)) {
+          side = DiffSide.LEFT;
           break;
-        } else if (node.classList.contains('right')) {
-          side = SelectionSide.RIGHT;
+        } else if (node.classList.contains(DiffSide.RIGHT)) {
+          side = DiffSide.RIGHT;
           break;
         }
       }
@@ -119,8 +174,8 @@
 
     _selectionSideChanged: function(side) {
       if (side) {
-        var oppositeSide = side ==
-            SelectionSide.RIGHT ? SelectionSide.LEFT : SelectionSide.RIGHT;
+        var oppositeSide = side === DiffSide.RIGHT ?
+            DiffSide.LEFT : DiffSide.RIGHT;
         this.customStyle['--' + side + '-user-select'] = 'text';
         this.customStyle['--' + oppositeSide + '-user-select'] = 'none';
       } else {

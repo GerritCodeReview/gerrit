@@ -271,12 +271,14 @@
   };
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
-    var td = this._createElement('td', 'lineNum');
+    var td = this._createElement('td');
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.classList.add('contextLineNum');
       td.setAttribute('data-value', '@@');
     } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+      td.classList.add('lineNum');
       td.setAttribute('data-value', number);
     }
     return td;

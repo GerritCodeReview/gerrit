@@ -22,15 +22,12 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.DeleteBranches.Input;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -69,7 +66,6 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
@@ -77,13 +73,11 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
   @Inject
   DeleteBranches(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
-      Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
       GitReferenceUpdated referenceUpdated,
       ChangeHooks hooks) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
-    this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
@@ -167,15 +161,11 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
     errorMessages.append("\n");
   }
 
-  private void postDeletion(ProjectResource project, ReceiveCommand cmd)
-      throws OrmException {
+  private void postDeletion(ProjectResource project, ReceiveCommand cmd) {
     referenceUpdated.fire(project.getNameKey(), cmd);
     Branch.NameKey branchKey =
         new Branch.NameKey(project.getNameKey(), cmd.getRefName());
     hooks.doRefUpdatedHook(branchKey, cmd.getOldId(), cmd.getNewId(),
         identifiedUser.get().getAccount());
-    ResultSet<SubmoduleSubscription> submoduleSubscriptions =
-        dbProvider.get().submoduleSubscriptions().bySuperProject(branchKey);
-    dbProvider.get().submoduleSubscriptions().delete(submoduleSubscriptions);
   }
 }

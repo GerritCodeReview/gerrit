@@ -19,15 +19,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.DeleteBranch.Input;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -52,19 +49,17 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
 
   @Inject
   DeleteBranch(Provider<IdentifiedUser> identifiedUser,
-      GitRepositoryManager repoManager, Provider<ReviewDb> dbProvider,
+      GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       GitReferenceUpdated referenceUpdated, ChangeHooks hooks) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
-    this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
@@ -115,9 +110,6 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
         case FORCED:
           referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE);
           hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.get().getAccount());
-          ResultSet<SubmoduleSubscription> submoduleSubscriptions =
-            dbProvider.get().submoduleSubscriptions().bySuperProject(rsrc.getBranchKey());
-          dbProvider.get().submoduleSubscriptions().delete(submoduleSubscriptions);
           break;
 
         case REJECTED_CURRENT_BRANCH:

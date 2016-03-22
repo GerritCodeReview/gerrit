@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc0fcab0_cab2a3c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T20:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c37666b_21e4cef5",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c37666b_41e1d2e4",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-22T20:52:47Z",
       "side": 1,
       "message": "What ensures the c.line is unique? If there is a collision is last in the intended behavior?",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_01142a94",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T20:59:36Z",
+      "side": 1,
+      "message": "Collisions are fine in this case. Multiple comments on the same line don’t matter. Just that there is at least one there.",
+      "parentUuid": "9c37666b_41e1d2e4",
       "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9c37666b_a108de7a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T20:59:36Z",
+      "side": 1,
+      "message": "Done with strict \u003d\u003d\u003d true.",
+      "parentUuid": "bc0fcab0_2a137f7b",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc0fcab0_0a10bb6a",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9c37666b_c10de289",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T20:59:36Z",
+      "side": 1,
+      "message": "yeah. that’s the Gerrit REST API model, though. ¯\\_(ツ)_/¯",
+      "parentUuid": "bc0fcab0_0a10bb6a",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c37666b_e10ee687",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-03-22T20:52:47Z",
       "side": 1,
       "message": "I am not sure I follow why we are incrementing the line numbers for each pass through the chunk.",
+      "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_6103b65e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T20:59:36Z",
+      "side": 1,
+      "message": "Each line within the common chunk needs to be checked for comments.",
+      "parentUuid": "9c37666b_e10ee687",
       "revId": "ad8efb398c6433c0f3b0991af39bc5b8021417d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

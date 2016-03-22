@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "9c37666b_41c8f26c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T20:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_ec2cebe1",
+      "range": {
+        "startLine": 16,
+        "startChar": 39,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_4c141f96",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -121,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "9c37666b_e1e586f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T20:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3302f3_2c13139f",
+      "range": {
+        "startLine": 474,
+        "startChar": 57,
+        "endLine": 475,
+        "endChar": 30
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc3302f3_6c0fdb85",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -156,6 +204,30 @@
       "side": 1,
       "message": "Yeah that\u0027s a good idea for an optimization.",
       "parentUuid": "fc3302f3_6c0fdb85",
+      "range": {
+        "startLine": 476,
+        "startChar": 10,
+        "endLine": 477,
+        "endChar": 64
+      },
+      "revId": "c680be8f5e35d6b0e536a1fc7511b6f2458d31be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_c1f402aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-22T20:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c2536a9_0d1851b5",
       "range": {
         "startLine": 476,
         "startChar": 10,

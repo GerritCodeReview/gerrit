@@ -278,28 +278,68 @@ public class ChangeScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo info) {
             info.init();
-            addExtensionPoints(info);
+            addExtensionPoints(info, initCurrentRevision(info));
             loadConfigInfo(info, base);
           }
         }));
   }
 
-  private void addExtensionPoints(ChangeInfo change) {
+  private RevisionInfo initCurrentRevision(ChangeInfo info) {
+    info.revisions().copyKeysIntoChildren("name");
+    if (edit != null) {
+      edit.setName(edit.commit().commit());
+      info.setEdit(edit);
+      if (edit.hasFiles()) {
+        edit.files().copyKeysIntoChildren("path");
+      }
+      info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+      JsArray<RevisionInfo> list = info.revisions().values();
+
+      // Edit is converted to a regular revision (with number = 0) and
+      // added to the list of revisions. Additionally under certain
+      // circumstances change edit is assigned to be the current revision
+      // and is selected to be shown on the change screen.
+      // We have two different strategies to assign edit to the current ps:
+      // 1. revision == null: no revision is selected, so use the edit only
+      //    if it is based on the latest patch set
+      // 2. edit was selected explicitly from ps drop down:
+      //    use the edit regardless of which patch set it is based on
+      if (revision == null) {
+        RevisionInfo.sortRevisionInfoByNumber(list);
+        RevisionInfo rev = list.get(list.length() - 1);
+        if (rev.isEdit()) {
+          info.setCurrentRevision(rev.name());
+        }
+      } else if (revision.equals("edit") || revision.equals("0")) {
+        for (int i = 0; i < list.length(); i++) {
+          RevisionInfo r = list.get(i);
+          if (r.isEdit()) {
+            info.setCurrentRevision(r.name());
+            break;
+          }
+        }
+      }
+    }
+    return resolveRevisionToDisplay(info);
+  }
+
+  private void addExtensionPoints(ChangeInfo change, RevisionInfo rev) {
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
-        headerExtension, change);
+        headerExtension, change, rev);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
-        headerExtensionMiddle, change);
+        headerExtensionMiddle, change, rev);
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
-        headerExtensionRight, change);
+        headerExtensionRight, change, rev);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        changeExtension, change);
+        changeExtension, change, rev);
   }
 
   private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,
-      Panel p, ChangeInfo change) {
+      Panel p, ChangeInfo change, RevisionInfo rev) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.REVISION_INFO, rev);
     p.add(extensionPanel);
   }
 
@@ -375,7 +415,7 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void gotoSibling(final int offset) {
+  private void gotoSibling(int offset) {
     if (offset > 0 && changeInfo.currentRevision().equals(revision)) {
       return;
     }
@@ -598,24 +638,24 @@ public class ChangeScreen extends Screen {
     KeyCommandSet keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
       @Override
-      public void onKeyPress(final KeyPressEvent event) {
+      public void onKeyPress(KeyPressEvent event) {
         Gerrit.displayLastChangeList();
       }
     });
     keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
       @Override
-      public void onKeyPress(final KeyPressEvent event) {
+      public void onKeyPress(KeyPressEvent event) {
         Gerrit.display(PageLinks.toChange(changeId));
       }
     });
     keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
         @Override
-        public void onKeyPress(final KeyPressEvent event) {
+        public void onKeyPress(KeyPressEvent event) {
           gotoSibling(1);
         }
       }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
         @Override
-        public void onKeyPress(final KeyPressEvent event) {
+        public void onKeyPress(KeyPressEvent event) {
           gotoSibling(-1);
         }
       });
@@ -858,44 +898,9 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, final String base) {
-    info.revisions().copyKeysIntoChildren("name");
-    if (edit != null) {
-      edit.setName(edit.commit().commit());
-      info.setEdit(edit);
-      if (edit.hasFiles()) {
-        edit.files().copyKeysIntoChildren("path");
-      }
-      info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
-      JsArray<RevisionInfo> list = info.revisions().values();
-
-      // Edit is converted to a regular revision (with number = 0) and
-      // added to the list of revisions. Additionally under certain
-      // circumstances change edit is assigned to be the current revision
-      // and is selected to be shown on the change screen.
-      // We have two different strategies to assign edit to the current ps:
-      // 1. revision == null: no revision is selected, so use the edit only
-      //    if it is based on the latest patch set
-      // 2. edit was selected explicitly from ps drop down:
-      //    use the edit regardless of which patch set it is based on
-      if (revision == null) {
-        RevisionInfo.sortRevisionInfoByNumber(list);
-        RevisionInfo rev = list.get(list.length() - 1);
-        if (rev.isEdit()) {
-          info.setCurrentRevision(rev.name());
-        }
-      } else if (revision.equals("edit") || revision.equals("0")) {
-        for (int i = 0; i < list.length(); i++) {
-          RevisionInfo r = list.get(i);
-          if (r.isEdit()) {
-            info.setCurrentRevision(r.name());
-            break;
-          }
-        }
-      }
-    }
-    final RevisionInfo rev = resolveRevisionToDisplay(info);
-    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
+  private void loadConfigInfo(final ChangeInfo info, String base) {
+    RevisionInfo rev = info.revision(revision);
+    RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -944,10 +949,10 @@ public class ChangeScreen extends Screen {
     return null;
   }
 
-  private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
-      final Timestamp myLastReply, CallbackGroup group) {
-    final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
-    final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
+  private void loadDiff(RevisionInfo base, RevisionInfo rev,
+      Timestamp myLastReply, CallbackGroup group) {
+    List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
+    List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     loadFileList(base, rev, myLastReply, group, comments, drafts);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {

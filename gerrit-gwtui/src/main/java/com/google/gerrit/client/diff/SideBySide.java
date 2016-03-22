@@ -201,7 +201,7 @@ public class SideBySide extends DiffScreen {
     operation(new Runnable() {
       @Override
       public void run() {
-        // Estimate initial CM3 height, fixed up in onShowView.
+        // Estimate initial CodeMirror height, fixed up in onShowView.
         int height = Window.getClientHeight()
             - (Gerrit.getHeaderFooterHeight() + 18);
         cmA.setHeight(height);
@@ -389,11 +389,6 @@ public class SideBySide extends DiffScreen {
         });
       }
     });
-  }
-
-  @Override
-  int getCodeMirrorHeight() {
-    return header.getOffsetHeight() + diffTable.getHeaderHeight();
   }
 
   @Override

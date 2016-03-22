@@ -65,4 +65,14 @@ class UnifiedTable extends DiffTable {
   Unified getDiffScreen() {
     return parent;
   }
+
+  @Override
+  int getHeaderHeight() {
+    int h = patchSetSelectBoxA.getOffsetHeight()
+        + patchSetSelectBoxB.getOffsetHeight();
+    if (hasHeader()) {
+      h += diffHeaderRow.getOffsetHeight();
+    }
+    return h;
+  }
 }

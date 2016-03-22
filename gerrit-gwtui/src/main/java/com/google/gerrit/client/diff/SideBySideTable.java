@@ -102,4 +102,13 @@ class SideBySideTable extends DiffTable {
   SideBySide getDiffScreen() {
     return parent;
   }
+
+  @Override
+  int getHeaderHeight() {
+    int h = patchSetSelectBoxA.getOffsetHeight();
+    if (hasHeader()) {
+      h += diffHeaderRow.getOffsetHeight();
+    }
+    return h;
+  }
 }

@@ -91,13 +91,7 @@ abstract class DiffTable extends Composite {
     }
   }
 
-  int getHeaderHeight() {
-    int h = patchSetSelectBoxA.getOffsetHeight();
-    if (header) {
-      h += diffHeaderRow.getOffsetHeight();
-    }
-    return h;
-  }
+  abstract int getHeaderHeight();
 
   ChangeType getChangeType() {
     return changeType;
@@ -153,4 +147,8 @@ abstract class DiffTable extends Composite {
   }
 
   abstract DiffScreen getDiffScreen();
+
+  boolean hasHeader() {
+    return header;
+  }
 }

@@ -22,6 +22,30 @@
       "revId": "4ffd7111e4a52c4916d31a7f4805458a25a95e01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c3e324b_00998694",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-22T21:26:08Z",
+      "side": 1,
+      "message": "Good catch. Fixed.",
+      "parentUuid": "7c09d2ae_08a9e754",
+      "range": {
+        "startLine": 685,
+        "startChar": 23,
+        "endLine": 686,
+        "endChar": 15
+      },
+      "revId": "4ffd7111e4a52c4916d31a7f4805458a25a95e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

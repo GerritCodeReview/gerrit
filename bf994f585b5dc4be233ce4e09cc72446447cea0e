@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_082447f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-22T07:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09d2ae_e818d3bb",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "bf994f585b5dc4be233ce4e09cc72446447cea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c09d2ae_c81d0faa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/blame/BlameInfo.java",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-22T06:11:35Z",
       "side": 1,
       "message": "Follow the change on the server side and rename this inner class to just Line?",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 31
+      },
+      "revId": "bf994f585b5dc4be233ce4e09cc72446447cea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_e918d5bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/blame/BlameInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-22T07:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09d2ae_c81d0faa",
       "range": {
         "startLine": 26,
         "startChar": 22,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_c91d11aa",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-22T07:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09d2ae_88171788",
+      "range": {
+        "startLine": 216,
+        "startChar": 15,
+        "endLine": 216,
+        "endChar": 34
+      },
+      "revId": "bf994f585b5dc4be233ce4e09cc72446447cea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c09d2ae_682d03db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 13
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_e881f3f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-22T07:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09d2ae_682d03db",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 9
+      },
+      "revId": "bf994f585b5dc4be233ce4e09cc72446447cea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c09d2ae_482a3fc5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 13
@@ -105,6 +201,30 @@
       "writtenOn": "2016-03-22T06:11:35Z",
       "side": 1,
       "message": "The documentation for this REST endpoint should be extended, see:\n\n  $ git grep allow_draft\n  rest-api-config.txt:|`allow_drafts`       |not set if `false`|\n\nAlso, keep the order of the attributes in lexicographical sorted order.",
+      "range": {
+        "startLine": 352,
+        "startChar": 4,
+        "endLine": 352,
+        "endChar": 30
+      },
+      "revId": "bf994f585b5dc4be233ce4e09cc72446447cea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_89171988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-22T07:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09d2ae_482a3fc5",
       "range": {
         "startLine": 352,
         "startChar": 4,

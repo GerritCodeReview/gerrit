@@ -16,10 +16,12 @@
 
   function GrDiffBuilder(diff, comments, prefs, outputEl) {
     this._comments = comments;
+
     this._prefs = prefs;
     this._outputEl = outputEl;
     this._groups = [];
 
+    this._commentLocations = this._getCommentLocations(comments);
     this._processContent(diff.content, this._groups, prefs.context);
   }
 
@@ -62,7 +64,7 @@
       left: 0,
       right: 0,
     };
-
+    content = this._splitCommonGroupsWithComments(content, lineNums);
     for (var i = 0; i < content.length; i++) {
       var group = content[i];
       var lines = [];
@@ -83,6 +85,7 @@
         } else {
           groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
         }
+
         continue;
       }
 
@@ -96,6 +99,65 @@
       }
       groups.push(new GrDiffGroup(GrDiffGroup.Type.DELTA, lines));
     }
+  };
+
+  GrDiffBuilder.prototype._getCommentLocations = function(comments) {
+    var result = {
+      left: {},
+      right: {},
+    };
+    for (var side in comments) {
+      comments[side].forEach(function(c) {
+        result[side][c.line] = true;
+      });
+    }
+    return result;
+  };
+
+  GrDiffBuilder.prototype._commentIsAtLineNum = function(side, lineNum) {
+    return this._commentLocations[side][lineNum] || false;
+  };
+
+  // In order to show comments out of the bounds of the selected context,
+  // treat them as separate chunks within the model so that the content (and
+  // context surrounding it) renders correctly.
+  GrDiffBuilder.prototype._splitCommonGroupsWithComments = function(content,
+      lineNums) {
+    var result = [];
+    var leftLineNum = lineNums.left;
+    var rightLineNum = lineNums.right;
+    for (var i = 0; i < content.length; i++) {
+      if (!content[i].ab) {
+        result.push(content[i]);
+        if (content[i].a) {
+          leftLineNum += content[i].a.length;
+        }
+        if (content[i].b) {
+          rightLineNum += content[i].b.length;
+        }
+        continue;
+      }
+      var chunk = content[i].ab;
+      var currentChunk = {ab: []};
+      for (var j = 0; j < chunk.length; j++) {
+        leftLineNum++;
+        rightLineNum++;
+        if (this._commentIsAtLineNum(GrDiffBuilder.Side.LEFT, leftLineNum) ||
+            this._commentIsAtLineNum(GrDiffBuilder.Side.RIGHT, rightLineNum)) {
+          if (currentChunk.ab && currentChunk.ab.length > 0) {
+            result.push(currentChunk);
+            currentChunk = {ab: []};
+          }
+          result.push({ab: [chunk[j]]});
+        } else {
+          currentChunk.ab.push(chunk[j]);
+        }
+      }
+      if (currentChunk.ab != null && currentChunk.ab.length > 0) {
+        result.push(currentChunk);
+      }
+    }
+    return result;
   };
 
   GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
@@ -125,6 +187,9 @@
       line.text = rows[i];
       line.beforeNumber = ++lineNums.left;
       line.afterNumber = ++lineNums.right;
+      if (this._getCommentsForLine(this._comments, line).length) {
+        console.log('found comment at line', line)
+      }
       lines.push(line);
     }
   };

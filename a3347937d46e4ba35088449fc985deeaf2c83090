@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_89bcb997",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-22T20:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c09d2ae_08c8c76b",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "a3347937d46e4ba35088449fc985deeaf2c83090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c1206d7_09c8c96b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "9c1206d7_09c8c96b",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "a3347937d46e4ba35088449fc985deeaf2c83090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_69a2a577",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-22T20:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03da92_46411283",
       "range": {
         "startLine": 97,
         "startChar": 0,

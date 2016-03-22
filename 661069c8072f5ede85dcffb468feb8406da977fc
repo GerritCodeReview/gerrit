@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_465c7250",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T15:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0fcab0_ca34e333",
+      "revId": "661069c8072f5ede85dcffb468feb8406da977fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c03da92_a6120698",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3c03da92_06567a30",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T15:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03da92_a6120698",
+      "revId": "661069c8072f5ede85dcffb468feb8406da977fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c03da92_86170a88",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-21T22:47:10Z",
       "side": 1,
       "message": "depending on the index of the result scares me a bit, perhaps leave a comment here? or better yet refactor to push into a named key val pair?",
+      "revId": "661069c8072f5ede85dcffb468feb8406da977fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0fcab0_6a2df7da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-22T15:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03da92_86170a88",
       "revId": "661069c8072f5ede85dcffb468feb8406da977fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

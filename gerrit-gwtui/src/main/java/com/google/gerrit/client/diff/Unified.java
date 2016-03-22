@@ -192,7 +192,7 @@ public class Unified extends DiffScreen {
     operation(new Runnable() {
       @Override
       public void run() {
-        // Estimate initial CM3 height, fixed up in onShowView.
+        // Estimate initial CodeMirror height, fixed up in onShowView.
         int height = Window.getClientHeight()
             - (Gerrit.getHeaderFooterHeight() + 18);
         cm.setHeight(height);
@@ -384,14 +384,6 @@ public class Unified extends DiffScreen {
         apply.run();
       }
     });
-  }
-
-  @Override
-  int getCodeMirrorHeight() {
-    int rest =
-        Gerrit.getHeaderFooterHeight() + header.getOffsetHeight()
-            + diffTable.getHeaderHeight() + 5; // Estimate
-    return Window.getClientHeight() - rest;
   }
 
   @Override

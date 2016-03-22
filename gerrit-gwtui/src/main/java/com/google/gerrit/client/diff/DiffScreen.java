@@ -628,13 +628,11 @@ abstract class DiffScreen extends Screen {
   }
 
   void resizeCodeMirror() {
-    int height = getCodeMirrorHeight();
+    int height = header.getOffsetHeight() + getDiffTable().getHeaderHeight();
     for (CodeMirror cm : getCms()) {
       cm.adjustHeight(height);
     }
   }
-
-  abstract int getCodeMirrorHeight();
 
   abstract ChunkManager getChunkManager();
 

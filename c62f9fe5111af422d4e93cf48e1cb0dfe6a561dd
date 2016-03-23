@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1458587702 -0700\nnonce AB8gjyWopBDNxmGGQw7sYolEKpVsGkRv2NgUQ1yUlUWjB68VK5GRlSIhbldMmHLeyic0g82RB4aS\n\n0000000000000000000000000000000000000000 c62f9fe5111af422d4e93cf48e1cb0dfe6a561dd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJW8Eg2AAoJEGt7+xNJsB0b464H/RmRAfyfzuzk8zmId0WxReHh\nv1LajWMDNLxtAsAuYbGY15BpNVMtd3j3IjKVaVy85s4u9di4fONS1sUg8gaxNYym\nIcjZ7Vdeq0T45rEOaE66pH1KHiUHZkLecPa8r5dPvoNJFB1ucFa9/07oky4u/dGq\n1RZdeRWhCwSFJIjlci0qN7FYdp6pLZCvNZBuzJDQ2L2u+OzxmGG5crzft+JCOTAQ\nbRarpl86fQftKXDO+IJmS2yx3qyiSJJ8siP7IsrS30gbwMN5R2J1ZxMfMj2iDzgK\nXk5dDVJCjqrIc0+QSh6XFLwhtnEXl9OWeZrDmUDacye5Hlq6JNpdZgzCsensy0Y\u003d\n\u003dfhxH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c1206d7_8986f9d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-23T05:46:40Z",
+      "side": 1,
+      "message": "I think, it wouldn\u0027t hurt to put a comma here: [1]?\n\n  http://paste.openstack.org/show/491527",
+      "range": {
+        "startLine": 98,
+        "startChar": 36,
+        "endLine": 98,
+        "endChar": 37
+      },
+      "revId": "c62f9fe5111af422d4e93cf48e1cb0dfe6a561dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

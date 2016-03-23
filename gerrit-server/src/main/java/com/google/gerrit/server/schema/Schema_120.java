@@ -92,12 +92,12 @@ public class Schema_120 extends SchemaVersion {
     ui.message("Generating Superproject subscriptions table to submodule ACLs");
 
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT " +
-             "key.super_project.project_name, " +
-             "key.super_project.branch_name, " +
-             "submodule.project_name " +
-             "submodule.branch_name " +
-             "FROM submodule_subscriptions");) {
+        ResultSet rs = stmt.executeQuery("SELECT "
+            + "super_project_project_name, "
+            + "super_project_branch_name, "
+            + "submodule_project_name, "
+            + "submodule_branch_name "
+            + "FROM submodule_subscriptions");) {
       while (rs.next()) {
         Project.NameKey superproject = new Project.NameKey(rs.getString(1));
         Branch.NameKey superbranch = new Branch.NameKey(superproject,

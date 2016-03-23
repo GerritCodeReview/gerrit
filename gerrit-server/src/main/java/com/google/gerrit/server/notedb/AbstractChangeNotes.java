@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -29,17 +33,35 @@ import java.io.IOException;
 
 /** View of contents at a single ref related to some change. **/
 public abstract class AbstractChangeNotes<T> {
-  protected final GitRepositoryManager repoManager;
-  protected final NotesMigration migration;
+  @VisibleForTesting
+  @Singleton
+  public static class Args {
+    final GitRepositoryManager repoManager;
+    final NotesMigration migration;
+    final AllUsersName allUsers;
+    final ChangeNoteUtil noteUtil;
+
+    @Inject
+    Args(
+        GitRepositoryManager repoManager,
+        NotesMigration migration,
+        AllUsersName allUsers,
+        ChangeNoteUtil noteUtil) {
+      this.repoManager = repoManager;
+      this.migration = migration;
+      this.allUsers = allUsers;
+      this.noteUtil = noteUtil;
+    }
+  }
+
+  protected final Args args;
   private final Change.Id changeId;
 
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(GitRepositoryManager repoManager,
-      NotesMigration migration, Change.Id changeId) {
-    this.repoManager = repoManager;
-    this.migration = migration;
+  AbstractChangeNotes(Args args, Change.Id changeId) {
+    this.args = args;
     this.changeId = changeId;
   }
 
@@ -56,11 +78,12 @@ public abstract class AbstractChangeNotes<T> {
     if (loaded) {
       return self();
     }
-    if (!migration.enabled() || changeId == null) {
+    if (!args.migration.enabled() || changeId == null) {
       loadDefaults();
       return self();
     }
-    try (Repository repo = repoManager.openMetadataRepository(getProjectName());
+    try (Repository repo =
+            args.repoManager.openMetadataRepository(getProjectName());
         RevWalk walk = new RevWalk(repo)) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());
       ObjectId id = ref != null ? ref.getObjectId() : null;
@@ -81,10 +104,11 @@ public abstract class AbstractChangeNotes<T> {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!migration.enabled()) {
+    } else if (!args.migration.enabled()) {
       return null;
     }
-    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
+    try (Repository repo =
+        args.repoManager.openMetadataRepository(getProjectName())) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());
       return ref != null ? ref.getObjectId() : null;
     } catch (IOException e) {

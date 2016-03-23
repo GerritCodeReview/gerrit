@@ -110,6 +110,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   @Inject
   protected ChangeNoteUtil noteUtil;
 
+  @Inject
+  protected AbstractChangeNotes.Args args;
+
   private Injector injector;
   private String systemTimeZone;
 
@@ -139,7 +142,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       @Override
       public void configure() {
         install(new GitModule());
-        factory(NoteDbUpdateManager.Factory.class);
+        install(new NoteDbModule());
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(String.class).annotatedWith(GerritServerId.class)
             .toInstance("gerrit");
@@ -198,14 +201,11 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user)
       throws Exception {
-    ChangeUpdate update = TestChanges.newUpdate(
-        injector, repoManager, MIGRATION, c, allUsers, user);
-    return update;
+    return TestChanges.newUpdate(injector, c, user);
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, MIGRATION, allUsers, noteUtil,
-        c.getProject(), c).load();
+    return new ChangeNotes(args, c.getProject(), c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

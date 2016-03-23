@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c09d2ae_88f2774b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-23T13:41:18Z",
+      "side": 1,
+      "message": "I just wonder whether this a good name for this feature. We already have \"hashtags\" and simple \"tag\" can be confused.\n\nMaybe something like \"source\" or \"category\", what do you think?",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

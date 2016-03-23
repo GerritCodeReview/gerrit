@@ -66,7 +66,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -543,15 +542,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad(RevWalk walk)
+      throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
     if (rev == null) {
       loadDefaults();
       return;
     }
-    try (RevWalk walk = new RevWalk(reader);
-        ChangeNotesParser parser = new ChangeNotesParser(
-            project, change.getId(), rev, walk, repoManager, noteUtil)) {
+    try (ChangeNotesParser parser = new ChangeNotesParser(
+         project, change.getId(), rev, walk, repoManager, noteUtil)) {
       parser.parseAll();
 
       if (parser.status != null) {
@@ -608,12 +607,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     changeMessagesByPatchSet = ImmutableListMultimap.of();
     comments = ImmutableListMultimap.of();
     hashtags = ImmutableSet.of();
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) {
-    throw new UnsupportedOperationException(
-        getClass().getSimpleName() + " is read-only");
   }
 
   @Override

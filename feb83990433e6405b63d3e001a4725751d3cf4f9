@@ -70,6 +70,30 @@
       "revId": "feb83990433e6405b63d3e001a4725751d3cf4f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c85a65b_d1e5a4f9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-23T19:35:16Z",
+      "side": 1,
+      "message": "OK. I will let it as is then.",
+      "parentUuid": "9c85a65b_51d1b419",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "feb83990433e6405b63d3e001a4725751d3cf4f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

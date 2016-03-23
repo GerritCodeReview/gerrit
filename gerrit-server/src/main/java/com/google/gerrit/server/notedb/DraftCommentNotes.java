@@ -30,8 +30,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -112,33 +112,26 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad(RevWalk walk)
+      throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
     if (rev == null) {
       loadDefaults();
       return;
     }
 
-    try (RevWalk walk = new RevWalk(reader)) {
-      RevCommit tipCommit = walk.parseCommit(rev);
-      revisionNoteMap = RevisionNoteMap.parse(
-          noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
-          true);
-      Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
-      for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-        for (PatchLineComment c : rn.comments) {
-          cs.put(c.getRevId(), c);
-        }
+    RevCommit tipCommit = walk.parseCommit(rev);
+    ObjectReader reader = walk.getObjectReader();
+    revisionNoteMap = RevisionNoteMap.parse(
+        noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
+        true);
+    Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
+    for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
+      for (PatchLineComment c : rn.comments) {
+        cs.put(c.getRevId(), c);
       }
-      comments = ImmutableListMultimap.copyOf(cs);
     }
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
-    throw new UnsupportedOperationException(
-        getClass().getSimpleName() + " is read-only");
+    comments = ImmutableListMultimap.copyOf(cs);
   }
 
   @Override

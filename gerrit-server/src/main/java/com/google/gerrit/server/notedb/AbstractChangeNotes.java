@@ -17,22 +17,23 @@ package com.google.gerrit.server.notedb;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
 /** View of contents at a single ref related to some change. **/
-public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
+public abstract class AbstractChangeNotes<T> {
   protected final GitRepositoryManager repoManager;
   protected final NotesMigration migration;
   private final Change.Id changeId;
 
+  private ObjectId revision;
   private boolean loaded;
 
   AbstractChangeNotes(GitRepositoryManager repoManager,
@@ -46,6 +47,11 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     return changeId;
   }
 
+  /** @return revision of the metadata that was loaded. */
+  public ObjectId getRevision() {
+    return revision;
+  }
+
   public T load() throws OrmException {
     if (loaded) {
       return self();
@@ -54,8 +60,12 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
       loadDefaults();
       return self();
     }
-    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
-      load(repo);
+    try (Repository repo = repoManager.openMetadataRepository(getProjectName());
+        RevWalk walk = new RevWalk(repo)) {
+      Ref ref = repo.getRefDatabase().exactRef(getRefName());
+      ObjectId id = ref != null ? ref.getObjectId() : null;
+      revision = id != null ? walk.parseCommit(id).copy() : null;
+      onLoad(walk);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
@@ -90,6 +100,13 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
    *    which is not necessarily the same as the change's project.
    */
   public abstract Project.NameKey getProjectName();
+
+  /** @return name of the reference storing this configuration. */
+  protected abstract String getRefName();
+
+  /** Set up the metadata, parsing any state from the loaded revision. */
+  protected abstract void onLoad(RevWalk walk)
+      throws IOException, ConfigInvalidException;
 
   @SuppressWarnings("unchecked")
   protected final T self() {

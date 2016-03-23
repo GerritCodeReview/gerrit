@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c1a4e04_17e474f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T18:50:53Z",
+      "side": 1,
+      "message": "I changed this so that clicking on a blame gutter won\u0027t open a new draft. In a following change, we need to make the blame gutters actually clickable. They should probably take the user to the corresponding change in Gerrit.",
+      "range": {
+        "startLine": 860,
+        "startChar": 12,
+        "endLine": 860,
+        "endChar": 30
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,7 +32,6 @@ li p {
 .listingblock > .content {
   border: 2px solid silver;
   background: #ebebeb;
-  margin-left: 2em;
   color: darkgreen;
   padding: 2px;
   overflow: auto;
@@ -57,4 +56,25 @@ table.tableblock,
 th.tableblock,
 td.tableblock {
   border: 1px solid #EEE;
+}
+
+div.title {
+  color: #527bbd;
+  font-family: Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  text-align: left;
+}
+
+.listingblock div.title {
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+
+div.admonitionblock {
+  margin-top: 1em;
+}
+
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
 }

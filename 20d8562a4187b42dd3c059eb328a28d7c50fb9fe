@@ -70,6 +70,30 @@
       "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c8c7287_d0e59cf9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T19:55:12Z",
+      "side": 1,
+      "message": "I can imagine a version of the change which can be merged upstream.",
+      "parentUuid": "fc2a2213_54daec2f",
+      "range": {
+        "startLine": 860,
+        "startChar": 12,
+        "endLine": 860,
+        "endChar": 30
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

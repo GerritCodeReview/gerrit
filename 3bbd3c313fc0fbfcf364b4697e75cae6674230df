@@ -69,6 +69,29 @@
       "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_096c49d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-23T07:46:58Z",
+      "side": 0,
+      "message": "Is this correct? How test-submit-rule SSH command and POST test.submit_rule REST handler supposed to supply the rule to be evaluated on the fly?",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 3
+      },
+      "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

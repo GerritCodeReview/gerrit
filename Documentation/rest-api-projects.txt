@@ -2020,8 +2020,8 @@ to a branch or tag.
 optional, not set if signed push is disabled|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 signed push validation is enabled on the project.
-|`require_signed_push`|
-optional, not set if signed push is disabled
+|`require_signed_push`|optional|
+Not set if signed push is disabled.
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 signed push validation is required on the project.
 |`max_object_size_limit`     ||
@@ -2136,7 +2136,7 @@ is inheritable this is the effective value which is deduced from
 `configured_value` and `inherited_value`.
 |`values`          |optional|
 The list of values. Only set if the `type` is `ARRAY`.
-`editable`         |`false` if not set|
+|`editable`         |`false` if not set|
 Whether the value is editable.
 |`permitted_values`|optional|
 The list of permitted values. Only set if the `type` is `LIST`.

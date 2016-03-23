@@ -122,6 +122,24 @@
       "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1a4e04_77413083",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T22:10:00Z",
+      "side": 1,
+      "message": "The idea was that \"n\" or \"p\" would take you to:\n\n1. The left hand side if the diff is a deletion, unless it is part of an edit.\n2. The right hand side if the diff is an insertion or part of an edit.\n\nThe heuristic is that people will most likely put comments on the right hand side, unless it\u0027s a pure deletion where there is no right hand side.\n\nBut yeah, mixing j/k and n/p can cause confusions at times. The Shift-Left and Shift-Right shortcuts help switching between the two sides a bit.",
+      "parentUuid": "a285e15a_51c9b420",
+      "revId": "6e33ca099fcc9c4d58d876bc4d78d7afb9f6a38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

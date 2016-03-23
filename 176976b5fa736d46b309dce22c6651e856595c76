@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c20462f_999d1b82",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1024297
+      },
+      "writtenOn": "2016-03-23T16:33:26Z",
+      "side": 1,
+      "message": "I think it should work if we only remove this if.\n\nCommands that contains CTRL will work again and for German keyboard navigation we only need commands with ALT.\n\nI will try this tomorrow.",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 5
+      },
+      "revId": "176976b5fa736d46b309dce22c6651e856595c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

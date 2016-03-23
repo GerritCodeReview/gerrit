@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c1a4e04_37fad888",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-03-23T20:50:12Z",
+      "side": 1,
+      "message": "How about:\n\n Add missing vertical bars to REST API doc markup\n\n Their absence is messing up the formatting.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 83
+      },
+      "revId": "8f4d7c99fa9f5accf0a8758d39661901d4f85d09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_d40efc87",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2024,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-03-23T20:50:12Z",
+      "side": 1,
+      "message": "This was trying to say\n\n |`require_signed_push`|optional, not set if signed push is disabled|",
+      "range": {
+        "startLine": 2023,
+        "startChar": 0,
+        "endLine": 2024,
+        "endChar": 35
+      },
+      "revId": "8f4d7c99fa9f5accf0a8758d39661901d4f85d09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

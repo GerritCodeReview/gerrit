@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_296f0dcc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Generally  I also prefer immutable objects but here I just followed the mutable pattern in similar classes in the package.\n\nPlease check ChangeInfo, AccountInfo, etc in the same package.",
+      "parentUuid": "9c37666b_61441695",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c37666b_81411a86",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-23T03:41:26Z",
       "side": 1,
       "message": "Is this field actually used?",
+      "range": {
+        "startLine": 58,
+        "startChar": 24,
+        "endLine": 58,
+        "endChar": 30
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c09d2ae_c84e2f67",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "yes, the gwt client uses it",
+      "parentUuid": "9c37666b_81411a86",
       "range": {
         "startLine": 58,
         "startChar": 24,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_c96511f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done\n\nI thought when it\u0027s just few characters more than the limit we don\u0027t need to wrap the line.",
+      "parentUuid": "7c3e324b_60d1721a",
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c37666b_612df6da",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 15
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_885f1717",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done\n\nI thought when it\u0027s just few characters more than the limit we don\u0027t need to wrap the line.",
+      "parentUuid": "9c37666b_612df6da",
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c37666b_a1121e98",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
         "patchSetId": 15
@@ -93,6 +177,30 @@
       "writtenOn": "2016-03-23T03:41:26Z",
       "side": 1,
       "message": "Instead of doing this check, can we just keep boolean in this class?",
+      "range": {
+        "startLine": 157,
+        "startChar": 30,
+        "endLine": 157,
+        "endChar": 41
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_a95add26",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c37666b_a1121e98",
       "range": {
         "startLine": 157,
         "startChar": 30,
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "7c09d2ae_6875039a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done\n\nMay I ask you why? Is this in the coding guideline?",
+      "parentUuid": "7c3e324b_40c8ee6c",
+      "range": {
+        "startLine": 192,
+        "startChar": 57,
+        "endLine": 192,
+        "endChar": 60
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c3e324b_20cb6a6c",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
         "patchSetId": 15
@@ -139,6 +271,30 @@
       "writtenOn": "2016-03-23T03:41:26Z",
       "side": 1,
       "message": "The line breaks are kind of weird here, please fix.",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c09d2ae_48723fb4",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c3e324b_20cb6a6c",
       "range": {
         "startLine": 193,
         "startChar": 0,
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_895f1917",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c37666b_414b12a2",
+      "range": {
+        "startLine": 208,
+        "startChar": 45,
+        "endLine": 208,
+        "endChar": 47
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c37666b_e11826bc",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
         "patchSetId": 15
@@ -185,6 +365,30 @@
       "writtenOn": "2016-03-23T03:41:26Z",
       "side": 1,
       "message": "Missing a space between \u0027)\u0027 and \u0027/\u0027.",
+      "range": {
+        "startLine": 212,
+        "startChar": 56,
+        "endLine": 212,
+        "endChar": 58
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c09d2ae_286f0bcc",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c37666b_e11826bc",
       "range": {
         "startLine": 212,
         "startChar": 56,
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_6975059a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c37666b_c1172287",
+      "range": {
+        "startLine": 216,
+        "startChar": 30,
+        "endLine": 216,
+        "endChar": 38
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c1206d7_09932912",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 15
@@ -231,6 +459,30 @@
       "writtenOn": "2016-03-23T06:34:50Z",
       "side": 1,
       "message": "This is wrong and leads to the NPE. It\u0027s not easy to see why, though. REST Enpoint containers are optimized to transfer as less as possible data over the wire. That why, we are nullify false values. Only truthy boolean values are transfered. That why srvInfo.change.allowBlame will be null, when user tries to disable blame feature with change.allowBlame \u003d false. While the UI would work, because it would respect the setting and hide blame icon, direct call of the endpoint:\n\n* davido@wiball\u003e$ curl --digest --user davido:secret --header \"Content-Type: application/json; charset\u003dUTF-8\" http://localhost:8080/a/changes/2702/revisions/bd0607b47f7552b6e068bdb3f1310edf22426f0e/files/foo/blame\n\nwould fail with the NPE: [1], because of assignment of null into boolean variable.\n\n* [1] http://paste.openstack.org/show/491532\n\nI would also prefer not to use this GET server endpoint in a ctor of the REST API handler (it reads the whole world and it\u0027s even not a singleton). Just inject the\n\n  @GerritServerConfig Config cfg\n\nand this line does the job:\n\n  allowBlame \u003d cfg.getBoolean(\"change\", \"allowBlame\", true)",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 42
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_497241b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-03-23T08:45:38Z",
+      "side": 1,
+      "message": "Done\nI wanted to reuse the config loading logic so the server and client share the logic (especially the defaulting). If one changes the default value or the hardcoded keys here it is possible to miss the client side and vice versa.\n\nI have fixed it to the suggested solution because I noticed that this is common practice in other components.",
+      "parentUuid": "9c1206d7_09932912",
       "range": {
         "startLine": 95,
         "startChar": 4,

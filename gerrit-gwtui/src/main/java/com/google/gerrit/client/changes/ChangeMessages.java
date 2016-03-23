@@ -50,7 +50,8 @@ public interface ChangeMessages extends Messages {
   String copiedFrom(String sourcePath);
   String otherFrom(String sourcePath);
 
-  String needApproval(String labelName);
+  String needs(String labelName);
+  String notPassed(String labelName);
   String publishComments(String changeId, int ps);
   String lineHeader(int line);
 

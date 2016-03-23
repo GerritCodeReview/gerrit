@@ -65,7 +65,7 @@ _gerrit_sh()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="check restart run start status stop supervise"
+    opts="check restart run start status stop supervise threads"
 
     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 }

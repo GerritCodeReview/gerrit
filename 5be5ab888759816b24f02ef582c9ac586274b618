@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc2a2213_b4f4a0a8",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T18:49:38Z",
+      "side": 1,
+      "message": "This is never set to false. Fixed in Patch Set 17.",
+      "range": {
+        "startLine": 59,
+        "startChar": 18,
+        "endLine": 59,
+        "endChar": 27
+      },
+      "revId": "5be5ab888759816b24f02ef582c9ac586274b618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

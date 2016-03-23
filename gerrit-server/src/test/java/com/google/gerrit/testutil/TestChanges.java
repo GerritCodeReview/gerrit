@@ -28,10 +28,8 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.ChangeDraftUpdate;
-import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -88,34 +86,33 @@ public class TestChanges {
   }
 
   public static ChangeUpdate newUpdate(Injector injector,
-      GitRepositoryManager repoManager, NotesMigration migration, Change c,
-      final AllUsersName allUsers, final CurrentUser user)
-      throws Exception  {
+      Change c, final CurrentUser user) throws Exception  {
     injector = injector.createChildInjector(new FactoryModule() {
       @Override
       public void configure() {
-        factory(ChangeUpdate.Factory.class);
-        factory(ChangeDraftUpdate.Factory.class);
         bind(CurrentUser.class).toInstance(user);
       }
     });
     ChangeUpdate update = injector.getInstance(ChangeUpdate.Factory.class)
         .create(
             stubChangeControl(
-                repoManager, migration, c, allUsers,
-                injector.getInstance(ChangeNoteUtil.class),
+                injector.getInstance(AbstractChangeNotes.Args.class),
+                c,
                 user),
             TimeUtil.nowTs(), Ordering.<String> natural());
 
     ChangeNotes notes = update.getChangeNotes();
     boolean hasPatchSets = notes.getPatchSets() != null
         && !notes.getPatchSets().isEmpty();
+    NotesMigration migration = injector.getInstance(NotesMigration.class);
     if (hasPatchSets || !migration.readChanges()) {
       return update;
     }
 
     // Change doesn't exist yet. Notedb requires that there be a commit for the
     // first patch set, so create one.
+    GitRepositoryManager repoManager =
+        injector.getInstance(GitRepositoryManager.class);
     try (Repository repo = repoManager.openRepository(c.getProject())) {
       TestRepository<Repository> tr = new TestRepository<>(repo);
       PersonIdent ident = user.asIdentifiedUser()
@@ -136,16 +133,13 @@ public class TestChanges {
   }
 
   private static ChangeControl stubChangeControl(
-      GitRepositoryManager repoManager, NotesMigration migration,
-      Change c, AllUsersName allUsers, ChangeNoteUtil noteUtil,
-      CurrentUser user) throws OrmException {
+      AbstractChangeNotes.Args args,
+      Change c, CurrentUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
     expect(ctl.getUser()).andStubReturn(user);
-    ChangeNotes notes =
-        new ChangeNotes(repoManager, migration, allUsers, noteUtil,
-            c.getProject(), c).load();
+    ChangeNotes notes = new ChangeNotes(args, c.getProject(), c).load();
     expect(ctl.getNotes()).andStubReturn(notes);
     expect(ctl.getId()).andStubReturn(c.getId());
     EasyMock.replay(ctl);

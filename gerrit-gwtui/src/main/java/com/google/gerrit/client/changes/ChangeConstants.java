@@ -25,6 +25,8 @@ public interface ChangeConstants extends Constants {
   String readyToSubmit();
   String mergeConflict();
   String notCurrent();
+  String needs();
+  String blockedOn();
   String changeEdit();
 
   String myDashboardTitle();

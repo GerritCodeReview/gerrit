@@ -1153,13 +1153,13 @@ public class ChangeScreen extends Screen {
         LabelInfo label = info.label(name);
         switch (label.status()) {
           case NEED:
-            statusText.setInnerText("Needs " + name);
+            statusText.setInnerText(Util.C.needs() + " " + name);
             canSubmit = false;
             break;
           case REJECT:
           case IMPOSSIBLE:
             if (label.blocking()) {
-              statusText.setInnerText("Not " + name);
+              statusText.setInnerText(Util.C.blockedOn() + " " + name);
               canSubmit = false;
             }
             break;

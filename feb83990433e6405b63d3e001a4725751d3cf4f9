@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c85a65b_71a5d8ca",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-23T18:13:07Z",
+      "side": 1,
+      "message": "Since this method can only return TRUE we actually don\u0027t need the return value (as it is always known).\n\nMake this method void and replace \"list()\" in the line 96 with true.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "feb83990433e6405b63d3e001a4725751d3cf4f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

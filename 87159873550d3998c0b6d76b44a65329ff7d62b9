@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "5c1a4e04_f71300ad",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T19:51:08Z",
+      "side": 1,
+      "message": "It\u0027s not part of the style guide, just my personal preference. There are also many more \"i++\"s than \"++i\"s in Gerrit\u0027s code base.",
+      "parentUuid": "7c09d2ae_6875039a",
+      "range": {
+        "startLine": 192,
+        "startChar": 57,
+        "endLine": 192,
+        "endChar": 60
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c3e324b_20cb6a6c",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
         "patchSetId": 15

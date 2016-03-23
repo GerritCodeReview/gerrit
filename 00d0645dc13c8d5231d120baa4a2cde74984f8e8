@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c85a65b_b1a260c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-23T18:09:07Z",
+      "side": 1,
+      "message": "This should be translatable text, also the text in 1156. This could be fixed too if you are already touching these lines",
+      "range": {
+        "startLine": 1162,
+        "startChar": 38,
+        "endLine": 1162,
+        "endChar": 51
+      },
+      "revId": "00d0645dc13c8d5231d120baa4a2cde74984f8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

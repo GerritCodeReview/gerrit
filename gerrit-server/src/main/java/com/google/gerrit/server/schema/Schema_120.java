@@ -95,7 +95,7 @@ public class Schema_120 extends SchemaVersion {
          ResultSet rs = stmt.executeQuery("SELECT " +
              "key.super_project.project_name, " +
              "key.super_project.branch_name, " +
-             "submodule.project_name " +
+             "submodule.project_name, " +
              "submodule.branch_name " +
              "FROM submodule_subscriptions");) {
       while (rs.next()) {

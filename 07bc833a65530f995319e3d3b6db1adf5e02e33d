@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c3e324b_a0b69aff",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1020422
+      },
+      "writtenOn": "2016-03-23T03:03:10Z",
+      "side": 1,
+      "message": "the last  non-capturing group can also be removed",
+      "range": {
+        "startLine": 56,
+        "startChar": 28,
+        "endLine": 56,
+        "endChar": 55
+      },
+      "revId": "07bc833a65530f995319e3d3b6db1adf5e02e33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

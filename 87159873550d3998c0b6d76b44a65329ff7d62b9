@@ -217,6 +217,29 @@
       "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c1206d7_09932912",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-23T06:34:50Z",
+      "side": 1,
+      "message": "This is wrong and leads to the NPE. It\u0027s not easy to see why, though. REST Enpoint containers are optimized to transfer as less as possible data over the wire. That why, we are nullify false values. Only truthy boolean values are transfered. That why srvInfo.change.allowBlame will be null, when user tries to disable blame feature with change.allowBlame \u003d false. While the UI would work, because it would respect the setting and hide blame icon, direct call of the endpoint:\n\n* davido@wiball\u003e$ curl --digest --user davido:secret --header \"Content-Type: application/json; charset\u003dUTF-8\" http://localhost:8080/a/changes/2702/revisions/bd0607b47f7552b6e068bdb3f1310edf22426f0e/files/foo/blame\n\nwould fail with the NPE: [1], because of assignment of null into boolean variable.\n\n* [1] http://paste.openstack.org/show/491532\n\nI would also prefer not to use this GET server endpoint in a ctor of the REST API handler (it reads the whole world and it\u0027s even not a singleton). Just inject the\n\n  @GerritServerConfig Config cfg\n\nand this line does the job:\n\n  allowBlame \u003d cfg.getBoolean(\"change\", \"allowBlame\", true)",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 42
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

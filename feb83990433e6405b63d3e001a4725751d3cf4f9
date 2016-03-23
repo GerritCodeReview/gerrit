@@ -46,6 +46,30 @@
       "revId": "feb83990433e6405b63d3e001a4725751d3cf4f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c85a65b_51d1b419",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-23T18:54:07Z",
+      "side": 1,
+      "message": "Actually what I wrote was partially incomplete :-|\n\nFrom your two examples I would chose the second one.\nHowever, when I compare it with the existing code I don\u0027t see a big advantage. Only if we keep adding more \"else if\" cases then this makes\nsense.\nSo I am giving +2 and you can decide if you want to change the code or keep it.",
+      "parentUuid": "9c85a65b_91b63c00",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "feb83990433e6405b63d3e001a4725751d3cf4f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c37666b_61441695",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Most of the fields in this class are pubilc and non-final. If a field is immutable, I\u0027d prefer it to be final and assign them in the constructor so that later developers can\u0027t accidentally assign to them. If a field might be changed later, please make it private and use a pair of getter / setter.",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_81411a86",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Is this field actually used?",
+      "range": {
+        "startLine": 58,
+        "startChar": 24,
+        "endLine": 58,
+        "endChar": 30
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c3e324b_60d1721a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Line too long. We use 80 characters as the column limit. Same below.",
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_612df6da",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Line too long, please wrap it.",
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_a1121e98",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Instead of doing this check, can we just keep boolean in this class?",
+      "range": {
+        "startLine": 157,
+        "startChar": 30,
+        "endLine": 157,
+        "endChar": 41
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c3e324b_40c8ee6c",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "I\u0027d prefer \"l++\".",
+      "range": {
+        "startLine": 192,
+        "startChar": 57,
+        "endLine": 192,
+        "endChar": 60
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c3e324b_20cb6a6c",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "The line breaks are kind of weird here, please fix.",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_414b12a2",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Missing a space between \u0027)\u0027 and \u0027/\u0027.",
+      "range": {
+        "startLine": 208,
+        "startChar": 45,
+        "endLine": 208,
+        "endChar": 47
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_e11826bc",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Missing a space between \u0027)\u0027 and \u0027/\u0027.",
+      "range": {
+        "startLine": 212,
+        "startChar": 56,
+        "endLine": 212,
+        "endChar": 58
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c37666b_c1172287",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-23T03:41:26Z",
+      "side": 1,
+      "message": "Is this method used?",
+      "range": {
+        "startLine": 216,
+        "startChar": 30,
+        "endLine": 216,
+        "endChar": 38
+      },
+      "revId": "87159873550d3998c0b6d76b44a65329ff7d62b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1159,7 +1159,7 @@ public class ChangeScreen extends Screen {
           case REJECT:
           case IMPOSSIBLE:
             if (label.blocking()) {
-              statusText.setInnerText("Not " + name);
+              statusText.setInnerText("Blocked on " + name);
               canSubmit = false;
             }
             break;

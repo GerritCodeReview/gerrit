@@ -46,7 +46,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
-import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
@@ -215,7 +214,6 @@ public class RebuildNotedb extends SiteProgram {
       public void configure() {
         install(dbInjector.getInstance(BatchProgramModule.class));
         install(SearchingChangeCacheImpl.module());
-        install(new NoteDbModule());
         DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(
             ReindexAfterUpdate.class);
         install(new DummyIndexModule());

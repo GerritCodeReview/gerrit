@@ -3,8 +3,8 @@ include_defs('//lib/codemirror/cm.defs')
 include_defs('//lib/codemirror/closure.defs')
 
 REPO = MAVEN_CENTRAL
-VERSION = '5.13'
-SHA1 = '4888b4e7dde6822ff5f688f5f89c84fd7cf5a764'
+VERSION = '5.13.2'
+SHA1 = '4a26f060aeca679fdf751d2b480499c8a5f71e47'
 
 if REPO == MAVEN_CENTRAL:
   URL = REPO + 'org/webjars/codemirror/%s/codemirror-%s.jar' % (VERSION, VERSION)

@@ -72,7 +72,7 @@
       window.removeEventListener('resize', this._boundWindowResizeHandler);
     },
 
-    addDraft: function(lineNum) {
+    addDraft: function(opt_lineNum) {
       var lastComment = this.comments[this.comments.length - 1];
       if (lastComment && lastComment.__draft) {
         var commentEl = this._commentElWithDraftID(
@@ -81,7 +81,7 @@
         return;
       }
 
-      this.push('comments', this._newDraft(lineNum));
+      this.push('comments', this._newDraft(opt_lineNum));
     },
 
     _getLoggedIn: function() {
@@ -180,8 +180,8 @@
       return null;
     },
 
-    _newReply: function(inReplyTo, lineNum, opt_message) {
-      var d = this._newDraft(lineNum);
+    _newReply: function(inReplyTo, opt_lineNum, opt_message) {
+      var d = this._newDraft(opt_lineNum);
       d.in_reply_to = inReplyTo;
       if (opt_message != null) {
         d.message = opt_message;
@@ -189,15 +189,18 @@
       return d;
     },
 
-    _newDraft: function(lineNum) {
-      return {
+    _newDraft: function(opt_lineNum) {
+      var d = {
         __draft: true,
         __draftID: Math.random().toString(36),
         __date: new Date(),
-        line: lineNum,
         path: this.path,
         side: this.side,
       };
+      if (opt_lineNum) {
+        d.line = opt_lineNum;
+      }
+      return d;
     },
 
     _handleCommentDiscard: function(e) {

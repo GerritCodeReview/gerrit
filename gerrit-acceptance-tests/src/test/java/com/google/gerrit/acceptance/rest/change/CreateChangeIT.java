@@ -115,7 +115,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void notedbCommit() throws Exception {
+  public void noteDbCommit() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));

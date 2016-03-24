@@ -97,7 +97,7 @@ public class ChangeResource implements RestResource, HasETag {
       noteId = null; // This ETag will be invalidated if it loads next time.
     }
     hashObjectId(h, noteId, buf);
-    // TODO(dborowitz): Include more notedb and other related refs, e.g. drafts
+    // TODO(dborowitz): Include more NoteDb and other related refs, e.g. drafts
     // and edits.
 
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {

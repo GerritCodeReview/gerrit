@@ -279,7 +279,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   @Override
   public Repository openMetadataRepository(Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
-    checkState(notesMigration.readChanges(), "notedb disabled");
+    checkState(notesMigration.readChanges(), "NoteDb disabled");
     try {
       return openRepository(noteDbPath, name);
     } catch (RepositoryNotFoundException e) {

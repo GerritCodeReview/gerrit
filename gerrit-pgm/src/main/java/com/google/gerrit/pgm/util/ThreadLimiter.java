@@ -24,7 +24,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO(dborowitz): Not necessary once we switch to notedb.
+// TODO(dborowitz): Not necessary once we switch to NoteDb.
 /** Utility to limit threads used by a batch program. */
 public class ThreadLimiter {
   private static final Logger log =

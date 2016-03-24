@@ -68,7 +68,7 @@ public class Check implements RestReadView<ChangeResource>,
 
   private void checkEnabled() throws NotImplementedException {
     if (notesMigration.readChanges()) {
-      throw new NotImplementedException("check not implemented for notedb");
+      throw new NotImplementedException("check not implemented for NoteDb");
     }
   }
 }

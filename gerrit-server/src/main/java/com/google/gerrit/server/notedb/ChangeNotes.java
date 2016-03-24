@@ -202,10 +202,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
-    public ChangeNotes createFromIdOnlyWhenNotedbDisabled(
+    public ChangeNotes createFromIdOnlyWhenNoteDbDisabled(
         ReviewDb db, Change.Id changeId) throws OrmException {
     checkState(!migration.readChanges(), "do not call"
-        + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
+        + " createFromIdOnlyWhenNoteDbDisabled when NoteDb is enabled");
       Change change = unwrap(db).changes().get(changeId);
       return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
           change.getProject(), change).load();
@@ -216,10 +216,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * Instantiate ChangeNotes for a change that has been loaded by a batch read
      * from the database.
      */
-    private ChangeNotes createFromChangeOnlyWhenNotedbDisabled(Change change)
+    private ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change)
         throws OrmException {
       checkState(!migration.readChanges(), "do not call"
-          + " createFromChangeWhenNotedbDisabled when notedb is enabled");
+          + " createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
       return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
           change.getProject(), change).load();
     }
@@ -271,7 +271,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
 
       for (Change c : unwrap(db).changes().get(changeIds)) {
-        notes.add(createFromChangeOnlyWhenNotedbDisabled(c));
+        notes.add(createFromChangeOnlyWhenNoteDbDisabled(c));
       }
       return notes;
     }
@@ -292,7 +292,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
       for (Change c : unwrap(db).changes().get(changeIds)) {
         if (c != null && project.equals(c.getDest().getParentKey())) {
-          ChangeNotes cn = createFromChangeOnlyWhenNotedbDisabled(c);
+          ChangeNotes cn = createFromChangeOnlyWhenNoteDbDisabled(c);
           if (predicate.apply(cn)) {
             notes.add(cn);
           }
@@ -307,7 +307,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = repoManager.openRepository(project)) {
-            List<ChangeNotes> changes = scanNotedb(repo, db, project);
+            List<ChangeNotes> changes = scanNoteDb(repo, db, project);
             for (ChangeNotes cn : changes) {
               if (predicate.apply(cn)) {
                 m.put(project, cn);
@@ -317,7 +317,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       } else {
         for (Change change : unwrap(db).changes().all()) {
-          ChangeNotes notes = createFromChangeOnlyWhenNotedbDisabled(change);
+          ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
           if (predicate.apply(notes)) {
             m.put(change.getProject(), notes);
           }
@@ -332,7 +332,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return scanDb(repo, db);
       }
 
-      return scanNotedb(repo, db, project);
+      return scanNoteDb(repo, db, project);
     }
 
     private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
@@ -343,13 +343,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // but still >1.
       for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
         for (Change change : unwrap(db).changes().get(batch)) {
-          notes.add(createFromChangeOnlyWhenNotedbDisabled(change));
+          notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
         }
       }
       return notes;
     }
 
-    private List<ChangeNotes> scanNotedb(Repository repo, ReviewDb db,
+    private List<ChangeNotes> scanNoteDb(Repository repo, ReviewDb db,
         Project.NameKey project) throws OrmException, IOException {
       Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());

@@ -1019,7 +1019,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byHashtagWithNotedb() throws Exception {
+  public void byHashtagWithNoteDb() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
     List<Change> changes = setUpHashtagChanges();
     assertQuery("hashtag:foo", changes.get(1), changes.get(0));
@@ -1032,7 +1032,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byHashtagWithoutNotedb() throws Exception {
+  public void byHashtagWithoutNoteDb() throws Exception {
     assume().that(notesMigration.enabled()).isFalse();
     setUpHashtagChanges();
     assertQuery("hashtag:foo");
@@ -1335,7 +1335,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     cd.reviewedBy();
 
     // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
-    // necessary for notedb anyway.
+    // necessary for NoteDb anyway.
     cd.isMergeable();
 
     exception.expect(DisabledReviewDb.Disabled.class);

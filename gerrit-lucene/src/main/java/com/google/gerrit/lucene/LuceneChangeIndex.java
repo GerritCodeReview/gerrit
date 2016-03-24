@@ -358,7 +358,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     if (!schema.hasField(PROJECT)) {
       // Schema is not new enough to have project field. Ensure we have ID
-      // field, and call createOnlyWhenNotedbDisabled from toChangeData below.
+      // field, and call createOnlyWhenNoteDbDisabled from toChangeData below.
       if (fs.contains(LEGACY_ID.getName())) {
         return fs;
       } else {
@@ -389,9 +389,9 @@ public class LuceneChangeIndex implements ChangeIndex {
           new Change.Id(doc.getField(idFieldName).numericValue().intValue());
       IndexableField project = doc.getField(PROJECT.getName());
       if (project == null) {
-        // Old schema without project field: we can safely assume notedb is
+        // Old schema without project field: we can safely assume NoteDb is
         // disabled.
-        cd = changeDataFactory.createOnlyWhenNotedbDisabled(db.get(), id);
+        cd = changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), id);
       } else {
         cd = changeDataFactory.create(
             db.get(), new Project.NameKey(project.stringValue()), id);

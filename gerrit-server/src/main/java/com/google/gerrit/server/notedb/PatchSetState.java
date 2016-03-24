@@ -24,7 +24,7 @@ public enum PatchSetState {
   /**
    * Deleted patch set.
    * <p>
-   * Used internally as a tombstone; patch sets exposed by public notedb
+   * Used internally as a tombstone; patch sets exposed by public NoteDb
    * interfaces never have this state.
    */
   DELETED;

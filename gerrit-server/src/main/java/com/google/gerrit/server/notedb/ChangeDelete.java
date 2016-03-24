@@ -42,7 +42,7 @@ public class ChangeDelete {
     ru.setExpectedOldObjectId(notes.load().getRevision());
     ru.setNewObjectId(ObjectId.zeroId());
     ru.setForceUpdate(true);
-    ru.setRefLogMessage("Delete change from notedb", false);
+    ru.setRefLogMessage("Delete change from NoteDb", false);
     RefUpdate.Result result = ru.delete();
     switch (result) {
       case FAST_FORWARD:

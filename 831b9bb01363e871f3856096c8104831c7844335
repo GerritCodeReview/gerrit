@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcaeeaf7_52e114e5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T20:43:45Z",
+      "side": 1,
+      "message": "if you have an index, and a list of els, why not just call \n\nthis._scrollToElement(els[idx - 1 ])",
+      "revId": "831b9bb01363e871f3856096c8104831c7844335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc11de0a_13d78c07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T20:43:45Z",
+      "side": 1,
+      "message": "Does this take into account the current scrollbar position, this always bites me.\n\nFor instance, if you are scrolled 400px down, and the element is 200px below you tell the page to scrollTo 200px but that ignores the existing scroll position thus you end up at 200px and not 600px.",
+      "revId": "831b9bb01363e871f3856096c8104831c7844335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcaeeaf7_92137cae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T20:43:45Z",
+      "side": 1,
+      "message": "consider .flush() here vs .async if you are waiting for the DOM/binding to happening",
+      "revId": "831b9bb01363e871f3856096c8104831c7844335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

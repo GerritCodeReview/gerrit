@@ -39,6 +39,8 @@
         value: false,
         reflectToAttribute: true,
       },
+
+      _newPrefs: Object,
     },
 
     observers: [
@@ -47,20 +49,25 @@
 
     _prefsChanged: function(changeRecord) {
       var prefs = changeRecord.base;
+      // TODO(andybons): This is not supported in IE. Implement a polyfill.
+      // NOTE: Object.assign is NOT automatically a deep copy. If prefs adds
+      // an object as a value, it must be marked enumerable.
+      this._newPrefs = Object.assign({}, prefs);
       this.$.contextSelect.value = prefs.context;
       this.$.showTabsInput.checked = prefs.show_tabs;
     },
 
     _handleContextSelectChange: function(e) {
       var selectEl = Polymer.dom(e).rootTarget;
-      this.set('prefs.context', parseInt(selectEl.value, 10));
+      this.set('_newPrefs.context', parseInt(selectEl.value, 10));
     },
 
     _handleShowTabsTap: function(e) {
-      this.set('prefs.show_tabs', Polymer.dom(e).rootTarget.checked);
+      this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
     },
 
     _handleSave: function() {
+      this.prefs = this._newPrefs;
       this.fire('save', null, {bubbles: false});
     },
 

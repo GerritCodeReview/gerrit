@@ -86,14 +86,14 @@ limitations under the License.
         <input is="iron-input" type="number" id="columnsInput"
             prevent-invalid-input
             allowed-pattern="[0-9]"
-            bind-value="{{prefs.line_length}}">
+            bind-value="{{_newPrefs.line_length}}">
       </div>
       <div class="pref">
         <label for="tabSizeInput">Tab width</label>
         <input is="iron-input" type="number" id="tabSizeInput"
             prevent-invalid-input
             allowed-pattern="[0-9]"
-            bind-value="{{prefs.tab_size}}">
+            bind-value="{{_newPrefs.tab_size}}">
       </div>
       <div class="pref">
         <label for="showTabsInput">Show tabs</label>

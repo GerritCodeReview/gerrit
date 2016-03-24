@@ -45,6 +45,7 @@ limitations under the License.
         show_tabs: true,
         tab_size: 8,
       };
+      assert.deepEqual(element.prefs, element._newPrefs);
 
       element.$.contextSelect.value = '50';
       element.fire('change', {}, {node: element.$.contextSelect});
@@ -52,10 +53,10 @@ limitations under the License.
       element.$.tabSizeInput.bindValue = 4;
       MockInteractions.tap(element.$.showTabsInput);
 
-      assert.equal(element.prefs.context, 50);
-      assert.equal(element.prefs.line_length, 80);
-      assert.equal(element.prefs.tab_size, 4);
-      assert.isFalse(element.prefs.show_tabs);
+      assert.equal(element._newPrefs.context, 50);
+      assert.equal(element._newPrefs.line_length, 80);
+      assert.equal(element._newPrefs.tab_size, 4);
+      assert.isFalse(element._newPrefs.show_tabs);
     });
 
     test('events', function(done) {

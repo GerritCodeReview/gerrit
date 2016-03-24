@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c903aca_1ea84da3",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T20:50:24Z",
+      "side": 0,
+      "message": "Instead of removing it, I would expect this to be renamed in rebuild-note-db.",
+      "revId": "400d1de5688643570b05b73fc1f382fa167b530c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

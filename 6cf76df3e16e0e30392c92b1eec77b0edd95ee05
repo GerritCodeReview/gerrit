@@ -17,6 +17,24 @@
       "revId": "6cf76df3e16e0e30392c92b1eec77b0edd95ee05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc11de0a_b3bcd8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-24T17:55:46Z",
+      "side": 1,
+      "message": "Are you referring to a small test to setCommentRevId to ensure IAE is thrown, or something else?",
+      "parentUuid": "7c09d2ae_8803972e",
+      "revId": "6cf76df3e16e0e30392c92b1eec77b0edd95ee05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

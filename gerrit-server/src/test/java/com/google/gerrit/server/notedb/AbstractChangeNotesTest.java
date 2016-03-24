@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -142,7 +143,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       @Override
       public void configure() {
         install(new GitModule());
-        install(new NoteDbModule());
+        install(new NoteDbModule(true));
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(String.class).annotatedWith(GerritServerId.class)
             .toInstance("gerrit");
@@ -168,6 +169,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
             .toInstance(GitReferenceUpdated.DISABLED);
         bind(StarredChangesUtil.class)
             .toProvider(Providers.<StarredChangesUtil> of(null));
+        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
       }
     });
 

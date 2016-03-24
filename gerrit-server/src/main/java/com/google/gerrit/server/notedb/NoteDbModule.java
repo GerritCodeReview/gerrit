@@ -14,14 +14,51 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+
+import org.eclipse.jgit.transport.ReceiveCommand;
+
+import java.util.List;
 
 public class NoteDbModule extends FactoryModule {
+
+  private final boolean useTestBindings;
+
+  public NoteDbModule() {
+    this(false);
+  }
+
+  NoteDbModule(boolean useTestBindings) {
+    this.useTestBindings = useTestBindings;
+  }
+
   @Override
   public void configure() {
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
     factory(DraftCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
+    DynamicItem.itemOf(binder(), NoteDbLoadHook.class);
+    if (!useTestBindings) {
+      bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
+    } else {
+      bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder() {
+        @Override
+        public ListenableFuture<List<ReceiveCommand>> rebuildAsync(Id id,
+            ListeningExecutorService executor) {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public List<ReceiveCommand> rebuild(ReviewDb db, Id changeId) {
+          throw new UnsupportedOperationException();
+        }
+      });
+    }
   }
 }

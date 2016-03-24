@@ -14,13 +14,18 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
@@ -29,6 +34,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +47,7 @@ public class NoteDbChecker {
   static final Logger log = LoggerFactory.getLogger(NoteDbChecker.class);
 
   private final Provider<ReviewDb> dbProvider;
+  private final GitRepositoryManager repoManager;
   private final TestNotesMigration notesMigration;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeRebuilder changeRebuilder;
@@ -48,11 +55,13 @@ public class NoteDbChecker {
 
   @Inject
   NoteDbChecker(Provider<ReviewDb> dbProvider,
+      GitRepositoryManager repoManager,
       TestNotesMigration notesMigration,
       ChangeNotes.Factory notesFactory,
       ChangeRebuilder changeRebuilder,
       PatchLineCommentsUtil plcUtil) {
     this.dbProvider = dbProvider;
+    this.repoManager = repoManager;
     this.notesMigration = notesMigration;
     this.notesFactory = notesFactory;
     this.changeRebuilder = changeRebuilder;
@@ -97,6 +106,14 @@ public class NoteDbChecker {
 
   public void checkChanges(Iterable<Change.Id> changeIds) throws Exception {
     checkActual(readExpected(changeIds));
+  }
+
+  public void assertNoChangeRef(Project.NameKey project, Change.Id changeId)
+      throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(project)) {
+      assertThat(repo.exactRef(ChangeNoteUtil.changeRefName(changeId)))
+          .isNull();
+    }
   }
 
   private List<ChangeBundle> readExpected(Iterable<Change.Id> changeIds)

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -95,6 +97,7 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
   private final IdentifiedUser.GenericFactory userFactory;
   private final InternalUser.Factory internalUserFactory;
   private final PatchListCache patchListCache;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -107,6 +110,7 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
       IdentifiedUser.GenericFactory userFactory,
       InternalUser.Factory internalUserFactory,
       PatchListCache patchListCache,
+      ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -117,6 +121,7 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
     this.userFactory = userFactory;
     this.internalUserFactory = internalUserFactory;
     this.patchListCache = patchListCache;
+    this.notesFactory = notesFactory;
     this.updateFactory = updateFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
@@ -124,12 +129,13 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   @Override
-  public void rebuild(ReviewDb db, Change.Id changeId)
+  public NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
+    db = unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
-      return;
+      throw new NoSuchChangeException(changeId);
     }
     NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject());
@@ -200,27 +206,31 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
       }
       flushEventsToDraftUpdate(db, manager, plcel, change);
     }
-    execute(db, changeId, manager);
+    return execute(db, changeId, manager);
   }
 
-  private void execute(ReviewDb db, Change.Id changeId,
+  private NoteDbChangeState execute(ReviewDb db, Change.Id changeId,
       NoteDbUpdateManager manager)
       throws NoSuchChangeException, OrmException, IOException  {
+    NoteDbChangeState result;
     db.changes().beginTransaction(changeId);
     try {
       Change change = db.changes().get(changeId);
       if (change == null) {
         throw new NoSuchChangeException(changeId);
       }
-      NoteDbChangeState.applyDelta(
+      result = NoteDbChangeState.applyDelta(
           change,
           manager.stage().get(changeId));
+      checkNotNull(result,
+          "expected new NoteDbChangeState when rebuilding change %s", changeId);
       db.changes().update(Collections.singleton(change));
       db.commit();
     } finally {
       db.rollback();
     }
     manager.execute();
+    return result;
   }
 
   private void flushEventsToUpdate(ReviewDb db, NoteDbUpdateManager manager,
@@ -230,7 +240,9 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
       return;
     }
     ChangeUpdate update = updateFactory.create(
-        controlFactory.controlFor(db, change, events.getUser(db)),
+        controlFactory.controlFor(
+            notesFactory.createWithAutoRebuildingDisabled(change),
+            events.getUser(db)),
         events.getWhen());
     update.setAllowWriteToNewRef(true);
     update.setPatchSetId(events.getPatchSetId());
@@ -248,7 +260,9 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
       return;
     }
     ChangeDraftUpdate update = draftUpdateFactory.create(
-        controlFactory.controlFor(db, change, events.getUser(db)),
+        controlFactory.controlFor(
+            notesFactory.createWithAutoRebuildingDisabled(change),
+            events.getUser(db)),
         events.getWhen());
     update.setPatchSetId(events.getPatchSetId());
     for (PatchLineCommentEvent e : events) {
@@ -707,5 +721,12 @@ class ChangeRebuilderImpl extends ChangeRebuilder {
         update.setSubjectForCommit("Final NoteDb migration updates");
       }
     }
+  }
+
+  private ReviewDb unwrapDb(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
   }
 }

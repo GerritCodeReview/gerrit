@@ -34,20 +34,19 @@ public abstract class ChangeRebuilder {
     this.schemaFactory = schemaFactory;
   }
 
-  public final ListenableFuture<?> rebuildAsync(
+  public final ListenableFuture<NoteDbChangeState> rebuildAsync(
       final Change.Id id, ListeningExecutorService executor) {
-    return executor.submit(new Callable<Void>() {
-      @Override
-      public Void call() throws Exception {
+    return executor.submit(new Callable<NoteDbChangeState>() {
+        @Override
+      public NoteDbChangeState call() throws Exception {
         try (ReviewDb db = schemaFactory.open()) {
-          rebuild(db, id);
+          return rebuild(db, id);
         }
-        return null;
       }
     });
   }
 
-  public abstract void rebuild(ReviewDb db, Change.Id changeId)
+  public abstract NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException;
 }

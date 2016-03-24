@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9c1206d7_c96f51fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-24T14:12:00Z",
+      "side": 0,
+      "message": "Your comment actually reveals that I forgot to think about the \"Test Submit Type/Rule\" REST endpoints [1]. These REST endpoints assume Prolog input and the \"input.rule\" represents a Prolog code. Now, that the submit-rule/type are just extension points I don\u0027t think that this variant\n(with client provided rule source code) can be supported generically.\n\nSee also my other answer (to DavidO).\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#test-submit-type",
+      "parentUuid": "bc6d0aef_3a91e13b",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c1206d7_096c49d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 4
@@ -83,6 +107,30 @@
       "writtenOn": "2016-03-23T07:46:58Z",
       "side": 0,
       "message": "Is this correct? How test-submit-rule SSH command and POST test.submit_rule REST handler supposed to supply the rule to be evaluated on the fly?",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 3
+      },
+      "revId": "3bbd3c313fc0fbfcf364b4697e75cae6674230df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c8c7287_b0901839",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-24T14:12:00Z",
+      "side": 0,
+      "message": "You are correct. I already realized (from Edwins comments) that I didn\u0027t think about the \"test-submit rule/type\" commands for client supplied rules.\n\nOne possibility could be to move out this functionality to the Prolog based plugin? Other submit-rule plugins may or may not support that feature.\n\nAnother possibility would be to add methods to the SubmitRule extension point like:\n\n  public boolean supportsTesting();\n  public List\u003cSubmitRecord\u003e test(String input, ChangeData cd, SubmitRuleFlags flags);\n\nSo that SubmitRuleEvaluator can check if the SubmitRule for this project supports testing. The \"input\" would be just the request body interpreted as a String.\nI don\u0027t know if this would be generic enough solution... So, at this moment I prefer to move out this feature to the Prolog based plugin.\n\nWhat do you think?",
+      "parentUuid": "9c1206d7_096c49d3",
       "range": {
         "startLine": 161,
         "startChar": 2,

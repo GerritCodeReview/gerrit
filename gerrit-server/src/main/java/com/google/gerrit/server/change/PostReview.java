@@ -553,6 +553,37 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
+    private Map<String, Short> getAllApprovals(LabelTypes labelTypes,
+        Map<String, Short> current, Map<String, Short> input) {
+      Map<String, Short> allApprovals = new HashMap<>();
+      for (LabelType lt : labelTypes.getLabelTypes()) {
+        allApprovals.put(lt.getName(), (short) 0);
+      }
+      // set approvals to existing votes
+      if (current != null) {
+        allApprovals.putAll(current);
+      }
+      // set approvals to new votes
+      if (input != null) {
+        allApprovals.putAll(input);
+      }
+      return allApprovals;
+    }
+
+    private Map<String, Short> getPreviousApprovals(
+        Map<String, Short> allApprovals, Map<String, Short> current) {
+      Map<String, Short> previous = new HashMap<>();
+      for (Map.Entry<String, Short> approval : allApprovals.entrySet()) {
+        // assume vote is 0 if there is no vote
+        if (!current.containsKey(approval.getKey())) {
+          previous.put(approval.getKey(), (short) 0);
+        } else {
+          previous.put(approval.getKey(), current.get(approval.getKey()));
+        }
+      }
+      return previous;
+    }
+
     private boolean updateLabels(ChangeContext ctx)
         throws OrmException, ResourceConflictException {
       Map<String, Short> inLabels = MoreObjects.firstNonNull(in.labels,
@@ -568,27 +599,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> del = Lists.newArrayList();
       List<PatchSetApproval> ups = Lists.newArrayList();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
-
-      // get all approvals in cases of quick approve vote
-      Map<String, Short> allApprovals = approvalsByKey(current.values());
-      allApprovals.putAll(inLabels);
-
-      // get previous label votes
-      Map<String, Short> currentLabels = new HashMap<>();
-      for (Map.Entry<String, PatchSetApproval> ent : current.entrySet()) {
-        currentLabels.put(ent.getValue().getLabel(), ent.getValue().getValue());
-      }
-      Map<String, Short> previous = new HashMap<>();
-      for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
-        if (!currentLabels.containsKey(ent.getKey())) {
-          previous.put(ent.getKey(), (short)0);
-        } else {
-          previous.put(ent.getKey(), currentLabels.get(ent.getKey()));
-        }
-      }
+      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      Map<String, Short> allApprovals = getAllApprovals(labelTypes,
+          approvalsByKey(current.values()), inLabels);
+      Map<String, Short> previous = getPreviousApprovals(allApprovals,
+          approvalsByKey(current.values()));
 
       ChangeUpdate update = ctx.getUpdate(psId);
-      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
         String name = ent.getKey();
         LabelType lt = checkNotNull(labelTypes.byLabel(name), name);

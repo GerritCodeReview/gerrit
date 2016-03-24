@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -105,6 +104,20 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
+  /* Need to lookup info for the label under test since there can be multiple
+   * labels defined.  By default Gerrit already has a Code-Review label.
+   */
+  private ApprovalAttribute getApprovalAttribute(LabelType label) {
+    ApprovalAttribute[] aa = lastCommentAddedEvent.approvals.get();
+    ApprovalAttribute res = null;
+    for (int i=0; i < aa.length; i++) {
+      if (aa[i].description.equals(label.getName())) {
+        res = aa[i];
+      }
+    }
+    return res;
+  }
+
   @Test
   public void newChangeWithVote() throws Exception {
     saveLabelConfig();
@@ -114,10 +127,9 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput().label(
         label.getName(), (short)-1);
     revision(r).review(reviewInput);
-    String newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    String oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo("0");
-    assertThat(newVote).isEqualTo("-1");
+    ApprovalAttribute attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo("0");
+    assertThat(attr.value).isEqualTo("-1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: %s-1", label.getName()));
   }
@@ -137,10 +149,9 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     reviewInput = new ReviewInput().label(
         label.getName(), (short)1);
     revision(r).review(reviewInput);
-    String newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    String oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo("0");
-    assertThat(newVote).isEqualTo("1");
+    ApprovalAttribute attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo("0");
+    assertThat(attr.value).isEqualTo("1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 2: %s+1", label.getName()));
   }
@@ -155,58 +166,55 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     // review with message only, do not apply votes
     ReviewInput reviewInput = new ReviewInput().message(label.getName());
     revision(r).review(reviewInput);
-    // reply message only so votes are excluded from comment
-    assertThat(lastCommentAddedEvent.approvals.get()).isNull();
+    // reply message only so vote is shown as 0
+    ApprovalAttribute attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isNull();
+    assertThat(attr.value).isEqualTo("0");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1:\n\n%s", label.getName()));
 
     // transition from un-voted to -1 vote
     reviewInput = new ReviewInput().label(label.getName(), -1);
     revision(r).review(reviewInput);
-    String newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    String oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo("0");
-    assertThat(newVote).isEqualTo("-1");
+    attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo("0");
+    assertThat(attr.value).isEqualTo("-1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: %s-1", label.getName()));
 
     // transition vote from -1 to 0
     reviewInput = new ReviewInput().label(label.getName(), 0);
     revision(r).review(reviewInput);
-    newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo("-1");
-    assertThat(newVote).isEqualTo("0");
+    attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo("-1");
+    assertThat(attr.value).isEqualTo("0");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: -%s", label.getName()));
 
     // transition vote from 0 to 1
     reviewInput = new ReviewInput().label(label.getName(), 1);
     revision(r).review(reviewInput);
-    newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo("0");
-    assertThat(newVote).isEqualTo("1");
+    attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo("0");
+    assertThat(attr.value).isEqualTo("1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: %s+1", label.getName()));
 
     // transition vote from 1 to -1
     reviewInput = new ReviewInput().label(label.getName(), -1);
     revision(r).review(reviewInput);
-    newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo("1");
-    assertThat(newVote).isEqualTo("-1");
+    attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo("1");
+    assertThat(attr.value).isEqualTo("-1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: %s-1", label.getName()));
 
     // review with message only, do not apply votes
     reviewInput = new ReviewInput().message(label.getName());
     revision(r).review(reviewInput);
-    newVote = lastCommentAddedEvent.approvals.get()[0].value;
-    oldVote = lastCommentAddedEvent.approvals.get()[0].oldValue;
-    assertThat(oldVote).isEqualTo(null);  // no vote change so not included
-    assertThat(newVote).isEqualTo("-1");
+    attr = getApprovalAttribute(label);
+    assertThat(attr.oldValue).isEqualTo(null);  // no vote change so not included
+    assertThat(attr.value).isEqualTo("-1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1:\n\n%s", label.getName()));
   }
@@ -222,10 +230,27 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     ChangeInfo c = get(r.getChangeId());
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    ApprovalAttribute labelAttr = getApprovalAttribute(label);
+    assertThat(labelAttr.oldValue).isEqualTo("0");
+    assertThat(labelAttr.value).isEqualTo("-1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: %s-1\n\n%s",
             label.getName(), label.getName()));
 
+    // there should be 3 approval labels (label, pLabel, and CRVV)
+    assertThat(lastCommentAddedEvent.approvals.get()).hasLength(3);
+
+    // check the approvals that were not voted on
+    ApprovalAttribute pLabelAttr = getApprovalAttribute(pLabel);
+    assertThat(pLabelAttr.oldValue).isNull();
+    assertThat(pLabelAttr.value).isEqualTo("0");
+
+    LabelType crLabel = LabelType.withDefaultValues("Code-Review");
+    ApprovalAttribute crlAttr = getApprovalAttribute(crLabel);
+    assertThat(crlAttr.oldValue).isNull();
+    assertThat(crlAttr.value).isEqualTo("0");
+
+    // update pLabel approval
     reviewInput = new ReviewInput().label(pLabel.getName(), 1);
     reviewInput.message = pLabel.getName();
     revision(r).review(reviewInput);
@@ -233,21 +258,20 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     c = get(r.getChangeId());
     q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    pLabelAttr = getApprovalAttribute(pLabel);
+    assertThat(pLabelAttr.oldValue).isEqualTo("0");
+    assertThat(pLabelAttr.value).isEqualTo("1");
     assertThat(lastCommentAddedEvent.comment).isEqualTo(
         String.format("Patch Set 1: %s+1\n\n%s",
             pLabel.getName(), pLabel.getName()));
 
-    assertThat(lastCommentAddedEvent.approvals.get()).hasLength(2);
-    for (ApprovalAttribute approval : lastCommentAddedEvent.approvals.get()) {
-      if (approval.type.equals(label.getName())) {
-        assertThat(approval.value).isEqualTo("-1");
-        assertThat(approval.oldValue).isNull();
-      } else if (approval.type.equals(pLabel.getName())) {
-        assertThat(approval.value).isEqualTo("1");
-        assertThat(approval.oldValue).isEqualTo("0");
-      } else {
-        fail("Unexpected label: " + approval.type);
-      }
-    }
+    // check the approvals that were not voted on
+    labelAttr = getApprovalAttribute(label);
+    assertThat(labelAttr.oldValue).isNull();
+    assertThat(labelAttr.value).isEqualTo("-1");
+
+    crlAttr = getApprovalAttribute(crLabel);
+    assertThat(crlAttr.oldValue).isNull();
+    assertThat(crlAttr.value).isEqualTo("0");
   }
 }

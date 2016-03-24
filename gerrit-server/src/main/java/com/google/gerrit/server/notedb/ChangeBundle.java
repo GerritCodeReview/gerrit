@@ -451,7 +451,7 @@ public class ChangeBundle {
         "%s from NoteDb has non-rounded %s timestamp: %s",
         desc, field, tsFromNoteDb);
     long delta = tsFromReviewDb.getTime() - tsFromNoteDb.getTime();
-    long max = ChangeRebuilder.MAX_WINDOW_MS;
+    long max = ChangeRebuilderImpl.MAX_WINDOW_MS;
     if (delta < 0 || delta > max) {
       diffs.add(
           field + " differs for " + desc + " in NoteDb vs. ReviewDb:"

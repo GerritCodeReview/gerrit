@@ -50,7 +50,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
 
   static ReviewDb unwrap(ReviewDb db) {
     // This is special. We want to delete exactly the rows that are present in
-    // the database, even when reading everything else from notedb, so we need
+    // the database, even when reading everything else from NoteDb, so we need
     // to bypass the write-only wrapper.
     if (db instanceof BatchUpdateReviewDb) {
       db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
@@ -108,7 +108,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
           db.accountPatchReviews().byPatchSet(ps.getId()));
     }
 
-    // Only delete from reviewdb here; deletion from notedb is handled in
+    // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
     db.patchComments().delete(db.patchComments().byChange(id));
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));

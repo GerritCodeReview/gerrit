@@ -55,7 +55,7 @@ import java.util.TreeMap;
  * <p>
  * The result of a copy may either be stored, as when stamping approvals in the
  * database at submit time, or refreshed on demand, as when reading approvals
- * from the notedb.
+ * from the NoteDb.
  */
 @Singleton
 public class ApprovalCopier {

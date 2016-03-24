@@ -189,15 +189,15 @@ public class ChangeRebuilder {
       events.add(new ApprovalEvent(psa, change.getCreatedOn()));
     }
 
-    Change notedbChange = new Change(null, null, null, null, null);
+    Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : db.changeMessages().byChange(changeId)) {
       events.add(
-          new ChangeMessageEvent(msg, notedbChange, change.getCreatedOn()));
+          new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
     }
 
     Collections.sort(events, EVENT_ORDER);
 
-    events.add(new FinalUpdatesEvent(change, notedbChange));
+    events.add(new FinalUpdatesEvent(change, noteDbChange));
 
     EventList<Event> el = new EventList<>();
     for (Event e : events) {
@@ -632,14 +632,14 @@ public class ChangeRebuilder {
         Pattern.compile("^Restored(\n.*)*$");
 
     private final ChangeMessage message;
-    private final Change notedbChange;
+    private final Change noteDbChange;
 
-    ChangeMessageEvent(ChangeMessage message, Change notedbChange,
+    ChangeMessageEvent(ChangeMessage message, Change noteDbChange,
         Timestamp changeCreatedOn) {
       super(message.getPatchSetId(), message.getAuthor(),
           message.getWrittenOn(), changeCreatedOn);
       this.message = message;
-      this.notedbChange = notedbChange;
+      this.noteDbChange = noteDbChange;
     }
 
     @Override
@@ -661,7 +661,7 @@ public class ChangeRebuilder {
       if (m.matches()) {
         String topic = m.group(1);
         update.setTopic(topic);
-        notedbChange.setTopic(topic);
+        noteDbChange.setTopic(topic);
         return;
       }
 
@@ -669,13 +669,13 @@ public class ChangeRebuilder {
       if (m.matches()) {
         String topic = m.group(2);
         update.setTopic(topic);
-        notedbChange.setTopic(topic);
+        noteDbChange.setTopic(topic);
         return;
       }
 
       if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
         update.setTopic(null);
-        notedbChange.setTopic(null);
+        noteDbChange.setTopic(null);
       }
     }
 
@@ -683,26 +683,26 @@ public class ChangeRebuilder {
       String msg = message.getMessage();
       if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
         update.setStatus(Change.Status.ABANDONED);
-        notedbChange.setStatus(Change.Status.ABANDONED);
+        noteDbChange.setStatus(Change.Status.ABANDONED);
         return;
       }
 
       if (STATUS_RESTORED_REGEXP.matcher(msg).matches()) {
         update.setStatus(Change.Status.NEW);
-        notedbChange.setStatus(Change.Status.NEW);
+        noteDbChange.setStatus(Change.Status.NEW);
       }
     }
   }
 
   private static class FinalUpdatesEvent extends Event {
     private final Change change;
-    private final Change notedbChange;
+    private final Change noteDbChange;
 
-    FinalUpdatesEvent(Change change, Change notedbChange) {
+    FinalUpdatesEvent(Change change, Change noteDbChange) {
       super(change.currentPatchSetId(), change.getOwner(),
           change.getLastUpdatedOn(), change.getCreatedOn());
       this.change = change;
-      this.notedbChange = notedbChange;
+      this.noteDbChange = noteDbChange;
     }
 
     @Override
@@ -713,10 +713,10 @@ public class ChangeRebuilder {
     @SuppressWarnings("deprecation")
     @Override
     void apply(ChangeUpdate update) throws OrmException {
-      if (!Objects.equals(change.getTopic(), notedbChange.getTopic())) {
+      if (!Objects.equals(change.getTopic(), noteDbChange.getTopic())) {
         update.setTopic(change.getTopic());
       }
-      if (!Objects.equals(change.getStatus(), notedbChange.getStatus())) {
+      if (!Objects.equals(change.getStatus(), noteDbChange.getStatus())) {
         // TODO(dborowitz): Stamp approximate approvals at this time.
         update.fixStatus(change.getStatus());
       }
@@ -724,7 +724,7 @@ public class ChangeRebuilder {
         update.setSubmissionId(change.getSubmissionId());
       }
       if (!update.isEmpty()) {
-        update.setSubjectForCommit("Final notedb migration updates");
+        update.setSubjectForCommit("Final NoteDb migration updates");
       }
     }
   }

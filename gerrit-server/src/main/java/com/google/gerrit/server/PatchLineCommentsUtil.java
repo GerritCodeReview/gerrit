@@ -313,7 +313,7 @@ public class PatchLineCommentsUtil {
         bru.addCommand(new ReceiveCommand(
             ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
       }
-      bru.setRefLogMessage("Delete drafts from notedb", false);
+      bru.setRefLogMessage("Delete drafts from NoteDb", false);
       bru.execute(rw, NullProgressMonitor.INSTANCE);
       for (ReceiveCommand cmd : bru.getCommands()) {
         if (cmd.getResult() != ReceiveCommand.Result.OK) {

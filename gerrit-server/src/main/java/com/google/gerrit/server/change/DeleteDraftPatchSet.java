@@ -136,7 +136,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
     private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx)
         throws OrmException {
-      // For notedb itself, no need to delete these entities, as they are
+      // For NoteDb itself, no need to delete these entities, as they are
       // automatically filtered out when patch sets are deleted.
       psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
 

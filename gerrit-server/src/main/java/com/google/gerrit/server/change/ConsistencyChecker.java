@@ -212,7 +212,7 @@ public class ConsistencyChecker {
 
   private void checkImpl() {
     checkState(!notesMigration.readChanges(),
-        "ConsistencyChecker for notedb not yet implemented");
+        "ConsistencyChecker for NoteDb not yet implemented");
     checkOwner();
     checkCurrentPatchSetEntity();
 

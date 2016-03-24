@@ -59,7 +59,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   public static QueryOptions createOptions(IndexConfig config, int start,
       int limit, Set<String> fields) {
-    // Always include project since it is needed to load the change from notedb.
+    // Always include project since it is needed to load the change from NoteDb.
     if (!fields.contains(CHANGE.getName())
         && !fields.contains(PROJECT.getName())) {
       fields = new HashSet<>(fields);

@@ -28,7 +28,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-public class RebuildNotedbIT {
+public class RebuildNoteDbIT {
   private File sitePath;
 
   @Before
@@ -49,7 +49,7 @@ public class RebuildNotedbIT {
     Files.append(ConfigNotesMigration.allEnabledConfig().toText(),
         new File(sitePath.toString(), "etc/gerrit.config"),
         UTF_8);
-    runGerrit("RebuildNotedb", "-d", sitePath.toString(),
+    runGerrit("RebuildNoteDb", "-d", sitePath.toString(),
         "--show-stack-trace");
   }
 

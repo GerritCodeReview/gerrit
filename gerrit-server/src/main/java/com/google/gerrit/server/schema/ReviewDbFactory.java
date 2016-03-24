@@ -25,7 +25,7 @@ import java.lang.annotation.Retention;
  * that talks to the underlying traditional {@link
  * com.google.gerrit.reviewdb.server.ReviewDb} database.
  * <p>
- * During the migration to notedb, the actual {@code ReviewDb} will be a wrapper
+ * During the migration to NoteDb, the actual {@code ReviewDb} will be a wrapper
  * with certain tables enabled/disabled; this marker goes on the low-level
  * implementation that has all tables.
  */

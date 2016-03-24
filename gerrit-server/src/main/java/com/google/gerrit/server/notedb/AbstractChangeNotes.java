@@ -82,7 +82,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     }
   }
 
-  /** Load default values for any instance variables when notedb is disabled. */
+  /** Load default values for any instance variables when NoteDb is disabled. */
   protected abstract void loadDefaults();
 
   /**

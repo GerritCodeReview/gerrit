@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c896ea7_bfeaf7c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Gitiles plugin rellocates static resources from gitiles-servlet in its Buck toolchain: [1]. I guess it wouldn\u0027t be a problem here.\n\n* [1] https://gerrit.googlesource.com/plugins/gitiles/+/master/BUCK#8",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c896ea7_9fe533fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "What if a gerrit site uses only sporadically gerrit review branches? Say only fixes for stable branches are uploaded for review, and all other commits are pushed directly bypassing review. In this case this approach wouldn\u0027t work.",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_febba1e5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c1a4e04_17e474f5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
         "patchSetId": 17
@@ -91,6 +142,132 @@
         "endLine": 860,
         "endChar": 30
       },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c85a65b_91087c7b",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Move the retrieval of this format instance outside of the loop? This getFormat method (with PredefinedFormat as parameter) is cached, but we can avoid to involve cache altogether. Then commitDate variable can be inlined, with:\n\n  String shortBlame \u003d\n    C.shortBlameMsg(shortId, dtf.format(commitTime),\n    authorLastName);\n\nAnother approach would be to extend FormatUtil with shortDateFormat() method.",
+      "range": {
+        "startLine": 179,
+        "startChar": 12,
+        "endLine": 179,
+        "endChar": 80
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c85a65b_11e48cf5",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Nit: no blank.",
+      "range": {
+        "startLine": 190,
+        "startChar": 21,
+        "endLine": 190,
+        "endChar": 22
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_5ecbb56a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "It would be nice to add some tests for different features here.",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c896ea7_3fcee77b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Not thrown.",
+      "range": {
+        "startLine": 90,
+        "startChar": 45,
+        "endLine": 90,
+        "endChar": 66
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_3ecee97b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Not thrown.",
+      "range": {
+        "startLine": 100,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 50
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_7ec8716d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:16:50Z",
+      "side": 1,
+      "message": "Nit: some lines in this files are too long. Here and below.",
       "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

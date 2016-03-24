@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -171,6 +172,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         bind(StarredChangesUtil.class)
             .toProvider(Providers.<StarredChangesUtil> of(null));
         bind(MetricMaker.class).to(DisabledMetricMaker.class);
+        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
       }
     });
 

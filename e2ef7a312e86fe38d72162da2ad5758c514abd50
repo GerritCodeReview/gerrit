@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7c8c7287_70415083",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c1a4e04_9712c498",
+      "range": {
+        "startLine": 13,
+        "startChar": 57,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc2a2213_74412883",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -106,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "7c8c7287_50444c94",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2642,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc2a2213_54442c94",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c1a4e04_572d0cda",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
         "patchSetId": 11
@@ -117,6 +159,24 @@
       "writtenOn": "2016-03-24T05:00:13Z",
       "side": 1,
       "message": "update existing ChangeMessageIT with a tag?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c85a65b_b117c087",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c1a4e04_572d0cda",
       "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "9c85a65b_f11d48a9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c1a4e04_d7183cbc",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc2a2213_344bb0a3",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
         "patchSetId": 11
@@ -151,6 +229,24 @@
       "writtenOn": "2016-03-24T05:00:13Z",
       "side": 1,
       "message": "update existing PatchSetApprovalTest with tag?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c8c7287_104ec4b2",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "PatchSetApprovalTest only test Key implementation. All other properties of PatchSetApproval are not tested, IMO testing setters and getters or constructors do not make sense.",
+      "parentUuid": "fc2a2213_344bb0a3",
       "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +270,24 @@
     },
     {
       "key": {
+        "uuid": "9c85a65b_9112bc98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "This is already pretty bing change, lets add \u0027tag\u0027 propagation as a separate patch",
+      "parentUuid": "fc2a2213_d4183cbc",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc2a2213_144eb4b2",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 11
@@ -185,6 +299,30 @@
       "writtenOn": "2016-03-24T05:00:13Z",
       "side": 1,
       "message": "how about \"applies a tag to the given review\" ?",
+      "range": {
+        "startLine": 127,
+        "startChar": 50,
+        "endLine": 127,
+        "endChar": 86
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c8c7287_b03ed80d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-03-24T09:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc2a2213_144eb4b2",
       "range": {
         "startLine": 127,
         "startChar": 50,

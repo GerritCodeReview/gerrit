@@ -35,6 +35,24 @@
       "revId": "6cf76df3e16e0e30392c92b1eec77b0edd95ee05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c896ea7_dfb6db00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T21:22:40Z",
+      "side": 1,
+      "message": "I meant to add a NoteDb test whith DraftHandling.PUBLISH_ALL_REVISIONS where comments are added on both sides and the test should verify that the comments were published on the right sides.",
+      "parentUuid": "dc11de0a_b3bcd8e2",
+      "revId": "6cf76df3e16e0e30392c92b1eec77b0edd95ee05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

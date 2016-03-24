@@ -145,7 +145,7 @@ limitations under the License.
         <gr-button link
            class="prefsButton"
            on-tap="_handlePrefsTap"
-           hidden$="[[!prefs]]"
+           hidden$="[[_computePrefsButtonHidden(prefs, _loggedIn)]]"
            hidden>Diff View Preferences</gr-button>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>

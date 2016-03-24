@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcaeeaf7_b2bcc0e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-03-24T18:04:24Z",
+      "side": 1,
+      "message": "possibly",
+      "range": {
+        "startLine": 32,
+        "startChar": 39,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "c3d41a79f356ec2e6d758d8f5eb14ee7fd02c921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

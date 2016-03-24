@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "dc11de0a_33444894",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1020422
+      },
+      "writtenOn": "2016-03-24T23:20:31Z",
+      "side": 1,
+      "message": "removing a reviewer will also remove his comments?",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 54
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c903aca_9e0e1d87",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 7

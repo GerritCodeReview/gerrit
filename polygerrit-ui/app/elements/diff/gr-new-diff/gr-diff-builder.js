@@ -56,6 +56,8 @@
   },
 
   GrDiffBuilder.prototype._processContent = function(content, groups, context) {
+    this._appendFileComments(groups);
+
     var WHOLE_FILE = -1;
     context = content.length > 1 ? context : WHOLE_FILE;
 
@@ -99,6 +101,13 @@
     }
   };
 
+  GrDiffBuilder.prototype._appendFileComments = function(groups) {
+    var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    line.beforeNumber = 'FILE';
+    line.afterNumber = 'FILE';
+    groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]));
+  };
+
   GrDiffBuilder.prototype._getCommentLocations = function(comments) {
     var result = {
       left: {},
@@ -110,7 +119,7 @@
         continue;
       }
       comments[side].forEach(function(c) {
-        result[side][c.line] = true;
+        result[side][c.line || 'FILE'] = true;
       });
     }
     return result;
@@ -239,9 +248,15 @@
   GrDiffBuilder.prototype._getCommentsForLine = function(comments, line,
       opt_side) {
     var leftComments = comments[GrDiffBuilder.Side.LEFT].filter(
-        function(c) { return c.line === line.beforeNumber; });
+        function(c) {
+          return (c.line === line.beforeNumber) ||
+                 (c.line === undefined && line.beforeNumber === 'FILE');
+        });
     var rightComments = comments[GrDiffBuilder.Side.RIGHT].filter(
-        function(c) { return c.line === line.afterNumber; });
+        function(c) {
+          return (c.line === line.afterNumber) ||
+                 (c.line === undefined && line.afterNumber === 'FILE');
+        });
 
     var result;
 

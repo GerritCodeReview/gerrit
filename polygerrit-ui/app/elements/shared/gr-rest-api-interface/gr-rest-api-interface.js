@@ -168,7 +168,7 @@
         if (typeof opt_body !== 'string') {
           opt_body = JSON.stringify(opt_body);
         }
-        options.body = JSON.stringify(opt_body);
+        options.body = opt_body;
       }
       return fetch(url, options).catch(function(err) {
         if (opt_errFn) {

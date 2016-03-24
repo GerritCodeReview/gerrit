@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c903aca_3ed7c907",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:41:44Z",
+      "side": 1,
+      "message": "Nit: these lines can be joined. Just select this region and use Ctrl-Shift-F. I got this:\n\n    public void doReviewerDeletedHook(final Change change, Account account,\n      PatchSet patchSet, String comment, final Map\u003cString, Short\u003e approvals,\n      final Map\u003cString, Short\u003e oldApprovals, ReviewDb db)",
+      "range": {
+        "startLine": 708,
+        "startChar": 0,
+        "endLine": 712,
+        "endChar": 20
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_1eda0d2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:41:44Z",
+      "side": 1,
+      "message": "This supplier isn\u0027t used. You only use owner.getAccount() on line 751 below. So may be just perform the lookup in account cache on line 748:\n\n  AccountState owner \u003d accountCache.get(change.getOwner());\n\nand use it directly, like in doChangeRestoredHook() above. I see now that the lookup in doChangeRestoredHook() is done too early. This should be fixed.",
+      "range": {
+        "startLine": 715,
+        "startChar": 6,
+        "endLine": 715,
+        "endChar": 34
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_7ee151e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:41:44Z",
+      "side": 1,
+      "message": "Ctrl-Shift-F.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 30
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_9e0e1d87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:41:44Z",
+      "side": 1,
+      "message": "Why was this changed?",
+      "range": {
+        "startLine": 160,
+        "startChar": 10,
+        "endLine": 160,
+        "endChar": 26
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_be13d9ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:41:44Z",
+      "side": 1,
+      "message": "This line was duplicated from line 28 and should be removed.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c903aca_fe0d6189",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteReviewer.vm",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T22:41:44Z",
+      "side": 1,
+      "message": "Emphasize, that only reviewer\u0027s votes can be deleted, e.g.: \"to removal of a reviewer or reviewer\u0027s vote from reviews\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

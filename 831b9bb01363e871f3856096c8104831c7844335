@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bcaeeaf7_12002c4f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-24T21:12:25Z",
+      "side": 1,
+      "message": "good point. done.",
+      "parentUuid": "bcaeeaf7_52e114e5",
+      "revId": "831b9bb01363e871f3856096c8104831c7844335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc11de0a_13d78c07",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bcaeeaf7_d20d048a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-24T21:12:25Z",
+      "side": 1,
+      "message": "Yep.",
+      "parentUuid": "dc11de0a_13d78c07",
+      "revId": "831b9bb01363e871f3856096c8104831c7844335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcaeeaf7_92137cae",
         "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-24T20:43:45Z",
       "side": 1,
       "message": "consider .flush() here vs .async if you are waiting for the DOM/binding to happening",
+      "revId": "831b9bb01363e871f3856096c8104831c7844335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc11de0a_b30e9886",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-24T21:12:25Z",
+      "side": 1,
+      "message": "Yeah flush doesn’t do what we want :(",
+      "parentUuid": "bcaeeaf7_92137cae",
       "revId": "831b9bb01363e871f3856096c8104831c7844335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

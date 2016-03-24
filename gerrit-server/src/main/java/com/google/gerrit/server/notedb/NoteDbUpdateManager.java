@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Project;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.util.List;
 
 public class NoteDbUpdateManager {
   public interface Factory {
@@ -187,9 +189,16 @@ public class NoteDbUpdateManager {
     draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
   }
 
-  public void execute() throws OrmException, IOException {
+  /**
+   * Execute all change and draft comment updates.
+   *
+   * @return completed commands used to update the change repo.
+   * @throws OrmException if a database-related error occurs.
+   * @throws IOException if a Git storage layer error occurs.
+   */
+  public List<ReceiveCommand> execute() throws OrmException, IOException {
     if (isEmpty()) {
-      return;
+      return ImmutableList.of();
     }
     try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
       initChangeRepo();
@@ -206,8 +215,9 @@ public class NoteDbUpdateManager {
       // we may have stale draft comments. Doing it in this order allows stale
       // comments to be filtered out by ChangeNotes, reflecting the fact that
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
-      execute(changeRepo);
+      List<ReceiveCommand> result = execute(changeRepo);
       execute(allUsersRepo);
+      return result;
     } finally {
       if (allUsersRepo != null) {
         allUsersRepo.close();
@@ -218,9 +228,9 @@ public class NoteDbUpdateManager {
     }
   }
 
-  private static void execute(OpenRepo or) throws IOException {
+  private static List<ReceiveCommand> execute(OpenRepo or) throws IOException {
     if (or == null || or.cmds.isEmpty()) {
-      return;
+      return ImmutableList.of();
     }
     or.ins.flush();
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
@@ -232,6 +242,7 @@ public class NoteDbUpdateManager {
         throw new IOException("Update failed: " + bru);
       }
     }
+    return bru.getCommands();
   }
 
   private void addCommands() throws OrmException, IOException {

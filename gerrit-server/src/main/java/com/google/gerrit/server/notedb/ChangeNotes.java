@@ -195,6 +195,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change.getProject(), change).load();
     }
 
+    public ChangeNotes createWithAutoRebuildingDisabled(Change change)
+        throws OrmException {
+      return new ChangeNotes(args, change.getProject(), change, false).load();
+    }
+
     // TODO(ekempin): Remove when database backend is deleted
     /**
      * Instantiate ChangeNotes for a change that has been loaded by a batch read
@@ -364,6 +369,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private final Project.NameKey project;
   private final Change change;
+  private final boolean autoRebuild;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
@@ -382,9 +388,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(Args args, Project.NameKey project, Change change) {
+    this(args, project, change, true);
+  }
+
+  private ChangeNotes(Args args, Project.NameKey project, Change change,
+      boolean autoRebuild) {
     super(args, change != null ? change.getId() : null);
     this.project = project;
     this.change = change != null ? new Change(change) : null;
+    this.autoRebuild = autoRebuild;
   }
 
   public Change getChange() {
@@ -518,16 +530,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected void onLoad(RevWalk walk)
+  protected void onLoad(LoadHandle handle)
       throws IOException, ConfigInvalidException {
-    ObjectId rev = getRevision();
+    ObjectId rev = handle.id();
     if (rev == null) {
       loadDefaults();
       return;
     }
     try (ChangeNotesParser parser = new ChangeNotesParser(
-         project, change.getId(), rev, walk, args.repoManager, args.noteUtil,
-         args.metrics)) {
+         project, change.getId(), rev, handle.walk(), args.repoManager,
+         args.noteUtil, args.metrics)) {
       parser.parseAll();
 
       if (parser.status != null) {
@@ -589,5 +601,33 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return project;
+  }
+
+  @Override
+  protected LoadHandle openHandle(Repository repo) throws IOException {
+    if (autoRebuild) {
+      NoteDbChangeState state = NoteDbChangeState.parse(change);
+      if (state == null || !state.isChangeUpToDate(repo)) {
+        return rebuildAndOpen(repo);
+      }
+    }
+    return super.openHandle(repo);
+  }
+
+  private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
+    try {
+      NoteDbChangeState newState =
+          args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+      if (newState == null) {
+        return super.openHandle(repo);
+      }
+      // TODO(dborowitz): Not completely sure this will pick up the new pack or
+      // if we need to reopen the repo.
+      return LoadHandle.create(new RevWalk(repo), newState.getChangeMetaId());
+    } catch (NoSuchChangeException e) {
+      return super.openHandle(repo);
+    } catch (OrmException | ConfigInvalidException e) {
+      throw new IOException(e);
+    }
   }
 }

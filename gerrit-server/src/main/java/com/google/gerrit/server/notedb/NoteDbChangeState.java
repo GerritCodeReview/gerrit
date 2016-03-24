@@ -71,7 +71,7 @@ public class NoteDbChangeState {
     abstract ImmutableMap<Account.Id, ObjectId> newDraftIds();
   }
 
-  static NoteDbChangeState parse(Change c) {
+  public static NoteDbChangeState parse(Change c) {
     return parse(c.getId(), c.getNoteDbState());
   }
 
@@ -96,16 +96,16 @@ public class NoteDbChangeState {
     return new NoteDbChangeState(id, changeMetaId, draftIds);
   }
 
-  public static void applyDelta(Change change, Delta delta) {
+  public static NoteDbChangeState applyDelta(Change change, Delta delta) {
     if (delta == null) {
-      return;
+      return null;
     }
     String oldStr = change.getNoteDbState();
     if (oldStr == null && !delta.newChangeMetaId().isPresent()) {
       // Neither an old nor a new meta ID was present, most likely because we
       // aren't writing a NoteDb graph at all for this change at this point. No
       // point in proceeding.
-      return;
+      return null;
     }
     NoteDbChangeState oldState = parse(change.getId(), oldStr);
 
@@ -114,7 +114,7 @@ public class NoteDbChangeState {
       changeMetaId = delta.newChangeMetaId().get();
       if (changeMetaId.equals(ObjectId.zeroId())) {
         change.setNoteDbState(null);
-        return;
+        return null;
       }
     } else {
       changeMetaId = oldState.changeMetaId;
@@ -132,7 +132,10 @@ public class NoteDbChangeState {
       }
     }
 
-    change.setNoteDbState(toString(changeMetaId, draftIds));
+    NoteDbChangeState state = new NoteDbChangeState(
+        change.getId(), changeMetaId, draftIds);
+    change.setNoteDbState(state.toString());
+    return state;
   }
 
   private static String toString(ObjectId changeMetaId,
@@ -183,7 +186,6 @@ public class NoteDbChangeState {
     return changeId;
   }
 
-  @VisibleForTesting
   ObjectId getChangeMetaId() {
     return changeMetaId;
   }

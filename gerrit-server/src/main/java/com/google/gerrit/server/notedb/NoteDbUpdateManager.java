@@ -40,6 +40,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 public class NoteDbUpdateManager {
   public interface Factory {
@@ -248,15 +250,23 @@ public class NoteDbUpdateManager {
     }
   }
 
-  private static void addUpdates(
-      ListMultimap<String, ? extends AbstractChangeUpdate> updates, OpenRepo or)
+  private static <U extends AbstractChangeUpdate> void addUpdates(
+      ListMultimap<String, U> all, OpenRepo or)
       throws OrmException, IOException {
-    for (String refName : updates.keySet()) {
+    for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
+      String refName = e.getKey();
+      Collection<U> updates = e.getValue();
       ObjectId old = firstNonNull(
           or.cmds.getObjectId(or.repo, refName), ObjectId.zeroId());
-      ObjectId curr = old;
+      // Only actually write to the ref if one of the updates explicitly allows
+      // us to do so, i.e. it is known to represent a new change. This avoids
+      // writing partial change meta if the change hasn't been backfilled yet.
+      if (!allowWrite(updates, old)) {
+        continue;
+      }
 
-      for (AbstractChangeUpdate u : updates.get(refName)) {
+      ObjectId curr = old;
+      for (U u : updates) {
         ObjectId next = u.apply(or.rw, or.ins, curr);
         if (next == null) {
           continue;
@@ -267,5 +277,13 @@ public class NoteDbUpdateManager {
         or.cmds.add(new ReceiveCommand(old, curr, refName));
       }
     }
+  }
+
+  private static <U extends AbstractChangeUpdate> boolean allowWrite(
+      Collection<U> updates, ObjectId old) {
+    if (!old.equals(ObjectId.zeroId())) {
+      return true;
+    }
+    return updates.iterator().next().allowWriteToNewRef();
   }
 }

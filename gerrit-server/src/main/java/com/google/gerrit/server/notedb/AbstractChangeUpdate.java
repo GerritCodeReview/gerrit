@@ -183,6 +183,10 @@ public abstract class AbstractChangeUpdate {
     return result;
   }
 
+  public boolean allowWriteToNewRef() {
+    return true;
+  }
+
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
     return ins.insert(Constants.OBJ_TREE, new byte[] {});
   }

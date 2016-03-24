@@ -196,6 +196,9 @@ public class BatchUpdate implements AutoCloseable {
       ChangeUpdate u = updates.get(psId);
       if (u == null) {
         u = changeUpdateFactory.create(ctl, when);
+        if (newChanges.containsKey(ctl.getId())) {
+          u.setAllowWriteToNewRef(true);
+        }
         u.setPatchSetId(psId);
         updates.put(psId, u);
       }

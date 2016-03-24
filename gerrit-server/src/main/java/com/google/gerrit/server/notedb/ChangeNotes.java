@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -193,6 +194,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         + " createFromIdOnlyWhenNotedbDisabled when notedb is enabled");
       Change change = unwrap(db).changes().get(changeId);
       return new ChangeNotes(args, change.getProject(), change).load();
+    }
+
+    ChangeNotes createWithAutoRebuildingDisabled(Change change)
+        throws OrmException {
+      return new ChangeNotes(args, change.getProject(), change, false).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -364,6 +370,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private final Project.NameKey project;
   private final Change change;
+  private final boolean autoRebuild;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
@@ -382,9 +389,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(Args args, Project.NameKey project, Change change) {
+    this(args, project, change, true);
+  }
+
+  private ChangeNotes(Args args, Project.NameKey project, Change change,
+      boolean autoRebuild) {
     super(args, change != null ? change.getId() : null);
     this.project = project;
     this.change = change != null ? new Change(change) : null;
+    this.autoRebuild = autoRebuild;
   }
 
   public Change getChange() {
@@ -518,15 +531,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected void onLoad(RevWalk walk)
+  protected void onLoad(LoadHandle handle)
       throws IOException, ConfigInvalidException {
-    ObjectId rev = getRevision();
+    ObjectId rev = handle.id();
     if (rev == null) {
       loadDefaults();
       return;
     }
     try (ChangeNotesParser parser = new ChangeNotesParser(
-         project, change.getId(), rev, walk, args.repoManager, args.noteUtil)) {
+         project, change.getId(), rev, handle.walk(), args.repoManager,
+         args.noteUtil)) {
       parser.parseAll();
 
       if (parser.status != null) {
@@ -588,5 +602,45 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return project;
+  }
+
+  @Override
+  protected LoadHandle openHandle(Repository repo) throws IOException {
+    if (autoRebuild) {
+      NoteDbLoadHook hook = args.loadHook.get();
+      if (hook != null && !hook.isChangeUpToDate(repo, getChangeId())) {
+        return rebuildAndOpen(repo);
+      }
+    }
+    return super.openHandle(repo);
+  }
+
+  private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
+    // The configured NoteDbLoadHook determined that the change meta ref was out
+    // of date. Rebuild it and return a handle to the new value.
+    Change.Id id = getChangeId();
+    List<ReceiveCommand> cmds;
+    try {
+      cmds = args.rebuilder.get().rebuild(args.db.get(), id);
+    } catch (NoSuchChangeException e) {
+      return super.openHandle(repo);
+    } catch (OrmException | ConfigInvalidException e) {
+      throw new IOException(e);
+    }
+    String refName = ChangeNoteUtil.changeRefName(id);
+    for (ReceiveCommand cmd : cmds) {
+      if (cmd.getRefName().equals(refName)) {
+        // TODO(dborowitz): Not completely sure this will pick up the new pack
+        // or if we need to reopen the repo.
+        ObjectId newId = cmd.getNewId();
+        if (ObjectId.zeroId().equals(newId)) {
+          newId = null;
+        }
+        return LoadHandle.create(new RevWalk(repo), newId);
+      }
+    }
+    throw new IllegalStateException(
+        "expected rebuild(" + id + ") to contain ref update for " + refName
+        + "; got: " + cmds);
   }
 }

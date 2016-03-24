@@ -14,13 +14,18 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -40,17 +45,45 @@ public abstract class AbstractChangeNotes<T> {
     final NotesMigration migration;
     final AllUsersName allUsers;
     final ChangeNoteUtil noteUtil;
+    final DynamicItem<NoteDbLoadHook> loadHook;
+    final Provider<ReviewDb> db;
+
+    // Must be a Provider due to dependency cycle between ChangeRebuilder and
+    // Args via ChangeNotes.Factory.
+    final Provider<ChangeRebuilder> rebuilder;
 
     @Inject
     Args(
         GitRepositoryManager repoManager,
         NotesMigration migration,
         AllUsersName allUsers,
-        ChangeNoteUtil noteUtil) {
+        ChangeNoteUtil noteUtil,
+        DynamicItem<NoteDbLoadHook> loadHook,
+        Provider<ReviewDb> db,
+        Provider<ChangeRebuilder> rebuilder) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsers = allUsers;
       this.noteUtil = noteUtil;
+      this.loadHook = loadHook;
+      this.db = db;
+      this.rebuilder = rebuilder;
+    }
+  }
+
+  @AutoValue
+  public static abstract class LoadHandle implements AutoCloseable {
+    public static LoadHandle create(RevWalk walk, ObjectId id) {
+      return new AutoValue_AbstractChangeNotes_LoadHandle(
+          walk, id != null ? id.copy() : null);
+    }
+
+    public abstract RevWalk walk();
+    @Nullable public abstract ObjectId id();
+
+    @Override
+    public void close() {
+      walk().close();
     }
   }
 
@@ -83,17 +116,22 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
     try (Repository repo =
-            args.repoManager.openMetadataRepository(getProjectName());
-        RevWalk walk = new RevWalk(repo)) {
-      Ref ref = repo.getRefDatabase().exactRef(getRefName());
-      ObjectId id = ref != null ? ref.getObjectId() : null;
-      revision = id != null ? walk.parseCommit(id).copy() : null;
-      onLoad(walk);
+        args.repoManager.openMetadataRepository(getProjectName());
+        LoadHandle handle = openHandle(repo)) {
+      revision = handle.id();
+      onLoad(handle);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
     }
     return self();
+  }
+
+  protected LoadHandle openHandle(Repository repo) throws IOException {
+    Ref ref = repo.getRefDatabase().exactRef(getRefName());
+    return LoadHandle.create(
+        new RevWalk(repo),
+        ref != null ? ref.getObjectId() : null);
   }
 
   public T reload() throws OrmException {
@@ -129,7 +167,7 @@ public abstract class AbstractChangeNotes<T> {
   protected abstract String getRefName();
 
   /** Set up the metadata, parsing any state from the loaded revision. */
-  protected abstract void onLoad(RevWalk walk)
+  protected abstract void onLoad(LoadHandle handle)
       throws IOException, ConfigInvalidException;
 
   @SuppressWarnings("unchecked")

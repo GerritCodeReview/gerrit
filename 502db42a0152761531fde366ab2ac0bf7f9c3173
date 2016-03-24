@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bcaeeaf7_32da902f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-24T20:35:38Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "dc11de0a_93ea7cc6",
+      "revId": "502db42a0152761531fde366ab2ac0bf7f9c3173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcaeeaf7_f2ef68d4",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-24T20:28:45Z",
       "side": 1,
       "message": "Do you want to check to see if this is already a string as to not double up the stringification?",
+      "revId": "502db42a0152761531fde366ab2ac0bf7f9c3173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcaeeaf7_12d78c07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-24T20:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcaeeaf7_f2ef68d4",
       "revId": "502db42a0152761531fde366ab2ac0bf7f9c3173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

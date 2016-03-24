@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
 
 public class NoteDbModule extends FactoryModule {
   private final boolean useTestBindings;
@@ -44,8 +45,9 @@ public class NoteDbModule extends FactoryModule {
     } else {
       bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
         @Override
-        public void rebuild(ReviewDb db, Change.Id changeId) {
-          throw new UnsupportedOperationException();
+        public NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
+            throws OrmException {
+          return null;
         }
       });
     }

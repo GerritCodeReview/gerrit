@@ -25,20 +25,28 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Inject
@@ -53,10 +61,19 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Inject
   private Provider<ReviewDb> dbProvider;
 
+  @Inject
+  private PatchLineCommentsUtil plcUtil;
+
   @Before
   public void setUp() {
     assume().that(NoteDbMode.readWrite()).isFalse();
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     notesMigration.setAllEnabled(false);
+  }
+
+  @After
+  public void tearDown() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test
@@ -186,6 +203,54 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         changeMetaId.name()
         + "," + admin.getId() + "=" + adminDraftsId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
+  }
+
+  @Test
+  public void rebuildAutomaticallyWhenChangeOutOfDate() throws Exception {
+    notesMigration.setAllEnabled(true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertUpToDate(true, id);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    notesMigration.setAllEnabled(false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertUpToDate(false, id);
+
+    // On next NoteDb read, the change is transparently rebuilt.
+    notesMigration.setAllEnabled(true);
+    assertThat(gApi.changes().id(id.get()).info().topic)
+        .isEqualTo(name("a-topic"));
+    assertUpToDate(true, id);
+
+    // Check that the bundles are equal.
+    ChangeBundle actual = ChangeBundle.fromNotes(
+        plcUtil, notesFactory.create(dbProvider.get(), project, id));
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
+  private void setInvalidNoteDbState(Change.Id id) throws Exception {
+    ReviewDb db = unwrapDb();
+    Change c = db.changes().get(id);
+    // In reality we would have NoteDb writes enabled, which would write a real
+    // state into this field. For tests however, we turn NoteDb writes off, so
+    // just use a dummy state to force ChangeNotes to view the notes as
+    // out-of-date.
+    c.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c));
+  }
+
+  private void assertUpToDate(boolean expected, Change.Id id) throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(project)) {
+      Change c = unwrapDb().changes().get(id);
+      assertThat(c).isNotNull();
+      assertThat(c.getNoteDbState()).isNotNull();
+      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(repo))
+          .isEqualTo(expected);
+    }
   }
 
   private ObjectId getMetaRef(Project.NameKey p, String name) throws Exception {

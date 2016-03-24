@@ -32,7 +32,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
@@ -87,16 +86,16 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected void onLoad(RevWalk walk)
+  protected void onLoad(LoadHandle handle)
       throws IOException, ConfigInvalidException {
-    ObjectId rev = getRevision();
+    ObjectId rev = handle.id();
     if (rev == null) {
       loadDefaults();
       return;
     }
 
-    RevCommit tipCommit = walk.parseCommit(rev);
-    ObjectReader reader = walk.getObjectReader();
+    RevCommit tipCommit = handle.walk().parseCommit(rev);
+    ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap = RevisionNoteMap.parse(
         args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
         true);

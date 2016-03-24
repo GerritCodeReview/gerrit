@@ -46,7 +46,7 @@ public class RefNames {
   /** A change starred by a user */
   public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
 
-  /** Sequence counters in notedb. */
+  /** Sequence counters in NoteDb. */
   public static final String REFS_SEQUENCES = "refs/sequences/";
 
   /**
@@ -61,7 +61,7 @@ public class RefNames {
    */
   public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
 
-  /** Suffix of a meta ref in the notedb. */
+  /** Suffix of a meta ref in the NoteDb. */
   public static final String META_SUFFIX = "/meta";
 
   public static final String EDIT_PREFIX = "edit-";

@@ -525,8 +525,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .get();
 
-    // When notedb is enabled adding a reviewer records that user as reviewer
-    // in notedb. When notedb is disabled adding a reviewer results in a dummy 0
+    // When NoteDb is enabled adding a reviewer records that user as reviewer
+    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
     // approval on the change which is treated as CC when the ChangeInfo is
     // created.
     Collection<AccountInfo> reviewers = isNoteDbTestEnabled()
@@ -575,8 +575,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .get();
     reviewers = c.reviewers.get(REVIEWER);
     if (isNoteDbTestEnabled()) {
-      // When notedb is enabled adding a reviewer records that user as reviewer
-      // in notedb.
+      // When NoteDb is enabled adding a reviewer records that user as reviewer
+      // in NoteDb.
       assertThat(reviewers).hasSize(2);
       Iterator<AccountInfo> reviewerIt = reviewers.iterator();
       assertThat(reviewerIt.next()._accountId)
@@ -585,7 +585,7 @@ public class ChangeIT extends AbstractDaemonTest {
           .isEqualTo(user.getId().get());
       assertThat(c.reviewers).doesNotContainKey(CC);
     } else {
-      // When notedb is disabled adding a reviewer results in a dummy 0 approval
+      // When NoteDb is disabled adding a reviewer results in a dummy 0 approval
       // on the change which is treated as CC when the ChangeInfo is created.
       assertThat(reviewers).hasSize(1);
       assertThat(reviewers.iterator().next()._accountId)
@@ -654,13 +654,13 @@ public class ChangeIT extends AbstractDaemonTest {
         .votes();
 
     if (isNoteDbTestEnabled()) {
-      // When notedb is enabled each reviewer is explicitly recorded in the
-      // notedb and this record stays even when all votes of that user have been
+      // When NoteDb is enabled each reviewer is explicitly recorded in the
+      // NoteDb and this record stays even when all votes of that user have been
       // deleted, hence there is no dummy 0 approval left when a vote is
       // deleted.
       assertThat(m).isEmpty();
     } else {
-      // When notedb is disabled there is a dummy 0 approval on the change so
+      // When NoteDb is disabled there is a dummy 0 approval on the change so
       // that the user is still returned as CC when all votes of that user have
       // been deleted.
       assertThat(m).containsEntry("Code-Review", new Short((short)0));
@@ -675,14 +675,14 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo(
         "Removed Code-Review+1 by User <user@example.com>\n");
     if (isNoteDbTestEnabled()) {
-      // When notedb is enabled each reviewer is explicitly recorded in the
-      // notedb and this record stays even when all votes of that user have been
+      // When NoteDb is enabled each reviewer is explicitly recorded in the
+      // NoteDb and this record stays even when all votes of that user have been
       // deleted.
       assertThat(getReviewers(c.reviewers.get(REVIEWER)))
           .containsExactlyElementsIn(
               ImmutableSet.of(admin.getId(), user.getId()));
     } else {
-      // When notedb is disabled users that have only dummy 0 approvals on the
+      // When NoteDb is disabled users that have only dummy 0 approvals on the
       // change are returned as CC and not as REVIEWER.
       assertThat(getReviewers(c.reviewers.get(REVIEWER)))
           .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
@@ -892,7 +892,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void check() throws Exception {
-    // TODO(dborowitz): Re-enable when ConsistencyChecker supports notedb.
+    // TODO(dborowitz): Re-enable when ConsistencyChecker supports NoteDb.
     assume().that(notesMigration.enabled()).isFalse();
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes()
@@ -1067,7 +1067,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void notedbCommitsOnPatchSetCreation() throws Exception {
+  public void noteDbCommitsOnPatchSetCreation() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
     PushOneCommit.Result r = createChange();

@@ -281,7 +281,7 @@ public class ChangeData {
     ChangeData create(ReviewDb db, ChangeControl c);
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
-    ChangeData createOnlyWhenNotedbDisabled(ReviewDb db, Change.Id id);
+    ChangeData createOnlyWhenNoteDbDisabled(ReviewDb db, Change.Id id);
   }
 
   /**
@@ -506,7 +506,7 @@ public class ChangeData {
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     checkState(!notesMigration.readChanges(),
-        "do not call createOnlyWhenNotedbDisabled when notedb is enabled");
+        "do not call createOnlyWhenNoteDbDisabled when NoteDb is enabled");
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
@@ -629,7 +629,7 @@ public class ChangeData {
   public Project.NameKey project() throws OrmException {
     if (project == null) {
       checkState(!notesMigration.readChanges(), "should not have created "
-          + " ChangeData without a project when notedb is enabled");
+          + " ChangeData without a project when NoteDb is enabled");
       project = change().getProject();
     }
     return project;
@@ -699,7 +699,7 @@ public class ChangeData {
 
   public Change reloadChange() throws OrmException {
     if (project == null) {
-      notes = notesFactory.createFromIdOnlyWhenNotedbDisabled(db, legacyId);
+      notes = notesFactory.createFromIdOnlyWhenNoteDbDisabled(db, legacyId);
     } else {
       notes = notesFactory.create(db, project, legacyId);
     }

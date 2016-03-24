@@ -32,7 +32,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
-  private static final String MSG = "This table has been migrated to notedb";
+  private static final String MSG = "This table has been migrated to NoteDb";
 
   private final DisabledChangeAccess changes;
   private final DisabledPatchSetApprovalAccess patchSetApprovals;

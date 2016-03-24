@@ -114,7 +114,7 @@ public class TestChanges {
       return update;
     }
 
-    // Change doesn't exist yet. Notedb requires that there be a commit for the
+    // Change doesn't exist yet. NoteDb requires that there be a commit for the
     // first patch set, so create one.
     try (Repository repo = repoManager.openRepository(c.getProject())) {
       TestRepository<Repository> tr = new TestRepository<>(repo);

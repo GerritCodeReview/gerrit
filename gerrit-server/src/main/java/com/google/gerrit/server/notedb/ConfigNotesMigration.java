@@ -53,7 +53,7 @@ public class ConfigNotesMigration extends NotesMigration {
     }
   }
 
-  private static final String NOTEDB = "notedb";
+  private static final String NOTE_DB = "noteDb";
   private static final String READ = "read";
   private static final String WRITE = "write";
 
@@ -62,16 +62,16 @@ public class ConfigNotesMigration extends NotesMigration {
     for (Table t : Table.values()) {
       keys.add(t.key());
     }
-    for (String t : cfg.getSubsections(NOTEDB)) {
+    for (String t : cfg.getSubsections(NOTE_DB)) {
       checkArgument(keys.contains(t.toLowerCase()),
-          "invalid notedb table: %s", t);
-      for (String key : cfg.getNames(NOTEDB, t)) {
+          "invalid NoteDb table: %s", t);
+      for (String key : cfg.getNames(NOTE_DB, t)) {
         String lk = key.toLowerCase();
         checkArgument(lk.equals(WRITE) || lk.equals(READ),
-            "invalid notedb key: %s.%s", t, key);
+            "invalid NoteDb key: %s.%s", t, key);
       }
-      boolean write = cfg.getBoolean(NOTEDB, t, WRITE, false);
-      boolean read = cfg.getBoolean(NOTEDB, t, READ, false);
+      boolean write = cfg.getBoolean(NOTE_DB, t, WRITE, false);
+      boolean read = cfg.getBoolean(NOTE_DB, t, READ, false);
       checkArgument(!(read && !write),
           "must have write enabled when read enabled: %s", t);
     }
@@ -80,8 +80,8 @@ public class ConfigNotesMigration extends NotesMigration {
   public static Config allEnabledConfig() {
     Config cfg = new Config();
     for (Table t : Table.values()) {
-      cfg.setBoolean(NOTEDB, t.key(), WRITE, true);
-      cfg.setBoolean(NOTEDB, t.key(), READ, true);
+      cfg.setBoolean(NOTE_DB, t.key(), WRITE, true);
+      cfg.setBoolean(NOTE_DB, t.key(), READ, true);
     }
     return cfg;
   }
@@ -92,8 +92,8 @@ public class ConfigNotesMigration extends NotesMigration {
   @Inject
   ConfigNotesMigration(@GerritServerConfig Config cfg) {
     checkConfig(cfg);
-    writeChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.key(), WRITE, false);
-    readChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.key(), READ, false);
+    writeChanges = cfg.getBoolean(NOTE_DB, Table.CHANGES.key(), WRITE, false);
+    readChanges = cfg.getBoolean(NOTE_DB, Table.CHANGES.key(), READ, false);
   }
 
   @Override

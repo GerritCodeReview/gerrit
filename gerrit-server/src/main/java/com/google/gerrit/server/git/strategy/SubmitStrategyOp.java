@@ -370,7 +370,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
     }
 
-    // TODO(dborowitz): Don't use a label in notedb; just check when status
+    // TODO(dborowitz): Don't use a label in NoteDb; just check when status
     // change happened.
     for (PatchSetApproval psa : normalized.unchanged()) {
       if (includeUnchanged || psa.isLegacySubmit()) {

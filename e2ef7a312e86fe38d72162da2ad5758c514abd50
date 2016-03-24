@@ -22,6 +22,178 @@
       "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1a4e04_b717c887",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "That\u0027s a good point.  Wasn\u0027t the reason we chose hashtag was that we didn\u0027t want users to confuse Gerrit tag with git tag?\n\nAnother suggestion is \"kind\", similar to patchset.kind[1].  The only other alternative I can think of is to call it \u0027summary\u0027, as in a short summary of the review?\n\nIMO, \u0027tag\u0027 is still the best description for this.\n\n[1] https://gerrit-review.googlesource.com/Documentation/json.html#patchSet",
+      "parentUuid": "7c09d2ae_88f2774b",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1a4e04_9712c498",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "nit: \u0027from\u0027 is not needed",
+      "range": {
+        "startLine": 13,
+        "startChar": 57,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_74412883",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2429,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "add `tag` to this example response?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_54442c94",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2642,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "how about adding a `tag` to this example request?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1a4e04_572d0cda",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "update existing ChangeMessageIT with a tag?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1a4e04_d7183cbc",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "nit: comment like the other variables in here?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_344bb0a3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "update existing PatchSetApprovalTest with tag?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_d4183cbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "CommentAddedEventIT.reviewChange validates stream events.  Maybe check for tags there?",
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_144eb4b2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-24T05:00:13Z",
+      "side": 1,
+      "message": "how about \"applies a tag to the given review\" ?",
+      "range": {
+        "startLine": 127,
+        "startChar": 50,
+        "endLine": 127,
+        "endChar": 86
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

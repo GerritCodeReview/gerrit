@@ -177,13 +177,11 @@ public class MergeOp implements AutoCloseable {
   }
 
   private static class OpenBranch {
-    final Branch.NameKey name;
     final RefUpdate update;
     final CodeReviewCommit oldTip;
     MergeTip mergeTip;
 
     OpenBranch(OpenRepo or, Branch.NameKey name) throws IntegrationException {
-      this.name = name;
       try {
         update = or.repo.updateRef(name.get());
         if (update.getOldObjectId() != null) {

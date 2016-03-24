@@ -90,6 +90,26 @@
       return Promise.all(promises);
     },
 
+    scrollToLine: function(lineNum) {
+      this.$.rightDiff.scrollToLine(lineNum);
+    },
+
+    scrollToNextDiffChunk: function() {
+      this.$.rightDiff.scrollToNextDiffChunk();
+    },
+
+    scrollToPreviousDiffChunk: function() {
+      this.$.rightDiff.scrollToPreviousDiffChunk();
+    },
+
+    scrollToNextCommentThread: function() {
+      this.$.rightDiff.scrollToNextCommentThread();
+    },
+
+    scrollToPreviousCommentThread: function() {
+      this.$.rightDiff.scrollToPreviousCommentThread();
+    },
+
     _computeContainerClass: function(loggedIn, viewMode) {
       var classes = ['diffContainer'];
       switch (viewMode) {

@@ -292,8 +292,17 @@ class UnifiedChunkManager extends ChunkManager {
       res = -res - 1;
       if (res > 0) {
         UnifiedDiffChunkInfo info = chunks.get(res - 1);
-        return new LineSidePair(
-            info.getStart() + cmLine - info.getCmLine(), info.getSide());
+        int lineOnInfoSide = info.getStart() + cmLine - info.getCmLine();
+        if (lineOnInfoSide > info.getEnd()
+            && info.getSide() == DisplaySide.A) {
+          // For the common region after a deletion chunk, return the line and
+          // side info on side B
+          return new LineSidePair(
+              getLineMapper().lineOnOther(DisplaySide.A, lineOnInfoSide)
+                  .getLine(), DisplaySide.B);
+        } else {
+          return new LineSidePair(lineOnInfoSide, info.getSide());
+        }
       } else {
         // Always return side B
         return new LineSidePair(cmLine, DisplaySide.B);

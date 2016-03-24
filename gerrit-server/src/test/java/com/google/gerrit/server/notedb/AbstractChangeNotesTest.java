@@ -204,7 +204,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user)
       throws Exception {
-    return TestChanges.newUpdate(injector, c, user);
+    ChangeUpdate update = TestChanges.newUpdate(injector, c, user);
+    update.setAllowWriteToNewRef(true);
+    return update;
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {

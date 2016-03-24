@@ -38,10 +38,7 @@
       changeNum: String,
       patchRange: Object,
       path: String,
-      prefs: {
-        type: Object,
-        notify: true,
-      },
+
       projectConfig: {
         type: Object,
         observer: '_projectConfigChanged',
@@ -61,6 +58,7 @@
       },
       _diff: Object,
       _diffBuilder: Object,
+      _prefs: Object,
       _selectionSide: {
         type: String,
         observer: '_selectionSideChanged',
@@ -77,7 +75,7 @@
     },
 
     observers: [
-      '_render(_diff, _comments, prefs.*)',
+      '_prefsChanged(_prefs.*)',
     ],
 
     attached: function() {
@@ -101,7 +99,13 @@
         this._comments = comments;
       }.bind(this)));
 
-      return Promise.all(promises);
+      promises.push(this._getDiffPreferences().then(function(prefs) {
+        this._prefs = prefs;
+      }.bind(this)));
+
+      return Promise.all(promises).then(function() {
+        this._render();
+      }.bind(this));
     },
 
     scrollToLine: function(lineNum) {
@@ -214,7 +218,7 @@
     },
 
     _saveDiffPreferences: function() {
-      return this.$.restAPI.saveDiffPreferences(this.prefs);
+      return this.$.restAPI.saveDiffPreferences(this._prefs);
     },
 
     _handlePrefsCancel: function(e) {
@@ -237,6 +241,10 @@
         if (!loggedIn) { return; }
 
         var value = el.getAttribute('data-value');
+        if (value === GrDiffLine.FILE) {
+          this._addDraft(el);
+          return;
+        }
         var lineNum = parseInt(value, 10);
         if (isNaN(lineNum)) {
           throw Error('Invalid line number: ' + value);
@@ -245,7 +253,7 @@
       }.bind(this));
     },
 
-    _addDraft: function(lineEl, lineNum) {
+    _addDraft: function(lineEl, opt_lineNum) {
       var threadEl;
 
       // Does a thread already exist at this line?
@@ -274,7 +282,7 @@
             this._handleThreadDiscard.bind(this));
         contentEl.appendChild(threadEl);
       }
-      threadEl.addDraft(lineNum);
+      threadEl.addDraft(opt_lineNum);
     },
 
     _handleThreadDiscard: function(e) {
@@ -345,13 +353,21 @@
       sectionEl.parentNode.removeChild(sectionEl);
     },
 
-    _render: function(diff, comments, prefsChangeRecord) {
-      this._clearDiffContent();
+    _prefsChanged: function(prefsChangeRecord) {
       var prefs = prefsChangeRecord.base;
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
       this.updateStyles();
-      this._builder = this._getDiffBuilder(diff, comments, prefs);
-      this._builder.emitDiff(diff.content);
+
+      if (this._diff && this._comments) {
+        this._render();
+      }
+    },
+
+    _render: function() {
+      this._clearDiffContent();
+      this._builder = this._getDiffBuilder(this._diff, this._comments,
+          this._prefs);
+      this._builder.emitDiff(this._diff.content);
 
       this.async(function() {
         this.fire('render', null, {bubbles: false});
@@ -401,6 +417,32 @@
           drafts: results[1],
         });
       }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
+    },
+
+    _getDiffPreferences: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          // These defaults should match the defaults in
+          // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+          // NOTE: There are some settings that don't apply to PolyGerrit
+          // (Render mode being at least one of them).
+          return Promise.resolve({
+            auto_hide_diff_table_header: true,
+            context: 10,
+            cursor_blink_rate: 0,
+            ignore_whitespace: 'IGNORE_NONE',
+            intraline_difference: true,
+            line_length: 100,
+            show_line_endings: true,
+            show_tabs: true,
+            show_whitespace_errors: true,
+            syntax_highlighting: true,
+            tab_size: 8,
+            theme: 'DEFAULT',
+          });
+        }
+        return this.$.restAPI.getDiffPreferences();
+      }.bind(this));
     },
 
     _normalizeDiffCommentsAndDrafts: function(results) {

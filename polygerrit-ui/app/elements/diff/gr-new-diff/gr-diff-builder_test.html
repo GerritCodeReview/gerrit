@@ -65,9 +65,16 @@ limitations under the License.
 
       builder._processContent(content, groups, -1);
 
-      assert.equal(groups.length, 3);
+      assert.equal(groups.length, 4);
 
       var group = groups[0];
+      assert.equal(group.type, GrDiffGroup.Type.BOTH);
+      assert.equal(group.lines.length, 1);
+      assert.equal(group.lines[0].text, '');
+      assert.equal(group.lines[0].beforeNumber, GrDiffLine.FILE);
+      assert.equal(group.lines[0].afterNumber, GrDiffLine.FILE);
+
+      group = groups[1];
       assert.equal(group.type, GrDiffGroup.Type.BOTH);
       assert.equal(group.lines.length, 2);
       assert.equal(group.lines.length, 2);
@@ -83,7 +90,7 @@ limitations under the License.
         '<meta charset="utf-8">',
       ]);
 
-      group = groups[1];
+      group = groups[2];
       assert.equal(group.type, GrDiffGroup.Type.DELTA);
       assert.equal(group.lines.length, 3);
       assert.equal(group.adds.length, 1);
@@ -98,7 +105,7 @@ limitations under the License.
         '  Hello, world!',
       ]);
 
-      group = groups[2];
+      group = groups[3];
       assert.equal(group.type, GrDiffGroup.Type.BOTH);
       assert.equal(group.lines.length, 3);
       assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
@@ -130,44 +137,50 @@ limitations under the License.
 
       builder._processContent(content, groups, context);
 
-      assert.equal(groups[0].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(groups[0].lines[0].contextLines.length, 90);
-      groups[0].lines[0].contextLines.forEach(function(l) {
+      assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[0].lines.length, 1);
+      assert.equal(groups[0].lines[0].text, '');
+      assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
+      assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+
+      assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(groups[1].lines[0].contextLines.length, 90);
+      groups[1].lines[0].contextLines.forEach(function(l) {
         assert.equal(l.text, content[0].ab[0]);
       });
 
-      assert.equal(groups[1].type, GrDiffGroup.Type.BOTH);
-      assert.equal(groups[1].lines.length, context);
-      groups[1].lines.forEach(function(l) {
+      assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[2].lines.length, context);
+      groups[2].lines.forEach(function(l) {
         assert.equal(l.text, content[0].ab[0]);
       });
 
-      assert.equal(groups[2].type, GrDiffGroup.Type.DELTA);
-      assert.equal(groups[2].lines.length, 1);
-      assert.equal(groups[2].removes.length, 1);
-      assert.equal(groups[2].removes[0].text,
+      assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[3].lines.length, 1);
+      assert.equal(groups[3].removes.length, 1);
+      assert.equal(groups[3].removes[0].text,
           'all work and no play make andybons a dull boy');
 
-      assert.equal(groups[3].type, GrDiffGroup.Type.BOTH);
-      assert.equal(groups[3].lines.length, 5);
-      groups[3].lines.forEach(function(l) {
+      assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[4].lines.length, 5);
+      groups[4].lines.forEach(function(l) {
         assert.equal(l.text, content[2].ab[0]);
       });
 
-      assert.equal(groups[4].type, GrDiffGroup.Type.DELTA);
-      assert.equal(groups[4].lines.length, 1);
-      assert.equal(groups[4].adds.length, 1);
-      assert.equal(groups[4].adds[0].text, 'elgoog elgoog elgoog');
+      assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[5].lines.length, 1);
+      assert.equal(groups[5].adds.length, 1);
+      assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
 
-      assert.equal(groups[5].type, GrDiffGroup.Type.BOTH);
-      assert.equal(groups[5].lines.length, context);
-      groups[5].lines.forEach(function(l) {
+      assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[6].lines.length, context);
+      groups[6].lines.forEach(function(l) {
         assert.equal(l.text, content[4].ab[0]);
       });
 
-      assert.equal(groups[6].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(groups[6].lines[0].contextLines.length, 90);
-      groups[6].lines[0].contextLines.forEach(function(l) {
+      assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(groups[7].lines[0].contextLines.length, 90);
+      groups[7].lines[0].contextLines.forEach(function(l) {
         assert.equal(l.text, content[4].ab[0]);
       });
 
@@ -183,34 +196,40 @@ limitations under the License.
 
       builder._processContent(content, groups, 10);
 
-      assert.equal(groups[0].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
       assert.equal(groups[0].lines.length, 1);
-      assert.equal(groups[0].removes.length, 1);
-      assert.equal(groups[0].removes[0].text,
+      assert.equal(groups[0].lines[0].text, '');
+      assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
+      assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+
+      assert.equal(groups[1].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[1].lines.length, 1);
+      assert.equal(groups[1].removes.length, 1);
+      assert.equal(groups[1].removes[0].text,
           'all work and no play make andybons a dull boy');
 
-      assert.equal(groups[1].type, GrDiffGroup.Type.BOTH);
-      assert.equal(groups[1].lines.length, context);
-      groups[1].lines.forEach(function(l) {
+      assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[2].lines.length, context);
+      groups[2].lines.forEach(function(l) {
         assert.equal(l.text, content[1].ab[0]);
       });
 
-      assert.equal(groups[2].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(groups[2].lines[0].contextLines.length, 30);
-      groups[2].lines[0].contextLines.forEach(function(l) {
+      assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(groups[3].lines[0].contextLines.length, 30);
+      groups[3].lines[0].contextLines.forEach(function(l) {
         assert.equal(l.text, content[1].ab[0]);
       });
 
-      assert.equal(groups[3].type, GrDiffGroup.Type.BOTH);
-      assert.equal(groups[3].lines.length, context);
-      groups[3].lines.forEach(function(l) {
+      assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+      assert.equal(groups[4].lines.length, context);
+      groups[4].lines.forEach(function(l) {
         assert.equal(l.text, content[1].ab[0]);
       });
 
-      assert.equal(groups[4].type, GrDiffGroup.Type.DELTA);
-      assert.equal(groups[4].lines.length, 1);
-      assert.equal(groups[4].adds.length, 1);
-      assert.equal(groups[4].adds[0].text, 'elgoog elgoog elgoog');
+      assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+      assert.equal(groups[5].lines.length, 1);
+      assert.equal(groups[5].adds.length, 1);
+      assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
     });
 
     test('newlines', function() {

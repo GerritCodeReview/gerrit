@@ -33,6 +33,8 @@
     REMOVE: 'remove',
   };
 
+  GrDiffLine.FILE = 'FILE';
+
   GrDiffLine.BLANK_LINE = new GrDiffLine(GrDiffLine.Type.BLANK);
 
   window.GrDiffLine = GrDiffLine;

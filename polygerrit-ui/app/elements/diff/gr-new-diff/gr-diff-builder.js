@@ -56,6 +56,8 @@
   },
 
   GrDiffBuilder.prototype._processContent = function(content, groups, context) {
+    this._appendFileComments(groups);
+
     var WHOLE_FILE = -1;
     context = content.length > 1 ? context : WHOLE_FILE;
 
@@ -99,6 +101,13 @@
     }
   };
 
+  GrDiffBuilder.prototype._appendFileComments = function(groups) {
+    var line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    line.beforeNumber = GrDiffLine.FILE;
+    line.afterNumber = GrDiffLine.FILE;
+    groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]));
+  };
+
   GrDiffBuilder.prototype._getCommentLocations = function(comments) {
     var result = {
       left: {},
@@ -110,7 +119,7 @@
         continue;
       }
       comments[side].forEach(function(c) {
-        result[side][c.line] = true;
+        result[side][c.line || GrDiffLine.FILE] = true;
       });
     }
     return result;
@@ -238,10 +247,16 @@
 
   GrDiffBuilder.prototype._getCommentsForLine = function(comments, line,
       opt_side) {
-    var leftComments = comments[GrDiffBuilder.Side.LEFT].filter(
-        function(c) { return c.line === line.beforeNumber; });
-    var rightComments = comments[GrDiffBuilder.Side.RIGHT].filter(
-        function(c) { return c.line === line.afterNumber; });
+    function byLineNum(lineNum) {
+      return function(c) {
+        return (c.line === lineNum) ||
+               (c.line === undefined && lineNum === GrDiffLine.FILE)
+      }
+    }
+    var leftComments =
+        comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
+    var rightComments =
+        comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
 
     var result;
 

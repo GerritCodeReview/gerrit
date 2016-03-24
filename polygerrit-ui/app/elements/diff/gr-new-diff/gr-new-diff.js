@@ -27,6 +27,12 @@
   Polymer({
     is: 'gr-new-diff',
 
+    /**
+     * Fired when the diff is rendered.
+     *
+     * @event render
+     */
+
     properties: {
       availablePatches: Array,
       changeNum: String,
@@ -60,6 +66,14 @@
         observer: '_selectionSideChanged',
       },
       _comments: Object,
+      _focusedSection: {
+        type: Number,
+        value: -1,
+      },
+      _focusedThread: {
+        type: Number,
+        value: -1,
+      },
     },
 
     observers: [
@@ -88,6 +102,73 @@
       }.bind(this)));
 
       return Promise.all(promises);
+    },
+
+    scrollToLine: function(lineNum) {
+      if (isNaN(lineNum) || lineNum < 1) { return; }
+
+      var lineEls = Polymer.dom(this.root).querySelectorAll(
+          '.lineNum[data-value="' + lineNum + '"]');
+
+      // Always choose the right side.
+      var el = lineEls.length === 2 ? lineEls[1] : lineEls[0];
+      this._scrollToElement(el);
+    },
+
+    scrollToNextDiffChunk: function() {
+      this._focusedSection = this._advanceElementWithinNodeList(
+          this._getDeltaSections(), this._focusedSection, 1);
+    },
+
+    scrollToPreviousDiffChunk: function() {
+      this._focusedSection = this._advanceElementWithinNodeList(
+          this._getDeltaSections(), this._focusedSection, -1);
+    },
+
+    scrollToNextCommentThread: function() {
+      this._focusedThread = this._advanceElementWithinNodeList(
+          this._getCommentThreads(), this._focusedThread, 1);
+    },
+
+    scrollToPreviousCommentThread: function() {
+      this._focusedThread = this._advanceElementWithinNodeList(
+          this._getCommentThreads(), this._focusedThread, -1);
+    },
+
+    _advanceElementWithinNodeList: function(els, curIndex, direction) {
+      var idx = Math.max(0, Math.min(els.length - 1, curIndex + direction));
+      if (curIndex !== idx) {
+        this._scrollToElement(els[idx]);
+        return idx;
+      }
+      return curIndex;
+    },
+
+    _getCommentThreads: function() {
+      return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+    },
+
+    _getDeltaSections: function() {
+      return Polymer.dom(this.root).querySelectorAll('.section.delta');
+    },
+
+    _scrollToElement: function(el) {
+      if (!el) { return; }
+
+      // Calculate where the element is relative to the window.
+      var top = el.offsetTop;
+      for (var offsetParent = el.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+        top += offsetParent.offsetTop;
+      }
+
+      // Scroll the element to the middle of the window. Dividing by a third
+      // instead of half the inner height feels a bit better otherwise the
+      // element appears to be below the center of the window even when it
+      // isn't.
+      window.scrollTo(0, top - (window.innerHeight / 3) +
+          (el.offsetHeight / 2));
     },
 
     _computeContainerClass: function(loggedIn, viewMode) {
@@ -238,6 +319,10 @@
       this.updateStyles();
       this._builder = this._getDiffBuilder(diff, comments, prefs);
       this._builder.emitDiff(diff.content);
+
+      this.async(function() {
+        this.fire('render', null, {bubbles: false});
+      }.bind(this), 1);
     },
 
     _clearDiffContent: function() {

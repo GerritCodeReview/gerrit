@@ -50,9 +50,6 @@ java_library(
 java_test(
   name = 'ui_tests',
   srcs = glob(['src/test/java/**/*.java']),
-  resources = glob(['src/test/resources/**/*']) + [
-    'src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml',
-  ],
   deps = [
     ':ui_module',
     '//gerrit-common:client',

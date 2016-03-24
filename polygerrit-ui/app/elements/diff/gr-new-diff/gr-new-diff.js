@@ -27,6 +27,12 @@
   Polymer({
     is: 'gr-new-diff',
 
+    /**
+     * Fired when the diff is rendered.
+     *
+     * @event render
+     */
+
     properties: {
       availablePatches: Array,
       changeNum: String,
@@ -60,6 +66,22 @@
         observer: '_selectionSideChanged',
       },
       _comments: Object,
+      _diffChunkLineNums: {
+        type: Array,
+        value: function() { return []; },
+      },
+      _commentThreadLineNums: {
+        type: Array,
+        value: function() { return []; },
+      },
+      _focusedSection: {
+        type: Number,
+        value: -1,
+      },
+      _focusedThread: {
+        type: Number,
+        value: -1,
+      },
     },
 
     observers: [
@@ -91,23 +113,81 @@
     },
 
     scrollToLine: function(lineNum) {
-      this.$.rightDiff.scrollToLine(lineNum);
+      if (isNaN(lineNum) || lineNum < 1) { return; }
+
+      var lineEls = Polymer.dom(this.root).querySelectorAll(
+          '.lineNum[data-value="' + lineNum + '"]');
+
+      // Always choose the right side.
+      var el = lineEls.length === 2 ? lineEls[1] : lineEls[0];
+      this._scrollToElement(el);
     },
 
     scrollToNextDiffChunk: function() {
-      this.$.rightDiff.scrollToNextDiffChunk();
+      this._focusedSection = this._scrollToNextElement(this._getDeltaSections(),
+          this._focusedSection);
     },
 
     scrollToPreviousDiffChunk: function() {
-      this.$.rightDiff.scrollToPreviousDiffChunk();
+      this._focusedSection = this._scrollToPreviousElement(
+          this._getDeltaSections(), this._focusedSection);
     },
 
     scrollToNextCommentThread: function() {
-      this.$.rightDiff.scrollToNextCommentThread();
+      this._focusedThread = this._scrollToNextElement(
+          this._getCommentThreads(), this._focusedThread);
     },
 
     scrollToPreviousCommentThread: function() {
-      this.$.rightDiff.scrollToPreviousCommentThread();
+      this._focusedThread = this._scrollToPreviousElement(
+          this._getCommentThreads(), this._focusedThread);
+    },
+
+    _scrollToNextElement: function(els, focusedIndex) {
+      for (var i = 0; i < els.length; i++) {
+        if (i > focusedIndex) {
+          this._scrollToElement(els[i]);
+          return i;
+        }
+      }
+      return focusedIndex;
+    },
+
+    _scrollToPreviousElement: function(els, focusedIndex) {
+      for (var i = els.length - 1; i >= 0; i--) {
+        if (i < focusedIndex) {
+          this._scrollToElement(els[i]);
+          return i;
+        }
+      }
+      return focusedIndex;
+    },
+
+    _getCommentThreads: function() {
+      return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+    },
+
+    _getDeltaSections: function() {
+      return Polymer.dom(this.root).querySelectorAll('.section.delta');
+    },
+
+    _scrollToElement: function(el) {
+      if (!el) { return; }
+
+      // Calculate where the element is relative to the window.
+      var top = el.offsetTop;
+      for (var offsetParent = el.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+        top += offsetParent.offsetTop;
+      }
+
+      // Scroll the element to the middle of the window. Dividing by a third
+      // instead of half the inner height feels a bit better otherwise the
+      // element appears to be below the center of the window even when it
+      // isn't.
+      window.scrollTo(0, top - (window.innerHeight / 3) +
+          (el.offsetHeight / 2));
     },
 
     _computeContainerClass: function(loggedIn, viewMode) {
@@ -252,12 +332,16 @@
     },
 
     _render: function(diff, comments, prefsChangeRecord) {
+      var now = new Date();
       this._clearDiffContent();
       var prefs = prefsChangeRecord.base;
-      this.customStyle['--content-width'] = prefs.line_length + 'ch';
-      this.updateStyles();
       this._builder = this._getDiffBuilder(diff, comments, prefs);
       this._builder.emitDiff(diff.content);
+
+      this.async(function() {
+        this.fire('render', null, {bubbles: false});
+      }.bind(this), 1);
+      console.log('render took', (new Date()) - now, 'ms')
     },
 
     _clearDiffContent: function() {

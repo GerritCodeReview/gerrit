@@ -17,13 +17,12 @@ package com.google.gerrit.server.patch;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.util.List;
-
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.ReplaceEdit;
-
 import org.junit.Test;
+
+import java.util.List;
 
 public class IntraLineLoaderTest {
 

@@ -51,7 +51,7 @@
     } else {
       var textEl = this._createTextEl(line);
       textEl.classList.add(side);
-      var threadEl = this._createCommentThread(line, side);
+      var threadEl = this._commentThreadForLine(line, side);
       if (threadEl) {
         textEl.appendChild(threadEl);
       }

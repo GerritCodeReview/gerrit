@@ -42,7 +42,7 @@
       row.appendChild(action);
     } else {
       var textEl = this._createTextEl(line);
-      var threadEl = this._createCommentThread(line);
+      var threadEl = this._commentThreadForLine(line);
       if (threadEl) {
         textEl.appendChild(threadEl);
       }

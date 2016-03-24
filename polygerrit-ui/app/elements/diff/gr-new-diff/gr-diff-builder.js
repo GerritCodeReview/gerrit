@@ -107,7 +107,7 @@
     for (var side in comments) {
       if (side !== GrDiffBuilder.Side.LEFT &&
           side !== GrDiffBuilder.Side.RIGHT) {
-        throw Error('Invalid side: ' + side);
+        continue;
       }
       comments[side].forEach(function(c) {
         result[side][c.line] = true;
@@ -260,23 +260,52 @@
     return result;
   };
 
-  GrDiffBuilder.prototype._createCommentThread = function(line, opt_side) {
+  GrDiffBuilder.prototype.createCommentThread = function(changeNum, patchNum,
+      path, side, projectConfig) {
+    var threadEl = document.createElement('gr-diff-comment-thread');
+    threadEl.changeNum = changeNum;
+    threadEl.patchNum = patchNum;
+    threadEl.path = path;
+    threadEl.side = side;
+    threadEl.projectConfig = projectConfig;
+    return threadEl;
+  },
+
+  GrDiffBuilder.prototype._commentThreadForLine = function(line, opt_side) {
     var comments = this._getCommentsForLine(this._comments, line, opt_side);
     if (!comments || comments.length === 0) {
       return null;
     }
-    var threadEl = document.createElement('gr-diff-comment-thread');
+
+    var patchNum = this._comments.meta.patchRange.patchNum;
+    var side = 'REVISION';
+    if (line.type === GrDiffLine.Type.REMOVE ||
+        opt_side === GrDiffBuilder.Side.LEFT) {
+      if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
+        side = 'PARENT';
+      } else {
+        patchNum = this._comments.meta.patchRange.basePatchNum;
+      }
+    }
+    var threadEl = this.createCommentThread(
+        this._comments.meta.changeNum,
+        patchNum,
+        this._comments.meta.path,
+        side,
+        this._comments.meta.projectConfig);
     threadEl.comments = comments;
     return threadEl;
   };
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
-    var td = this._createElement('td', 'lineNum');
+    var td = this._createElement('td');
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.classList.add('contextLineNum');
       td.setAttribute('data-value', '@@');
     } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+      td.classList.add('lineNum');
       td.setAttribute('data-value', number);
     }
     return td;

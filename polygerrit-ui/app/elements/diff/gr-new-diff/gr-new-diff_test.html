@@ -106,8 +106,25 @@ limitations under the License.
       var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
           function() { return Promise.resolve(drafts); });
 
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 3,
+      };
+      element.path = '/path/to/foo';
+      element.projectConfig = {foo: 'bar'};
+
       element._getDiffCommentsAndDrafts().then(function(result) {
         assert.deepEqual(result, {
+          meta: {
+            changeNum: '42',
+            patchRange: {
+              basePatchNum: 'PARENT',
+              patchNum: 3,
+            },
+            path: '/path/to/foo',
+            projectConfig: {foo: 'bar'},
+          },
           left: [
             {id: 'bc1'},
             {id: 'bc2'},

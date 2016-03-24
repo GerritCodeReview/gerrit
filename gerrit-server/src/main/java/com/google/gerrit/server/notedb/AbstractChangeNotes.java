@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
@@ -40,17 +43,20 @@ public abstract class AbstractChangeNotes<T> {
     final NotesMigration migration;
     final AllUsersName allUsers;
     final ChangeNoteUtil noteUtil;
+    final NoteDbMetrics metrics;
 
     @Inject
     Args(
         GitRepositoryManager repoManager,
         NotesMigration migration,
         AllUsersName allUsers,
-        ChangeNoteUtil noteUtil) {
+        ChangeNoteUtil noteUtil,
+        NoteDbMetrics metrics) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsers = allUsers;
       this.noteUtil = noteUtil;
+      this.metrics = metrics;
     }
   }
 
@@ -82,7 +88,8 @@ public abstract class AbstractChangeNotes<T> {
       loadDefaults();
       return self();
     }
-    try (Repository repo =
+    try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
+        Repository repo =
             args.repoManager.openMetadataRepository(getProjectName());
         RevWalk walk = new RevWalk(repo)) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());

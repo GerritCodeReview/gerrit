@@ -462,6 +462,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     Change c = newChange();
     return new ChangeNotesParser(c.getProject(), c.getId(), tip, walk,
-        repoManager, noteUtil);
+        repoManager, noteUtil, args.metrics);
   }
 }

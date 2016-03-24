@@ -540,7 +540,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
     try (ChangeNotesParser parser = new ChangeNotesParser(
          project, change.getId(), rev, handle.walk(), args.repoManager,
-         args.noteUtil)) {
+         args.noteUtil, args.metrics)) {
       parser.parseAll();
 
       if (parser.status != null) {

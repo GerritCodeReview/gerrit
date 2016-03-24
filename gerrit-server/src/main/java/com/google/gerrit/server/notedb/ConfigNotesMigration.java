@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
@@ -45,21 +46,13 @@ public class ConfigNotesMigration extends NotesMigration {
     }
   }
 
-  private static enum Table {
-    CHANGES;
-
-    private String key() {
-      return name().toLowerCase();
-    }
-  }
-
   private static final String NOTEDB = "notedb";
   private static final String READ = "read";
   private static final String WRITE = "write";
 
   private static void checkConfig(Config cfg) {
     Set<String> keys = new HashSet<>();
-    for (Table t : Table.values()) {
+    for (NoteDbTable t : NoteDbTable.values()) {
       keys.add(t.key());
     }
     for (String t : cfg.getSubsections(NOTEDB)) {
@@ -79,7 +72,7 @@ public class ConfigNotesMigration extends NotesMigration {
 
   public static Config allEnabledConfig() {
     Config cfg = new Config();
-    for (Table t : Table.values()) {
+    for (NoteDbTable t : NoteDbTable.values()) {
       cfg.setBoolean(NOTEDB, t.key(), WRITE, true);
       cfg.setBoolean(NOTEDB, t.key(), READ, true);
     }
@@ -92,8 +85,8 @@ public class ConfigNotesMigration extends NotesMigration {
   @Inject
   ConfigNotesMigration(@GerritServerConfig Config cfg) {
     checkConfig(cfg);
-    writeChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.key(), WRITE, false);
-    readChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.key(), READ, false);
+    writeChanges = cfg.getBoolean(NOTEDB, CHANGES.key(), WRITE, false);
+    readChanges = cfg.getBoolean(NOTEDB, CHANGES.key(), READ, false);
   }
 
   @Override

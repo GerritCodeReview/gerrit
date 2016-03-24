@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -47,6 +50,7 @@ public abstract class AbstractChangeNotes<T> {
     final ChangeNoteUtil noteUtil;
     final DynamicItem<NoteDbLoadHook> loadHook;
     final Provider<ReviewDb> db;
+    final NoteDbMetrics metrics;
 
     // Must be a Provider due to dependency cycle between ChangeRebuilder and
     // Args via ChangeNotes.Factory.
@@ -60,6 +64,7 @@ public abstract class AbstractChangeNotes<T> {
         ChangeNoteUtil noteUtil,
         DynamicItem<NoteDbLoadHook> loadHook,
         Provider<ReviewDb> db,
+        NoteDbMetrics metrics,
         Provider<ChangeRebuilder> rebuilder) {
       this.repoManager = repoManager;
       this.migration = migration;
@@ -67,6 +72,7 @@ public abstract class AbstractChangeNotes<T> {
       this.noteUtil = noteUtil;
       this.loadHook = loadHook;
       this.db = db;
+      this.metrics = metrics;
       this.rebuilder = rebuilder;
     }
   }
@@ -115,8 +121,9 @@ public abstract class AbstractChangeNotes<T> {
       loadDefaults();
       return self();
     }
-    try (Repository repo =
-        args.repoManager.openMetadataRepository(getProjectName());
+    try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
+        Repository repo =
+            args.repoManager.openMetadataRepository(getProjectName());
         LoadHandle handle = openHandle(repo)) {
       revision = handle.id();
       onLoad(handle);

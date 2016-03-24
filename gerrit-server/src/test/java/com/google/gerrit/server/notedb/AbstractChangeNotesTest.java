@@ -21,6 +21,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -170,6 +172,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         bind(StarredChangesUtil.class)
             .toProvider(Providers.<StarredChangesUtil> of(null));
         bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
+        bind(MetricMaker.class).to(DisabledMetricMaker.class);
       }
     });
 

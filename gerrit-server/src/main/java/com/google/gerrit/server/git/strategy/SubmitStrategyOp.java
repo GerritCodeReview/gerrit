@@ -361,7 +361,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     PatchSet.Id psId = update.getPatchSetId();
     ctx.getDb().patchSetApprovals().upsert(
         convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().update(
+    ctx.getDb().patchSetApprovals().upsert(
         zero(convertPatchSet(normalized.deleted(), psId)));
     for (PatchSetApproval psa : normalized.updated()) {
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());

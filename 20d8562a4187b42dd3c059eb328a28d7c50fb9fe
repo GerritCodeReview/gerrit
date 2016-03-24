@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "dc11de0a_93343c33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-24T22:22:50Z",
+      "side": 1,
+      "message": "Hmm, at least we need to be able to select and copy the commit SHA1. Currently it\u0027s not possible.\n\nI wouldn\u0027t worry too much if a particular commit doesn\u0027t exist on Gerrit. Of course we can use the REST API to check first but that sounds like an overkill.",
+      "parentUuid": "5c896ea7_9fe533fb",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c903aca_febba1e5",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
         "patchSetId": 17

@@ -74,12 +74,30 @@ public class DynamicItem<T> {
    * @param member type of entry to store.
    */
   public static <T> void itemOf(Binder binder, TypeLiteral<T> member) {
-    @SuppressWarnings("unchecked")
-    Key<DynamicItem<T>> key = (Key<DynamicItem<T>>) Key.get(
-        Types.newParameterizedType(DynamicItem.class, member.getType()));
+    Key<DynamicItem<T>> key = keyFor(member);
     binder.bind(key)
       .toProvider(new DynamicItemProvider<>(member, key))
       .in(Scopes.SINGLETON);
+  }
+
+  /**
+   * Construct a single {@code DynamicItem<T>} with a fixed value.
+   * <p>
+   * Primarily useful for passing {@code DynamicItem}s to constructors in tests.
+   *
+   * @param member type of item.
+   * @param item item to store.
+   */
+  public static <T> DynamicItem<T> itemOf(Class<T> member, T item) {
+    return new DynamicItem<>(
+        keyFor(TypeLiteral.get(member)),
+        Providers.of(item), "gerrit");
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> Key<DynamicItem<T>> keyFor(TypeLiteral<T> member) {
+    return (Key<DynamicItem<T>>) Key.get(
+        Types.newParameterizedType(DynamicItem.class, member.getType()));
   }
 
   /**

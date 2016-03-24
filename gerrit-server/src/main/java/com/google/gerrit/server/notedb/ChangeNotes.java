@@ -526,7 +526,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return;
     }
     try (ChangeNotesParser parser = new ChangeNotesParser(
-         project, change.getId(), rev, walk, args.repoManager, args.noteUtil)) {
+         project, change.getId(), rev, walk, args.repoManager, args.noteUtil,
+         args.metrics)) {
       parser.parseAll();
 
       if (parser.status != null) {

@@ -18,9 +18,11 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
@@ -73,6 +75,7 @@ public class NoteDbUpdateManager {
   private final GitRepositoryManager repoManager;
   private final NotesMigration migration;
   private final AllUsersName allUsersName;
+  private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
@@ -84,10 +87,12 @@ public class NoteDbUpdateManager {
   NoteDbUpdateManager(GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsersName,
+      NoteDbMetrics metrics,
       @Assisted Project.NameKey projectName) {
     this.repoManager = repoManager;
     this.migration = migration;
     this.allUsersName = allUsersName;
+    this.metrics = metrics;
     this.projectName = projectName;
     changeUpdates = ArrayListMultimap.create();
     draftUpdates = ArrayListMultimap.create();
@@ -186,7 +191,7 @@ public class NoteDbUpdateManager {
     if (isEmpty()) {
       return;
     }
-    try {
+    try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
       initChangeRepo();
       if (!draftUpdates.isEmpty()) {
         initAllUsersRepo();

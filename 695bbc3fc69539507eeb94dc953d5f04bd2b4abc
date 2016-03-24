@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc11de0a_93139cae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-24T21:01:19Z",
+      "side": 1,
+      "message": "Is this solely being added for metrics? Its name is pretty general.",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "695bbc3fc69539507eeb94dc953d5f04bd2b4abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

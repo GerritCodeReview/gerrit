@@ -121,6 +121,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private PatchSetState psState;
   private Iterable<String> groups;
   private String pushCert;
+  private boolean isAllowWriteToNewtRef;
 
   private ChangeDraftUpdate draftUpdate;
 
@@ -604,6 +605,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   ChangeDraftUpdate getDraftUpdate() {
     return draftUpdate;
+  }
+
+  public void setAllowWriteToNewRef(boolean allow) {
+    isAllowWriteToNewtRef = allow;
+  }
+
+  @Override
+  public boolean allowWriteToNewRef() {
+    return isAllowWriteToNewtRef;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

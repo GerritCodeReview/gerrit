@@ -51,4 +51,23 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     r = amendChange(r.getChangeId());
     checker.rebuildAndCheckChanges(id);
   }
+
+  @Test
+  public void noWriteToNewRef() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    checker.assertNoChangeRef(project, id);
+
+    notesMigration.setWriteChanges(true);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+
+    // First write doesn't create the ref, but rebuilding works.
+    checker.assertNoChangeRef(project, id);
+    checker.rebuildAndCheckChanges(id);
+
+    // Now that there is a ref, writes are "turned on" for this change, and
+    // NoteDb stays up to date without explicit rebuilding.
+    gApi.changes().id(id.get()).topic(name("new-topic"));
+    checker.checkChanges(id);
+  }
 }

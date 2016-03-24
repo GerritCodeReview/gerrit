@@ -200,6 +200,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
       throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(
         injector, repoManager, MIGRATION, c, allUsers, user);
+    update.setAllowWriteToNewRef(true);
     return update;
   }
 

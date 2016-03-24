@@ -94,6 +94,23 @@
     },
     {
       "key": {
+        "uuid": "3c903aca_5efd757e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-24T23:00:59Z",
+      "side": 1,
+      "message": "Keep this list in lexicographical sort order.",
+      "revId": "53b167d1aea507b8918fb0c246d5c4ecfdf6d0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c903aca_be13d9ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailModule.java",
         "patchSetId": 7

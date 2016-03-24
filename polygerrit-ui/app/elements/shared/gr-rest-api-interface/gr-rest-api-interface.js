@@ -94,6 +94,11 @@
       return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
     },
 
+    saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
+      return this._save('PUT', '/accounts/self/preferences.diff', prefs,
+          opt_errFn, opt_ctx);
+    },
+
     getAccount: function() {
       return this._fetchSharedCacheURL('/accounts/self/detail');
     },
@@ -160,7 +165,10 @@
       };
       if (opt_body) {
         headers.append('Content-Type', 'application/json');
-        options.body = opt_body;
+        if (typeof opt_body !== 'string') {
+          opt_body = JSON.stringify(opt_body);
+        }
+        options.body = JSON.stringify(opt_body);
       }
       return fetch(url, options).catch(function(err) {
         if (opt_errFn) {

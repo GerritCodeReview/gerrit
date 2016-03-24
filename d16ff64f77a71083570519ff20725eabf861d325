@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c1a4e04_172794fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T00:53:45Z",
+      "side": 1,
+      "message": "if the lastComment does does not have a __draft prop is the fall through logic to line 86 intended? \n\nIf it is, I wonder if we could make it more explicit. Falling out of the 2 levels of if blocks is a bit confusing.",
+      "revId": "d16ff64f77a71083570519ff20725eabf861d325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_9412c498",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T00:53:45Z",
+      "side": 1,
+      "message": "I always use new Error(...) ... I wonder if it is needed?\n\n---\n\nturns out it is not\nhttp://es5.github.io/#x15.11.1\n\nTIL",
+      "revId": "d16ff64f77a71083570519ff20725eabf861d325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_b417c087",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T00:53:45Z",
+      "side": 1,
+      "message": "do we want to bubble up if this promise fails?\n\ncurrently this will be silently swallowed",
+      "revId": "d16ff64f77a71083570519ff20725eabf861d325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc2a2213_542d0cda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-new-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-24T00:53:45Z",
+      "side": 1,
+      "message": "I think this might be making a really nasty \"leak\".\n\nyou will need both the gr-new-diff instance to be removed and the threadEl to be removed for it to be GCd \n\nThis is not a big deal, just something that caught my eye :)",
+      "revId": "d16ff64f77a71083570519ff20725eabf861d325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

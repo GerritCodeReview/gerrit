@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.mail;
 
+import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
+import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
@@ -106,10 +108,10 @@ public abstract class OutgoingEmail {
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
-        EmailStrategy strategy =
-            fromUser.getGeneralPreferencesInfo().getEmailStrategy();
+        GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferencesInfo();
 
-        if (strategy == EmailStrategy.CC_ON_OWN_COMMENTS) {
+        if (senderPrefs != null
+            && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.
@@ -126,11 +128,10 @@ public abstract class OutgoingEmail {
         // his email notifications then drop him from recipients' list
         for (Account.Id id : rcptTo) {
           Account thisUser = args.accountCache.get(id).getAccount();
-          if (thisUser.getGeneralPreferencesInfo().getEmailStrategy()
-                  == EmailStrategy.DISABLED) {
+          GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
+          if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             removeUser(thisUser);
           }
-
           if (smtpRcptTo.isEmpty()) {
             return;
           }

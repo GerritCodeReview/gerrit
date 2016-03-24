@@ -108,6 +108,39 @@
       return classes.join(' ');
     },
 
+    _computePrefsButtonHidden: function(prefs, loggedIn) {
+      return !loggedIn || !prefs;
+    },
+
+    _handlePrefsTap: function(e) {
+      e.preventDefault();
+      this.$.prefsOverlay.open();
+    },
+
+    _handlePrefsSave: function(e) {
+      e.stopPropagation();
+      var el = Polymer.dom(e).rootTarget;
+      el.disabled = true;
+      this._saveDiffPreferences().then(function() {
+        this.$.prefsOverlay.close();
+        el.disabled = false;
+      }.bind(this)).catch(function(err) {
+        el.disabled = false;
+        alert('Oops. Something went wrong. Check the console and bug the ' +
+              'PolyGerrit team for assistance.');
+        throw err;
+      });
+    },
+
+    _saveDiffPreferences: function() {
+      return this.$.restAPI.saveDiffPreferences(this.prefs);
+    },
+
+    _handlePrefsCancel: function(e) {
+      e.stopPropagation();
+      this.$.prefsOverlay.close();
+    },
+
     _handleTap: function(e) {
       var el = Polymer.dom(e).rootTarget;
 

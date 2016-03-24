@@ -16,6 +16,24 @@
       "revId": "0e02e96ef685cc66ac97dd18a6606d38c3fc39a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc11de0a_f39db080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-24T16:04:21Z",
+      "side": 1,
+      "message": "I thought about \"Blocked by\", but to me it felt more like some other change is blocking this one.",
+      "parentUuid": "7c8c7287_707390ef",
+      "revId": "0e02e96ef685cc66ac97dd18a6606d38c3fc39a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

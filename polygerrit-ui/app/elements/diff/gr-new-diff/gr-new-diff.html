@@ -87,6 +87,9 @@ limitations under the License.
       .canComment .lineNum[data-value]:hover:before {
         background-color: #ccc;
       }
+      .canComment .lineNum[data-value="FILE"]:before {
+        content: 'File';
+      }
       .content {
         overflow: hidden;
         width: var(--content-width, 80ch);
@@ -145,12 +148,12 @@ limitations under the License.
         <gr-button link
            class="prefsButton"
            on-tap="_handlePrefsTap"
-           hidden$="[[_computePrefsButtonHidden(prefs, _loggedIn)]]"
+           hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
            hidden>Diff View Preferences</gr-button>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>
         <gr-diff-preferences
-            prefs="{{prefs}}"
+            prefs="{{_prefs}}"
             on-save="_handlePrefsSave"
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>

@@ -92,7 +92,7 @@ limitations under the License.
       }
       .content {
         overflow: hidden;
-        width: var(--content-width, 80ch);
+        min-width: var(--content-width, 80ch);
       }
       .content.left {
         -webkit-user-select: var(--left-user-select, text);
@@ -106,11 +106,19 @@ limitations under the License.
         -ms-user-select: var(--right-user-select, text);
         user-select: var(--right-user-select, text);
       }
-      .content.add {
+      .content.add hl,
+      .content.add.darkHighlight {
         background-color: var(--dark-add-highlight-color);
       }
-      .content.remove {
+      .content.add.lightHighlight {
+        background-color: var(--light-add-highlight-color);
+      }
+      .content.remove hl,
+      .content.remove.darkHighlight {
         background-color: var(--dark-remove-highlight-color);
+      }
+      .content.remove.lightHighlight {
+        background-color: var(--light-remove.highlight-color);
       }
       .contextControl {
         color: #849;

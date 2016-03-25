@@ -82,6 +82,11 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
+
+      this.addEventListener('thread-discard',
+          this._handleThreadDiscard.bind(this));
+      this.addEventListener('comment-discard',
+          this._handleCommentDiscard.bind(this));
     },
 
     reload: function() {
@@ -277,18 +282,40 @@
         }
         threadEl = this._builder.createCommentThread(this.changeNum, patchNum,
             this.path, side, this.projectConfig);
-        // TODO(andybons): Remove once migration is made to gr-new-diff.
-        threadEl.addEventListener('discard',
-            this._handleThreadDiscard.bind(this));
         contentEl.appendChild(threadEl);
       }
       threadEl.addDraft(opt_lineNum);
     },
 
     _handleThreadDiscard: function(e) {
-      e.stopPropagation();
       var el = Polymer.dom(e).rootTarget;
       el.parentNode.removeChild(el);
+    },
+
+    _handleCommentDiscard: function(e) {
+      var comment = Polymer.dom(e).rootTarget.comment;
+      this._removeComment(comment);
+    },
+
+    _removeComment: function(comment) {
+      if (!comment.id) { return; }
+      this._removeCommentFromSide(comment, DiffSide.LEFT) ||
+          this._removeCommentFromSide(comment, DiffSide.RIGHT);
+    },
+
+    _removeCommentFromSide: function(comment, side) {
+      var idx = -1;
+      for (var i = 0; i < this._comments[side].length; i++) {
+        if (this._comments[side][i].id === comment.id) {
+          idx = i;
+          break;
+        }
+      }
+      if (idx !== -1) {
+        this.splice('_comments.' + side, idx, 1);
+        return true;
+      }
+      return false;
     },
 
     _handleMouseDown: function(e) {
@@ -480,12 +507,10 @@
     },
 
     _projectConfigChanged: function(projectConfig) {
-      var threadEls =
-          Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+      var threadEls = this._getCommentThreads();
       for (var i = 0; i < threadEls.length; i++) {
         threadEls[i].projectConfig = projectConfig;
       }
     },
-
   });
 })();

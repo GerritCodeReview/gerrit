@@ -215,7 +215,12 @@ public class ChangeBundle {
     // Initialization-time checks that the column set hasn't changed since the
     // last time this file was updated.
     checkColumns(Change.Id.class, 1);
-    checkColumns(Change.class, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18);
+
+    checkColumns(Change.class,
+        1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18,
+        // TODO(dborowitz): It's potentially possible to compare noteDbState in
+        // the Change with the state implied by a ChangeNotes.
+        101);
     checkColumns(ChangeMessage.Key.class, 1, 2);
     checkColumns(ChangeMessage.class, 1, 2, 3, 4, 5);
     checkColumns(PatchSet.Id.class, 1, 2);

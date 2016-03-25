@@ -223,6 +223,27 @@ public class ChangeRebuilder {
 
     createStarredChangesRefs(db, changeId, manager.getAllUsersCommands(),
         manager.getAllUsersRepo());
+
+    execute(db, changeId, manager);
+  }
+
+  private void execute(ReviewDb db, Change.Id changeId,
+      NoteDbUpdateManager manager)
+      throws NoSuchChangeException, OrmException, IOException  {
+    db.changes().beginTransaction(changeId);
+    try {
+      Change change = db.changes().get(changeId);
+      if (change == null) {
+        throw new NoSuchChangeException(changeId);
+      }
+      NoteDbChangeState.applyDelta(
+          change,
+          manager.stage().get(changeId));
+      db.changes().update(Collections.singleton(change));
+      db.commit();
+    } finally {
+      db.rollback();
+    }
     manager.execute();
   }
 

@@ -285,7 +285,8 @@ public class GerritServer {
   void stop() throws Exception {
     try {
       if (NoteDbMode.get().equals(NoteDbMode.CHECK)) {
-        testInjector.getInstance(NoteDbChecker.class).checkAllChanges();
+        testInjector.getInstance(NoteDbChecker.class)
+            .rebuildAndCheckAllChanges();
       }
     } finally {
       daemon.getLifecycleManager().stop();

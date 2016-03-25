@@ -59,27 +59,22 @@ public class NoteDbChecker {
     this.plcUtil = plcUtil;
   }
 
-  public void checkAllChanges() throws Exception {
-    checkChanges(
+  public void rebuildAndCheckAllChanges() throws Exception {
+    rebuildAndCheckChanges(
         Iterables.transform(
             unwrapDb().changes().all(),
             ReviewDbUtil.changeIdFunction()));
   }
 
-  public void checkChanges(Change.Id... changeIds) throws Exception {
-    checkChanges(Arrays.asList(changeIds));
+  public void rebuildAndCheckChanges(Change.Id... changeIds) throws Exception {
+    rebuildAndCheckChanges(Arrays.asList(changeIds));
   }
 
-  public void checkChanges(Iterable<Change.Id> changeIds) throws Exception {
+  public void rebuildAndCheckChanges(Iterable<Change.Id> changeIds)
+      throws Exception {
     ReviewDb db = unwrapDb();
 
-    notesMigration.setReadChanges(false);
-    List<Change.Id> sortedIds =
-        ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
-    List<ChangeBundle> allExpected = new ArrayList<>(sortedIds.size());
-    for (Change.Id id : sortedIds) {
-      allExpected.add(ChangeBundle.fromReviewDb(db, id));
-    }
+    List<ChangeBundle> allExpected = readExpected(changeIds);
 
     notesMigration.setWriteChanges(true);
     notesMigration.setReadChanges(true);
@@ -92,27 +87,69 @@ public class NoteDbChecker {
         all.add("Repository not found for change, cannot convert: " + c);
       }
     }
-    for (ChangeBundle expected : allExpected) {
-      Change c = expected.getChange();
-      ChangeBundle actual;
-      try {
-        actual = ChangeBundle.fromNotes(
-            plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
-      } catch (Throwable t) {
-        String msg = "Error converting change: " + c;
-        all.add(msg);
-        log.error(msg, t);
-        continue;
+
+    checkActual(allExpected);
+  }
+
+  public void checkChanges(Change.Id... changeIds) throws Exception {
+    checkChanges(Arrays.asList(changeIds));
+  }
+
+  public void checkChanges(Iterable<Change.Id> changeIds) throws Exception {
+    checkActual(readExpected(changeIds));
+  }
+
+  private List<ChangeBundle> readExpected(Iterable<Change.Id> changeIds)
+      throws Exception {
+    ReviewDb db = unwrapDb();
+    boolean old = notesMigration.readChanges();
+    try {
+      notesMigration.setReadChanges(false);
+      List<Change.Id> sortedIds =
+          ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
+      List<ChangeBundle> expected = new ArrayList<>(sortedIds.size());
+      for (Change.Id id : sortedIds) {
+        expected.add(ChangeBundle.fromReviewDb(db, id));
       }
-      List<String> diff = expected.differencesFrom(actual);
-      if (!diff.isEmpty()) {
-        all.add("Differences between ReviewDb and NoteDb for " + c + ":");
-        all.addAll(diff);
-        all.add("");
-      } else {
-        System.err.println(
-            "NoteDb conversion of change " + c.getId() + " successful");
+      return expected;
+    } finally {
+      notesMigration.setReadChanges(old);
+    }
+  }
+
+  private void checkActual(List<ChangeBundle> allExpected) throws Exception {
+    List<String> all = new ArrayList<>();
+    ReviewDb db = unwrapDb();
+    boolean oldRead = notesMigration.readChanges();
+    boolean oldWrite = notesMigration.writeChanges();
+    try {
+      notesMigration.setWriteChanges(true);
+      notesMigration.setReadChanges(true);
+      for (ChangeBundle expected : allExpected) {
+        Change c = expected.getChange();
+        ChangeBundle actual;
+        try {
+          actual = ChangeBundle.fromNotes(
+              plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
+        } catch (Throwable t) {
+          String msg = "Error converting change: " + c;
+          all.add(msg);
+          log.error(msg, t);
+          continue;
+        }
+        List<String> diff = expected.differencesFrom(actual);
+        if (!diff.isEmpty()) {
+          all.add("Differences between ReviewDb and NoteDb for " + c + ":");
+          all.addAll(diff);
+          all.add("");
+        } else {
+          System.err.println(
+              "NoteDb conversion of change " + c.getId() + " successful");
+        }
       }
+    } finally {
+      notesMigration.setReadChanges(oldRead);
+      notesMigration.setWriteChanges(oldWrite);
     }
     if (!all.isEmpty()) {
       throw new AssertionError(Joiner.on('\n').join(all));

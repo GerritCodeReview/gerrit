@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc334ad6_aa98ef91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-25T00:40:39Z",
+      "side": 1,
+      "message": "line 0 might be a problem here :)\n\nperhaps ... if typeof opt_lineNum !\u003d\u003d \u0027undefined\u0027",
+      "revId": "2b1eb0bb1a7dc6d3f6da6d2a6723f8120c444086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3686c6_89933977",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-25T00:40:39Z",
+      "side": 1,
+      "message": "FILE seems to be some kind of \"const\" perhaps pull this into a variable defined at the top of the file?",
+      "revId": "2b1eb0bb1a7dc6d3f6da6d2a6723f8120c444086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc334ad6_ca9d2381",
+        "filename": "polygerrit-ui/app/elements/diff/gr-new-diff/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-25T00:40:39Z",
+      "side": 1,
+      "message": "These two filter fns seem to represent a pretty solid concept, thoughts on extracting them into a named concept (private function)?",
+      "revId": "2b1eb0bb1a7dc6d3f6da6d2a6723f8120c444086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3686c6_a998fd91",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-25T00:40:39Z",
+      "side": 1,
+      "message": "this did not last long :)",
+      "revId": "2b1eb0bb1a7dc6d3f6da6d2a6723f8120c444086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

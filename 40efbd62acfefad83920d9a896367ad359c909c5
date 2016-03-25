@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3193051a_ddcd4b84",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-25T18:29:14Z",
+      "side": 1,
+      "message": "so, this is basically testing that events work in polymer... I wonder the value this type of test is adding.",
+      "revId": "40efbd62acfefad83920d9a896367ad359c909c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

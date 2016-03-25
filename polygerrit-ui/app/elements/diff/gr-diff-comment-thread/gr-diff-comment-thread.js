@@ -26,7 +26,7 @@
     /**
      * Fired when the thread should be discarded.
      *
-     * @event discard
+     * @event thread-discard
      */
 
     properties: {
@@ -204,10 +204,6 @@
     },
 
     _handleCommentDiscard: function(e) {
-      // TODO(andybons): In Shadow DOM, the event bubbles up, while in Shady
-      // DOM, it respects the bubbles property.
-      // https://github.com/Polymer/polymer/issues/3226
-      e.stopPropagation();
       var diffCommentEl = Polymer.dom(e).rootTarget;
       var idx = this._indexOf(diffCommentEl.comment, this.comments);
       if (idx == -1) {
@@ -216,7 +212,7 @@
       }
       this.splice('comments', idx, 1);
       if (this.comments.length == 0) {
-        this.fire('discard', null, {bubbles: false});
+        this.fire('thread-discard');
         return;
       }
       this.async(this._heightChanged.bind(this), 1);

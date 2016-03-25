@@ -38,7 +38,7 @@
     /**
      * Fired when this comment is discarded.
      *
-     * @event discard
+     * @event comment-discard
      */
 
     properties: {
@@ -190,7 +190,7 @@
     _handleCancel: function(e) {
       this._preventDefaultAndBlur(e);
       if (this.comment.message == null || this.comment.message.length == 0) {
-        this.fire('discard', null, {bubbles: false});
+        this.fire('comment-discard');
         return;
       }
       this._editDraft = this.comment.message;
@@ -205,11 +205,11 @@
       this.disabled = true;
       var commentID = this.comment.id;
       if (!commentID) {
-        this.fire('discard', null, {bubbles: false});
+        this.fire('comment-discard');
         return;
       }
       this._send('DELETE', this._restEndpoint(commentID)).then(function(req) {
-        this.fire('discard', null, {bubbles: false});
+        this.fire('comment-discard');
       }.bind(this)).catch(function(err) {
         alert('Your draft couldn’t be deleted. Check the console and ' +
             'contact the PolyGerrit team for assistance.');

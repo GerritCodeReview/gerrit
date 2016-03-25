@@ -996,7 +996,7 @@ RevertInput] entity if no review comment is added.
 
 .Request
 ----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revert HTTP/1.0
+  POST /changes/myProject~master~I1ffe09a505e25f15ce1521bcfb222e51e62c2a14/revert HTTP/1.0
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that

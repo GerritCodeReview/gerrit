@@ -42,12 +42,12 @@ public enum ChangeStatus {
    * the uploader publishes the change, it becomes a NEW change.
    * Publishing is a one-way action, a change cannot return to DRAFT status.
    * Draft changes are only visible to the uploader and those explicitly
-   * added as reviewers.
+   * added as reviewers. Note that currently draft changes cannot be abandoned.
    *
    * <p>
    * Changes in the DRAFT state can be moved to:
    * <ul>
-   * <li>{@link #NEW} - when the change is published, it becomes a new change;
+   * <li>{@link #NEW} - when the change is published, it becomes a new change.
    * </ul>
    */
   DRAFT,
@@ -69,6 +69,12 @@ public enum ChangeStatus {
    * Once a change has been abandoned, it cannot be further modified by adding
    * a replacement patch set, and it cannot be merged. Draft comments however
    * may be published, permitting reviewers to send constructive feedback.
+   *
+   * <p>
+   * Changes in the ABANDONED state can be moved to:
+   * <ul>
+   * <li>{@link #NEW} - when the Restore action is used.
+   * </ul>
    */
   ABANDONED
 }

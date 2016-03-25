@@ -40,6 +40,11 @@
     REMOVED: 'a',
   };
 
+  GrDiffBuilder.Highlights = {
+    ADDED: 'edit_b',
+    REMOVED: 'edit_a',
+  };
+
   GrDiffBuilder.Side = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -90,12 +95,19 @@
       }
 
       if (group[GrDiffBuilder.GroupType.REMOVED] !== undefined) {
+        var highlights = this._normalizeIntralineHighlights(
+            group[GrDiffBuilder.GroupType.REMOVED],
+            group[GrDiffBuilder.Highlights.REMOVED]);
         this._appendRemovedLines(group[GrDiffBuilder.GroupType.REMOVED], lines,
-            lineNums);
+            lineNums, highlights);
       }
+
       if (group[GrDiffBuilder.GroupType.ADDED] !== undefined) {
+        var highlights = this._normalizeIntralineHighlights(
+                group[GrDiffBuilder.GroupType.ADDED],
+                group[GrDiffBuilder.Highlights.ADDED]);
         this._appendAddedLines(group[GrDiffBuilder.GroupType.ADDED], lines,
-            lineNums);
+            lineNums, highlights);
       }
       groups.push(new GrDiffGroup(GrDiffGroup.Type.DELTA, lines));
     }
@@ -171,6 +183,68 @@
     return result;
   };
 
+  // The `highlights` array consists of a list of <skip length, mark length>
+  // pairs, where the skip length is the number of characters between the
+  // end of the previous edit and the start of this edit, and the mark
+  // length is the number of edited characters following the skip. The start
+  // of the edits is from the beginning of the related diff content lines.
+  //
+  // Note that the implied newline character at the end of each line is
+  // included in the length calculation, and thus it is possible for the
+  // edits to span newlines.
+  //
+  // A line highlight object consists of three fields:
+  // - contentIndex: The index of the diffChunk `content` field (the line
+  //   being referred to).
+  // - startIndex: Where the highlight should begin.
+  // - endIndex: (optional) Where the highlight should end. If omitted, the
+  //   highlight is meant to be a continuation onto the next line.
+  GrDiffBuilder.prototype._normalizeIntralineHighlights = function(content,
+      opt_highlights) {
+    if (!opt_highlights) { return null; }
+
+    var contentIndex = 0;
+    var idx = 0;
+    var normalized = [];
+    for (var i = 0; i < highlights.length; i++) {
+      var line = content[contentIndex] + '\n';
+      var hl = highlights[i];
+      var j = 0;
+      while (j < hl[0]) {
+        if (idx == line.length) {
+          idx = 0;
+          line = content[++contentIndex] + '\n';
+          continue;
+        }
+        idx++;
+        j++;
+      }
+      var lineHighlight = {
+        contentIndex: contentIndex,
+        startIndex: idx,
+      };
+
+      j = 0;
+      while (line && j < hl[1]) {
+        if (idx == line.length) {
+          idx = 0;
+          line = content[++contentIndex] + '\n';
+          normalized.push(lineHighlight);
+          lineHighlight = {
+            contentIndex: contentIndex,
+            startIndex: idx,
+          };
+          continue;
+        }
+        idx++;
+        j++;
+      }
+      lineHighlight.endIndex = idx;
+      normalized.push(lineHighlight);
+    }
+    return normalized;
+  };
+
   GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
       hiddenRange) {
     var linesBeforeCtx = lines.slice(0, hiddenRange[0]);
@@ -202,7 +276,7 @@
   };
 
   GrDiffBuilder.prototype._appendRemovedLines = function(rows, lines,
-      lineNums) {
+      lineNums, opt_highlights) {
     for (var i = 0; i < rows.length; i++) {
       var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.text = rows[i];
@@ -211,7 +285,9 @@
     }
   };
 
-  GrDiffBuilder.prototype._appendAddedLines = function(rows, lines, lineNums) {
+  GrDiffBuilder.prototype._appendAddedLines = function(rows, lines, lineNums,
+      opt_highlights) {
+    console.log(opt_highlights);
     for (var i = 0; i < rows.length; i++) {
       var line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.text = rows[i];

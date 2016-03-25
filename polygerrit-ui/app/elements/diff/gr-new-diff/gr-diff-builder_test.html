@@ -431,5 +431,86 @@ limitations under the License.
         }
       ]);
     });
+
+    test('intraline normalization', function() {
+      // The content and highlights are in the format returned by the Gerrit
+      // REST API.
+      var content = [
+        '      <section class="summary">',
+        '        <gr-linked-text content="' +
+            '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
+        '      </section>',
+      ];
+      var highlights = [
+        [31, 34], [42, 26]
+      ];
+      var results = GrDiffBuilder.prototype._normalizeIntralineHighlights(
+          content, highlights);
+      assert.deepEqual(results, [
+        {
+          contentIndex: 0,
+          startIndex: 31,
+        },
+        {
+          contentIndex: 1,
+          startIndex: 0,
+          endIndex: 33,
+        },
+        {
+          contentIndex: 1,
+          startIndex: 75,
+        },
+        {
+          contentIndex: 2,
+          startIndex: 0,
+          endIndex: 6,
+        }
+      ]);
+
+      content = [
+        '        this._path = value.path;',
+        '',
+        '        // When navigating away from the page, there is a possibility that the',
+        '        // patch number is no longer a part of the URL (say when navigating to',
+        '        // the top-level change info view) and therefore undefined in `params`.',
+        '        if (!this._patchRange.patchNum) {',
+      ];
+      highlights = [
+        [14, 17],
+        [11, 70],
+        [12, 67],
+        [12, 67],
+        [14, 29],
+      ];
+      results = GrDiffBuilder.prototype._normalizeIntralineHighlights(content,
+          highlights);
+      assert.deepEqual(results, [
+        {
+          contentIndex: 0,
+          startIndex: 14,
+          endIndex: 31,
+        },
+        {
+          contentIndex: 2,
+          startIndex: 8,
+          endIndex: 78,
+        },
+        {
+          contentIndex: 3,
+          startIndex: 11,
+          endIndex: 78,
+        },
+        {
+          contentIndex: 4,
+          startIndex: 11,
+          endIndex: 78,
+        },
+        {
+          contentIndex: 5,
+          startIndex: 12,
+          endIndex: 41,
+        }
+      ]);
+    });
   });
 </script>

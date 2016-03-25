@@ -205,7 +205,7 @@ limitations under the License.
       assert.isTrue(disabled, 'save button should be disabled.');
 
       var numDiscardEvents = 0;
-      element.addEventListener('discard', function(e) {
+      element.addEventListener('comment-discard', function(e) {
         numDiscardEvents++;
         if (numDiscardEvents == 3) {
           done();

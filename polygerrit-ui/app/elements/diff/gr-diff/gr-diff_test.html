@@ -220,7 +220,7 @@ limitations under the License.
 
             // Discard the right thread and ensure the left comment heights are
             // back to their original values.
-            newThreadEls[1].addEventListener('discard', function() {
+            newThreadEls[1].addEventListener('thread-discard', function() {
               rightFillerEls =
                   Polymer.dom(element.$.rightDiff.root).querySelectorAll(
                       '[data-index="' + index + '"]');
@@ -236,7 +236,7 @@ limitations under the License.
               done();
             });
             var commentEl = newThreadEls[1].$$('gr-diff-comment');
-            commentEl.fire('discard', null, {bubbles: false});
+            commentEl.fire('comment-discard');
           });
         });
       });

@@ -404,7 +404,7 @@
       var threadEl = document.createElement('gr-diff-comment-thread');
       threadEl.addEventListener('height-change',
           this._handleCommentThreadHeightChange.bind(this));
-      threadEl.addEventListener('discard',
+      threadEl.addEventListener('thread-discard',
           this._handleCommentThreadDiscard.bind(this));
       threadEl.setAttribute('data-index', index);
       threadEl.changeNum = this.changeNum;

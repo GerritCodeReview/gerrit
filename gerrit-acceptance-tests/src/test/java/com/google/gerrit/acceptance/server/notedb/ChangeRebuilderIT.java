@@ -14,21 +14,33 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.Rebuild;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
+  @Inject
+  private AllUsersName allUsers;
+
   @Inject
   private NoteDbChecker checker;
 
@@ -68,11 +80,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // First write doesn't create the ref, but rebuilding works.
     checker.assertNoChangeRef(project, id);
+    assertThat(db.changes().get(id).getNoteDbState()).isNull();
     checker.rebuildAndCheckChanges(id);
 
     // Now that there is a ref, writes are "turned on" for this change, and
     // NoteDb stays up to date without explicit rebuilding.
     gApi.changes().id(id.get()).topic(name("new-topic"));
+    assertThat(db.changes().get(id).getNoteDbState()).isNotNull();
     checker.checkChanges(id);
   }
 
@@ -116,5 +130,62 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // ref doesn't exist until a manual rebuild.
     checker.assertNoChangeRef(project, id1);
     checker.rebuildAndCheckChanges(id1);
+  }
+
+  @Test
+  public void noteDbChangeState() throws Exception {
+    notesMigration.setAllEnabled(true);
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(
+        project, ChangeNoteUtil.changeRefName(id));
+    assertThat(db.changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name());
+
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = "comment by user";
+    in.path = PushOneCommit.FILE_NAME;
+    setApiUser(user);
+    gApi.changes().id(id.get()).current().createDraft(in);
+
+    ObjectId userDraftsId = getMetaRef(
+        allUsers, RefNames.refsDraftComments(user.getId(), id));
+    assertThat(db.changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name()
+        + "," + user.getId() + "=" + userDraftsId.name());
+
+    in = new DraftInput();
+    in.line = 2;
+    in.message = "comment by admin";
+    in.path = PushOneCommit.FILE_NAME;
+    setApiUser(admin);
+    gApi.changes().id(id.get()).current().createDraft(in);
+
+    ObjectId adminDraftsId = getMetaRef(
+        allUsers, RefNames.refsDraftComments(admin.getId(), id));
+    assertThat(admin.getId().get()).isLessThan(user.getId().get());
+    assertThat(db.changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name()
+        + "," + admin.getId() + "=" + adminDraftsId.name()
+        + "," + user.getId() + "=" + userDraftsId.name());
+
+    in.message = "revised comment by admin";
+    gApi.changes().id(id.get()).current().createDraft(in);
+
+    adminDraftsId = getMetaRef(
+        allUsers, RefNames.refsDraftComments(admin.getId(), id));
+    assertThat(db.changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name()
+        + "," + admin.getId() + "=" + adminDraftsId.name()
+        + "," + user.getId() + "=" + userDraftsId.name());
+  }
+
+  private ObjectId getMetaRef(Project.NameKey p, String name) throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(p)) {
+      Ref ref = repo.exactRef(name);
+      return ref != null ? ref.getObjectId() : null;
+    }
   }
 }

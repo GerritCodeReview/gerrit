@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -119,5 +120,10 @@ public class ChainedReceiveCommands {
     for (ReceiveCommand cmd : commands.values()) {
       bru.addCommand(cmd);
     }
+  }
+
+  /** @return an unmodifiable view of commands. */
+  public Map<String, ReceiveCommand> getCommands() {
+    return Collections.unmodifiableMap(commands);
   }
 }

@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
@@ -88,8 +88,8 @@ public class RevisionResource implements RestResource, HasETag {
     return getUser().getAccountId();
   }
 
-  IdentifiedUser getUser() {
-    return getControl().getUser().asIdentifiedUser();
+  CurrentUser getUser() {
+    return getControl().getUser();
   }
 
   RevisionResource doNotCache() {

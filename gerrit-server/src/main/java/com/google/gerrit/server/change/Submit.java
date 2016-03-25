@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
@@ -245,16 +246,16 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   /**
    * @param cs set of changes to be submitted at once
-   * @param identifiedUser the user who is checking to submit
+   * @param user the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
   private String problemsForSubmittingChangeset(ChangeSet cs,
-      IdentifiedUser identifiedUser) {
+      CurrentUser user) {
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
       for (ChangeData c : cs.changes()) {
-        ChangeControl changeControl = c.changeControl(identifiedUser);
+        ChangeControl changeControl = c.changeControl(user);
 
         if (!changeControl.isVisible(db)) {
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;

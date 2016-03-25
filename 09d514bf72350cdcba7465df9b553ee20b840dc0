@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7143bd50_efa621d2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ChangeStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-03-25T06:12:29Z",
+      "side": 1,
+      "message": "I think we should mention here, that DRAFT changes cannot be abandonded, otherwise during restoring them, the DRAFT state would be lost (we don\u0027t have ABANDONED_DRAFT state in Change.Status).",
+      "revId": "09d514bf72350cdcba7465df9b553ee20b840dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

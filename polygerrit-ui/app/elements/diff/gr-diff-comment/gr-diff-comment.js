@@ -18,12 +18,6 @@
     is: 'gr-diff-comment',
 
     /**
-     * Fired when the height of the comment changes.
-     *
-     * @event height-change
-     */
-
-    /**
      * Fired when the Reply action is triggered.
      *
      * @event reply
@@ -75,10 +69,6 @@
       this.editing = this._editDraft.length == 0;
     },
 
-    attached: function() {
-      this._heightChanged();
-    },
-
     save: function() {
       this.comment.message = this._editDraft;
       this.disabled = true;
@@ -101,13 +91,6 @@
       }.bind(this));
     },
 
-    _heightChanged: function() {
-      this.async(function() {
-        this.fire('height-change', {height: this.offsetHeight},
-            {bubbles: false});
-      }.bind(this));
-    },
-
     _draftChanged: function(draft) {
       this.$.container.classList.toggle('draft', draft);
     },
@@ -126,7 +109,6 @@
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
       }
-      this._heightChanged();
     },
 
     _computeLinkToComment: function(comment) {
@@ -135,12 +117,6 @@
 
     _computeSaveDisabled: function(draft) {
       return draft == null || draft.trim() == '';
-    },
-
-    _handleTextareaKeyup: function(e) {
-      // TODO(andybons): This isn't always true, but I can't currently think
-      // of a better metric.
-      this._heightChanged();
     },
 
     _handleTextareaKeydown: function(e) {

@@ -20,8 +20,6 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<script src="../../../test/fake-app.js"></script>
-<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-diff.html">
@@ -35,458 +33,214 @@ limitations under the License.
 <script>
   suite('gr-diff tests', function() {
     var element;
-    var server;
-    var getDiffStub;
-    var getCommentsStub;
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(false); },
+      })
       element = fixture('basic');
-      element.changeNum = 42;
-      element.path = 'sieve.go';
-      element.prefs = {
-        context: 10,
-        tab_size: 8,
-      };
-
-      getDiffStub = sinon.stub(element.$.restAPI, 'getDiff', function() {
-        return Promise.resolve({
-          change_type: 'MODIFIED',
-          content: [
-            {
-              ab: [
-                '<!DOCTYPE html>',
-                '<meta charset="utf-8">',
-                '<title>My great page</title>',
-                '<style>',
-                '  *,',
-                '  *:before,',
-                '  *:after {',
-                '    box-sizing: border-box;',
-                '  }',
-                '</style>',
-                '<header>',
-              ]
-            },
-            {
-              a: [
-                '  Welcome ',
-                '  to the wooorld of tomorrow!',
-              ],
-              b: [
-                '  Hello, world!',
-              ],
-            },
-            {
-              ab: [
-                '</header>',
-                '<body>',
-                'Leela: This is the only place the ship can’t hear us, so ',
-                'everyone pretend to shower.',
-                'Fry: Same as every day. Got it.',
-              ]
-            },
-          ]
-        });
-      });
-
-      getCommentsStub = sinon.stub(element.$.restAPI, 'getDiffComments',
-        function() {
-          return Promise.resolve({
-            baseComments: [
-              {
-                author: {
-                  _account_id: 1000000,
-                  name: 'Andrew Bonventre',
-                  email: 'andybons@gmail.com',
-                },
-                id: '9af53d3f_5f2b8b82',
-                line: 1,
-                message: 'this isn’t quite right',
-                updated: '2015-12-10 02:50:21.627000000',
-              }
-            ],
-            comments: [
-              {
-                author: {
-                  _account_id: 1010008,
-                  name: 'Dave Borowitz',
-                  email: 'dborowitz@google.com',
-                },
-                id: '001a2067_f30f3048',
-                line: 12,
-                message: 'What on earth are you thinking, here?',
-                updated: '2015-12-12 02:51:37.973000000',
-              },
-              {
-                author: {
-                  _account_id: 1000000,
-                  name: 'Andrew Bonventre',
-                  email: 'andybons@gmail.com',
-                },
-                id: 'a0407443_30dfe8fb',
-                in_reply_to: '001a2067_f30f3048',
-                line: 12,
-                message: '¯\\_(ツ)_/¯',
-                updated: '2015-12-12 18:50:21.627000000',
-              },
-            ],
-          });
-        }
-      );
-
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'PUT',
-        '/accounts/self/preferences.diff',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({context: 25}),
-        ]
-      );
-
     });
 
-    teardown(function() {
-      getDiffStub.restore();
-      getCommentsStub.restore();
-      server.restore();
-    });
+    test('get drafts logged out', function(done) {
+      element.patchRange = {basePatchNum: 0, patchNum: 0};
 
-    test('comment rendering', function(done) {
-      element.prefs.context = -1;
-      element._loggedIn = true;
-      element.patchRange = {
-        basePatchNum: 1,
-        patchNum: 2,
-      };
-
-      element.reload().then(function() {
-        flush(function() {
-          var leftThreadEls =
-              Polymer.dom(element.$.leftDiff.root).querySelectorAll(
-                  'gr-diff-comment-thread');
-          assert.equal(leftThreadEls.length, 1);
-          assert.equal(leftThreadEls[0].comments.length, 1);
-
-          var rightThreadEls =
-              Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                  'gr-diff-comment-thread');
-          assert.equal(rightThreadEls.length, 1);
-          assert.equal(rightThreadEls[0].comments.length, 2);
-
-          var index = leftThreadEls[0].getAttribute('data-index');
-          var leftFillerEls =
-              Polymer.dom(element.$.leftDiff.root).querySelectorAll(
-                  '.commentThread.filler[data-index="' + index + '"]');
-          assert.equal(leftFillerEls.length, 1);
-          var rightFillerEls =
-              Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                  '[data-index="' + index + '"]');
-          assert.equal(rightFillerEls.length, 2);
-
-          for (var i = 0; i < rightFillerEls.length; i++) {
-            assert.isTrue(rightFillerEls[i].classList.contains('filler'));
-          }
-          var originalHeight = rightFillerEls[0].offsetHeight;
-          assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
-          assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
-          assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
-
-          // Create a comment on the opposite side of the first comment.
-          var rightLineEL = element.$.rightDiff.$$(
-                '.lineNum[data-index="' + (index - 1) + '"]');
-          assert.ok(rightLineEL);
-          MockInteractions.tap(rightLineEL);
-          flush(function() {
-            var newThreadEls =
-              Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                  '[data-index="' + index + '"]');
-            assert.equal(newThreadEls.length, 2);
-            for (var i = 0; i < newThreadEls.length; i++) {
-              assert.isTrue(
-                  newThreadEls[i].classList.contains('commentThread') ||
-                  newThreadEls[i].tagName == 'GR-DIFF-COMMENT-THREAD');
-            }
-            var newHeight = newThreadEls[0].offsetHeight;
-            assert.equal(newThreadEls[1].offsetHeight, newHeight);
-            assert.equal(leftFillerEls[0].offsetHeight, newHeight);
-            assert.equal(leftThreadEls[0].offsetHeight, newHeight);
-
-            // The editing mode height of the right comment will be greater than
-            // the non-editing mode height of the left comment.
-            assert.isAbove(newHeight, originalHeight);
-
-            // Discard the right thread and ensure the left comment heights are
-            // back to their original values.
-            newThreadEls[1].addEventListener('thread-discard', function() {
-              rightFillerEls =
-                  Polymer.dom(element.$.rightDiff.root).querySelectorAll(
-                      '[data-index="' + index + '"]');
-              assert.equal(rightFillerEls.length, 2);
-
-              for (var i = 0; i < rightFillerEls.length; i++) {
-                assert.isTrue(rightFillerEls[i].classList.contains('filler'));
-              }
-              var originalHeight = rightFillerEls[0].offsetHeight;
-              assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
-              assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
-              assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
-              done();
-            });
-            var commentEl = newThreadEls[1].$$('gr-diff-comment');
-            commentEl.fire('comment-discard');
-          });
-        });
-      });
-      server.respond();
-    });
-
-    test('intraline normalization', function() {
-      // The content and highlights are in the format returned by the Gerrit
-      // REST API.
-      var content = [
-        '      <section class="summary">',
-        '        <gr-linked-text content="' +
-            '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
-        '      </section>',
-      ];
-      var highlights = [
-        [31, 34], [42, 26]
-      ];
-      var results = element._normalizeIntralineHighlights(content, highlights);
-      assert.deepEqual(results, [
-        {
-          contentIndex: 0,
-          startIndex: 31,
-        },
-        {
-          contentIndex: 1,
-          startIndex: 0,
-          endIndex: 33,
-        },
-        {
-          contentIndex: 1,
-          startIndex: 75,
-        },
-        {
-          contentIndex: 2,
-          startIndex: 0,
-          endIndex: 6,
-        }
-      ]);
-
-      content = [
-        '        this._path = value.path;',
-        '',
-        '        // When navigating away from the page, there is a possibility that the',
-        '        // patch number is no longer a part of the URL (say when navigating to',
-        '        // the top-level change info view) and therefore undefined in `params`.',
-        '        if (!this._patchRange.patchNum) {',
-      ];
-      highlights = [
-        [14, 17],
-        [11, 70],
-        [12, 67],
-        [12, 67],
-        [14, 29],
-      ];
-      results = element._normalizeIntralineHighlights(content, highlights);
-      assert.deepEqual(results, [
-        {
-          contentIndex: 0,
-          startIndex: 14,
-          endIndex: 31,
-        },
-        {
-          contentIndex: 2,
-          startIndex: 8,
-          endIndex: 78,
-        },
-        {
-          contentIndex: 3,
-          startIndex: 11,
-          endIndex: 78,
-        },
-        {
-          contentIndex: 4,
-          startIndex: 11,
-          endIndex: 78,
-        },
-        {
-          contentIndex: 5,
-          startIndex: 12,
-          endIndex: 41,
-        }
-      ]);
-    });
-
-    test('context', function() {
-      element.prefs.context = 3;
-      element._diffResponse = {
-        content: [
-          {
-            ab: [
-              '<!DOCTYPE html>',
-              '<meta charset="utf-8">',
-              '<title>My great page</title>',
-              '<style>',
-              '  *,',
-              '  *:before,',
-              '  *:after {',
-              '    box-sizing: border-box;',
-              '  }',
-              '</style>',
-              '<header>',
-            ]
-          },
-          {
-            a: [
-              '  Welcome ',
-              '  to the wooorld of tomorrow!',
-            ],
-            b: [
-              '  Hello, world!',
-            ],
-          },
-          {
-            ab: [
-              '</header>',
-              '<body>',
-              'Leela: This is the only place the ship can’t hear us, so ',
-              'everyone pretend to shower.',
-              'Fry: Same as every day. Got it.',
-            ]
-          },
-        ]
-      };
-      element._processContent();
-
-      // First eight lines should be hidden on both sides.
-      for (var i = 0; i < 8; i++) {
-        assert.isTrue(element._diff.leftSide[i].hidden);
-        assert.isTrue(element._diff.rightSide[i].hidden);
-      }
-      // A context control should be at index 8 on both sides.
-      var leftContext = element._diff.leftSide[8];
-      var rightContext = element._diff.rightSide[8];
-      assert.deepEqual(leftContext, rightContext);
-      assert.equal(leftContext.numLines, 8);
-      assert.equal(leftContext.start, 0);
-      assert.equal(leftContext.end, 8);
-
-      // Line indices 9-16 should be shown.
-      for (var i = 9; i <= 16; i++) {
-        // notOk (falsy) because the `hidden` attribute may not be present.
-        assert.notOk(element._diff.leftSide[i].hidden);
-        assert.notOk(element._diff.rightSide[i].hidden);
-      }
-
-      // Lines at indices 17 and 18 should be hidden.
-      assert.isTrue(element._diff.leftSide[17].hidden);
-      assert.isTrue(element._diff.rightSide[17].hidden);
-      assert.isTrue(element._diff.leftSide[18].hidden);
-      assert.isTrue(element._diff.rightSide[18].hidden);
-
-      // Context control at index 19.
-      leftContext = element._diff.leftSide[19];
-      rightContext = element._diff.rightSide[19];
-      assert.deepEqual(leftContext, rightContext);
-      assert.equal(leftContext.numLines, 2);
-      assert.equal(leftContext.start, 17);
-      assert.equal(leftContext.end, 19);
-    });
-
-    test('save prefs', function(done) {
-      element._loggedIn = false;
-
-      element.prefs = {
-        tab_size: 4,
-        context: 50,
-      };
-      element.fire('save', {}, {node: element.$$('gr-diff-preferences')});
-      assert.isTrue(element._diffPreferencesPromise == null);
-
-      element._loggedIn = true;
-      element.fire('save', {}, {node: element.$$('gr-diff-preferences')});
-      server.respond();
-
-      element._diffPreferencesPromise.then(function(req) {
-        assert.equal(req.xhr.requestBody, JSON.stringify(element.prefs));
+      var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts');
+      var loggedInStub = sinon.stub(element, '_getLoggedIn',
+          function() { return Promise.resolve(false); });
+      element._getDiffDrafts().then(function(result) {
+        assert.deepEqual(result, {baseComments: [], comments: []});
+        sinon.assert.notCalled(getDraftsStub);
+        loggedInStub.restore();
+        getDraftsStub.restore();
         done();
       });
     });
 
-    test('visible line length', function() {
-      assert.equal(element._visibleLineLength('A'.repeat(5)), 5);
-      assert.equal(
-          element._visibleLineLength('A'.repeat(5) + '\t' + 'A'.repeat(5)), 18);
+    test('get drafts logged in', function(done) {
+      element.patchRange = {basePatchNum: 0, patchNum: 0};
+      var draftsResponse = {
+        baseComments: [{id: 'foo'}],
+        comments: [{id: 'bar'}],
+      };
+      var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts',
+          function() { return Promise.resolve(draftsResponse); });
+      var loggedInStub = sinon.stub(element, '_getLoggedIn',
+          function() { return Promise.resolve(true); });
+      element._getDiffDrafts().then(function(result) {
+        assert.deepEqual(result, draftsResponse);
+        loggedInStub.restore();
+        getDraftsStub.restore();
+        done();
+      });
     });
 
-    test('break up common diff chunks', function() {
-      element._groupedBaseComments = {
-        1: {},
+    test('get comments and drafts', function(done) {
+      var loggedInStub = sinon.stub(element, '_getLoggedIn',
+          function() { return Promise.resolve(true); });
+      var comments = {
+        baseComments: [
+          {id: 'bc1'},
+          {id: 'bc2'},
+        ],
+        comments: [
+          {id: 'c1'},
+          {id: 'c2'},
+        ],
       };
-      element._groupedComments = {
-        10: {},
+      var diffCommentsStub = sinon.stub(element, '_getDiffComments',
+          function() { return Promise.resolve(comments); });
+
+      var drafts = {
+        baseComments: [
+          {id: 'bd1'},
+          {id: 'bd2'},
+        ],
+        comments: [
+          {id: 'd1'},
+          {id: 'd2'},
+        ],
       };
-      var ctx = {
-        left: {lineNum: 0},
-        right: {lineNum: 0},
+      var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
+          function() { return Promise.resolve(drafts); });
+
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 3,
       };
-      var content = [
-        {
-          ab: [
-            'Copyright (C) 2015 The Android Open Source Project',
-            '',
-            'Licensed under the Apache License, Version 2.0 (the "License");',
-            'you may not use this file except in compliance with the License.',
-            'You may obtain a copy of the License at',
-            '',
-            'http://www.apache.org/licenses/LICENSE-2.0',
-            '',
-            'Unless required by applicable law or agreed to in writing, ',
-            'software distributed under the License is distributed on an ',
-            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
-            'either express or implied. See the License for the specific ',
-            'language governing permissions and limitations under the License.',
-          ]
-        }
-      ];
-      var result = element._breakUpCommonChunksWithComments(ctx, content);
-      assert.deepEqual(result, [
-        {
-          __noHighlight: true,
-          a: ['Copyright (C) 2015 The Android Open Source Project'],
-          b: ['Copyright (C) 2015 The Android Open Source Project'],
+      element.path = '/path/to/foo';
+      element.projectConfig = {foo: 'bar'};
+
+      element._getDiffCommentsAndDrafts().then(function(result) {
+        assert.deepEqual(result, {
+          meta: {
+            changeNum: '42',
+            patchRange: {
+              basePatchNum: 'PARENT',
+              patchNum: 3,
+            },
+            path: '/path/to/foo',
+            projectConfig: {foo: 'bar'},
+          },
+          left: [
+            {id: 'bc1'},
+            {id: 'bc2'},
+            {id: 'bd1', __draft: true},
+            {id: 'bd2', __draft: true},
+          ],
+          right: [
+            {id: 'c1'},
+            {id: 'c2'},
+            {id: 'd1', __draft: true},
+            {id: 'd2', __draft: true},
+          ],
+        });
+
+        diffCommentsStub.restore();
+        diffDraftsStub.restore();
+        loggedInStub.restore();
+        done();
+      });
+    });
+
+    test('remove comment', function() {
+      element._comments = {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
         },
-        {
-          ab: [
-            '',
-            'Licensed under the Apache License, Version 2.0 (the "License");',
-            'you may not use this file except in compliance with the License.',
-            'You may obtain a copy of the License at',
-            '',
-            'http://www.apache.org/licenses/LICENSE-2.0',
-            '',
-            'Unless required by applicable law or agreed to in writing, ',
-          ]
+        left: [
+          {id: 'bc1'},
+          {id: 'bc2'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+          {id: 'd2', __draft: true},
+        ],
+      };
+
+      element._removeComment({});
+      // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem to
+      // believe that one object deepEquals another even when they do :-/.
+      assert.equal(JSON.stringify(element._comments), JSON.stringify({
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
         },
-        {
-          __noHighlight: true,
-          a: ['software distributed under the License is distributed on an '],
-          b: ['software distributed under the License is distributed on an ']
+        left: [
+          {id: 'bc1'},
+          {id: 'bc2'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+          {id: 'd2', __draft: true},
+        ],
+      }));
+
+      element._removeComment({id: 'bc2'});
+      assert.equal(JSON.stringify(element._comments), JSON.stringify({
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
         },
-        {
-          ab: [
-            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
-            'either express or implied. See the License for the specific ',
-            'language governing permissions and limitations under the License.',
-          ]
-        }
-      ]);
+        left: [
+          {id: 'bc1'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+          {id: 'd2', __draft: true},
+        ],
+      }));
+
+      element._removeComment({id: 'd2'});
+      assert.deepEqual(JSON.stringify(element._comments), JSON.stringify({
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+        ],
+      }));
     });
   });
-
 </script>

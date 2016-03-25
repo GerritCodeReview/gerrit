@@ -14,6 +14,16 @@
 (function() {
   'use strict';
 
+  var DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
+  var DiffSide = {
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
   Polymer({
     is: 'gr-diff',
 
@@ -26,58 +36,15 @@
     properties: {
       availablePatches: Array,
       changeNum: String,
-      /*
-       * A single object to encompass basePatchNum and patchNum is used
-       * so that both can be set at once without incremental observers
-       * firing after each property changes.
-       */
       patchRange: Object,
       path: String,
-      prefs: {
-        type: Object,
-        notify: true,
-      },
-      projectConfig: Object,
 
-      _prefsReady: {
+      projectConfig: {
         type: Object,
-        readOnly: true,
-        value: function() {
-          return new Promise(function(resolve) {
-            this._resolvePrefsReady = resolve;
-          }.bind(this));
-        },
+        observer: '_projectConfigChanged',
       },
-      _baseComments: Array,
-      _comments: Array,
-      _drafts: Array,
-      _baseDrafts: Array,
-      /**
-       * Base (left side) comments and drafts grouped by line number.
-       * Only used for initial rendering.
-       */
-      _groupedBaseComments: {
-        type: Object,
-        value: function() { return {}; },
-      },
-      /**
-       * Comments and drafts (right side) grouped by line number.
-       * Only used for initial rendering.
-       */
-      _groupedComments: {
-        type: Object,
-        value: function() { return {}; },
-      },
-      _diffResponse: Object,
-      _diff: {
-        type: Object,
-        value: function() { return {}; },
-      },
+
       _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _initialRenderComplete: {
         type: Boolean,
         value: false,
       },
@@ -85,87 +52,361 @@
         type: Boolean,
         value: true,
       },
-      _savedPrefs: Object,
-
-      _diffPreferencesPromise: Object,  // Used for testing.
+      _viewMode: {
+        type: String,
+        value: DiffViewMode.SIDE_BY_SIDE,
+      },
+      _diff: Object,
+      _diffBuilder: Object,
+      _prefs: Object,
+      _selectionSide: {
+        type: String,
+        observer: '_selectionSideChanged',
+      },
+      _comments: Object,
+      _focusedSection: {
+        type: Number,
+        value: -1,
+      },
+      _focusedThread: {
+        type: Number,
+        value: -1,
+      },
     },
 
     observers: [
-      '_prefsChanged(prefs.*)',
+      '_prefsChanged(_prefs.*)',
     ],
 
-    ready: function() {
-      app.accountReady.then(function() {
-        this._loggedIn = app.loggedIn;
+    attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
+        this._loggedIn = loggedIn;
       }.bind(this));
-    },
 
-    scrollToLine: function(lineNum) {
-      // TODO(andybons): Should this always be the right side?
-      this.$.rightDiff.scrollToLine(lineNum);
-    },
-
-    scrollToNextDiffChunk: function() {
-      this.$.rightDiff.scrollToNextDiffChunk();
-    },
-
-    scrollToPreviousDiffChunk: function() {
-      this.$.rightDiff.scrollToPreviousDiffChunk();
-    },
-
-    scrollToNextCommentThread: function() {
-      this.$.rightDiff.scrollToNextCommentThread();
-    },
-
-    scrollToPreviousCommentThread: function() {
-      this.$.rightDiff.scrollToPreviousCommentThread();
+      this.addEventListener('thread-discard',
+          this._handleThreadDiscard.bind(this));
+      this.addEventListener('comment-discard',
+          this._handleCommentDiscard.bind(this));
     },
 
     reload: function() {
+      this._clearDiffContent();
       this._loading = true;
-      // If a diff takes a considerable amount of time to render, the previous
-      // diff can end up showing up while the DOM is constructed. Clear the
-      // content on a reload to prevent this.
-      this._diff = {
-        leftSide: [],
-        rightSide: [],
-      };
 
-      var diffLoaded = this._getDiff().then(function(diff) {
-        this._diffResponse = diff;
+      var promises = [];
+
+      promises.push(this._getDiff().then(function(diff) {
+        this._diff = diff;
+        this._loading = false;
+      }.bind(this)));
+
+      promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
+        this._comments = comments;
+      }.bind(this)));
+
+      promises.push(this._getDiffPreferences().then(function(prefs) {
+        this._prefs = prefs;
+      }.bind(this)));
+
+      return Promise.all(promises).then(function() {
+        this._render();
       }.bind(this));
+    },
 
-      var promises = [
-        this._prefsReady,
-        diffLoaded,
-      ];
+    showDiffPreferences: function() {
+      this.$.prefsOverlay.open();
+    },
 
-      return app.accountReady.then(function() {
-        promises.push(this._getDiffComments().then(function(res) {
-          this._baseComments = res.baseComments;
-          this._comments = res.comments;
-        }.bind(this)));
+    scrollToLine: function(lineNum) {
+      if (isNaN(lineNum) || lineNum < 1) { return; }
 
-        if (!app.loggedIn) {
-          this._baseDrafts = [];
-          this._drafts = [];
-        } else {
-          promises.push(this._getDiffDrafts().then(function(res) {
-            this._baseDrafts = res.baseComments;
-            this._drafts = res.comments;
-          }.bind(this)));
-        }
+      var lineEls = Polymer.dom(this.root).querySelectorAll(
+          '.lineNum[data-value="' + lineNum + '"]');
 
-        return Promise.all(promises).then(function() {
-          this._render();
-          this._loading = false;
-        }.bind(this)).catch(function(err) {
-          this._loading = false;
-          alert('Oops. Something went wrong. Check the console and bug the ' +
+      // Always choose the right side.
+      var el = lineEls.length === 2 ? lineEls[1] : lineEls[0];
+      this._scrollToElement(el);
+    },
+
+    scrollToNextDiffChunk: function() {
+      this._focusedSection = this._advanceElementWithinNodeList(
+          this._getDeltaSections(), this._focusedSection, 1);
+    },
+
+    scrollToPreviousDiffChunk: function() {
+      this._focusedSection = this._advanceElementWithinNodeList(
+          this._getDeltaSections(), this._focusedSection, -1);
+    },
+
+    scrollToNextCommentThread: function() {
+      this._focusedThread = this._advanceElementWithinNodeList(
+          this._getCommentThreads(), this._focusedThread, 1);
+    },
+
+    scrollToPreviousCommentThread: function() {
+      this._focusedThread = this._advanceElementWithinNodeList(
+          this._getCommentThreads(), this._focusedThread, -1);
+    },
+
+    _advanceElementWithinNodeList: function(els, curIndex, direction) {
+      var idx = Math.max(0, Math.min(els.length - 1, curIndex + direction));
+      if (curIndex !== idx) {
+        this._scrollToElement(els[idx]);
+        return idx;
+      }
+      return curIndex;
+    },
+
+    _getCommentThreads: function() {
+      return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+    },
+
+    _getDeltaSections: function() {
+      return Polymer.dom(this.root).querySelectorAll('.section.delta');
+    },
+
+    _scrollToElement: function(el) {
+      if (!el) { return; }
+
+      // Calculate where the element is relative to the window.
+      var top = el.offsetTop;
+      for (var offsetParent = el.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+        top += offsetParent.offsetTop;
+      }
+
+      // Scroll the element to the middle of the window. Dividing by a third
+      // instead of half the inner height feels a bit better otherwise the
+      // element appears to be below the center of the window even when it
+      // isn't.
+      window.scrollTo(0, top - (window.innerHeight / 3) +
+          (el.offsetHeight / 2));
+    },
+
+    _computeContainerClass: function(loggedIn, viewMode) {
+      var classes = ['diffContainer'];
+      switch (viewMode) {
+        case DiffViewMode.UNIFIED:
+          classes.push('unified');
+          break;
+        case DiffViewMode.SIDE_BY_SIDE:
+          classes.push('sideBySide');
+          break
+        default:
+          throw Error('Invalid view mode: ', viewMode);
+      }
+      if (loggedIn) {
+        classes.push('canComment');
+      }
+      return classes.join(' ');
+    },
+
+    _computePrefsButtonHidden: function(prefs, loggedIn) {
+      return !loggedIn || !prefs;
+    },
+
+    _handlePrefsTap: function(e) {
+      e.preventDefault();
+      this.$.prefsOverlay.open();
+    },
+
+    _handlePrefsSave: function(e) {
+      e.stopPropagation();
+      var el = Polymer.dom(e).rootTarget;
+      el.disabled = true;
+      this._saveDiffPreferences().then(function() {
+        this.$.prefsOverlay.close();
+        el.disabled = false;
+      }.bind(this)).catch(function(err) {
+        el.disabled = false;
+        alert('Oops. Something went wrong. Check the console and bug the ' +
               'PolyGerrit team for assistance.');
-          throw err;
-        }.bind(this));
+        throw err;
+      });
+    },
+
+    _saveDiffPreferences: function() {
+      return this.$.restAPI.saveDiffPreferences(this._prefs);
+    },
+
+    _handlePrefsCancel: function(e) {
+      e.stopPropagation();
+      this.$.prefsOverlay.close();
+    },
+
+    _handleTap: function(e) {
+      var el = Polymer.dom(e).rootTarget;
+
+      if (el.classList.contains('showContext')) {
+        this._showContext(e.detail.group, e.detail.section);
+      } else if (el.classList.contains('lineNum')) {
+        this._handleLineTap(el);
+      }
+    },
+
+    _handleLineTap: function(el) {
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        var value = el.getAttribute('data-value');
+        if (value === GrDiffLine.FILE) {
+          this._addDraft(el);
+          return;
+        }
+        var lineNum = parseInt(value, 10);
+        if (isNaN(lineNum)) {
+          throw Error('Invalid line number: ' + value);
+        }
+        this._addDraft(el, lineNum);
       }.bind(this));
+    },
+
+    _addDraft: function(lineEl, opt_lineNum) {
+      var threadEl;
+
+      // Does a thread already exist at this line?
+      var contentEl = lineEl.nextSibling;
+      while (contentEl && !contentEl.classList.contains('content')) {
+        contentEl = contentEl.nextSibling;
+      }
+      if (contentEl.childNodes.length > 0 &&
+          contentEl.lastChild.nodeName === 'GR-DIFF-COMMENT-THREAD') {
+        threadEl = contentEl.lastChild;
+      } else {
+        var patchNum = this.patchRange.patchNum;
+        var side = 'REVISION';
+        if (contentEl.classList.contains(DiffSide.LEFT) ||
+            contentEl.classList.contains('remove')) {
+          if (this.patchRange.basePatchNum === 'PARENT') {
+            side = 'PARENT';
+          } else {
+            patchNum = this.patchRange.basePatchNum;
+          }
+        }
+        threadEl = this._builder.createCommentThread(this.changeNum, patchNum,
+            this.path, side, this.projectConfig);
+        contentEl.appendChild(threadEl);
+      }
+      threadEl.addDraft(opt_lineNum);
+    },
+
+    _handleThreadDiscard: function(e) {
+      var el = Polymer.dom(e).rootTarget;
+      el.parentNode.removeChild(el);
+    },
+
+    _handleCommentDiscard: function(e) {
+      var comment = Polymer.dom(e).rootTarget.comment;
+      this._removeComment(comment);
+    },
+
+    _removeComment: function(comment) {
+      if (!comment.id) { return; }
+      this._removeCommentFromSide(comment, DiffSide.LEFT) ||
+          this._removeCommentFromSide(comment, DiffSide.RIGHT);
+    },
+
+    _removeCommentFromSide: function(comment, side) {
+      var idx = -1;
+      for (var i = 0; i < this._comments[side].length; i++) {
+        if (this._comments[side][i].id === comment.id) {
+          idx = i;
+          break;
+        }
+      }
+      if (idx !== -1) {
+        this.splice('_comments.' + side, idx, 1);
+        return true;
+      }
+      return false;
+    },
+
+    _handleMouseDown: function(e) {
+      var el = Polymer.dom(e).rootTarget;
+      var side;
+      for (var node = el; node != null; node = node.parentNode) {
+        if (!node.classList) { continue; }
+
+        if (node.classList.contains(DiffSide.LEFT)) {
+          side = DiffSide.LEFT;
+          break;
+        } else if (node.classList.contains(DiffSide.RIGHT)) {
+          side = DiffSide.RIGHT;
+          break;
+        }
+      }
+      this._selectionSide = side;
+    },
+
+    _selectionSideChanged: function(side) {
+      if (side) {
+        var oppositeSide = side === DiffSide.RIGHT ?
+            DiffSide.LEFT : DiffSide.RIGHT;
+        this.customStyle['--' + side + '-user-select'] = 'text';
+        this.customStyle['--' + oppositeSide + '-user-select'] = 'none';
+      } else {
+        this.customStyle['--left-user-select'] = 'text';
+        this.customStyle['--right-user-select'] = 'text';
+      }
+      this.updateStyles();
+    },
+
+    _handleCopy: function(e) {
+      var text = this._getSelectedText(this._selectionSide);
+      e.clipboardData.setData('Text', text);
+      e.preventDefault();
+    },
+
+    _getSelectedText: function(opt_side) {
+      var sel = window.getSelection();
+      var range = sel.getRangeAt(0);
+      var doc = range.cloneContents();
+      var selector = '.content';
+      if (opt_side) {
+        selector += '.' + opt_side;
+      }
+      var contentEls = Polymer.dom(doc).querySelectorAll(selector);
+
+      if (contentEls.length === 0) {
+        return doc.textContent;
+      }
+
+      var text = '';
+      for (var i = 0; i < contentEls.length; i++) {
+        text += contentEls[i].textContent + '\n';
+      }
+      return text;
+    },
+
+    _showContext: function(group, sectionEl) {
+      this._builder.emitGroup(group, sectionEl);
+      sectionEl.parentNode.removeChild(sectionEl);
+    },
+
+    _prefsChanged: function(prefsChangeRecord) {
+      var prefs = prefsChangeRecord.base;
+      this.customStyle['--content-width'] = prefs.line_length + 'ch';
+      this.updateStyles();
+
+      if (this._diff && this._comments) {
+        this._render();
+      }
+    },
+
+    _render: function() {
+      this._clearDiffContent();
+      this._builder = this._getDiffBuilder(this._diff, this._comments,
+          this._prefs);
+      this._builder.emitDiff(this._diff.content);
+
+      this.async(function() {
+        this.fire('render', null, {bubbles: false});
+      }.bind(this), 1);
+    },
+
+    _clearDiffContent: function() {
+      this.$.diffTable.innerHTML = null;
     },
 
     _getDiff: function() {
@@ -185,528 +426,95 @@
     },
 
     _getDiffDrafts: function() {
-      return this.$.restAPI.getDiffDrafts(
-          this.changeNum,
-          this.patchRange.basePatchNum,
-          this.patchRange.patchNum,
-          this.path);
-    },
-
-    showDiffPreferences: function() {
-      this.$.prefsOverlay.open();
-    },
-
-    _prefsChanged: function(changeRecord) {
-      if (this._initialRenderComplete) {
-        this._render();
-      }
-      this._resolvePrefsReady(changeRecord.base);
-    },
-
-    _render: function() {
-      this._groupCommentsAndDrafts();
-      this._processContent();
-
-      // Allow for the initial rendering to complete before firing the event.
-      this.async(function() {
-        this.fire('render', null, {bubbles: false});
-      }.bind(this), 1);
-
-      this._initialRenderComplete = true;
-    },
-
-    _handlePrefsTap: function(e) {
-      e.preventDefault();
-
-      // TODO(andybons): This is not supported in IE. Implement a polyfill.
-      // NOTE: Object.assign is NOT automatically a deep copy. If prefs adds
-      // an object as a value, it must be marked enumerable.
-      this._savedPrefs = Object.assign({}, this.prefs);
-      this.$.prefsOverlay.open();
-    },
-
-    _handlePrefsSave: function(e) {
-      e.stopPropagation();
-      var el = Polymer.dom(e).rootTarget;
-      el.disabled = true;
-      app.accountReady.then(function() {
-        if (!this._loggedIn) {
-          el.disabled = false;
-          this.$.prefsOverlay.close();
-          return;
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          return Promise.resolve({baseComments: [], comments: []});
         }
-        this._saveDiffPreferences().then(function() {
-          this.$.prefsOverlay.close();
-          el.disabled = false;
-        }.bind(this)).catch(function(err) {
-          el.disabled = false;
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-                'PolyGerrit team for assistance.');
-          throw err;
-        });
+        return this.$.restAPI.getDiffDrafts(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this.patchRange.patchNum,
+            this.path);
       }.bind(this));
     },
 
-    _saveDiffPreferences: function() {
-      var xhr = document.createElement('gr-request');
-      this._diffPreferencesPromise = xhr.send({
-        method: 'PUT',
-        url: '/accounts/self/preferences.diff',
-        body: this.prefs,
-      });
-      return this._diffPreferencesPromise;
+    _getDiffCommentsAndDrafts: function() {
+      var promises = [];
+      promises.push(this._getDiffComments());
+      promises.push(this._getDiffDrafts());
+      return Promise.all(promises).then(function(results) {
+        return Promise.resolve({
+          comments: results[0],
+          drafts: results[1],
+        });
+      }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
     },
 
-    _handlePrefsCancel: function(e) {
-      e.stopPropagation();
-      this.prefs = this._savedPrefs;
-      this.$.prefsOverlay.close();
-    },
-
-    _handleExpandContext: function(e) {
-      var ctx = e.detail.context;
-      var contextControlIndex = -1;
-      for (var i = ctx.start; i <= ctx.end; i++) {
-        this._diff.leftSide[i].hidden = false;
-        this._diff.rightSide[i].hidden = false;
-        if (this._diff.leftSide[i].type == 'CONTEXT_CONTROL' &&
-            this._diff.rightSide[i].type == 'CONTEXT_CONTROL') {
-          contextControlIndex = i;
+    _getDiffPreferences: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          // These defaults should match the defaults in
+          // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+          // NOTE: There are some settings that don't apply to PolyGerrit
+          // (Render mode being at least one of them).
+          return Promise.resolve({
+            auto_hide_diff_table_header: true,
+            context: 10,
+            cursor_blink_rate: 0,
+            ignore_whitespace: 'IGNORE_NONE',
+            intraline_difference: true,
+            line_length: 100,
+            show_line_endings: true,
+            show_tabs: true,
+            show_whitespace_errors: true,
+            syntax_highlighting: true,
+            tab_size: 8,
+            theme: 'DEFAULT',
+          });
         }
-      }
-      this._diff.leftSide[contextControlIndex].hidden = true;
-      this._diff.rightSide[contextControlIndex].hidden = true;
-
-      this.$.leftDiff.hideElementsWithIndex(contextControlIndex);
-      this.$.rightDiff.hideElementsWithIndex(contextControlIndex);
-
-      this.$.leftDiff.renderLineIndexRange(ctx.start, ctx.end);
-      this.$.rightDiff.renderLineIndexRange(ctx.start, ctx.end);
+        return this.$.restAPI.getDiffPreferences();
+      }.bind(this));
     },
 
-    _handleThreadHeightChange: function(e) {
-      var index = e.detail.index;
-      var diffEl = Polymer.dom(e).rootTarget;
-      var otherSide = diffEl == this.$.leftDiff ?
-          this.$.rightDiff : this.$.leftDiff;
-
-      var threadHeight = e.detail.height;
-      var otherSideHeight;
-      if (otherSide.content[index].type == 'COMMENT_THREAD') {
-        otherSideHeight = otherSide.getRowNaturalHeight(index);
-      } else {
-        otherSideHeight = otherSide.getRowHeight(index);
+    _normalizeDiffCommentsAndDrafts: function(results) {
+      function markAsDraft(d) {
+        d.__draft = true;
+        return d;
       }
-      var maxHeight = Math.max(threadHeight, otherSideHeight);
-      this.$.leftDiff.setRowHeight(index, maxHeight);
-      this.$.rightDiff.setRowHeight(index, maxHeight);
-    },
-
-    _handleAddDraft: function(e) {
-      var insertIndex = e.detail.index + 1;
-      var diffEl = Polymer.dom(e).rootTarget;
-      var content = diffEl.content;
-      if (content[insertIndex] &&
-          content[insertIndex].type == 'COMMENT_THREAD') {
-        // A thread is already here. Do nothing.
-        return;
-      }
-      var comment = {
-        type: 'COMMENT_THREAD',
-        comments: [{
-          __draft: true,
-          __draftID: Math.random().toString(36),
-          line: e.detail.line,
+      var baseDrafts = results.drafts.baseComments.map(markAsDraft);
+      var drafts = results.drafts.comments.map(markAsDraft);
+      return Promise.resolve({
+        meta: {
           path: this.path,
-        }]
-      };
-      if (diffEl == this.$.leftDiff &&
-          this.patchRange.basePatchNum == 'PARENT') {
-        comment.comments[0].side = 'PARENT';
-        comment.patchNum = this.patchRange.patchNum;
-      }
-
-      if (content[insertIndex] &&
-          content[insertIndex].type == 'FILLER') {
-        content[insertIndex] = comment;
-        diffEl.rowUpdated(insertIndex);
-      } else {
-        content.splice(insertIndex, 0, comment);
-        diffEl.rowInserted(insertIndex);
-      }
-
-      var otherSide = diffEl == this.$.leftDiff ?
-          this.$.rightDiff : this.$.leftDiff;
-      if (otherSide.content[insertIndex] == null ||
-          otherSide.content[insertIndex].type != 'COMMENT_THREAD') {
-        otherSide.content.splice(insertIndex, 0, {
-          type: 'FILLER',
-        });
-        otherSide.rowInserted(insertIndex);
-      }
-    },
-
-    _handleRemoveThread: function(e) {
-      var diffEl = Polymer.dom(e).rootTarget;
-      var otherSide = diffEl == this.$.leftDiff ?
-          this.$.rightDiff : this.$.leftDiff;
-      var index = e.detail.index;
-
-      if (otherSide.content[index].type == 'FILLER') {
-        otherSide.content.splice(index, 1);
-        otherSide.rowRemoved(index);
-        diffEl.content.splice(index, 1);
-        diffEl.rowRemoved(index);
-      } else if (otherSide.content[index].type == 'COMMENT_THREAD') {
-        diffEl.content[index] = {type: 'FILLER'};
-        diffEl.rowUpdated(index);
-        var height = otherSide.setRowNaturalHeight(index);
-        diffEl.setRowHeight(index, height);
-      } else {
-        throw Error('A thread cannot be opposite anything but filler or ' +
-            'another thread');
-      }
-    },
-
-    _processContent: function() {
-      var leftSide = [];
-      var rightSide = [];
-      var initialLineNum = 0 + (this._diffResponse.content.skip || 0);
-      var ctx = {
-        hidingLines: false,
-        lastNumLinesHidden: 0,
-        left: {
-          lineNum: initialLineNum,
+          changeNum: this.changeNum,
+          patchRange: this.patchRange,
+          projectConfig: this.projectConfig,
         },
-        right: {
-          lineNum: initialLineNum,
-        }
-      };
-      var content = this._breakUpCommonChunksWithComments(ctx,
-          this._diffResponse.content);
-      var context = this.prefs.context;
-      if (context == -1) {
-        // Show the entire file.
-        context = Infinity;
-      }
-      for (var i = 0; i < content.length; i++) {
-        if (i == 0) {
-          ctx.skipRange = [0, context];
-        } else if (i == content.length - 1) {
-          ctx.skipRange = [context, 0];
-        } else {
-          ctx.skipRange = [context, context];
-        }
-        ctx.diffChunkIndex = i;
-        this._addDiffChunk(ctx, content[i], leftSide, rightSide);
-      }
-
-      this._diff = {
-        leftSide: leftSide,
-        rightSide: rightSide,
-      };
+        left: results.comments.baseComments.concat(baseDrafts),
+        right: results.comments.comments.concat(drafts),
+      });
     },
 
-    // In order to show comments out of the bounds of the selected context,
-    // treat them as diffs within the model so that the content (and context
-    // surrounding it) renders correctly.
-    _breakUpCommonChunksWithComments: function(ctx, content) {
-      var result = [];
-      var leftLineNum = ctx.left.lineNum;
-      var rightLineNum = ctx.right.lineNum;
-      for (var i = 0; i < content.length; i++) {
-        if (!content[i].ab) {
-          result.push(content[i]);
-          if (content[i].a) {
-            leftLineNum += content[i].a.length;
-          }
-          if (content[i].b) {
-            rightLineNum += content[i].b.length;
-          }
-          continue;
-        }
-        var chunk = content[i].ab;
-        var currentChunk = {ab: []};
-        for (var j = 0; j < chunk.length; j++) {
-          leftLineNum++;
-          rightLineNum++;
-          if (this._groupedBaseComments[leftLineNum] == null &&
-              this._groupedComments[rightLineNum] == null) {
-            currentChunk.ab.push(chunk[j]);
-          } else {
-            if (currentChunk.ab && currentChunk.ab.length > 0) {
-              result.push(currentChunk);
-              currentChunk = {ab: []};
-            }
-            // Append an annotation to indicate that this line should not be
-            // highlighted even though it's implied with both `a` and `b`
-            // defined. This is needed since there may be two lines that
-            // should be highlighted but are equal (blank lines, for example).
-            result.push({
-              __noHighlight: true,
-              a: [chunk[j]],
-              b: [chunk[j]],
-            });
-          }
-        }
-        if (currentChunk.ab != null && currentChunk.ab.length > 0) {
-          result.push(currentChunk);
-        }
-      }
-      return result;
+    _getLoggedIn: function() {
+      return this.$.restAPI.getLoggedIn();
     },
 
-    _groupCommentsAndDrafts: function() {
-      this._baseDrafts.forEach(function(d) { d.__draft = true; });
-      this._drafts.forEach(function(d) { d.__draft = true; });
-      var allLeft = this._baseComments.concat(this._baseDrafts);
-      var allRight = this._comments.concat(this._drafts);
-
-      var leftByLine = {};
-      var rightByLine = {};
-      var mapFunc = function(byLine) {
-        return function(c) {
-          // File comments/drafts are grouped with line 1 for now.
-          var line = c.line || 1;
-          if (byLine[line] == null) {
-            byLine[line] = [];
-          }
-          byLine[line].push(c);
-        };
-      };
-      allLeft.forEach(mapFunc(leftByLine));
-      allRight.forEach(mapFunc(rightByLine));
-
-      this._groupedBaseComments = leftByLine;
-      this._groupedComments = rightByLine;
+    _getDiffBuilder: function(diff, comments, prefs) {
+      if (this._viewMode === DiffViewMode.SIDE_BY_SIDE) {
+        return new GrDiffBuilderSideBySide(diff, comments, prefs,
+            this.$.diffTable);
+      } else if (this._viewMode === DiffViewMode.UNIFIED) {
+        return new GrDiffBuilderUnified(diff, comments, prefs,
+            this.$.diffTable);
+      }
+      throw Error('Unsupported diff view mode: ' + this._viewMode);
     },
 
-    _addContextControl: function(ctx, leftSide, rightSide) {
-      var numLinesHidden = ctx.lastNumLinesHidden;
-      var leftStart = leftSide.length - numLinesHidden;
-      var leftEnd = leftSide.length;
-      var rightStart = rightSide.length - numLinesHidden;
-      var rightEnd = rightSide.length;
-      if (leftStart != rightStart || leftEnd != rightEnd) {
-        throw Error(
-            'Left and right ranges for context control should be equal:' +
-            'Left: [' + leftStart + ', ' + leftEnd + '] ' +
-            'Right: [' + rightStart + ', ' + rightEnd + ']');
+    _projectConfigChanged: function(projectConfig) {
+      var threadEls = this._getCommentThreads();
+      for (var i = 0; i < threadEls.length; i++) {
+        threadEls[i].projectConfig = projectConfig;
       }
-      var obj = {
-        type: 'CONTEXT_CONTROL',
-        numLines: numLinesHidden,
-        start: leftStart,
-        end: leftEnd,
-      };
-      // NOTE: Be careful, here. This object is meant to be immutable. If the
-      // object is altered within one side's array it will reflect the
-      // alterations in another.
-      leftSide.push(obj);
-      rightSide.push(obj);
-    },
-
-    _addCommonDiffChunk: function(ctx, chunk, leftSide, rightSide) {
-      for (var i = 0; i < chunk.ab.length; i++) {
-        var numLines = Math.ceil(
-            this._visibleLineLength(chunk.ab[i]) / this.prefs.line_length);
-        var hidden = i >= ctx.skipRange[0] &&
-            i < chunk.ab.length - ctx.skipRange[1];
-        if (ctx.hidingLines && hidden == false) {
-          // No longer hiding lines. Add a context control.
-          this._addContextControl(ctx, leftSide, rightSide);
-          ctx.lastNumLinesHidden = 0;
-        }
-        ctx.hidingLines = hidden;
-        if (hidden) {
-          ctx.lastNumLinesHidden++;
-        }
-
-        // Blank lines within a diff content array indicate a newline.
-        leftSide.push({
-          type: 'CODE',
-          hidden: hidden,
-          content: chunk.ab[i] || '\n',
-          numLines: numLines,
-          lineNum: ++ctx.left.lineNum,
-        });
-        rightSide.push({
-          type: 'CODE',
-          hidden: hidden,
-          content: chunk.ab[i] || '\n',
-          numLines: numLines,
-          lineNum: ++ctx.right.lineNum,
-        });
-
-        this._addCommentsIfPresent(ctx, leftSide, rightSide);
-      }
-      if (ctx.lastNumLinesHidden > 0) {
-        this._addContextControl(ctx, leftSide, rightSide);
-      }
-    },
-
-    _addDiffChunk: function(ctx, chunk, leftSide, rightSide) {
-      if (chunk.ab) {
-        this._addCommonDiffChunk(ctx, chunk, leftSide, rightSide);
-        return;
-      }
-
-      var leftHighlights = [];
-      if (chunk.edit_a) {
-        leftHighlights =
-            this._normalizeIntralineHighlights(chunk.a, chunk.edit_a);
-      }
-      var rightHighlights = [];
-      if (chunk.edit_b) {
-        rightHighlights =
-            this._normalizeIntralineHighlights(chunk.b, chunk.edit_b);
-      }
-
-      var aLen = (chunk.a && chunk.a.length) || 0;
-      var bLen = (chunk.b && chunk.b.length) || 0;
-      var maxLen = Math.max(aLen, bLen);
-      for (var i = 0; i < maxLen; i++) {
-        var hasLeftContent = chunk.a && i < chunk.a.length;
-        var hasRightContent = chunk.b && i < chunk.b.length;
-        var leftContent = hasLeftContent ? chunk.a[i] : '';
-        var rightContent = hasRightContent ? chunk.b[i] : '';
-        var highlight = !chunk.__noHighlight;
-        var maxNumLines = this._maxLinesSpanned(leftContent, rightContent);
-        if (hasLeftContent) {
-          leftSide.push({
-            type: 'CODE',
-            content: leftContent || '\n',
-            numLines: maxNumLines,
-            lineNum: ++ctx.left.lineNum,
-            highlight: highlight,
-            intraline: highlight && leftHighlights.filter(function(hl) {
-              return hl.contentIndex == i;
-            }),
-          });
-        } else {
-          leftSide.push({
-            type: 'FILLER',
-            numLines: maxNumLines,
-          });
-        }
-        if (hasRightContent) {
-          rightSide.push({
-            type: 'CODE',
-            content: rightContent || '\n',
-            numLines: maxNumLines,
-            lineNum: ++ctx.right.lineNum,
-            highlight: highlight,
-            intraline: highlight && rightHighlights.filter(function(hl) {
-              return hl.contentIndex == i;
-            }),
-          });
-        } else {
-          rightSide.push({
-            type: 'FILLER',
-            numLines: maxNumLines,
-          });
-        }
-        this._addCommentsIfPresent(ctx, leftSide, rightSide);
-      }
-    },
-
-    _addCommentsIfPresent: function(ctx, leftSide, rightSide) {
-      var leftComments = this._groupedBaseComments[ctx.left.lineNum];
-      var rightComments = this._groupedComments[ctx.right.lineNum];
-      if (leftComments) {
-        var thread = {
-          type: 'COMMENT_THREAD',
-          comments: leftComments,
-        };
-        if (this.patchRange.basePatchNum == 'PARENT') {
-          thread.patchNum = this.patchRange.patchNum;
-        }
-        leftSide.push(thread);
-      }
-      if (rightComments) {
-        rightSide.push({
-          type: 'COMMENT_THREAD',
-          comments: rightComments,
-        });
-      }
-      if (leftComments && !rightComments) {
-        rightSide.push({type: 'FILLER'});
-      } else if (!leftComments && rightComments) {
-        leftSide.push({type: 'FILLER'});
-      }
-      this._groupedBaseComments[ctx.left.lineNum] = null;
-      this._groupedComments[ctx.right.lineNum] = null;
-    },
-
-    // The `highlights` array consists of a list of <skip length, mark length>
-    // pairs, where the skip length is the number of characters between the
-    // end of the previous edit and the start of this edit, and the mark
-    // length is the number of edited characters following the skip. The start
-    // of the edits is from the beginning of the related diff content lines.
-    //
-    // Note that the implied newline character at the end of each line is
-    // included in the length calculation, and thus it is possible for the
-    // edits to span newlines.
-    //
-    // A line highlight object consists of three fields:
-    // - contentIndex: The index of the diffChunk `content` field (the line
-    //   being referred to).
-    // - startIndex: Where the highlight should begin.
-    // - endIndex: (optional) Where the highlight should end. If omitted, the
-    //   highlight is meant to be a continuation onto the next line.
-    _normalizeIntralineHighlights: function(content, highlights) {
-      var contentIndex = 0;
-      var idx = 0;
-      var normalized = [];
-      for (var i = 0; i < highlights.length; i++) {
-        var line = content[contentIndex] + '\n';
-        var hl = highlights[i];
-        var j = 0;
-        while (j < hl[0]) {
-          if (idx == line.length) {
-            idx = 0;
-            line = content[++contentIndex] + '\n';
-            continue;
-          }
-          idx++;
-          j++;
-        }
-        var lineHighlight = {
-          contentIndex: contentIndex,
-          startIndex: idx,
-        };
-
-        j = 0;
-        while (line && j < hl[1]) {
-          if (idx == line.length) {
-            idx = 0;
-            line = content[++contentIndex] + '\n';
-            normalized.push(lineHighlight);
-            lineHighlight = {
-              contentIndex: contentIndex,
-              startIndex: idx,
-            };
-            continue;
-          }
-          idx++;
-          j++;
-        }
-        lineHighlight.endIndex = idx;
-        normalized.push(lineHighlight);
-      }
-      return normalized;
-    },
-
-    _visibleLineLength: function(contents) {
-      // http://jsperf.com/performance-of-match-vs-split
-      var numTabs = contents.split('\t').length - 1;
-      return contents.length - numTabs + (this.prefs.tab_size * numTabs);
-    },
-
-    _maxLinesSpanned: function(left, right) {
-      return Math.max(
-          Math.ceil(this._visibleLineLength(left) / this.prefs.line_length),
-          Math.ceil(this._visibleLineLength(right) / this.prefs.line_length));
     },
   });
 })();

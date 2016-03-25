@@ -26,10 +26,6 @@
      */
 
     properties: {
-      prefs: {
-        type: Object,
-        notify: true,
-      },
       /**
        * URL params passed from the router.
        */

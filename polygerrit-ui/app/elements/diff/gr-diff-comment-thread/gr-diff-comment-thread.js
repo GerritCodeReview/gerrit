@@ -18,12 +18,6 @@
     is: 'gr-diff-comment-thread',
 
     /**
-     * Fired when the height of the thread changes.
-     *
-     * @event height-change
-     */
-
-    /**
      * Fired when the thread should be discarded.
      *
      * @event thread-discard
@@ -44,11 +38,6 @@
       },
 
       _showActions: Boolean,
-      _boundWindowResizeHandler: {
-        type: Function,
-        value: function() { return this._handleWindowResize.bind(this); }
-      },
-      _lastHeight: Number,
       _orderedComments: Array,
     },
 
@@ -64,12 +53,6 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._showActions = loggedIn;
       }.bind(this));
-
-      window.addEventListener('resize', this._boundWindowResizeHandler);
-    },
-
-    detached: function() {
-      window.removeEventListener('resize', this._boundWindowResizeHandler);
     },
 
     addDraft: function(opt_lineNum) {
@@ -86,10 +69,6 @@
 
     _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
-    },
-
-    _handleWindowResize: function(e) {
-      this._heightChanged();
     },
 
     _commentsChanged: function(changeRecord) {
@@ -133,11 +112,6 @@
       }
     },
 
-    _handleCommentHeightChange: function(e) {
-      e.stopPropagation();
-      this._heightChanged();
-    },
-
     _handleCommentReply: function(e) {
       var comment = e.detail.comment;
       var quoteStr;
@@ -153,7 +127,6 @@
       this.async(function() {
         var commentEl = this._commentElWithDraftID(reply.__draftID);
         commentEl.editing = true;
-        this.async(this._heightChanged.bind(this), 1);
       }.bind(this), 1);
     },
 
@@ -166,7 +139,6 @@
       this.async(function() {
         var commentEl = this._commentElWithDraftID(reply.__draftID);
         commentEl.save();
-        this.async(this._heightChanged.bind(this), 1);
       }.bind(this), 1);
     },
 
@@ -215,15 +187,6 @@
         this.fire('thread-discard');
         return;
       }
-      this.async(this._heightChanged.bind(this), 1);
-    },
-
-    _heightChanged: function() {
-      var height = this.$.container.offsetHeight;
-      if (height == this._lastHeight) { return; }
-
-      this.fire('height-change', {height: height}, {bubbles: false});
-      this._lastHeight = height;
     },
 
     _indexOf: function(comment, arr) {

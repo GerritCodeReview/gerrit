@@ -53,6 +53,24 @@
       "revId": "6cf76df3e16e0e30392c92b1eec77b0edd95ee05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3193051a_5d937b7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-25T13:19:46Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s a good idea, will do that now.",
+      "parentUuid": "5c896ea7_dfb6db00",
+      "revId": "6cf76df3e16e0e30392c92b1eec77b0edd95ee05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

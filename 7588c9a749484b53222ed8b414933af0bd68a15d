@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1167e133_b4a600d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-25T22:10:40Z",
+      "side": 1,
+      "message": "Slightly simpler if you the outer conditional is \"if (notesMigration.writeChanges())\" and the inner one is \"if (ctx.deleted)\"",
+      "range": {
+        "startLine": 571,
+        "startChar": 0,
+        "endLine": 571,
+        "endChar": 48
+      },
+      "revId": "7588c9a749484b53222ed8b414933af0bd68a15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -3990,7 +3990,7 @@ It can contain placeholders for the groups matched by the
 [[submodule]]
 === Section submodule
 
-[[submodule.verbosesuperprojectupdate]]submodule.verboseSuperprojectUpdate
+[[submodule.verbosesuperprojectupdate]]submodule.verboseSuperprojectUpdate::
 +
 When using link:user-submodules.html#automatic_update[automatic superproject updates]
 this option will determine if the submodule commit messages are included into
@@ -3998,7 +3998,7 @@ the commit message of the superproject update.
 +
 By default this is true.
 
-[[submodule.enableSuperProjectSubscriptions]]submodule.enableSuperProjectSubscriptions
+[[submodule.enableSuperProjectSubscriptions]]submodule.enableSuperProjectSubscriptions::
 +
 This allows to enable the superproject subscription mechanism.
 +

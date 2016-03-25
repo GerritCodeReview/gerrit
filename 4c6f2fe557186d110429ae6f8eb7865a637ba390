@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "11a28163_1cb415f5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-03-25T18:03:28Z",
+      "side": 1,
+      "message": "Ping on this.",
+      "parentUuid": "11a28163_7c98b997",
+      "range": {
+        "startLine": 90,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 75
+      },
+      "revId": "4c6f2fe557186d110429ae6f8eb7865a637ba390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11a28163_5c937d7c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
         "patchSetId": 2

@@ -40,6 +40,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeDelete;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
@@ -556,15 +557,30 @@ public class BatchUpdate implements AutoCloseable {
         Change.Id id = e.getKey();
         db.changes().beginTransaction(id);
         ChangeContext ctx;
+        NoteDbUpdateManager updateManager = null;
         boolean dirty = false;
         try {
           ctx = newChangeContext(id);
+          // Call updateChange on each op.
           for (Op op : e.getValue()) {
             dirty |= op.updateChange(ctx);
           }
           if (!dirty) {
             return;
           }
+
+          // Stage the NoteDb update and store its state in the Change.
+          if (!ctx.deleted && notesMigration.writeChanges()) {
+            updateManager = updateManagerFactory.create(ctx.getProject());
+            for (ChangeUpdate u : ctx.updates.values()) {
+              updateManager.add(u);
+            }
+            NoteDbChangeState.applyDelta(
+                ctx.getChange(),
+                updateManager.stage().get(id));
+          }
+
+          // Bump lastUpdatedOn or rowVersion and commit.
           if (newChanges.containsKey(id)) {
             db.changes().insert(bumpLastUpdatedOn(ctx));
           } else if (ctx.saved) {
@@ -579,20 +595,20 @@ public class BatchUpdate implements AutoCloseable {
           db.rollback();
         }
 
-        if (ctx.deleted) {
-          if (notesMigration.writeChanges()) {
+        // Execute NoteDb updates after committing ReviewDb updates.
+        if (notesMigration.writeChanges()) {
+          if (updateManager != null) {
+            updateManager.execute();
+          }
+          if (ctx.deleted) {
             new ChangeDelete(plcUtil, getRepository(), ctx.getNotes()).delete();
           }
+        }
+
+        // Reindex changes.
+        if (ctx.deleted) {
           indexFutures.add(indexer.deleteAsync(id));
         } else {
-          if (notesMigration.writeChanges()) {
-            NoteDbUpdateManager manager =
-                updateManagerFactory.create(ctx.getProject());
-            for (ChangeUpdate u : ctx.updates.values()) {
-              manager.add(u);
-            }
-            manager.execute();
-          }
           indexFutures.add(indexer.indexAsync(ctx.getProject(), id));
         }
       }

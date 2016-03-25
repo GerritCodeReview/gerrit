@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "9c3686c6_69afe5a9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T03:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c903aca_febba1e5",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c1a4e04_17e474f5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
         "patchSetId": 17
@@ -189,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "bc334ad6_6ac8b76d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T03:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c85a65b_91087c7b",
+      "range": {
+        "startLine": 179,
+        "startChar": 12,
+        "endLine": 179,
+        "endChar": 80
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c85a65b_11e48cf5",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
         "patchSetId": 17
@@ -200,6 +242,30 @@
       "writtenOn": "2016-03-24T22:16:50Z",
       "side": 1,
       "message": "Nit: no blank.",
+      "range": {
+        "startLine": 190,
+        "startChar": 21,
+        "endLine": 190,
+        "endChar": 22
+      },
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3686c6_89bc19e3",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T03:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c85a65b_11e48cf5",
       "range": {
         "startLine": 190,
         "startChar": 21,
@@ -286,6 +352,24 @@
       "writtenOn": "2016-03-24T22:16:50Z",
       "side": 1,
       "message": "Nit: some lines in this files are too long. Here and below.",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc334ad6_4acbf36a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T03:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c903aca_7ec8716d",
       "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

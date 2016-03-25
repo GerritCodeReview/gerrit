@@ -470,6 +470,10 @@ public final class Change {
   @Column(id = 18, notNull = false)
   protected String submissionId;
 
+  /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
+  @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
+  protected String noteDbState;
+
   protected Change() {
   }
 
@@ -498,6 +502,7 @@ public final class Change {
     originalSubject = other.originalSubject;
     submissionId = other.submissionId;
     topic = other.topic;
+    noteDbState = other.noteDbState;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -631,6 +636,14 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public String getNoteDbState() {
+    return noteDbState;
+  }
+
+  public void setNoteDbState(String state) {
+    noteDbState = state;
   }
 
   @Override

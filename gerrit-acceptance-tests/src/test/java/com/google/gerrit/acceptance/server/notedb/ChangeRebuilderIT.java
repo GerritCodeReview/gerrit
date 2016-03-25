@@ -18,7 +18,9 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
@@ -29,6 +31,9 @@ import org.junit.Test;
 public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Inject
   private NoteDbChecker checker;
+
+  @Inject
+  private Rebuild rebuildHandler;
 
   @Before
   public void setUp() {
@@ -68,6 +73,28 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Now that there is a ref, writes are "turned on" for this change, and
     // NoteDb stays up to date without explicit rebuilding.
     gApi.changes().id(id.get()).topic(name("new-topic"));
+    checker.checkChanges(id);
+  }
+
+  @Test
+  public void restApiNotFoundWhenNoteDbDisabled() throws Exception {
+    PushOneCommit.Result r = createChange();
+    exception.expect(ResourceNotFoundException.class);
+    rebuildHandler.apply(
+        parseChangeResource(r.getChangeId()),
+        new Rebuild.Input());
+  }
+
+  @Test
+  public void rebuildViaRestApi() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    notesMigration.setWriteChanges(true);
+
+    checker.assertNoChangeRef(project, id);
+    rebuildHandler.apply(
+        parseChangeResource(r.getChangeId()),
+        new Rebuild.Input());
     checker.checkChanges(id);
   }
 

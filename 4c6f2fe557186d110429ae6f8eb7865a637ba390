@@ -46,6 +46,30 @@
       "revId": "4c6f2fe557186d110429ae6f8eb7865a637ba390",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16d49ee_5a93757c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-25T17:44:04Z",
+      "side": 1,
+      "message": "This is just in tests, where spammy logs are more ok.\n\nI actually use this because I have a million different launch configs in Eclipse for different tests with different values of GERRIT_NOTEDB. Seeing this spam in the logs helps me make sure I set it up properly.",
+      "parentUuid": "11a28163_5c937d7c",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 154,
+        "endChar": 74
+      },
+      "revId": "4c6f2fe557186d110429ae6f8eb7865a637ba390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

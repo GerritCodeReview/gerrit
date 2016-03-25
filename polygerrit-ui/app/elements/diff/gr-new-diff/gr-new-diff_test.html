@@ -142,5 +142,103 @@ limitations under the License.
         done();
       });
     });
+
+    test('remove comment', function() {
+      element._comments = {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1'},
+          {id: 'bc2'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+          {id: 'd2', __draft: true},
+        ],
+      };
+
+      element._removeComment({});
+      assert.deepEqual(element._comments, {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1'},
+          {id: 'bc2'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+          {id: 'd2', __draft: true},
+        ],
+      });
+
+      element._removeComment({id: 'bc2'});
+      assert.deepEqual(element._comments, {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+          {id: 'd2', __draft: true},
+        ],
+      });
+
+      element._removeComment({id: 'd2'});
+      assert.deepEqual(element._comments, {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1'},
+          {id: 'bd1', __draft: true},
+          {id: 'bd2', __draft: true},
+        ],
+        right: [
+          {id: 'c1'},
+          {id: 'c2'},
+          {id: 'd1', __draft: true},
+        ],
+      });
+    });
   });
 </script>

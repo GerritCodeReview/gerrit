@@ -235,7 +235,7 @@ limitations under the License.
       var draftEl =
           Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
       assert.ok(draftEl);
-      draftEl.addEventListener('discard', function() {
+      draftEl.addEventListener('comment-discard', function() {
         server.respond();
         var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
@@ -243,7 +243,7 @@ limitations under the License.
         assert.equal(drafts.length, 0);
         done();
       });
-      draftEl.fire('discard', null, {bubbles: false});
+      draftEl.fire('comment-discard', null, {bubbles: false});
     });
   });
 </script>

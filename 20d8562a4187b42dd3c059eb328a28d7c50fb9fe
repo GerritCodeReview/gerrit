@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bc334ad6_2ad79f07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1020422
+      },
+      "writtenOn": "2016-03-25T06:17:29Z",
+      "side": 1,
+      "message": "An alternative way is on server side to check each line\u0027s commit exits or not, and save the result in a boolen variable of the blame.line info before return it to UI.  With this variable on the UI side Gerrit make the blame.line  clickable or not.",
+      "parentUuid": "dc11de0a_93343c33",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c903aca_febba1e5",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
         "patchSetId": 17

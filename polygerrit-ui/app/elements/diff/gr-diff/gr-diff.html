@@ -20,13 +20,19 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-request/gr-request.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
+<link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
-<link rel="import" href="../gr-diff-side/gr-diff-side.html">
 <link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
 
 <dom-module id="gr-diff">
   <template>
     <style>
+      :host {
+        --light-remove-highlight-color: #fee;
+        --dark-remove-highlight-color: #ffd4d4;
+        --light-add-highlight-color: #efe;
+        --dark-add-highlight-color: #d4ffd4;
+      }
       .loading {
         padding: 0 var(--default-horizontal-margin) 1em;
         color: #666;
@@ -45,15 +51,98 @@ limitations under the License.
         display: flex;
         font: 12px var(--monospace-font-family);
         overflow-x: auto;
+        will-change: transform;
       }
-      gr-diff-side:first-of-type {
-        --light-highlight-color: #fee;
-        --dark-highlight-color: #ffd4d4;
-      }
-      gr-diff-side:last-of-type {
-        --light-highlight-color: #efe;
-        --dark-highlight-color: #d4ffd4;
+      table {
+        border-collapse: collapse;
         border-right: 1px solid #ddd;
+      }
+      .section {
+        background-color: #eee;
+      }
+      .blank,
+      .content {
+        background-color: #fff;
+      }
+      .lineNum,
+      .content {
+        vertical-align: top;
+        white-space: pre;
+      }
+      .contextLineNum:before,
+      .lineNum:before {
+        display: inline-block;
+        color: #666;
+        content: attr(data-value);
+        padding: 0 .75em;
+        text-align: right;
+        width: 100%;
+      }
+      .canComment .lineNum[data-value] {
+        cursor: pointer;
+      }
+      .canComment .lineNum[data-value]:before {
+        text-decoration: underline;
+      }
+      .canComment .lineNum[data-value]:hover:before {
+        background-color: #ccc;
+      }
+      .canComment .lineNum[data-value="FILE"]:before {
+        content: 'File';
+      }
+      .content {
+        overflow: hidden;
+        min-width: var(--content-width, 80ch);
+      }
+      .content.left {
+        -webkit-user-select: var(--left-user-select, text);
+        -moz-user-select: var(--left-user-select, text);
+        -ms-user-select: var(--left-user-select, text);
+        user-select: var(--left-user-select, text);
+      }
+      .content.right {
+        -webkit-user-select: var(--right-user-select, text);
+        -moz-user-select: var(--right-user-select, text);
+        -ms-user-select: var(--right-user-select, text);
+        user-select: var(--right-user-select, text);
+      }
+      .content.add hl,
+      .content.add.darkHighlight {
+        background-color: var(--dark-add-highlight-color);
+      }
+      .content.add.lightHighlight {
+        background-color: var(--light-add-highlight-color);
+      }
+      .content.remove hl,
+      .content.remove.darkHighlight {
+        background-color: var(--dark-remove-highlight-color);
+      }
+      .content.remove.lightHighlight {
+        background-color: var(--light-remove-highlight-color);
+      }
+      .contextControl {
+        color: #849;
+        background-color: #fef;
+      }
+      .contextControl gr-button {
+        display: block;
+        font-family: var(--monospace-font-family);
+        text-decoration: none;
+      }
+      .contextControl td:not(.lineNum) {
+        text-align: center;
+      }
+      .br:after {
+        /* Line feed */
+        content: '\A';
+      }
+      .tab {
+        display: inline-block;
+      }
+      .tab.withIndicator:before {
+        color: #C62828;
+        /* >> character */
+        content: '\00BB';
       }
     </style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
@@ -67,44 +156,29 @@ limitations under the License.
         <gr-button link
            class="prefsButton"
            on-tap="_handlePrefsTap"
-           hidden$="[[!prefs]]"
+           hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
            hidden>Diff View Preferences</gr-button>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>
         <gr-diff-preferences
-            prefs="{{prefs}}"
+            prefs="{{_prefs}}"
             on-save="_handlePrefsSave"
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
 
-      <div class="diffContainer">
-        <gr-diff-side id="leftDiff"
-            change-num="[[changeNum]]"
-            patch-num="[[patchRange.basePatchNum]]"
-            path="[[path]]"
-            content="{{_diff.leftSide}}"
-            prefs="[[prefs]]"
-            can-comment="[[_loggedIn]]"
-            project-config="[[projectConfig]]"
-            on-expand-context="_handleExpandContext"
-            on-thread-height-change="_handleThreadHeightChange"
-            on-add-draft="_handleAddDraft"
-            on-remove-thread="_handleRemoveThread"></gr-diff-side>
-        <gr-diff-side id="rightDiff"
-            change-num="[[changeNum]]"
-            patch-num="[[patchRange.patchNum]]"
-            path="[[path]]"
-            content="{{_diff.rightSide}}"
-            prefs="[[prefs]]"
-            can-comment="[[_loggedIn]]"
-            project-config="[[projectConfig]]"
-            on-expand-context="_handleExpandContext"
-            on-thread-height-change="_handleThreadHeightChange"
-            on-add-draft="_handleAddDraft"
-            on-remove-thread="_handleRemoveThread"></gr-diff-side>
+      <div class$="[[_computeContainerClass(_loggedIn, _viewMode)]]"
+          on-tap="_handleTap"
+          on-mousedown="_handleMouseDown"
+          on-copy="_handleCopy">
+        <table id="diffTable"></table>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
+  <script src="gr-diff-line.js"></script>
+  <script src="gr-diff-group.js"></script>
+  <script src="gr-diff-builder.js"></script>
+  <script src="gr-diff-builder-side-by-side.js"></script>
+  <script src="gr-diff-builder-unified.js"></script>
   <script src="gr-diff.js"></script>
 </dom-module>

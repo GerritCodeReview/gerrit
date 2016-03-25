@@ -32,7 +32,7 @@
   GrDiffBuilder.TAB_REGEX = /\t/g;
 
   GrDiffBuilder.LINE_FEED_HTML =
-      '<span class="style-scope gr-new-diff br"></span>';
+      '<span class="style-scope gr-diff br"></span>';
 
   GrDiffBuilder.GroupType = {
     ADDED: 'b',
@@ -509,7 +509,7 @@
 
   GrDiffBuilder.prototype._addIntralineHighlights = function(content, html,
       highlights) {
-    var START_TAG = '<hl class="style-scope gr-new-diff">';
+    var START_TAG = '<hl class="style-scope gr-diff">';
     var END_TAG = '</hl>';
 
     for (var i = 0; i < highlights.length; i++) {
@@ -549,7 +549,7 @@
       throw Error('Invalid tab size from preferences.');
     }
 
-    var str = '<span class="style-scope gr-new-diff tab ';
+    var str = '<span class="style-scope gr-diff tab ';
     if (showTabs) {
       str += 'withIndicator';
     }
@@ -569,7 +569,7 @@
     // Since the Polymer DOM utility functions (which would do this
     // automatically) are not being used for performance reasons, this is
     // done manually.
-    el.classList.add('style-scope', 'gr-new-diff');
+    el.classList.add('style-scope', 'gr-diff');
     if (!!className) {
       el.classList.add(className);
     }

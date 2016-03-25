@@ -409,11 +409,11 @@ public class ReplaceOp extends BatchUpdate.Op {
       return;
     }
 
-    /** For labels that are not set in this operation, show the "current" value
+    /* For labels that are not set in this operation, show the "current" value
      * of 0, and no oldValue as the value was not modified by this operation.
      * For labels that are set in this operation, the value was modified, so
      * show a transition from an oldValue of 0 to the new value.
-     **/
+     */
     ChangeControl changeControl = changeControlFactory.controlFor(
         ctx.getDb(), change, ctx.getUser());
     List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();

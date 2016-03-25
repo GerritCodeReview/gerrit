@@ -28,6 +28,14 @@ class NoteDbMetrics {
   final Timer1<NoteDbTable> updateLatency;
 
   /**
+   * The portion of {@link #updateLatency} due to preparing the sequence of
+   * updates.
+   * <p>
+   * May include some I/O (e.g. reading old refs), but excludes writes.
+   */
+  final Timer1<NoteDbTable> stageUpdateLatency;
+
+  /**
    * End-to-end latency for reading changes from NoteDb, including reading
    * ref(s) and parsing.
    */
@@ -48,6 +56,13 @@ class NoteDbMetrics {
         new Description("NoteDb update latency by table")
             .setCumulative()
             .setUnit(Units.MILLISECONDS),
+        view);
+
+    stageUpdateLatency = metrics.newTimer(
+        "notedb/stage_update_latency",
+        new Description("Latency for staging updates to NoteDb by table")
+            .setCumulative()
+            .setUnit(Units.MICROSECONDS),
         view);
 
     readLatency = metrics.newTimer(

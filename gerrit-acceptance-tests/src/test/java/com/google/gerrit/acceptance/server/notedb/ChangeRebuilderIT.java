@@ -41,7 +41,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     gApi.changes().id(id.get()).topic(name("a-topic"));
-    checker.checkChanges(id);
+    checker.rebuildAndCheckChanges(id);
   }
 
   @Test
@@ -49,6 +49,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     r = amendChange(r.getChangeId());
-    checker.checkChanges(id);
+    checker.rebuildAndCheckChanges(id);
   }
 }

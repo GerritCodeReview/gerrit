@@ -33,18 +33,10 @@ public interface ChangeConstants extends Constants {
   String outgoingReviews();
   String recentlyClosed();
 
-  String starredHeading();
-  String watchedHeading();
-  String draftsHeading();
-  String allOpenChanges();
-  String allAbandonedChanges();
-  String allMergedChanges();
-
   String changeTableColumnSubject();
   String changeTableColumnSize();
   String changeTableColumnStatus();
   String changeTableColumnOwner();
-  String changeTableColumnReviewers();
   String changeTableColumnProject();
   String changeTableColumnBranch();
   String changeTableColumnLastUpdate();
@@ -57,9 +49,6 @@ public interface ChangeConstants extends Constants {
   String changeTablePagePrev();
   String changeTablePageNext();
   String upToChangeList();
-  String expandCollapseDependencies();
-  String previousPatchSet();
-  String nextPatchSet();
   String keyReloadChange();
   String keyNextPatchSet();
   String keyPreviousPatchSet();
@@ -76,11 +65,7 @@ public interface ChangeConstants extends Constants {
   String patchTableColumnDiff();
   String patchTableDiffSideBySide();
   String patchTableDiffUnified();
-  String patchTableDownloadPreImage();
-  String patchTableDownloadPostImage();
-  String patchTableBinary();
   String commitMessage();
-  String fileCommentHeader();
 
   String patchTablePrev();
   String patchTableNext();
@@ -90,70 +75,22 @@ public interface ChangeConstants extends Constants {
   String prevPatchLinkIcon();
   String nextPatchLinkIcon();
 
-  String changeScreenIncludedIn();
-  String changeScreenDependencies();
-  String changeScreenDependsOn();
-  String changeScreenNeededBy();
-  String changeScreenComments();
-  String changeScreenAddComment();
-
-  String approvalTableReviewer();
-  String approvalTableAddReviewer();
-  String approvalTableRemoveNotPermitted();
-  String approvalTableCouldNotRemove();
   String approvalTableAddReviewerHint();
   String approvalTableAddManyReviewersConfirmationDialogTitle();
 
-  String changeInfoBlockOwner();
-  String changeInfoBlockProject();
-  String changeInfoBlockBranch();
-  String changeInfoBlockTopic();
-  String changeInfoBlockTopicAlterTopicToolTip();
   String changeInfoBlockUploaded();
   String changeInfoBlockUpdated();
-  String changeInfoBlockStatus();
-  String changeInfoBlockSubmitType();
   String changePermalink();
-  String changeInfoBlockCanMerge();
-  String changeInfoBlockCanMergeYes();
-  String changeInfoBlockCanMergeNo();
-
-  String buttonAlterTopic();
-  String buttonAlterTopicBegin();
-  String buttonAlterTopicSend();
-  String buttonAlterTopicCancel();
-  String headingAlterTopicMessage();
-  String alterTopicTitle();
-  String alterTopicLabel();
-
-  String includedInTableBranch();
-  String includedInTableTag();
 
   String messageNoAuthor();
-  String messageExpandMostRecent();
-  String messageExpandRecent();
-  String messageExpandAll();
-  String messageCollapseAll();
-  String messageNeedsRebaseOrHasDependency();
 
   String sideBySide();
   String unifiedDiff();
 
-  String patchSetInfoAuthor();
-  String patchSetInfoCommitter();
-  String patchSetInfoDownload();
-  String patchSetInfoParents();
-  String patchSetWithDraftCommentsToolTip();
-  String initialCommit();
-
-  String buttonRebaseChange();
-
-  String buttonRevertChangeBegin();
   String buttonRevertChangeSend();
   String headingRevertMessage();
   String revertChangeTitle();
 
-  String buttonCherryPickChangeBegin();
   String buttonCherryPickChangeSend();
   String headingCherryPickBranch();
   String cherryPickCommitMessage();
@@ -165,38 +102,14 @@ public interface ChangeConstants extends Constants {
   String rebasePlaceholderMessage();
   String rebaseTitle();
 
-  String buttonAbandonChangeBegin();
-  String buttonAbandonChangeSend();
-  String headingAbandonMessage();
-  String abandonChangeTitle();
-  String referenceVersion();
   String baseDiffItem();
   String autoMerge();
-
-  String buttonReview();
-  String buttonPublishCommentsSend();
-  String buttonPublishCommentsCancel();
-  String headingCoverMessage();
-  String headingPatchComments();
-
-  String buttonRestoreChangeBegin();
-  String restoreChangeTitle();
-  String headingRestoreMessage();
-  String buttonRestoreChangeSend();
-
-  String buttonPublishPatchSet();
-
-  String buttonDeleteDraftChange();
-  String buttonDeleteDraftPatchSet();
 
   String pagedChangeListPrev();
   String pagedChangeListNext();
 
-  String draftPatchSetLabel();
-
   String reviewed();
   String submitFailed();
-  String buttonClose();
 
   String diffAllSideBySide();
   String diffAllUnified();

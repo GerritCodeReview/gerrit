@@ -111,9 +111,6 @@ public interface ChangeConstants extends Constants {
   String reviewed();
   String submitFailed();
 
-  String diffAllSideBySide();
-  String diffAllUnified();
-
   String votable();
 
   String pushCertMissing();

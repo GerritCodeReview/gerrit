@@ -23,6 +23,30 @@
       "revId": "fca1f151916b1cdb0797d1bdc26a3e3fcf960675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3193051a_7dbf57d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-25T15:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c896ea7_1fd1231b",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "fca1f151916b1cdb0797d1bdc26a3e3fcf960675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

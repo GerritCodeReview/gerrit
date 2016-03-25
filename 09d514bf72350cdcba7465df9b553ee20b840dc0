@@ -16,6 +16,24 @@
       "revId": "09d514bf72350cdcba7465df9b553ee20b840dc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3686c6_e9bbd5e5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ChangeStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T06:15:16Z",
+      "side": 1,
+      "message": "I think this should be mentioned in the description for DRAFT?",
+      "parentUuid": "7143bd50_efa621d2",
+      "revId": "09d514bf72350cdcba7465df9b553ee20b840dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

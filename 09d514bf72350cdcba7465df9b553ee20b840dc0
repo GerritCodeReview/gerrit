@@ -34,6 +34,24 @@
       "revId": "09d514bf72350cdcba7465df9b553ee20b840dc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc334ad6_0adadb2e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ChangeStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T06:17:24Z",
+      "side": 1,
+      "message": "Also this sounds like a limitation of the current system. I don\u0027t think it\u0027s a fundamental restriction that DRAFT changes cannot be abandoned.",
+      "parentUuid": "7143bd50_efa621d2",
+      "revId": "09d514bf72350cdcba7465df9b553ee20b840dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

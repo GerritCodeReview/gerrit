@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "bc334ad6_6ae197e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-25T06:22:54Z",
+      "side": 1,
+      "message": "I\u0027m concerned that the check would be a heavy / slow operation, especially if the file has thousands of lines. I might be wrong though.",
+      "parentUuid": "bc334ad6_2ad79f07",
+      "revId": "20d8562a4187b42dd3c059eb328a28d7c50fb9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c903aca_febba1e5",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
         "patchSetId": 17

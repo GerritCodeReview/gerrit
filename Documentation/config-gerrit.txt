@@ -1489,6 +1489,33 @@ Default is <<sshd.threads, sshd.threads>>
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
 
+[[database.removeAbandoned]]database.removeAbandoned::
++
+Flag to remove abandoned connections if they exceed the removeAbandonedTimout.
++
+If true, a connection is considered abandoned and eligible for removal if it has
+been idle for longer than the removeAbandonedTimeout. This can help recovering
+db connections from poorly written applications that fail to close a connection.
++
+Default is false.
+
+[[database.removeAbandonedTimeout]]database.removeAbandonedTimeout::
++
+Set the login timeout (in seconds) for connecting to the database.
++
+Default is 300 seconds.
++
+This setting only applies if
+<<database.removeAbandoned, database.removeAbandoned>> is true.
+
+[[database.logAbandoned]]database.logAbandoned::
++
+Flag to log stack traces for application code that abandoned a Statement or
+Connection. Logging of abandoned Statements and Connections adds overhead to
+opening Connections and Statements because a stack trace has to be generated.
++
+Default is false.
+
 [[database.poolMinIdle]]database.poolMinIdle::
 +
 Minimum number of connections to keep idle in the pool.

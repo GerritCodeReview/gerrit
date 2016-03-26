@@ -1530,6 +1530,39 @@ This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
 --
 
+[[database.removeAbandoned]]database.removeAbandoned::
++
+Flag to remove abandoned connections if they exceed the removeAbandonedTimout. 
+Set to true or false, default false. 
+If set to true a connection is considered abandoned and eligible for removal
+if it has been idle longer than the removeAbandonedTimeout. 
+Setting this to true can recover db connections from poorly written applications which fail to close a connection.
++
+--
+Default is false.
+--
+
+[[database.removeAbandonedTimeout]]database.removeAbandonedTimeout::
++
+Set the login timeout (in seconds) for connecting to the database.
++
+--
+Defaults to 300 seconds..
+--
++
+This setting only applies if
+<<database.removeAbandoned,database.removeAbandoned>> is true.
+
+[[database.logAbandoned]]database.logAbandoned::
++
+Flag to log stack traces for application code which abandoned a Statement or Connection.
+Logging of abandoned Statements and Connections adds overhead for every Connection open or new Statement 
+because a stack trace has to be generated.
++
+--
+Defaults to false.
+--
+
 [[database.dataSourceInterceptorClass]]database.dataSourceInterceptorClass::
 
 Class that implements DataSourceInterceptor interface to monitor SQL activity.

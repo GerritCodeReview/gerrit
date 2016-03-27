@@ -395,4 +395,9 @@ public class Unified extends DiffScreen {
   boolean isSideBySide() {
     return false;
   }
+
+  @Override
+  String getLineNumberClassName() {
+    return UnifiedTable.style.unifiedLineNumber();
+  }
 }

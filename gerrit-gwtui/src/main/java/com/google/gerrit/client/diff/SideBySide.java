@@ -55,6 +55,7 @@ import java.util.List;
 public class SideBySide extends DiffScreen {
   interface Binder extends UiBinder<FlowPanel, SideBySide> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
+  private static final String LINE_NUMBER_CLASSNAME = "CodeMirror-linenumber";
 
   @UiField(provided = true)
   SideBySideTable diffTable;
@@ -419,5 +420,10 @@ public class SideBySide extends DiffScreen {
   @Override
   boolean isSideBySide() {
     return true;
+  }
+
+  @Override
+  String getLineNumberClassName() {
+    return LINE_NUMBER_CLASSNAME;
   }
 }

@@ -905,8 +905,8 @@ abstract class DiffScreen extends Screen {
   private GutterClickHandler onGutterClick(final CodeMirror cm) {
     return new GutterClickHandler() {
       @Override
-      public void handle(CodeMirror instance, final int line, final String gutterClass,
-          NativeEvent clickEvent) {
+      public void handle(CodeMirror instance, final int line,
+          final String gutterClass, NativeEvent clickEvent) {
         if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
             && !clickEvent.getMetaKey()
             && !clickEvent.getAltKey()
@@ -916,7 +916,8 @@ abstract class DiffScreen extends Screen {
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
             public void execute() {
-              getCommentManager().newDraftOnGutterClick(cm, gutterClass, line + 1);
+              getCommentManager().newDraftOnGutterClick(
+                  cm, gutterClass, line + 1);
             }
           });
         }

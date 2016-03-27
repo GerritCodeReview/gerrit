@@ -41,7 +41,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 import net.codemirror.lib.CodeMirror;
@@ -174,7 +174,9 @@ public class Unified extends DiffScreen {
     final DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
-    // TODO: Handle showLineNumbers preference
+    if (prefs.showLineNumbers()) {
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
+    }
 
     cm = newCm(
         diff.metaA() == null ? diff.metaB() : diff.metaA(),
@@ -248,16 +250,33 @@ public class Unified extends DiffScreen {
 
   @Override
   void setShowLineNumbers(boolean b) {
-    // TODO: Implement this
+    if (b) {
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
+    } else {
+      diffTable.removeStyleName(
+          Resources.I.diffTableStyle().showLineNumbers());
+    }
+    cm.refresh();
   }
 
-  LineHandle setLineNumber(DisplaySide side, final int cmLine, int line) {
-    Label gutter = new Label(String.valueOf(line));
+  private void setLineNumber(DisplaySide side, int cmLine, String html,
+      String styleName) {
+    InlineHTML gutter = new InlineHTML(html);
     diffTable.add(gutter);
-    gutter.setStyleName(UnifiedTable.style.unifiedLineNumber());
-    return cm.setGutterMarker(cmLine,
-        side == DisplaySide.A ? UnifiedTable.style.lineNumbersLeft()
-            : UnifiedTable.style.lineNumbersRight(), gutter.getElement());
+    gutter.setStyleName(styleName);
+    cm.setGutterMarker(cmLine, side == DisplaySide.A
+        ? UnifiedTable.style.lineNumbersLeft()
+        : UnifiedTable.style.lineNumbersRight(), gutter.getElement());
+  }
+
+  void setLineNumber(DisplaySide side, int cmLine, int line) {
+    setLineNumber(side, cmLine, String.valueOf(line),
+        UnifiedTable.style.unifiedLineNumber());
+  }
+
+  void setLineNumberEmpty(DisplaySide side, int cmLine) {
+    setLineNumber(side, cmLine, "&nbsp;",
+        UnifiedTable.style.unifiedLineNumberEmpty());
   }
 
   @Override

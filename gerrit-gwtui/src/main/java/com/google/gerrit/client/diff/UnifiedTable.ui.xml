@@ -24,7 +24,7 @@ limitations under the License.
     @external .CodeMirror-dialog-bottom;
     @external .CodeMirror-cursor;
 
-    @external .dark, .unifiedLineNumber, .noIntraline;
+    @external .dark, .unifiedLineNumber, .noIntraline, .showLineNumbers;
 
     .difftable .patchSetNav,
     .difftable .CodeMirror {
@@ -94,20 +94,32 @@ limitations under the License.
       bottom: auto;
       left: auto;
     }
-
-    .lineNumbersLeft, .lineNumbersRight {
+    .showLineNumbers .lineNumbersLeft, .showLineNumbers .lineNumbersRight {
       min-width: 20px;
       width: 3em; /* TODO: This needs to be set based on number of lines */
     }
-    .lineNumbersLeft {
+    .showLineNumbers .lineNumbersLeft {
       border-right: 1px solid #ddd;
     }
     .unifiedLineNumber {
+      display: none;
+    }
+    .showLineNumbers .unifiedLineNumber {
+      display: block;
       cursor: pointer;
       padding: 0 3px 0 5px;
       min-width: 20px;
       text-align: right;
       color: #999;
+    }
+    .unifiedLineNumberEmpty {
+      display: none;
+    }
+    .showLineNumbers .unifiedLineNumberEmpty {
+      display: block;
+      margin-left: 28px;
+      border-left: 2px solid #d64040;
+      padding-bottom: 1px;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

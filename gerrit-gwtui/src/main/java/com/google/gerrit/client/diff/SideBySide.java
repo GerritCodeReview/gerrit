@@ -311,6 +311,11 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
+  int getCmLine(int line, DisplaySide side) {
+    return line;
+  }
+
+  @Override
   Runnable updateActiveLine(final CodeMirror cm) {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {

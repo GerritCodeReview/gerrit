@@ -283,52 +283,72 @@ class UnifiedChunkManager extends ChunkManager {
     }
   }
 
-  LineSidePair getLineSidePairFromCmLine(int cmLine) {
+  LineRegionInfo getLineRegionInfoFromCmLine(int cmLine) {
     int res =
         Collections.binarySearch(chunks,
             new UnifiedDiffChunkInfo(
                 DisplaySide.A, 0, 0, cmLine, false), // Dummy DiffChunkInfo
             getDiffChunkComparatorCmLine());
-    if (res >= 0) {
+    if (res >= 0) {  // The line is right at the start of a diff chunk.
       UnifiedDiffChunkInfo info = chunks.get(res);
-      return new LineSidePair(info.getStart(), info.getSide());
-    } else {  // The line might be within a DiffChunk
+      return new LineRegionInfo(
+          info.getStart(), displaySideToRegionType(info.getSide()));
+    } else {  // The line might be within or after a diff chunk.
       res = -res - 1;
       if (res > 0) {
         UnifiedDiffChunkInfo info = chunks.get(res - 1);
         int lineOnInfoSide = info.getStart() + cmLine - info.getCmLine();
-        if (lineOnInfoSide > info.getEnd()
-            && info.getSide() == DisplaySide.A) {
-          // For the common region after a deletion chunk, return the line and
-          // side info on side B
-          return new LineSidePair(
-              getLineMapper().lineOnOther(DisplaySide.A, lineOnInfoSide)
-                  .getLine(), DisplaySide.B);
-        } else {
-          return new LineSidePair(lineOnInfoSide, info.getSide());
+        if (lineOnInfoSide > info.getEnd()) { // After a diff chunk
+          if (info.getSide() == DisplaySide.A) {
+            // For the common region after a deletion chunk, associate the line
+            // on side B with a common region.
+            return new LineRegionInfo(
+                getLineMapper().lineOnOther(DisplaySide.A, lineOnInfoSide)
+                    .getLine(), RegionType.COMMON);
+          } else {
+            return new LineRegionInfo(lineOnInfoSide, RegionType.COMMON);
+          }
+        } else { // Within a diff chunk
+          return new LineRegionInfo(
+              lineOnInfoSide, displaySideToRegionType(info.getSide()));
         }
       } else {
-        // Always return side B
-        return new LineSidePair(cmLine, DisplaySide.B);
+        // The line is before any diff chunk, so it always equals cmLine and
+        // belongs to a common region.
+        return new LineRegionInfo(cmLine, RegionType.COMMON);
       }
     }
   }
 
-  static class LineSidePair {
-    private int line;
-    private DisplaySide side;
+  enum RegionType {
+    INSERT, DELETE, COMMON,
+  }
 
-    LineSidePair(int line, DisplaySide side) {
+  private static RegionType displaySideToRegionType(DisplaySide side) {
+    return side == DisplaySide.A ? RegionType.DELETE : RegionType.INSERT;
+  }
+
+  /**
+   * Helper class to associate a line in the original file with the type of the
+   * region it belongs to.
+   *
+   * @field line The 0-based line number in the original file. Note that this
+   *     might be different from the line number shown in CodeMirror.
+   * @field type The type of the region the line belongs to. Can be INSERT,
+   *     DELETE or COMMON.
+   */
+  static class LineRegionInfo {
+    final int line;
+    final RegionType type;
+
+    LineRegionInfo(int line, RegionType type) {
       this.line = line;
-      this.side = side;
-    }
-
-    int getLine() {
-      return line;
+      this.type = type;
     }
 
     DisplaySide getSide() {
-      return side;
+      // Always return DisplaySide.B for INSERT or COMMON
+      return type == RegionType.DELETE ? DisplaySide.A : DisplaySide.B;
     }
   }
 }

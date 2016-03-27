@@ -880,6 +880,8 @@ abstract class DiffScreen extends Screen {
 
   abstract DiffTable getDiffTable();
 
+  abstract int getCmLine(int line, DisplaySide side);
+
   LineOnOtherInfo lineOnOther(DisplaySide side, int line) {
     return getChunkManager().getLineMapper().lineOnOther(side, line);
   }

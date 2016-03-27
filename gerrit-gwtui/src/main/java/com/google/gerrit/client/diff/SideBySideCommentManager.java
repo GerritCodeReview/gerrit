@@ -333,18 +333,13 @@ class SideBySideCommentManager extends CommentManager {
   private void newDraft(CodeMirror cm) {
     int line = cm.getLineNumber(cm.extras().activeLine()) + 1;
     if (cm.somethingSelected()) {
-      FromTo fromTo = cm.getSelectedRange();
-      Pos end = fromTo.to();
-      if (end.ch() == 0) {
-        end.line(end.line() - 1);
-        end.ch(cm.getLine(end.line()).length());
-      }
-
+      FromTo fromTo = adjustSelection(cm);
       addDraftBox(cm.side(), CommentInfo.create(
               getPath(),
               getStoredSideFromDisplaySide(cm.side()),
               line,
               CommentRange.create(fromTo))).setEdit(true);
+      cm.setCursor(fromTo.to());
       cm.setSelection(cm.getCursor());
     } else {
       insertNewDraft(cm.side(), line);

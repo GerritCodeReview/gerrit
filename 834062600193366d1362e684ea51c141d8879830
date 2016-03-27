@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "51da3965_ee921f78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-27T16:37:24Z",
+      "side": 1,
+      "message": "NoteDbUpdateManager is a one-time-use thing; sorry if the name is misleading. It\u0027s not too late to change, but I was out of ideas. We already have like three things called \"update.\"",
+      "parentUuid": "31edc5ca_2dbaade5",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31edc5ca_cdc4c95d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 2

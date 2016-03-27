@@ -111,6 +111,8 @@ class UnifiedChunkManager extends ChunkManager {
         cmLine += render(current, cmLine, useIntralineBg);
       }
     }
+    host.setLineNumber(DisplaySide.A, cmLine, mapper.getLineA() + 1);
+    host.setLineNumber(DisplaySide.B, cmLine, mapper.getLineB() + 1);
   }
 
   private int render(Region region, int cmLine, boolean useIntralineBg) {
@@ -145,11 +147,13 @@ class UnifiedChunkManager extends ChunkManager {
       addDiffChunk(DisplaySide.A, endA, aLen, cmLine, bLen > 0);
       for (int j = 0; j < aLen; j++) {
         host.setLineNumber(DisplaySide.A, cmLine + j, startA + j + 1);
+        host.setLineNumberEmpty(DisplaySide.B, cmLine + j);
       }
     }
     if (bLen > 0) {
       addDiffChunk(DisplaySide.B, endB, bLen, cmLine + aLen, aLen > 0);
       for (int j = 0; j < bLen; j++) {
+        host.setLineNumberEmpty(DisplaySide.A, cmLine + aLen + j);
         host.setLineNumber(DisplaySide.B, cmLine + aLen + j, startB + j + 1);
       }
     }

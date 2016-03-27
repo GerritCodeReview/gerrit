@@ -25,7 +25,7 @@ limitations under the License.
     @external .CodeMirror-dialog-bottom;
     @external .CodeMirror-cursor;
     
-    @external .dark, .noIntraline;
+    @external .dark, .noIntraline, .showLineNumbers;
 
     .difftable .patchSetNav,
     .difftable .CodeMirror {

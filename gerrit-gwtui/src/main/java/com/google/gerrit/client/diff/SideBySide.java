@@ -30,6 +30,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -185,7 +186,7 @@ public class SideBySide extends DiffScreen {
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
     if (prefs.showLineNumbers()) {
-      diffTable.addStyleName(SideBySideTable.style.showLineNumbers());
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
     }
 
     cmA = newCm(diff.metaA(), diff.textA(), diffTable.cmA);
@@ -264,9 +265,10 @@ public class SideBySide extends DiffScreen {
     cmA.setOption("lineNumbers", b);
     cmB.setOption("lineNumbers", b);
     if (b) {
-      diffTable.addStyleName(SideBySideTable.style.showLineNumbers());
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
     } else {
-      diffTable.removeStyleName(SideBySideTable.style.showLineNumbers());
+      diffTable.removeStyleName(
+          Resources.I.diffTableStyle().showLineNumbers());
     }
   }
 
@@ -414,5 +416,11 @@ public class SideBySide extends DiffScreen {
   @Override
   SideBySideSkipManager getSkipManager() {
     return skipManager;
+  }
+
+  @Override
+  boolean isLineNumberClick(NativeEvent clickEvent) {
+    return Element.as(clickEvent.getEventTarget())
+        .hasClassName("CodeMirror-linenumber");
   }
 }

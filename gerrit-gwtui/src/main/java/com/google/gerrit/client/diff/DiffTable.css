@@ -35,6 +35,7 @@
   margin: 0 0 3px 0;
 }
 
-@external .dark, .noIntraline;
+@external .dark, .noIntraline, .showLineNumbers;
 .dark {}
 .noIntraline {}
+.showLineNumbers {}

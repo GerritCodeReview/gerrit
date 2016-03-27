@@ -16,7 +16,8 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.diff.UnifiedChunkManager.LineSidePair;
+import com.google.gerrit.client.diff.UnifiedChunkManager.LineRegionInfo;
+import com.google.gerrit.client.diff.UnifiedChunkManager.RegionType;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -25,6 +26,7 @@ import com.google.gwt.core.client.JsArray;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineHandle;
+import net.codemirror.lib.TextMarker.FromTo;
 import net.codemirror.lib.Pos;
 
 import java.util.ArrayList;
@@ -179,10 +181,10 @@ class UnifiedCommentManager extends CommentManager {
         ((PublishedBox)last).doReply();
       }
     } else {
-      LineSidePair pair = host.getLineSidePairFromCmLine(cmLinePlusOne - 1);
-      int line = pair.getLine();
-      if (pair.getSide() != side) {
-        line = host.lineOnOther(pair.getSide(), line).getLine();
+      LineRegionInfo info = host.getLineRegionInfoFromCmLine(cmLinePlusOne - 1);
+      int line = info.line;
+      if (info.getSide() != side) {
+        line = host.lineOnOther(info.getSide(), line).getLine();
       }
       addDraftBox(side, CommentInfo.create(
           getPath(),
@@ -335,13 +337,60 @@ class UnifiedCommentManager extends CommentManager {
   }
 
   private void newDraft(CodeMirror cm) {
-    int cmLine = cm.getLineNumber(cm.extras().activeLine());
-    LineSidePair pair = host.getLineSidePairFromCmLine(cmLine);
-    DisplaySide side = pair.getSide();
     if (cm.somethingSelected()) {
-      // TODO: Handle range comment
+      FromTo fromTo = adjustSelection(cm);
+      Pos from = fromTo.from();
+      Pos to = fromTo.to();
+      LineRegionInfo info = host.getLineRegionInfoFromCmLine(to.line());
+      DisplaySide side = info.getSide();
+      UnifiedChunkManager manager = host.getChunkManager();
+      LineRegionInfo fromContext =
+          manager.getLineRegionInfoFromCmLine(from.line());
+      LineRegionInfo toContext =
+          manager.getLineRegionInfoFromCmLine(to.line());
+
+      // Handle special cases in selections that span multiple regions. Force
+      // start line to be on the same side as the end line.
+      if ((fromContext.type == RegionType.INSERT
+          || fromContext.type == RegionType.COMMON)
+          && toContext.type == RegionType.DELETE) {
+        int startLineOnSideA = manager.getLineMapper()
+            .lineOnOther(DisplaySide.B, fromContext.line).getLine();
+        from.line(startLineOnSideA);
+        if (fromContext.type == RegionType.INSERT) {
+          from.ch(cm.getLine(startLineOnSideA).length());
+        }
+        to.line(toContext.line);
+      } else if (fromContext.type == RegionType.DELETE
+          && toContext.type == RegionType.INSERT) {
+        int startLineOnSideB = manager.getLineMapper()
+            .lineOnOther(DisplaySide.A, fromContext.line).getLine();
+        from.line(startLineOnSideB);
+        from.ch(cm.getLine(startLineOnSideB).length());
+        to.line(toContext.line);
+      } else if (fromContext.type == RegionType.DELETE
+          && toContext.type == RegionType.COMMON) {
+        int toLineOnSideA = manager.getLineMapper()
+            .lineOnOther(DisplaySide.B, toContext.line).getLine();
+        from.line(fromContext.line);
+        to.line(toLineOnSideA);
+        side = DisplaySide.A;
+      } else { // Common case
+        from.line(fromContext.line);
+        to.line(toContext.line);
+      }
+
+      addDraftBox(side, CommentInfo.create(
+              getPath(),
+              getStoredSideFromDisplaySide(side),
+              to.line(),
+              CommentRange.create(fromTo))).setEdit(true);
+      cm.setCursor(Pos.create(host.getCmLine(to.line(), side), to.ch()));
+      cm.setSelection(cm.getCursor());
     } else {
-      insertNewDraft(side, cmLine + 1);
+      int cmLine = cm.getLineNumber(cm.extras().activeLine());
+      LineRegionInfo info = host.getLineRegionInfoFromCmLine(cmLine);
+      insertNewDraft(info.getSide(), cmLine + 1);
     }
   }
 

@@ -282,6 +282,13 @@ public class ChangeScreen extends Screen {
             info.init();
             addExtensionPoints(info, initCurrentRevision(info));
             loadConfigInfo(info, base);
+            JsArray<MessageInfo> mAr = info.messages();
+            for (int i = 0; i < mAr.length(); i++) {
+              if (mAr.get(i).tag() != null) {
+                hideBotComments.setVisible(true);
+                break;
+              }
+            }
           }
         }));
   }

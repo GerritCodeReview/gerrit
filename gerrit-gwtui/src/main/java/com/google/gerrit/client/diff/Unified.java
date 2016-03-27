@@ -32,9 +32,6 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -44,11 +41,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.Pos;
@@ -178,7 +174,9 @@ public class Unified extends DiffScreen {
     final DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
-    // TODO: Handle showLineNumbers preference
+    if (prefs.showLineNumbers()) {
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
+    }
 
     cm = newCm(
         diff.metaA() == null ? diff.metaB() : diff.metaA(),
@@ -252,44 +250,33 @@ public class Unified extends DiffScreen {
 
   @Override
   void setShowLineNumbers(boolean b) {
-    // TODO: Implement this
+    if (b) {
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
+    } else {
+      diffTable.removeStyleName(
+          Resources.I.diffTableStyle().showLineNumbers());
+    }
+    cm.refresh();
   }
 
-  private GutterClickHandler onGutterClick(final int cmLine) {
-    return new GutterClickHandler() {
-      @Override
-      public void handle(CodeMirror instance, int line, String gutter,
-          NativeEvent clickEvent) {
-        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
-            && !clickEvent.getMetaKey()
-            && !clickEvent.getAltKey()
-            && !clickEvent.getCtrlKey()
-            && !clickEvent.getShiftKey()) {
-          cm.setCursor(Pos.create(cmLine));
-          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-              commentManager.newDraftCallback(cm).run();
-            }
-          });
-        }
-      }
-    };
-  }
-
-  LineHandle setLineNumber(DisplaySide side, final int cmLine, int line) {
-    Label gutter = new Label(String.valueOf(line));
-    gutter.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        onGutterClick(cmLine);
-      }
-    });
+  private void setLineNumber(DisplaySide side, int cmLine, String html,
+      String styleName) {
+    InlineHTML gutter = new InlineHTML(html);
     diffTable.add(gutter);
-    gutter.setStyleName(UnifiedTable.style.unifiedLineNumber());
-    return cm.setGutterMarker(cmLine,
-        side == DisplaySide.A ? UnifiedTable.style.lineNumbersLeft()
-            : UnifiedTable.style.lineNumbersRight(), gutter.getElement());
+    gutter.setStyleName(styleName);
+    cm.setGutterMarker(cmLine, side == DisplaySide.A
+        ? UnifiedTable.style.lineNumbersLeft()
+        : UnifiedTable.style.lineNumbersRight(), gutter.getElement());
+  }
+
+  void setLineNumber(DisplaySide side, int cmLine, int line) {
+    setLineNumber(side, cmLine, String.valueOf(line),
+        UnifiedTable.style.unifiedLineNumber());
+  }
+
+  void setLineNumberEmpty(DisplaySide side, int cmLine) {
+    setLineNumber(side, cmLine, "&nbsp;",
+        UnifiedTable.style.unifiedLineNumberEmpty());
   }
 
   @Override
@@ -407,5 +394,10 @@ public class Unified extends DiffScreen {
   @Override
   boolean isSideBySide() {
     return false;
+  }
+
+  @Override
+  String getLineNumberClassName() {
+    return UnifiedTable.style.unifiedLineNumber();
   }
 }

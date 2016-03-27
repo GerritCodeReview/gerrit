@@ -905,9 +905,11 @@ abstract class DiffScreen extends Screen {
   private GutterClickHandler onGutterClick(final CodeMirror cm) {
     return new GutterClickHandler() {
       @Override
-      public void handle(CodeMirror instance, final int line, final String gutterClass,
-          NativeEvent clickEvent) {
-        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
+      public void handle(CodeMirror instance, final int line,
+          final String gutterClass, NativeEvent clickEvent) {
+        if (Element.as(clickEvent.getEventTarget())
+                .hasClassName(getLineNumberClassName())
+            && clickEvent.getButton() == NativeEvent.BUTTON_LEFT
             && !clickEvent.getMetaKey()
             && !clickEvent.getAltKey()
             && !clickEvent.getCtrlKey()
@@ -916,7 +918,8 @@ abstract class DiffScreen extends Screen {
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
             public void execute() {
-              getCommentManager().newDraftOnGutterClick(cm, gutterClass, line + 1);
+              getCommentManager().newDraftOnGutterClick(
+                  cm, gutterClass, line + 1);
             }
           });
         }
@@ -933,6 +936,8 @@ abstract class DiffScreen extends Screen {
   abstract DiffTable getDiffTable();
 
   abstract int getCmLine(int line, DisplaySide side);
+
+  abstract String getLineNumberClassName();
 
   LineOnOtherInfo lineOnOther(DisplaySide side, int line) {
     return getChunkManager().getLineMapper().lineOnOther(side, line);

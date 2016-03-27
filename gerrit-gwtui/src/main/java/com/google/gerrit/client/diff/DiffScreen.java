@@ -855,7 +855,8 @@ abstract class DiffScreen extends Screen {
       @Override
       public void handle(CodeMirror instance, final int line, final String gutterClass,
           NativeEvent clickEvent) {
-        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
+        if (isLineNumberClick(clickEvent)
+            && clickEvent.getButton() == NativeEvent.BUTTON_LEFT
             && !clickEvent.getMetaKey()
             && !clickEvent.getAltKey()
             && !clickEvent.getCtrlKey()
@@ -879,6 +880,8 @@ abstract class DiffScreen extends Screen {
   abstract CodeMirror getCmFromSide(DisplaySide side);
 
   abstract DiffTable getDiffTable();
+
+  abstract boolean isLineNumberClick(NativeEvent clickEvent);
 
   LineOnOtherInfo lineOnOther(DisplaySide side, int line) {
     return getChunkManager().getLineMapper().lineOnOther(side, line);

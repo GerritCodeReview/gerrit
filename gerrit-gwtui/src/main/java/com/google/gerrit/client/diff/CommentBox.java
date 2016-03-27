@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.Composite;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.Pos;
 import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
 
@@ -56,7 +57,13 @@ abstract class CommentBox extends Composite {
   CommentBox(CommentGroup group, CommentRange range) {
     this.group = group;
     if (range != null) {
-      fromTo = FromTo.create(range);
+      DiffScreen screen = group.getManager().getDiffScreen();
+      int startCmLine =
+          screen.getCmLine(range.startLine() - 1, group.getSide());
+      int endCmLine = screen.getCmLine(range.endLine() - 1, group.getSide());
+      fromTo = FromTo.create(
+          Pos.create(startCmLine, range.startCharacter()),
+          Pos.create(endCmLine, range.endCharacter()));
       rangeMarker = group.getCm().markText(
           fromTo.from(),
           fromTo.to(),

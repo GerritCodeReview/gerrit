@@ -18,7 +18,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.diff.UnifiedChunkManager.LineSidePair;
+import com.google.gerrit.client.diff.UnifiedChunkManager.LineRegionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -363,12 +363,13 @@ public class Unified extends DiffScreen {
     return cm;
   }
 
+  @Override
   int getCmLine(int line, DisplaySide side) {
     return chunkManager.getCmLine(line, side);
   }
 
-  LineSidePair getLineSidePairFromCmLine(int cmLine) {
-    return chunkManager.getLineSidePairFromCmLine(cmLine);
+  LineRegionInfo getLineRegionInfoFromCmLine(int cmLine) {
+    return chunkManager.getLineRegionInfoFromCmLine(cmLine);
   }
 
   @Override

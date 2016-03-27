@@ -63,6 +63,10 @@ abstract class CommentGroup extends Composite {
     return line;
   }
 
+  DisplaySide getSide() {
+    return side;
+  }
+
   void add(PublishedBox box) {
     comments.add(box);
     comments.setVisible(true);

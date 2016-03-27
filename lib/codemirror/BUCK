@@ -20,6 +20,7 @@ CLOSURE_VERSION = 'v20160208'
 
 CLOSURE_COMPILER_ARGS = [
   '--compilation_level SIMPLE_OPTIMIZATIONS',
+  '--language_out ECMASCRIPT5_STRICT',
   '--warning_level QUIET'
 ]
 

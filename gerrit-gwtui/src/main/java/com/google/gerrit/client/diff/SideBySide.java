@@ -185,7 +185,7 @@ public class SideBySide extends DiffScreen {
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
     if (prefs.showLineNumbers()) {
-      diffTable.addStyleName(SideBySideTable.style.showLineNumbers());
+      diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
     }
 
     cmA = newCm(diff.metaA(), diff.textA(), diffTable.cmA);
@@ -260,13 +260,10 @@ public class SideBySide extends DiffScreen {
 
   @Override
   void setShowLineNumbers(boolean b) {
+    super.setShowLineNumbers(b);
+
     cmA.setOption("lineNumbers", b);
     cmB.setOption("lineNumbers", b);
-    if (b) {
-      diffTable.addStyleName(SideBySideTable.style.showLineNumbers());
-    } else {
-      diffTable.removeStyleName(SideBySideTable.style.showLineNumbers());
-    }
   }
 
   @Override

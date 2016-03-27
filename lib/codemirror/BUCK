@@ -16,7 +16,7 @@ else:
   ZIP = 'codemirror-%s.zip' % VERSION
 
 
-CLOSURE_VERSION = 'v20160208'
+CLOSURE_VERSION = 'v20160315'
 
 CLOSURE_COMPILER_ARGS = [
   '--compilation_level SIMPLE_OPTIMIZATIONS',

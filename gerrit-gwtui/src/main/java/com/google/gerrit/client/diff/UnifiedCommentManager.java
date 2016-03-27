@@ -155,29 +155,7 @@ class UnifiedCommentManager extends CommentManager {
     DisplaySide side = gutterClass.equals(UnifiedTable.style.lineNumbersLeft())
         ? DisplaySide.A
         : DisplaySide.B;
-    if (cm.somethingSelected()) {
-      FromTo fromTo = cm.getSelectedRange();
-      Pos end = fromTo.to();
-      if (end.ch() == 0) {
-        end.line(end.line() - 1);
-        end.ch(cm.getLine(end.line()).length());
-      }
-
-      LineSidePair pair = host.getLineSidePairFromCmLine(cmLinePlusOne - 1);
-      int line = pair.getLine();
-      if (pair.getSide() != side) {
-        line = host.lineOnOther(pair.getSide(), line).getLine();
-      }
-
-      addDraftBox(side, CommentInfo.create(
-              getPath(),
-              getStoredSideFromDisplaySide(side),
-              line + 1,
-              CommentRange.create(fromTo))).setEdit(true);
-      cm.setSelection(cm.getCursor());
-    } else {
-      insertNewDraft(side, cmLinePlusOne);
-    }
+    insertNewDraft(side, cmLinePlusOne);
   }
 
   /**

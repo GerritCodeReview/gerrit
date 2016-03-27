@@ -46,6 +46,7 @@ abstract class DiffTable extends Composite {
     String range();
     String rangeHighlight();
     String diffHeader();
+    String showLineNumbers();
   }
 
   @UiField Element patchSetNavRow;

@@ -107,18 +107,23 @@ import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
+  public static String toPatch(PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName) {
+    return toPatch("", diffBase, revision, fileName, null, 0);
+  }
+
+  public static String toPatch(PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
+    return toPatch("", diffBase, revision, fileName, side, line);
+  }
+
   public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
-    return toPatch("", diffBase, id);
+    return toPatch("sidebyside", diffBase, id);
   }
 
   public static String toSideBySide(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName) {
     return toPatch("sidebyside", diffBase, revision, fileName, null, 0);
-  }
-
-  public static String toSideBySide(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
-    return toPatch("sidebyside", diffBase, revision, fileName, side, line);
   }
 
   public static String toUnified(PatchSet.Id diffBase,
@@ -472,7 +477,7 @@ public class Dispatcher {
     }
 
     if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
-      if (preferUnified() || (UserAgent.isPortrait() && UserAgent.isMobile())) {
+      if (preferUnified()) {
         unified(token, baseId, id, side, line);
       } else {
         codemirror(token, baseId, id, side, line, false);
@@ -491,7 +496,9 @@ public class Dispatcher {
   }
 
   private static boolean preferUnified() {
-    return DiffView.UNIFIED_DIFF.equals(Gerrit.getUserPreferences().diffView());
+    return DiffView.UNIFIED_DIFF.equals(
+        Gerrit.getUserPreferences().diffView())
+        || (UserAgent.isPortrait() && UserAgent.isMobile());
   }
 
   private static void unified(final String token, final PatchSet.Id baseId,

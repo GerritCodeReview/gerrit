@@ -284,7 +284,7 @@ public class FileTable extends FlowPanel {
     return info.binary()
       ? Dispatcher.toUnified(base, curr, info.path())
       : mode == Mode.REVIEW
-            ? Dispatcher.toSideBySide(base, curr, info.path())
+            ? Dispatcher.toPatch(base, curr, info.path())
             : Dispatcher.toEditScreen(curr, info.path());
   }
 

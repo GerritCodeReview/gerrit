@@ -34,7 +34,6 @@ class SideBySideTable extends DiffTable {
   interface DiffTableStyle extends CssResource {
     String intralineBg();
     String diff();
-    String showLineNumbers();
     String hideA();
     String hideB();
     String padding();

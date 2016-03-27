@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.Pos;
+import net.codemirror.lib.TextMarker.FromTo;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -128,6 +130,16 @@ abstract class CommentManager {
       return base == null ? DisplaySide.A : null;
     }
     return forSide;
+  }
+
+  static FromTo adjustSelection(CodeMirror cm) {
+    FromTo fromTo = cm.getSelectedRange();
+    Pos to = fromTo.to();
+    if (to.ch() == 0) {
+      to.line(to.line() - 1);
+      to.ch(cm.getLine(to.line()).length());
+    }
+    return fromTo;
   }
 
   abstract void insertNewDraft(DisplaySide side, int line);

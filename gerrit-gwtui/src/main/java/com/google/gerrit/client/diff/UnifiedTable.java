@@ -36,6 +36,7 @@ class UnifiedTable extends DiffTable {
     String diffInsert();
     String diffDelete();
     String unifiedLineNumber();
+    String unifiedLineNumberEmpty();
     String lineNumbersLeft();
     String lineNumbersRight();
   }

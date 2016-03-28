@@ -24,11 +24,17 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Argument;
+
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "activate",
   description = "Activate the latest index version available",
   runsAt = MASTER)
 public class IndexActivateCommand extends SshCommand {
+
+  @Argument(index = 0, required = true, metaVar = "INDEX",
+      usage = "index name to activate")
+  private String name;
 
   @Inject
   private LuceneVersionManager luceneVersionManager;
@@ -36,7 +42,7 @@ public class IndexActivateCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     try {
-      if (luceneVersionManager.activateLatestIndex()) {
+      if (luceneVersionManager.activateLatestIndex(name)) {
         stdout.println("Activated latest index version");
       } else {
         stdout.println("Not activating index, already using latest version");

@@ -82,6 +82,24 @@
       "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1decd59_ab9c098b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-28T19:37:37Z",
+      "side": 1,
+      "message": "Also document.getElementsByClassName() won\u0027t work on IE8 and below.",
+      "parentUuid": "51da3965_ce0c0394",
+      "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

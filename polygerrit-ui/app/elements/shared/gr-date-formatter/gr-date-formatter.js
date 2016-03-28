@@ -37,12 +37,36 @@
       },
 
       _timeFormat: String,
-      _timeFormatPromise: Object, // Used for testing.
+      _relative: Boolean,
+      _preferencesPromise: Object, // Used for testing.
     },
 
     attached: function() {
-      this._timeFormatPromise = this._getTimeFormat().then(function(tf) {
-        this._timeFormat = tf;
+      this._loadPreferences();
+    },
+
+    _loadPreferences: function() {
+      this._preferencesPromise = this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          this._timeFormat = TimeFormats.TIME_24;
+          this._relative = false;
+          return;
+        }
+
+        return this._getPreferences().then(function(prefs) {
+          var timeFormat = prefs && prefs.time_format;
+          switch (timeFormat) {
+            case 'HHMM_12':
+              this._timeFormat = TimeFormats.TIME_12;
+              break;
+            case 'HHMM_24':
+              this._timeFormat = TimeFormats.TIME_24;
+              break;
+            default:
+              throw Error('Invalid time format: ' + timeFormat);
+          }
+          this._relative = prefs && prefs.relative_date_in_change_table;
+        }.bind(this));
       }.bind(this));
     },
 
@@ -52,16 +76,6 @@
 
     _getPreferences: function() {
       return this.$.restAPI.getPreferences();
-    },
-
-    _getTimeFormat: function() {
-      return this._getLoggedIn().then(function(loggedIn) {
-        if (!loggedIn) { return 'HHMM_24'; }
-
-        return this._getPreferences().then(function(preferences) {
-          return preferences && preferences.time_format;
-        });
-      }.bind(this));
     },
 
     /**
@@ -81,24 +95,28 @@
           diff < 180 * Duration.DAY;
     },
 
-    _computeDateStr: function(dateStr, timeFormat) {
+    _computeDateStr: function(dateStr, timeFormat, relative) {
       if (!dateStr) { return ''; }
       var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
+      if (relative) {
+        return date.fromNow();
+      }
       var now = new Date();
       var format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
-        if (timeFormat === 'HHMM_12') {
-          format = TimeFormats.TIME_12;
-        } else if (timeFormat === 'HHMM_24') {
-          format = TimeFormats.TIME_24;
-        } else {
-          throw Error('Invalid time format: ' + timeFormat);
-        }
+        format = timeFormat;
       } else if (this._isWithinHalfYear(now, date)) {
         format = TimeFormats.MONTH_DAY;
       }
       return date.format(format);
+    },
+
+    _computeFullDateStr: function(dateStr, timeFormat) {
+      if (!dateStr) { return ''; }
+      var date = moment(util.parseDate(dateStr));
+      if (!date.isValid()) { return ''; }
+      return date.format(TimeFormats.MONTH_DAY_YEAR + ', ' +  timeFormat);
     },
   });
 })();

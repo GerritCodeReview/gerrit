@@ -121,9 +121,9 @@ limitations under the License.
       .commitMessage {
         font-family: var(--monospace-font-family);
         flex: 0 0 72ch;
-        overflow: auto;
         margin-right: 2em;
         margin-bottom: 1em;
+        overflow-x: hidden;
       }
       .commitMessage h4 {
         font-family: var(--font-family);
@@ -132,12 +132,14 @@ limitations under the License.
       }
       .commitMessage gr-linked-text {
         --linked-text-white-space: pre;
+        overflow: auto;
       }
       .commitAndRelated {
         align-content: flex-start;
         display: flex;
         flex: 1;
         flex-wrap: wrap;
+        overflow-x: hidden;
       }
       gr-file-list {
         margin-bottom: 1em;

@@ -5,7 +5,7 @@ gerrit index start - Start the online indexer
 
 == SYNOPSIS
 --
-'ssh' -p @SSH_PORT@ @SSH_HOST@ 'gerrit index start'
+'ssh' -p @SSH_PORT@ @SSH_HOST@ 'gerrit index start <index>'
 --
 
 == DESCRIPTION
@@ -18,6 +18,9 @@ number of successfully/failed indexed changes.
 This command allows restarting the online indexer without having to restart
 Gerrit. This command will not start the indexer if it is already running or if
 the active index is the latest.
+
+The <index> argument controls which secondary index is started. Currently, the
+only supported value is "changes".
 
 == ACCESS
 Caller must be a member of the privileged 'Administrators' group.

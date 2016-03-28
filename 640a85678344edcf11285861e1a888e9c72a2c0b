@@ -23,6 +23,30 @@
       "revId": "640a85678344edcf11285861e1a888e9c72a2c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1167e133_d428dcc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-28T13:53:26Z",
+      "side": 1,
+      "message": "No, good catch, this was a bad rebase.",
+      "parentUuid": "11a28163_bcade1ad",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 3
+      },
+      "revId": "640a85678344edcf11285861e1a888e9c72a2c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

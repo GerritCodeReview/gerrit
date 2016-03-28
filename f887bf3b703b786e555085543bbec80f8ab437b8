@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11e44125_8ca167bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-28T18:44:29Z",
+      "side": 1,
+      "message": "since you’re already within a resolved promise, you don’t need to return one. Simply returning is fine. Are you seeing different behavior?",
+      "revId": "f887bf3b703b786e555085543bbec80f8ab437b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

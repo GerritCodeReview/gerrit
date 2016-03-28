@@ -26,7 +26,8 @@ limitations under the License.
         display: inline;
       }
     </style>
-    <span>[[_computeDateStr(dateStr, _timeFormat)]]</span>
+    <span title$="[[_computeFullDateStr(dateStr, _timeFormat)]]"
+        >[[_computeDateStr(dateStr, _timeFormat, _relative)]]</span>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-date-formatter.js"></script>

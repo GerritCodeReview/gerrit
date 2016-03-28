@@ -43,83 +43,23 @@ limitations under the License.
       return d;
     }
 
-    function testDates(nowStr, dateStr, expected) {
+    function testDates(nowStr, dateStr, expected, expectedTooltip, done) {
       // Normalize and convert the date to mimic server response.
       dateStr = normalizedDate(dateStr)
           .toJSON().replace('T', ' ').slice(0, -1);
       var clock = sinon.useFakeTimers(normalizedDate(nowStr).getTime());
       element.dateStr = dateStr;
-      assert.equal(element.$$('span').textContent, expected);
-      clock.restore();
+      flush(function() {
+        var span = element.$$('span');
+        assert.equal(span.textContent, expected);
+        assert.equal(span.title, expectedTooltip);
+        clock.restore();
+        done();
+      });
     }
 
-    function stubGetTimeFormat(timeFormat) {
-      var timeFormatPromise = Promise.resolve(timeFormat);
-      stub('gr-date-formatter', {
-        _getTimeFormat: sinon.stub().returns(timeFormatPromise),
-      });
-      return timeFormatPromise;
-    }
-
-    suite('24 hours time format preference', function() {
-      setup(function() {
-        return stubGetTimeFormat('HHMM_24').then(function() {
-          element = fixture('basic');
-        });
-      });
-
-      test('invalid dates are quietly rejected', function() {
-        assert.notOk((new Date('foo')).valueOf());
-        assert.equal(element._computeDateStr('foo', 'HHMM_12'), '');
-      });
-
-      test('Within 24 hours on same day', function() {
-        testDates('2015-07-29 20:34:14.985000000',
-                  '2015-07-29 15:34:14.985000000',
-                  '15:34');
-        testDates('2016-01-27 17:41:14.985000000',
-                  '2016-01-27 12:41:14.985000000',
-                  '12:41');
-      });
-
-      test('Within 24 hours on different days', function() {
-        testDates('2015-07-29 03:34:14.985000000',
-                  '2015-07-28 20:25:14.985000000',
-                  'Jul 28');
-      });
-
-      test('More than 24 hours but less than six months', function() {
-        testDates('2015-07-29 20:34:14.985000000',
-                  '2015-06-15 03:25:14.985000000',
-                  'Jun 15');
-      });
-
-      test('More than six months', function() {
-        testDates('2015-09-15 20:34:00.000000000',
-                  '2015-01-15 03:25:00.000000000',
-                  'Jan 15, 2015');
-      });
-    });
-
-    suite('12 hours time format preference', function() {
-      setup(function() {
-        return stubGetTimeFormat('HHMM_12').then(function() {
-          element = fixture('basic');
-        });
-      });
-
-      test('Within 24 hours on same day', function() {
-        testDates('2015-07-29 20:34:14.985000000',
-                  '2015-07-29 15:34:14.985000000',
-                  '3:34 PM');
-        testDates('2016-01-27 17:41:14.985000000',
-                  '2016-01-27 12:41:14.985000000',
-                  '12:41 PM');
-      });
-    });
-
-    function stubRestAPI(loggedIn, preferences) {
-      var loggedInPromise = Promise.resolve(loggedIn);
+    function stubRestAPI(preferences) {
+      var loggedInPromise = Promise.resolve(preferences !== null);
       var preferencesPromise = Promise.resolve(preferences);
       stub('gr-rest-api-interface', {
         getLoggedIn: sinon.stub().returns(loggedInPromise),
@@ -128,17 +68,98 @@ limitations under the License.
       return Promise.all([loggedInPromise, preferencesPromise]);
     }
 
+    suite('24 hours time format preference', function() {
+      setup(function() {
+        return stubRestAPI(
+          {time_format: 'HHMM_24', relative_date_in_change_table: false}
+        ).then(function() {
+          element = fixture('basic');
+        });
+      });
+
+      test('invalid dates are quietly rejected', function() {
+        assert.notOk((new Date('foo')).valueOf());
+        assert.equal(element._computeDateStr('foo', 'h:mm A'), '');
+      });
+
+      test('Within 24 hours on same day', function(done) {
+        testDates('2015-07-29 20:34:14.985000000',
+                  '2015-07-29 15:34:14.985000000',
+                  '15:34', 'Jul 29, 2015, 15:34', done);
+      });
+
+      test('Within 24 hours on different days', function(done) {
+        testDates('2015-07-29 03:34:14.985000000',
+                  '2015-07-28 20:25:14.985000000',
+                  'Jul 28', 'Jul 28, 2015, 20:25', done);
+      });
+
+      test('More than 24 hours but less than six months', function(done) {
+        testDates('2015-07-29 20:34:14.985000000',
+                  '2015-06-15 03:25:14.985000000',
+                  'Jun 15', 'Jun 15, 2015, 3:25', done);
+      });
+
+      test('More than six months', function(done) {
+        testDates('2015-09-15 20:34:00.000000000',
+                  '2015-01-15 03:25:00.000000000',
+                  'Jan 15, 2015', 'Jan 15, 2015, 3:25', done);
+      });
+    });
+
+    suite('12 hours time format preference', function() {
+      setup(function() {
+        return stubRestAPI(
+          {time_format: 'HHMM_12', relative_date_in_change_table: false}
+        ).then(function() {
+          element = fixture('basic');
+        });
+      });
+
+      test('Within 24 hours on same day', function(done) {
+        testDates('2015-07-29 20:34:14.985000000',
+                  '2015-07-29 15:34:14.985000000',
+                  '3:34 PM', 'Jul 29, 2015, 3:34 PM', done);
+      });
+    });
+
+    suite('relative date preference', function() {
+      setup(function(done) {
+        return stubRestAPI(
+          {time_format: 'HHMM_12', relative_date_in_change_table: true}
+        ).then(function() {
+          element = fixture('basic');
+          done();
+        });
+      });
+
+      test('Within 24 hours on same day', function(done) {
+        testDates('2015-07-29 20:34:14.985000000',
+                  '2015-07-29 15:34:14.985000000',
+                  '5 hours ago', 'Jul 29, 2015, 3:34 PM', done);
+      });
+
+      test('More than six months', function(done) {
+        testDates('2015-09-15 20:34:00.000000000',
+                  '2015-01-15 03:25:00.000000000',
+                  '8 months ago', 'Jan 15, 2015, 3:25 AM', done);
+      });
+    });
+
     suite('logged in', function() {
       setup(function(done) {
-        return stubRestAPI(true, {time_format: 'HHMM_12'}).then(function() {
+        return stubRestAPI(
+          {time_format: 'HHMM_12', relative_date_in_change_table: true}
+        ).then(function() {
           element = fixture('basic');
           done();
         });
       });
 
       test('Preferences are respected', function(done) {
-        element._timeFormatPromise.then(function() {
-          assert.equal(element._timeFormat, 'HHMM_12');
+        element._loadPreferences().then(function() {
+          assert.equal(element._timeFormat, 'h:mm A');
+          assert.isTrue(element._relative);
           done();
         });
       });
@@ -146,15 +167,16 @@ limitations under the License.
 
     suite('logged out', function() {
       setup(function(done) {
-        return stubRestAPI(false, null).then(function() {
+        return stubRestAPI(null).then(function() {
           element = fixture('basic');
           done();
         });
       });
 
       test('Default preferences are respected', function(done) {
-        element._timeFormatPromise.then(function() {
-          assert.equal(element._timeFormat, 'HHMM_24');
+        element._loadPreferences().then(function() {
+          assert.equal(element._timeFormat, 'H:mm');
+          assert.isFalse(element._relative);
           done();
         });
       });

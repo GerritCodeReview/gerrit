@@ -26,6 +26,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Function;
@@ -47,6 +48,7 @@ import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -115,6 +117,7 @@ class ChangeNotesParser implements AutoCloseable {
   RevisionNoteMap revisionNoteMap;
 
   private final ChangeNoteUtil noteUtil;
+  private final NoteDbMetrics metrics;
   private final Change.Id id;
   private final ObjectId tip;
   private final RevWalk walk;
@@ -126,13 +129,14 @@ class ChangeNotesParser implements AutoCloseable {
 
   ChangeNotesParser(Project.NameKey project, Change.Id changeId, ObjectId tip,
       RevWalk walk, GitRepositoryManager repoManager,
-      ChangeNoteUtil noteUtil)
+      ChangeNoteUtil noteUtil, NoteDbMetrics metrics)
       throws RepositoryNotFoundException, IOException {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
     this.repo = repoManager.openMetadataRepository(project);
     this.noteUtil = noteUtil;
+    this.metrics = metrics;
     approvals = Maps.newHashMap();
     reviewers = Maps.newLinkedHashMap();
     allPastReviewers = Lists.newArrayList();
@@ -150,15 +154,21 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   void parseAll() throws ConfigInvalidException, IOException {
+    // Don't include initial parse in timer, as this might do more I/O to page
+    // in the block containing most commits. Later reads are not guaranteed to
+    // avoid I/O, but often should.
     walk.markStart(walk.parseCommit(tip));
-    for (RevCommit commit : walk) {
-      parse(commit);
+
+    try (Timer1.Context timer = metrics.parseLatency.start(CHANGES)) {
+      for (RevCommit commit : walk) {
+        parse(commit);
+      }
+      parseNotes();
+      allPastReviewers.addAll(reviewers.keySet());
+      pruneReviewers();
+      updatePatchSetStates();
+      checkMandatoryFooters();
     }
-    parseNotes();
-    allPastReviewers.addAll(reviewers.keySet());
-    pruneReviewers();
-    updatePatchSetStates();
-    checkMandatoryFooters();
   }
 
   ImmutableListMultimap<PatchSet.Id, PatchSetApproval>

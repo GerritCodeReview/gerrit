@@ -53,8 +53,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -66,7 +64,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -114,27 +111,18 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public static class Factory {
     private static final Logger log = LoggerFactory.getLogger(Factory.class);
 
-    private final GitRepositoryManager repoManager;
-    private final NotesMigration migration;
-    private final AllUsersName allUsers;
+    private final Args args;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
-    private final ChangeNoteUtil noteUtil;
 
     @VisibleForTesting
     @Inject
-    public Factory(GitRepositoryManager repoManager,
-        NotesMigration migration,
-        AllUsersName allUsers,
+    public Factory(Args args,
         Provider<InternalChangeQuery> queryProvider,
-        ProjectCache projectCache,
-        ChangeNoteUtil noteUtil) {
-      this.repoManager = repoManager;
-      this.migration = migration;
-      this.allUsers = allUsers;
+        ProjectCache projectCache) {
+      this.args = args;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
-      this.noteUtil = noteUtil;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
@@ -179,8 +167,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           project, changeId, change.getProject());
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
-      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
-          project, change).load();
+      return new ChangeNotes(args, project, change).load();
     }
 
     /**
@@ -192,23 +179,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * @return change notes
      */
     public ChangeNotes createFromIndexedChange(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
-          change.getProject(), change);
+      return new ChangeNotes(args, change.getProject(), change);
     }
 
     public ChangeNotes createForNew(Change change) throws OrmException {
-      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
-          change.getProject(), change).load();
+      return new ChangeNotes(args, change.getProject(), change).load();
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
     public ChangeNotes createFromIdOnlyWhenNoteDbDisabled(
         ReviewDb db, Change.Id changeId) throws OrmException {
-    checkState(!migration.readChanges(), "do not call"
+    checkState(!args.migration.readChanges(), "do not call"
         + " createFromIdOnlyWhenNoteDbDisabled when NoteDb is enabled");
       Change change = unwrap(db).changes().get(changeId);
-      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
-          change.getProject(), change).load();
+      return new ChangeNotes(args, change.getProject(), change).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -218,10 +202,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      */
     private ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change)
         throws OrmException {
-      checkState(!migration.readChanges(), "do not call"
+      checkState(!args.migration.readChanges(), "do not call"
           + " createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
-      return new ChangeNotes(repoManager, migration, allUsers, noteUtil,
-          change.getProject(), change).load();
+      return new ChangeNotes(args, change.getProject(), change).load();
     }
 
     public CheckedFuture<ChangeNotes, OrmException> createAsync(
@@ -240,8 +223,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
                           "passed project %s when creating ChangeNotes for %s,"
                               + " but actual project is %s",
                           project, changeId, change.getProject());
-                      return new ChangeNotes(repoManager, migration, allUsers,
-                          noteUtil, project, change).load();
+                      return new ChangeNotes(args, project, change).load();
                     }
                   });
                 }
@@ -259,7 +241,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public List<ChangeNotes> create(ReviewDb db,
         Collection<Change.Id> changeIds) throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (migration.enabled()) {
+      if (args.migration.enabled()) {
         for (Change.Id changeId : changeIds) {
           try {
             notes.add(createChecked(changeId));
@@ -280,7 +262,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
             throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (migration.enabled()) {
+      if (args.migration.enabled()) {
         for (Change.Id cid : changeIds) {
           ChangeNotes cn = create(db, project, cid);
           if (cn.getChange() != null && predicate.apply(cn)) {
@@ -304,9 +286,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public ListMultimap<Project.NameKey, ChangeNotes> create(ReviewDb db,
         Predicate<ChangeNotes> predicate) throws IOException, OrmException {
       ListMultimap<Project.NameKey, ChangeNotes> m = ArrayListMultimap.create();
-      if (migration.readChanges()) {
+      if (args.migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
-          try (Repository repo = repoManager.openRepository(project)) {
+          try (Repository repo = args.repoManager.openRepository(project)) {
             List<ChangeNotes> changes = scanNoteDb(repo, db, project);
             for (ChangeNotes cn : changes) {
               if (predicate.apply(cn)) {
@@ -328,7 +310,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public List<ChangeNotes> scan(Repository repo, ReviewDb db,
         Project.NameKey project) throws OrmException, IOException {
-      if (!migration.readChanges()) {
+      if (!args.migration.readChanges()) {
         return scanDb(repo, db);
       }
 
@@ -380,7 +362,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
-  private final ChangeNoteUtil noteUtil;
   private final Project.NameKey project;
   private final Change change;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
@@ -397,16 +378,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   // notes easier.
   RevisionNoteMap revisionNoteMap;
 
-  private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersName allUsers, ChangeNoteUtil noteUtil,
-      Project.NameKey project, Change change) {
-    super(repoManager, migration, change != null ? change.getId() : null);
-    this.allUsers = allUsers;
-    this.noteUtil = noteUtil;
+  public ChangeNotes(Args args, Project.NameKey project, Change change) {
+    super(args, change != null ? change.getId() : null);
     this.project = project;
     this.change = change != null ? new Change(change) : null;
   }
@@ -503,8 +479,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       throws OrmException {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
-      draftCommentNotes = new DraftCommentNotes(repoManager, migration,
-          allUsers, noteUtil, getChangeId(), author);
+      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), author);
       draftCommentNotes.load();
     }
   }
@@ -543,15 +518,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad(RevWalk walk)
+      throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
     if (rev == null) {
       loadDefaults();
       return;
     }
-    try (RevWalk walk = new RevWalk(reader);
-        ChangeNotesParser parser = new ChangeNotesParser(
-            project, change.getId(), rev, walk, repoManager, noteUtil)) {
+    try (ChangeNotesParser parser = new ChangeNotesParser(
+         project, change.getId(), rev, walk, args.repoManager, args.noteUtil,
+         args.metrics)) {
       parser.parseAll();
 
       if (parser.status != null) {
@@ -608,12 +584,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     changeMessagesByPatchSet = ImmutableListMultimap.of();
     comments = ImmutableListMultimap.of();
     hashtags = ImmutableSet.of();
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) {
-    throw new UnsupportedOperationException(
-        getClass().getSimpleName() + " is read-only");
   }
 
   @Override

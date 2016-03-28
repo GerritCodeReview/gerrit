@@ -14,31 +14,60 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
 /** View of contents at a single ref related to some change. **/
-public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
-  protected final GitRepositoryManager repoManager;
-  protected final NotesMigration migration;
+public abstract class AbstractChangeNotes<T> {
+  @VisibleForTesting
+  @Singleton
+  public static class Args {
+    final GitRepositoryManager repoManager;
+    final NotesMigration migration;
+    final AllUsersName allUsers;
+    final ChangeNoteUtil noteUtil;
+    final NoteDbMetrics metrics;
+
+    @Inject
+    Args(
+        GitRepositoryManager repoManager,
+        NotesMigration migration,
+        AllUsersName allUsers,
+        ChangeNoteUtil noteUtil,
+        NoteDbMetrics metrics) {
+      this.repoManager = repoManager;
+      this.migration = migration;
+      this.allUsers = allUsers;
+      this.noteUtil = noteUtil;
+      this.metrics = metrics;
+    }
+  }
+
+  protected final Args args;
   private final Change.Id changeId;
 
+  private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(GitRepositoryManager repoManager,
-      NotesMigration migration, Change.Id changeId) {
-    this.repoManager = repoManager;
-    this.migration = migration;
+  AbstractChangeNotes(Args args, Change.Id changeId) {
+    this.args = args;
     this.changeId = changeId;
   }
 
@@ -46,16 +75,27 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     return changeId;
   }
 
+  /** @return revision of the metadata that was loaded. */
+  public ObjectId getRevision() {
+    return revision;
+  }
+
   public T load() throws OrmException {
     if (loaded) {
       return self();
     }
-    if (!migration.enabled() || changeId == null) {
+    if (!args.migration.enabled() || changeId == null) {
       loadDefaults();
       return self();
     }
-    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
-      load(repo);
+    try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
+        Repository repo =
+            args.repoManager.openMetadataRepository(getProjectName());
+        RevWalk walk = new RevWalk(repo)) {
+      Ref ref = repo.getRefDatabase().exactRef(getRefName());
+      ObjectId id = ref != null ? ref.getObjectId() : null;
+      revision = id != null ? walk.parseCommit(id).copy() : null;
+      onLoad(walk);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
@@ -71,10 +111,11 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!migration.enabled()) {
+    } else if (!args.migration.enabled()) {
       return null;
     }
-    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
+    try (Repository repo =
+        args.repoManager.openMetadataRepository(getProjectName())) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());
       return ref != null ? ref.getObjectId() : null;
     } catch (IOException e) {
@@ -90,6 +131,13 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
    *    which is not necessarily the same as the change's project.
    */
   public abstract Project.NameKey getProjectName();
+
+  /** @return name of the reference storing this configuration. */
+  protected abstract String getRefName();
+
+  /** Set up the metadata, parsing any state from the loaded revision. */
+  protected abstract void onLoad(RevWalk walk)
+      throws IOException, ConfigInvalidException;
 
   @SuppressWarnings("unchecked")
   protected final T self() {

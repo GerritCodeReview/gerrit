@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,15 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.extensions.config.FactoryModule;
+enum NoteDbTable {
+  CHANGES;
 
-public class NoteDbModule extends FactoryModule {
+  String key() {
+    return name().toLowerCase();
+  }
+
   @Override
-  public void configure() {
-    factory(ChangeUpdate.Factory.class);
-    factory(ChangeDraftUpdate.Factory.class);
-    factory(DraftCommentNotes.Factory.class);
-    factory(NoteDbUpdateManager.Factory.class);
+  public String toString() {
+    return key();
   }
 }

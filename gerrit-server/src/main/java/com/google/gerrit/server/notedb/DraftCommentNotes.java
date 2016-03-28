@@ -24,14 +24,12 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -43,45 +41,22 @@ import java.io.IOException;
  * its drafts branch.
  */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
-  @Singleton
-  public static class Factory {
-    private final GitRepositoryManager repoManager;
-    private final NotesMigration migration;
-    private final AllUsersName draftsProject;
-    private final ChangeNoteUtil noteUtil;
-
-    @VisibleForTesting
-    @Inject
-    public Factory(GitRepositoryManager repoManager,
-        NotesMigration migration,
-        AllUsersName allUsers,
-        ChangeNoteUtil noteUtil) {
-      this.repoManager = repoManager;
-      this.migration = migration;
-      this.draftsProject = allUsers;
-      this.noteUtil = noteUtil;
-    }
-
-    public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {
-      return new DraftCommentNotes(repoManager, migration, draftsProject,
-          noteUtil, changeId, accountId);
-    }
+  public interface Factory {
+    DraftCommentNotes create(Change.Id changeId, Account.Id accountId);
   }
 
-  private final AllUsersName draftsProject;
-  private final ChangeNoteUtil noteUtil;
   private final Account.Id author;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private RevisionNoteMap revisionNoteMap;
 
-  DraftCommentNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersName draftsProject, ChangeNoteUtil noteUtil, Change.Id changeId,
-      Account.Id author) {
-    super(repoManager, migration, changeId);
-    this.draftsProject = draftsProject;
+  @AssistedInject
+  DraftCommentNotes(
+      Args args,
+      @Assisted Change.Id changeId,
+      @Assisted Account.Id author) {
+    super(args, changeId);
     this.author = author;
-    this.noteUtil = noteUtil;
   }
 
   RevisionNoteMap getRevisionNoteMap() {
@@ -112,33 +87,26 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
+  protected void onLoad(RevWalk walk)
+      throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
     if (rev == null) {
       loadDefaults();
       return;
     }
 
-    try (RevWalk walk = new RevWalk(reader)) {
-      RevCommit tipCommit = walk.parseCommit(rev);
-      revisionNoteMap = RevisionNoteMap.parse(
-          noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
-          true);
-      Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
-      for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-        for (PatchLineComment c : rn.comments) {
-          cs.put(c.getRevId(), c);
-        }
+    RevCommit tipCommit = walk.parseCommit(rev);
+    ObjectReader reader = walk.getObjectReader();
+    revisionNoteMap = RevisionNoteMap.parse(
+        args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
+        true);
+    Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
+    for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
+      for (PatchLineComment c : rn.comments) {
+        cs.put(c.getRevId(), c);
       }
-      comments = ImmutableListMultimap.copyOf(cs);
     }
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
-    throw new UnsupportedOperationException(
-        getClass().getSimpleName() + " is read-only");
+    comments = ImmutableListMultimap.copyOf(cs);
   }
 
   @Override
@@ -148,7 +116,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   public Project.NameKey getProjectName() {
-    return draftsProject;
+    return args.allUsers;
   }
 
   @VisibleForTesting

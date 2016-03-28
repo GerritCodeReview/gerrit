@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "51da3965_eee0dfe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-28T14:35:28Z",
+      "side": 1,
+      "message": "\u003e That\u0027s a good point.  Wasn\u0027t the reason we chose hashtag was that\n \u003e we didn\u0027t want users to confuse Gerrit tag with git tag?\n\nYes.\n\n \u003e Another suggestion is \"kind\", similar to patchset.kind[1].  \n\n+0\n\n \u003e The only other alternative I can think of is to call it \u0027summary\u0027, as\n \u003e in a short summary of the review?\n\n-1\n\n \u003e IMO, \u0027tag\u0027 is still the best description for this.\n\n+1. IMO \"tag\" is more ambiguous when talking about a change, since a change is like a commit so you\u0027re thinking more about the Git data model. For comments etc. I don\u0027t think there\u0027s as much potential for confusion.",
+      "parentUuid": "5c1a4e04_b717c887",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "e2ef7a312e86fe38d72162da2ad5758c514abd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c1a4e04_9712c498",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11

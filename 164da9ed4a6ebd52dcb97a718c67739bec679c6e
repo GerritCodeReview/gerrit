@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51da3965_cee523f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-28T14:37:45Z",
+      "side": 1,
+      "message": "Ok, but just FYI actually using PluginUser with NoteDb enabled will currently cause an ISE from AbstractChangeUpdate. We definitely need to fix this before the next release.",
+      "revId": "164da9ed4a6ebd52dcb97a718c67739bec679c6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

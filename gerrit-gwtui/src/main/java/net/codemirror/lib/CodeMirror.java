@@ -364,6 +364,13 @@ public class CodeMirror extends JavaScriptObject {
     $wnd.CodeMirror.keyMap[name] = km
   }-*/;
 
+  public static final native void addCommand(String name, CommandRunner runner) /*-{
+    $wnd.CodeMirror.commands[name] = function(cm) {
+      runner.@net.codemirror.lib.CodeMirror.CommandRunner::run(
+        Lnet/codemirror/lib/CodeMirror;)(cm);
+    };
+  }-*/;
+
   public final native Vim vim() /*-{
     return this;
   }-*/;
@@ -427,5 +434,9 @@ public class CodeMirror extends JavaScriptObject {
 
   public interface ChangesHandler {
     void handle(CodeMirror instance);
+  }
+
+  public interface CommandRunner {
+    void run(CodeMirror instance);
   }
 }

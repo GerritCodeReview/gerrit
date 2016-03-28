@@ -71,6 +71,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.ChangesHandler;
+import net.codemirror.lib.CodeMirror.CommandRunner;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.Pos;
@@ -435,6 +436,13 @@ public class EditScreen extends Screen {
         .set("keyMap", prefs.keyMapType().name().toLowerCase())
         .set("theme", prefs.theme().name().toLowerCase())
         .set("mode", mode != null ? mode.mode() : null));
+
+    CodeMirror.addCommand("save", new CommandRunner() {
+      @Override
+      public void run(CodeMirror instance) {
+        save().run();
+      }
+    });
   }
 
   private void renderLinks(EditFileInfo editInfo,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31d5c533_8d06016e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-28T18:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1167e133_54ea0c91",
+      "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1167e133_b4ee00a2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-28T17:23:40Z",
       "side": 1,
       "message": "Let’s make this the default value for the property as mentioned in a previous review.",
+      "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d5c533_6dfcf584",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-28T18:27:42Z",
+      "side": 1,
+      "message": "Done. Please note that this leads in flickering when loading preferences is slow. In that case date is rendered with default values first and as soon as preferences are ready, it is re-rendered.",
+      "parentUuid": "1167e133_b4ee00a2",
       "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "31d5c533_4df93993",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-28T18:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51da3965_6e32af3a",
+      "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51da3965_8e1cbbb2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-28T17:23:40Z",
       "side": 1,
       "message": "Can you split this up for each preference?",
+      "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d10f09b0_ea920778",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-28T18:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51da3965_8e1cbbb2",
       "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

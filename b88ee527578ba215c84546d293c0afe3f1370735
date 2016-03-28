@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1459176565 -0400\nnonce AB8gjyUPMXul5gv1rk1o8IS0J++v5qvgKLUgOUQ3YkkDeUdbks8FEFxT98T0YpRkqWaIVpnlLk4i\n\n0000000000000000000000000000000000000000 bc77b710c6ae54a3ad330015086c0bd5dfc8f072 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW+UR1AAoJEF/XxZqaEoiMlyMP/A+fVkonLQ0APd4r9kmpUCov\nNo6TvB3qaYL67SywHN4hr8JBRw5G5FXhDILMT4d+Swh6dHsYgdaIZBN2NZU3lEdM\n8QbJ6u8fjyGZRX/7Z9axC0Icifz292GxD9Xaxcv/TgxS3qFgy9EiTnOp20UoDAuO\n115lW7JqUAFtl2kAHriM/wmHwtat/7QnACJhxKpPtUj+Uid3Hgwhj7Ayk8kU4/bp\neOgogLGr7POGYlZZCGEheYZnSFlb26dJDVAZn4Ks2nzd6fjdfNZNhAX+p6vGlv3l\nIw1qdXOCnsEDn7eBU/UAwD49u+5hAKgwojsGgmtsxJ9jqML8LVEviO2eER0ggZ5y\nz/WPor7Bs7iWxncWRac5knaCMElwty/f1v3YeK7o8iAMNhVSioryaW1ai6R/hJsY\nAP0dV1p2AkZyD8w+ZS7nWFZYTkxDjL1sH9gKvrCOarQyN7pVXYv8FvYfPNNrrIVq\n3OWq0nvVxDY/hu/tttmWKCuZr624J1E6dPW656ofDq5mDzWqhBaRqyJpG1XVaIVw\nf1QZvUi2vb/l3dZc+u6dJFpufPMkJVx+FBy62W4d4Aff9uan5oioSo+7BW722W0H\nf4/1CRgsWTJfogEn11AuhEq/2RrHn81Jqds/zcq4BnfzArbGW7GFRPmDWkLwCPTl\n++fpm2K88ZwqpOnFcuoG\n\u003dUC1D\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1167e133_74662826",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-28T14:53:58Z",
+      "side": 1,
+      "message": "This is a constant in the unified implementation. Maybe make it a constant here too?",
+      "range": {
+        "startLine": 424,
+        "startChar": 22,
+        "endLine": 424,
+        "endChar": 45
+      },
+      "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51da3965_ce0c0394",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-28T14:53:58Z",
+      "side": 1,
+      "message": "It feels weird that this has to have a different implementation. Why do the class names have to be different? Can\u0027t you just have one class name for the line number and apply a more specific selector to give the unified/SBS variants different styles?",
+      "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

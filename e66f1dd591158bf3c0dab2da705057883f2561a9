@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "11e44125_cc976f66",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-28T18:31:17Z",
+      "side": 1,
+      "message": "Ah well in that case let’s keep it as is with a note why. Flickering is bad :)",
+      "parentUuid": "31d5c533_6dfcf584",
+      "revId": "e66f1dd591158bf3c0dab2da705057883f2561a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51da3965_6e32af3a",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 1

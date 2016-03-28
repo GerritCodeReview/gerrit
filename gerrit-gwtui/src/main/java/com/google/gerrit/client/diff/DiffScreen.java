@@ -320,7 +320,7 @@ abstract class DiffScreen extends Screen {
         .on("O", getCommentManager().toggleOpenBox(cm))
         .on("Enter", getCommentManager().toggleOpenBox(cm))
         .on("N", maybeNextVimSearch(cm))
-        .on("E", openEditScreen(cm))
+        .on("Ctrl-Alt-E", openEditScreen(cm))
         .on("P", getChunkManager().diffChunkNav(cm, Direction.PREV))
         .on("Shift-M", header.reviewedAndNext())
         .on("Shift-N", maybePrevVimSearch(cm))
@@ -448,6 +448,8 @@ abstract class DiffScreen extends Screen {
           header.toggleReviewed().run();
         }
       });
+      keysAction.add(new NoOpKeyCommand(KeyCommand.M_CTRL | KeyCommand.M_ALT,
+          'e', Gerrit.C.keyEditor()));
     }
     keysAction.add(new KeyCommand(
         KeyCommand.M_SHIFT, 'm', PatchUtil.C.markAsReviewedAndGoToNext()) {

@@ -364,6 +364,10 @@ public class CodeMirror extends JavaScriptObject {
     $wnd.CodeMirror.keyMap[name] = km
   }-*/;
 
+  public static final native void normalizeKeyMap(KeyMap km) /*-{
+    $wnd.CodeMirror.normalizeKeyMap(km);
+  }-*/;
+
   public final native Vim vim() /*-{
     return this;
   }-*/;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1167e133_546b2cec",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-03-28T15:13:07Z",
+      "side": 1,
+      "message": "Since Gerrit has a concept of a destination elsewhere, and it is not a branch along, I think this should be named something else, maybe destination_branch, or new_branch.",
+      "range": {
+        "startLine": 1003,
+        "startChar": 5,
+        "endLine": 1003,
+        "endChar": 16
+      },
+      "revId": "b486cb6c6e15b0fa10e99dbb6093d8f83eab0af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,7 +19,6 @@ import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
@@ -249,7 +248,6 @@ abstract class DiffScreen extends Screen {
     super.onShowView();
 
     Window.enableScrolling(false);
-    JumpKeys.enable(false);
     if (prefs.hideTopMenu()) {
       Gerrit.setHeaderVisible(false);
     }
@@ -298,7 +296,6 @@ abstract class DiffScreen extends Screen {
 
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
-    JumpKeys.enable(true);
   }
 
   private void removeKeyHandlerRegistrations() {
@@ -376,12 +373,65 @@ abstract class DiffScreen extends Screen {
           public void run() {
             cm.execCommand("selectAll");
           }
+        })
+        .on("G O", new Runnable() {
+          @Override
+          public void run() {
+            Gerrit.display(PageLinks.toChangeQuery("status:open"));
+          }
+        })
+        .on("G M", new Runnable() {
+          @Override
+          public void run() {
+            Gerrit.display(PageLinks.toChangeQuery("status:merged"));
+          }
+        })
+        .on("G A", new Runnable() {
+          @Override
+          public void run() {
+            Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
+          }
         });
+        if (Gerrit.isSignedIn()) {
+          keyMap.on("G I", new Runnable() {
+            @Override
+            public void run() {
+              Gerrit.display(PageLinks.MINE);
+            }
+          })
+          .on("G D", new Runnable() {
+            @Override
+            public void run() {
+              Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
+            }
+          })
+          .on("G C", new Runnable() {
+            @Override
+            public void run() {
+              Gerrit.display(PageLinks.toChangeQuery("has:draft"));
+            }
+          })
+          .on("G W", new Runnable() {
+            @Override
+            public void run() {
+              Gerrit.display(
+                  PageLinks.toChangeQuery("is:watched status:open"));
+            }
+          })
+          .on("G S", new Runnable() {
+            @Override
+            public void run() {
+              Gerrit.display(PageLinks.toChangeQuery("is:starred"));
+            }
+          });
+        }
+
     if (revision.get() != 0) {
       cm.on("beforeSelectionChange", onSelectionChange(cm));
       cm.on("gutterClick", onGutterClick(cm));
       keyMap.on("C", getCommentManager().newDraftCallback(cm));
     }
+    CodeMirror.normalizeKeyMap(keyMap); // Needed to for multi-stroke keymaps
     cm.addKeyMap(keyMap);
   }
 

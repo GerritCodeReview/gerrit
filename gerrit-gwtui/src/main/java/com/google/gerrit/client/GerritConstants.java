@@ -105,6 +105,7 @@ public interface GerritConstants extends Constants {
   String sectionNavigation();
   String sectionActions();
   String keySearch();
+  String keyEditor();
   String keyHelp();
 
   String sectionJumping();

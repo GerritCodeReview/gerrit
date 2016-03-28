@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1167e133_d4f57c6e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-28T18:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1167e133_74662826",
+      "range": {
+        "startLine": 424,
+        "startChar": 22,
+        "endLine": 424,
+        "endChar": 45
+      },
+      "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51da3965_ce0c0394",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2016-03-28T14:53:58Z",
       "side": 1,
       "message": "It feels weird that this has to have a different implementation. Why do the class names have to be different? Can\u0027t you just have one class name for the line number and apply a more specific selector to give the unified/SBS variants different styles?",
+      "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1167e133_3402f02e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-28T18:11:20Z",
+      "side": 1,
+      "message": "Using the same class name is doable, but rather hacky. If we want to apply the same class name in SideBySide we\u0027d have to do \"document.getElementsByClassName(\u0027CodeMirror-linenumber\u0027);\" and apply our own class name to each of them. I feel that it\u0027s not worth it.\n\nI\u0027ve changed this to a simple getLineNumberClassName() method and moved the check to DiffScreen.",
+      "parentUuid": "51da3965_ce0c0394",
       "revId": "b88ee527578ba215c84546d293c0afe3f1370735",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

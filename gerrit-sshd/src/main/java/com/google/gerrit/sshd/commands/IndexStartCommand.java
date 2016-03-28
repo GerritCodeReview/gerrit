@@ -24,10 +24,16 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Argument;
+
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "start", description = "Start the online reindexer",
   runsAt = MASTER)
 public class IndexStartCommand extends SshCommand {
+
+  @Argument(index = 0, required = true, metaVar = "INDEX",
+      usage = "index name to start")
+  private String name;
 
   @Inject
   private LuceneVersionManager luceneVersionManager;
@@ -35,7 +41,7 @@ public class IndexStartCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     try {
-      if (luceneVersionManager.startReindexer()) {
+      if (luceneVersionManager.startReindexer(name)) {
         stdout.println("Reindexer started");
       } else {
         stdout.println("Nothing to reindex, index is already the latest version");

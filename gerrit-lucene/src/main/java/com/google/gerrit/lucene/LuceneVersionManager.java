@@ -20,14 +20,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.IndexCollection;
-import com.google.gerrit.server.index.IndexDefinition;
-import com.google.gerrit.server.index.IndexDefinition.IndexFactory;
 import com.google.gerrit.server.index.OnlineReindexer;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.ChangeIndexDefinition;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -45,7 +46,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 @Singleton
@@ -55,13 +55,13 @@ public class LuceneVersionManager implements LifecycleListener {
 
   static final String CHANGES_PREFIX = "changes_";
 
-  private static class Version<V> {
-    private final Schema<V> schema;
+  private static class Version {
+    private final Schema<ChangeData> schema;
     private final int version;
     private final boolean exists;
     private final boolean ready;
 
-    private Version(Schema<V> schema, int version, boolean exists,
+    private Version(Schema<ChangeData> schema, int version, boolean exists,
         boolean ready) {
       checkArgument(schema == null || schema.getVersion() == version);
       this.schema = schema;
@@ -94,32 +94,33 @@ public class LuceneVersionManager implements LifecycleListener {
   }
 
   private final SitePaths sitePaths;
-  private final Map<String, IndexDefinition<?, ?, ?>> defs;
-  private final Map<String, OnlineReindexer<?, ?, ?>> reindexers;
+  private final LuceneChangeIndex.Factory indexFactory;
+  private final ChangeIndexCollection indexes;
+  private final ChangeIndexDefinition changeDef;
   private final boolean onlineUpgrade;
-  private final String runReindexMsg;
+  private OnlineReindexer<Change.Id, ChangeData, ChangeIndex> reindexer;
 
   @Inject
   LuceneVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      Collection<IndexDefinition<?, ?, ?>> defs) {
+      LuceneChangeIndex.Factory indexFactory,
+      ChangeIndexCollection indexes,
+      ChangeIndexDefinition changeDef) {
     this.sitePaths = sitePaths;
-    this.defs = Maps.newHashMapWithExpectedSize(defs.size());
-    for (IndexDefinition<?, ?, ?> def : defs) {
-      this.defs.put(def.getName(), def);
-    }
-
-    reindexers = Maps.newHashMapWithExpectedSize(defs.size());
-    onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
-    runReindexMsg =
-        "No index versions ready; run java -jar " +
-        sitePaths.gerrit_war.toAbsolutePath() +
-        " reindex";
+    this.indexFactory = indexFactory;
+    this.indexes = indexes;
+    this.changeDef = changeDef;
+    this.onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
   }
 
   @Override
   public void start() {
+    String runReindex =
+      "No index versions ready; run java -jar " +
+      sitePaths.gerrit_war.toAbsolutePath() +
+      " reindex";
+
     FileBasedConfig cfg;
     try {
       cfg = loadGerritIndexConfig(sitePaths);
@@ -128,25 +129,18 @@ public class LuceneVersionManager implements LifecycleListener {
     }
 
     if (!Files.exists(sitePaths.index_dir)) {
-      throw new ProvisionException(runReindexMsg);
+      throw new ProvisionException(runReindex);
     } else if (!Files.exists(sitePaths.index_dir)) {
       log.warn("Not a directory: %s", sitePaths.index_dir.toAbsolutePath());
-      throw new ProvisionException(runReindexMsg);
+      throw new ProvisionException(runReindex);
     }
 
-    for (IndexDefinition<?, ?, ?> def : defs.values()) {
-      initIndex(def, cfg);
-    }
-  }
-
-  private <K, V, I extends Index<K, V>> void initIndex(
-      IndexDefinition<K, V, I> def, FileBasedConfig cfg) {
-    TreeMap<Integer, Version<V>> versions = scanVersions(def, cfg);
+    TreeMap<Integer, Version> versions = scanVersions(cfg);
     // Search from the most recent ready version.
     // Write to the most recent ready version and the most recent version.
-    Version<V> search = null;
-    List<Version<V>> write = Lists.newArrayListWithCapacity(2);
-    for (Version<V> v : versions.descendingMap().values()) {
+    Version search = null;
+    List<Version> write = Lists.newArrayListWithCapacity(2);
+    for (Version v : versions.descendingMap().values()) {
       if (v.schema == null) {
         continue;
       }
@@ -162,35 +156,27 @@ public class LuceneVersionManager implements LifecycleListener {
       }
     }
     if (search == null) {
-      throw new ProvisionException(runReindexMsg);
+      throw new ProvisionException(runReindex);
     }
 
-    IndexFactory<K, V, I> factory = def.getIndexFactory();
-    I searchIndex = factory.create(search.schema);
-    IndexCollection<K, V, I> indexes = def.getIndexCollection();
+    markNotReady(cfg, versions.values(), write);
+    LuceneChangeIndex searchIndex =
+        (LuceneChangeIndex) indexFactory.create(search.schema);
     indexes.setSearchIndex(searchIndex);
-    for (Version<V> v : write) {
+    for (Version v : write) {
       if (v.schema != null) {
         if (v.version != search.version) {
-          indexes.addWriteIndex(factory.create(v.schema));
+          indexes.addWriteIndex(indexFactory.create(v.schema));
+        } else {
+          indexes.addWriteIndex(searchIndex);
         }
-      } else {
-        indexes.addWriteIndex(searchIndex);
       }
     }
-
-    // TODO: include index name.
-    markNotReady(cfg, versions.values(), write);
 
     int latest = write.get(0).version;
     if (onlineUpgrade && latest != search.version) {
-      OnlineReindexer<K, V, I> reindexer = new OnlineReindexer<>(def, latest);
-      synchronized (this) {
-        if (!reindexers.containsKey(def.getName())) {
-          reindexers.put(def.getName(), reindexer);
-          reindexer.start();
-        }
-      }
+      reindexer = new OnlineReindexer<>(changeDef, latest);
+      reindexer.start();
     }
   }
 
@@ -200,11 +186,10 @@ public class LuceneVersionManager implements LifecycleListener {
    * @return true if started, otherwise false.
    * @throws ReindexerAlreadyRunningException
    */
-  public synchronized boolean startReindexer(String name)
+  public synchronized boolean startReindexer()
       throws ReindexerAlreadyRunningException {
-    OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
-    validateReindexerNotRunning(reindexer);
-    if (!isCurrentIndexVersionLatest(name, reindexer)) {
+    validateReindexerNotRunning();
+    if (!isCurrentIndexVersionLatest()) {
       reindexer.start();
       return true;
     }
@@ -217,56 +202,49 @@ public class LuceneVersionManager implements LifecycleListener {
    * @return true if index was activate, otherwise false.
    * @throws ReindexerAlreadyRunningException
    */
-  public synchronized boolean activateLatestIndex(String name)
+  public synchronized boolean activateLatestIndex()
       throws ReindexerAlreadyRunningException {
-    OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
-    validateReindexerNotRunning(reindexer);
-    if (!isCurrentIndexVersionLatest(name, reindexer)) {
+    validateReindexerNotRunning();
+    if (!isCurrentIndexVersionLatest()) {
       reindexer.activateIndex();
       return true;
     }
     return false;
   }
 
-  private boolean isCurrentIndexVersionLatest(
-      String name, OnlineReindexer<?, ?, ?> reindexer) {
-    int readVersion = defs.get(name).getIndexCollection().getSearchIndex()
-        .getSchema().getVersion();
+  private boolean isCurrentIndexVersionLatest() {
     return reindexer == null
-        || reindexer.getVersion() == readVersion;
+        || reindexer.getVersion() == indexes.getSearchIndex().getSchema()
+            .getVersion();
   }
 
-  private static void validateReindexerNotRunning(
-      OnlineReindexer<?, ?, ?> reindexer)
+  private void validateReindexerNotRunning()
       throws ReindexerAlreadyRunningException {
     if (reindexer != null && reindexer.isRunning()) {
       throw new ReindexerAlreadyRunningException();
     }
   }
 
-  private <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>>
-      scanVersions(IndexDefinition<K, V, I> def, Config cfg) {
-    TreeMap<Integer, Version<V>> versions = Maps.newTreeMap();
-    for (Schema<V> schema : def.getSchemas().values()) {
-      // This part is Lucene-specific.
-      Path p = getDir(sitePaths, def.getName(), schema);
+  private TreeMap<Integer, Version> scanVersions(Config cfg) {
+    TreeMap<Integer, Version> versions = Maps.newTreeMap();
+    for (Schema<ChangeData> schema : changeDef.getSchemas().values()) {
+      Path p = getDir(sitePaths, CHANGES_PREFIX, schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
         log.warn("Not a directory: %s", p.toAbsolutePath());
       }
       int v = schema.getVersion();
-      versions.put(v, new Version<>(schema, v, isDir, getReady(cfg, v)));
+      versions.put(v, new Version(schema, v, isDir, getReady(cfg, v)));
     }
 
-    String prefix = def.getName() + "_";
     try (DirectoryStream<Path> paths =
         Files.newDirectoryStream(sitePaths.index_dir)) {
       for (Path p : paths) {
         String n = p.getFileName().toString();
-        if (!n.startsWith(prefix)) {
+        if (!n.startsWith(CHANGES_PREFIX)) {
           continue;
         }
-        String versionStr = n.substring(prefix.length());
+        String versionStr = n.substring(CHANGES_PREFIX.length());
         Integer v = Ints.tryParse(versionStr);
         if (v == null || versionStr.length() != 4) {
           log.warn("Unrecognized version in index directory: {}",
@@ -274,7 +252,7 @@ public class LuceneVersionManager implements LifecycleListener {
           continue;
         }
         if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(null, v, true, getReady(cfg, v)));
+          versions.put(v, new Version(null, v, true, getReady(cfg, v)));
         }
       }
     } catch (IOException e) {
@@ -283,10 +261,10 @@ public class LuceneVersionManager implements LifecycleListener {
     return versions;
   }
 
-  private <V> void markNotReady(FileBasedConfig cfg, Iterable<Version<V>> versions,
-      Collection<Version<V>> inUse) {
+  private void markNotReady(FileBasedConfig cfg, Iterable<Version> versions,
+      Collection<Version> inUse) {
     boolean dirty = false;
-    for (Version<V> v : versions) {
+    for (Version v : versions) {
       if (!inUse.contains(v) && v.exists) {
         setReady(cfg, v.version, false);
         dirty = true;

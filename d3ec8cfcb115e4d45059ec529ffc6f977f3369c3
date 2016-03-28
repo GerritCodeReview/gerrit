@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "51da3965_8e06fb6d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2016-03-28T15:13:07Z",
+      "side": 1,
+      "message": "You could make createBranch return the Branch.NameKey for later use?",
+      "parentUuid": "dc92be65_aba4e9d0",
+      "range": {
+        "startLine": 52,
+        "startChar": 64,
+        "endLine": 52,
+        "endChar": 76
+      },
+      "revId": "d3ec8cfcb115e4d45059ec529ffc6f977f3369c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c512dad7_89aa7994",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
         "patchSetId": 12

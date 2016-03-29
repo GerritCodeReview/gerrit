@@ -136,7 +136,6 @@ public class RebuildNoteDb extends SiteProgram {
     try (Repository allUsersRepo =
         repoManager.openMetadataRepository(allUsersName)) {
       deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
-      deleteRefs(RefNames.REFS_STARRED_CHANGES, allUsersRepo);
       for (Project.NameKey project : changesByProject.keySet()) {
         try {
           List<ListenableFuture<?>> futures = Lists.newArrayList();

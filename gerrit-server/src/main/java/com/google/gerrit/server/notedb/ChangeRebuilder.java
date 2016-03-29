@@ -40,8 +40,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -60,9 +58,7 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -221,8 +217,6 @@ public class ChangeRebuilder {
       flushEventsToDraftUpdate(db, manager, plcel, change);
     }
 
-    createStarredChangesRefs(db, changeId, manager.getAllUsersCommands(),
-        manager.getAllUsersRepo());
     manager.execute();
   }
 
@@ -259,24 +253,6 @@ public class ChangeRebuilder {
     }
     manager.add(update);
     events.clear();
-  }
-
-  private void createStarredChangesRefs(ReviewDb db, Change.Id changeId,
-      ChainedReceiveCommands allUsersCmds, Repository allUsersRepo)
-          throws IOException, OrmException {
-    ObjectId emptyTree = emptyTree(allUsersRepo);
-    for (StarredChange starred : db.starredChanges().byChange(changeId)) {
-      allUsersCmds.add(new ReceiveCommand(ObjectId.zeroId(), emptyTree,
-          RefNames.refsStarredChanges(starred.getAccountId(), changeId)));
-    }
-  }
-
-  private static ObjectId emptyTree(Repository repo) throws IOException {
-    try (ObjectInserter oi = repo.newObjectInserter()) {
-      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      oi.flush();
-      return id;
-    }
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,

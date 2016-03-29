@@ -531,6 +531,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Map<String, Short> inLabels = MoreObjects.firstNonNull(in.labels,
           Collections.<String, Short> emptyMap());
 
+      // If no labels were modified and change is closed, abort early.
+      // This avoids trying to record a modified label caused by a user
+      // losing access to a label after the change was submitted.
+      if (inLabels.isEmpty() && ctx.getChange().getStatus().isClosed()) {
+        return false;
+      }
+
       List<PatchSetApproval> del = Lists.newArrayList();
       List<PatchSetApproval> ups = Lists.newArrayList();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
@@ -604,10 +611,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      if (!del.isEmpty() || !ups.isEmpty()) {
-        if (ctx.getChange().getStatus().isClosed()) {
-          throw new ResourceConflictException("change is closed");
-        }
+      if ((!del.isEmpty() || !ups.isEmpty())
+          && ctx.getChange().getStatus().isClosed()) {
+        throw new ResourceConflictException("change is closed");
       }
       forceCallerAsReviewer(ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);

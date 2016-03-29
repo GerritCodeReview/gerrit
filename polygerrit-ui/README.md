@@ -13,7 +13,7 @@ brew install node
 All other platforms: [download from
 nodejs.org](https://nodejs.org/en/download/).
 
-## Optional: installing [go] (https://golang.org/)
+## Optional: installing [go](https://golang.org/)
 
 This is only required for running the ```run-server.sh``` script for testing. See below.
 
@@ -25,7 +25,7 @@ sudo apt-get install golang
 brew install go
 ```
 
-All other platforms: [download from golang.org] (https//golang.org/)
+All other platforms: [download from golang.org](https//golang.org/)
 
 # Add [go] to your path
 
@@ -38,7 +38,7 @@ PATH=$PATH:/usr/local/go/bin
 To test the local UI against gerrit-review.googlesource.com:
 
 ```sh
-./run-server.sh
+./polygerrit-ui/run-server.sh
 ```
 
 Then visit http://localhost:8081
@@ -88,6 +88,14 @@ If you need to pass additional arguments to `wct`:
 ```sh
 WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 ```
+
+For interactively working on a single test file, do the following:
+
+```sh
+./polygerrit-ui/run-server.sh
+```
+
+Then visit http://localhost:8081/elements/foo/bar_test.html
 
 ## Style guide
 

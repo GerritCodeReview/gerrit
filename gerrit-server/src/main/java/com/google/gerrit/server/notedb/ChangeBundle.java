@@ -22,9 +22,9 @@ import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -240,8 +240,7 @@ public class ChangeBundle {
       patchLineComments;
   private final Source source;
 
-  @VisibleForTesting
-  ChangeBundle(
+  public ChangeBundle(
       Change change,
       Iterable<ChangeMessage> changeMessages,
       Iterable<PatchSet> patchSets,
@@ -274,6 +273,22 @@ public class ChangeBundle {
 
   public Change getChange() {
     return change;
+  }
+
+  ImmutableCollection<ChangeMessage> getChangeMessages() {
+    return changeMessages;
+  }
+
+  ImmutableCollection<PatchSet> getPatchSets() {
+    return patchSets.values();
+  }
+
+  ImmutableCollection<PatchSetApproval> getPatchSetApprovals() {
+    return patchSetApprovals.values();
+  }
+
+  ImmutableCollection<PatchLineComment> getPatchLineComments() {
+    return patchLineComments.values();
   }
 
   public ImmutableList<String> differencesFrom(ChangeBundle o) {

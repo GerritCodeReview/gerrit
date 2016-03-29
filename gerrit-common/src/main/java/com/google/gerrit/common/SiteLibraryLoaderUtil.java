@@ -16,6 +16,7 @@ package com.google.gerrit.common;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
@@ -30,6 +31,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
 
+@GwtIncompatible("Unemulated classes in java.nio and Guava")
 public final class SiteLibraryLoaderUtil {
   private static final Logger log =
       LoggerFactory.getLogger(SiteLibraryLoaderUtil.class);

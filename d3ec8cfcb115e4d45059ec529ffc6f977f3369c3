@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b120d52e_999c3b8c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2016-03-29T18:04:14Z",
+      "side": 1,
+      "message": "Already returns a BranchApi and as far as I can see, there isn\u0027t an easy way to get a Branch.NameKey from that.",
+      "parentUuid": "51da3965_8e06fb6d",
+      "range": {
+        "startLine": 52,
+        "startChar": 64,
+        "endLine": 52,
+        "endChar": 76
+      },
+      "revId": "d3ec8cfcb115e4d45059ec529ffc6f977f3369c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c512dad7_89aa7994",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
         "patchSetId": 12

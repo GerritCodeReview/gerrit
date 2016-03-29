@@ -53,8 +53,8 @@
       Gerrit.RESTClientBehavior,
     ],
 
-    ready: function() {
-      app.accountReady.then(function(account) {
+    attached: function() {
+      this._getAccount().then(function(account) {
         this._account = account;
       }.bind(this));
     },
@@ -113,6 +113,10 @@
 
     _computePermittedLabelValues: function(permittedLabels, label) {
       return permittedLabels[label];
+    },
+
+    _getAccount: function() {
+      return this.$.restAPI.getAccount();
     },
 
     _cancelTapHandler: function(e) {

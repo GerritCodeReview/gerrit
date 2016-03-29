@@ -19,16 +19,6 @@
 
     properties: {
       params: Object,
-      accountReady: {
-        type: Object,
-        readOnly: true,
-        notify: true,
-        value: function() {
-          return new Promise(function(resolve) {
-            this._resolveAccountReady = resolve;
-          }.bind(this));
-        },
-      },
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },
@@ -42,7 +32,6 @@
       _version: String,
       _diffPreferences: Object,
       _preferences: Object,
-      _resolveAccountReady: Function,
       _showChangeListView: Boolean,
       _showDashboardView: Boolean,
       _showChangeView: Boolean,
@@ -98,8 +87,6 @@
     },
 
     _accountChanged: function(account) {
-      this._resolveAccountReady(account);
-
       if (this.loggedIn) {
         this.$.restAPI.getPreferences().then(function(preferences) {
           this._preferences = preferences;

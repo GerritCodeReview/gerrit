@@ -125,6 +125,22 @@ limitations under the License.
       });
     });
 
+    test('submit change with plugin hook', function(done) {
+      var canSubmitStub = sinon.stub(element, '_canSubmitChange',
+          function() { return false; });
+      var fireRevisionActionStub = sinon.stub(element, '_fireRevisionAction');
+      flush(function() {
+        var submitButton = element.$$('gr-button[data-action-key="submit"]');
+        assert.ok(submitButton);
+        MockInteractions.tap(submitButton);
+        assert.equal(fireRevisionActionStub.callCount, 0);
+
+        canSubmitStub.restore();
+        fireRevisionActionStub.restore();
+        done();
+      });
+    });
+
     test('rebase change', function(done) {
       flush(function() {
         var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');

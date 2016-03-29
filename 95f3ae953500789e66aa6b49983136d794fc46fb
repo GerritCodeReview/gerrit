@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "11fd21c1_04ae76a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-29T13:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b137f56a_21c84e70",
+      "revId": "95f3ae953500789e66aa6b49983136d794fc46fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "913e7148_e0b902f2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "31fea5bd_a5b31e0e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-29T13:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913e7148_e0b902f2",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "95f3ae953500789e66aa6b49983136d794fc46fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "913e7148_00bf46d5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2016-03-29T11:34:15Z",
       "side": 1,
       "message": "This has to be:\n\n  Needs {0}\n\nand belongs to the ChangeMessages.properties from the same package.\n\nSame for the next line",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "95f3ae953500789e66aa6b49983136d794fc46fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fea5bd_c5be1ad8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-29T13:12:41Z",
+      "side": 1,
+      "message": "Done. I reused the currently unused \"needApproval\" constant from ChangeMessages.",
+      "parentUuid": "913e7148_00bf46d5",
       "range": {
         "startLine": 9,
         "startChar": 0,

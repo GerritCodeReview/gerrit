@@ -89,6 +89,15 @@ If you need to pass additional arguments to `wct`:
 WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 ```
 
+For interactively working on a single test file, do the following:
+
+```sh
+sh run-server.sh
+cp bower-debug.json bower.json
+bower install   # *must* be after run-server.sh
+chrome http://localhost:8081/elements/foo/bar_test.html
+```
+
 ## Style guide
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)

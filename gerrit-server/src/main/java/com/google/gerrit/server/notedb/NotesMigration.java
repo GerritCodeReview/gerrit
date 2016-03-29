@@ -38,8 +38,12 @@ public abstract class NotesMigration {
 
   public abstract boolean writeChanges();
 
+  public abstract boolean readAccounts();
+
+  public abstract boolean writeAccounts();
+
   public boolean enabled() {
-    return writeChanges()
-        || readChanges();
+    return writeChanges() || readChanges()
+        || writeAccounts() || readAccounts();
   }
 }

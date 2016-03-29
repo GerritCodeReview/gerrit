@@ -84,7 +84,7 @@ public class StarredChangesUtil {
     dbProvider.get().starredChanges()
         .insert(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
-    if (!migration.writeChanges()) {
+    if (!migration.writeAccounts()) {
       return;
     }
     try (Repository repo = repoManager.openMetadataRepository(allUsers);
@@ -133,7 +133,7 @@ public class StarredChangesUtil {
     dbProvider.get().starredChanges()
         .delete(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
-    if (!migration.writeChanges()) {
+    if (!migration.writeAccounts()) {
       return;
     }
     try (Repository repo = repoManager.openMetadataRepository(allUsers);
@@ -171,7 +171,7 @@ public class StarredChangesUtil {
   public void unstarAll(Change.Id changeId) throws OrmException {
     dbProvider.get().starredChanges().delete(
         dbProvider.get().starredChanges().byChange(changeId));
-    if (!migration.writeChanges()) {
+    if (!migration.writeAccounts()) {
       return;
     }
     try (Repository repo = repoManager.openMetadataRepository(allUsers);
@@ -202,7 +202,7 @@ public class StarredChangesUtil {
 
   public Iterable<Account.Id> byChange(final Change.Id changeId)
       throws OrmException {
-    if (!migration.readChanges()) {
+    if (!migration.readAccounts()) {
       return FluentIterable
           .from(dbProvider.get().starredChanges().byChange(changeId))
           .transform(new Function<StarredChange, Account.Id>() {
@@ -229,7 +229,7 @@ public class StarredChangesUtil {
 
   public ResultSet<Change.Id> query(Account.Id accountId) {
     try {
-      if (!migration.readChanges()) {
+      if (!migration.readAccounts()) {
         return new ChangeIdResultSet(
             dbProvider.get().starredChanges().byAccount(accountId));
       }

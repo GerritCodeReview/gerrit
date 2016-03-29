@@ -92,6 +92,15 @@ bower_component(
 )
 
 bower_component(
+  name = 'iron-a11y-announcer',
+  package = 'polymerelements/iron-a11y-announcer',
+  version = '1.0.4',
+  deps = [':polymer'],
+  license = 'polymer',
+  sha1 = '9a915711b35092fa2f86ff6e904c4f3e43aa5234',
+)
+
+bower_component(
   name = 'iron-a11y-keys-behavior',
   package = 'polymerelements/iron-a11y-keys-behavior',
   version = '1.1.1',
@@ -142,7 +151,7 @@ bower_component(
 bower_component(
   name = 'iron-dropdown',
   package = 'polymerelements/iron-dropdown',
-  version = '1.2.0',
+  version = '1.3.0',
   deps = [
     ':iron-a11y-keys-behavior',
     ':iron-behaviors',
@@ -152,7 +161,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'ca97cbfe5873324ba8af80dbdf79af9e72b6f0b8',
+  sha1 = '08ae9c9fa2f2c19a8ab330dfe8240292c8d161cf',
 )
 
 bower_component(
@@ -185,13 +194,14 @@ bower_component(
 bower_component(
   name = 'iron-input',
   package = 'polymerelements/iron-input',
-  version = '1.0.8',
+  version = '1.0.9',
   deps = [
+    ':iron-a11y-announcer',
     ':iron-validatable-behavior',
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = '568c407ffbb524fe2c9ad8230eb895d76c9a8671',
+  sha1 = '4e415c2511ec8ff6c8b17249ec8f02e8d8b1a0d9',
 )
 
 bower_component(
@@ -272,7 +282,6 @@ bower_component(
     ':iron-meta',
     ':iron-resizable-behavior',
     ':iron-selector',
-    ':paper-styles',
     ':polymer',
     ':web-animations-js',
   ],
@@ -304,10 +313,10 @@ bower_component(
 bower_component(
   name = 'polymer',
   package = 'polymer/polymer',
-  version = '1.3.1',
+  version = '1.4.0',
   deps = [':webcomponentsjs'],
   license = 'polymer',
-  sha1 = '5f54c14f7b8cecdb356e446a84dabb4ba349d278',
+  sha1 = 'b84725939ead7c7bdf9917b065f68ef8dc790d06',
 )
 
 bower_component(

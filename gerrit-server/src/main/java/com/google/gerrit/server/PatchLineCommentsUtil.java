@@ -272,6 +272,7 @@ public class PatchLineCommentsUtil {
     return sort(comments);
   }
 
+  @Deprecated // To be used only by HasDraftByLegacyPredicate.
   public List<PatchLineComment> draftByAuthor(ReviewDb db,
       Account.Id author) throws OrmException {
     if (!migration.readChanges()) {
@@ -283,8 +284,12 @@ public class PatchLineCommentsUtil {
     List<PatchLineComment> comments = Lists.newArrayList();
     for (String refName : refNames) {
       Change.Id changeId = Change.Id.parse(refName);
-      comments.addAll(
-          draftFactory.create(changeId, author).load().getComments().values());
+      // Avoid loading notes for all affected changes just to be able to auto-
+      // rebuild. This is only used in a corner case in the search codepath, so
+      // returning slightly stale values is ok.
+      DraftCommentNotes notes =
+          draftFactory.createWithAutoRebuildingDisabled(changeId, author);
+      comments.addAll(notes.load().getComments().values());
     }
     return sort(comments);
   }

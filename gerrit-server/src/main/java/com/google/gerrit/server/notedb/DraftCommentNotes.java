@@ -24,14 +24,18 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
@@ -41,9 +45,12 @@ import java.io.IOException;
  */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   public interface Factory {
-    DraftCommentNotes create(Change.Id changeId, Account.Id accountId);
+    DraftCommentNotes create(Change change, Account.Id accountId);
+    DraftCommentNotes createWithAutoRebuildingDisabled(
+        Change.Id changeId, Account.Id accountId);
   }
 
+  private final Change change;
   private final Account.Id author;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
@@ -52,9 +59,20 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @AssistedInject
   DraftCommentNotes(
       Args args,
+      @Assisted Change change,
+      @Assisted Account.Id author) {
+    super(args, change.getId());
+    this.change = change;
+    this.author = author;
+  }
+
+  @AssistedInject
+  DraftCommentNotes(
+      Args args,
       @Assisted Change.Id changeId,
       @Assisted Account.Id author) {
     super(args, changeId);
+    this.change = null;
     this.author = author;
   }
 
@@ -116,6 +134,36 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return args.allUsers;
+  }
+
+  @Override
+  protected LoadHandle openHandle(Repository repo) throws IOException {
+    if (change != null) {
+      NoteDbChangeState state = NoteDbChangeState.parse(change);
+      // Only check if this particular user's drafts are up to date, to avoid
+      // reading unnecessary refs.
+      if (state == null || !state.areDraftsUpToDate(repo, author)) {
+        return rebuildAndOpen(repo);
+      }
+    }
+    return super.openHandle(repo);
+  }
+
+  private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
+    try {
+      NoteDbChangeState newState =
+          args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+      if (newState == null) {
+        return super.openHandle(repo); // May be null in tests.
+      }
+      ObjectId draftsId = newState.getDraftIds().get(author);
+      repo.scanForRepoChanges();
+      return LoadHandle.create(new RevWalk(repo), draftsId);
+    } catch (NoSuchChangeException e) {
+      return super.openHandle(repo);
+    } catch (OrmException | ConfigInvalidException e) {
+      throw new IOException(e);
+    }
   }
 
   @VisibleForTesting

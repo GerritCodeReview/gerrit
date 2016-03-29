@@ -1808,8 +1808,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     manager.execute();
 
     // Looking at drafts directly shows the zombie comment.
-    DraftCommentNotes draftNotes =
-        draftNotesFactory.create(c.getId(), otherUserId);
+    DraftCommentNotes draftNotes = draftNotesFactory.create(c, otherUserId);
     assertThat(draftNotes.load().getComments().get(rev1))
         .containsExactly(comment1, comment2);
 

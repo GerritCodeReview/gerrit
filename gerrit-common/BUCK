@@ -6,15 +6,6 @@ ANNOTATIONS = [
   SRC + 'common/auth/SignInRequired.java',
 ]
 
-EXCLUDES = [
-  SRC + 'common/SiteLibraryLoaderUtil.java',
-  SRC + 'common/PluginData.java',
-  SRC + 'common/FileUtil.java',
-  SRC + 'common/IoUtil.java',
-  SRC + 'common/TimeUtil.java',
-  SRC + 'common/data/SubscribeSection.java',
-]
-
 java_library(
   name = 'annotations',
   srcs = ANNOTATIONS,
@@ -23,7 +14,7 @@ java_library(
 
 gwt_module(
   name = 'client',
-  srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
+  srcs = glob([SRC + 'common/**/*.java']),
   gwt_xml = SRC + 'Common.gwt.xml',
   exported_deps = [
     '//gerrit-extension-api:client',

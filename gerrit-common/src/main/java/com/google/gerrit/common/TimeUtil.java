@@ -14,11 +14,14 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import org.joda.time.DateTimeUtils;
 
 import java.sql.Timestamp;
 
 /** Static utility methods for dealing with dates and times. */
+@GwtIncompatible("Unemulated org.joda.time.DateTimeUtils")
 public class TimeUtil {
   public static long nowMs() {
     return DateTimeUtils.currentTimeMillis();

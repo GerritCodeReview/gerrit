@@ -16,6 +16,7 @@ package com.google.gerrit.common;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.restapi.RawInput;
 
@@ -25,6 +26,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
+@GwtIncompatible("Unemulated classes in java.io and javax.servlet")
 public class RawInputUtil {
   public static RawInput create(String content) {
     return create(content.getBytes(UTF_8));
@@ -52,7 +54,7 @@ public class RawInputUtil {
   }
 
   public static RawInput create(final byte[] bytes) {
-    return create (bytes, "application/octet-stream");
+    return create(bytes, "application/octet-stream");
   }
 
   public static RawInput create(final HttpServletRequest req) {

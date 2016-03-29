@@ -17,7 +17,12 @@ package com.google.gerrit.server.notedb;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
 
 public class NoteDbModule extends FactoryModule {
   private final boolean useTestBindings;
@@ -47,6 +52,13 @@ public class NoteDbModule extends FactoryModule {
         @Override
         public NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
             throws OrmException {
+          return null;
+        }
+
+        @Override
+        public NoteDbChangeState rebuild(NoteDbUpdateManager manager,
+            ChangeBundle bundle) throws NoSuchChangeException, IOException,
+            OrmException, ConfigInvalidException {
           return null;
         }
       });

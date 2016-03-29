@@ -49,4 +49,8 @@ public abstract class ChangeRebuilder {
   public abstract NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException;
+
+  public abstract NoteDbChangeState rebuild(NoteDbUpdateManager manager,
+      ChangeBundle bundle) throws NoSuchChangeException, IOException,
+      OrmException, ConfigInvalidException;
 }

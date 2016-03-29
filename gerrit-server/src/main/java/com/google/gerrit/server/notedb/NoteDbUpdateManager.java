@@ -66,20 +66,24 @@ public class NoteDbUpdateManager {
     NoteDbUpdateManager create(Project.NameKey projectName);
   }
 
-  private static class OpenRepo implements AutoCloseable {
+  static class OpenRepo implements AutoCloseable {
     final Repository repo;
     final RevWalk rw;
     final ObjectInserter ins;
     final ChainedReceiveCommands cmds;
-    final boolean close;
+    private final boolean close;
 
     OpenRepo(Repository repo, RevWalk rw, ObjectInserter ins,
         ChainedReceiveCommands cmds, boolean close) {
       this.repo = checkNotNull(repo);
       this.rw = checkNotNull(rw);
-      this.ins = checkNotNull(ins);
-      this.cmds = checkNotNull(cmds);
+      this.ins = ins;
+      this.cmds = cmds;
       this.close = close;
+    }
+
+    ObjectId getObjectId(String refName) throws IOException {
+      return cmds.getObjectId(repo, refName);
     }
 
     @Override
@@ -100,6 +104,7 @@ public class NoteDbUpdateManager {
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
 
+  private OpenRepo codeRepo;
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private Map<Change.Id, NoteDbChangeState.Delta> staged;
@@ -126,52 +131,56 @@ public class NoteDbUpdateManager {
     return this;
   }
 
-  Repository getChangeRepo() throws IOException {
-    initChangeRepo();
-    return changeRepo.repo;
-  }
-
-  RevWalk getChangeRevWalk() throws IOException {
-    initChangeRepo();
-    return changeRepo.rw;
-  }
-
-  ChainedReceiveCommands getChangeCommands() throws IOException {
-    initChangeRepo();
-    return changeRepo.cmds;
+  public NoteDbUpdateManager setCodeRepo(Repository repo, RevWalk rw) {
+    checkState(codeRepo == null, "code repo already initialized");
+    codeRepo = new OpenRepo(repo, rw, null, null, false);
+    return this;
   }
 
   public NoteDbUpdateManager setAllUsersRepo(Repository repo, RevWalk rw,
       ObjectInserter ins, ChainedReceiveCommands cmds) {
-    checkState(allUsersRepo == null, "allUsers repo already initialized");
+    checkState(allUsersRepo == null, "All-Users repo already initialized");
     allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false);
     return this;
   }
 
-  Repository getAllUsersRepo() throws IOException {
-    initAllUsersRepo();
-    return allUsersRepo.repo;
+  OpenRepo getChangeRepo() throws IOException {
+    initChangeRepo();
+    return changeRepo;
   }
 
-  ChainedReceiveCommands getAllUsersCommands() throws IOException {
+  OpenRepo getCodeRepo() throws IOException {
+    initCodeRepo();
+    return codeRepo;
+  }
+
+  OpenRepo getAllUsersRepo() throws IOException {
     initAllUsersRepo();
-    return allUsersRepo.cmds;
+    return allUsersRepo;
+  }
+
+  private void initCodeRepo() throws IOException {
+    if (codeRepo == null) {
+      codeRepo = openRepo(projectName, false);
+    }
   }
 
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
-      changeRepo = openRepo(projectName);
+      changeRepo = openRepo(projectName, true);
     }
   }
 
   private void initAllUsersRepo() throws IOException {
     if (allUsersRepo == null) {
-      allUsersRepo = openRepo(allUsersName);
+      allUsersRepo = openRepo(allUsersName, true);
     }
   }
 
-  private OpenRepo openRepo(Project.NameKey p) throws IOException {
-    Repository repo = repoManager.openMetadataRepository(p);
+  private OpenRepo openRepo(Project.NameKey p, boolean meta) throws IOException {
+    Repository repo = meta
+        ? repoManager.openMetadataRepository(p)
+        : repoManager.openRepository(p);
     ObjectInserter ins = repo.newObjectInserter();
     return new OpenRepo(repo, new RevWalk(ins.newReader()), ins,
         new ChainedReceiveCommands(), true);

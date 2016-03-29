@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.NoteDbTable.ACCOUNTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -81,12 +82,16 @@ public class ConfigNotesMigration extends NotesMigration {
 
   private final boolean writeChanges;
   private final boolean readChanges;
+  private final boolean writeAccounts;
+  private final boolean readAccounts;
 
   @Inject
   ConfigNotesMigration(@GerritServerConfig Config cfg) {
     checkConfig(cfg);
     writeChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), WRITE, false);
     readChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), READ, false);
+    writeAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), WRITE, false);
+    readAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), READ, false);
   }
 
   @Override
@@ -97,5 +102,15 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public boolean readChanges() {
     return readChanges;
+  }
+
+  @Override
+  public boolean writeAccounts() {
+    return writeAccounts;
+  }
+
+  @Override
+  public boolean readAccounts() {
+    return readAccounts;
   }
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b120d52e_79f92793",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-29T21:01:25Z",
+      "side": 1,
+      "message": "this might blow up in some browsers, since warn is not supported everywhere",
+      "revId": "31f2f64616c66d3707e6280efdaa9b6e904d0be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "911751d8_9840b585",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-29T21:01:25Z",
+      "side": 1,
+      "message": "this seems like a perfect usecase for a .some(...) useage ... if you can not use some due to browser support,a reduce would also work.",
+      "revId": "31f2f64616c66d3707e6280efdaa9b6e904d0be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b120d52e_19f6eba2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-29T21:01:25Z",
+      "side": 1,
+      "message": "it would be pretty trivial to break this depending on the rulesStr that you push, but I am guessing that, this is just a port of the old code, and that if a plugin author was to push something invalid it is not gerrit\u0027s fault.",
+      "revId": "31f2f64616c66d3707e6280efdaa9b6e904d0be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "11fd21c1_44a46ec8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "These checks are here so that any time the definition of one of these entities changes, we are forced to look at/think about how the new field should be handled in this file.\n\nChangeBundle#differencesFrom does pairwise comparison of columns for each entity. When parsing changes from NoteDb, we don\u0027t populate the noteDbState column (101) in Change. This means we get spurious failures when comparing NoteDb and ReviewDb, unless we exclude the column from comparison (which I\u0027ve done in the next patch set).\n\nHowever, there is another way we can check that NoteDb and ReviewDb match here, which is to figure out what the noteDbState would have been that generated the Change in ReviewDb. I haven\u0027t thought through whether this works in all cases, and it\u0027s not clear what benefit it would add, since the ChangeBundle tests are mostly concerned with the correctness of the conversion process. Hence I left it as a TODO.",
+      "parentUuid": "31edc5ca_2de10de6",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 62
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1167e133_54b96cec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2016-03-25T22:10:40Z",
       "side": 1,
       "message": "Can we ever recover from this? Should we bail silently or do we want some clue that it happened?",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 56
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fea5bd_65ce4681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "So the main way that this arises is if we are writing changes and we skip writing an incomplete change graph (https://gerrit-review.googlesource.com/76057). In that case we have neither an old noteDbState nor a new meta ID. I think doing nothing is the right behavior there.\n\nEventually we will populate the field via ChangeRebuilder, where the old noteDbState field will be null but there will be a newChangeMetaId in the delta.\n\nI will reword this comment to reference this scenario.",
+      "parentUuid": "1167e133_54b96cec",
       "range": {
         "startLine": 101,
         "startChar": 6,
@@ -89,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "11fd21c1_24b1720a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31edc5ca_edb0a507",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 24
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31edc5ca_cdade9ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
         "patchSetId": 2
@@ -100,6 +172,30 @@
       "writtenOn": "2016-03-25T22:10:40Z",
       "side": 1,
       "message": "Slightly nicer to create a static NoteDbChangeState.serialize(...) wrapper that does this.",
+      "range": {
+        "startLine": 132,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 25
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fea5bd_85b822eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "Done, also used from non-static toString below.",
+      "parentUuid": "31edc5ca_cdade9ad",
       "range": {
         "startLine": 132,
         "startChar": 8,
@@ -159,6 +255,30 @@
     },
     {
       "key": {
+        "uuid": "11fd21c1_c4be1ed8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "Javadoc added.",
+      "parentUuid": "51da3965_ee921f78",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31edc5ca_cdc4c95d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 2
@@ -170,6 +290,30 @@
       "writtenOn": "2016-03-25T22:10:40Z",
       "side": 1,
       "message": "nit: no space before \"absent\"",
+      "range": {
+        "startLine": 246,
+        "startChar": 35,
+        "endLine": 246,
+        "endChar": 54
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fea5bd_45cb4a6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31edc5ca_cdc4c95d",
       "range": {
         "startLine": 246,
         "startChar": 35,
@@ -229,6 +373,30 @@
     },
     {
       "key": {
+        "uuid": "31fea5bd_25c84e70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "There are two checkState calls that use the same message, hence the variable.\n\nWill instead extract to a descriptively named method.",
+      "parentUuid": "f1decd59_cbbe35d8",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 45
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31edc5ca_4db9f9ec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 2
@@ -240,6 +408,30 @@
       "writtenOn": "2016-03-25T22:10:40Z",
       "side": 1,
       "message": "I would think so?",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 277,
+        "endChar": 69
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31fea5bd_05c55256",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-29T13:52:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "31edc5ca_4db9f9ec",
       "range": {
         "startLine": 277,
         "startChar": 4,

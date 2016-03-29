@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.IO;
@@ -25,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
+@GwtIncompatible("Unemulated classes in java.io, java.nio and JGit")
 public class FileUtil {
   public static boolean modified(FileBasedConfig cfg) throws IOException {
     byte[] curVers;

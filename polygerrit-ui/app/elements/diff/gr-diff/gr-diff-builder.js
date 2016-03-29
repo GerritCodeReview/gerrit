@@ -95,7 +95,7 @@
       }
 
       if (group[GrDiffBuilder.GroupType.REMOVED] !== undefined) {
-        var highlights;
+        var highlights = undefined;
         if (group[GrDiffBuilder.Highlights.REMOVED] !== undefined) {
           highlights = this._normalizeIntralineHighlights(
               group[GrDiffBuilder.GroupType.REMOVED],
@@ -106,7 +106,7 @@
       }
 
       if (group[GrDiffBuilder.GroupType.ADDED] !== undefined) {
-        var highlights;
+        var highlights = undefined;
         if (group[GrDiffBuilder.Highlights.ADDED] !== undefined) {
           highlights = this._normalizeIntralineHighlights(
             group[GrDiffBuilder.GroupType.ADDED],

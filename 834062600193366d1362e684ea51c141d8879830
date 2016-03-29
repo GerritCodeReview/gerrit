@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1167e133_b44a80a1",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-29T04:34:19Z",
+      "side": 1,
+      "message": "Not thrilled about the large text blob column in Change table but its only for the transition. Might be OK to do that.",
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31edc5ca_2de10de6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
         "patchSetId": 2
@@ -176,6 +193,30 @@
       "writtenOn": "2016-03-25T22:10:40Z",
       "side": 1,
       "message": "Extract this as a constant.",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 45
+      },
+      "revId": "834062600193366d1362e684ea51c141d8879830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1decd59_cbbe35d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-03-29T04:34:19Z",
+      "side": 1,
+      "message": "Obviously its OK to ignore this as we don\u0027t extract these sorts of things as constants in Gerrit code. But I think it should be inlined into the checkState() call and not be so far removed from it.",
+      "parentUuid": "1167e133_94cae468",
       "range": {
         "startLine": 260,
         "startChar": 8,

@@ -115,10 +115,18 @@
       return '';
     },
 
+    _canSubmitChange: function() {
+      return this.$.jsAPI.canSubmitChange();
+    },
+
     _handleActionTap: function(e) {
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
       var key = el.getAttribute('data-action-key');
+      if (key == RevisionActions.SUBMIT &&
+          this._canSubmitChange() === false) {
+        return;
+      }
       var type = el.getAttribute('data-action-type');
       if (type == 'revision') {
         if (key == RevisionActions.REBASE) {

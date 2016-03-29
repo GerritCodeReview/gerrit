@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 enum NoteDbTable {
+  ACCOUNTS,
   CHANGES;
 
   String key() {

@@ -1,0 +1,21 @@
+{
+  "name": "polygerrit",
+  "version": "0.0.0",
+  "description": "Gerrit UI in Polymer; DO NOT PUBLISH, used only for dependency management",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#*",
+    "page": "visionmedia/page.js#*",
+    "fetch": "fetch#*",
+    "iron-ajax": "PolymerElements/iron-ajax#*",
+    "iron-input": "PolymerElements/iron-input#*",
+    "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#*",
+    "iron-dropdown": "PolymerElements/iron-dropdown#*",
+    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#*",
+    "iron-selector": "PolymerElements/iron-selector#*"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers"
+  }
+}

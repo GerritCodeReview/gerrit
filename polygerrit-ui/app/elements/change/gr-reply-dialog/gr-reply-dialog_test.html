@@ -38,6 +38,9 @@ limitations under the License.
     var server;
 
     setup(function() {
+      stub('gr-reply-dialog', {
+        _getAccount: function() { return Promise.resolve({}); },
+      });
       element = fixture('basic');
       element.changeNum = 42;
       element.patchNum = 1;

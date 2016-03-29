@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b120d52e_39c5ef56",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-29T19:24:33Z",
+      "side": 1,
+      "message": "This can be part of another PR however:\n\nI think that we can abstract the getLoggedIn redirect logic to a middleware helper.\n\nSince the route per each redirect is \"custom\" we can use partial application in the middleware fn to pass the knowledge of where to redirect to into the middleware fn.",
+      "revId": "f3b33a04d29956ab314da548748a2099e658963c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

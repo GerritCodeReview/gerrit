@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b120d52e_59d54302",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-29T19:33:15Z",
+      "side": 1,
+      "message": "min and max... why not just width: ...\n\n\n:)",
+      "revId": "5a88bef8715fcb4276e6b9927aaac8b17d21568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

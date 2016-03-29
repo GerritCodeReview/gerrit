@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "913e7148_40f30eb2",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-03-29T17:07:46Z",
+      "side": 1,
+      "message": "@Andy / @Sam: Would be nice if you could look into the referenced GitHub issue [1] above and probably post your opinion.\n\nAnother possible way to work around this issue would be to use \u0027dom-if\u0027 instead of \u0027hidden\u0027.\n\n[1] https://github.com/PolymerElements/iron-flex-layout/issues/86",
+      "parentUuid": "3cdafa64_ae0657fd",
+      "revId": "8b763f13d9289d524e5658c5cd3f6aabfa60a227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c729620_c5e3daed",
         "filename": "polygerrit-ui/app/styles/main.css",
         "patchSetId": 1

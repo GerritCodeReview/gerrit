@@ -132,7 +132,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  private Collection<SubmoduleSubscription>
+  public Collection<SubmoduleSubscription>
       superProjectSubscriptionsForSubmoduleBranch(
       Branch.NameKey branch) throws SubmoduleException {
     logDebug("Calculating possible superprojects for " + branch);

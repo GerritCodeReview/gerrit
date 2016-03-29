@@ -18,7 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -103,13 +105,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // First write doesn't create the ref, but rebuilding works.
     checker.assertNoChangeRef(project, id);
-    assertThat(db.changes().get(id).getNoteDbState()).isNull();
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isNull();
     checker.rebuildAndCheckChanges(id);
 
     // Now that there is a ref, writes are "turned on" for this change, and
     // NoteDb stays up to date without explicit rebuilding.
     gApi.changes().id(id.get()).topic(name("new-topic"));
-    assertThat(db.changes().get(id).getNoteDbState()).isNotNull();
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isNotNull();
     checker.checkChanges(id);
   }
 
@@ -166,26 +168,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name());
 
-    DraftInput in = new DraftInput();
-    in.line = 1;
-    in.message = "comment by user";
-    in.path = PushOneCommit.FILE_NAME;
-    setApiUser(user);
-    gApi.changes().id(id.get()).current().createDraft(in);
-
+    putDraft(user, id, 1, "comment by user");
     ObjectId userDraftsId = getMetaRef(
         allUsers, RefNames.refsDraftComments(user.getId(), id));
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
 
-    in = new DraftInput();
-    in.line = 2;
-    in.message = "comment by admin";
-    in.path = PushOneCommit.FILE_NAME;
-    setApiUser(admin);
-    gApi.changes().id(id.get()).current().createDraft(in);
-
+    putDraft(admin, id, 2, "comment by admin");
     ObjectId adminDraftsId = getMetaRef(
         allUsers, RefNames.refsDraftComments(admin.getId(), id));
     assertThat(admin.getId().get()).isLessThan(user.getId().get());
@@ -194,9 +184,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         + "," + admin.getId() + "=" + adminDraftsId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
 
-    in.message = "revised comment by admin";
-    gApi.changes().id(id.get()).current().createDraft(in);
-
+    putDraft(admin, id, 2, "revised comment by admin");
     adminDraftsId = getMetaRef(
         allUsers, RefNames.refsDraftComments(admin.getId(), id));
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
@@ -211,25 +199,48 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    assertUpToDate(true, id);
+    assertChangeUpToDate(true, id);
 
     // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
     notesMigration.setAllEnabled(false);
     gApi.changes().id(id.get()).topic(name("a-topic"));
     setInvalidNoteDbState(id);
-    assertUpToDate(false, id);
+    assertChangeUpToDate(false, id);
 
     // On next NoteDb read, the change is transparently rebuilt.
     notesMigration.setAllEnabled(true);
     assertThat(gApi.changes().id(id.get()).info().topic)
         .isEqualTo(name("a-topic"));
-    assertUpToDate(true, id);
+    assertChangeUpToDate(true, id);
 
     // Check that the bundles are equal.
     ChangeBundle actual = ChangeBundle.fromNotes(
         plcUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
+  @Test
+  public void rebuildAutomaticallyWhenDraftsOutOfDate() throws Exception {
+    notesMigration.setAllEnabled(true);
+    setApiUser(user);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment");
+    assertDraftsUpToDate(true, id, user);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    notesMigration.setAllEnabled(false);
+    putDraft(user, id, 1, "comment");
+    setInvalidNoteDbState(id);
+    assertDraftsUpToDate(false, id, user);
+
+    // On next NoteDb read, the drafts are transparently rebuilt.
+    notesMigration.setAllEnabled(true);
+    assertThat(gApi.changes().id(id.get()).current().drafts())
+        .containsKey(PushOneCommit.FILE_NAME);
+    assertDraftsUpToDate(true, id, user);
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
@@ -243,7 +254,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     db.changes().update(Collections.singleton(c));
   }
 
-  private void assertUpToDate(boolean expected, Change.Id id) throws Exception {
+  private void assertChangeUpToDate(boolean expected, Change.Id id)
+      throws Exception {
     try (Repository repo = repoManager.openMetadataRepository(project)) {
       Change c = unwrapDb().changes().get(id);
       assertThat(c).isNotNull();
@@ -253,10 +265,36 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
+  private void assertDraftsUpToDate(boolean expected, Change.Id changeId,
+      TestAccount account) throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+      Change c = unwrapDb().changes().get(changeId);
+      assertThat(c).isNotNull();
+      assertThat(c.getNoteDbState()).isNotNull();
+      NoteDbChangeState state = NoteDbChangeState.parse(c);
+      assertThat(state.areDraftsUpToDate(repo, account.getId()))
+          .isEqualTo(expected);
+    }
+  }
+
   private ObjectId getMetaRef(Project.NameKey p, String name) throws Exception {
     try (Repository repo = repoManager.openMetadataRepository(p)) {
       Ref ref = repo.exactRef(name);
       return ref != null ? ref.getObjectId() : null;
+    }
+  }
+
+  private void putDraft(TestAccount account, Change.Id id, int line, String msg)
+      throws Exception {
+    DraftInput in = new DraftInput();
+    in.line = line;
+    in.message = msg;
+    in.path = PushOneCommit.FILE_NAME;
+    AcceptanceTestRequestScope.Context old = setApiUser(account);
+    try {
+      gApi.changes().id(id.get()).current().createDraft(in);
+    } finally {
+      atrScope.set(old);
     }
   }
 

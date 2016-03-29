@@ -491,7 +491,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       throws OrmException {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
-      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), author);
+      draftCommentNotes = new DraftCommentNotes(args, change, author);
       draftCommentNotes.load();
     }
   }

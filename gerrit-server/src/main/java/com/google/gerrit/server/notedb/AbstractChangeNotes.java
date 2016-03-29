@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.auto.value.AutoValue;
@@ -77,10 +78,14 @@ public abstract class AbstractChangeNotes<T> {
   public static abstract class LoadHandle implements AutoCloseable {
     public static LoadHandle create(RevWalk walk, ObjectId id) {
       return new AutoValue_AbstractChangeNotes_LoadHandle(
-          walk, id != null ? id.copy() : null);
+          checkNotNull(walk), id != null ? id.copy() : null);
     }
 
-    public abstract RevWalk walk();
+    public static LoadHandle missing() {
+      return new AutoValue_AbstractChangeNotes_LoadHandle(null, null);
+    }
+
+    @Nullable public abstract RevWalk walk();
     @Nullable public abstract ObjectId id();
 
     @Override

@@ -114,6 +114,9 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
     db.patchSets().delete(db.patchSets().byChange(id));
     db.changeMessages().delete(db.changeMessages().byChange(id));
+
+    // Non-atomic operation on Accounts table; not much we can do to make it
+    // atomic.
     starredChangesUtil.unstarAll(id);
 
     ctx.deleteChange();

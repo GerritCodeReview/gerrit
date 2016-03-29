@@ -33,6 +33,16 @@ public class TestNotesMigration extends NotesMigration {
     return writeChanges;
   }
 
+  @Override
+  public boolean readAccounts() {
+    return false;
+  }
+
+  @Override
+  public boolean writeAccounts() {
+    return false;
+  }
+
   public TestNotesMigration setReadChanges(boolean readChanges) {
     this.readChanges = readChanges;
     return this;

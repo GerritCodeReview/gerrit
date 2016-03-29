@@ -15,13 +15,39 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 
 public class NoteDbModule extends FactoryModule {
+  private final boolean useTestBindings;
+
+  static NoteDbModule forTest() {
+    return new NoteDbModule(true);
+  }
+
+  public NoteDbModule() {
+    this(false);
+  }
+
+  private NoteDbModule(boolean useTestBindings) {
+    this.useTestBindings = useTestBindings;
+  }
+
   @Override
   public void configure() {
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
     factory(DraftCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
+    if (!useTestBindings) {
+      bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
+    } else {
+      bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
+        @Override
+        public void rebuild(ReviewDb db, Change.Id changeId) {
+          throw new UnsupportedOperationException();
+        }
+      });
+    }
   }
 }

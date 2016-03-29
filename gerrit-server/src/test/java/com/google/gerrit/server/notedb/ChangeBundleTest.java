@@ -77,7 +77,7 @@ public class ChangeBundleTest {
     systemTimeZoneProperty = System.setProperty("user.timezone", tz);
     systemTimeZone = TimeZone.getDefault();
     TimeZone.setDefault(TimeZone.getTimeZone(tz));
-    long maxMs = ChangeRebuilder.MAX_WINDOW_MS;
+    long maxMs = ChangeRebuilderImpl.MAX_WINDOW_MS;
     assertThat(maxMs).isGreaterThan(1000L);
     TestTimeUtil.resetWithClockStep(maxMs * 2, MILLISECONDS);
     project = new Project.NameKey("project");
@@ -93,7 +93,7 @@ public class ChangeBundleTest {
 
   private void superWindowResolution() {
     TestTimeUtil.setClockStep(
-        ChangeRebuilder.MAX_WINDOW_MS * 2, MILLISECONDS);
+        ChangeRebuilderImpl.MAX_WINDOW_MS * 2, MILLISECONDS);
     TimeUtil.nowTs();
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71065dd1_f7eac0c0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-30T12:18:21Z",
+      "side": 1,
+      "message": "Do you consider Gerrit as a poorly written application?\n\nI see that this text is copied from the apache AbandonedConfig.setRemoveAbandoned. It is appropriate there as they provide a general purpose connection pool to be used by any application. However, Gerrit doesn\u0027t provide a DB connection pool to be used by other applications... so mentioning poorly written applications in Gerrit\u0027s documentation makes not much sense IMHO.\n\nWhat is actually the intention of this change? Do you have a concrete issue with how Gerrit uses DB connections? Is the issue reproducible?",
+      "range": {
+        "startLine": 1497,
+        "startChar": 54,
+        "endLine": 1498,
+        "endChar": 79
+      },
+      "revId": "5ede0c658627385457d5c6d7b37f77f51a288418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

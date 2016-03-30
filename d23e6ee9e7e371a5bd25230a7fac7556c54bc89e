@@ -16,6 +16,24 @@
       "revId": "d23e6ee9e7e371a5bd25230a7fac7556c54bc89e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_a4b922f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-30T15:16:23Z",
+      "side": 1,
+      "message": "The parent change https://gerrit-review.googlesource.com/#/c/74936 turns off CodeMirror obfuscation for non-release builds, so we can still step through non-minified JS when developing.",
+      "parentUuid": "11c521ce_a492c276",
+      "revId": "d23e6ee9e7e371a5bd25230a7fac7556c54bc89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

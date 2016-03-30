@@ -56,13 +56,6 @@ def parse_graph():
       if target in KNOWN_PROVIDED_DEPS:
         continue
 
-      # js_minifier is only used by the build process.
-      # Skip it, even if --partial is not passed.
-      if dep == '//lib/codemirror:js_minifier':
-        if (target == '//lib/codemirror:js'
-            or target.startswith('//lib/codemirror:mode_')):
-          continue
-
       if (args.partial
           and dep == '//gerrit-gwtexpui:CSS'
           and target == '//gerrit-gwtui:ui_module'):

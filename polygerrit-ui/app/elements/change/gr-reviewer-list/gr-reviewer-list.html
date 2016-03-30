@@ -43,6 +43,9 @@ limitations under the License.
         flex: 1;
         font: inherit;
       }
+      gr-account-chip {
+        margin-top: .3em;
+      }
       .dropdown {
         background-color: #fff;
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
@@ -70,6 +73,11 @@ limitations under the License.
         line-height: 1;
         padding: 0 .15em;
         text-decoration: none;
+      }
+      @media screen and (max-width: 50em), screen and (min-width: 75em) {
+        gr-account-chip:first-of-type {
+          margin-top: 0;
+        }
       }
     </style>
     <gr-ajax id="autocompleteXHR"

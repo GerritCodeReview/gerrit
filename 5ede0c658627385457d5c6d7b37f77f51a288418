@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3118652c_95e544f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-30T12:24:45Z",
+      "side": 1,
+      "message": "Do you observe connection leak in your Gerrit server(s)? Have you already tried using the feature which this change provides to debug your Gerrit server(s)? Why not push a fix for the (assumed) connection leak?",
+      "revId": "5ede0c658627385457d5c6d7b37f77f51a288418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7eac0c0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

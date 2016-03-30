@@ -275,20 +275,24 @@ public class ChangeBundle {
     return change;
   }
 
-  ImmutableCollection<ChangeMessage> getChangeMessages() {
+  public ImmutableCollection<ChangeMessage> getChangeMessages() {
     return changeMessages;
   }
 
-  ImmutableCollection<PatchSet> getPatchSets() {
+  public ImmutableCollection<PatchSet> getPatchSets() {
     return patchSets.values();
   }
 
-  ImmutableCollection<PatchSetApproval> getPatchSetApprovals() {
+  public ImmutableCollection<PatchSetApproval> getPatchSetApprovals() {
     return patchSetApprovals.values();
   }
 
-  ImmutableCollection<PatchLineComment> getPatchLineComments() {
+  public ImmutableCollection<PatchLineComment> getPatchLineComments() {
     return patchLineComments.values();
+  }
+
+  public Source getSource() {
+    return source;
   }
 
   public ImmutableList<String> differencesFrom(ChangeBundle o) {

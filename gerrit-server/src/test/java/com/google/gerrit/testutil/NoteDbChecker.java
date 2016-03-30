@@ -14,13 +14,18 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
@@ -29,6 +34,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +47,7 @@ public class NoteDbChecker {
   static final Logger log = LoggerFactory.getLogger(NoteDbChecker.class);
 
   private final Provider<ReviewDb> dbProvider;
+  private final GitRepositoryManager repoManager;
   private final TestNotesMigration notesMigration;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeRebuilder changeRebuilder;
@@ -48,22 +55,56 @@ public class NoteDbChecker {
 
   @Inject
   NoteDbChecker(Provider<ReviewDb> dbProvider,
+      GitRepositoryManager repoManager,
       TestNotesMigration notesMigration,
       ChangeNotes.Factory notesFactory,
       ChangeRebuilder changeRebuilder,
       PatchLineCommentsUtil plcUtil) {
     this.dbProvider = dbProvider;
+    this.repoManager = repoManager;
     this.notesMigration = notesMigration;
     this.notesFactory = notesFactory;
     this.changeRebuilder = changeRebuilder;
     this.plcUtil = plcUtil;
   }
 
-  public void checkAllChanges() throws Exception {
-    checkChanges(
+  public void rebuildAndCheckAllChanges() throws Exception {
+    rebuildAndCheckChanges(
         Iterables.transform(
             unwrapDb().changes().all(),
             ReviewDbUtil.changeIdFunction()));
+  }
+
+  public void rebuildAndCheckChanges(Change.Id... changeIds) throws Exception {
+    rebuildAndCheckChanges(Arrays.asList(changeIds));
+  }
+
+  public void rebuildAndCheckChanges(Iterable<Change.Id> changeIds)
+      throws Exception {
+    ReviewDb db = unwrapDb();
+
+    List<ChangeBundle> allExpected = readExpected(changeIds);
+
+    boolean oldWrite = notesMigration.writeChanges();
+    boolean oldRead = notesMigration.readChanges();
+    try {
+      notesMigration.setWriteChanges(true);
+      notesMigration.setReadChanges(true);
+      List<String> msgs = new ArrayList<>();
+      for (ChangeBundle expected : allExpected) {
+        Change c = expected.getChange();
+        try {
+          changeRebuilder.rebuild(db, c.getId());
+        } catch (RepositoryNotFoundException e) {
+          msgs.add("Repository not found for change, cannot convert: " + c);
+        }
+      }
+
+      checkActual(allExpected, msgs);
+    } finally {
+      notesMigration.setReadChanges(oldRead);
+      notesMigration.setWriteChanges(oldWrite);
+    }
   }
 
   public void checkChanges(Change.Id... changeIds) throws Exception {
@@ -71,51 +112,71 @@ public class NoteDbChecker {
   }
 
   public void checkChanges(Iterable<Change.Id> changeIds) throws Exception {
+    checkActual(readExpected(changeIds), new ArrayList<String>());
+  }
+
+  public void assertNoChangeRef(Project.NameKey project, Change.Id changeId)
+      throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(project)) {
+      assertThat(repo.exactRef(ChangeNoteUtil.changeRefName(changeId)))
+          .isNull();
+    }
+  }
+
+  private List<ChangeBundle> readExpected(Iterable<Change.Id> changeIds)
+      throws Exception {
     ReviewDb db = unwrapDb();
+    boolean old = notesMigration.readChanges();
+    try {
+      notesMigration.setReadChanges(false);
+      List<Change.Id> sortedIds =
+          ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
+      List<ChangeBundle> expected = new ArrayList<>(sortedIds.size());
+      for (Change.Id id : sortedIds) {
+        expected.add(ChangeBundle.fromReviewDb(db, id));
+      }
+      return expected;
+    } finally {
+      notesMigration.setReadChanges(old);
+    }
+  }
 
-    notesMigration.setReadChanges(false);
-    List<Change.Id> sortedIds =
-        ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
-    List<ChangeBundle> allExpected = new ArrayList<>(sortedIds.size());
-    for (Change.Id id : sortedIds) {
-      allExpected.add(ChangeBundle.fromReviewDb(db, id));
-    }
-
-    notesMigration.setWriteChanges(true);
-    notesMigration.setReadChanges(true);
-    List<String> all = new ArrayList<>();
-    for (ChangeBundle expected : allExpected) {
-      Change c = expected.getChange();
-      try {
-        changeRebuilder.rebuild(db, c.getId());
-      } catch (RepositoryNotFoundException e) {
-        all.add("Repository not found for change, cannot convert: " + c);
+  private void checkActual(List<ChangeBundle> allExpected, List<String> msgs)
+      throws Exception {
+    ReviewDb db = unwrapDb();
+    boolean oldRead = notesMigration.readChanges();
+    boolean oldWrite = notesMigration.writeChanges();
+    try {
+      notesMigration.setWriteChanges(true);
+      notesMigration.setReadChanges(true);
+      for (ChangeBundle expected : allExpected) {
+        Change c = expected.getChange();
+        ChangeBundle actual;
+        try {
+          actual = ChangeBundle.fromNotes(
+              plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
+        } catch (Throwable t) {
+          String msg = "Error converting change: " + c;
+          msgs.add(msg);
+          log.error(msg, t);
+          continue;
+        }
+        List<String> diff = expected.differencesFrom(actual);
+        if (!diff.isEmpty()) {
+          msgs.add("Differences between ReviewDb and NoteDb for " + c + ":");
+          msgs.addAll(diff);
+          msgs.add("");
+        } else {
+          System.err.println(
+              "NoteDb conversion of change " + c.getId() + " successful");
+        }
       }
+    } finally {
+      notesMigration.setReadChanges(oldRead);
+      notesMigration.setWriteChanges(oldWrite);
     }
-    for (ChangeBundle expected : allExpected) {
-      Change c = expected.getChange();
-      ChangeBundle actual;
-      try {
-        actual = ChangeBundle.fromNotes(
-            plcUtil, notesFactory.create(db, c.getProject(), c.getId()));
-      } catch (Throwable t) {
-        String msg = "Error converting change: " + c;
-        all.add(msg);
-        log.error(msg, t);
-        continue;
-      }
-      List<String> diff = expected.differencesFrom(actual);
-      if (!diff.isEmpty()) {
-        all.add("Differences between ReviewDb and NoteDb for " + c + ":");
-        all.addAll(diff);
-        all.add("");
-      } else {
-        System.err.println(
-            "NoteDb conversion of change " + c.getId() + " successful");
-      }
-    }
-    if (!all.isEmpty()) {
-      throw new AssertionError(Joiner.on('\n').join(all));
+    if (!msgs.isEmpty()) {
+      throw new AssertionError(Joiner.on('\n').join(msgs));
     }
   }
 

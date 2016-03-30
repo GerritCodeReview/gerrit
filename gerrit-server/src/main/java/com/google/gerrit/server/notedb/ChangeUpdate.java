@@ -121,6 +121,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private PatchSetState psState;
   private Iterable<String> groups;
   private String pushCert;
+  private boolean isAllowWriteToNewtRef;
 
   private ChangeDraftUpdate draftUpdate;
 
@@ -306,7 +307,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void verifyComment(PatchLineComment c) {
-    checkArgument(c.getRevId() != null);
+    checkArgument(c.getRevId() != null, "RevId required for comment: %s", c);
     checkArgument(c.getAuthor().equals(getUser().getAccountId()),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", getUser().getAccountId(), c);
@@ -604,6 +605,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   ChangeDraftUpdate getDraftUpdate() {
     return draftUpdate;
+  }
+
+  public void setAllowWriteToNewRef(boolean allow) {
+    isAllowWriteToNewtRef = allow;
+  }
+
+  @Override
+  public boolean allowWriteToNewRef() {
+    return isAllowWriteToNewtRef;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

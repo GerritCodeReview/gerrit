@@ -52,6 +52,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
@@ -375,6 +377,8 @@ public class CommentsIT extends AbstractDaemonTest {
 
     addDraft(r1.getChangeId(), r1.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
+    addDraft(r1.getChangeId(), r1.getCommit().getName(),
+        newDraft(FILE_NAME, Side.PARENT, 2, "what happened to this?"));
     addDraft(r2.getChangeId(), r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "join lines"));
     addDraft(r2.getChangeId(), r2.getCommit().getName(),
@@ -410,8 +414,11 @@ public class CommentsIT extends AbstractDaemonTest {
         .comments();
     assertThat(ps1Map.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> ps1List = ps1Map.get(FILE_NAME);
-    assertThat(ps1List).hasSize(1);
-    assertThat(ps1List.get(0).message).isEqualTo("nit: trailing whitespace");
+    assertThat(ps1List).hasSize(2);
+    assertThat(ps1List.get(0).message).isEqualTo("what happened to this?");
+    assertThat(ps1List.get(0).side).isEqualTo(Side.PARENT);
+    assertThat(ps1List.get(1).message).isEqualTo("nit: trailing whitespace");
+    assertThat(ps1List.get(1).side).isNull();
 
     assertThat(gApi.changes()
           .id(r2.getChangeId())
@@ -433,16 +440,19 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     String url = canonicalWebUrl.get();
     int c = r1.getChange().getId().get();
-    assertThat(messages.get(0).body()).contains(
-        "\n"
-        + "Patch Set 2:\n"
+    assertThat(extractComments(messages.get(0).body())).isEqualTo(
+        "Patch Set 2:\n"
         + "\n"
-        + "(3 comments)\n"
+        + "(4 comments)\n"
         + "\n"
         + "comments\n"
         + "\n"
         + url + "#/c/" + c + "/1/a.txt\n"
         + "File a.txt:\n"
+        + "\n"
+        + "PS1, Line 2: \n"
+        + "what happened to this?\n"
+        + "\n"
         + "\n"
         + "PS1, Line 1: ew\n"
         + "nit: trailing whitespace\n"
@@ -457,9 +467,14 @@ public class CommentsIT extends AbstractDaemonTest {
         + "\n"
         + "PS2, Line 2: nten\n"
         + "typo: content\n"
-        + "\n"
-        + "\n"
-        + "-- \n");
+        + "\n");
+  }
+
+  private static String extractComments(String msg) {
+    // Extract lines between start "....." and end "-- ".
+    Pattern p = Pattern.compile(".*[.]{5}\n+(.*)\\n+-- \n.*", Pattern.DOTALL);
+    Matcher m = p.matcher(msg);
+    return m.matches() ? m.group(1) : msg;
   }
 
   private void addComment(PushOneCommit.Result r, String message)

@@ -235,6 +235,7 @@ public class ChangeRebuilder {
     ChangeUpdate update = updateFactory.create(
         controlFactory.controlFor(db, change, events.getUser(db)),
         events.getWhen());
+    update.setAllowWriteToNewRef(true);
     update.setPatchSetId(events.getPatchSetId());
     for (Event e : events) {
       e.apply(update);

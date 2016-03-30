@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "71065dd1_d7069c6e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-30T12:41:27Z",
+      "side": 1,
+      "message": "nit: we stopped using final for method/constructor parameters, see [1].\n\nA convention is to remove \"final\" when such a method/constructor is changed. So, this is a good chance to remove it from all parameters in this constructor.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 12
+      },
+      "revId": "a3ca3d901c1d6103e77cffeb77ee20850f7c8c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf32eea_0f568530",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
         "patchSetId": 2
@@ -85,6 +108,30 @@
       "side": 1,
       "message": "This is done for consistency with the other SSH implementation. Changing this one but not the other does not make sense.",
       "parentUuid": "b12a95bd_e9b09507",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 63
+      },
+      "revId": "a3ca3d901c1d6103e77cffeb77ee20850f7c8c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_35d55004",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-30T12:41:27Z",
+      "side": 1,
+      "message": "\u003e This is done for consistency with the other SSH implementation. Changing this one but not the other does not make sense.\n\nThis is a valid reason to keep it like it is.\n\nDariusz is correct about reloading: Gerrit needs to be restarted in order to (re)load gerrit.config.",
+      "parentUuid": "b12a95bd_29baade5",
       "range": {
         "startLine": 65,
         "startChar": 8,

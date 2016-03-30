@@ -76,7 +76,8 @@
 
     _loadRelative: function() {
       return this._getPreferences().then(function(prefs) {
-        this._relative = prefs && prefs.relative_date_in_change_table;
+        // prefs.relative_date_in_change_table is not set when false.
+        this._relative = !!(prefs && prefs.relative_date_in_change_table);
       }.bind(this));
     },
 

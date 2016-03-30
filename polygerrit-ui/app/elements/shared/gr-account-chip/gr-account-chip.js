@@ -24,11 +24,27 @@
         type: Boolean,
         value: false,
       },
+      showAvatar: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
+    },
+
+    ready: function() {
+      this._getShowAvatar().then(function(showAvatar) {
+        this.showAvatar = showAvatar;
+      }.bind(this));
     },
 
     _handleRemoveTap: function(e) {
       e.preventDefault();
       this.fire('remove', {account: this.account}, {bubbles: false});
+    },
+
+    _getShowAvatar: function() {
+      return this.$.restAPI.getConfig().then(function(cfg) {
+        return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
+      });
     },
   });
 })();

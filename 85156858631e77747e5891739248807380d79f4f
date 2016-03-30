@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11c521ce_44f30eb2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T20:21:16Z",
+      "side": 1,
+      "message": "Can this change be summarized in the commit message, explaining why replacing the fixed 0-indexing with such a search? Could be a one-liner javadoc comment as well.",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_24fc1284",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T20:21:16Z",
+      "side": 1,
+      "message": "Could move this to getApprovalAttribute, so such \"figuring-out\" of the label name gets delegated to the latter method -which is the one needing it.",
+      "range": {
+        "startLine": 128,
+        "startChar": 50,
+        "endLine": 128,
+        "endChar": 65
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_64f60aa4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T20:21:16Z",
+      "side": 1,
+      "message": "vote, rather? (singular)",
+      "range": {
+        "startLine": 171,
+        "startChar": 29,
+        "endLine": 171,
+        "endChar": 34
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_04f91694",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T20:21:16Z",
+      "side": 1,
+      "message": "If, by code-under-test mistake, we do not get this approval entry but twice the above one (either one), then we wrongfully pass this test. Already so before this change, indeed. Very unlikely I guess.",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_a407626d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T20:21:16Z",
+      "side": 1,
+      "message": "Is it safe to assume 0, rather than using lt.getDefaultValue?",
+      "range": {
+        "startLine": 533,
+        "startChar": 47,
+        "endLine": 533,
+        "endChar": 48
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9103d1be_58dc7d2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T20:21:16Z",
+      "side": 1,
+      "message": "Same comment/question as above; applies to below line 552.",
+      "range": {
+        "startLine": 550,
+        "startChar": 26,
+        "endLine": 550,
+        "endChar": 27
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

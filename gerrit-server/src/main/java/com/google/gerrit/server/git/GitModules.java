@@ -81,7 +81,7 @@ public class GitModules {
     }
   }
 
-  void load() throws SubmoduleException {
+  void load() throws IOException {
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try (Repository repo = repoManager.openRepository(project);
@@ -104,8 +104,8 @@ public class GitModules {
 
       subscriptions = subSecParserFactory.create(bbc, thisServer,
           branch).parseAllSections();
-    } catch (ConfigInvalidException | IOException e) {
-      throw new SubmoduleException(
+    } catch (ConfigInvalidException e) {
+      throw new IOException(
           "Could not read .gitmodule file of super project: " +
               branch.getParentKey(), e);
     }

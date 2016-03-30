@@ -132,24 +132,20 @@ public class SubmoduleOp {
     return ret;
   }
 
-  private Collection<SubmoduleSubscription>
+  public Collection<SubmoduleSubscription>
       superProjectSubscriptionsForSubmoduleBranch(
-      Branch.NameKey branch) throws SubmoduleException {
+      Branch.NameKey branch) throws IOException {
     logDebug("Calculating possible superprojects for " + branch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey project = branch.getParentKey();
     ProjectConfig cfg = projectCache.get(project).getConfig();
-    try {
-      for (SubscribeSection s : cfg.getSubscribeSections(branch)) {
-        Collection<Branch.NameKey> branches = getDestinationBranches(branch, s);
-        for (Branch.NameKey targetBranch : branches) {
-          GitModules m = gitmodulesFactory.create(targetBranch, updateId);
-          m.load();
-          ret.addAll(m.subscribedTo(branch));
-        }
+    for (SubscribeSection s : cfg.getSubscribeSections(branch)) {
+      Collection<Branch.NameKey> branches = getDestinationBranches(branch, s);
+      for (Branch.NameKey targetBranch : branches) {
+        GitModules m = gitmodulesFactory.create(targetBranch, updateId);
+        m.load();
+        ret.addAll(m.subscribedTo(branch));
       }
-    } catch (IOException e) {
-      throw new SubmoduleException("Could not update superproject", e);
     }
     logDebug("Calculated superprojects for " + branch + " are "+ ret);
     return ret;
@@ -169,11 +165,15 @@ public class SubmoduleOp {
     Multimap<Branch.NameKey, SubmoduleSubscription> targets =
         HashMultimap.create();
 
-    for (Branch.NameKey updatedBranch : updatedBranches) {
-      for (SubmoduleSubscription sub :
-        superProjectSubscriptionsForSubmoduleBranch(updatedBranch)) {
-        targets.put(sub.getSuperProject(), sub);
+    try {
+      for (Branch.NameKey updatedBranch : updatedBranches) {
+        for (SubmoduleSubscription sub :
+          superProjectSubscriptionsForSubmoduleBranch(updatedBranch)) {
+          targets.put(sub.getSuperProject(), sub);
+        }
       }
+    } catch (IOException e) {
+      throw new SubmoduleException("Could not calculate all superprojects");
     }
     updatedSubscribers.addAll(updatedBranches);
     // Update subscribers.

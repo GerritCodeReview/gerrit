@@ -201,8 +201,10 @@ public class ReplaceOp extends BatchUpdate.Op {
     ChangeUpdate update = ctx.getUpdate(patchSetId);
     update.setSubjectForCommit("Create patch set " + patchSetId.get());
 
+    String branchMessage = null;
     if (magicBranch != null) {
       recipients.add(magicBranch.getMailRecipients());
+      branchMessage = magicBranch.message;
       approvals.putAll(magicBranch.labels);
       Set<String> hashtags = magicBranch.hashtags;
       if (hashtags != null && !hashtags.isEmpty()) {
@@ -242,12 +244,21 @@ public class ReplaceOp extends BatchUpdate.Op {
         approvals);
     recipients.add(oldRecipients);
 
+    String approvalMessage = renderMessageWithApprovals(patchSetId.get(),
+        approvals, scanLabels(ctx, approvals));
+    String message = approvalMessage;
+    String kindMessage = changeKindMessage(changeKind);
+    if (!Strings.isNullOrEmpty(kindMessage)) {
+      message = message + kindMessage;
+    }
+    if (!Strings.isNullOrEmpty(branchMessage)) {
+      message = message + ": " + branchMessage;
+    }
     msg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
         ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
-    msg.setMessage(renderMessageWithApprovals(patchSetId.get(),
-        changeKindMessage(changeKind), approvals, scanLabels(ctx, approvals)));
+    msg.setMessage(message);
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedIntoRef == null) {
@@ -273,7 +284,7 @@ public class ReplaceOp extends BatchUpdate.Op {
   }
 
   private static String renderMessageWithApprovals(int patchSetId,
-      String suffix, Map<String, Short> n, Map<String, PatchSetApproval> c) {
+      Map<String, Short> n, Map<String, PatchSetApproval> c) {
     StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
     if (!n.isEmpty()) {
       boolean first = true;
@@ -290,11 +301,6 @@ public class ReplaceOp extends BatchUpdate.Op {
             .append(LabelVote.create(e.getKey(), e.getValue()).format());
       }
     }
-
-    if (!Strings.isNullOrEmpty(suffix)) {
-      msgs.append(suffix);
-    }
-
     return msgs.append('.').toString();
   }
 

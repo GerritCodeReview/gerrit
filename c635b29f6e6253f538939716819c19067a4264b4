@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9103d1be_78f6a1a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T21:23:18Z",
+      "side": 1,
+      "message": "Understood. Still a few minor (quick) comments attached. So this change is WIP or RFC (or backup) until amended otherwise(?)",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9103d1be_18f96594",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexActivateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T21:23:18Z",
+      "side": 1,
+      "message": "How about adding \u0027name\u0027 mention in all above traces?",
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_843b4620",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T21:23:18Z",
+      "side": 1,
+      "message": "start, rather?",
+      "range": {
+        "startLine": 35,
+        "startChar": 29,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11c521ce_e4403a86",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-30T21:23:18Z",
+      "side": 1,
+      "message": "Same comment as previous, on adding \u0027name\u0027 to above traces.",
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

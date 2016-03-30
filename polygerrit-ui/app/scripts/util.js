@@ -11,46 +11,49 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+(function(window) {
+  'use strict';
 
-'use strict';
+  var util = window.util || {};
 
-var util = util || {};
+  util.parseDate = function(dateStr) {
+    // Timestamps are given in UTC and have the format
+    // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
+    // nanoseconds.
+    // Munge the date into an ISO 8061 format and parse that.
+    return new Date(dateStr.replace(' ', 'T') + 'Z');
+  };
 
-util.parseDate = function(dateStr) {
-  // Timestamps are given in UTC and have the format
-  // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
-  // nanoseconds.
-  // Munge the date into an ISO 8061 format and parse that.
-  return new Date(dateStr.replace(' ', 'T') + 'Z');
-};
+  util.htmlEntityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&#39;',
+    '/': '&#x2F;',
+    '`': '&#96;',
+  };
 
-util.htmlEntityMap = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  '\'': '&#39;',
-  '/': '&#x2F;',
-  '`': '&#96;',
-};
+  util.escapeHTML = function(str) {
+    return str.replace(/[&<>"'`\/]/g, function(s) {
+      return util.htmlEntityMap[s];
+    });
+  };
 
-util.escapeHTML = function(str) {
-  return str.replace(/[&<>"'`\/]/g, function(s) {
-    return util.htmlEntityMap[s];
-  });
-};
-
-util.getCookie = function(name) {
-  var key = name + '=';
-  var cookies = document.cookie.split(';');
-  for (var i = 0; i < cookies.length; i++) {
-    var c = cookies[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
+  util.getCookie = function(name) {
+    var key = name + '=';
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var c = cookies[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(key) == 0) {
+        return c.substring(key.length, c.length);
+      }
     }
-    if (c.indexOf(key) == 0) {
-      return c.substring(key.length, c.length);
-    }
-  }
-  return '';
-};
+    return '';
+  };
+
+  window.util = util;
+})(window);

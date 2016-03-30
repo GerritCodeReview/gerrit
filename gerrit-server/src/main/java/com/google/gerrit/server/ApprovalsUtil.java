@@ -47,6 +47,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -329,5 +330,26 @@ public class ApprovalsUtil {
       }
     }
     return submitter;
+  }
+
+  public static String renderMessageWithApprovals(int patchSetId,
+      Map<String, Short> n, Map<String, PatchSetApproval> c) {
+    StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
+    if (!n.isEmpty()) {
+      boolean first = true;
+      for (Map.Entry<String, Short> e : n.entrySet()) {
+        if (c.containsKey(e.getKey())
+            && c.get(e.getKey()).getValue() == e.getValue()) {
+          continue;
+        }
+        if (first) {
+          msgs.append(":");
+          first = false;
+        }
+        msgs.append(" ")
+            .append(LabelVote.create(e.getKey(), e.getValue()).format());
+      }
+    }
+    return msgs.append('.').toString();
   }
 }

@@ -1127,6 +1127,7 @@ public class ReceiveCommits {
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
     Map<String, Short> labels = new HashMap<>();
+    String message;
     List<RevCommit> baseCommit;
     LabelTypes labelTypes;
     CmdLineParser clp;
@@ -1181,6 +1182,13 @@ public class ReceiveCommits {
         throw clp.reject(e.getMessage());
       }
       labels.put(v.label(), v.value());
+    }
+
+    @Option(name = "--message", aliases = {"-m"}, metaVar = "MESSAGE",
+        usage = "Comment message to apply to the review")
+    void addMessage(final String token) {
+      // git push does not allow spaces in refs.
+      message = token.replace("_", " ");
     }
 
     @Option(name = "--hashtag", aliases = {"-t"}, metaVar = "HASHTAG",
@@ -1750,8 +1758,12 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(
           accountResolver, magicBranch.draft, footerLines));
       recipients.remove(me);
-      String msg = renderMessageWithApprovals(psId.get(), null,
-          approvals, Collections.<String, PatchSetApproval> emptyMap());
+      StringBuilder msg =
+          new StringBuilder(ApprovalsUtil.renderMessageWithApprovals(psId.get(),
+              approvals, Collections.<String, PatchSetApproval> emptyMap()));
+      if (!Strings.isNullOrEmpty(magicBranch.message)) {
+        msg.append("\n").append(magicBranch.message);
+      }
       try (BatchUpdate bu = batchUpdateFactory.create(state.db,
            magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
         bu.setRepository(state.repo, state.rw, state.ins);
@@ -1759,7 +1771,7 @@ public class ReceiveCommits {
             .setReviewers(recipients.getReviewers())
             .setExtraCC(recipients.getCcOnly())
             .setApprovals(approvals)
-            .setMessage(msg)
+            .setMessage(msg.toString())
             .setNotify(magicBranch.notify)
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
@@ -1888,32 +1900,6 @@ public class ReceiveCommits {
         replaceByChange.get(notes.getChangeId()).change = notes.getChange();
       }
     }
-  }
-
-  private String renderMessageWithApprovals(int patchSetId, String suffix,
-      Map<String, Short> n, Map<String, PatchSetApproval> c) {
-    StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
-    if (!n.isEmpty()) {
-      boolean first = true;
-      for (Map.Entry<String, Short> e : n.entrySet()) {
-        if (c.containsKey(e.getKey())
-            && c.get(e.getKey()).getValue() == e.getValue()) {
-          continue;
-        }
-        if (first) {
-          msgs.append(":");
-          first = false;
-        }
-        msgs.append(" ")
-            .append(LabelVote.create(e.getKey(), e.getValue()).format());
-      }
-    }
-
-    if (!Strings.isNullOrEmpty(suffix)) {
-      msgs.append(suffix);
-    }
-
-    return msgs.append('.').toString();
   }
 
   private class ReplaceRequest {

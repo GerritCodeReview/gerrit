@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11c521ce_a492c276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-30T13:14:37Z",
+      "side": 1,
+      "message": "This is for all builds, not just the release build, right?\n\nI actually like the idea of having it for non-release builds as well. Having to spend 15 minutes recompiling a dev server on my laptop just because CM/jscompiler/buck was updated is no fun.\n\nThe only question I have is will we ever miss not having non-minified JS for ease of stepping through in a debugger. You would know better than I.",
+      "revId": "d23e6ee9e7e371a5bd25230a7fac7556c54bc89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

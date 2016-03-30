@@ -52,6 +52,24 @@
       "revId": "d23e6ee9e7e371a5bd25230a7fac7556c54bc89e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9103d1be_38cee97f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-03-30T15:25:30Z",
+      "side": 1,
+      "message": "I see. Added a paragraph in the commit message saying obfuscation is already turned off in the previous change.",
+      "parentUuid": "11c521ce_24ced27f",
+      "revId": "d23e6ee9e7e371a5bd25230a7fac7556c54bc89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

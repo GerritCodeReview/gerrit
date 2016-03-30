@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3118652c_d5efbcce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-30T12:32:32Z",
+      "side": 1,
+      "message": "Could be written as:\n\n  Strings.nullToEmpty(input.getUserName()).toLowerCase();",
+      "range": {
+        "startLine": 135,
+        "startChar": 17,
+        "endLine": 137,
+        "endChar": 50
+      },
+      "revId": "f2f3ce234b5f2e2dcb1642c5edd7963e7bb35f92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

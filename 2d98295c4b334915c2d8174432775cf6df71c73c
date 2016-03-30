@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3118652c_35a710d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2016-03-30T07:54:22Z",
+      "side": 1,
+      "message": "This change was intended to be committed together with the previous intra-line-diff-gh16 changes.\n\nIf the review of this change takes longer, then we should increment the IntraLineDiffKey version once in master and once again in this change.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "2d98295c4b334915c2d8174432775cf6df71c73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

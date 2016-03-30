@@ -178,6 +178,20 @@ updates:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%topic=driver/i42
 ====
 
+[[message]]
+A comment message can be applied to the change by using the `message` (or `m`)
+option:
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master
+====
+
+.Note
+****
+git push refs parameter does not allow spaces.  Use the '_' character instead,
+it will then be applied as "This is a rebase on master".
+****
+
 [[review_labels]]
 Review labels can be applied to the change by using the `label` (or `l`)
 option in the reference:

@@ -49,7 +49,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -201,8 +200,10 @@ public class ReplaceOp extends BatchUpdate.Op {
     ChangeUpdate update = ctx.getUpdate(patchSetId);
     update.setSubjectForCommit("Create patch set " + patchSetId.get());
 
+    String reviewMessage = null;
     if (magicBranch != null) {
       recipients.add(magicBranch.getMailRecipients());
+      reviewMessage = magicBranch.message;
       approvals.putAll(magicBranch.labels);
       Set<String> hashtags = magicBranch.hashtags;
       if (hashtags != null && !hashtags.isEmpty()) {
@@ -242,12 +243,21 @@ public class ReplaceOp extends BatchUpdate.Op {
         approvals);
     recipients.add(oldRecipients);
 
+    String approvalMessage = approvalsUtil.renderMessageWithApprovals(
+        patchSetId.get(), approvals, scanLabels(ctx, approvals));
+    StringBuilder message = new StringBuilder(approvalMessage);
+    String kindMessage = changeKindMessage(changeKind);
+    if (!Strings.isNullOrEmpty(kindMessage)) {
+      message.append(kindMessage);
+    }
+    if (!Strings.isNullOrEmpty(reviewMessage)) {
+      message.append(System.lineSeparator()).append(reviewMessage);
+    }
     msg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
         ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
-    msg.setMessage(renderMessageWithApprovals(patchSetId.get(),
-        changeKindMessage(changeKind), approvals, scanLabels(ctx, approvals)));
+    msg.setMessage(message.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedIntoRef == null) {
@@ -270,32 +280,6 @@ public class ReplaceOp extends BatchUpdate.Op {
       default:
         return null;
     }
-  }
-
-  private static String renderMessageWithApprovals(int patchSetId,
-      String suffix, Map<String, Short> n, Map<String, PatchSetApproval> c) {
-    StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
-    if (!n.isEmpty()) {
-      boolean first = true;
-      for (Map.Entry<String, Short> e : n.entrySet()) {
-        if (c.containsKey(e.getKey())
-            && c.get(e.getKey()).getValue() == e.getValue()) {
-          continue;
-        }
-        if (first) {
-          msgs.append(":");
-          first = false;
-        }
-        msgs.append(" ")
-            .append(LabelVote.create(e.getKey(), e.getValue()).format());
-      }
-    }
-
-    if (!Strings.isNullOrEmpty(suffix)) {
-      msgs.append(suffix);
-    }
-
-    return msgs.append('.').toString();
   }
 
   private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,

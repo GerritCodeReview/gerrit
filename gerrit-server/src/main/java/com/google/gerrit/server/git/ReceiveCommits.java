@@ -1127,6 +1127,7 @@ public class ReceiveCommits {
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
     Map<String, Short> labels = new HashMap<>();
+    String message = null;
     List<RevCommit> baseCommit;
     LabelTypes labelTypes;
     CmdLineParser clp;
@@ -1181,6 +1182,13 @@ public class ReceiveCommits {
         throw clp.reject(e.getMessage());
       }
       labels.put(v.label(), v.value());
+    }
+
+    @Option(name = "--message", aliases = {"-m"}, metaVar = "MESSAGE",
+        usage = "Comment message to apply to the review")
+    void addMessage(final String token) {
+      // git push does not allow spaces in refs.
+      message = token.replace("_", " ");
     }
 
     @Option(name = "--hashtag", aliases = {"-t"}, metaVar = "HASHTAG",
@@ -1747,11 +1755,15 @@ public class ReceiveCommits {
       checkNotNull(magicBranch);
       recipients.add(magicBranch.getMailRecipients());
       approvals = magicBranch.labels;
+      String branchMessage = magicBranch.message;
       recipients.add(getRecipientsFromFooters(
           accountResolver, magicBranch.draft, footerLines));
       recipients.remove(me);
-      String msg = renderMessageWithApprovals(psId.get(), null,
-          approvals, Collections.<String, PatchSetApproval> emptyMap());
+      String msg = renderMessageWithApprovals(psId.get(), approvals,
+          Collections.<String, PatchSetApproval> emptyMap());
+      if (!Strings.isNullOrEmpty(branchMessage)) {
+        msg = msg + ": " + branchMessage;
+      }
       try (BatchUpdate bu = batchUpdateFactory.create(state.db,
            magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
         bu.setRepository(state.repo, state.rw, state.ins);
@@ -1890,7 +1902,7 @@ public class ReceiveCommits {
     }
   }
 
-  private String renderMessageWithApprovals(int patchSetId, String suffix,
+  private String renderMessageWithApprovals(int patchSetId,
       Map<String, Short> n, Map<String, PatchSetApproval> c) {
     StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
     if (!n.isEmpty()) {
@@ -1908,12 +1920,7 @@ public class ReceiveCommits {
             .append(LabelVote.create(e.getKey(), e.getValue()).format());
       }
     }
-
-    if (!Strings.isNullOrEmpty(suffix)) {
-      msgs.append(suffix);
-    }
-
-    return msgs.append('.').toString();
+    return msgs.toString();
   }
 
   private class ReplaceRequest {

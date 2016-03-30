@@ -109,8 +109,9 @@ limitations under the License.
 
     suite('12 hours time format preference', function() {
       setup(function() {
+        // relative_date_in_change_table is not set when false.
         return stubRestAPI(
-          {time_format: 'HHMM_12', relative_date_in_change_table: false}
+          {time_format: 'HHMM_12'}
         ).then(function() {
           element = fixture('basic');
         });

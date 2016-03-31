@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae8790d0_81c0ba4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-31T19:56:10Z",
+      "side": 1,
+      "message": "The hereby added test passes, so this is not true anymore, right?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "ab8b421d176e0bfe8e92ff8bcbb9331c3ab702e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8e4cee_60bb32e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-31T19:56:10Z",
+      "side": 1,
+      "message": "Does work, as per this new passing test.",
+      "revId": "ab8b421d176e0bfe8e92ff8bcbb9331c3ab702e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae8790d0_61bb36e9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByFastForwardIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-03-31T19:56:10Z",
+      "side": 1,
+      "message": "Would indent this once more, thus same for below lines as well.",
+      "revId": "ab8b421d176e0bfe8e92ff8bcbb9331c3ab702e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

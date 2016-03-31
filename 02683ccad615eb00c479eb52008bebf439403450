@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae6230ec_49976169",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-03-31T01:05:02Z",
+      "side": 1,
+      "message": "_getShowAvatar sounds like it should return a URL for the avatar not a boolean, perhaps rename this method to something like\n\n_hasAvatar() or something similar. thoughts?",
+      "revId": "02683ccad615eb00c479eb52008bebf439403450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

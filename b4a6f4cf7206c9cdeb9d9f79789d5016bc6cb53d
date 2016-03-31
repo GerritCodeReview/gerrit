@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71065dd1_f7c9202a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:06:10Z",
+      "side": 1,
+      "message": "hmm.. actually we need it for the case when comparing two patch sets which have a different base. Then using the blame on the right-hand side I could better see what comes from the rebase and what from that patch-set.",
+      "parentUuid": "71065dd1_97ad4464",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3118652c_3516f070",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21

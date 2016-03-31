@@ -16,6 +16,24 @@
       "revId": "dc52cf44480656e1e471fb4fa392034b9ef8b44b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae8790d0_e1ce667e",
+        "filename": "lib/google-fonts/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-03-31T20:19:50Z",
+      "side": 1,
+      "message": "it\u0027s essentially a snapshot of google-fonts API response:\nhttps://fonts.googleapis.com/css?family\u003dSource+Code+Pro|Open+Sans:400,700",
+      "parentUuid": "ae8790d0_e1a506c8",
+      "revId": "dc52cf44480656e1e471fb4fa392034b9ef8b44b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

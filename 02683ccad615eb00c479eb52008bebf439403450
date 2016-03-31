@@ -16,6 +16,24 @@
       "revId": "02683ccad615eb00c479eb52008bebf439403450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e5cb836_6792527b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-03-31T01:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae6230ec_49976169",
+      "revId": "02683ccad615eb00c479eb52008bebf439403450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

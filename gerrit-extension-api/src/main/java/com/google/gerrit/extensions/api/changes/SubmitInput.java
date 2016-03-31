@@ -14,10 +14,14 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+
 public class SubmitInput {
   /** Not used anymore, kept for backward compatibility */
   @Deprecated
   public boolean waitForMerge;
 
   public String onBehalfOf;
+
+  public NotifyHandling notify = NotifyHandling.ALL;
 }

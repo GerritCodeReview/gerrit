@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -51,11 +52,11 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, String submissionId)
+      CommitStatus commits, String submissionId, NotifyHandling notifyHandling)
       throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
         commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
-        alreadyAccepted, submissionId);
+        alreadyAccepted, submissionId, notifyHandling);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

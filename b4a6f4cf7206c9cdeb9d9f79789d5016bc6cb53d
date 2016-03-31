@@ -1,0 +1,284 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71065dd1_97ad4464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "Do we need it on both sides? I mean when I compare Base vs PS-N, then I know that everything that is new/changed/deleted in the PS-N is from the commit I am reviewing... and I only need blame annotations on the Base to understand the non-changed lines.",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_3516f070",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 53
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71065dd1_d7b7bcaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71065dd1_379d5835",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_550d6c56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "In this case: is it loading only the blame of the base version or is it loading the blame of the base *in addition* to the blame of another commit? Please describe the intention clearer",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71065dd1_77a7d07c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "on",
+      "range": {
+        "startLine": 81,
+        "startChar": 30,
+        "endLine": 81,
+        "endChar": 34
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_75106872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "true\n\nI guess that when --base is used then it implies true. Not using --blame means false. We don\u0027t need --base\u003dtrue or --base\u003dfalse. Therefore, the parameter value can be ignored.",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_b5a84054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "parent[0] is already a RevCommit (which is an ObjectId).\n\nWhy take the name here (which is the SHA-1 of the parent) and then\nuse the expensive repository.resolve (line 131) just to convert the SHA-1 string back to what you already have here?",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71065dd1_57a44c76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "same here: you already have revCommit. Why convert it to SHA-1 string and then convert that back to object ID in the line 131?",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_95ad4464",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "this is for me a bit hard to follow. If base is true the parents.length \u003d\u003d 1 then we take the parent. Otherwise, regardless of whether base is true or false we take revCommit.\n\nIMHO, the part about merge-commit support should not be done in the first change. I would propose to simplify this change to only support non-merge commits and add support for merge commits in a follow-up change.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_f5b2b8c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "\"local\" and \"remote\" blames are not a good names IMHO.\n\nwhen merging two commits Git names them as \"ours\" and \"theirs\". \n\nAs said I would prefer to review the support for merge commits in a follow-up change.",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 33
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71065dd1_f7b2c0c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "I debugged this place and the result.blames.get(0).meta.author contains  my full name \"Saša Živkov\". However, the UI shows only my last name \"Živkov\". Why?",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71065dd1_b7cfa82e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "What do you consider here as merge base? From the code below it looks like you are talking about the auto-merge tree, which is not the commit which was used as the merge-base when the merge commit was created.\n\nOne more reason move support for merge commits into own change.",
+      "range": {
+        "startLine": 174,
+        "startChar": 38,
+        "endLine": 174,
+        "endChar": 52
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3118652c_1513f480",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-03-31T13:03:48Z",
+      "side": 1,
+      "message": "Please document the new REST endpoint",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -4893,6 +4893,11 @@ format link:rest-api-accounts.html#account-id[accepted by the accounts REST
 API]. Using this option requires
 link:access-control.html#category_submit_on_behalf_of[Submit (On Behalf Of)]
 permission on the branch.
+|`notify`|optional|
+Notify handling that defines to whom email notifications should be sent after
+the change is submitted. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
 |===========================
 
 [[submit-record]]

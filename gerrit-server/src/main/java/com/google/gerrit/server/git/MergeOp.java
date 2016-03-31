@@ -676,7 +676,7 @@ public class MergeOp implements AutoCloseable {
       CodeReviewCommit branchTip) throws IntegrationException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
-        mergeTip, commits, submissionId);
+        mergeTip, commits, submissionId, submitInput);
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,

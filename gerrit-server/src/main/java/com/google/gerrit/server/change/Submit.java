@@ -121,6 +121,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     public TestSubmitInput(SubmitInput base, boolean failAfterRefUpdates) {
       this.onBehalfOf = base.onBehalfOf;
+      this.notify = base.notify;
       this.failAfterRefUpdates = failAfterRefUpdates;
     }
   }

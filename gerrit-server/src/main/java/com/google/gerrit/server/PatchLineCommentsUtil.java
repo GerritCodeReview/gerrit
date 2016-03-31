@@ -387,7 +387,7 @@ public class PatchLineCommentsUtil {
     }
   }
 
-  private Map<String, Ref> getDraftRefs(Change.Id changeId)
+  public Map<String, Ref> getDraftRefs(Change.Id changeId)
       throws OrmException {
     try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
       return getDraftRefs(repo, changeId);

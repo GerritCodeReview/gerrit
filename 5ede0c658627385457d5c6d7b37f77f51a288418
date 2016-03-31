@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "71065dd1_f765a018",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-03-31T01:59:03Z",
+      "side": 1,
+      "message": "First of all,thanks for your review and questions.Actually I have encountered a connection leak in my Gerrit servers which was observed on the javamelody monitor web and the error_log.And I was using the feature to debug the gerrit servers,but the log seems not working.So util now I could not found the reason of the （assumed）connection leak.Because the gerrit is running in production environment,so it\u0027s a little diffcult to reproduce this issue.By the way,there is no doubt that the gerrit is a powerful application.",
+      "parentUuid": "3118652c_95e544f3",
+      "revId": "5ede0c658627385457d5c6d7b37f77f51a288418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7eac0c0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

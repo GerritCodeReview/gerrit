@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -89,7 +90,8 @@ public abstract class SubmitStrategy {
           RevFlag canMergeFlag,
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
-          String submissionId);
+          String submissionId,
+          NotifyHandling notifyHandling);
     }
 
     final AccountCache accountCache;
@@ -120,6 +122,7 @@ public abstract class SubmitStrategy {
     final Set<RevCommit> alreadyAccepted;
     final String submissionId;
     final SubmitType submitType;
+    final NotifyHandling notifyHandling;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
@@ -154,7 +157,8 @@ public abstract class SubmitStrategy {
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted String submissionId,
-        @Assisted SubmitType submitType) {
+        @Assisted SubmitType submitType,
+        @Assisted NotifyHandling notifyHandling) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
       this.batchUpdateFactory = batchUpdateFactory;
@@ -183,6 +187,7 @@ public abstract class SubmitStrategy {
       this.alreadyAccepted = alreadyAccepted;
       this.submissionId = submissionId;
       this.submitType = submitType;
+      this.notifyHandling = notifyHandling;
 
       this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
             "project not found: %s", destBranch.getParentKey());

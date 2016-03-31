@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae8790d0_6192567b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-31T16:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3118652c_15ec94a8",
+      "revId": "55406c4d49fa7ea7ee0e18a9b9746920e4a297ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3118652c_55f60c7a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2016-03-31T11:58:21Z",
       "side": 1,
       "message": "unnecessary initialization code. An instance member (which is an Object) will be initialized to null by default.",
+      "range": {
+        "startLine": 1130,
+        "startChar": 18,
+        "endLine": 1130,
+        "endChar": 25
+      },
+      "revId": "55406c4d49fa7ea7ee0e18a9b9746920e4a297ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae8790d0_81975a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-31T16:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3118652c_55f60c7a",
       "range": {
         "startLine": 1130,
         "startChar": 18,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ae8790d0_219c4e89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-31T16:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3118652c_f5fbd85d",
+      "range": {
+        "startLine": 204,
+        "startChar": 11,
+        "endLine": 204,
+        "endChar": 24
+      },
+      "revId": "55406c4d49fa7ea7ee0e18a9b9746920e4a297ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3118652c_9506e43f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 3
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "8e8e4cee_80975668",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-31T16:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3118652c_9506e43f",
+      "revId": "55406c4d49fa7ea7ee0e18a9b9746920e4a297ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_b7a84854",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 3
@@ -93,6 +177,30 @@
       "writtenOn": "2016-03-31T11:58:21Z",
       "side": 1,
       "message": "This will render a message which contains \".:\", for example:\n\n  Uploaded patch set 1.: message\n\nI would propose to use a newline here which would then produce a message like:\n\n  Uploaded patch set 1.\n  message",
+      "range": {
+        "startLine": 255,
+        "startChar": 26,
+        "endLine": 255,
+        "endChar": 30
+      },
+      "revId": "55406c4d49fa7ea7ee0e18a9b9746920e4a297ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8e4cee_6092527b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-03-31T16:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71065dd1_b7a84854",
       "range": {
         "startLine": 255,
         "startChar": 26,

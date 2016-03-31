@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae8790d0_e1a506c8",
+        "filename": "lib/google-fonts/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-03-31T17:24:41Z",
+      "side": 1,
+      "message": "I just realized, missing from this file is a description of exactly where you got these woff2 files.",
+      "revId": "dc52cf44480656e1e471fb4fa392034b9ef8b44b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -42,7 +43,7 @@ public class EmailMerge implements Runnable, RequestContext {
 
   public interface Factory {
     EmailMerge create(Project.NameKey project, Change.Id changeId,
-        Account.Id submitter);
+        Account.Id submitter, NotifyHandling notifyHandling);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -54,6 +55,7 @@ public class EmailMerge implements Runnable, RequestContext {
   private final Project.NameKey project;
   private final Change.Id changeId;
   private final Account.Id submitter;
+  private final NotifyHandling notifyHandling;
   private ReviewDb db;
 
   @Inject
@@ -64,7 +66,8 @@ public class EmailMerge implements Runnable, RequestContext {
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
-      @Assisted @Nullable Account.Id submitter) {
+      @Assisted @Nullable Account.Id submitter,
+      @Assisted NotifyHandling notifyHandling) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.schemaFactory = schemaFactory;
@@ -73,6 +76,7 @@ public class EmailMerge implements Runnable, RequestContext {
     this.project = project;
     this.changeId = changeId;
     this.submitter = submitter;
+    this.notifyHandling = notifyHandling;
   }
 
   public void sendAsync() {
@@ -87,6 +91,7 @@ public class EmailMerge implements Runnable, RequestContext {
       if (submitter != null) {
         cm.setFrom(submitter);
       }
+      cm.setNotify(notifyHandling);
       cm.send();
     } catch (Exception e) {
       log.error("Cannot email merged notification for " + changeId, e);

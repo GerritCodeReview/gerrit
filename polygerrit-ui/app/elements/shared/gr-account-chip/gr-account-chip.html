@@ -17,30 +17,50 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-account-link/gr-account-link.html">
 <link rel="import" href="../gr-button/gr-button.html">
+<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-chip">
   <template>
     <style>
       :host {
-        display: inline-block;
-        background: #ccc;
-        border-radius: .75em;
+        display: block;
+        overflow: hidden;
       }
-      span.innerspan {
-        margin: .5em;
+      .container {
+        align-items: center;
+        background: #eee;
+        border-radius: .75em;
+        display: inline-flex;
+        padding: 0 .5em;
+      }
+      :host([show-avatar]) .container {
+        padding-left: 0;
+      }
+      gr-button.remove,
+      gr-button.remove:hover,
+      gr-button.remove:focus {
+        border-color: transparent;
+        color: #333;
       }
       gr-button.remove {
+        background: #eee;
+        color: #666;
+        font-size: 1.7em;
+        font-weight: normal;
+        height: .6em;
+        line-height: .6em;
+        margin-left: .15em;
         padding: 0;
         text-decoration: none;
-        background: #ccc;
       }
     </style>
-    <span class="innerspan">
+    <div class="container">
       <gr-account-link account="[[account]]"></gr-account-link>
       <gr-button
-         hidden$="[[!removable]]" hidden
-         class="remove" on-tap="_handleRemoveTap">×</gr-button>
-    </span>
+          hidden$="[[!removable]]" hidden
+          class="remove" on-tap="_handleRemoveTap">×</gr-button>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-account-chip.js"></script>
 </dom-module>

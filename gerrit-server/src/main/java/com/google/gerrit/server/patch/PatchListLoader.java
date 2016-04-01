@@ -24,7 +24,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,22 +38,13 @@ import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.diff.Sequence;
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.MergeFormatter;
-import org.eclipse.jgit.merge.MergeResult;
-import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
@@ -63,18 +53,14 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -94,6 +80,7 @@ public class PatchListLoader implements Callable<PatchList> {
   private final PatchListCache patchListCache;
   private final ThreeWayMergeStrategy mergeStrategy;
   private final ExecutorService diffExecutor;
+  private final AutoMerger autoMerger;
   private final PatchListKey key;
   private final Project.NameKey project;
   private final long timeoutMillis;
@@ -104,12 +91,14 @@ public class PatchListLoader implements Callable<PatchList> {
       PatchListCache plc,
       @GerritServerConfig Config cfg,
       @DiffExecutor ExecutorService de,
+      AutoMerger am,
       @Assisted PatchListKey k,
       @Assisted Project.NameKey p) {
     repoManager = mgr;
     patchListCache = plc;
     mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     diffExecutor = de;
+    autoMerger = am;
     key = k;
     project = p;
     lock = new Object();
@@ -344,150 +333,10 @@ public class PatchListLoader implements Callable<PatchList> {
         return r;
       }
       case 2:
-        return automerge(repo, rw, b, mergeStrategy);
+        return autoMerger.merge(repo, rw, b, mergeStrategy);
       default:
         // TODO(sop) handle an octopus merge.
         return null;
-    }
-  }
-
-  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
-      ThreeWayMergeStrategy mergeStrategy) throws IOException {
-    return automerge(repo, rw, b, mergeStrategy, true);
-  }
-
-  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
-      ThreeWayMergeStrategy mergeStrategy, boolean save) throws IOException {
-    String hash = b.name();
-    String refName = RefNames.REFS_CACHE_AUTOMERGE
-        + hash.substring(0, 2)
-        + "/"
-        + hash.substring(2);
-    Ref ref = repo.getRefDatabase().exactRef(refName);
-    if (ref != null && ref.getObjectId() != null) {
-      return rw.parseTree(ref.getObjectId());
-    }
-
-    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
-    try (ObjectInserter ins = repo.newObjectInserter()) {
-      DirCache dc = DirCache.newInCore();
-      m.setDirCache(dc);
-      m.setObjectInserter(new ObjectInserter.Filter() {
-        @Override
-        protected ObjectInserter delegate() {
-          return ins;
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void close() {
-        }
-      });
-
-      boolean couldMerge;
-      try {
-        couldMerge = m.merge(b.getParents());
-      } catch (IOException e) {
-        // It is not safe to continue further down in this method as throwing
-        // an exception most likely means that the merge tree was not created
-        // and m.getMergeResults() is empty. This would mean that all paths are
-        // unmerged and Gerrit UI would show all paths in the patch list.
-        log.warn("Error attempting automerge " + refName, e);
-        return null;
-      }
-
-      ObjectId treeId;
-      if (couldMerge) {
-        treeId = m.getResultTreeId();
-
-      } else {
-        RevCommit ours = b.getParent(0);
-        RevCommit theirs = b.getParent(1);
-        rw.parseBody(ours);
-        rw.parseBody(theirs);
-        String oursMsg = ours.getShortMessage();
-        String theirsMsg = theirs.getShortMessage();
-
-        String oursName = String.format("HEAD   (%s %s)",
-            ours.abbreviate(6).name(),
-            oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
-        String theirsName = String.format("BRANCH (%s %s)",
-            theirs.abbreviate(6).name(),
-            theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
-
-        MergeFormatter fmt = new MergeFormatter();
-        Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
-        Map<String, ObjectId> resolved = new HashMap<>();
-        for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
-          MergeResult<? extends Sequence> p = entry.getValue();
-          try (TemporaryBuffer buf =
-              new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
-            fmt.formatMerge(buf, p, "BASE", oursName, theirsName, UTF_8.name());
-            buf.close();
-
-            try (InputStream in = buf.openInputStream()) {
-              resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
-            }
-          }
-        }
-
-        DirCacheBuilder builder = dc.builder();
-        int cnt = dc.getEntryCount();
-        for (int i = 0; i < cnt;) {
-          DirCacheEntry entry = dc.getEntry(i);
-          if (entry.getStage() == 0) {
-            builder.add(entry);
-            i++;
-            continue;
-          }
-
-          int next = dc.nextEntry(i);
-          String path = entry.getPathString();
-          DirCacheEntry res = new DirCacheEntry(path);
-          if (resolved.containsKey(path)) {
-            // For a file with content merge conflict that we produced a result
-            // above on, collapse the file down to a single stage 0 with just
-            // the blob content, and a randomly selected mode (the lowest stage,
-            // which should be the merge base, or ours).
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(resolved.get(path));
-
-          } else if (next == i + 1) {
-            // If there is exactly one stage present, shouldn't be a conflict...
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(entry.getObjectId());
-
-          } else if (next == i + 2) {
-            // Two stages suggests a delete/modify conflict. Pick the higher
-            // stage as the automatic result.
-            entry = dc.getEntry(i + 1);
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(entry.getObjectId());
-
-          } else { // 3 stage conflict, no resolve above
-            // Punt on the 3-stage conflict and show the base, for now.
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(entry.getObjectId());
-          }
-          builder.add(res);
-          i = next;
-        }
-        builder.finish();
-        treeId = dc.writeTree(ins);
-      }
-      ins.flush();
-
-      if (save) {
-        RefUpdate update = repo.updateRef(refName);
-        update.setNewObjectId(treeId);
-        update.disableRefLog();
-        update.forceUpdate();
-      }
-
-      return rw.lookupTree(treeId);
     }
   }
 

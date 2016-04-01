@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e7b3caf_f4cb786b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-01T21:44:03Z",
+      "side": 1,
+      "message": "Why any one of the existing options cannot do the job for fixes?",
+      "revId": "2c1bc2956e1f4f863924552a2991fb4ace5faddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

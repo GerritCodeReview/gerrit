@@ -373,7 +373,7 @@ public class AllChangesIndexer
           walk.parseBody(a);
           return walk.parseTree(a.getTree());
         case 2:
-          return autoMerger.merge(repo, walk, b, mergeStrategy);
+          return autoMerger.merge(repo, walk, b, mergeStrategy).getTree();
         default:
           return null;
       }

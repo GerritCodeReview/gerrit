@@ -12,8 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+
+import collections
+import hashlib
 import os
 from os import path
+import sys
 
 REPO_ROOTS = {
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
@@ -89,14 +94,27 @@ def hash_bower_component(hash_obj, path):
   if not os.path.isdir(path):
     raise ValueError('Not a directory: %s' % path)
 
+  bower_jsons = collections.OrderedDict()
+
   path = os.path.abspath(path)
   for root, dirs, files in os.walk(path):
     dirs.sort()
     for f in sorted(files):
+      p = os.path.join(root, f)
+      rel = p[len(path)+1:]
+      print('%s %s' % (hash_file(hashlib.sha1(), p).hexdigest(), rel),
+            file=sys.stderr)
+      if rel.endswith('bower.json'):
+        with open(p) as fileobj:
+          bower_jsons[rel] = fileobj.read().strip()
       if f == '.bower.json':
         continue
-      p = os.path.join(root, f)
-      hash_obj.update(p[len(path)+1:])
+      hash_obj.update(rel)
       hash_file(hash_obj, p)
+  print('', file=sys.stderr)
+  for rel, txt in bower_jsons.iteritems():
+    print('Contents of %s:' % rel, file=sys.stderr)
+    print(txt, file=sys.stderr)
+    print('', file=sys.stderr)
 
   return hash_obj

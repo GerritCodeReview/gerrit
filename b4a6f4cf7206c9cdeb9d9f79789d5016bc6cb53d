@@ -369,6 +369,30 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_e4499aae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T08:49:44Z",
+      "side": 1,
+      "message": "I think that local, remote, remote-tracking terms are used when talking about branches. When merging two commits then it is usually ours and theirs.",
+      "parentUuid": "0e4dfc86_84dae62f",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 33
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7b2c0c1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 21
@@ -398,6 +422,24 @@
       "side": 1,
       "message": "It displays the last name in the gutter and the full name when you hover over.",
       "parentUuid": "71065dd1_f7b2c0c1",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_443bce1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T08:49:44Z",
+      "side": 1,
+      "message": "Many of us would like to see full name here, just like Eclipse EGit does it. How about making this configurable? Could also be done in a follow-up change.",
+      "parentUuid": "0e4dfc86_a4dde22b",
       "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -439,6 +481,30 @@
       "side": 1,
       "message": "I consider the auto-merge tree as the merge-base here. However I don\u0027t see it as another reason to split it. The whole idea of this change started from reviewing merge commits and I prefer keeping these changes together.",
       "parentUuid": "71065dd1_b7cfa82e",
+      "range": {
+        "startLine": 174,
+        "startChar": 38,
+        "endLine": 174,
+        "endChar": 52
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_58929d7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T08:49:44Z",
+      "side": 1,
+      "message": "The main reason I asked for splitting is because smaller changes are easier and faster to review. The part about non-merge commits is easier to review, is already useful and could be submitted faster. In the follow-up change we could then concentrate on the merge-commit scenario. Without splitting we have to agree on everything in one larger change... this takes more time and is harder for reviewer(s).",
+      "parentUuid": "0e4dfc86_64092a81",
       "range": {
         "startLine": 174,
         "startChar": 38,

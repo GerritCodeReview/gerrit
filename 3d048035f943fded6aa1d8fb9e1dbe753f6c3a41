@@ -34,6 +34,24 @@
       "revId": "3d048035f943fded6aa1d8fb9e1dbe753f6c3a41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8e4cee_c0c55e59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-01T13:24:56Z",
+      "side": 1,
+      "message": "\u003e Hmm, your convention is interesting and I actually like it :) Not\n \u003e able to save / reedit comment from the Reply box is indeed painful.\n\nIndeed, but IMO that should be fixed independently.\n\n \u003e I think a general tag will be more useful than a mere \"non-human\"\n \u003e flag\n\n+1, OpenStack was talking about having potentially hundreds of different tags, one per bot type. A single boolean is not sufficient.",
+      "parentUuid": "ae8790d0_61e016e3",
+      "revId": "3d048035f943fded6aa1d8fb9e1dbe753f6c3a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

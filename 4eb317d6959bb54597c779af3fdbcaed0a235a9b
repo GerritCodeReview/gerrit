@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae8790d0_c1da4231",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-01T10:02:20Z",
+      "side": 1,
+      "message": "This implementation can\u0027t be ported to Unified, which uses custom gutters to display the line numbers. Instead of actually clearing the gutter and repopulating it on every toggle, we should simply use CSS to hide it.\n\nJust making a note here, we can defer this to a further change.",
+      "range": {
+        "startLine": 162,
+        "startChar": 20,
+        "endLine": 162,
+        "endChar": 36
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae8790d0_a1ddbe2b",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-01T10:02:20Z",
+      "side": 1,
+      "message": "Instead of caching the BlameInfo, I think we can just cache the actual gutters and show / hide them upon toggling.",
+      "range": {
+        "startLine": 209,
+        "startChar": 27,
+        "endLine": 209,
+        "endChar": 39
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

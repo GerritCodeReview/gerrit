@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_13b5ecf2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T22:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11c521ce_44f30eb2",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_24fc1284",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-03-30T20:21:16Z",
       "side": 1,
       "message": "Could move this to getApprovalAttribute, so such \"figuring-out\" of the label name gets delegated to the latter method -which is the one needing it.",
+      "range": {
+        "startLine": 128,
+        "startChar": 50,
+        "endLine": 128,
+        "endChar": 65
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_33ba68e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T22:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11c521ce_24fc1284",
       "range": {
         "startLine": 128,
         "startChar": 50,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_d3ce947e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T22:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11c521ce_64f60aa4",
+      "range": {
+        "startLine": 171,
+        "startChar": 29,
+        "endLine": 171,
+        "endChar": 34
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_04f91694",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2016-03-30T20:21:16Z",
       "side": 1,
       "message": "If, by code-under-test mistake, we do not get this approval entry but twice the above one (either one), then we wrongfully pass this test. Already so before this change, indeed. Very unlikely I guess.",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_b3c5185a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T22:47:48Z",
+      "side": 1,
+      "message": "Not sure what you mean.  This will get checked because the \"Code-Review\" label is defined by default in Gerrit therefore this will always exist in Gerrit and this code will get executed.",
+      "parentUuid": "11c521ce_04f91694",
       "revId": "85156858631e77747e5891739248807380d79f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_53e044e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T22:47:48Z",
+      "side": 1,
+      "message": "Yes, because at this point if a label doesn\u0027t have a vote then we can assume it\u0027s 0.  If there was a default value defied for the label it will have a vote at this point and will get overwritten by the code just below, allApprovals.putAll(current).\n\n\nThanks for pointing this out because this in fact is an issue for the previous change[1] which didn\u0027t take into consideration the default value when pushing a new patchset.  It\u0027s ok here, but will probably need to look at that previous change again. \n\n[1] https://gerrit-review.googlesource.com/#/c/71051",
+      "parentUuid": "11c521ce_a407626d",
+      "range": {
+        "startLine": 533,
+        "startChar": 47,
+        "endLine": 533,
+        "endChar": 48
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9103d1be_58dc7d2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -116,6 +224,30 @@
       "writtenOn": "2016-03-30T20:21:16Z",
       "side": 1,
       "message": "Same comment/question as above; applies to below line 552.",
+      "range": {
+        "startLine": 550,
+        "startChar": 26,
+        "endLine": 550,
+        "endChar": 27
+      },
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_73e540f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T22:47:48Z",
+      "side": 1,
+      "message": "same answer as above.",
+      "parentUuid": "9103d1be_58dc7d2d",
       "range": {
         "startLine": 550,
         "startChar": 26,

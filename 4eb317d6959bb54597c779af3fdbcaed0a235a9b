@@ -88,6 +88,48 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_847e66b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T15:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e672c0e_38ba49e2",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_98c83571",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T15:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_8429c6c8",
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e4dfc86_64848a03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 24
@@ -99,6 +141,30 @@
       "writtenOn": "2016-04-01T13:11:57Z",
       "side": 1,
       "message": "A boolean parameter is mandatory, even though it is ignored. This is because of how args4j works.",
+      "range": {
+        "startLine": 80,
+        "startChar": 21,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_b8c5f959",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T15:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_64848a03",
       "range": {
         "startLine": 80,
         "startChar": 21,
@@ -134,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "8e672c0e_58e05de2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T15:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_2419f2c1",
+      "range": {
+        "startLine": 130,
+        "startChar": 58,
+        "endLine": 130,
+        "endChar": 66
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e4dfc86_041ef6a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 24
@@ -157,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "8e672c0e_78e521f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T15:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_041ef6a9",
+      "range": {
+        "startLine": 132,
+        "startChar": 60,
+        "endLine": 132,
+        "endChar": 68
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e672c0e_d8cead7e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 24
@@ -168,6 +282,30 @@
       "writtenOn": "2016-04-01T13:11:57Z",
       "side": 1,
       "message": "I was wondering why do we need this code... why not just blame the auto-merge commit itself instead of combining the blame of the merge-commit with the blame of its parents? A problem is that we don\u0027t have the auto-merge commit in the repository. However, given that we already have the PatchListLoader.automerge(...) method which computes the automerge tree, building a commit on that tree would be trivial.\n\nActually I already tried that and it works as expected. So this code can be removed.\n\nWill push a new patch-set soon.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 3
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_646daa01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T15:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e672c0e_d8cead7e",
       "range": {
         "startLine": 166,
         "startChar": 0,

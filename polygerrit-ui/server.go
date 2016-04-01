@@ -42,8 +42,6 @@ func main() {
 	if *prod {
 		http.Handle("/", http.FileServer(http.Dir("dist")))
 	} else {
-		http.Handle("/bower_components/",
-			http.StripPrefix("/bower_components/", http.FileServer(http.Dir("bower_components"))))
 		http.Handle("/", http.FileServer(http.Dir("app")))
 	}
 

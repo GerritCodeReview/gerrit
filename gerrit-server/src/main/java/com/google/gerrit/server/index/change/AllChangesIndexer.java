@@ -39,7 +39,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchListLoader;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -90,6 +90,7 @@ public class AllChangesIndexer
   private final ChangeNotes.Factory notesFactory;
   private final ProjectCache projectCache;
   private final ThreeWayMergeStrategy mergeStrategy;
+  private final AutoMerger autoMerger;
 
   @Inject
   AllChangesIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -99,7 +100,8 @@ public class AllChangesIndexer
       ChangeIndexer.Factory indexerFactory,
       ChangeNotes.Factory notesFactory,
       @GerritServerConfig Config config,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      AutoMerger autoMerger) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
@@ -108,6 +110,7 @@ public class AllChangesIndexer
     this.notesFactory = notesFactory;
     this.projectCache = projectCache;
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
+    this.autoMerger = autoMerger;
   }
 
   @Override
@@ -236,6 +239,7 @@ public class AllChangesIndexer
           }
           new ProjectIndexer(indexer,
               mergeStrategy,
+              autoMerger,
               byId,
               repo,
               done,
@@ -257,6 +261,7 @@ public class AllChangesIndexer
   private static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
     private final ThreeWayMergeStrategy mergeStrategy;
+    private final AutoMerger autoMerger;
     private final Multimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
@@ -266,6 +271,7 @@ public class AllChangesIndexer
 
     private ProjectIndexer(ChangeIndexer indexer,
         ThreeWayMergeStrategy mergeStrategy,
+        AutoMerger autoMerger,
         Multimap<ObjectId, ChangeData> changesByCommitId,
         Repository repo,
         ProgressMonitor done,
@@ -273,6 +279,7 @@ public class AllChangesIndexer
         PrintWriter verboseWriter) {
       this.indexer = indexer;
       this.mergeStrategy = mergeStrategy;
+      this.autoMerger = autoMerger;
       this.byId = changesByCommitId;
       this.repo = repo;
       this.done = done;
@@ -366,7 +373,7 @@ public class AllChangesIndexer
           walk.parseBody(a);
           return walk.parseTree(a.getTree());
         case 2:
-          return PatchListLoader.automerge(repo, walk, b, mergeStrategy);
+          return autoMerger.merge(repo, walk, b, mergeStrategy);
         default:
           return null;
       }

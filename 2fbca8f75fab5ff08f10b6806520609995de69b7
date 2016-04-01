@@ -269,6 +269,30 @@
       "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_e432ba38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T13:11:57Z",
+      "side": 1,
+      "message": "\u003e Done\n\nThanks. Actually when I copy/pasted this fragment it contained an empty line above each \"else if\" and \"else\" block. Looks like these empty lines get lost after copying from here and pasting in eclipse. I will add the blank lines",
+      "parentUuid": "ae8790d0_e1d3c61f",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 7
+      },
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_24ea12c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71065dd1_d7b7bcaf",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_379d5835",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 21
@@ -100,6 +118,24 @@
       "writtenOn": "2016-03-31T13:03:48Z",
       "side": 1,
       "message": "unused import",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_04ef16d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71065dd1_379d5835",
       "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -186,6 +222,24 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_24033263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3118652c_b5a84054",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_57a44c76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 21
@@ -203,6 +257,24 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_04083679",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71065dd1_57a44c76",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3118652c_95ad4464",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 21
@@ -214,6 +286,30 @@
       "writtenOn": "2016-03-31T13:03:48Z",
       "side": 1,
       "message": "this is for me a bit hard to follow. If base is true the parents.length \u003d\u003d 1 then we take the parent. Otherwise, regardless of whether base is true or false we take revCommit.\n\nIMHO, the part about merge-commit support should not be done in the first change. I would propose to simplify this change to only support non-merge commits and add support for merge commits in a follow-up change.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_440e2e8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "if we request the blame for the base patchset (base \u003d\u003d true) we have two cases to deal with:\n- when the current change is a normal commit then the base commit is the first (and only) parent of that commit\n- otherwise it\u0027s a merge commit and we use that commit to get the blame (later we modify it with the local/ours and remote/theirs blames to create the merge-base blame)",
+      "parentUuid": "3118652c_95ad4464",
       "range": {
         "startLine": 124,
         "startChar": 0,
@@ -249,6 +345,30 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_84dae62f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "git also uses the terms local and remote when merging two commits but I renamed them.\n\nDone",
+      "parentUuid": "3118652c_f5b2b8c1",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 33
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7b2c0c1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 21
@@ -260,6 +380,24 @@
       "writtenOn": "2016-03-31T13:03:48Z",
       "side": 1,
       "message": "I debugged this place and the result.blames.get(0).meta.author contains  my full name \"Saša Živkov\". However, the UI shows only my last name \"Živkov\". Why?",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_a4dde22b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "It displays the last name in the gutter and the full name when you hover over.",
+      "parentUuid": "71065dd1_f7b2c0c1",
       "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -289,6 +427,30 @@
     },
     {
       "key": {
+        "uuid": "0e4dfc86_64092a81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "I consider the auto-merge tree as the merge-base here. However I don\u0027t see it as another reason to split it. The whole idea of this change started from reviewing merge commits and I prefer keeping these changes together.",
+      "parentUuid": "71065dd1_b7cfa82e",
+      "range": {
+        "startLine": 174,
+        "startChar": 38,
+        "endLine": 174,
+        "endChar": 52
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3118652c_1513f480",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 21
@@ -300,6 +462,24 @@
       "writtenOn": "2016-03-31T13:03:48Z",
       "side": 1,
       "message": "Please document the new REST endpoint",
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_e4fcfa85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T00:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3118652c_1513f480",
       "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

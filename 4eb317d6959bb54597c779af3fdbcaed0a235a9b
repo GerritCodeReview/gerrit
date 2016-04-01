@@ -363,6 +363,30 @@
       "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_f3cb906b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-01T22:07:56Z",
+      "side": 1,
+      "message": "I think https://gerrit-review.googlesource.com/#/c/76267/ is now a prerequisite for this change.",
+      "parentUuid": "0ed09ce3_8caf87a4",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 3
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

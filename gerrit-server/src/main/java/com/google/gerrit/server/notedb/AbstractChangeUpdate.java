@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -23,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 
@@ -41,63 +41,69 @@ import java.util.Date;
 /** A single delta related to a specific patch-set of a change. */
 public abstract class AbstractChangeUpdate {
   protected final NotesMigration migration;
-  protected final GitRepositoryManager repoManager;
-  protected final ChangeControl ctl;
-  protected final String anonymousCowardName;
   protected final ChangeNoteUtil noteUtil;
+  protected final String anonymousCowardName;
+  protected final ChangeNotes notes;
+  protected final Account.Id accountId;
+  protected final PersonIdent authorIdent;
   protected final Date when;
   private final PersonIdent serverIdent;
 
   protected PatchSet.Id psId;
   private ObjectId result;
 
-  protected AbstractChangeUpdate(NotesMigration migration,
-      GitRepositoryManager repoManager,
+  protected AbstractChangeUpdate(
+      NotesMigration migration,
       ChangeControl ctl,
       PersonIdent serverIdent,
       String anonymousCowardName,
       ChangeNoteUtil noteUtil,
       Date when) {
+    this(
+        migration,
+        noteUtil,
+        serverIdent,
+        anonymousCowardName,
+        ctl.getNotes(),
+        accountId(ctl.getUser()),
+        ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when),
+        when);
+  }
+
+  protected AbstractChangeUpdate(
+      NotesMigration migration,
+      ChangeNoteUtil noteUtil,
+      PersonIdent serverIdent,
+      String anonymousCowardName,
+      ChangeNotes notes,
+      Account.Id accountId,
+      PersonIdent authorIdent,
+      Date when) {
     this.migration = migration;
-    this.repoManager = repoManager;
-    this.ctl = ctl;
-    this.serverIdent = serverIdent;
-    this.anonymousCowardName = anonymousCowardName;
     this.noteUtil = noteUtil;
+    this.serverIdent = new PersonIdent(serverIdent, when);
+    this.anonymousCowardName = anonymousCowardName;
+    this.notes = notes;
+    this.accountId = accountId;
+    this.authorIdent = authorIdent;
     this.when = when;
+  }
+
+  private static void checkUserType(CurrentUser user) {
     checkArgument(
-        (ctl.getUser() instanceof IdentifiedUser)
-            || (ctl.getUser() instanceof InternalUser),
-        "user must be IdentifiedUser or InternalUser: %s", ctl.getUser());
+        (user instanceof IdentifiedUser) || (user instanceof InternalUser),
+        "user must be IdentifiedUser or InternalUser: %s", user);
   }
 
-  public ChangeNotes getChangeNotes() {
-    return ctl.getNotes();
+  private static Account.Id accountId(CurrentUser u) {
+    checkUserType(u);
+    return (u instanceof IdentifiedUser) ? u.getAccountId() : null;
   }
 
-  public Change getChange() {
-    return ctl.getChange();
-  }
-
-  public Date getWhen() {
-    return when;
-  }
-
-  public CurrentUser getUser() {
-    return ctl.getUser();
-  }
-
-  public PatchSet.Id getPatchSetId() {
-    return psId;
-  }
-
-  public void setPatchSetId(PatchSet.Id psId) {
-    checkArgument(psId == null || psId.getParentKey().equals(ctl.getId()));
-    this.psId = psId;
-  }
-
-  private PersonIdent newAuthorIdent() {
-    CurrentUser u = getUser();
+  private static PersonIdent ident(ChangeNoteUtil noteUtil,
+      PersonIdent serverIdent, String anonymousCowardName, CurrentUser u,
+      Date when) {
+    checkUserType(u);
     if (u instanceof IdentifiedUser) {
       return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when,
           serverIdent, anonymousCowardName);
@@ -105,6 +111,42 @@ public abstract class AbstractChangeUpdate {
       return serverIdent;
     }
     throw new IllegalStateException();
+  }
+
+  public Change.Id getId() {
+    return notes.getChangeId();
+  }
+
+  public ChangeNotes getNotes() {
+    return notes;
+  }
+
+  public Change getChange() {
+    return notes.getChange();
+  }
+
+  public Date getWhen() {
+    return when;
+  }
+
+  public PatchSet.Id getPatchSetId() {
+    return psId;
+  }
+
+  public void setPatchSetId(PatchSet.Id psId) {
+    checkArgument(psId == null || psId.getParentKey().equals(getId()));
+    this.psId = psId;
+  }
+
+  public Account.Id getAccountId() {
+    checkState(accountId != null,
+        "author identity for %s is not from an IdentifiedUser: %s",
+        getClass().getSimpleName(), authorIdent.toExternalString());
+    return accountId;
+  }
+
+  public Account.Id getNullableAccountId() {
+    return accountId;
   }
 
   protected PersonIdent newIdent(Account author, Date when) {
@@ -145,7 +187,7 @@ public abstract class AbstractChangeUpdate {
       result = z;
       return z; // Impl intends to delete the ref.
     }
-    cb.setAuthor(newAuthorIdent());
+    cb.setAuthor(authorIdent);
     cb.setCommitter(new PersonIdent(serverIdent, when));
     if (!curr.equals(z)) {
       cb.setParentId(curr);

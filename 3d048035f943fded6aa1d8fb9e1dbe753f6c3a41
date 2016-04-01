@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e4dfc86_2440d283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023643
+      },
+      "writtenOn": "2016-04-01T08:32:18Z",
+      "side": 1,
+      "message": "The convention we use at our internal Gerrit instance is to always put comments as file comments, and never put anything in the \"Reply\" dialog, except maybe for \"noise\" like \"good work\", \"great you added this\", etc. This way Gerrit nicely expands such comment. Also it enables saving and reediting comments before publishing them, this is not available directly in the \"Reply\" dialog. If something general needs to be documented we just comment on the whole COMMIT_MSG file, like I do right now. So in the end we \"implemented\" such \"filter out non-human comments\" feature inside our \"workflow\":) We would even propose to remove the ability to comment in Reply dialog:)\n\n\n\nWhy using so general term \"tag\", why not just adding \"Non-human\" flag? Is there anything else that is meant to be pushed into this \"tag\"?\n\nIn case of \"non-human flag\" all comments in the GWT UI would have that always set to false, and adding new flag to the SSH command that would allow setting it to true. This way Gerrit could always automatically collapse non-human comments, without any user action. I believe in case of general \"tag\", it would not be possible to implement that auto-collapse?",
+      "revId": "3d048035f943fded6aa1d8fb9e1dbe753f6c3a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

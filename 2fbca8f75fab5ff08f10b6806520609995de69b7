@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e672c0e_189c2589",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T09:37:09Z",
+      "side": 1,
+      "message": "remove \n\nthe parents[0] is already an ObjectId;",
+      "range": {
+        "startLine": 124,
+        "startChar": 29,
+        "endLine": 124,
+        "endChar": 42
+      },
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_38a1e9bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T09:37:09Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 126,
+        "startChar": 28,
+        "endLine": 126,
+        "endChar": 41
+      },
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_78976169",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T09:37:09Z",
+      "side": 1,
+      "message": "When parents.length \u003d\u003d 0 then we will end up here also when base is TRUE. However, the blame will be computed for the revCommit (line 126). Actually, the case of (base \u0026\u0026 parents.length \u003d\u003d 0) shouldn\u0027t be supported.",
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_f8a291bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T09:37:09Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 135,
+        "startChar": 58,
+        "endLine": 135,
+        "endChar": 66
+      },
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e672c0e_98afd5a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T09:37:09Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 137,
+        "startChar": 60,
+        "endLine": 137,
+        "endChar": 68
+      },
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_a453a25e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-01T09:37:09Z",
+      "side": 1,
+      "message": "I think this code is more readable if restructured like this:\n\n      List\u003cBlameInfo.Line\u003e blames;\n      if (!base) {\n        blames \u003d blame(revCommit, path, repository, revWalk);\n\n      } else if (parents.length \u003d\u003d 0) {\n        throw new ResourceNotFoundException(\"Initial commit doesn\u0027t have base\");\n\n      } else if (parents.length \u003d\u003d 1) {\n        blames \u003d blame(parents[0], path, repository, revWalk);\n\n      } else if (parents.length \u003d\u003d 2) {\n        List\u003cBlameInfo.Line\u003e oursBlames \u003d blame(parents[0].getId(), path,\n            repository, revWalk);\n        List\u003cBlameInfo.Line\u003e theirsBlames \u003d blame(parents[1].getId(), path,\n            repository, revWalk);\n\n        Response\u003cDiffInfo\u003e diffResponse \u003d getDiff.apply(resource);\n        DiffInfo diff \u003d diffResponse.value();\n\n        List\u003cBlameInfo.Line\u003e common \u003d blame(revCommit, path, repository, revWalk);\n        blames \u003d blameAutoMergeTree(diff, common, oursBlames, theirsBlames);\n\n      } else {\n        throw new ResourceNotFoundException(\n            \"Cannot generate blame for merge commit with more than 2 parents\");\n      }",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 7
+      },
+      "revId": "2fbca8f75fab5ff08f10b6806520609995de69b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

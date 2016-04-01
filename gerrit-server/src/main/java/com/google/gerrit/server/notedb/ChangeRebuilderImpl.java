@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.MoreObjects;
@@ -31,6 +32,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -39,24 +41,24 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -66,6 +68,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -90,37 +93,40 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
    */
   private static final long MAX_DELTA_MS = SECONDS.toMillis(1);
 
-  private final ChangeControl.GenericFactory controlFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final InternalUser.Factory internalUserFactory;
-  private final PatchListCache patchListCache;
-  private final ChangeNotes.Factory notesFactory;
-  private final ChangeUpdate.Factory updateFactory;
+  private final AccountCache accountCache;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeNoteUtil changeNoteUtil;
+  private final ChangeUpdate.Factory updateFactory;
+  private final NoteDbUpdateManager.Factory updateManagerFactory;
+  private final PatchListCache patchListCache;
+  private final PersonIdent serverIdent;
+  private final ProjectCache projectCache;
+  private final String anonymousCowardName;
 
   @Inject
   ChangeRebuilderImpl(SchemaFactory<ReviewDb> schemaFactory,
-      ChangeControl.GenericFactory controlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      InternalUser.Factory internalUserFactory,
-      PatchListCache patchListCache,
-      ChangeNotes.Factory notesFactory,
-      ChangeUpdate.Factory updateFactory,
+      AccountCache accountCache,
       ChangeDraftUpdate.Factory draftUpdateFactory,
+      ChangeNotes.Factory notesFactory,
+      ChangeNoteUtil changeNoteUtil,
+      ChangeUpdate.Factory updateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
-      ChangeNoteUtil changeNoteUtil) {
+      PatchListCache patchListCache,
+      @GerritPersonIdent PersonIdent serverIdent,
+      @Nullable ProjectCache projectCache,
+      @AnonymousCowardName String anonymousCowardName) {
     super(schemaFactory);
-    this.controlFactory = controlFactory;
-    this.userFactory = userFactory;
-    this.internalUserFactory = internalUserFactory;
-    this.patchListCache = patchListCache;
-    this.notesFactory = notesFactory;
-    this.updateFactory = updateFactory;
+    this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
-    this.updateManagerFactory = updateManagerFactory;
+    this.notesFactory = notesFactory;
     this.changeNoteUtil = changeNoteUtil;
+    this.updateFactory = updateFactory;
+    this.updateManagerFactory = updateManagerFactory;
+    this.patchListCache = patchListCache;
+    this.serverIdent = serverIdent;
+    this.projectCache = projectCache;
+    this.anonymousCowardName = anonymousCowardName;
   }
 
   @Override
@@ -172,8 +178,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
+      throws IOException, OrmException, ConfigInvalidException {
     Change change = new Change(bundle.getChange());
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
@@ -241,16 +246,25 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private void flushEventsToUpdate(NoteDbUpdateManager manager,
-      EventList<Event> events, Change change)
-      throws NoSuchChangeException, OrmException, IOException {
+      EventList<Event> events, Change change) throws OrmException, IOException {
     if (events.isEmpty()) {
       return;
     }
+    Comparator<String> labelNameComparator;
+    if (projectCache != null) {
+      labelNameComparator = projectCache.get(change.getProject())
+          .getLabelTypes().nameComparator();
+    } else {
+      // No project cache available, bail and use natural ordering; there's no
+      // semantic difference anyway difference.
+      labelNameComparator = Ordering.natural();
+    }
     ChangeUpdate update = updateFactory.create(
-        controlFactory.controlFor(
-            notesFactory.createWithAutoRebuildingDisabled(change),
-            events.getUser()),
-        events.getWhen());
+        notesFactory.createWithAutoRebuildingDisabled(change),
+        events.getAccountId(),
+        events.newAuthorIdent(),
+        events.getWhen(),
+        labelNameComparator);
     update.setAllowWriteToNewRef(true);
     update.setPatchSetId(events.getPatchSetId());
     for (Event e : events) {
@@ -262,14 +276,14 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void flushEventsToDraftUpdate(NoteDbUpdateManager manager,
       EventList<PatchLineCommentEvent> events, Change change)
-      throws NoSuchChangeException, OrmException {
+      throws OrmException {
     if (events.isEmpty()) {
       return;
     }
     ChangeDraftUpdate update = draftUpdateFactory.create(
-        controlFactory.controlFor(
-            notesFactory.createWithAutoRebuildingDisabled(change),
-            events.getUser()),
+        notesFactory.createWithAutoRebuildingDisabled(change),
+        events.getAccountId(),
+        events.newAuthorIdent(),
         events.getWhen());
     update.setPatchSetId(events.getPatchSetId());
     for (PatchLineCommentEvent e : events) {
@@ -379,9 +393,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       checkState(when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
           "event at %s outside update window starting at %s",
           when, update.getWhen());
-      checkState(Objects.equals(update.getUser().getAccountId(), who),
+      checkState(Objects.equals(update.getNullableAccountId(), who),
           "cannot apply event by %s to update by %s",
-          who, update.getUser().getAccountId());
+          who, update.getNullableAccountId());
     }
 
     /**
@@ -468,18 +482,23 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       return id;
     }
 
-    CurrentUser getUser() {
+    Account.Id getAccountId() {
       Account.Id id = get(0).who;
       for (int i = 1; i < size(); i++) {
         checkState(Objects.equals(id, get(i).who),
             "mismatched users in EventList: %s != %s", id, get(i).who);
       }
+      return id;
+    }
+
+    PersonIdent newAuthorIdent() {
+      Account.Id id = getAccountId();
       if (id == null) {
-        return internalUserFactory.create();
+        return serverIdent;
       }
-      // db is only used by IdentifiedUser to look up project watches, which are
-      // not needed for rebuilding changes.
-      return userFactory.create(Providers.of((ReviewDb) null), id);
+      return changeNoteUtil.newIdent(
+          accountCache.get(id).getAccount(), getWhen(), serverIdent,
+          anonymousCowardName);
     }
   }
 

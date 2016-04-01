@@ -93,7 +93,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     }
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-    ChangeNotes notes = update.getChangeNotes().load();
+    ChangeNotes notes = update.getNotes().load();
 
     Set<String> existingHashtags = notes.getHashtags();
     Set<String> updated = new HashSet<>();

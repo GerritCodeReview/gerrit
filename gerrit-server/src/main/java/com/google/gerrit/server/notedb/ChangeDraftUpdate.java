@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
@@ -28,11 +27,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -63,7 +59,8 @@ import java.util.Set;
  */
 public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    ChangeDraftUpdate create(ChangeControl ctl, Date when);
+    ChangeDraftUpdate create(ChangeNotes notes, Account.Id accountId,
+        PersonIdent authorIdent, Date when);
   }
 
   @AutoValue
@@ -77,7 +74,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   private final AllUsersName draftsProject;
-  private final Account.Id accountId;
 
   // TODO: can go back to a list?
   private Map<Key, PatchLineComment> put;
@@ -87,20 +83,16 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
-      @Assisted ChangeControl ctl,
+      @Assisted ChangeNotes notes,
+      @Assisted Account.Id accountId,
+      @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(migration, repoManager, ctl, serverIdent, anonymousCowardName,
-        noteUtil, when);
+    super(migration, noteUtil, serverIdent, anonymousCowardName, notes,
+        accountId, authorIdent, when);
     this.draftsProject = allUsers;
-    checkState(ctl.getUser().isIdentifiedUser(),
-        "Current user must be identified");
-    IdentifiedUser user = ctl.getUser().asIdentifiedUser();
-    this.accountId = user.getAccountId();
-
     this.put = new HashMap<>();
     this.delete = new HashSet<>();
   }
@@ -176,12 +168,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       // already parsed the revision notes. We can reuse them as long as the ref
       // hasn't advanced.
       DraftCommentNotes draftNotes =
-          ctl.getNotes().load().getDraftCommentNotes();
+          getNotes().load().getDraftCommentNotes();
       if (draftNotes != null) {
         ObjectId idFromNotes =
             firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
         if (idFromNotes.equals(curr)) {
-          return checkNotNull(ctl.getNotes().revisionNoteMap);
+          return checkNotNull(getNotes().revisionNoteMap);
         }
       }
     }
@@ -194,7 +186,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil, ctl.getId(), rw.getObjectReader(), noteMap, true);
+        noteUtil, getId(), rw.getObjectReader(), noteMap, true);
   }
 
   @Override
@@ -221,7 +213,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(accountId, ctl.getId());
+    return RefNames.refsDraftComments(accountId, getId());
   }
 
   @Override

@@ -101,7 +101,7 @@ public class TestChanges {
                 user),
             TimeUtil.nowTs(), Ordering.<String> natural());
 
-    ChangeNotes notes = update.getChangeNotes();
+    ChangeNotes notes = update.getNotes();
     boolean hasPatchSets = notes.getPatchSets() != null
         && !notes.getPatchSets().isEmpty();
     NotesMigration migration = injector.getInstance(NotesMigration.class);

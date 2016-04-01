@@ -1760,7 +1760,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(msg.getAuthor()).isNull();
 
     update = newUpdate(c, internalUser);
-    exception.expect(UnsupportedOperationException.class);
+    exception.expect(IllegalStateException.class);
     update.putApproval("Code-Review", (short) 1);
   }
 

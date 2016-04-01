@@ -33,26 +33,23 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -71,9 +68,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -94,6 +93,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
     ChangeUpdate create(ChangeControl ctl);
     ChangeUpdate create(ChangeControl ctl, Date when);
+    ChangeUpdate create(ChangeNotes notes, @Nullable Account.Id accountId,
+        PersonIdent authorIdent, Date when,
+        Comparator<String> labelNameComparator);
+
     @VisibleForTesting
     ChangeUpdate create(ChangeControl ctl, Date when,
         Comparator<String> labelNameComparator);
@@ -104,7 +107,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
-  private final Map<Account.Id, ReviewerStateInternal> reviewers;
+  private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
+  private final List<PatchLineComment> comments = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -113,7 +117,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Change.Status status;
   private List<SubmitRecord> submitRecords;
   private String submissionId;
-  private List<PatchLineComment> comments;
   private String topic;
   private String commit;
   private Set<String> hashtags;
@@ -129,7 +132,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -137,7 +139,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       ChangeNoteUtil noteUtil) {
-    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
+    this(serverIdent, anonymousCowardName, migration, accountCache,
         updateManagerFactory, draftUpdateFactory,
         projectCache, ctl, serverIdent.getWhen(), noteUtil);
   }
@@ -146,7 +148,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -155,7 +156,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
-    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
+    this(serverIdent, anonymousCowardName, migration, accountCache,
         updateManagerFactory, draftUpdateFactory, ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
@@ -166,11 +167,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return ctl.getProject().getNameKey();
   }
 
+  private static Table<String, Account.Id, Optional<Short>> approvals(
+      Comparator<String> nameComparator) {
+    return TreeBasedTable.create(nameComparator, ReviewDbUtil.intKeyOrdering());
+  }
+
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -179,22 +184,34 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(migration, repoManager, ctl, serverIdent,
+    super(migration, ctl, serverIdent,
         anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
+    this.approvals = approvals(labelNameComparator);
+  }
 
-    this.approvals = TreeBasedTable.create(
-        labelNameComparator,
-        Ordering.natural().onResultOf(new Function<Account.Id, Integer>() {
-          @Override
-          public Integer apply(Account.Id in) {
-            return in.get();
-          }
-        }));
-    this.reviewers = Maps.newLinkedHashMap();
-    this.comments = Lists.newArrayList();
+  @AssistedInject
+  private ChangeUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
+      NotesMigration migration,
+      AccountCache accountCache,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeDraftUpdate.Factory draftUpdateFactory,
+      ChangeNoteUtil noteUtil,
+      @Assisted ChangeNotes notes,
+      @Assisted @Nullable Account.Id accountId,
+      @Assisted PersonIdent authorIdent,
+      @Assisted Date when,
+      @Assisted Comparator<String> labelNameComparator) {
+    super(migration, noteUtil, serverIdent, anonymousCowardName, notes,
+        accountId, authorIdent, when);
+    this.accountCache = accountCache;
+    this.draftUpdateFactory = draftUpdateFactory;
+    this.updateManagerFactory = updateManagerFactory;
+    this.approvals = approvals(labelNameComparator);
   }
 
   public ObjectId commit() throws IOException, OrmException {
@@ -203,13 +220,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     updateManager.add(this);
     NoteDbChangeState.applyDelta(
         getChange(),
-        updateManager.stage().get(ctl.getId()));
+        updateManager.stage().get(getId()));
     updateManager.execute();
     return getResult();
   }
 
   public void setChangeId(String changeId) {
-    String old = ctl.getChange().getKey().get();
+    String old = getChange().getKey().get();
     checkArgument(old.equals(changeId),
         "The Change-Id was already set to %s, so we cannot set this Change-Id: %s",
         old, changeId);
@@ -231,7 +248,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApproval(String label, short value) {
-    putApprovalFor(getUser().getAccountId(), label, value);
+    putApprovalFor(getAccountId(), label, value);
   }
 
   public void putApprovalFor(Account.Id reviewer, String label, short value) {
@@ -239,7 +256,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void removeApproval(String label) {
-    removeApprovalFor(getUser().getAccountId(), label);
+    removeApprovalFor(getAccountId(), label);
   }
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
@@ -304,16 +321,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @VisibleForTesting
   ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
-      draftUpdate = draftUpdateFactory.create(ctl, when);
+      draftUpdate =
+          draftUpdateFactory.create(getNotes(), accountId, authorIdent, when);
     }
     return draftUpdate;
   }
 
   private void verifyComment(PatchLineComment c) {
     checkArgument(c.getRevId() != null, "RevId required for comment: %s", c);
-    checkArgument(c.getAuthor().equals(getUser().getAccountId()),
+    checkArgument(c.getAuthor().equals(getAccountId()),
         "The author for the following comment does not match the author of"
-        + " this ChangeDraftUpdate (%s): %s", getUser().getAccountId(), c);
+        + " this ChangeDraftUpdate (%s): %s", getAccountId(), c);
 
   }
 
@@ -403,16 +421,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       // parsed the revision notes. We can reuse them as long as the ref hasn't
       // advanced.
       ObjectId idFromNotes =
-          firstNonNull(ctl.getNotes().load().getRevision(), ObjectId.zeroId());
+          firstNonNull(getNotes().load().getRevision(), ObjectId.zeroId());
       if (idFromNotes.equals(curr)) {
-        return checkNotNull(ctl.getNotes().revisionNoteMap);
+        return checkNotNull(getNotes().revisionNoteMap);
       }
     }
     NoteMap noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil, ctl.getId(), rw.getObjectReader(), noteMap, false);
+        noteUtil, getId(), rw.getObjectReader(), noteMap, false);
   }
 
   private void checkComments(Map<RevId, RevisionNote> existingNotes,
@@ -455,7 +473,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return ChangeNoteUtil.changeRefName(ctl.getId());
+    return ChangeNoteUtil.changeRefName(getId());
   }
 
   @Override
@@ -527,7 +545,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             c.getRowKey(), c.getValue().get()).formatWithEquals());
       }
       Account.Id id = c.getColumnKey();
-      if (!id.equals(ctl.getUser().getAccountId())) {
+      if (!id.equals(getAccountId())) {
         addIdent(msg.append(' '), id);
       }
       msg.append('\n');
@@ -584,7 +602,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected Project.NameKey getProjectName() {
-    return getProjectName(ctl);
+    return getChange().getProject();
   }
 
   @Override

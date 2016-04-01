@@ -72,10 +72,9 @@ public class ChangeMessagesUtil {
   public void addChangeMessage(ReviewDb db, ChangeUpdate update,
       ChangeMessage changeMessage) throws OrmException {
     checkState(
-        Objects.equals(changeMessage.getAuthor(),
-            update.getUser().getAccountId()),
-        "cannot store change message of %s in update of %s",
-        changeMessage.getAuthor(), update.getUser().getAccountId());
+        Objects.equals(changeMessage.getAuthor(), update.getAccountId()),
+        "cannot store change message by %s in update by %s",
+        changeMessage.getAuthor(), update.getAccountId());
     update.setChangeMessage(changeMessage.getMessage());
     db.changeMessages().insert(Collections.singleton(changeMessage));
   }

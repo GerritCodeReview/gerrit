@@ -17,15 +17,18 @@ package com.google.gerrit.server.patch;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -34,7 +37,7 @@ import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.slf4j.Logger;
@@ -48,11 +51,20 @@ import java.util.Map;
 public class AutoMerger {
   private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
 
+  private final PersonIdent gerritIdent;
+
   @Inject
-  AutoMerger() {
+  AutoMerger(@GerritPersonIdent PersonIdent gerritIdent) {
+    this.gerritIdent = gerritIdent;
   }
 
-  public RevTree merge(Repository repo, RevWalk rw, RevCommit merge,
+  /**
+   * Perform an auto-merge of the parents of the given merge commit.
+   *
+   * @return auto-merge commit or {@code null} if an auto-merge commit
+   *     couldn't be created. Headers of the returned RevCommit are parsed.
+   */
+  public RevCommit merge(Repository repo, RevWalk rw, RevCommit merge,
       ThreeWayMergeStrategy mergeStrategy) throws IOException {
     rw.parseHeaders(merge);
     String hash = merge.name();
@@ -62,7 +74,11 @@ public class AutoMerger {
         + hash.substring(2);
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
-      return rw.parseTree(ref.getObjectId());
+      RevObject obj = rw.parseAny(ref.getObjectId());
+      if (obj instanceof RevCommit) {
+        return (RevCommit) obj;
+      }
+      return commit(repo, rw, refName, obj, merge);
     }
 
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
@@ -177,12 +193,31 @@ public class AutoMerger {
       }
       ins.flush();
 
-      RefUpdate update = repo.updateRef(refName);
-      update.setNewObjectId(treeId);
-      update.disableRefLog();
-      update.forceUpdate();
-
-      return rw.lookupTree(treeId);
+      return commit(repo, rw, refName, treeId, merge);
     }
+  }
+
+  private RevCommit commit(Repository repo, RevWalk rw, String refName,
+      ObjectId tree, RevCommit merge) throws IOException {
+    CommitBuilder cb = new CommitBuilder();
+    cb.setAuthor(gerritIdent);
+    cb.setCommitter(gerritIdent);
+    cb.setTreeId(tree);
+    cb.setMessage("Auto-merge of " + merge.name());
+    for (RevCommit p : merge.getParents()) {
+      cb.addParentId(p);
+    }
+    ObjectId commitId;
+    try (ObjectInserter ins = repo.newObjectInserter()) {
+      commitId = ins.insert(cb);
+      ins.flush();
+    }
+
+    RefUpdate ru = repo.updateRef(refName);
+    ru.setNewObjectId(commitId);
+    ru.disableRefLog();
+    ru.forceUpdate();
+
+    return rw.parseCommit(commitId);
   }
 }

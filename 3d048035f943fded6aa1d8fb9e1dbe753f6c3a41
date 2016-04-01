@@ -16,6 +16,24 @@
       "revId": "3d048035f943fded6aa1d8fb9e1dbe753f6c3a41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae8790d0_61e016e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-01T08:41:52Z",
+      "side": 1,
+      "message": "Hmm, your convention is interesting and I actually like it :) Not able to save / reedit comment from the Reply box is indeed painful.\n\nI think a general tag will be more useful than a mere \"non-human\" flag if / when we want to do more specific things about them. The set of tags that should be auto-collapsed can be a project-level config, I guess.",
+      "parentUuid": "0e4dfc86_2440d283",
+      "revId": "3d048035f943fded6aa1d8fb9e1dbe753f6c3a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

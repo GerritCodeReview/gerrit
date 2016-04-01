@@ -339,6 +339,30 @@
       "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_8caf87a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T22:04:05Z",
+      "side": 1,
+      "message": "I just noticed that the AutoMerge class does not exist. I have replaced it with PatchListLoader locally but still can\u0027t make it work. The BlameCache doesn\u0027t know anything about the automerge commit...\n\nCaused by: org.eclipse.jgit.errors.IncorrectObjectTypeException: Object 56b7541f5c14b158d1303e4b28fa351aa69c21b1 is not a commit.\n        at org.eclipse.jgit.revwalk.RevWalk.parseCommit(RevWalk.java:774)\n        at org.eclipse.jgit.blame.BlameGenerator.push(BlameGenerator.java:330)\n        at com.google.gitiles.blame.BlameCacheImpl.loadBlame(BlameCacheImpl.java:154)\n        at com.google.gitiles.blame.BlameCacheImpl$2.call(BlameCacheImpl.java:115)\n        at com.google.gitiles.blame.BlameCacheImpl$2.call(BlameCacheImpl.java:112)",
+      "parentUuid": "0ed09ce3_cca58fc8",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 3
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

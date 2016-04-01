@@ -315,6 +315,30 @@
       "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_cca58fc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-01T21:31:56Z",
+      "side": 1,
+      "message": "This is a nice and clean improvement of this change. Thanks for pushing the patchset.",
+      "parentUuid": "8e672c0e_d8cead7e",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 3
+      },
+      "revId": "4eb317d6959bb54597c779af3fdbcaed0a235a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

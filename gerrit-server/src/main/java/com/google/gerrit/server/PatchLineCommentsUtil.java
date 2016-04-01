@@ -41,7 +41,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.DraftCommentNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
@@ -363,14 +362,9 @@ public class PatchLineCommentsUtil {
         "cannot set RevId for patch set %s on comment %s", ps.getId(), c);
     if (c.getRevId() == null) {
       try {
-        if (Side.fromShort(c.getSide()) == Side.REVISION) {
-          c.setRevId(ps.getRevision());
-        } else {
-          PatchList patchList = cache.get(change, ps);
-          c.setRevId((c.getSide() == (short) 0)
-            ? new RevId(ObjectId.toString(patchList.getOldId()))
-            : new RevId(ObjectId.toString(patchList.getNewId())));
-        }
+        c.setRevId(Side.fromShort(c.getSide()) == Side.PARENT
+            ? new RevId(ObjectId.toString(cache.getOldId(change, ps)))
+            : ps.getRevision());
       } catch (PatchListNotAvailableException e) {
         throw new OrmException(e);
       }

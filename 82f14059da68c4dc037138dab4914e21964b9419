@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e7b3caf_149cf488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T16:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_2467b223",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "82f14059da68c4dc037138dab4914e21964b9419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e4dfc86_e4607a08",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-01T15:35:04Z",
       "side": 1,
       "message": "Why not use just \"\\n\"? I found no usage of System.lineSeparator() in Gerrit\u0027s source code.",
+      "range": {
+        "startLine": 251,
+        "startChar": 36,
+        "endLine": 251,
+        "endChar": 58
+      },
+      "revId": "82f14059da68c4dc037138dab4914e21964b9419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4dfc86_c4ea1e8d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T16:33:43Z",
+      "side": 1,
+      "message": "This provides platform-dependent line separator (\\n on UNIX and \\r\\n on Microsoft Windows) which i think is better than just using \"\\n\".  It looks like you prefer to stay consistent with current code base so i have switched it to \"\\n\"",
+      "parentUuid": "0e4dfc86_e4607a08",
       "range": {
         "startLine": 251,
         "startChar": 36,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "0e7b3caf_54926c7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T16:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_c45d7e54",
+      "revId": "82f14059da68c4dc037138dab4914e21964b9419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e672c0e_f8d05115",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -76,6 +142,24 @@
       "writtenOn": "2016-04-01T15:35:04Z",
       "side": 1,
       "message": "This is not necessary as the ApprovalsUtil.renderMessageWithApprovals\ncan be made static.",
+      "revId": "82f14059da68c4dc037138dab4914e21964b9419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_5392847a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T16:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e672c0e_f8d05115",
       "revId": "82f14059da68c4dc037138dab4914e21964b9419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_73978069",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T16:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4dfc86_84578632",
+      "revId": "82f14059da68c4dc037138dab4914e21964b9419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e672c0e_38efa9d1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 4
@@ -110,6 +212,30 @@
       "writtenOn": "2016-04-01T15:35:04Z",
       "side": 1,
       "message": "I found no usage of System.lineSeparator() in gerrit\u0027s code. We always use \"\\n\". Why not also use \"\\n\" here?",
+      "range": {
+        "startLine": 254,
+        "startChar": 21,
+        "endLine": 254,
+        "endChar": 43
+      },
+      "revId": "82f14059da68c4dc037138dab4914e21964b9419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_74976869",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-01T16:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e672c0e_38efa9d1",
       "range": {
         "startLine": 254,
         "startChar": 21,

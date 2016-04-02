@@ -4,8 +4,8 @@ genrule(
   name = 'sourcecodepro',
   cmd = 'zip -rq $OUT .',
   srcs = [
-    'SourceCodePro-Regular.otf.woff',
-    'SourceCodePro-Regular.otf.woff2'
+    'SourceCodePro-Regular.woff',
+    'SourceCodePro-Regular.woff2'
   ],
   out = 'sourcecodepro.zip',
   license = 'OFL1.1',

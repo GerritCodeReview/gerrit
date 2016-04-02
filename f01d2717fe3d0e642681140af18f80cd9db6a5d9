@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ed09ce3_2cba13e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-02T09:23:18Z",
+      "side": 1,
+      "message": "It would have been slightly easier to review this if the code movement was in a separate change.",
+      "revId": "f01d2717fe3d0e642681140af18f80cd9db6a5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

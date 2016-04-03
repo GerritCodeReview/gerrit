@@ -65,15 +65,21 @@
       if (!this.changeNum || !this.patchNum) {
         return Promise.resolve();
       }
-      return this.$.actionsXHR.generateRequest().completes;
+
+      this._loading = true;
+      return this._getRevisionActions().then(function(revisionActions) {
+        this._revisionActions = revisionActions;
+        this._loading = false;
+      }.bind(this));
+    },
+
+    _getRevisionActions: function() {
+      return this.$.restAPI.getChangeRevisionActions(this.changeNum,
+          this.patchNum);
     },
 
     _actionsChanged: function(actions, revisionActions) {
       this.hidden = actions.length == 0 && revisionActions.length == 0;
-    },
-
-    _computeRevisionActionsPath: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/actions';
     },
 
     _getValuesFor: function(obj) {
@@ -97,8 +103,12 @@
 
     _computeLoadingLabel: function(action) {
       return {
+        'abandon': 'Abandoning...',
         'cherrypick': 'Cherry-Picking...',
+        'delete': 'Deleting...',
+        'publish': 'Publishing...',
         'rebase': 'Rebasing...',
+        'restore': 'Restoring...',
         'submit': 'Submitting...',
       }[action];
     },
@@ -199,19 +209,31 @@
     },
 
     _fireChangeAction: function(endpoint, action) {
+      var buttonEl = this.$$('[data-action-key="' + action.__key + '"]');
+      buttonEl.setAttribute('loading', true);
+      buttonEl.disabled = true;
+      function enableButton() {
+        buttonEl.removeAttribute('loading');
+        buttonEl.disabled = false;
+      }
+
       this._send(action.method, {}, endpoint).then(
-        function() {
+        function(response) {
+          enableButton();
+
+          if (!response.ok) {
+            return response.text().then(function(errText) {
+              alert('Could not perform action: ' + errText);
+            });
+          }
+
           // We can’t reload a change that was deleted.
           if (endpoint == ChangeActions.DELETE) {
             page.show('/');
           } else {
             this.fire('reload-change', null, {bubbles: false});
           }
-        }.bind(this)).catch(function(err) {
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          throw err;
-        });
+        }.bind(this));
     },
 
     _fireRevisionAction: function(endpoint, action, opt_payload) {
@@ -224,20 +246,23 @@
       }
 
       this._send(action.method, opt_payload, endpoint, true).then(
-        function(req) {
-          if (action.__key == RevisionActions.CHERRYPICK) {
-            page.show(this.changePath(req.response._number));
-          } else {
-            this.fire('reload-change', null, {bubbles: false});
+        function(response) {
+          enableButton();
+
+          if (!response.ok) {
+            return response.text().then(function(errText) {
+              alert('Could not perform action: ' + errText);
+            });
           }
-          enableButton();
-        }.bind(this)).catch(function(err) {
-          // TODO(andybons): Handle merge conflict (409 status);
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          enableButton();
-          throw err;
-        });
+
+          return this.$.restAPI.getResponseObject(response).then(function(obj) {
+            if (action.__key == RevisionActions.CHERRYPICK) {
+              page.show(this.changePath(obj._number));
+            } else {
+              this.fire('reload-change', null, {bubbles: false});
+            }
+          }.bind(this));
+        }.bind(this));
     },
 
     _showActionDialog: function(dialog) {
@@ -246,15 +271,9 @@
     },
 
     _send: function(method, payload, actionEndpoint, revisionAction) {
-      var xhr = document.createElement('gr-request');
-      this._xhrPromise = xhr.send({
-        method: method,
-        url: this.changeBaseURL(this.changeNum,
-            revisionAction ? this.patchNum : null) + actionEndpoint,
-        body: payload,
-      });
-
-      return this._xhrPromise;
+      var url = this.$.restAPI.getChangeActionURL(this.changeNum,
+          revisionAction ? this.patchNum : null, actionEndpoint);
+      return this.$.restAPI.send(method, url, payload);
     },
   });
 })();

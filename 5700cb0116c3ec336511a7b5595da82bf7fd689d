@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0ed09ce3_ccfcaf86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T19:46:06Z",
+      "side": 1,
+      "message": "Note, that the diff preferences dialog box currently doesn\u0027t render these settings.",
+      "parentUuid": "0e7b3caf_34efb0d1",
+      "revId": "5700cb0116c3ec336511a7b5595da82bf7fd689d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed09ce3_0ceab7c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_121.java",
         "patchSetId": 16

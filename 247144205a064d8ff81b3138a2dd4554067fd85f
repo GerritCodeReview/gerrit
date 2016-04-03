@@ -16,6 +16,24 @@
       "revId": "247144205a064d8ff81b3138a2dd4554067fd85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_740e888b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-03T23:15:48Z",
+      "side": 0,
+      "message": "If you want, but I\u0027m not planning to do it in the immediate future.",
+      "parentUuid": "0ed09ce3_ccd34f20",
+      "revId": "247144205a064d8ff81b3138a2dd4554067fd85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

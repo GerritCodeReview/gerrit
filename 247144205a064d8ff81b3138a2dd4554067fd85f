@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ed09ce3_ccd34f20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:10:41Z",
+      "side": 0,
+      "message": "Sad to see this removed. Would it make sense at this point, to add this as the only implemented feature to AccountRebuilder and use it from RebuildNoteDb instead of removing it?",
+      "revId": "247144205a064d8ff81b3138a2dd4554067fd85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

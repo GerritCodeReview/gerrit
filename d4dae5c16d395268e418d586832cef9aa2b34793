@@ -16,6 +16,24 @@
       "revId": "d4dae5c16d395268e418d586832cef9aa2b34793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_d4d3dc1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-03T19:33:43Z",
+      "side": 0,
+      "message": "The functionality will be implemented later. Reverted the change to this file.",
+      "parentUuid": "0ed09ce3_6ce57bf1",
+      "revId": "d4dae5c16d395268e418d586832cef9aa2b34793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

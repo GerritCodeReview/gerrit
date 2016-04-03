@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e7b3caf_34efb0d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-03T19:33:43Z",
+      "side": 1,
+      "message": "Changed to say that these will be implemented later.",
+      "parentUuid": "0ed09ce3_4ce0bfe2",
+      "revId": "5700cb0116c3ec336511a7b5595da82bf7fd689d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed09ce3_0ceab7c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_121.java",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-03T16:15:11Z",
       "side": 1,
       "message": "Bad rebase? This is a no-op. Actually it\u0027s even double no-op ;)\n\nFor one SchemaVersion wasn\u0027t updated to reference this new schema version, for another even if it would reference the new schema 121, it would be still a no-op:\n\n* 1. no files in com.google.gerrit.reviewdb.client package were amended as part of this change\n* 2. there is no side effects, like Git backend update or similar in this schema migration step",
+      "revId": "5700cb0116c3ec336511a7b5595da82bf7fd689d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_f4d05815",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_121.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-03T19:33:43Z",
+      "side": 1,
+      "message": "Done. Reverted the change to this file.",
+      "parentUuid": "0ed09ce3_0ceab7c0",
       "revId": "5700cb0116c3ec336511a7b5595da82bf7fd689d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

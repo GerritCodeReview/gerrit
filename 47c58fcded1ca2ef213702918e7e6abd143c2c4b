@@ -1,4 +1,189 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1459447220 -0400\nnonce AB8gjyUmdejku7jertR0rrAyM4txwptRl+JCiEZMuV+O/gRPjCpgQl5BgAajyrtqMXZuf5OVqMRO\n\n0000000000000000000000000000000000000000 3cff3cbcc99f38890b6e9c1a26e71618dafa5357 refs/for/master%topic\u003dnotedb-interfaces,r\u003dsop@google.com,r\u003dtparker@google.com,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJW/WW0AAoJEF/XxZqaEoiM8WcQAIg3ivNN24aLK29Bi0m1Pk1/\n38YRFtPnn9/JLwwxxlvNQVDtravs9uMouW6lPPz9PAa8ywq3IMM9cG7QjfxQYNh6\nk8uS2ROrW3iJQWeXmH0jVnjVLg/66tyrFmm3POcX4dB8FbnqkUUPnRs4SjnLQaFU\nGAWUP/x6bWAdgermWg2J988dGNt7oCO5XTUQBqRt79hOfWaDD1Zeg6tQQfAI9jiN\nW5CnBzteCaCR9vav46K6OO18mcQUBsmrh3VZf/EKDf7IZianSJwEmNbJix4o69cF\nSqPXLXAlSJ7Hz4+sEM2vyCEiD/1LxtbJ2Dyl3xEIx12abQoZqW5vQeXvyLdXqReL\nFhk4YVjdZ/W1Rry9cS0hihC5iEprML/VcTdBjfMbenk8trQhdnaylFwIL0MYqNfW\n9+pC7Y1GWorORPZVmFl3Ugnb8g8SMefju1ZMjAIFeCa8h1QmuWDklalFfaEj8lYm\nsktgs6mgVYW4izaPKPmBKV+xCkBkxfEngrc5lSeC99CREclRKVGc3s23bgrU13dZ\ncYRJIGwXJfg8tU0K+rYcWxGrWO6zI8OAGtDhg463lCNJaClSzcxUOGNt5ke0s8wT\n4ked+wTJ1lL/U2S/12aNHirXq3jFQ1t3T/3hAELXzzDRp7URKH1Gidhvs0u4fXzP\nu/2CU3wF5QDxwPB7e3EG\n\u003dG4Vf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ed09ce3_6c0edb8b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "Extract in a local var? It\u0027s repeated multiple times.\n\n  ReviewDb db \u003d checker.unwrapDb();",
+      "range": {
+        "startLine": 161,
+        "startChar": 15,
+        "endLine": 161,
+        "endChar": 25
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_ecd08b15",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "Extract a helper method? E.g.:\n\n  toDraft(user, userDraftsId)",
+      "range": {
+        "startLine": 163,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 56
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_8ef91b95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "I see, that Terry already pointed this out on ps 1. Any reason, you haven\u0027t swapped these conditions, to eliminate the repetition of \"if (notesMigration.writeChanges())\" on line 579?",
+      "range": {
+        "startLine": 573,
+        "startChar": 10,
+        "endLine": 574,
+        "endChar": 48
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_0e3b6b20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "Dead code? Removing it doesn\u0027t cause any tests to fail. The only non unit test place, where this method is invoked is ConsistencyChecker#fixMerged(ProblemInfo), but AFAIK it currently doesn\u0027t support NoteDb. So adding on the top of the method ConsistencyCheckerIT#extensionApiReturnsUpdatedValueAfterFix() this line: notesMigration.setAllEnabled(true) leads to this NPE: [1].\n\n* [1] http://paste.openstack.org/show/492850",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 48
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_0c039762",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "parts.size() - 1",
+      "range": {
+        "startLine": 87,
+        "startChar": 40,
+        "endLine": 87,
+        "endChar": 52
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_ac2923c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "Not used?",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 179,
+        "endChar": 3
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_8c2c67d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "It seems that ChangeRebuilder doesn\u0027t update NoteDbChangeState in this change by calling change.setNoteDbState()? Only BatchUpdate#executeChangeOps() does it. It\u0027s done later in the series, though:\n\n  NoteDbChangeState.applyDelta(\n          change,\n          manager.stage().get(changeId));",
+      "range": {
+        "startLine": 289,
+        "startChar": 6,
+        "endLine": 289,
+        "endChar": 14
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_acda832f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_121.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T23:21:27Z",
+      "side": 1,
+      "message": "Schema_120",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "47c58fcded1ca2ef213702918e7e6abd143c2c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

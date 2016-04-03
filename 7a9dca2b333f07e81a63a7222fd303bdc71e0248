@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ed09ce3_2c08d379",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-03T19:46:06Z",
+      "side": 0,
+      "message": "Preserve these settings for now then?",
+      "revId": "7a9dca2b333f07e81a63a7222fd303bdc71e0248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

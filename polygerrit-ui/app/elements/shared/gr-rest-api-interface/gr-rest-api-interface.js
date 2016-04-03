@@ -110,16 +110,8 @@
           return;
         }
 
-        return response.text().then(function(text) {
-          var result;
-          try {
-            result = JSON.parse(text.substring(JSON_PREFIX.length));
-          } catch (_) {
-            result = null;
-          }
-          return result;
-        });
-      }).catch(function(err) {
+        return this.getResponseObject(response);
+      }.bind(this)).catch(function(err) {
         if (opt_opts.noCredentials) {
           throw err;
         } else {
@@ -128,6 +120,18 @@
               Object.assign(opt_opts, {noCredentials: true}));
         }
       }.bind(this));
+    },
+
+    getResponseObject: function(response) {
+      return response.text().then(function(text) {
+        var result;
+        try {
+          result = JSON.parse(text.substring(JSON_PREFIX.length));
+        } catch (_) {
+          result = null;
+        }
+        return result;
+      });
     },
 
     getConfig: function() {
@@ -148,7 +152,7 @@
     },
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
-      return this._save('PUT', '/accounts/self/preferences.diff', prefs,
+      return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
 
@@ -188,6 +192,10 @@
       return this._sharedFetchPromises[url];
     },
 
+    getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
+      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
+    },
+
     getChangeDetail: function(changeNum, opt_cancelCondition) {
       var options = this._listChangesOptionsToHex(
           ListChangesOption.ALL_REVISIONS,
@@ -195,36 +203,41 @@
           ListChangesOption.DOWNLOAD_COMMANDS
       );
       return this.fetchJSON(
-          this._changeBaseURL(changeNum) + '/detail',
+          this.getChangeActionURL(changeNum, null, '/detail'),
           opt_cancelCondition,
           {O: options});
     },
 
     getChangeCommitInfo: function(changeNum, patchNum) {
       return this.fetchJSON(
-          this._changeBaseURL(changeNum, patchNum) + '/commit?links');
+          this.getChangeActionURL(changeNum, patchNum, '/commit?links'));
     },
 
     getChangeFiles: function(changeNum, patchNum) {
       return this.fetchJSON(
-          this._changeBaseURL(changeNum, patchNum) + '/files');
+          this.getChangeActionURL(changeNum, patchNum, '/files'));
+    },
+
+    getChangeRevisionActions: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchNum, '/actions'));
     },
 
     getReviewedFiles: function(changeNum, patchNum) {
       return this.fetchJSON(
-          this._changeBaseURL(changeNum, patchNum) + '/files?reviewed');
+          this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));
     },
 
     saveFileReviewed: function(changeNum, patchNum, path, reviewed, opt_errFn,
         opt_ctx) {
       var method = reviewed ? 'PUT' : 'DELETE';
-      var url = this._changeBaseURL(changeNum, patchNum) + '/files/' +
-          encodeURIComponent(path) + '/reviewed';
+      var url = this.getChangeActionURL(changeNum, patchNum,
+          '/files/' + encodeURIComponent(path) + '/reviewed');
 
-      return this._save(method, url, null, opt_errFn, opt_ctx);
+      return this.send(method, url, null, opt_errFn, opt_ctx);
     },
 
-    _save: function(method, url, opt_body, opt_errFn, opt_ctx) {
+    send: function(method, url, opt_body, opt_errFn, opt_ctx) {
       var headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
       });
@@ -332,6 +345,8 @@
       return v;
     },
 
+    // Derived from
+    // gerrit-extension-api/src/main/j/c/g/gerrit/extensions/client/ListChangesOption.java
     _listChangesOptionsToHex: function() {
       var v = 0;
       for (var i = 0; i < arguments.length; i++) {

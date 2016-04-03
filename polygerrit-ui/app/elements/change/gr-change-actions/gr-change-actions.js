@@ -30,6 +30,21 @@
     SUBMIT: 'submit',
   };
 
+  var ActionLoadingLabels = {
+    'abandon': 'Abandoning...',
+    'cherrypick': 'Cherry-Picking...',
+    'delete': 'Deleting...',
+    'publish': 'Publishing...',
+    'rebase': 'Rebasing...',
+    'restore': 'Restoring...',
+    'submit': 'Submitting...',
+  };
+
+  var ActionType = {
+    CHANGE: 'change',
+    REVISION: 'revision',
+  };
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -65,15 +80,31 @@
       if (!this.changeNum || !this.patchNum) {
         return Promise.resolve();
       }
-      return this.$.actionsXHR.generateRequest().completes;
+
+      this._loading = true;
+      return this._getRevisionActions().then(function(revisionActions) {
+        this._revisionActions = revisionActions;
+        this._loading = false;
+      }.bind(this)).catch(function(err) {
+        alert('Couldn’t load revision actions. Check the console ' +
+            'and contact the PolyGerrit team for assistance.');
+        this._loading = false;
+        throw err;
+      });
+    },
+
+    _getRevisionActions: function() {
+      return this.$.restAPI.getChangeRevisionActions(this.changeNum,
+          this.patchNum);
+    },
+
+    _keyCount: function(obj) {
+      return Object.keys(obj).length;
     },
 
     _actionsChanged: function(actions, revisionActions) {
-      this.hidden = actions.length == 0 && revisionActions.length == 0;
-    },
-
-    _computeRevisionActionsPath: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/actions';
+      this.hidden = this._keyCount(actions) === 0 &&
+          this._keyCount(revisionActions) === 0;
     },
 
     _getValuesFor: function(obj) {
@@ -85,9 +116,9 @@
     _computeActionValues: function(actions, type) {
       var result = [];
       var values = this._getValuesFor(
-          type == 'change' ? ChangeActions : RevisionActions);
+          type === ActionType.CHANGE ? ChangeActions : RevisionActions);
       for (var a in actions) {
-        if (values.indexOf(a) == -1) { continue; }
+        if (values.indexOf(a) === -1) { continue; }
         actions[a].__key = a;
         actions[a].__type = type;
         result.push(actions[a]);
@@ -96,23 +127,12 @@
     },
 
     _computeLoadingLabel: function(action) {
-      return {
-        'cherrypick': 'Cherry-Picking...',
-        'rebase': 'Rebasing...',
-        'submit': 'Submitting...',
-      }[action];
+      return ActionLoadingLabels[action] || 'Working...';
     },
 
     _computePrimary: function(actionKey) {
-      return actionKey == 'submit';
-    },
-
-    _computeButtonClass: function(action) {
-      if ([RevisionActions.SUBMIT,
-          RevisionActions.PUBLISH].indexOf(action) != -1) {
-        return 'primary';
-      }
-      return '';
+      return actionKey === RevisionActions.SUBMIT ||
+          actionKey === RevisionActions.PUBLISH;
     },
 
     _canSubmitChange: function() {
@@ -123,28 +143,28 @@
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
       var key = el.getAttribute('data-action-key');
-      if (key == RevisionActions.SUBMIT &&
+      if (key === RevisionActions.SUBMIT &&
           this._canSubmitChange() === false) {
         return;
       }
       var type = el.getAttribute('data-action-type');
-      if (type == 'revision') {
-        if (key == RevisionActions.REBASE) {
+      if (type === ActionType.REVISION) {
+        if (key === RevisionActions.REBASE) {
           this._showActionDialog(this.$.confirmRebase);
           return;
-        } else if (key == RevisionActions.CHERRYPICK) {
+        } else if (key === RevisionActions.CHERRYPICK) {
           this._showActionDialog(this.$.confirmCherrypick);
           return;
         }
-        this._fireRevisionAction(this._prependSlash(key),
-            this._revisionActions[key]);
+        this._fireAction(this._prependSlash(key),
+            this._revisionActions[key], true);
       } else {
-        this._fireChangeAction(this._prependSlash(key), this.actions[key]);
+        this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
     },
 
     _prependSlash: function(key) {
-      return key == '/' ? key : '/' + key;
+      return key === '/' ? key : '/' + key;
     },
 
     _handleConfirmDialogCancel: function() {
@@ -172,8 +192,7 @@
       }
       this.$.overlay.close();
       el.hidden = false;
-      this._fireRevisionAction('/rebase', this._revisionActions.rebase,
-          payload);
+      this._fireAction('/rebase', this._revisionActions.rebase, true, payload);
     },
 
     _handleCherrypickConfirm: function() {
@@ -189,8 +208,10 @@
       }
       this.$.overlay.close();
       el.hidden = false;
-      this._fireRevisionAction('/cherrypick',
+      this._fireAction(
+          '/cherrypick',
           this._revisionActions.cherrypick,
+          true,
           {
             destination: el.branch,
             message: el.message,
@@ -198,46 +219,21 @@
       );
     },
 
-    _fireChangeAction: function(endpoint, action) {
-      this._send(action.method, {}, endpoint).then(
-        function() {
-          // We can’t reload a change that was deleted.
-          if (endpoint == ChangeActions.DELETE) {
-            page.show('/');
-          } else {
-            this.fire('reload-change', null, {bubbles: false});
-          }
-        }.bind(this)).catch(function(err) {
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          throw err;
-        });
-    },
-
-    _fireRevisionAction: function(endpoint, action, opt_payload) {
-      var buttonEl = this.$$('[data-action-key="' + action.__key + '"]');
+    _setLoadingOnButtonWithKey: function(key) {
+      var buttonEl = this.$$('[data-action-key="' + key + '"]');
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;
-      function enableButton() {
+      return function() {
         buttonEl.removeAttribute('loading');
         buttonEl.disabled = false;
       }
+    },
 
-      this._send(action.method, opt_payload, endpoint, true).then(
-        function(req) {
-          if (action.__key == RevisionActions.CHERRYPICK) {
-            page.show(this.changePath(req.response._number));
-          } else {
-            this.fire('reload-change', null, {bubbles: false});
-          }
-          enableButton();
-        }.bind(this)).catch(function(err) {
-          // TODO(andybons): Handle merge conflict (409 status);
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          enableButton();
-          throw err;
-        });
+    _fireAction: function(endpoint, action, revAction, opt_payload) {
+      var cleanupFn = this._setLoadingOnButtonWithKey(action.__key);
+
+      this._send(action.method, opt_payload, endpoint, revAction, cleanupFn)
+          .then(this._handleResponse.bind(this, action));
     },
 
     _showActionDialog: function(dialog) {
@@ -245,16 +241,42 @@
       this.$.overlay.open();
     },
 
-    _send: function(method, payload, actionEndpoint, revisionAction) {
-      var xhr = document.createElement('gr-request');
-      this._xhrPromise = xhr.send({
-        method: method,
-        url: this.changeBaseURL(this.changeNum,
-            revisionAction ? this.patchNum : null) + actionEndpoint,
-        body: payload,
-      });
+    _handleResponse: function(action, response) {
+      return this.$.restAPI.getResponseObject(response).then(function(obj) {
+        switch (action.__key) {
+          case RevisionActions.CHERRYPICK:
+            page.show(this.changePath(obj._number));
+            break;
+          case RevisionActions.DELETE:
+            page.show(this.changePath(this.changeNum));
+            break;
+          case ChangeActions.DELETE:
+            page.show('/');
+            break;
+          default:
+            this.fire('reload-change', null, {bubbles: false});
+            break;
+        }
+      }.bind(this));
+    },
 
-      return this._xhrPromise;
+    _handleResponseError: function(response) {
+      if (response.ok) { return response; }
+
+      return response.text().then(function(errText) {
+        alert('Could not perform action: ' + errText);
+        throw Error(errText);
+      });
+    },
+
+    _send: function(method, payload, actionEndpoint, revisionAction,
+        cleanupFn) {
+      var url = this.$.restAPI.getChangeActionURL(this.changeNum,
+          revisionAction ? this.patchNum : null, actionEndpoint);
+      return this.$.restAPI.send(method, url, payload).then(function(response) {
+        cleanupFn.call(this);
+        return response;
+      }.bind(this)).then(this._handleResponseError.bind(this));
     },
   });
 })();

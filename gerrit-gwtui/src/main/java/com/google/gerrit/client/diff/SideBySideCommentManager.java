@@ -156,7 +156,23 @@ class SideBySideCommentManager extends CommentManager {
 
   @Override
   void newDraftOnGutterClick(CodeMirror cm, String gutterClass, int line) {
-    insertNewDraft(cm.side(), line);
+    if (cm.somethingSelected()) {
+      FromTo fromTo = cm.getSelectedRange();
+      Pos end = fromTo.to();
+      if (end.ch() == 0) {
+        end.line(end.line() - 1);
+        end.ch(cm.getLine(end.line()).length());
+      }
+
+      addDraftBox(cm.side(), CommentInfo.create(
+              getPath(),
+              getStoredSideFromDisplaySide(cm.side()),
+              line,
+              CommentRange.create(fromTo))).setEdit(true);
+      cm.setSelection(cm.getCursor());
+    } else {
+      insertNewDraft(cm.side(), line);
+    }
   }
 
   /**

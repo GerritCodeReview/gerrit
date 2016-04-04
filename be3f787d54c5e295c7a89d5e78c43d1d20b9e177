@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "4ef294a8_ee9b7f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T19:11:22Z",
+      "side": 1,
+      "message": "Well, I\u0027m not a friend of letting around obsolete/unused stuff and still would prefer to remove it, but may be convince otherwise. At very least, we should consider to move it out from gerrit/lib/codemirror to gerrit/tools/js directory to mark it unrelated to codemirror.",
+      "parentUuid": "ee7508ba_3393484c",
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed09ce3_8cf78777",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

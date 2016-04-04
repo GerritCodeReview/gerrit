@@ -35,27 +35,12 @@ limitations under the License.
 <script>
   suite('gr-change-view tests', function() {
     var element;
-    var server;
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve(null); },
+      });
       element = fixture('basic');
-      element.$.configXHR.auto = false;
-
-      server = sinon.fakeServer.create();
-      // Eat any requests made by elements in this suite.
-      server.respondWith(
-        'GET',
-        /\/changes\/(.*)/,
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n{}',
-        ]
-      );
-    });
-
-    teardown(function() {
-      server.restore();
     });
 
     test('keyboard shortcuts', function() {
@@ -65,7 +50,6 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly('/'),
           'Should navigate to /');
       showStub.restore();
-
 
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       var overlayEl = element.$.replyOverlay;

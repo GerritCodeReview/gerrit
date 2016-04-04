@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_8ea57bc9",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_6ba121bb",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_0b925d79",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-04T21:54:08Z",
       "side": 1,
       "message": "Do we really need this else branch? It was needed, as we maintained custom CodeMirror packaging. Now that, minifed is maintained by you and normal distribution that we consume from uptream/Central is very stable, i would just remove this. In case we have troubles with new cm version, we would just downgrade to the previuos one.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_ada23dbc",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_0b925d79",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_cdaf89a3",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_2b97196a",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 1
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_0a925b79",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2016-04-04T21:54:08Z",
       "side": 1,
       "message": "Would it be easier to upgrade cm, when we place both rules for the minified and original cm maven_jar on the top of this file?",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 117,
+        "endChar": 1
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_edac45b1",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_0a925b79",
       "range": {
         "startLine": 111,
         "startChar": 1,

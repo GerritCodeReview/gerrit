@@ -28,7 +28,7 @@ import com.google.inject.Inject;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.session.AbstractSession;
+import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;

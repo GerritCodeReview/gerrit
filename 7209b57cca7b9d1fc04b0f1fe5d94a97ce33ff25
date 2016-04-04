@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef294a8_2edaa708",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-04T11:18:35Z",
+      "side": 0,
+      "message": "With the new code the content type is changed to \"application/octet-stream\". Is this a problem?",
+      "revId": "7209b57cca7b9d1fc04b0f1fe5d94a97ce33ff25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

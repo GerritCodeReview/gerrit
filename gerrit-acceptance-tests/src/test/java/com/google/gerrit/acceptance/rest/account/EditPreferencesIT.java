@@ -59,20 +59,18 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.theme = Theme.TWILIGHT;
     out.keyMapType = KeyMapType.EMACS;
 
-    adminSession.put(endPoint, out).assertNoContent();
-
-    r = adminSession.get(endPoint);
+    r = adminSession.put(endPoint, out);
     r.assertOK();
+
     EditPreferencesInfo info = getEditPrefInfo(r);
     assertEditPreferences(info, out);
 
     // Partially filled input record
     EditPreferencesInfo in = new EditPreferencesInfo();
     in.tabSize = 42;
-    adminSession.put(endPoint, in).assertNoContent();
-
-    r = adminSession.get(endPoint);
+    r = adminSession.put(endPoint, in);
     r.assertOK();
+
     info = getEditPrefInfo(r);
     out.tabSize = in.tabSize;
     assertEditPreferences(info, out);

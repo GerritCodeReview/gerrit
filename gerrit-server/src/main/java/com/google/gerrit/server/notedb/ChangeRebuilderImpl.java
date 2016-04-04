@@ -659,6 +659,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     private void setTopic(ChangeUpdate update) {
       String msg = message.getMessage();
+      if (msg == null) {
+        return;
+      }
       Matcher m = TOPIC_SET_REGEXP.matcher(msg);
       if (m.matches()) {
         String topic = m.group(1);
@@ -683,6 +686,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     private void setStatus(ChangeUpdate update) {
       String msg = message.getMessage();
+      if (msg == null) {
+        return;
+      }
       if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
         update.setStatus(Change.Status.ABANDONED);
         noteDbChange.setStatus(Change.Status.ABANDONED);

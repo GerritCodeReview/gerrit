@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_aaa22fbc",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T22:31:31Z",
+      "side": 1,
+      "message": "Oh, tried to verify if and seeing that the sources for these Maven artifacts are donwloaded per default. I think we don\u0027t need the source here and can disable fetching them, by adding:\n\n  attach_source \u003d False,",
+      "revId": "5723aa7a995a69adaa41c034e88afb374af912f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_caaf63a3",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T22:31:31Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "5723aa7a995a69adaa41c034e88afb374af912f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

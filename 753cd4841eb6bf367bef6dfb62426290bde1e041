@@ -46,6 +46,30 @@
       "revId": "753cd4841eb6bf367bef6dfb62426290bde1e041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_2ea8e750",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-04T12:05:28Z",
+      "side": 1,
+      "message": "\u003e Yeah. Unfortunately, the REST endpoint doesn\u0027t return it: [1].\n\nYes, i noticed this too :(\n\n \u003e We can fit it in its own change, and rebase this change on top of it.\n\nI prefer this. Since this is API it\u0027s hard to change the method signature later.",
+      "parentUuid": "4ef294a8_ee109f74",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "753cd4841eb6bf367bef6dfb62426290bde1e041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

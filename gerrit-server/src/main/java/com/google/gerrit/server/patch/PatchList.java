@@ -63,7 +63,7 @@ public class PatchList implements Serializable {
   private transient int deletions;
   private transient PatchListEntry[] patches;
 
-  PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
+  public PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
       final boolean againstParent, final PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();

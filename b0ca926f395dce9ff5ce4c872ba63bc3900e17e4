@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_93533c5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-04T15:25:10Z",
+      "side": 1,
+      "message": "Yes, good point, this should go outside the transaction.\n\nThis brings up another issue which is I think we need to separately test the case where we attempt to load notes for a deleted change. I suspect that ChangeNotes.Factory would throw NoSuchChangeException but we would never clean up the ref.",
+      "parentUuid": "0ed09ce3_4c7e7f8a",
+      "range": {
+        "startLine": 576,
+        "startChar": 19,
+        "endLine": 576,
+        "endChar": 27
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_8e98fb43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 7

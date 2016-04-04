@@ -16,6 +16,24 @@
       "revId": "ac802cd3bdb202d4c6f1809f2eecb93dc9a0c125",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_d4499cae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-04T15:03:40Z",
+      "side": 1,
+      "message": "Right? I knew there was an issue with just setting width. :-/",
+      "parentUuid": "ee7508ba_33458894",
+      "revId": "ac802cd3bdb202d4c6f1809f2eecb93dc9a0c125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

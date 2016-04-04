@@ -741,7 +741,7 @@ invokes the `gerrit:default_submit` and then modifies its result.
 Which of these two behaviors is desired will always depend on how a particular
 Gerrit server is managed.
 
-==== Example 9: Remove the `Verified` category
+=== Example 9: Remove the `Verified` category
 A project has no build and test. It consists of only text files and needs only
 code review.  We want to remove the `Verified` category from this project so
 that `Code-Review+2` is the only criteria for a change to become submittable.

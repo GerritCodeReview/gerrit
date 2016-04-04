@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -133,7 +134,11 @@ final class DispatchCommand extends BaseCommand {
   public void destroy() {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
+      try {
         cmd.destroy();
+      } catch (Exception e) {
+        Throwables.propagate(e);
+      }
     }
   }
 

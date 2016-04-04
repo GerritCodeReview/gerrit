@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -151,7 +152,11 @@ public final class SuExec extends BaseCommand {
   public void destroy() {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
+      try {
         cmd.destroy();
+      } catch (Exception e) {
+        Throwables.propagate(e);
+      }
     }
   }
 }

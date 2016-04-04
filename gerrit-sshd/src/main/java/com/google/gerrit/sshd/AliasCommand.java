@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -95,7 +96,11 @@ public class AliasCommand extends BaseCommand {
   public void destroy() {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {
+      try {
         cmd.destroy();
+      } catch (Exception e) {
+        Throwables.propagate(e);
+      }
     }
   }
 

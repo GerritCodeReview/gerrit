@@ -43,7 +43,6 @@ import com.jcraft.jsch.JSchException;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.SshdSocketAddress;
 import org.apache.sshd.common.channel.RequestHandler;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
@@ -64,26 +63,27 @@ import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.JceRandomFactory;
 import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
-import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
+import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
-import org.apache.sshd.server.auth.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.forward.ForwardingFilter;
 import org.apache.sshd.server.global.CancelTcpipForwardHandler;
 import org.apache.sshd.server.global.KeepAliveHandler;
 import org.apache.sshd.server.global.NoMoreSessionsHandler;
 import org.apache.sshd.server.global.TcpipForwardHandler;
+import org.apache.sshd.server.session.ServerSessionImpl;
 import org.apache.sshd.server.session.SessionFactory;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
@@ -262,9 +262,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           .setRate()
           .setUnit("failures"));
 
-    setSessionFactory(new SessionFactory() {
+    setSessionFactory(new SessionFactory(this) {
       @Override
-      protected AbstractSession createSession(final IoSession io)
+      protected GerritServerSession createSession(final IoSession io)
           throws Exception {
         connected.incrementAndGet();
         sessionsCreated.increment();
@@ -299,7 +299,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
 
       @Override
-      protected AbstractSession doCreateSession(IoSession ioSession)
+      protected GerritServerSession doCreateSession(IoSession ioSession)
           throws Exception {
         return new GerritServerSession(getServer(), ioSession);
       }
@@ -327,10 +327,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   public synchronized void start() {
     if (daemonAcceptor == null && !listen.isEmpty()) {
       checkConfig();
-      if (sessionFactory == null) {
-        sessionFactory = createSessionFactory();
+      if (getSessionFactory() == null) {
+        setSessionFactory(createSessionFactory());
       }
-      sessionFactory.setServer(this);
       daemonAcceptor = createAcceptor();
 
       try {
@@ -462,6 +461,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     private InsecureBouncyCastleRandom() {
       random = new VMPCRandomGenerator();
       random.addSeedMaterial(1234);
+    }
+
+    @Override
+    public String getName() {
+      return "InsecureBouncyCastleRandom";
     }
 
     @Override

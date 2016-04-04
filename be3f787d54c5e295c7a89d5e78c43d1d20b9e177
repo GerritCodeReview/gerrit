@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "0e7b3caf_148e3421",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T21:32:08Z",
+      "side": 1,
+      "message": "Agreed. I removed them for now. Will add them later to gerrit/tools/js when I get time to work on PolyGerrit minification.",
+      "parentUuid": "4ef294a8_ee9b7f2c",
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed09ce3_8cf78777",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

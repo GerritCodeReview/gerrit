@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_13196cc1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-04T16:10:26Z",
+      "side": 1,
+      "message": "The above lines 271 and 272 will always get executed, ok, but what about lines 265-266 and 268-269? If, by unlikely yet possible mistake, \u0027approvals\u0027 has 3 items yes but 2 of them (not Code-Review) hold the very same value sets? Meaning, if both of them 2 approvals have -1 and null, or, 1 and 0 /as the two asserted values in above if and following else-if blocks.\n\nThis could happen if approvals has twice \u0027label\u0027 or \u0027pLabel\u0027. -Test would \"fail to fail\" if that\u0027s the case and if all values for such repeating labels do pass the corresponding assert lines.",
+      "parentUuid": "ee7508ba_b3c5185a",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_a407626d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1

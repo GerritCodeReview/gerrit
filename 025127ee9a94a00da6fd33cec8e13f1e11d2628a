@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_2a971f6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T22:10:02Z",
+      "side": 1,
+      "message": "There are two different features on this change:\n\n* 1. Extend the number of supported key exchange algorithms to further algorithms\n* 2. Allow to filter out specific algorithms\n\nWhy not to separate them in two different changes?",
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_ee741f9d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T22:10:02Z",
+      "side": 1,
+      "message": "The algorithms should be specified in the order of preference. In version 0.14.0, that is used on stable-2.12 branch, the order of preference is defined in: [1]. IOW, this should be:\n\n  setKeyExchangeFactories(filter(cfg, \"kex\",\n    new DHGEX256.Factory(),\n    new DHGEX.Factory(),\n    new ECDHP256.Factory(),\n    new ECDHP384.Factory(),\n    new ECDHP521.Factory(),\n    new DHG14.Factory(),\n    new DHG1.Factory()));\n\nOn sshd master, it is extracted to a constant: [2]. So that the version of this change in master could be as simple as this:\n\n  @SuppressWarnings(\"unchecked\")\n  private void initProviderBouncyCastle(Config cfg) {\n    List\u003cNamedFactory\u003cKeyExchange\u003e\u003e a \u003d\n        ServerBuilder.setUpDefaultKeyExchanges(true);\n    setKeyExchangeFactories(filter(cfg, \"kex\",\n        (NamedFactory\u003cKeyExchange\u003e[])a.toArray(new NamedFactory[a.size()])));\n  [...]\n\n* [1] https://github.com/apache/mina-sshd/blob/0.14.x/sshd-core/src/main/java/org/apache/sshd/SshBuilder.java#L310-L316\n* [2] https://github.com/apache/mina-sshd/blob/master/sshd-core/src/main/java/org/apache/sshd/common/BaseBuilder.java#L84-L100",
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -71,7 +71,3 @@ On CentOS/RedHat run:
 
 _NOTE: release is optional. Last released package of the version is installed if the release
 number is omitted._
-
-## Events
-
-- March 14-18 2016: Gerrit Hackathon, Berlin (free seats are still available).

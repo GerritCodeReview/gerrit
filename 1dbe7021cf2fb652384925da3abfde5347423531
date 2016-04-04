@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee926865_6ba121bb",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T21:54:08Z",
+      "side": 1,
+      "message": "All this can be simplified with just:\n\n  maven_jar(\n    name \u003d \u0027codemirror-minified\u0027,\n    id \u003d \u0027org.webjars.npm:codemirror-original:\u0027 + VERSION,\n    sha1 \u003d \u00274a26f060aeca679fdf751d2b480499c8a5f71e47\u0027,\n    license \u003d \u0027codemirror-original\u0027,\n    visibility \u003d [],\n  )",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_0b925d79",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T21:54:08Z",
+      "side": 1,
+      "message": "Do we really need this else branch? It was needed, as we maintained custom CodeMirror packaging. Now that, minifed is maintained by you and normal distribution that we consume from uptream/Central is very stable, i would just remove this. In case we have troubles with new cm version, we would just downgrade to the previuos one.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_2b97196a",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T21:54:08Z",
+      "side": 1,
+      "message": "Replace this with maven_jar, like in line 111 below?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 1
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_0a925b79",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T21:54:08Z",
+      "side": 1,
+      "message": "Would it be easier to upgrade cm, when we place both rules for the minified and original cm maven_jar on the top of this file?",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 117,
+        "endChar": 1
+      },
+      "revId": "1dbe7021cf2fb652384925da3abfde5347423531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

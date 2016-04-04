@@ -15,12 +15,12 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.GetEditPreferences.readFromGit;
+import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -58,7 +58,7 @@ public class SetEditPreferences implements
   }
 
   @Override
-  public Response<?> apply(AccountResource rsrc, EditPreferencesInfo in)
+  public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo in)
       throws AuthException, BadRequestException, RepositoryNotFoundException,
       IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
@@ -73,6 +73,7 @@ public class SetEditPreferences implements
     Account.Id accountId = rsrc.getUser().getAccountId();
 
     VersionedAccountPreferences prefs;
+    EditPreferencesInfo out = new EditPreferencesInfo();
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       prefs = VersionedAccountPreferences.forUser(accountId);
       prefs.load(md);
@@ -80,8 +81,10 @@ public class SetEditPreferences implements
           readFromGit(accountId, gitMgr, allUsersName, in),
           EditPreferencesInfo.defaults());
       prefs.commit(md);
+      out = loadSection(prefs.getConfig(), UserConfigSections.EDIT, null, out,
+          EditPreferencesInfo.defaults(), null);
     }
 
-    return Response.none();
+    return out;
   }
 }

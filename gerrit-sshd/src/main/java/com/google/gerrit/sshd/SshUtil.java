@@ -136,8 +136,7 @@ public class SshUtil {
         sshScope.set(old);
       }
 
-      GerritServerSession s = (GerritServerSession) session;
-      s.addCloseSessionListener(
+      session.addCloseFutureListener(
           new SshFutureListener<CloseFuture>() {
             @Override
             public void operationComplete(CloseFuture future) {

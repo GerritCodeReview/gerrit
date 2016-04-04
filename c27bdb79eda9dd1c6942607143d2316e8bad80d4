@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_b350b852",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-04T15:38:04Z",
+      "side": 1,
+      "message": "It’s a reflection of an existing enum, so I’m keeping it in line with the current model.",
+      "parentUuid": "ee7508ba_5336043b",
+      "revId": "c27bdb79eda9dd1c6942607143d2316e8bad80d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7508ba_13408c83",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-04T15:01:41Z",
       "side": 1,
       "message": "this line deserves a beefy comment :) \n\nClever +100 / but this could be the source of a lot of future pain.",
+      "revId": "c27bdb79eda9dd1c6942607143d2316e8bad80d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_531fe4a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-04T15:38:04Z",
+      "side": 1,
+      "message": "It’s a reflection of https://gerrit.googlesource.com/gerrit/+/master/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+      "parentUuid": "ee7508ba_13408c83",
       "revId": "c27bdb79eda9dd1c6942607143d2316e8bad80d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

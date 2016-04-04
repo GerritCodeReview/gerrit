@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -26,6 +27,11 @@ public interface AccountApi {
   AccountInfo get() throws RestApiException;
 
   String getAvatarUrl(int size) throws RestApiException;
+
+  GeneralPreferencesInfo getPreferences() throws RestApiException;
+  GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
+      throws RestApiException;
+
   void starChange(String id) throws RestApiException;
   void unstarChange(String id) throws RestApiException;
   void addEmail(EmailInput input) throws RestApiException;
@@ -47,6 +53,17 @@ public interface AccountApi {
 
     @Override
     public String getAvatarUrl(int size) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public GeneralPreferencesInfo getPreferences() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

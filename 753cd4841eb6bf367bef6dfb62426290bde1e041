@@ -22,6 +22,30 @@
       "revId": "753cd4841eb6bf367bef6dfb62426290bde1e041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_ee109f74",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T12:02:38Z",
+      "side": 1,
+      "message": "Yeah. Unfortunately, the REST endpoint doesn\u0027t return it: [1]. We can fit it in its own change, and rebase this change on top of it. But it wasn\u0027t needed until now.\n\n* [1] gerrit-server/src/main/java/com/google/gerrit/server/account/SetEditPreferences.java",
+      "parentUuid": "0ed09ce3_ec988b44",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "753cd4841eb6bf367bef6dfb62426290bde1e041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

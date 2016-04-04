@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef294a8_ae917712",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T19:11:22Z",
+      "side": 1,
+      "message": "All these and other Closure related stuff is unsued.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "6904462a74d7bbea81cbfc22619882d0e179b830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_8e8e3bec",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T19:11:22Z",
+      "side": 1,
+      "message": "This loop can be combined with the one on the line 42 below.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 100
+      },
+      "revId": "6904462a74d7bbea81cbfc22619882d0e179b830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed09ce3_ec772b9f",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T19:11:22Z",
+      "side": 1,
+      "message": "Can we harmonize the suffixes across different artifacts? In previous change it was used: \"cm-verbose\" vs. cm. In this change you are using _src/_css and _src/_js. ideally we would use the same suffix, for all artifacts and would have only one for loop.",
+      "range": {
+        "startLine": 42,
+        "startChar": 38,
+        "endLine": 42,
+        "endChar": 44
+      },
+      "revId": "6904462a74d7bbea81cbfc22619882d0e179b830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

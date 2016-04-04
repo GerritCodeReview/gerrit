@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e7b3caf_b42980c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T18:28:05Z",
+      "side": 1,
+      "message": "I\u0027m using the same options: https://github.com/Dominator008/CodeMirror-minified/blob/master/gulpfile.js#L46-L50.",
+      "parentUuid": "0ed09ce3_eceacb8c",
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_8e747bd5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-04T06:31:52Z",
       "side": 1,
       "message": "altogether",
+      "range": {
+        "startLine": 18,
+        "startChar": 38,
+        "endLine": 18,
+        "endChar": 46
+      },
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_7389c017",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T18:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef294a8_8e747bd5",
       "range": {
         "startLine": 18,
         "startChar": 38,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_3393484c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T18:28:05Z",
+      "side": 1,
+      "message": "I removed the special case in Documentation/gen_licenses.py. I think we will need js_minify() for PolyGerrit pretty soon.",
+      "parentUuid": "4ef294a8_ee81bfed",
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed09ce3_8cf78777",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "ee7508ba_138e4c21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T18:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ed09ce3_8cf78777",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ed09ce3_cced8fa7",
         "filename": "lib/LICENSE-codemirror-minified",
         "patchSetId": 5
@@ -93,6 +177,30 @@
       "writtenOn": "2016-04-04T06:31:52Z",
       "side": 1,
       "message": "Why this line?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 60
+      },
+      "revId": "be3f787d54c5e295c7a89d5e78c43d1d20b9e177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_5484ac02",
+        "filename": "lib/LICENSE-codemirror-minified",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T18:28:05Z",
+      "side": 1,
+      "message": "Taken verbatim from https://github.com/Dominator008/CodeMirror-minified/blob/master/LICENSE#L4.",
+      "parentUuid": "0ed09ce3_cced8fa7",
       "range": {
         "startLine": 4,
         "startChar": 0,

@@ -22,6 +22,30 @@
       "revId": "e0ec180e7f859e12bd1c8682b471042775aae87b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7508ba_5384c402",
+        "filename": "lib/LICENSE-codemirror",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-04T18:28:05Z",
+      "side": 0,
+      "message": "Marijn updated CodeMirror\u0027s license quite a while ago: https://github.com/codemirror/CodeMirror/blob/master/LICENSE.\n\nThis was taken verbatim from that license, which I think is correct.",
+      "parentUuid": "0ed09ce3_2ce9b39a",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "e0ec180e7f859e12bd1c8682b471042775aae87b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

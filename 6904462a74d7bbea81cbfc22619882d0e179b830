@@ -140,6 +140,30 @@
       "revId": "6904462a74d7bbea81cbfc22619882d0e179b830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef294a8_2e4c6771",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-04T21:54:08Z",
+      "side": 1,
+      "message": "Great. This is much easier to read now.",
+      "parentUuid": "ee7508ba_9381fcee",
+      "range": {
+        "startLine": 42,
+        "startChar": 38,
+        "endLine": 42,
+        "endChar": 44
+      },
+      "revId": "6904462a74d7bbea81cbfc22619882d0e179b830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -69,6 +69,24 @@
       "revId": "c27bdb79eda9dd1c6942607143d2316e8bad80d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_541fcca8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-04T15:46:45Z",
+      "side": 1,
+      "message": "someone looking at the code however will not know that (or at least I do not think so), even a link back to the code that this is mirroring would be good.",
+      "parentUuid": "ee7508ba_531fe4a8",
+      "revId": "c27bdb79eda9dd1c6942607143d2316e8bad80d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

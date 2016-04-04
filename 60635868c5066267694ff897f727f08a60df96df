@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e89e03a_0d927179",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-04T21:44:50Z",
+      "side": 1,
+      "message": "do you watch to catch and reset loading to false?",
+      "revId": "60635868c5066267694ff897f727f08a60df96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_2d972d6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-04T21:44:50Z",
+      "side": 1,
+      "message": "might be nice to set this on the prototype directly vs defining the map inline in a function.\n\n\nso this would be just... return this.SOME_HASH[action] || \u0027unknown\u0027;",
+      "revId": "60635868c5066267694ff897f727f08a60df96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_4e9c738a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-04T21:44:50Z",
+      "side": 1,
+      "message": "I have some feelings here about eating the catch here always, because I could see someone being confused by \"lost\" errors.. typically I like to always throw and let people upstream of the API decide to eat or not eat the error.\n\nNot a sticking point, just something to think about.",
+      "revId": "60635868c5066267694ff897f727f08a60df96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

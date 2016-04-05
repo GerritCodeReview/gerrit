@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_2a51df0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T18:15:10Z",
+      "side": 1,
+      "message": "Good question. I also wondered about this.\n\nI just pushed this patch set to move this change a little further. It might not be the final solution.\n\nFor me it depends on the effort that a backward compatible solution requires. If it\u0027s easy to get, we should do it. If it\u0027s lot of efforts I\u0027m OK with breaking the plugins. Plugins that do the binding explicitly would need to move the binding into another module. That is a very easy change and we never guaranteed backward compatibility for plugins (only for extensions).",
+      "parentUuid": "4e8e1443_4efd5351",
+      "revId": "3da2d03f298b16152206057f0aeadf226f3a35c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8e1443_0e034b34",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 4

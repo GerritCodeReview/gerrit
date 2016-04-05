@@ -15,7 +15,7 @@ def documentation_attributes(revision):
     'tilde="&#126;"',
     'last-update-label!',
     'source-highlighter=prettify',
-    'stylesheet=doc.css',
+    'stylesheet=DEFAULT',
     'linkcss=true',
     'prettifydir=.',
     'revnumber="%s"' % revision,

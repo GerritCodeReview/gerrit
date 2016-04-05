@@ -35,7 +35,7 @@ def genasciidoc_htmlonly(
   for attribute in attributes:
     asciidoc.extend(['-a', attribute])
   asciidoc.append('$SRCS')
-  newsrcs = [":doc.css"]
+  newsrcs = []
   for src in srcs:
     fn = src
     # We have two cases: regular source files and generated files.
@@ -105,7 +105,6 @@ def genasciidoc(
         'images/*.jpg',
         'images/*.png',
       ]) + [
-        ':doc.css',
         '//gerrit-prettify:prettify.min.css',
         '//gerrit-prettify:prettify.min.js',
       ],

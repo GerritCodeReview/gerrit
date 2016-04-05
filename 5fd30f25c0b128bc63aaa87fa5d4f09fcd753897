@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ee926865_ebf351b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T07:24:16Z",
+      "side": 1,
+      "message": "test",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "5fd30f25c0b128bc63aaa87fa5d4f09fcd753897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8e1443_0e926b79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
         "patchSetId": 4
@@ -14,6 +37,29 @@
       "writtenOn": "2016-04-04T21:38:47Z",
       "side": 1,
       "message": "Turns out I need this to be public.",
+      "revId": "5fd30f25c0b128bc63aaa87fa5d4f09fcd753897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_6b45a193",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T07:24:16Z",
+      "side": 1,
+      "message": "Does the addition of this code belong into the predecessor change [1]?\n\n[1] https://gerrit-review.googlesource.com/76120",
+      "range": {
+        "startLine": 209,
+        "startChar": 3,
+        "endLine": 222,
+        "endChar": 5
+      },
       "revId": "5fd30f25c0b128bc63aaa87fa5d4f09fcd753897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

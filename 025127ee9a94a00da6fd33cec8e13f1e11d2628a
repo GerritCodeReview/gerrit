@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_4eb553f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013112
+      },
+      "writtenOn": "2016-04-05T01:29:08Z",
+      "side": 1,
+      "message": "I don\u0027t mind splitting it, but #2 is simply a wrapping the list with a filter(cfg, \"kex\", [...]) call, so it seemed trivial to add and parallels the other configurations. Ultimately, my interest in this topic was to remove all of the sha1 algorithms, so I need both features.",
+      "parentUuid": "ce83e41b_2a971f6a",
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_ee741f9d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-04T22:10:02Z",
       "side": 1,
       "message": "The algorithms should be specified in the order of preference. In version 0.14.0, that is used on stable-2.12 branch, the order of preference is defined in: [1]. IOW, this should be:\n\n  setKeyExchangeFactories(filter(cfg, \"kex\",\n    new DHGEX256.Factory(),\n    new DHGEX.Factory(),\n    new ECDHP256.Factory(),\n    new ECDHP384.Factory(),\n    new ECDHP521.Factory(),\n    new DHG14.Factory(),\n    new DHG1.Factory()));\n\nOn sshd master, it is extracted to a constant: [2]. So that the version of this change in master could be as simple as this:\n\n  @SuppressWarnings(\"unchecked\")\n  private void initProviderBouncyCastle(Config cfg) {\n    List\u003cNamedFactory\u003cKeyExchange\u003e\u003e a \u003d\n        ServerBuilder.setUpDefaultKeyExchanges(true);\n    setKeyExchangeFactories(filter(cfg, \"kex\",\n        (NamedFactory\u003cKeyExchange\u003e[])a.toArray(new NamedFactory[a.size()])));\n  [...]\n\n* [1] https://github.com/apache/mina-sshd/blob/0.14.x/sshd-core/src/main/java/org/apache/sshd/SshBuilder.java#L310-L316\n* [2] https://github.com/apache/mina-sshd/blob/master/sshd-core/src/main/java/org/apache/sshd/common/BaseBuilder.java#L84-L100",
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_6dba15e3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1013112
+      },
+      "writtenOn": "2016-04-05T01:29:08Z",
+      "side": 1,
+      "message": "Between [1] and [2], the order was changed by commit [3]. The [2] order is arguably better for git. DHGEX algorithms are very slow (many seconds, if not minutes) to establish a new connection. There is no evidence that DHGEX256 is superior to ECDHP256 for security, and ECDHP256 establishes a connection almost instantaneously.\n\nFor the record, the default OpenSSH server order[4] is:\n\ncurve25519-sha256@libssh.org,\necdh-sha2-nistp256,\necdh-sha2-nistp384,\necdh-sha2-nistp521,\ndiffie-hellman-group-exchange-sha256\ndiffie-hellman-group14-sha1\n\nWe can\u0027t support curve25519 at this time. Their client order inserts \"diffie-hellman-group-exchange-sha1\" before group14. Either way, their list removes DHG1, which is the only algorithms available for JCE. Plus or minus these differences, the order matches [2].\n\nSo, I agree my order here is incorrect, but I think [2] is the correct order, and not [1]. The cherry-pick to master already does [2], so that always makes this change forward-compatible. So my proposal would be:\n\n  setKeyExchangeFactories(filter(cfg, \"kex\",\n        new ECDHP256.Factory(),\n        new ECDHP384.Factory(),\n        new ECDHP521.Factory(),\n        new DHGEX256.Factory(),\n        new DHGEX.Factory(),\n        new DHG14.Factory(),\n        new DHG1.Factory()));\n\n[3] https://github.com/apache/mina-sshd/commit/73551939d8dd6f10bbc7fecefd3abc77df42f54d\n[4] http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/myproposal.h?rev\u003d1.50\u0026content-type\u003dtext/x-cvsweb-markup",
+      "parentUuid": "4ef294a8_ee741f9d",
       "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

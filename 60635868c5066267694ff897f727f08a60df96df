@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_6da135bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-05T13:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e89e03a_0d927179",
+      "revId": "60635868c5066267694ff897f727f08a60df96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e89e03a_2d972d6a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_cd5a295a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-05T13:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e89e03a_2d972d6a",
+      "revId": "60635868c5066267694ff897f727f08a60df96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8e1443_4e9c738a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-04T21:44:50Z",
       "side": 1,
       "message": "I have some feelings here about eating the catch here always, because I could see someone being confused by \"lost\" errors.. typically I like to always throw and let people upstream of the API decide to eat or not eat the error.\n\nNot a sticking point, just something to think about.",
+      "revId": "60635868c5066267694ff897f727f08a60df96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_4d9c798a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-05T13:35:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4e8e1443_4e9c738a",
       "revId": "60635868c5066267694ff897f727f08a60df96df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

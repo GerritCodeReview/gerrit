@@ -79,7 +79,8 @@
       },
     },
 
-    fetchJSON: function(url, opt_cancelCondition, opt_params, opt_opts) {
+    fetchJSON: function(url, opt_errFn, opt_cancelCondition, opt_params,
+        opt_opts) {
       opt_opts = opt_opts || {};
 
       var fetchOptions = {
@@ -110,13 +111,17 @@
           return;
         }
 
+        if (!response.ok && opt_errFn) {
+          opt_errFn.call(null, response);
+          return undefined;
+        }
         return this.getResponseObject(response);
       }.bind(this)).catch(function(err) {
         if (opt_opts.noCredentials) {
           throw err;
         } else {
           // This could be because of a 302 auth redirect. Retry the request.
-          return this.fetchJSON(url, opt_cancelCondition, opt_params,
+          return this.fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params,
               Object.assign(opt_opts, {noCredentials: true}));
         }
       }.bind(this));
@@ -196,7 +201,7 @@
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
-    getChangeDetail: function(changeNum, opt_cancelCondition) {
+    getChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
       var options = this._listChangesOptionsToHex(
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.CHANGE_ACTIONS,
@@ -204,6 +209,7 @@
       );
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, null, '/detail'),
+          opt_errFn,
           opt_cancelCondition,
           {O: options});
     },
@@ -263,7 +269,7 @@
     },
 
     getDiff: function(changeNum, basePatchNum, patchNum, path,
-        opt_cancelCondition) {
+        opt_errFn, opt_cancelCondition) {
       var url = this._getDiffFetchURL(changeNum, patchNum, path);
       var params =  {
         context: 'ALL',
@@ -274,7 +280,7 @@
         params.base = basePatchNum;
       }
 
-      return this.fetchJSON(url, opt_cancelCondition, params);
+      return this.fetchJSON(url, opt_errFn, opt_cancelCondition, params);
     },
 
     _getDiffFetchURL: function(changeNum, patchNum, path) {

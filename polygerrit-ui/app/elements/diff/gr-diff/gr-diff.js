@@ -411,12 +411,17 @@
       this.$.diffTable.innerHTML = null;
     },
 
+    _handleGetDiffError: function(response) {
+      this.fire('page-error', {response: response});
+    },
+
     _getDiff: function() {
       return this.$.restAPI.getDiff(
           this.changeNum,
           this.patchRange.basePatchNum,
           this.patchRange.patchNum,
-          this.path);
+          this.path,
+          this._handleGetDiffError.bind(this));
     },
 
     _getDiffComments: function() {

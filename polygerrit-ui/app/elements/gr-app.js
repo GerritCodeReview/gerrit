@@ -36,9 +36,11 @@
       _showChangeView: Boolean,
       _showDiffView: Boolean,
       _viewState: Object,
+      _lastError: Object,
     },
 
     listeners: {
+      'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
     },
 
@@ -100,6 +102,7 @@
     },
 
     _viewChanged: function(view) {
+      this.$.errorView.hidden = true;
       this.set('_showChangeListView', view === 'gr-change-list-view');
       this.set('_showDashboardView', view === 'gr-dashboard-view');
       this.set('_showChangeView', view === 'gr-change-view');
@@ -112,8 +115,34 @@
           window.location.pathname + window.location.hash));
     },
 
-    _computeLoggedIn: function(account) { // argument used for binding update only
+    // Argument used for binding update only.
+    _computeLoggedIn: function(account) {
       return this.loggedIn;
+    },
+
+    _handlePageError: function(e) {
+      [
+        '_showChangeListView',
+        '_showDashboardView',
+        '_showChangeView',
+        '_showDiffView',
+      ].forEach(function(showProp) {
+        this.set(showProp, false);
+      }.bind(this));
+
+      this.$.errorView.hidden = false;
+      var response = e.detail.response;
+      var err = {text: [response.status, response.statusText].join(' ')};
+      if (response.status === 404) {
+        err.emoji = '¯\\_(ツ)_/¯';
+        this._lastError = err;
+      } else {
+        err.emoji = 'o_O';
+        response.text().then(function(text) {
+          err.moreInfo = text;
+          this._lastError = err;
+        }.bind(this));
+      }
     },
 
     _handleTitleChange: function(e) {

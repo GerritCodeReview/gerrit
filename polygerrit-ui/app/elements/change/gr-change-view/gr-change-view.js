@@ -23,6 +23,12 @@
      * @event title-change
      */
 
+    /**
+     * Fired if an error occurs when fetching the change data.
+     *
+     * @event page-error
+     */
+
     properties: {
       /**
        * URL params passed from the router.
@@ -318,6 +324,10 @@
       page.show(this.changePath(this._changeNum));
     },
 
+    _handleGetChangeDetailError: function(response) {
+      this.fire('page-error', {response: response});
+    },
+
     _getDiffDrafts: function() {
       return this.$.restAPI.getDiffDrafts(this._changeNum).then(
           function(drafts) {
@@ -337,10 +347,11 @@
     },
 
     _getChangeDetail: function() {
-      return this.$.restAPI.getChangeDetail(this._changeNum).then(
-          function(change) {
-            this._change = change;
-          }.bind(this));
+      return this.$.restAPI.getChangeDetail(this._changeNum,
+          this._handleGetChangeDetailError.bind(this)).then(
+              function(change) {
+                this._change = change;
+              }.bind(this));
     },
 
     _getComments: function() {
@@ -382,6 +393,8 @@
       this._getComments();
 
       var reloadPatchNumDependentResources = function() {
+        if (!this._change) { return Promise.resolve(); }
+
         return Promise.all([
           this._getCommitInfo(),
           this.$.actions.reload(),
@@ -389,6 +402,8 @@
         ]);
       }.bind(this);
       var reloadDetailDependentResources = function() {
+        if (!this._change) { return Promise.resolve(); }
+
         return Promise.all([
           this.$.relatedChanges.reload(),
           this._getProjectConfig(),

@@ -34,6 +34,24 @@
       "revId": "7209b57cca7b9d1fc04b0f1fe5d94a97ce33ff25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_6d6cd503",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T11:14:43Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2e89e03a_cdf6a9a3",
+      "revId": "7209b57cca7b9d1fc04b0f1fe5d94a97ce33ff25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

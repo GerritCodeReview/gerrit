@@ -129,6 +129,24 @@
       "revId": "76f1db2247126c17865e0e94706e52324599f802",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_6b6cc103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T09:40:53Z",
+      "side": 1,
+      "message": "Sorry, I just realized that the test implementation of ChangeRebuilder that is defined in NoteDbModule returns null from the rebuild method.",
+      "parentUuid": "2e89e03a_2d89ed18",
+      "revId": "76f1db2247126c17865e0e94706e52324599f802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

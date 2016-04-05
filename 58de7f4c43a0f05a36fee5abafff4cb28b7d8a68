@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e89e03a_2d72cde4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T10:48:58Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is intuitive for someone who\u0027s new to Gerrit.  Although \"Blocked on:\" doesn\u0027t have the exact nuance, as mentioned by Dave on an earlier patch set, I think it might be easier to understand the meaning than \"Not Passed\".",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "58de7f4c43a0f05a36fee5abafff4cb28b7d8a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

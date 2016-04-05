@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_0e842b02",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3547,
+      "author": {
+        "id": 1013112
+      },
+      "writtenOn": "2016-04-05T12:38:10Z",
+      "side": 1,
+      "message": "I honestly don\u0027t know the syntax of this documentation file beyond looking at the rest of it and seeing the result of compiling the documentation.\n\nIt seemed that every paragraph was getting preceeded by a \"+\" to indent the text, but that wrapping a whole section in --/-- would achieve the same result with less noise in the source text. But, I was purely going off of the visual output, so maybe there is something subtle I am missing.",
+      "parentUuid": "2e89e03a_ad74fdd4",
+      "range": {
+        "startLine": 3547,
+        "startChar": 0,
+        "endLine": 3547,
+        "endChar": 2
+      },
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e89e03a_cd8149ee",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

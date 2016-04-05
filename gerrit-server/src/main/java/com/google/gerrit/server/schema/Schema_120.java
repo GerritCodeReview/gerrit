@@ -62,7 +62,7 @@ public class Schema_120 extends SchemaVersion {
 
         SubscribeSection s = null;
         for (SubscribeSection s1 : pc.getSubscribeSections(subbranch)) {
-          if (s.getProject() == superBranch.getParentKey()) {
+          if (s1.getProject() == superBranch.getParentKey()) {
             s = s1;
           }
         }

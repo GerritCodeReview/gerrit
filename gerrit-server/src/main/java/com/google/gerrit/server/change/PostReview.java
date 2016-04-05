@@ -567,10 +567,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
 
       // get all approvals in cases of quick approve vote
-      Map<String, Short> allApprovals = Collections.emptyMap();
-      if (current != null) {
-        allApprovals = approvalsByKey(current.values());
-      }
+      Map<String, Short> allApprovals = approvalsByKey(current.values());
       allApprovals.putAll(inLabels);
 
       // get previous label votes

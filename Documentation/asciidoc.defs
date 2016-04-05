@@ -35,7 +35,7 @@ def genasciidoc_htmlonly(
   for attribute in attributes:
     asciidoc.extend(['-a', attribute])
   asciidoc.append('$SRCS')
-  newsrcs = [":doc.css"]
+  newsrcs = []
   for src in srcs:
     fn = src
     # We have two cases: regular source files and generated files.
@@ -59,8 +59,6 @@ def genasciidoc_htmlonly(
       out = ex,
     )
 
-    # The new AsciiDoctor requires both the css file and include files are under
-    # the same directory. Luckily Buck allows us to use :target as SRCS now.
     newsrcs.append(':%s' % ex)
 
   genrule(
@@ -105,7 +103,6 @@ def genasciidoc(
         'images/*.jpg',
         'images/*.png',
       ]) + [
-        ':doc.css',
         '//gerrit-prettify:prettify.min.css',
         '//gerrit-prettify:prettify.min.js',
       ],

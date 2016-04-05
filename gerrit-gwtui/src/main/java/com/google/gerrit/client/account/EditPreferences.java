@@ -37,7 +37,7 @@ public class EditPreferences extends JavaScriptObject {
     return p;
   }
 
-  public final void copyTo(EditPreferencesInfo p) {
+  public final EditPreferencesInfo copyTo(EditPreferencesInfo p) {
     p.tabSize = tabSize();
     p.lineLength = lineLength();
     p.cursorBlinkRate = cursorBlinkRate();
@@ -50,6 +50,7 @@ public class EditPreferences extends JavaScriptObject {
     p.autoCloseBrackets = autoCloseBrackets();
     p.theme = theme();
     p.keyMapType = keyMapType();
+    return p;
   }
 
   public final void theme(Theme i) {

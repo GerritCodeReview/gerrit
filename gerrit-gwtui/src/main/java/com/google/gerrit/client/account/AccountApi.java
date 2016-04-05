@@ -45,7 +45,7 @@ public class AccountApi {
 
   /** Put the account edit preferences */
   public static void putEditPreferences(EditPreferences in,
-      AsyncCallback<VoidResult> cb) {
+      AsyncCallback<EditPreferences> cb) {
     self().view("preferences.edit").put(in, cb);
   }
 

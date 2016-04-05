@@ -15,11 +15,11 @@
 package com.google.gerrit.client.editor;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.core.client.GWT;
@@ -235,12 +235,13 @@ public class EditPreferencesBox extends Composite {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    AccountApi.putEditPreferences(prefs, new GerritCallback<VoidResult>() {
-      @Override
-      public void onSuccess(VoidResult n) {
-        prefs.copyTo(Gerrit.getEditPreferences());
-      }
-    });
+    AccountApi.putEditPreferences(prefs,
+        new GerritCallback<EditPreferences>() {
+          @Override
+          public void onSuccess(EditPreferences p) {
+            Gerrit.setEditPreferences(p.copyTo(new EditPreferencesInfo()));
+          }
+        });
     close();
   }
 

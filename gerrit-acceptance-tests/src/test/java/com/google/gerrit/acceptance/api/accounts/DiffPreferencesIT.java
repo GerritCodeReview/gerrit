@@ -12,34 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.account;
+package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
 
 import org.junit.Test;
 
+@NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
-  public void getDiffPreferencesOfNonExistingAccount_NotFound()
-      throws Exception {
-    adminSession.get("/accounts/non-existing/preferences.diff")
-        .assertNotFound();
-  }
-
-  @Test
   public void getDiffPreferences() throws Exception {
-    RestResponse r = adminSession.get("/accounts/" + admin.email
-        + "/preferences.diff");
-    r.assertOK();
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
-    DiffPreferencesInfo o =
-        newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
+    DiffPreferencesInfo o = gApi.accounts()
+        .id(admin.getId().toString())
+        .getDiffPreferences();
 
     assertThat(o.context).isEqualTo(d.context);
     assertThat(o.tabSize).isEqualTo(d.tabSize);
@@ -93,11 +85,9 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.hideEmptyPane ^= true;
     i.matchBrackets ^= true;
 
-    RestResponse r = adminSession.put("/accounts/" + admin.email
-        + "/preferences.diff", i);
-    r.assertOK();
-    DiffPreferencesInfo o = newGson().fromJson(r.getReader(),
-        DiffPreferencesInfo.class);
+    DiffPreferencesInfo o = gApi.accounts()
+        .id(admin.getId().toString())
+        .setDiffPreferences(i);
 
     assertThat(o.context).isEqualTo(i.context);
     assertThat(o.tabSize).isEqualTo(i.tabSize);
@@ -125,10 +115,9 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     // Partially fill input record
     i = new DiffPreferencesInfo();
     i.tabSize = 42;
-    r = adminSession.put("/accounts/" + admin.email
-        + "/preferences.diff", i);
-    DiffPreferencesInfo a = newGson().fromJson(r.getReader(),
-        DiffPreferencesInfo.class);
+    DiffPreferencesInfo a = gApi.accounts()
+        .id(admin.getId().toString())
+        .setDiffPreferences(i);
 
     assertThat(a.context).isEqualTo(o.context);
     assertThat(a.tabSize).isEqualTo(42);

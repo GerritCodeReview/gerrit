@@ -22,6 +22,30 @@
       "revId": "26ad9e5bad5380552fe97d003ce6cad48d7b2425",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_2ae55ff2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/AliasCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-05T07:05:33Z",
+      "side": 1,
+      "message": "Here and other places were adjusted to this change: [1]. Particularly start/destroy methods were extracted from Command interface into CommandLifecycle, and destroy throws now Exception. \n\n* [1] https://github.com/apache/mina-sshd/commit/97b73947d5dbdfc777123a0f511e9966efb14556\n* [2] https://issues.apache.org/jira/browse/SSHD-587",
+      "parentUuid": "2e89e03a_8dd3c120",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "26ad9e5bad5380552fe97d003ce6cad48d7b2425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_6e45af93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:54Z",
+      "side": 1,
+      "message": "I disagree. I think of this like a superscript \u003csup\u003e1\u003c/sup\u003e which is not generally preceded by a space.",
+      "parentUuid": "ce83e41b_2a0e3f8a",
+      "range": {
+        "startLine": 25,
+        "startChar": 50,
+        "endLine": 25,
+        "endChar": 53
+      },
+      "revId": "76f1db2247126c17865e0e94706e52324599f802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_ed29a5c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:54Z",
+      "side": 1,
+      "message": "Removed from the commit message.",
+      "parentUuid": "ce83e41b_0a097b81",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "76f1db2247126c17865e0e94706e52324599f802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_0b1fbda9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 8
@@ -60,6 +108,24 @@
       "writtenOn": "2016-04-05T07:56:47Z",
       "side": 1,
       "message": "Can newState ever be null?\nChangeRebuilderImpl ensures that it\u0027s not null [1], doesn\u0027t it?\n\n\n[1] https://gerrit-review.googlesource.com/#/c/76055/8/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java@225",
+      "revId": "76f1db2247126c17865e0e94706e52324599f802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_2d89ed18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:54Z",
+      "side": 1,
+      "message": "Done, replaced with a checkNotNull since this is not obvious.",
+      "parentUuid": "ee926865_0b1fbda9",
       "revId": "76f1db2247126c17865e0e94706e52324599f802",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

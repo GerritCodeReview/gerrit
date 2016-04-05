@@ -34,20 +34,13 @@ limitations under the License.
 <script>
   suite('gr-change-actions tests', function() {
     var element;
-    var server;
-
+    var response = {
+      ok: true,
+    };
     setup(function(done) {
-      element = fixture('basic');
-      server = sinon.fakeServer.create();
-
-      server.respondWith(
-        'GET',
-        '/changes/42/revisions/2/actions',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          JSON.stringify({
+      stub('gr-rest-api-interface', {
+        getChangeRevisionActions: function() {
+          return Promise.resolve({
             cherrypick: {
               method: 'POST',
               label: 'Cherry Pick',
@@ -65,41 +58,31 @@ limitations under the License.
               title: 'Submit patch set 1 into master',
               enabled: true
             }
-          }),
-        ]
-      );
+          });
+        },
+        send: function(method, url, payload) {
+          if (method !== 'POST') { return Promise.reject('bad method'); }
 
-      server.respondWith(
-        'POST',
-        '/changes/42/revisions/2/submit',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n{}',  // The response is not used by the element.
-        ]
-      );
+          if (url === '/changes/42/revisions/2/submit') {
+            return Promise.resolve({
+              ok: true,
+              text: function() { return Promise.resolve(')]}\'\n{}'); },
+            });
+          } else if (url === '/changes/42/revisions/2/rebase') {
+            return Promise.resolve({
+              ok: true,
+              text: function() { return Promise.resolve(')]}\'\n{}'); },
+            });
+          }
 
-      server.respondWith(
-        'POST',
-        '/changes/42/revisions/2/rebase',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n{}',  // The response is not used by the element.
-        ]
-      );
-
-      element.changeNum = '42';
-      element.patchNum = '2';
-      element.reload().then(function() {
-        done();
+          return Promise.reject('bad url');
+        },
       });
 
-      server.respond();
-    });
-
-    teardown(function() {
-      server.restore();
+      element = fixture('basic');
+      element.changeNum = '42';
+      element.patchNum = '2';
+      element.reload().then(function() { done(); });
     });
 
     test('submit, rebase, and cherry-pick buttons show', function(done) {
@@ -116,7 +99,6 @@ limitations under the License.
         var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
-        server.respond();
 
         // Upon success it should fire the reload-change event.
         element.addEventListener('reload-change', function(e) {
@@ -128,50 +110,91 @@ limitations under the License.
     test('submit change with plugin hook', function(done) {
       var canSubmitStub = sinon.stub(element, '_canSubmitChange',
           function() { return false; });
-      var fireRevisionActionStub = sinon.stub(element, '_fireRevisionAction');
+      var fireActionStub = sinon.stub(element, '_fireAction');
       flush(function() {
         var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
-        assert.equal(fireRevisionActionStub.callCount, 0);
+        assert.equal(fireActionStub.callCount, 0);
 
         canSubmitStub.restore();
-        fireRevisionActionStub.restore();
+        fireActionStub.restore();
         done();
       });
     });
 
     test('rebase change', function(done) {
+      var fireActionStub = sinon.stub(element, '_fireAction');
       flush(function() {
         var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
-
+        var rebaseAction = {
+          __key: 'rebase',
+          __type: 'revision',
+          label: 'Rebase',
+          method: 'POST',
+          title: 'Rebase onto tip of branch or parent change',
+        };
         element.$.confirmRebase.base = '1234';
         element._handleRebaseConfirm();
-        server.respond();
-        var lastRequest = server.requests[server.requests.length - 1];
-        assert.equal(lastRequest.requestBody, '{"base":"1234"}');
+        assert.deepEqual(fireActionStub.lastCall.args,
+          ['/rebase', rebaseAction, true, {base: '1234'}]);
 
         element.$.confirmRebase.base = '';
         element._handleRebaseConfirm();
-        server.respond();
-        lastRequest = server.requests[server.requests.length - 1];
-        assert.equal(lastRequest.requestBody, '{}');
+        assert.deepEqual(fireActionStub.lastCall.args,
+          ['/rebase', rebaseAction, true, {}]);
 
         element.$.confirmRebase.base = 'does not matter';
         element.$.confirmRebase.clearParent = true;
         element._handleRebaseConfirm();
-        server.respond();
-        lastRequest = server.requests[server.requests.length - 1];
-        assert.equal(lastRequest.requestBody, '{"base":""}');
+        assert.deepEqual(fireActionStub.lastCall.args,
+          ['/rebase', rebaseAction, true, {base: ''}]);
 
-        // Upon each request success it should fire the reload-change event.
-        var numEvents = 0;
-        element.addEventListener('reload-change', function(e) {
-          if (++numEvents == 3) { done(); }
-        });
+        fireActionStub.restore();
+        done();
       });
     });
+
+    test('cherry-pick change', function(done) {
+      var fireActionStub = sinon.stub(element, '_fireAction');
+      var alertStub = sinon.stub(window, 'alert');
+
+      flush(function() {
+        var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+        MockInteractions.tap(rebaseButton);
+        var action = {
+          __key: 'cherrypick',
+          __type: 'revision',
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'Cherry pick change to a different branch',
+        };
+
+        element._handleCherrypickConfirm();
+        assert.equal(fireActionStub.callCount, 0);
+
+        element.$.confirmCherrypick.branch = 'master';
+        element._handleCherrypickConfirm();
+        assert.equal(fireActionStub.callCount, 0);  // Still needs a message.
+
+        element.$.confirmCherrypick.message = 'foo message';
+        element._handleCherrypickConfirm();
+
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/cherrypick', action, true, {
+            destination: 'master',
+            message: 'foo message',
+          }
+        ]);
+
+        fireActionStub.restore();
+        alertStub.restore();
+        done();
+      });
+    });
+
 
   });
 </script>

@@ -215,15 +215,17 @@
       e.stopPropagation();
       var el = Polymer.dom(e).rootTarget;
       el.disabled = true;
-      this._saveDiffPreferences().then(function() {
-        this.$.prefsOverlay.close();
+      this._saveDiffPreferences().then(function(response) {
         el.disabled = false;
-      }.bind(this)).catch(function(err) {
-        el.disabled = false;
-        alert('Oops. Something went wrong. Check the console and bug the ' +
+        if (!response.ok) {
+          alert('Oops. Something went wrong. Check the console and bug the ' +
               'PolyGerrit team for assistance.');
-        throw err;
-      });
+          return response.text().then(function(text) {
+            console.error(text);
+          });
+        }
+        this.$.prefsOverlay.close();
+      }.bind(this));
     },
 
     _saveDiffPreferences: function() {

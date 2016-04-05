@@ -18,11 +18,10 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-request/gr-request.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
@@ -32,6 +31,14 @@ limitations under the License.
     <style>
       :host {
         display: block;
+      }
+      section {
+        margin-top: 1em;
+      }
+      .groupLabel {
+        color: #666;
+        margin-bottom: .15em;
+        text-align: center;
       }
       gr-button {
         display: block;
@@ -49,30 +56,33 @@ limitations under the License.
         }
       }
     </style>
-    <gr-ajax id="actionsXHR"
-        url="[[_computeRevisionActionsPath(changeNum, patchNum)]]"
-        last-response="{{_revisionActions}}"
-        loading="{{_loading}}"></gr-ajax>
     <div>
-      <template is="dom-repeat" items="[[_computeActionValues(actions, 'change')]]" as="action">
-        <gr-button title$="[[action.title]]"
-            primary$="[[_computePrimary(action.__key)]]"
-            hidden$="[[!action.enabled]]"
-            data-action-key$="[[action.__key]]"
-            data-action-type$="[[action.__type]]"
-            data-label$="[[action.label]]"
-            on-tap="_handleActionTap"></gr-button>
-      </template>
-      <template is="dom-repeat" items="[[_computeActionValues(_revisionActions, 'revision')]]" as="action">
-        <gr-button title$="[[action.title]]"
-            primary$="[[_computePrimary(action.__key)]]"
-            disabled$="[[!action.enabled]]"
-            data-action-key$="[[action.__key]]"
-            data-action-type$="[[action.__type]]"
-            data-label$="[[action.label]]"
-            data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
-            on-tap="_handleActionTap"></gr-button>
-      </template>
+      <section hidden$="[[!_keyCount(actions)]]" hidden>
+        <div class="groupLabel">Change</div>
+        <template is="dom-repeat" items="[[_computeActionValues(actions, 'change')]]" as="action">
+          <gr-button title$="[[action.title]]"
+              primary$="[[_computePrimary(action.__key)]]"
+              hidden$="[[!action.enabled]]"
+              data-action-key$="[[action.__key]]"
+              data-action-type$="[[action.__type]]"
+              data-label$="[[action.label]]"
+              data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
+              on-tap="_handleActionTap"></gr-button>
+        </template>
+      </section>
+      <section hidden$="[[!_keyCount(_revisionActions)]]" hidden>
+        <div class="groupLabel">Revision</div>
+        <template is="dom-repeat" items="[[_computeActionValues(_revisionActions, 'revision')]]" as="action">
+          <gr-button title$="[[action.title]]"
+              primary$="[[_computePrimary(action.__key)]]"
+              disabled$="[[!action.enabled]]"
+              data-action-key$="[[action.__key]]"
+              data-action-type$="[[action.__type]]"
+              data-label$="[[action.label]]"
+              data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
+              on-tap="_handleActionTap"></gr-button>
+        </template>
+      </section>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"
@@ -88,6 +98,7 @@ limitations under the License.
           hidden></gr-confirm-cherrypick-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-actions.js"></script>
 </dom-module>

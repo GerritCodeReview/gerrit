@@ -60,9 +60,32 @@ GET_MACRO = """
 SEARCH_BOX = """
 
 ++++
-<div style="position:absolute; right:20px; top:20px;">
-<input type="text" id="docSearch" size="70" />
-<button type="button" id="searchBox">Search</button>
+<div style="
+  position:fixed;
+  top:0px;
+  right:0px;
+  text-align:
+  right;
+  padding-top:2px;
+  padding-right:0.5em;
+  padding-bottom:2px;">
+<input size="40"
+  style="line-height: 0.75em;font-size: 0.75em;"
+  id="docSearch"
+  type="text">
+<button style="
+  background:none!important;
+  border:none;
+  padding:0!important;
+  vertical-align:bottom;
+  font-family:'Open Sans','DejaVu Sans',sans-serif;
+  font-size:0.8em;
+  color:#1d4b8f;
+  text-decoration:none;"
+  type="button"
+  id="searchBox">
+  Search
+</button>
 <script type="text/javascript">
 var f = function() {
   window.location = '../#/Documentation/' +

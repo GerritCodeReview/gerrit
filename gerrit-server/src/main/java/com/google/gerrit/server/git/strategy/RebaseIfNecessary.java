@@ -163,7 +163,6 @@ public class RebaseIfNecessary extends SubmitStrategy {
     try {
       List<CodeReviewCommit> result = new RebaseSorter(
           args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
-      Collections.sort(result, CodeReviewCommit.ORDER);
       return result;
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);

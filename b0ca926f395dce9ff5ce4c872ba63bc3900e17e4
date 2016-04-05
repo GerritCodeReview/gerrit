@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_2d248df5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7508ba_93533c5f",
+      "range": {
+        "startLine": 576,
+        "startChar": 19,
+        "endLine": 576,
+        "endChar": 27
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_8e98fb43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 7
@@ -61,6 +85,30 @@
       "writtenOn": "2016-04-04T15:12:21Z",
       "side": 1,
       "message": "[optional] Write this as:\n\n  if (notesMigration.writeChanges()) {\n    if (ctx.deleted) {\n      ...\n    } else {\n      ...\n    }\n  }",
+      "range": {
+        "startLine": 573,
+        "startChar": 10,
+        "endLine": 588,
+        "endChar": 11
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_aef95794",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Not really applicable anymore but I rearranged it a bit.",
+      "parentUuid": "4ef294a8_8e98fb43",
       "range": {
         "startLine": 573,
         "startChar": 10,
@@ -96,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_6d1e95ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ed09ce3_6c833bcb",
+      "range": {
+        "startLine": 84,
+        "startChar": 36,
+        "endLine": 84,
+        "endChar": 62
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_eea53f76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
         "patchSetId": 7
@@ -107,6 +179,30 @@
       "writtenOn": "2016-04-04T15:12:21Z",
       "side": 1,
       "message": "parts.size() - 1 ?",
+      "range": {
+        "startLine": 87,
+        "startChar": 40,
+        "endLine": 87,
+        "endChar": 52
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_cef6a3a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef294a8_eea53f76",
       "range": {
         "startLine": 87,
         "startChar": 40,
@@ -142,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_8d32e137",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef294a8_cea2036c",
+      "range": {
+        "startLine": 92,
+        "startChar": 44,
+        "endLine": 92,
+        "endChar": 74
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_0ed6cbcc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 7
@@ -165,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_eef35fb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef294a8_0ed6cbcc",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 12
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_6ecb0f21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_121.java",
         "patchSetId": 7
@@ -176,6 +320,30 @@
       "writtenOn": "2016-04-04T15:12:21Z",
       "side": 1,
       "message": "120",
+      "range": {
+        "startLine": 22,
+        "startChar": 29,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "b0ca926f395dce9ff5ce4c872ba63bc3900e17e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_ad2f9dcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_121.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:47Z",
+      "side": 1,
+      "message": "Hah. Done.",
+      "parentUuid": "4ef294a8_6ecb0f21",
       "range": {
         "startLine": 22,
         "startChar": 29,

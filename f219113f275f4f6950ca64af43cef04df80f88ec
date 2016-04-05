@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_ca53e35d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "This (auto?) formatting doesn\u0027t look nice. At least the first line could be longer and the indentation of followup lines could be smaller.\n\n      mem \u003d (Cache\u003cK, ValueHolder\u003cV\u003e\u003e) builder.build(\n          (CacheLoader\u003cK, V\u003e) new H2CacheImpl.Loader\u003c\u003e(\n              executor, store, loader, ticker));",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 42
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_0bda5d08",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "nit: since every parameter was in its own line, just for consistency, put the ticket into its own line",
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_ab5dc954",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "use the Truth framework for assertions:\n\n  assertThat(start).isEqualTo(classUnderTest.nowMs())\n\nalso in the line 45",
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_eb57d130",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "use either \"this.ticks\" or just \"ticks\" consistently on both places",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_ea50a753",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "Use the Truth for assertions",
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_4be465c5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "Is this test actually testing cache expiration? Looks like this is testing basic guava cache properties?",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_8bed6da8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T10:53:09Z",
+      "side": 1,
+      "message": "I was thinking that non-persistent cache expiration is something that guava provides and (hopefully) tests and that this change is about testing expiration of persistent caches as persistent caches are implemented by Gerrit?\n\nSame for all other \"*NonPersistent*\" tests...",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

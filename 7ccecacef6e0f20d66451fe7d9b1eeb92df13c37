@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_0a841b02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T11:01:38Z",
+      "side": 1,
+      "message": "should be \"public static\" as in all other places",
+      "range": {
+        "startLine": 335,
+        "startChar": 2,
+        "endLine": 335,
+        "endChar": 15
+      },
+      "revId": "7ccecacef6e0f20d66451fe7d9b1eeb92df13c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

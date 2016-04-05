@@ -46,6 +46,30 @@
       "revId": "c97f20663c7b34540a0e9a3956aa0fe2c4cb4f16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_ee299fc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T11:45:22Z",
+      "side": 1,
+      "message": "I was wondering the same, but didn\u0027t fix it here as it\u0027s an unrelated change.\n\nDone in a follow up.",
+      "parentUuid": "ce83e41b_6a6cb703",
+      "range": {
+        "startLine": 65,
+        "startChar": 30,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "c97f20663c7b34540a0e9a3956aa0fe2c4cb4f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

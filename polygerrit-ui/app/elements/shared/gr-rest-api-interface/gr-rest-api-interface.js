@@ -207,6 +207,20 @@
           ListChangesOption.CHANGE_ACTIONS,
           ListChangesOption.DOWNLOAD_COMMANDS
       );
+      return this._getChangeDetail(changeNum, options, opt_errFn,
+          opt_cancelCondition);
+    },
+
+    getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.ALL_REVISIONS
+      );
+      return this._getChangeDetail(changeNum, options, opt_errFn,
+          opt_cancelCondition);
+    },
+
+    _getChangeDetail: function(changeNum, options, opt_errFn,
+        opt_cancelCondition) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, null, '/detail'),
           opt_errFn,

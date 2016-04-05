@@ -17,10 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-request/gr-request.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff/gr-diff.html">
 
@@ -108,19 +105,6 @@ limitations under the License.
         }
       }
     </style>
-    <gr-ajax id="changeDetailXHR"
-        auto
-        url="[[_computeChangeDetailPath(_changeNum)]]"
-        params="[[_computeChangeDetailQueryParams()]]"
-        last-response="{{_change}}"></gr-ajax>
-    <gr-ajax id="filesXHR"
-        auto
-        url="[[_computeFilesPath(_changeNum, _patchRange.patchNum)]]"
-        on-response="_handleFilesResponse"></gr-ajax>
-    <gr-ajax id="configXHR"
-        auto
-        url="[[_computeProjectConfigPath(_change.project)]]"
-        last-response="{{_projectConfig}}"></gr-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum, _patchRange.patchNum, _change.revisions)]]">
         [[_changeNum]]</a><span>:</span>

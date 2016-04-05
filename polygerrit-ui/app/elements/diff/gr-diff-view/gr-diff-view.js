@@ -59,12 +59,16 @@
         type: Boolean,
         value: false,
       },
-      _xhrPromise: Object,  // Used for testing.
     },
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
-      Gerrit.RESTClientBehavior,
+    ],
+
+    observers: [
+      '_getChangeDetail(_changeNum)',
+      '_getProjectConfig(_change.project)',
+      '_getFiles(_changeNum, _patchRange.patchNum)',
     ],
 
     attached: function() {
@@ -90,21 +94,43 @@
       return this.$.restAPI.getLoggedIn();
     },
 
+    _getProjectConfig: function(project) {
+      return this.$.restAPI.getProjectConfig(project).then(
+          function(config) {
+            this._projectConfig = config;
+          }.bind(this));
+    },
+
+    _getChangeDetail: function(changeNum) {
+      return this.$.restAPI.getDiffChangeDetail(changeNum).then(
+          function(change) {
+            this._change = change;
+          }.bind(this));
+    },
+
+    _getFiles: function(changeNum, patchNum) {
+      return this.$.restAPI.getChangeFiles(changeNum, patchNum).then(
+          function(files) {
+            this._fileList = Object.keys(files).sort();
+          }.bind(this));
+    },
+
     _handleReviewedChange: function(e) {
       this._setReviewed(Polymer.dom(e).rootTarget.checked);
     },
 
     _setReviewed: function(reviewed) {
       this.$.reviewed.checked = reviewed;
-      var method = reviewed ? 'PUT' : 'DELETE';
-      var url = this.changeBaseURL(this._changeNum,
-          this._patchRange.patchNum) + '/files/' +
-          encodeURIComponent(this._path) + '/reviewed';
-      this._send(method, url).catch(function(err) {
+      this._saveReviewedState(reviewed).catch(function(err) {
         alert('Couldn’t change file review status. Check the console ' +
             'and contact the PolyGerrit team for assistance.');
         throw err;
       }.bind(this));
+    },
+
+    _saveReviewedState: function(reviewed) {
+      return this.$.restAPI.saveFileReviewed(this._changeNum,
+          this._patchRange.patchNum, this._path, reviewed);
     },
 
     _handleKey: function(e) {
@@ -253,24 +279,6 @@
       return path == COMMIT_MESSAGE_PATH ? 'Commit message' : path;
     },
 
-    _computeChangeDetailPath: function(changeNum) {
-      return '/changes/' + changeNum + '/detail';
-    },
-
-    _computeChangeDetailQueryParams: function() {
-      return {O: this.listChangesOptionsToHex(
-          this.ListChangesOption.ALL_REVISIONS
-      )};
-    },
-
-    _computeFilesPath: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/files';
-    },
-
-    _computeProjectConfigPath: function(project) {
-      return '/projects/' + encodeURIComponent(project) + '/config';
-    },
-
     _computeFileSelected: function(path, currentPath) {
       return path == currentPath;
     },
@@ -296,21 +304,8 @@
           this._computeDiffURL(this._changeNum, this._patchRange, path));
     },
 
-    _handleFilesResponse: function(e, req) {
-      this._fileList = Object.keys(e.detail.response).sort();
-    },
-
     _showDropdownTapHandler: function(e) {
       this.$.dropdown.open();
-    },
-
-    _send: function(method, url) {
-      var xhr = document.createElement('gr-request');
-      this._xhrPromise = xhr.send({
-        method: method,
-        url: url,
-      });
-      return this._xhrPromise;
     },
   });
 })();

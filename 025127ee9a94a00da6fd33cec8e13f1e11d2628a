@@ -37,6 +37,52 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_ad74fdd4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3547,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T10:37:22Z",
+      "side": 1,
+      "message": "Is this necessary?",
+      "range": {
+        "startLine": 3547,
+        "startChar": 0,
+        "endLine": 3547,
+        "endChar": 2
+      },
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_cd8149ee",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3577,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T10:37:22Z",
+      "side": 1,
+      "message": "Is this necessary?",
+      "range": {
+        "startLine": 3577,
+        "startChar": 0,
+        "endLine": 3577,
+        "endChar": 2
+      },
+      "revId": "025127ee9a94a00da6fd33cec8e13f1e11d2628a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef294a8_ee741f9d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 4

@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1459735359 -0400\nnonce AB8gjyV9HGJJ93aFAC+VnvSXTtsrmBboF06aVWMInItFDE68y4em4uzpELZtu5+D3GT3oFKjMhA2\n\n0000000000000000000000000000000000000000 3110cc038f2f92d66361744127907753f3185581 refs/for/master%r\u003dsop@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXAcs/AAoJEF/XxZqaEoiMNTgP/RhaeNG7i0l3M0/bmYVppLFM\nLsf8cmgnqCcc3N47Q6CbHkHnYTv2gpG96Dw2BPxtxCY05x7191PltmpAt5bG4bbQ\nwMJAJFzC+upHPdDxdkDJHuPh+FoCQArroZWqXJo7mmhQ0XT4xFa5Cuz3JvZCcbMq\nvDb9NSCZUfiCqPrB0Wh809GSjQXlMzfhk4LEViawj9AC6gnWDs45L8HSKb+3qFUh\n4sy+hG+eYqoXz+agj6njA6T30ftqkTA1+ZrEAWYw5RPYtJmI55Mw01D6WI6zDh0f\nLamUUXYmWCz5UD2o/oTo4KhJP2ETjnN/GLCsgWBNbPgAJ17qPartCFzoc4acIc90\nsn+X+MdyED9tI1VppTCGdevrcfU67IfJ56WYiHOq6ADTdYw7+bBOSCiW+BUkA8W1\nPn0fWsliJ7lHK1gmZnDXD4nQf1u1q2/PcM9pgFY9T4X8m7DqpG+2sNSeVr+Wj8IO\n8JUZMBfOuLvs7ibtIHtA8I3vZhang57SM6q3KD0DUKJP5ZFsg9R++7F4F4+6zzl4\nQw0Bv27HOc0/6oBLxb85cDdFVjaGKKk96/lwnJuWz8sadtkKQy1OR7PY0PpF40Ac\nzDYFhgWiM+gI4XAH3OYg0JH3Xhcz6PEDUPFOvlJV0ur67/zz5hjlCRei/l5c62vL\nacg2U2Po8mAWC6ywOnRg\n\u003d8YFp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_8afc8b85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T08:11:35Z",
+      "side": 1,
+      "message": "NPE if walk() returns null?",
+      "revId": "1112af7977006a7418580cb1ee59aa0c0feb3d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_6a08377b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T08:11:35Z",
+      "side": 1,
+      "message": "Here too:\n\nCan newState ever be null?\nChangeRebuilderImpl ensures that it\u0027s not null [1], doesn\u0027t it?\n\n[1] https://gerrit-review.googlesource.com/#/c/76055/8/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java@225",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 29
+      },
+      "revId": "1112af7977006a7418580cb1ee59aa0c0feb3d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

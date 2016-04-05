@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee926865_8b9bad3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/EmailMerge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T11:41:05Z",
+      "side": 1,
+      "message": "Maybe better pass NotifyHandling here instead of SubmitInput.",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "6fae1a44103cca2a9fe83bd0ac67afdcc26024c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

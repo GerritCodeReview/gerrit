@@ -568,7 +568,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // get all approvals in cases of quick approve vote
       Map<String, Short> allApprovals = Collections.emptyMap();
-      if (current != null) {
+      if (!current.isEmpty()) {
         allApprovals = approvalsByKey(current.values());
       }
       allApprovals.putAll(inLabels);

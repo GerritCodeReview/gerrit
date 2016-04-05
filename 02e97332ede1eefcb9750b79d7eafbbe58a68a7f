@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1459848300 -0400\nnonce AB8gjyXqdQtLYTbI3YAs2+JnW5D9e+Rjd+3xP4CT3Mevtx+ZvHh9k4N1QxQai5htKcFeX3cvwqtL\n\n0000000000000000000000000000000000000000 de2d2e4f53b0251bbeeba281cc244981234c11d3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXA4RsAAoJEF/XxZqaEoiMkCIQAJb6l6VdtTceGR0s0TXRdl2q\nlfPN3fL3N3PcLYeFsa3UZCuPtzZ64mAYwGnJ2+eKtVR9I6Zfm9C6jMIeQrOL9XsS\n9QyAP26nIcStIAqYjgjd3fQLLPySTSREA/zsiqmHlwws0M+NS+iiB0Mv2YiOX1Qy\nzxy4/qkpEydBwsUM+aLHGnCsJwZyRho5xmQQGflEHpKQd20yj8mkDmJiyUiKKRPp\ntTM1lriQgl8mkHmQcOfpwU/KtglMnG0hKhTKwDkasjz98yr4ZY5JZwYFeLAocqST\nI6sPDKZEbDLIftQjak87SOQB8Mmxoh7emesrJMMxFqUnO2q9geTRBlV3auoWeb/G\nSFJCncEavqc63LgOK8ix74z3HEsf8FAtabLKV2Vs+H0236e12ubIukKmtEt0ycbd\nMA05Ij3yL4nzPCSMiGTAaAag/2zpyw4EFewYXSPThLHuFdqvRJRy62HhF8cYG1SU\nxFOEao4bHLUJ3NYClAiwbbOOPODovIwAUfFF0xCtJuvIpkLobiUds6CKbKBO8Rv3\nREHbbvsXh2uux76w8/qatHDdnOzxxjdpx5Is5CHHUQFGAxac1rYnXMqenCPrzeB6\nLNuXLLaozpaXOsrTVIWWqO3dVxsH4nUpWkSQWgfYrpkE5AlPrYeFSbInVxlM8JrD\ngPNvtYcdt+MpDd+1t32S\n\u003dwPO2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_aa46af9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T09:59:54Z",
+      "side": 1,
+      "message": "ChangeRebuilderImpl",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_2bdf19f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T09:59:54Z",
+      "side": 1,
+      "message": "I\u0027ve had a look at the failures with patch set 1 and most of them are related to this changed line.\n\nIn the tests we use TestChanges.incrementPatchSet which creates a new PatchSet in the Change instance but not in NoteDb. As long as we got the Change here from the ChangeControl this worked since ChangeControl wrapped that Change instance. Now we read the change from NoteDb and the patch set increment is not visible there. As result all updates will wrongly be done for patch set 1.",
+      "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_4b670522",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T09:59:54Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

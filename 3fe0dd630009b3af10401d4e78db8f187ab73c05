@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e8e1443_4ee473c5",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-05T17:05:52Z",
+      "side": 1,
+      "message": "I would say that you could perhaps drop the switch case here since you are only handling a single case.",
+      "revId": "3fe0dd630009b3af10401d4e78db8f187ab73c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

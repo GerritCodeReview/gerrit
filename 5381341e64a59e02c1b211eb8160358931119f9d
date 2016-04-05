@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_4e88f3e3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-05T23:49:58Z",
+      "side": 1,
+      "message": "Gerrit does not produce javadoc documentation so really not needed.  Actually most of the methods in Gerrit aren\u0027t even documented at all.",
+      "parentUuid": "0e7b3caf_341ed0aa",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 9
+      },
+      "revId": "5381341e64a59e02c1b211eb8160358931119f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7508ba_d3321439",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_6e8daff2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-05T23:49:58Z",
+      "side": 1,
+      "message": "I\u0027m not aware of any removed TODOs in this change.  I\u0027m just refactoring  methods that get approval info out of updateLabels method.  Your other comments in this file seem out of place.  Could you please take another look?",
+      "parentUuid": "ee7508ba_d3321439",
+      "revId": "5381341e64a59e02c1b211eb8160358931119f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e7b3caf_f42ff8cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2016-04-04T16:36:09Z",
       "side": 1,
       "message": "Again, this looks to me like a fix for another case. If not, thx for considering explaining this diff in the commit message.\n\nThe purpose of these added diffs is to maybe address an earlier comment I had, about the changed IT test not failing when I ran it without this overall change/fix?",
+      "revId": "5381341e64a59e02c1b211eb8160358931119f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_8e91fb12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-05T23:49:58Z",
+      "side": 1,
+      "message": "nothing changed here.",
+      "parentUuid": "0e7b3caf_f42ff8cb",
       "revId": "5381341e64a59e02c1b211eb8160358931119f9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

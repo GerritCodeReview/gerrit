@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e89e03a_4d671922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T11:03:25Z",
+      "side": 1,
+      "message": "Should this be s1?\n\nOn the first iteration over this for loop, s will be null and it\u0027ll cause NPE.",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 15
+      },
+      "revId": "c62f9fe5111af422d4e93cf48e1cb0dfe6a561dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c1206d7_8986f9d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_120.java",
         "patchSetId": 16

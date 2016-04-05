@@ -56,29 +56,28 @@ limitations under the License.
     </style>
     <gr-main-header search-query="{{params.query}}"></gr-main-header>
     <main>
-      <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
+      <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"
             view-state="{{_viewState.changeListView}}"
             changes-per-page="[[_preferences.changes_per_page]]"
             logged-in="[[_computeLoggedIn(_account)]]"></gr-change-list-view>
       </template>
-      <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
+      <template is="dom-if" if="[[_showDashboardView]]" restamp="true">
         <gr-dashboard-view
             account="[[_account]]"
             params="[[params]]"
             view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
       </template>
-      <template is="dom-if" if="{{_showChangeView}}" restamp="true">
+      <template is="dom-if" if="[[_showChangeView]]" restamp="true">
         <gr-change-view
             params="[[params]]"
             server-config="[[_serverConfig]]"
             view-state="{{_viewState.changeView}}"></gr-change-view>
       </template>
-      <template is="dom-if" if="{{_showDiffView}}" restamp="true">
+      <template is="dom-if" if="[[_showDiffView]]" restamp="true">
         <gr-diff-view
             params="[[params]]"
-            prefs="{{_diffPreferences}}"
             change-view-state="{{_viewState.changeView}}"></gr-diff-view>
       </template>
     </main>

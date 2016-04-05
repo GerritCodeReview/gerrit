@@ -23,6 +23,7 @@ CM_ADDONS = [
   'search/searchcursor.js',
   'search/search.js',
   'selection/mark-selection.js',
+  'mode/multiplex.js',
   'mode/overlay.js',
   'mode/simple.js',
 ]

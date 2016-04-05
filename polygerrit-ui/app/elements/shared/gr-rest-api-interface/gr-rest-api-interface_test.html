@@ -93,7 +93,7 @@ limitations under the License.
         gr: 'guten tag',
         noval: null,
       };
-      element.fetchJSON('/path/', null, params);
+      element.fetchJSON('/path/', null, null, params);
       assert.equal(fetchStub.args[0][0], '/path/?gr=guten%20tag&noval&sp=hola');
       fetchStub.restore();
     });
@@ -105,7 +105,7 @@ limitations under the License.
           cancel: function() { cancelCalled = true; }
         }});
       });
-      element.fetchJSON('/dummy/url', function() { return true; }).then(
+      element.fetchJSON('/dummy/url', null, function() { return true; }).then(
         function(obj) {
           assert.isUndefined(obj);
           assert.isTrue(cancelCalled);

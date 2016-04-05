@@ -49,6 +49,31 @@ limitations under the License.
       }
       main {
         flex: 1;
+        position: relative;
+      }
+      .errorView {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      .errorEmoji {
+        font-size: 2.6em;
+      }
+      .errorText,
+      .errorMoreInfo {
+        margin-top: .75em;
+      }
+      .errorText {
+        font-size: 1.2em;
+      }
+      .errorMoreInfo {
+        color: #999;
       }
       .feedback {
         color: #b71c1c;
@@ -80,6 +105,11 @@ limitations under the License.
             params="[[params]]"
             change-view-state="{{_viewState.changeView}}"></gr-diff-view>
       </template>
+      <div id="errorView" class="errorView" hidden>
+        <div class="errorEmoji">[[_lastError.emoji]]</div>
+        <div class="errorText">[[_lastError.text]]</div>
+        <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
+      </div>
     </main>
     <footer role="contentinfo">
       Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_4d8e3922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_8afc8b85",
+      "revId": "1112af7977006a7418580cb1ee59aa0c0feb3d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_6a08377b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2016-04-05T08:11:35Z",
       "side": 1,
       "message": "Here too:\n\nCan newState ever be null?\nChangeRebuilderImpl ensures that it\u0027s not null [1], doesn\u0027t it?\n\n[1] https://gerrit-review.googlesource.com/#/c/76055/8/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java@225",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 29
+      },
+      "revId": "1112af7977006a7418580cb1ee59aa0c0feb3d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_ce53035e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-05T09:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_6a08377b",
       "range": {
         "startLine": 156,
         "startChar": 6,

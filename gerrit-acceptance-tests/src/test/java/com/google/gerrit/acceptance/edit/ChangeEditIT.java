@@ -26,8 +26,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -141,7 +141,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.delete(editUtil.byChange(change).get());
     assertThat(editUtil.byChange(change).isPresent()).isFalse();
   }
@@ -152,7 +152,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.publish(editUtil.byChange(change).get());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
@@ -169,7 +169,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     adminSession.post(urlPublish()).assertNoContent();
     edit = editUtil.byChange(change);
@@ -187,7 +187,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     adminSession.delete(urlEdit()).assertNoContent();
     edit = editUtil.byChange(change);
@@ -202,7 +202,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     adminSession.post(urlPublish()).assertForbidden();
     setUseContributorAgreements(InheritableBoolean.FALSE);
     adminSession.post(urlPublish()).assertNoContent();
@@ -213,7 +213,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     ChangeEdit edit = editUtil.byChange(change).get();
     PatchSet current = getCurrentPatchSet(changeId);
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
@@ -236,7 +236,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     ChangeEdit edit = editUtil.byChange(change).get();
     PatchSet current = getCurrentPatchSet(changeId);
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
@@ -260,7 +260,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     ChangeEdit edit = editUtil.byChange(change2).get();
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
         current.getPatchSetId());
@@ -275,7 +275,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void updateExistingFile() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
@@ -392,7 +392,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     adminSession.get(urlEdit()).assertNoContent();
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     EditInfo info = toEditInfo(false);
@@ -409,7 +409,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void retrieveFilesInEdit() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
 
     EditInfo info = toEditInfo(true);
@@ -493,7 +493,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_OLD);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change2);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW);
@@ -534,12 +534,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void amendExistingFile() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW2)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW2)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
@@ -549,12 +549,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void createAndChangeEditInOneRequestRest() throws Exception {
     Put.Input in = new Put.Input();
-    in.content = RestSession.newRawInput(CONTENT_NEW);
+    in.content = RawInputUtil.create(CONTENT_NEW);
     adminSession.putRaw(urlEditFile(), in.content).assertNoContent();
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW);
-    in.content = RestSession.newRawInput(CONTENT_NEW2);
+    in.content = RawInputUtil.create(CONTENT_NEW2);
     adminSession.putRaw(urlEditFile(), in.content).assertNoContent();
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
@@ -565,7 +565,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void changeEditRest() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Put.Input in = new Put.Input();
-    in.content = RestSession.newRawInput(CONTENT_NEW);
+    in.content = RawInputUtil.create(CONTENT_NEW);
     adminSession.putRaw(urlEditFile(), in.content).assertNoContent();
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
@@ -592,10 +592,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void getFileContentRest() throws Exception {
     Put.Input in = new Put.Input();
-    in.content = RestSession.newRawInput(CONTENT_NEW);
+    in.content = RawInputUtil.create(CONTENT_NEW);
     adminSession.putRaw(urlEditFile(), in.content).assertNoContent();
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RestSession.newRawInput(CONTENT_NEW2)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW2)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     RestResponse r = adminSession.getJsonAccept(urlEditFile());
@@ -619,7 +619,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void addNewFile() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
@@ -630,12 +630,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void addNewFileAndAmend() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME2), CONTENT_NEW);
-    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, RestSession.newRawInput(CONTENT_NEW2)))
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, RawInputUtil.create(CONTENT_NEW2)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
@@ -650,7 +650,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     modifier.modifyFile(
         editUtil.byChange(change).get(),
         FILE_NAME,
-        RestSession.newRawInput(CONTENT_OLD));
+        RawInputUtil.create(CONTENT_OLD));
   }
 
   @Test
@@ -696,12 +696,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change2, current)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(
         modifier.modifyFile(editUtil.byChange(change2).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     assertThat(queryEdits()).hasSize(2);
 
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
-            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.delete(editUtil.byChange(change).get());
     assertThat(queryEdits()).hasSize(1);
 
@@ -720,7 +720,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void files() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     ChangeEdit edit = editUtil.byChange(change).get();
-    assertThat(modifier.modifyFile(edit, FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit, FILE_NAME, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change).get();
 
@@ -738,7 +738,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void diff() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     ChangeEdit edit = editUtil.byChange(change).get();
-    assertThat(modifier.modifyFile(edit, FILE_NAME, RestSession.newRawInput(CONTENT_NEW)))
+    assertThat(modifier.modifyFile(edit, FILE_NAME, RawInputUtil.create(CONTENT_NEW)))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change).get();
 

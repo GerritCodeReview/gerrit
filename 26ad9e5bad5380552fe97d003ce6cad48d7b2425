@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e89e03a_8dd3c120",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/AliasCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-05T06:53:26Z",
+      "side": 1,
+      "message": "What\u0027s the reason for this change?",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "26ad9e5bad5380552fe97d003ce6cad48d7b2425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

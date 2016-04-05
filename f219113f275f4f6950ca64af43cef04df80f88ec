@@ -271,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "ee926865_0be25d7b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T14:53:08Z",
+      "side": 1,
+      "message": "\u003e This test is not testing cache expiration. It is not claiming to do so. Nor is the test class.\n\nThe commit message says \"Add tests for cache expiration\"\n\n\u003e\u003e Looks like this is testing basic guava cache properties?\n\u003e Good observation. That\u0027s what it does.\n\n1. This is not what the commit message suggests.\n2. Don\u0027t we trust that guava cache is tested with their tests?",
+      "parentUuid": "ce83e41b_2adf1ff9",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_8bed6da8",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
         "patchSetId": 17
@@ -306,6 +330,30 @@
       "side": 1,
       "message": "Gerrit is not using Guava\u0027s caches directly but via some framework involving cache defintion/provider and cache factory. Of course this is worth to be tested.",
       "parentUuid": "ee926865_8bed6da8",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_2be7198c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-05T14:53:08Z",
+      "side": 1,
+      "message": "Yes, the CacheModule may require testing.\n\n\u003e Gerrit is not using Guava\u0027s caches directly ...\n\nAFAIK, for non-persistent caches Gerrit instantiates guava caches, no wrapping.",
+      "parentUuid": "ee926865_0b7edd88",
       "range": {
         "startLine": 84,
         "startChar": 14,

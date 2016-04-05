@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_aa5dcf54",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_ca53e35d",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 42
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_2b8399cb",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Strange that it\u0027s tolerated to use org.junit here!",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_0bda5d08",
         "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/H2CacheTest.java",
         "patchSetId": 17
@@ -42,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_ca5a035a",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_0bda5d08",
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_ab5dc954",
         "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
         "patchSetId": 17
@@ -53,6 +118,24 @@
       "writtenOn": "2016-04-05T10:53:09Z",
       "side": 1,
       "message": "use the Truth framework for assertions:\n\n  assertThat(start).isEqualTo(classUnderTest.nowMs())\n\nalso in the line 45",
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_0ada5b08",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_ab5dc954",
       "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "ee926865_cbbe9582",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_eb57d130",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_ea50a753",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
         "patchSetId": 17
@@ -93,6 +200,24 @@
       "writtenOn": "2016-04-05T10:53:09Z",
       "side": 1,
       "message": "Use the Truth for assertions",
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_ebbb518f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_ea50a753",
       "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_2adf1ff9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "\u003e Looks like this is testing basic guava cache properties?\nThis test is not testing cache expiration. It is not claiming to do so. Nor is the test class.\n\n\u003e Looks like this is testing basic guava cache properties?\nGood observation. That\u0027s what it does.",
+      "parentUuid": "ee926865_4be465c5",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_8bed6da8",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
         "patchSetId": 17
@@ -133,6 +282,30 @@
       "writtenOn": "2016-04-05T10:53:09Z",
       "side": 1,
       "message": "I was thinking that non-persistent cache expiration is something that guava provides and (hopefully) tests and that this change is about testing expiration of persistent caches as persistent caches are implemented by Gerrit?\n\nSame for all other \"*NonPersistent*\" tests...",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "f219113f275f4f6950ca64af43cef04df80f88ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_0b7edd88",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2016-04-05T12:20:33Z",
+      "side": 1,
+      "message": "Gerrit is not using Guava\u0027s caches directly but via some framework involving cache defintion/provider and cache factory. Of course this is worth to be tested.",
+      "parentUuid": "ee926865_8bed6da8",
       "range": {
         "startLine": 84,
         "startChar": 14,

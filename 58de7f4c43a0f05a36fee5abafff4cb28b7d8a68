@@ -46,6 +46,30 @@
       "revId": "58de7f4c43a0f05a36fee5abafff4cb28b7d8a68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_ee0d1f58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-05T18:52:02Z",
+      "side": 1,
+      "message": "Changed back to \"Blocked on\".",
+      "parentUuid": "2e89e03a_2d72cde4",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "58de7f4c43a0f05a36fee5abafff4cb28b7d8a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

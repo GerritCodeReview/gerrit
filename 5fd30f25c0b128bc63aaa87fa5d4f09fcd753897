@@ -129,6 +129,30 @@
       "revId": "5fd30f25c0b128bc63aaa87fa5d4f09fcd753897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_abea298b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-05T10:05:53Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "2e89e03a_cd2ce9da",
+      "range": {
+        "startLine": 209,
+        "startChar": 3,
+        "endLine": 222,
+        "endChar": 5
+      },
+      "revId": "5fd30f25c0b128bc63aaa87fa5d4f09fcd753897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

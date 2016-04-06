@@ -19,11 +19,15 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.eclipse.jgit.lib.Config;
+
+import java.util.Locale;
 
 /**
  * Authenticates users with kerberos (gssapi-with-mic).
@@ -34,16 +38,19 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   private final SshScope sshScope;
   private final SshLog sshLog;
   private final GenericFactory userFactory;
+  private final Config config;
 
   @Inject
   GerritGSSAuthenticator(AccountCache accounts,
       SshScope sshScope,
       SshLog sshLog,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      @GerritServerConfig Config config) {
     this.accounts = accounts;
     this.sshScope = sshScope;
     this.sshLog = sshLog;
     this.userFactory = userFactory;
+    this.config = config;
   }
 
   @Override
@@ -56,6 +63,9 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
       username = identity;
     } else {
       username = identity.substring(0, at);
+    }
+    if (config.getBoolean("auth", "userNameToLowerCase", false)) {
+      username = username.toLowerCase(Locale.US);
     }
     AccountState state = accounts.getByUsername(username);
     Account account = state == null ? null : state.getAccount();

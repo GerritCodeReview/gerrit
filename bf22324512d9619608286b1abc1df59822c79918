@@ -23,6 +23,30 @@
       "revId": "bf22324512d9619608286b1abc1df59822c79918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e89e03a_0d7ef188",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-06T11:33:38Z",
+      "side": 1,
+      "message": "Done, added it back with a comment that this happens in tests.",
+      "parentUuid": "ce83e41b_8a32cb37",
+      "range": {
+        "startLine": 621,
+        "startChar": 1,
+        "endLine": 622,
+        "endChar": 75
+      },
+      "revId": "bf22324512d9619608286b1abc1df59822c79918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

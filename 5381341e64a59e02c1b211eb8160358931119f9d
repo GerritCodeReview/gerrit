@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "4e8e1443_6e34cfd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-06T14:17:05Z",
+      "side": 1,
+      "message": "Done. Yes, this comment and my other one below were misplaced; my mistake, sorry about that. Good news in the end ;)",
+      "parentUuid": "4e8e1443_6e8daff2",
+      "revId": "5381341e64a59e02c1b211eb8160358931119f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e7b3caf_f42ff8cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 3

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_8a82cb79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-06T13:04:44Z",
+      "side": 1,
+      "message": "For linkifying to work properly you need 9 chars in change ChangeId string.",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "37d17c9732f69ca6472389840019d712c601a8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

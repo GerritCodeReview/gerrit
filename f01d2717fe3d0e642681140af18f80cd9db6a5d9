@@ -16,6 +16,41 @@
       "revId": "f01d2717fe3d0e642681140af18f80cd9db6a5d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_4b34658f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T12:59:18Z",
+      "side": 1,
+      "message": "Yes, it is a known issue.",
+      "parentUuid": "0ed09ce3_2cba13e2",
+      "revId": "f01d2717fe3d0e642681140af18f80cd9db6a5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_6b392184",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T12:59:18Z",
+      "side": 1,
+      "message": "Thanks for fixing this!",
+      "revId": "f01d2717fe3d0e642681140af18f80cd9db6a5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

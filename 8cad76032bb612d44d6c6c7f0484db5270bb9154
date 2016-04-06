@@ -22,6 +22,30 @@
       "revId": "8cad76032bb612d44d6c6c7f0484db5270bb9154",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_ca2da36d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2016-04-06T08:54:26Z",
+      "side": 1,
+      "message": "What\u0027s the policy on changing copyright years? Do you have an (old-new) or just (new)? I would think the copyright shouldn\u0027t be left as just (old) though.",
+      "parentUuid": "2e89e03a_6d08557b",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8cad76032bb612d44d6c6c7f0484db5270bb9154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

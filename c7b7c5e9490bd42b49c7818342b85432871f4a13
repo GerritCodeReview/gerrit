@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee926865_eba7d112",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-06T12:42:16Z",
+      "side": 1,
+      "message": "Mention here, that the default value was changed in I48c69dd3e6c9c05afe5da35a84c9b2de826e01e6, but MINA wasn\u0027t mentioned?",
+      "revId": "c7b7c5e9490bd42b49c7818342b85432871f4a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

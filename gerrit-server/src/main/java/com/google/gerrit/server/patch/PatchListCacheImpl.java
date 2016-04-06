@@ -107,6 +107,12 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
+  public ObjectId getOldId(Change change, PatchSet patchSet)
+      throws PatchListNotAvailableException {
+    return get(change, patchSet).getOldId();
+  }
+
+  @Override
   public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
       IntraLineDiffArgs args) {
     if (computeIntraline) {

@@ -22,9 +22,9 @@ import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -215,7 +215,12 @@ public class ChangeBundle {
     // Initialization-time checks that the column set hasn't changed since the
     // last time this file was updated.
     checkColumns(Change.Id.class, 1);
-    checkColumns(Change.class, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18);
+
+    checkColumns(Change.class,
+        1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18,
+        // TODO(dborowitz): It's potentially possible to compare noteDbState in
+        // the Change with the state implied by a ChangeNotes.
+        101);
     checkColumns(ChangeMessage.Key.class, 1, 2);
     checkColumns(ChangeMessage.class, 1, 2, 3, 4, 5);
     checkColumns(PatchSet.Id.class, 1, 2);
@@ -235,8 +240,7 @@ public class ChangeBundle {
       patchLineComments;
   private final Source source;
 
-  @VisibleForTesting
-  ChangeBundle(
+  public ChangeBundle(
       Change change,
       Iterable<ChangeMessage> changeMessages,
       Iterable<PatchSet> patchSets,
@@ -271,6 +275,26 @@ public class ChangeBundle {
     return change;
   }
 
+  public ImmutableCollection<ChangeMessage> getChangeMessages() {
+    return changeMessages;
+  }
+
+  public ImmutableCollection<PatchSet> getPatchSets() {
+    return patchSets.values();
+  }
+
+  public ImmutableCollection<PatchSetApproval> getPatchSetApprovals() {
+    return patchSetApprovals.values();
+  }
+
+  public ImmutableCollection<PatchLineComment> getPatchLineComments() {
+    return patchLineComments.values();
+  }
+
+  public Source getSource() {
+    return source;
+  }
+
   public ImmutableList<String> differencesFrom(ChangeBundle o) {
     List<String> diffs = new ArrayList<>();
     diffChanges(diffs, this, o);
@@ -286,7 +310,8 @@ public class ChangeBundle {
     Change a = bundleA.change;
     Change b = bundleB.change;
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
-    diffColumns(diffs, Change.class, desc, bundleA, a, bundleB, b);
+    diffColumnsExcluding(diffs, Change.class, desc, bundleA, a, bundleB, b,
+        "rowVersion", "noteDbState");
   }
 
   private static void diffChangeMessages(List<String> diffs,
@@ -451,7 +476,7 @@ public class ChangeBundle {
         "%s from NoteDb has non-rounded %s timestamp: %s",
         desc, field, tsFromNoteDb);
     long delta = tsFromReviewDb.getTime() - tsFromNoteDb.getTime();
-    long max = ChangeRebuilder.MAX_WINDOW_MS;
+    long max = ChangeRebuilderImpl.MAX_WINDOW_MS;
     if (delta < 0 || delta > max) {
       diffs.add(
           field + " differs for " + desc + " in NoteDb vs. ReviewDb:"

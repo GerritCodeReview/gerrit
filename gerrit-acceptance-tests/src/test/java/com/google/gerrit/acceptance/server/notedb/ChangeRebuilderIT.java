@@ -14,31 +14,68 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.Rebuild;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
 public class ChangeRebuilderIT extends AbstractDaemonTest {
+  @Inject
+  private AllUsersName allUsers;
+
   @Inject
   private NoteDbChecker checker;
 
   @Inject
   private Rebuild rebuildHandler;
 
+  @Inject
+  private Provider<ReviewDb> dbProvider;
+
+  @Inject
+  private PatchLineCommentsUtil plcUtil;
+
   @Before
   public void setUp() {
     assume().that(NoteDbMode.readWrite()).isFalse();
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     notesMigration.setAllEnabled(false);
+  }
+
+  @After
+  public void tearDown() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test
@@ -68,11 +105,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // First write doesn't create the ref, but rebuilding works.
     checker.assertNoChangeRef(project, id);
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isNull();
     checker.rebuildAndCheckChanges(id);
 
     // Now that there is a ref, writes are "turned on" for this change, and
     // NoteDb stays up to date without explicit rebuilding.
     gApi.changes().id(id.get()).topic(name("new-topic"));
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isNotNull();
     checker.checkChanges(id);
   }
 
@@ -116,5 +155,154 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // ref doesn't exist until a manual rebuild.
     checker.assertNoChangeRef(project, id1);
     checker.rebuildAndCheckChanges(id1);
+  }
+
+  @Test
+  public void noteDbChangeState() throws Exception {
+    notesMigration.setAllEnabled(true);
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(
+        project, ChangeNoteUtil.changeRefName(id));
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name());
+
+    putDraft(user, id, 1, "comment by user");
+    ObjectId userDraftsId = getMetaRef(
+        allUsers, RefNames.refsDraftComments(user.getId(), id));
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name()
+        + "," + user.getId() + "=" + userDraftsId.name());
+
+    putDraft(admin, id, 2, "comment by admin");
+    ObjectId adminDraftsId = getMetaRef(
+        allUsers, RefNames.refsDraftComments(admin.getId(), id));
+    assertThat(admin.getId().get()).isLessThan(user.getId().get());
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name()
+        + "," + admin.getId() + "=" + adminDraftsId.name()
+        + "," + user.getId() + "=" + userDraftsId.name());
+
+    putDraft(admin, id, 2, "revised comment by admin");
+    adminDraftsId = getMetaRef(
+        allUsers, RefNames.refsDraftComments(admin.getId(), id));
+    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+        changeMetaId.name()
+        + "," + admin.getId() + "=" + adminDraftsId.name()
+        + "," + user.getId() + "=" + userDraftsId.name());
+  }
+
+  @Test
+  public void rebuildAutomaticallyWhenChangeOutOfDate() throws Exception {
+    notesMigration.setAllEnabled(true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    notesMigration.setAllEnabled(false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertChangeUpToDate(false, id);
+
+    // On next NoteDb read, the change is transparently rebuilt.
+    notesMigration.setAllEnabled(true);
+    assertThat(gApi.changes().id(id.get()).info().topic)
+        .isEqualTo(name("a-topic"));
+    assertChangeUpToDate(true, id);
+
+    // Check that the bundles are equal.
+    ChangeBundle actual = ChangeBundle.fromNotes(
+        plcUtil, notesFactory.create(dbProvider.get(), project, id));
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
+  @Test
+  public void rebuildAutomaticallyWhenDraftsOutOfDate() throws Exception {
+    notesMigration.setAllEnabled(true);
+    setApiUser(user);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment");
+    assertDraftsUpToDate(true, id, user);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    notesMigration.setAllEnabled(false);
+    putDraft(user, id, 1, "comment");
+    setInvalidNoteDbState(id);
+    assertDraftsUpToDate(false, id, user);
+
+    // On next NoteDb read, the drafts are transparently rebuilt.
+    notesMigration.setAllEnabled(true);
+    assertThat(gApi.changes().id(id.get()).current().drafts())
+        .containsKey(PushOneCommit.FILE_NAME);
+    assertDraftsUpToDate(true, id, user);
+  }
+
+  private void setInvalidNoteDbState(Change.Id id) throws Exception {
+    ReviewDb db = unwrapDb();
+    Change c = db.changes().get(id);
+    // In reality we would have NoteDb writes enabled, which would write a real
+    // state into this field. For tests however, we turn NoteDb writes off, so
+    // just use a dummy state to force ChangeNotes to view the notes as
+    // out-of-date.
+    c.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c));
+  }
+
+  private void assertChangeUpToDate(boolean expected, Change.Id id)
+      throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(project)) {
+      Change c = unwrapDb().changes().get(id);
+      assertThat(c).isNotNull();
+      assertThat(c.getNoteDbState()).isNotNull();
+      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(repo))
+          .isEqualTo(expected);
+    }
+  }
+
+  private void assertDraftsUpToDate(boolean expected, Change.Id changeId,
+      TestAccount account) throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+      Change c = unwrapDb().changes().get(changeId);
+      assertThat(c).isNotNull();
+      assertThat(c.getNoteDbState()).isNotNull();
+      NoteDbChangeState state = NoteDbChangeState.parse(c);
+      assertThat(state.areDraftsUpToDate(repo, account.getId()))
+          .isEqualTo(expected);
+    }
+  }
+
+  private ObjectId getMetaRef(Project.NameKey p, String name) throws Exception {
+    try (Repository repo = repoManager.openMetadataRepository(p)) {
+      Ref ref = repo.exactRef(name);
+      return ref != null ? ref.getObjectId() : null;
+    }
+  }
+
+  private void putDraft(TestAccount account, Change.Id id, int line, String msg)
+      throws Exception {
+    DraftInput in = new DraftInput();
+    in.line = line;
+    in.message = msg;
+    in.path = PushOneCommit.FILE_NAME;
+    AcceptanceTestRequestScope.Context old = setApiUser(account);
+    try {
+      gApi.changes().id(id.get()).current().createDraft(in);
+    } finally {
+      atrScope.set(old);
+    }
+  }
+
+  private ReviewDb unwrapDb() {
+    ReviewDb db = dbProvider.get();
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
   }
 }

@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.schema;
 
-enum NoteDbTable {
-  ACCOUNTS,
-  CHANGES;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-  String key() {
-    return name().toLowerCase();
-  }
-
-  @Override
-  public String toString() {
-    return key();
+public class Schema_121 extends SchemaVersion {
+  @Inject
+  Schema_121(Provider<Schema_120> prior) {
+    super(prior);
   }
 }

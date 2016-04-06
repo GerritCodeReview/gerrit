@@ -35,42 +35,16 @@ limitations under the License.
 <script>
   suite('gr-diff-view tests', function() {
     var element;
-    var server;
 
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
+        getProjectConfig: function() { return Promise.resolve({}); },
+        getDiffChangeDetail: function() { return Promise.resolve(null); },
+        getChangeFiles: function() { return Promise.resolve({}); },
+        saveFileReviewed: function() { return Promise.resolve(); },
       });
       element = fixture('basic');
-      element.$.changeDetailXHR.auto = false;
-      element.$.filesXHR.auto = false;
-      element.$.configXHR.auto = false;
-      element.$.diff.auto = false;
-
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'PUT',
-        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
-        [
-          201,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '""',
-        ]
-      );
-      server.respondWith(
-        'DELETE',
-        '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed',
-        [
-          204,
-          {'Content-Type': 'application/json'},
-          '',
-        ]
-      );
-    });
-
-    teardown(function() {
-      server.restore();
     });
 
     test('keyboard shortcuts', function() {
@@ -362,35 +336,24 @@ limitations under the License.
       };
       element._fileList = ['/COMMIT_MSG'];
       element._path = '/COMMIT_MSG';
-
-      server.respond();
+      var saveReviewedStub = sinon.stub(element, '_saveReviewedState',
+          function() { return Promise.resolve(); });
 
       flush(function() {
         var commitMsg = Polymer.dom(element.root).querySelector(
             'input[type="checkbox"]');
 
         assert.isTrue(commitMsg.checked);
+        MockInteractions.tap(commitMsg);
+        assert.isFalse(commitMsg.checked);
+        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
 
         MockInteractions.tap(commitMsg);
-        server.respond();
-        element._xhrPromise.then(function(req) {
-          assert.isFalse(commitMsg.checked);
-          assert.equal(req.status, 204);
-          assert.equal(req.url,
-              '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
+        assert.isTrue(commitMsg.checked);
+        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
 
-          MockInteractions.tap(commitMsg);
-          server.respond();
-        }).then(function() {
-          element._xhrPromise.then(function(req) {
-            assert.isTrue(commitMsg.checked);
-            assert.equal(req.status, 201);
-            assert.equal(req.url,
-                '/changes/42/revisions/2/files/%2FCOMMIT_MSG/reviewed');
-
-            done();
-          });
-        });
+        saveReviewedStub.restore();
+        done();
       });
     });
   });

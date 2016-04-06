@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_6d6695f6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-06T16:55:34Z",
+      "side": 1,
+      "message": "Sorry, i could you please clarify what you mean by \u0027twice label or plabel\u0027.    Does that mean duplicate labels?  These are very controlled tests with specific labels (label, plabel) and code-review as it\u0027s the default in gerrit.  I don\u0027t see how there could be any other conditions in this test so I don\u0027t see how the hypothetical situation you outline in your comment could occur.",
+      "parentUuid": "2e89e03a_cd9b092d",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_a407626d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1

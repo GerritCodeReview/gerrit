@@ -1,0 +1,307 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce83e41b_4a69b382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "sides",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_6a6e778d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "and also supports the auto-merge commit",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_aa7f8f36",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 3768,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_ca7cc344",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 3801,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_ea798751",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4422,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "nit: The || could be vertically aligned with the next line.",
+      "range": {
+        "startLine": 4422,
+        "startChar": 12,
+        "endLine": 4422,
+        "endChar": 17
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_8b664d92",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4423,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "The Blame entity also needs to be documented.",
+      "range": {
+        "startLine": 4423,
+        "startChar": 23,
+        "endLine": 4423,
+        "endChar": 28
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_4ade138c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "This is not used here and doesn\u0027t need to be exposed. The only usage\nof this class is inside the GetBlame... so move it there and make it \"private static BlameLine\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_8ac72bbb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "1. This is only used from the DiffInfoTest, so move this code there?\n\n2. Looks like returning a List\u003cString\u003e would make the code below simpler",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_8b148dda",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "1. Same like above... this is only used from the DiffInfoTest so move it there.\n\n2. I don\u0027t think that there is a real benefit of using an iterator of iterators it this case. I could dramatically simplify this code:\n\n  private static class ContentIterable implements Iterable\u003cString\u003e {\n    private final List\u003cDiffInfo.ContentEntry\u003e content;\n\n    private ContentIterable(List\u003cDiffInfo.ContentEntry\u003e content) {\n      this.content \u003d content;\n    }\n\n    @Override\n    public Iterator\u003cString\u003e iterator() {\n      if (content \u003d\u003d null) {\n        return Collections.emptyIterator();\n      }\n      List\u003cString\u003e result \u003d new LinkedList\u003c\u003e();\n      for (DiffInfo.ContentEntry c : content) {\n        if (c.a !\u003d null) {\n          result.addAll(c.a);\n        } else if (c.b !\u003d null) {\n          result.addAll(c.b);\n        } else {\n          result.addAll(c.ab);\n        }\n      }\n      return result.iterator();\n    }\n  }\n\nFurther, if the getDiffLines method returns just List\u003cString\u003e then even this class is not needed and we have just:\n\n  public List\u003cString\u003e getDiffLines() {\n    if (content \u003d\u003d null) {\n      return Collections.emptyList();\n    }\n    List\u003cString\u003e result \u003d new LinkedList\u003c\u003e();\n    for (DiffInfo.ContentEntry c : content) {\n      if (c.a !\u003d null) {\n        result.addAll(c.a);\n      } else if (c.b !\u003d null) {\n        result.addAll(c.b);\n      } else {\n        result.addAll(c.ab);\n      }\n    }\n    return result;\n  }",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_aaadcff6",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "isn\u0027t this doing exactly the same as the previous test: testOnlyAs?",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_eb0b51b1",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "same as above, this is identical with the testOnlyAs",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_caaa03dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "nit: move this also into a new line to keep the formatting consistent.",
+      "range": {
+        "startLine": 102,
+        "startChar": 22,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_4bd8e56d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "So isBase \u003d true, when base \u003d\u003d null? What does actually \"isBase\" mean here?",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_eaa7c712",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "and here rev \u003d base when isBase is false\n\nmaybe it is just my misunderstanding but, intuitively, this is hard to follow.",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_0a2a5b2a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T14:46:14Z",
+      "side": 1,
+      "message": "I would prefer to have full name here by default. Eclipse EGit also shows full name, Gitiles too...",
+      "range": {
+        "startLine": 185,
+        "startChar": 48,
+        "endLine": 185,
+        "endChar": 62
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

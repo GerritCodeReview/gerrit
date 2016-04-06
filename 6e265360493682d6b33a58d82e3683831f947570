@@ -191,6 +191,24 @@
     },
     {
       "key": {
+        "uuid": "ee926865_6bb68120",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-06T15:33:32Z",
+      "side": 1,
+      "message": "Just for the sake of discussion, even with Iterables this code could be kept simple by using guavas Iterables.concat method:\n\n  public Iterable\u003cString\u003e getDiffLines() {\n    if (content \u003d\u003d null) {\n      return Collections.emptyList();\n    }\n    List\u003cIterable\u003cString\u003e\u003e all \u003d new LinkedList\u003c\u003e();\n    for (DiffInfo.ContentEntry c : content) {\n      if (c.a !\u003d null) {\n        all.add(c.a);\n      } else if (c.b !\u003d null) {\n        all.add(c.b);\n      } else {\n        all.add(c.ab);\n      }\n    }\n    return Iterables.concat(all);\n  }\n\nI still think that just List is good enough as this code is only used for testing.",
+      "parentUuid": "ee926865_8b148dda",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_aaadcff6",
         "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
         "patchSetId": 31

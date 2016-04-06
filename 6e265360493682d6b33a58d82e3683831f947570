@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee926865_cb9935a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_4a69b382",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_6a6e778d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-06T14:46:14Z",
       "side": 1,
       "message": "and also supports the auto-merge commit",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_eb96f175",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_6a6e778d",
       "range": {
         "startLine": 11,
         "startChar": 5,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_2afd5fcb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 3768,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_aa7f8f36",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_ca7cc344",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 31
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_4a0293a6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 3801,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_ca7cc344",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_ea798751",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 31
@@ -93,6 +177,30 @@
       "writtenOn": "2016-04-06T14:46:14Z",
       "side": 1,
       "message": "nit: The || could be vertically aligned with the next line.",
+      "range": {
+        "startLine": 4422,
+        "startChar": 12,
+        "endLine": 4422,
+        "endChar": 17
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_0b85fd36",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4422,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_ea798751",
       "range": {
         "startLine": 4422,
         "startChar": 12,
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "ee926865_8b780d01",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4423,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_8b664d92",
+      "range": {
+        "startLine": 4423,
+        "startChar": 23,
+        "endLine": 4423,
+        "endChar": 28
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_4ade138c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
         "patchSetId": 31
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_6a0757b5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_4ade138c",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_8ac72bbb",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
         "patchSetId": 31
@@ -162,6 +318,30 @@
       "writtenOn": "2016-04-06T14:46:14Z",
       "side": 1,
       "message": "1. This is only used from the DiffInfoTest, so move this code there?\n\n2. Looks like returning a List\u003cString\u003e would make the code below simpler",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_2b8ab945",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Removed this code with the ContentIterable as it is not needed since your auto-merge improvement.",
+      "parentUuid": "ce83e41b_8ac72bbb",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -209,6 +389,42 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_8aebab01",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "removed it as it\u0027s not used at all",
+      "parentUuid": "ee926865_8b148dda",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_4b7f05eb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "removed the code",
+      "parentUuid": "ee926865_6bb68120",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_aaadcff6",
         "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
         "patchSetId": 31
@@ -220,6 +436,24 @@
       "writtenOn": "2016-04-06T14:46:14Z",
       "side": 1,
       "message": "isn\u0027t this doing exactly the same as the previous test: testOnlyAs?",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_ab75c909",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "removed this test as the code it supposed to test is also deleted",
+      "parentUuid": "ce83e41b_aaadcff6",
       "revId": "6e265360493682d6b33a58d82e3683831f947570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +500,30 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_aae86f05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_caaa03dc",
+      "range": {
+        "startLine": 102,
+        "startChar": 22,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_4bd8e56d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
         "patchSetId": 31
@@ -277,6 +535,24 @@
       "writtenOn": "2016-04-06T14:46:14Z",
       "side": 1,
       "message": "So isBase \u003d true, when base \u003d\u003d null? What does actually \"isBase\" mean here?",
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_caf5a3e0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "base should be called left or \u0027a\u0027 as it represents the active patchset on the left side of the side-by-side diff. So when it is null we are reviewing the base revision hence the name of the boolean variable.\n\nI agree with you that it\u0027s not intuitive. Please find a proposed improvement to make it more intuitive in patchset 32.",
+      "parentUuid": "ee926865_4bd8e56d",
       "revId": "6e265360493682d6b33a58d82e3683831f947570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -311,6 +587,30 @@
       "writtenOn": "2016-04-06T14:46:14Z",
       "side": 1,
       "message": "I would prefer to have full name here by default. Eclipse EGit also shows full name, Gitiles too...",
+      "range": {
+        "startLine": 185,
+        "startChar": 48,
+        "endLine": 185,
+        "endChar": 62
+      },
+      "revId": "6e265360493682d6b33a58d82e3683831f947570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce83e41b_eaf267f5",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-06T22:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_0a2a5b2a",
       "range": {
         "startLine": 185,
         "startChar": 48,

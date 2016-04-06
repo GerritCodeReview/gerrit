@@ -16,7 +16,7 @@ maven_jar(
 
 maven_jar(
   name = 'codemirror-original',
-  id = 'org.webjars.npm:codemirror:' + VERSION,
+  id = 'org.webjars:codemirror:' + VERSION,
   sha1 = '4a26f060aeca679fdf751d2b480499c8a5f71e47',
   attach_source = False,
   license = 'codemirror-original',

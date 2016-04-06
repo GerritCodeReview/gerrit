@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.Config;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Singleton
@@ -46,9 +47,10 @@ public class RepositoryConfig {
         DEFAULT_SUBMIT_TYPE_NAME, SubmitType.MERGE_IF_NECESSARY);
   }
 
-  public String[] getOwnerGroups(Project.NameKey project) {
-    return cfg.getStringList(SECTION_NAME, findSubSection(project.get()),
-        OWNER_GROUP_NAME);
+  public List<String> getOwnerGroups(Project.NameKey project) {
+    String[] groups = cfg.getStringList(SECTION_NAME,
+        findSubSection(project.get()), OWNER_GROUP_NAME);
+    return new ArrayList<>(Arrays.asList(groups));
   }
 
   public Path getBasePath(Project.NameKey project) {

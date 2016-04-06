@@ -28,6 +28,7 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Set;
 
 public abstract class GroupSetProvider implements
@@ -40,7 +41,7 @@ public abstract class GroupSetProvider implements
   @Inject
   protected GroupSetProvider(GroupBackend groupBackend,
       ThreadLocalRequestContext threadContext,
-      ServerRequestContext serverCtx, String[] groupNames) {
+      ServerRequestContext serverCtx, List<String> groupNames) {
     RequestContext ctx = threadContext.setContext(serverCtx);
     try {
       ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();

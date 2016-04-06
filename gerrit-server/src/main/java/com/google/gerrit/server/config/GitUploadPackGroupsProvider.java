@@ -23,14 +23,17 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GitUploadPackGroupsProvider extends GroupSetProvider {
   @Inject
   public GitUploadPackGroupsProvider(GroupBackend gb,
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {
-    super(gb, threadContext, serverCtx, config.getStringList("upload", null,
-        "allowGroup"));
+    super(gb, threadContext, serverCtx, new ArrayList<>(Arrays.asList(
+        config.getStringList("upload", null, "allowGroup"))));
 
     // If no group was set, default to "registered users" and "anonymous"
     //

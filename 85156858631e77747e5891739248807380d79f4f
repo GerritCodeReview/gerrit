@@ -220,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_0d4c3171",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-06T19:50:28Z",
+      "side": 1,
+      "message": "I\u0027m ok with assuming that such duplicate label cases are too unlikely to justify investing in recoding the above. Now, the other comment we had left to discuss about is the fact that this hereby changed CommentAddedEventIT still passes for me *without* its companion fix (in PostReview). So I wonder if this changed code (PostReview\u0027) is properly covered by this changed test. The latter should fail if the behavior it is testing is missing; it does not (fail) for me.",
+      "parentUuid": "2e89e03a_6d6695f6",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_a407626d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1

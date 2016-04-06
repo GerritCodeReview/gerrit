@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce83e41b_eafc271b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-04-06T05:15:30Z",
+      "side": 1,
+      "message": "Done. I thought that commit hashes are preferred, since they don\u0027t require access to gerrit...",
+      "parentUuid": "ee926865_0b86dd9b",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "5b80f82fab534c8ebf3bbab9ad9d594bad859676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce83e41b_8af56b33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-06T04:04:59Z",
       "side": 1,
       "message": "No tab and wrong indentation.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 3
+      },
+      "revId": "5b80f82fab534c8ebf3bbab9ad9d594bad859676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee926865_4b90e5ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-04-06T05:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_8af56b33",
       "range": {
         "startLine": 164,
         "startChar": 0,

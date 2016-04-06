@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
@@ -46,9 +47,10 @@ public class RepositoryConfig {
         DEFAULT_SUBMIT_TYPE_NAME, SubmitType.MERGE_IF_NECESSARY);
   }
 
-  public String[] getOwnerGroups(Project.NameKey project) {
-    return cfg.getStringList(SECTION_NAME, findSubSection(project.get()),
-        OWNER_GROUP_NAME);
+  public List<String> getOwnerGroups(Project.NameKey project) {
+    String[] groups = cfg.getStringList(SECTION_NAME,
+        findSubSection(project.get()), OWNER_GROUP_NAME);
+    return ImmutableList.copyOf(groups);
   }
 
   public Path getBasePath(Project.NameKey project) {

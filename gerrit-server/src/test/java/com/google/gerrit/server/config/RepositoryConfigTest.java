@@ -98,48 +98,46 @@ public class RepositoryConfigTest {
 
   @Test
   public void testOwnerGroupsWhenNotConfigured() {
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        new String[] {});
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEmpty();
   }
 
   @Test
   public void testOwnerGroupsForStarFilter() {
-    String[] ownerGroups = new String[] {"group1", "group2"};
-    configureOwnerGroups("*", Lists.newArrayList(ownerGroups));
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        ownerGroups);
+    List<String> ownerGroups = Arrays.asList("group1", "group2");
+    configureOwnerGroups("*", ownerGroups);
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+        .containsExactlyElementsIn(ownerGroups);
   }
 
   @Test
   public void testOwnerGroupsForSpecificFilter() {
-    String[] ownerGroups = new String[] {"group1", "group2"};
+    List<String> ownerGroups = Arrays.asList("group1", "group2");
     configureOwnerGroups("someProject", Lists.newArrayList(ownerGroups));
     assertThat(repoCfg.getOwnerGroups(new NameKey("someOtherProject")))
-        .isEqualTo(new String[] {});
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        ownerGroups);
+        .isEmpty();
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+        .containsExactlyElementsIn(ownerGroups);
   }
 
   @Test
   public void testOwnerGroupsForStartWithFilter() {
-    String[] ownerGroups1 = new String[] {"group1"};
-    String[] ownerGroups2 = new String[] {"group2"};
-    String[] ownerGroups3 = new String[] {"group3"};
+    List<String> ownerGroups1 = Arrays.asList("group1");
+    List<String> ownerGroups2 = Arrays.asList("group2");
+    List<String> ownerGroups3 = Arrays.asList("group3");
 
-    configureOwnerGroups("*", Lists.newArrayList(ownerGroups1));
-    configureOwnerGroups("somePath/*", Lists.newArrayList(ownerGroups2));
-    configureOwnerGroups("somePath/somePath/*",
-        Lists.newArrayList(ownerGroups3));
+    configureOwnerGroups("*", ownerGroups1);
+    configureOwnerGroups("somePath/*", ownerGroups2);
+    configureOwnerGroups("somePath/somePath/*", ownerGroups3);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        ownerGroups1);
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+        .containsExactlyElementsIn(ownerGroups1);
 
     assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/someProject")))
-        .isEqualTo(ownerGroups2);
+        .containsExactlyElementsIn(ownerGroups2);
 
     assertThat(
         repoCfg.getOwnerGroups(new NameKey("somePath/somePath/someProject")))
-        .isEqualTo(ownerGroups3);
+        .containsExactlyElementsIn(ownerGroups3);
   }
 
   private void configureOwnerGroups(String projectFilter,

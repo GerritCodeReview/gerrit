@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 public class GitReceivePackGroupsProvider extends GroupSetProvider {
@@ -30,8 +31,8 @@ public class GitReceivePackGroupsProvider extends GroupSetProvider {
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {
-    super(gb, threadContext, serverCtx, config.getStringList("receive", null,
-        "allowGroup"));
+    super(gb, threadContext, serverCtx,
+        Arrays.asList(config.getStringList("receive", null, "allowGroup")));
 
     // If no group was set, default to "registered users"
     //

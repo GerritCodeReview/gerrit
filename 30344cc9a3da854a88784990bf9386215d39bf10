@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e8e1443_0e67cbf4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-06T01:07:44Z",
+      "side": 1,
+      "message": "So, based on my ever growing polymer app, I have come to despise observers, they have been the source of 95% of all bugs in my app.\n\nI have been aggressively replacing them with direct calls from the mutator functions. \n\nWhen I \"must\" have them one rule that I go by is the fact that they should be reentrant and not trigger further state manipulations (avoiding cascading observers from firing)\n\n\nlet me know what you think",
+      "revId": "30344cc9a3da854a88784990bf9386215d39bf10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

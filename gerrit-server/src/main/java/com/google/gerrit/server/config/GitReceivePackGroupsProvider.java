@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
@@ -30,8 +31,8 @@ public class GitReceivePackGroupsProvider extends GroupSetProvider {
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {
-    super(gb, threadContext, serverCtx, config.getStringList("receive", null,
-        "allowGroup"));
+    super(gb, threadContext, serverCtx, ImmutableList.copyOf(
+        config.getStringList("receive", null, "allowGroup")));
 
     // If no group was set, default to "registered users"
     //

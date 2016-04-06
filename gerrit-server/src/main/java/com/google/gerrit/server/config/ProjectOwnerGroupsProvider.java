@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
@@ -45,6 +46,7 @@ public class ProjectOwnerGroupsProvider extends GroupSetProvider {
       ThreadLocalRequestContext context, ServerRequestContext serverCtx,
       RepositoryConfig repositoryCfg,
       @Assisted Project.NameKey project) {
-    super(gb, context, serverCtx, repositoryCfg.getOwnerGroups(project));
+    super(gb, context, serverCtx,
+        ImmutableList.copyOf(repositoryCfg.getOwnerGroups(project)));
   }
 }

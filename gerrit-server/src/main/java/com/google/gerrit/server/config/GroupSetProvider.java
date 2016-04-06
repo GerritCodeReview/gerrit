@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -40,7 +41,7 @@ public abstract class GroupSetProvider implements
   @Inject
   protected GroupSetProvider(GroupBackend groupBackend,
       ThreadLocalRequestContext threadContext,
-      ServerRequestContext serverCtx, String[] groupNames) {
+      ServerRequestContext serverCtx, ImmutableList<String> groupNames) {
     RequestContext ctx = threadContext.setContext(serverCtx);
     try {
       ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();

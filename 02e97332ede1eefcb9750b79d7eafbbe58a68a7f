@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_ed98c532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-06T15:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce83e41b_aa46af9c",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_2bdf19f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
         "patchSetId": 2
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "2e89e03a_0d67d1f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-06T15:10:07Z",
+      "side": 1,
+      "message": "Thanks for tracking that down. Another way of stating the issue is that ChangeNotes.java:398 creates a defensive copy of the Change, whereas TestChanges#stubChangeControl does not. That suggests tha problem is only in the implementation of TestChanges/ChangeNotesTest, and that we can trust the results of the NoteDb enabled acceptance tests, which is good.\n\nI will go ahead and fix TestChanges. Hopefully this means we can get rid of stubChangeControl entirely.",
+      "parentUuid": "ee926865_2bdf19f9",
+      "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee926865_4b670522",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -54,6 +96,24 @@
       "writtenOn": "2016-04-05T09:59:54Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8e1443_ce222395",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-06T15:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee926865_4b670522",
       "revId": "02e97332ede1eefcb9750b79d7eafbbe58a68a7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

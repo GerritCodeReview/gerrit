@@ -225,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "0e809c4d_ecbfabd1",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-07T08:05:29Z",
+      "side": 1,
+      "message": "Rather than removing the sentence it might be better to reword to clarify that the group should not be removed if there is no other group with the capability.",
+      "parentUuid": "ee7a6832_0bc9bd73",
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e809c4d_0cb0f705",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1

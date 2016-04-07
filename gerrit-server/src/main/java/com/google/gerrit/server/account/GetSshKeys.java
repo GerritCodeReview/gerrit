@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
@@ -28,23 +28,29 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
 import java.util.List;
 
 @Singleton
 public class GetSshKeys implements RestReadView<AccountResource> {
 
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
+  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
-  GetSshKeys(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider) {
+  GetSshKeys(Provider<CurrentUser> self,
+      VersionedAuthorizedKeys.Accessor authorizedKeys) {
     this.self = self;
-    this.dbProvider = dbProvider;
+    this.authorizedKeys = authorizedKeys;
   }
 
   @Override
-  public List<SshKeyInfo> apply(AccountResource rsrc) throws AuthException,
-      OrmException {
+  public List<SshKeyInfo> apply(AccountResource rsrc)
+      throws AuthException, OrmException, RepositoryNotFoundException,
+      IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to get SSH keys");
@@ -52,13 +58,15 @@ public class GetSshKeys implements RestReadView<AccountResource> {
     return apply(rsrc.getUser());
   }
 
-  public List<SshKeyInfo> apply(IdentifiedUser user) throws OrmException {
-    List<SshKeyInfo> sshKeys = Lists.newArrayList();
-    for (AccountSshKey sshKey : dbProvider.get().accountSshKeys()
-        .byAccount(user.getAccountId()).toList()) {
-      sshKeys.add(newSshKeyInfo(sshKey));
-    }
-    return sshKeys;
+  public List<SshKeyInfo> apply(IdentifiedUser user)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    return Lists.transform(authorizedKeys.getKeys(user.getAccountId()),
+        new Function<AccountSshKey, SshKeyInfo>() {
+          @Override
+          public SshKeyInfo apply(AccountSshKey key) {
+            return newSshKeyInfo(key);
+          }
+        });
   }
 
   public static SshKeyInfo newSshKeyInfo(AccountSshKey sshKey) {

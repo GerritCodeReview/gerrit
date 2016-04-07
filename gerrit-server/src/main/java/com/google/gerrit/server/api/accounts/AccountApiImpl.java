@@ -225,7 +225,7 @@ public class AccountApiImpl implements AccountApi {
   public List<SshKeyInfo> listSshKeys() throws RestApiException {
     try {
       return getSshKeys.apply(account);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot list SSH keys", e);
     }
   }
@@ -236,7 +236,7 @@ public class AccountApiImpl implements AccountApi {
     in.raw = RawInputUtil.create(key);
     try {
       return addSshKey.apply(account, in).value();
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot add SSH key", e);
     }
   }

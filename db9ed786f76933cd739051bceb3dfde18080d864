@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e71e053_4d7839c8",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-07T19:59:01Z",
+      "side": 1,
+      "message": "s/isOpen/changeIsOpen",
+      "revId": "db9ed786f76933cd739051bceb3dfde18080d864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

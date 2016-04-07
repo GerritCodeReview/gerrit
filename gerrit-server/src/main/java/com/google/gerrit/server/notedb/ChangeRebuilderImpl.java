@@ -172,10 +172,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       OrmException, ConfigInvalidException {
     Change change = new Change(bundle.getChange());
     buildUpdates(manager, bundle);
-    NoteDbChangeState newState = NoteDbChangeState.applyDelta(
+    return NoteDbChangeState.applyDelta(
         change, manager.stage().get(change.getId()));
-    manager.execute();
-    return newState;
   }
 
   private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)

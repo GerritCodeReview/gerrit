@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ee7a6832_ebdeb1fa",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T13:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e71e053_cd08a980",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 32
+      },
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e71e053_0ddeb126",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 17
@@ -65,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ce6be468_aa018f29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T13:38:18Z",
+      "side": 1,
+      "message": "Yes, this not perfect. I was strangling with this as well, my fist idea was to add a new class for this purpose but didn\u0027t want to extend this patch even more. Second idea was some kind of python-like tuple but didn\u0027t found something like this in Guava... therefore ended up using Map.Entry, which is battle proved and well tested ;)\n\nI can add follow up patch that changes Map.Entry to something like PatchSetApprovalKey",
+      "parentUuid": "2e71e053_0ddeb126",
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e71e053_2ddb6d37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 17
@@ -76,6 +118,30 @@
       "writtenOn": "2016-04-07T13:19:33Z",
       "side": 1,
       "message": "Optional: expectedOneFooter",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 25
+      },
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_8afccb56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T13:38:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e71e053_2ddb6d37",
       "range": {
         "startLine": 422,
         "startChar": 12,

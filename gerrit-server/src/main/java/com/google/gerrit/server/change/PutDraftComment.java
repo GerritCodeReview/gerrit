@@ -119,7 +119,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         // because the input might be missing required fields. Just give up.
         throw new ResourceNotFoundException("comment not found: " + key);
       }
-      comment = maybeComment.get();
+      PatchLineComment origComment = maybeComment.get();
+      comment = new PatchLineComment(origComment);
 
       PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
       ChangeUpdate update = ctx.getUpdate(psId);
@@ -134,7 +135,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         // Delete then recreate the comment instead of an update.
 
         plcUtil.deleteComments(
-            ctx.getDb(), update, Collections.singleton(comment));
+            ctx.getDb(), update, Collections.singleton(origComment));
         comment = new PatchLineComment(
             new PatchLineComment.Key(
                 new Patch.Key(psId, in.path),

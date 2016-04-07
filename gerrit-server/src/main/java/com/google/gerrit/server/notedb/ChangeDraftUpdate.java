@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
@@ -42,9 +41,11 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,8 +76,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private final AllUsersName draftsProject;
 
-  // TODO: can go back to a list?
-  private Map<Key, PatchLineComment> put;
+  private List<PatchLineComment> put;
   private Set<Key> delete;
 
   @AssistedInject
@@ -93,7 +93,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes,
         accountId, authorIdent, when);
     this.draftsProject = allUsers;
-    this.put = new HashMap<>();
+    this.put = new ArrayList<>();
     this.delete = new HashSet<>();
   }
 
@@ -101,7 +101,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     verifyComment(c);
     checkArgument(c.getStatus() == PatchLineComment.Status.DRAFT,
         "Cannot insert a published comment into a ChangeDraftUpdate");
-    put.put(key(c), c);
+    put.add(c);
   }
 
   public void deleteComment(PatchLineComment c) {
@@ -119,15 +119,15 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         + " this ChangeDraftUpdate (%s): %s", accountId, comment);
   }
 
-  /** @return the tree id for the updated tree */
-  private ObjectId storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
-      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
+  private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
+      ObjectId curr, CommitBuilder cb)
+      throws ConfigInvalidException, OrmException, IOException {
     RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
     Set<RevId> updatedRevs =
         Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
-    for (PatchLineComment c : put.values()) {
+    for (PatchLineComment c : put) {
       if (!delete.contains(key(c))) {
         cache.get(c.getRevId()).putComment(c);
       }
@@ -137,11 +137,15 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     }
 
     Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
+    boolean touchedAnyRevs = false;
     boolean hasComments = false;
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedRevs.add(e.getKey());
       ObjectId id = ObjectId.fromString(e.getKey().get());
       byte[] data = e.getValue().build(noteUtil);
+      if (!Arrays.equals(data, e.getValue().baseRaw)) {
+        touchedAnyRevs = true;
+      }
       if (data.length == 0) {
         rnm.noteMap.remove(id);
       } else {
@@ -151,6 +155,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       }
     }
 
+    // If we didn't touch any notes, tell the caller this was a no-op update. We
+    // couldn't have done this in isEmpty() below because we hadn't read the old
+    // data yet.
+    if (!touchedAnyRevs) {
+      return NO_OP_UPDATE;
+    }
+
     // If we touched every revision and there are no comments left, tell the
     // caller to delete the entire ref.
     boolean touchedAllRevs = updatedRevs.equals(rnm.revisionNotes.keySet());
@@ -158,7 +169,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return null;
     }
 
-    return rnm.noteMap.writeTree(ins);
+    cb.setTreeId(rnm.noteMap.writeTree(ins));
+    return cb;
   }
 
   private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
@@ -172,8 +184,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       if (draftNotes != null) {
         ObjectId idFromNotes =
             firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-        if (idFromNotes.equals(curr)) {
-          return checkNotNull(getNotes().revisionNoteMap);
+        RevisionNoteMap rnm = draftNotes.getRevisionNoteMap();
+        if (idFromNotes.equals(curr) && rnm != null) {
+          return rnm;
         }
       }
     }
@@ -195,15 +208,10 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage("Update draft comments");
     try {
-      ObjectId treeId = storeCommentsInNotes(rw, ins, curr);
-      if (treeId == null) {
-        return null; // Delete ref.
-      }
-      cb.setTreeId(checkNotNull(treeId));
+      return storeCommentsInNotes(rw, ins, curr, cb);
     } catch (ConfigInvalidException e) {
       throw new OrmException(e);
     }
-    return cb;
   }
 
   @Override

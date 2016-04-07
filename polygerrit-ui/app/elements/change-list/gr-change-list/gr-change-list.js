@@ -119,7 +119,7 @@
 
     _computeItemNeedsReview: function(account, change, showReviewedState) {
       return showReviewedState && !change.reviewed &&
-          change.status != this.ChangeStatus.MERGED &&
+          this.changeIsOpen(change.status) &&
           account._account_id != change.owner._account_id;
     },
 

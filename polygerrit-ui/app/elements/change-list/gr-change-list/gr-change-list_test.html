@@ -108,48 +108,58 @@ limitations under the License.
       element.changes = [
         {
           _number: 0,
+          status: 'NEW',
           reviewed: true,
-          owner: { _account_id: 0 },
+          owner: {_account_id: 0},
         },
         {
           _number: 1,
-          owner: { _account_id: 0 },
+          status: 'NEW',
+          owner: {_account_id: 0},
         },
         {
           _number: 2,
           status: 'MERGED',
-          owner: { _account_id: 0 },
+          owner: {_account_id: 0},
         },
         {
           _number: 3,
-          owner: { _account_id: 42 },
+          status: 'DRAFT',
+          owner: {_account_id: 42},
+        },
+        {
+          _number: 4,
+          status: 'ABANDONED',
+          owner: {_account_id: 0},
         }
       ];
       flushAsynchronousOperations();
       var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 4);
+      assert.equal(elementItems.length, 5);
       for (var i = 0; i < elementItems.length; i++) {
         assert.isFalse(elementItems[i].hasAttribute('needs-review'));
       }
 
       element.showReviewedState = true;
-      var elementItems = Polymer.dom(element.root).querySelectorAll(
+      elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 4);
+      assert.equal(elementItems.length, 5);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isTrue(elementItems[3].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
 
-      element.account = { _account_id: 42 };
-      var elementItems = Polymer.dom(element.root).querySelectorAll(
+      element.account = {_account_id: 42};
+      elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 4);
+      assert.equal(elementItems.length, 5);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
     });
 
     test('no changes', function() {

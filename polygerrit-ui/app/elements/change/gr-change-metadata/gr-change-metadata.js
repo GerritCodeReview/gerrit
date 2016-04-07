@@ -36,9 +36,7 @@
     ],
 
     _computeHideStrategy: function(change) {
-      var open = change.status == this.ChangeStatus.NEW ||
-          change.status == this.ChangeStatus.DRAFT;
-      return !open;
+      return !this.changeIsOpen(change.status);
     },
 
     _computeStrategy: function(change) {

@@ -102,6 +102,11 @@ limitations under the License.
     changePath: function(changeNum) {
       return '/c/' + changeNum;
     },
+
+    changeIsOpen: function(status) {
+      return status === this.ChangeStatus.NEW ||
+          status === this.ChangeStatus.DRAFT;
+    },
   };
 
   window.Gerrit = window.Gerrit || {};

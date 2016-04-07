@@ -60,18 +60,19 @@ class RevisionNote {
     return new String(bytes, start, p.value);
   }
 
+  final byte[] raw;
   final ImmutableList<PatchLineComment> comments;
   final String pushCert;
 
   RevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
       ObjectReader reader, ObjectId noteId, boolean draftsOnly)
       throws ConfigInvalidException, IOException {
-    byte[] bytes = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    raw = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     MutableInteger p = new MutableInteger();
-    trimLeadingEmptyLines(bytes, p);
+    trimLeadingEmptyLines(raw, p);
     if (!draftsOnly) {
-      pushCert = parsePushCert(changeId, bytes, p);
-      trimLeadingEmptyLines(bytes, p);
+      pushCert = parsePushCert(changeId, raw, p);
+      trimLeadingEmptyLines(raw, p);
     } else {
       pushCert = null;
     }
@@ -79,6 +80,6 @@ class RevisionNote {
         ? PatchLineComment.Status.DRAFT
         : PatchLineComment.Status.PUBLISHED;
     comments = ImmutableList.copyOf(
-        noteUtil.parseNote(bytes, p, changeId, status));
+        noteUtil.parseNote(raw, p, changeId, status));
   }
 }

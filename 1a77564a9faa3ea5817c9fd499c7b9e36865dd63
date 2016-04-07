@@ -261,6 +261,24 @@
     },
     {
       "key": {
+        "uuid": "ee7a6832_ebe471f7",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:09:34Z",
+      "side": 1,
+      "message": "Actually Gerrit doesn\u0027t support deleting groups, so removing this subsentence should be good.\n\nDone.",
+      "parentUuid": "0e809c4d_ecbfabd1",
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e809c4d_0cb0f705",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1

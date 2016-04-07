@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce6be468_2a47df49",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "Keep this list in lexicographical sort order.",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 44
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_ab6509e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "ReviewDb parameter description is missing.",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_4b402533",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "Instead of creating it unconditionally, why not to make it instance variable of DeleteReviewer.Op, on line 110 above, and preserve the same logic as in base version, and conditionally send email and fire hook in postUpdate() method below (see my comment below), then and only then, when message is not empty. The message is not empty, when at least one vote of the reviewer\u0027s was removed on current patch set. I think it\u0027s enough to send mail and fire the hook only in this case.",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 35
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_4b7b458d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_aa5aef23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "In case NoteDb migration was activated for reading changes, it should be read from the NoteDb and not from the database. You could also inject NotesMigration an do it manualy (don\u0027t do that), e.g.:\n\n  if (!migration.readChanges()) {\n      return db.patchSets().get(psId);\n  }\n  return notes.load().getPatchSets().get(psId);\n\n\nBut there is PatchSetUtil with current() method, that does just that. Inject it in the ctor and use it:\n\n  PatchSet patchSet \u003d psUtil.current(dbProvider.get(), ctx.getNotes());\n\nAnd you only should retrieve the patch set when the hook is actually fired.",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 47
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_ab5ae923",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "This is the wrong place: sending mails and firing hooks should take place in BatchUpdate.Op#postUpdate(Context ctx) method.\n\n  @Override\n  public void postUpdate(Context ctx) {\n    if (changeMessage \u003d\u003d null) {\n      return;\n    }\n    PatchSet patchSet \u003d dbProvider.get().patchSets().get(\n        ctx.getChange().currentPatchSetId());\n    emailReviewers(...);\n    hooks.doReviewerDeletedHook(...);\n  }",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_0a4a1b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "This condition is always false, see line 149 above why.",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_8a55abf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "Wrong order: this definition should be put before the ctor.",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_6b78818f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "Unneeded final.",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_cb3415db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T20:50:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the removed reviewer be put to the recepient list:\n\n  add(RecipientType.TO, reviewers);\n\nIf I remove your vote, shouldn\u0027t you in the first place get informed about it? The code looks like only /me would get the mail, but not you. Am I missing something?",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

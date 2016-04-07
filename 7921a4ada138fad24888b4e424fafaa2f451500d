@@ -70,6 +70,30 @@
       "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_6af3974d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-07T22:27:24Z",
+      "side": 1,
+      "message": "I can make this change and possibly even with alternating the background color if you think it\u0027s less noisy. As I stated in earlier comments I modelled the current UX on Intellij\u0027s solution.\n\nI don\u0027t have a strong opinion on which one is better, cleaner. I picked Intellij as that\u0027s what I\u0027m used to.",
+      "parentUuid": "0e809c4d_8c662724",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

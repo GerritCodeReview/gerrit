@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.getChangeId;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -231,5 +233,32 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
       rw.parseBody(c);
       return c;
     }
+  }
+
+  @Test
+  public void submitAfterReorderOfCommits() throws Exception {
+    // Create two commits and push.
+    RevCommit c1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    RevCommit c2 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+
+    String id1 = getChangeId(testRepo, c1).get();
+    String id2 = getChangeId(testRepo, c2).get();
+
+    // Swap the order of commits and push again.
+    testRepo.reset("HEAD~2");
+    testRepo.cherryPick(c2);
+    testRepo.cherryPick(c1);
+    pushHead(testRepo, "refs/for/master", false);
+
+    approve(id1);
+    approve(id2);
+    submit(id1);
   }
 }

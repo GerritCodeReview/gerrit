@@ -94,6 +94,30 @@
       "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_8b04cdf9",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T22:40:08Z",
+      "side": 1,
+      "message": "\u003e I can make this change and possibly even with alternating the background color if you think it\u0027s less noisy. \n\n+1",
+      "parentUuid": "ce6be468_6af3974d",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

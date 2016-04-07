@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce6be468_6a2637ac",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T22:06:18Z",
+      "side": 1,
+      "message": "Instead of annotating each line, annotate only the first line for each fromTo range, just like gitiles does (example [1])\n\nhttps://gerrit.googlesource.com/gerrit/+blame/7921a4ada138fad24888b4e424fafaa2f451500d/gerrit-gwtui-common/src/main/java/com/google/gerrit/client/Resources.java\n\nThis way we better see a range which is all changed by the same commit.\n\nIf possible alternate the background color of the range(s), like the gitiles does. I don\u0027t know much about codemirror, but I guess that it should be possible?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

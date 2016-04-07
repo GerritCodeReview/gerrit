@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "ee7a6832_ab33c9ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T21:08:59Z",
+      "side": 1,
+      "message": "Correcting me: I pasted stale patch set retrieval method. You would have to retrieve the patch set in updateChange() method and remember it in instance variable (and change etc), because Context in postUpdate() doesn\u0027t have access to the ChangeNotes.",
+      "parentUuid": "ee7a6832_ab5ae923",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce6be468_0a4a1b51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 8

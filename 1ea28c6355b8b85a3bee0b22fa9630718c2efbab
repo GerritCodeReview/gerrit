@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e71e053_cddf4927",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-07T10:18:43Z",
+      "side": 1,
+      "message": "this is now unused.",
+      "range": {
+        "startLine": 42,
+        "startChar": 17,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "1ea28c6355b8b85a3bee0b22fa9630718c2efbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

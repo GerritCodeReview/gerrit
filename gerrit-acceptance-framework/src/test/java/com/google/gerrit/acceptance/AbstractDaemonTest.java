@@ -617,6 +617,12 @@ public abstract class AbstractDaemonTest {
     projectCache.evict(cfg.getProject());
   }
 
+  protected void saveProjectConfig(ProjectConfig cfg) throws Exception {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      cfg.commit(md);
+    }
+  }
+
   protected void grant(String permission, Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     grant(permission, project, ref, false);

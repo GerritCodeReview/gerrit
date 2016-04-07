@@ -39,7 +39,6 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
@@ -86,12 +85,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         "refs/heads/*");
     saveProjectConfig(cfg);
     grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      cfg.commit(md);
-    }
   }
 
   protected void selectProtocol(Protocol p) throws Exception {

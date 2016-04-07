@@ -14,13 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
-
 /** Permits controlling the contents of the SSH key cache area. */
 public interface SshKeyCache {
   void evict(String username);
-
-  AccountSshKey create(AccountSshKey.Id id, String encoded)
-      throws InvalidSshKeyException;
 }

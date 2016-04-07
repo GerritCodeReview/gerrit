@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.DeleteSshKey.Input;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -26,7 +25,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.util.Collections;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
 
 @Singleton
 public class DeleteSshKey implements
@@ -35,28 +37,31 @@ public class DeleteSshKey implements
   }
 
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
+  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
 
   @Inject
-  DeleteSshKey(Provider<ReviewDb> dbProvider,
-      Provider<CurrentUser> self,
+  DeleteSshKey(Provider<CurrentUser> self,
+      VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache) {
     this.self = self;
-    this.dbProvider = dbProvider;
+    this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
   }
 
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
-      throws AuthException, OrmException {
+      throws AuthException, OrmException, RepositoryNotFoundException,
+      IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to delete SSH keys");
     }
-    dbProvider.get().accountSshKeys()
-        .deleteKeys(Collections.singleton(rsrc.getSshKey().getKey()));
+
+    authorizedKeys.deleteKey(rsrc.getUser().getAccountId(),
+        rsrc.getSshKey().getKey().get());
     sshKeyCache.evict(rsrc.getUser().getUserName());
+
     return Response.none();
   }
 }

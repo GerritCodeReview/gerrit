@@ -94,6 +94,30 @@
       "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e71e053_2df4cd98",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1025043
+      },
+      "writtenOn": "2016-04-07T15:09:19Z",
+      "side": 1,
+      "message": "Is that documented anywhere? Could it be documented here?",
+      "parentUuid": "ce6be468_cad083d3",
+      "range": {
+        "startLine": 1173,
+        "startChar": 21,
+        "endLine": 1173,
+        "endChar": 23
+      },
+      "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

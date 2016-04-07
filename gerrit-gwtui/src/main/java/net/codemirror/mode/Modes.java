@@ -76,6 +76,7 @@ public interface Modes extends ClientBundle {
   @Source("lua.js") @DoNotEmbed DataResource lua();
   @Source("markdown.js") @DoNotEmbed DataResource markdown();
   @Source("mathematica.js") @DoNotEmbed DataResource mathematica();
+  @Source("mbox.js") @DoNotEmbed DataResource mbox();
   @Source("mirc.js") @DoNotEmbed DataResource mirc();
   @Source("mllike.js") @DoNotEmbed DataResource mllike();
   @Source("modelica.js") @DoNotEmbed DataResource modelica();
@@ -91,6 +92,7 @@ public interface Modes extends ClientBundle {
   @Source("perl.js") @DoNotEmbed DataResource perl();
   @Source("php.js") @DoNotEmbed DataResource php();
   @Source("pig.js") @DoNotEmbed DataResource pig();
+  @Source("powershell.js") @DoNotEmbed DataResource powershell();
   @Source("properties.js") @DoNotEmbed DataResource properties();
   @Source("protobuf.js") @DoNotEmbed DataResource protobuf();
   @Source("puppet.js") @DoNotEmbed DataResource puppet();
@@ -101,6 +103,7 @@ public interface Modes extends ClientBundle {
   @Source("rst.js") @DoNotEmbed DataResource rst();
   @Source("ruby.js") @DoNotEmbed DataResource ruby();
   @Source("rust.js") @DoNotEmbed DataResource rust();
+  @Source("sas.js") @DoNotEmbed DataResource sas();
   @Source("sass.js") @DoNotEmbed DataResource sass();
   @Source("scheme.js") @DoNotEmbed DataResource scheme();
   @Source("shell.js") @DoNotEmbed DataResource shell();
@@ -133,8 +136,10 @@ public interface Modes extends ClientBundle {
   @Source("verilog.js") @DoNotEmbed DataResource verilog();
   @Source("vhdl.js") @DoNotEmbed DataResource vhdl();
   @Source("vue.js") @DoNotEmbed DataResource vue();
+  @Source("webidl.js") @DoNotEmbed DataResource webidl();
   @Source("xml.js") @DoNotEmbed DataResource xml();
   @Source("xquery.js") @DoNotEmbed DataResource xquery();
+  @Source("yacas.js") @DoNotEmbed DataResource yacas();
   @Source("yaml-frontmatter.js") @DoNotEmbed DataResource yaml_frontmatter();
   @Source("yaml.js") @DoNotEmbed DataResource yaml();
   @Source("z80.js") @DoNotEmbed DataResource z80();

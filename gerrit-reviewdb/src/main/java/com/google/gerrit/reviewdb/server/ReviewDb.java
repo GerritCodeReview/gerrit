@@ -53,8 +53,7 @@ public interface ReviewDb extends Schema {
   @Relation(id = 7)
   AccountExternalIdAccess accountExternalIds();
 
-  @Relation(id = 8)
-  AccountSshKeyAccess accountSshKeys();
+  // Deleted @Relation(id = 8)
 
   @Relation(id = 10)
   AccountGroupAccess accountGroups();

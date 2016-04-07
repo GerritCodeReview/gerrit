@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.Iterables;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -27,24 +26,22 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AddSshKey.Input;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 
 @Singleton
 public class AddSshKey implements RestModifyView<AccountResource, Input> {
@@ -55,22 +52,25 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   }
 
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
+  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
   private final AddKeySender.Factory addKeyFactory;
 
   @Inject
-  AddSshKey(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider,
-      SshKeyCache sshKeyCache, AddKeySender.Factory addKeyFactory) {
+  AddSshKey(Provider<CurrentUser> self,
+      VersionedAuthorizedKeys.Accessor authorizedKeys,
+      SshKeyCache sshKeyCache,
+      AddKeySender.Factory addKeyFactory) {
     this.self = self;
-    this.dbProvider = dbProvider;
+    this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.addKeyFactory = addKeyFactory;
   }
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, Input input)
-      throws AuthException, BadRequestException, OrmException, IOException {
+      throws AuthException, BadRequestException, OrmException, IOException,
+      ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to add SSH keys");
@@ -79,18 +79,14 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<SshKeyInfo> apply(IdentifiedUser user, Input input)
-      throws BadRequestException, OrmException, IOException {
+      throws BadRequestException, IOException,
+      ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }
     if (input.raw == null) {
       throw new BadRequestException("SSH public key missing");
     }
-
-    ResultSet<AccountSshKey> byAccountLast =
-        dbProvider.get().accountSshKeys().byAccountLast(user.getAccountId());
-    AccountSshKey last = Iterables.getOnlyElement(byAccountLast, null);
-    int max = last == null ? 0 : last.getKey().get();
 
     final RawInput rawKey = input.raw;
     String sshPublicKey = new ByteSource() {
@@ -102,15 +98,15 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
 
     try {
       AccountSshKey sshKey =
-          sshKeyCache.create(new AccountSshKey.Id(
-              user.getAccountId(), max + 1), sshPublicKey);
-      dbProvider.get().accountSshKeys().insert(Collections.singleton(sshKey));
+          authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
+
       try {
         addKeyFactory.create(user, sshKey).send();
       } catch (EmailException e) {
         log.error("Cannot send SSH key added message to "
             + user.getAccount().getPreferredEmail(), e);
       }
+
       sshKeyCache.evict(user.getUserName());
       return Response.<SshKeyInfo>created(GetSshKeys.newSshKeyInfo(sshKey));
     } catch (InvalidSshKeyException e) {

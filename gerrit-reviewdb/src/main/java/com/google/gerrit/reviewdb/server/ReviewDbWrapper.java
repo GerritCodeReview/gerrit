@@ -89,11 +89,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public AccountSshKeyAccess accountSshKeys() {
-    return delegate.accountSshKeys();
-  }
-
-  @Override
   public AccountGroupAccess accountGroups() {
     return delegate.accountGroups();
   }

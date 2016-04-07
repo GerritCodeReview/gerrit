@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.server.AccountGroupMemberAuditAccess;
 import com.google.gerrit.reviewdb.server.AccountGroupNameAccess;
 import com.google.gerrit.reviewdb.server.AccountPatchReviewAccess;
 import com.google.gerrit.reviewdb.server.AccountProjectWatchAccess;
-import com.google.gerrit.reviewdb.server.AccountSshKeyAccess;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
@@ -93,11 +92,6 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public AccountExternalIdAccess accountExternalIds() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountSshKeyAccess accountSshKeys() {
     throw new Disabled();
   }
 

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ce6be468_2aa35f72",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T15:00:35Z",
+      "side": 1,
+      "message": "Yes, when you setup a new Gerrit site, the \u0027Administrators\u0027 group is automatically created and on the \u0027All-Projects\u0027 project the global capability \u0027Administrate Server\u0027 is assigned to it.",
+      "parentUuid": "2e71e053_0df791a0",
+      "range": {
+        "startLine": 103,
+        "startChar": 3,
+        "endLine": 103,
+        "endChar": 4
+      },
+      "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e809c4d_cc08af80",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-04-07T14:45:27Z",
       "side": 1,
       "message": "This sentence does not appear to be true experientially, and contradicts the paragraph \"This capability...\" below.",
+      "range": {
+        "startLine": 1173,
+        "startChar": 21,
+        "endLine": 1173,
+        "endChar": 23
+      },
+      "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_cad083d3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T15:00:35Z",
+      "side": 1,
+      "message": "In Gerrit we differentiate between \"capabilities\" and \"access rights\"/\"access categories\".\n\nAccess rights are the permissions that you assign on project level [1].\n\nCapabilities are globally assigned in the \u0027Global Capabilities\u0027 section of the All-Project project [2].\n\nSo the \u0027Administrate Server\u0027 capabilities grants you all capabilities, but no access rights.\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#access_categories\n[2] https://gerrit-review.googlesource.com/Documentation/access-control.html#global_capabilities",
+      "parentUuid": "0e809c4d_cc08af80",
       "range": {
         "startLine": 1173,
         "startChar": 21,

@@ -22,13 +22,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,18 +46,23 @@ import java.util.Map;
 public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-  private GroupCache groupCache;
-  private SshKeyCache sshKeyCache;
-  private AccountCache accountCache;
-  private AccountByEmailCache byEmailCache;
+  private final SchemaFactory<ReviewDb> reviewDbProvider;
+  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+  private final GroupCache groupCache;
+  private final SshKeyCache sshKeyCache;
+  private final AccountCache accountCache;
+  private final AccountByEmailCache byEmailCache;
 
   @Inject
-  AccountCreator(SchemaFactory<ReviewDb> schema, GroupCache groupCache,
-      SshKeyCache sshKeyCache, AccountCache accountCache,
+  AccountCreator(SchemaFactory<ReviewDb> schema,
+      VersionedAuthorizedKeys.Accessor authorizedKeys,
+      GroupCache groupCache,
+      SshKeyCache sshKeyCache,
+      AccountCache accountCache,
       AccountByEmailCache byEmailCache) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
+    this.authorizedKeys = authorizedKeys;
     this.groupCache = groupCache;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
@@ -66,17 +70,14 @@ public class AccountCreator {
   }
 
   public synchronized TestAccount create(String username, String email,
-      String fullName, String... groups)
-      throws OrmException, UnsupportedEncodingException, JSchException {
+      String fullName, String... groups) throws Exception {
     TestAccount account = accounts.get(username);
     if (account != null) {
       return account;
     }
     try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
-      KeyPair sshKey = genSshKey();
-      AccountSshKey key =
-          new AccountSshKey(new AccountSshKey.Id(id, 1), publicKey(sshKey, email));
+
       AccountExternalId extUser =
           new AccountExternalId(id, new AccountExternalId.Key(
               AccountExternalId.SCHEME_USERNAME, username));
@@ -95,8 +96,6 @@ public class AccountCreator {
       a.setPreferredEmail(email);
       db.accounts().insert(Collections.singleton(a));
 
-      db.accountSshKeys().insert(Collections.singleton(key));
-
       if (groups != null) {
         for (String n : groups) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
@@ -107,7 +106,10 @@ public class AccountCreator {
         }
       }
 
+      KeyPair sshKey = genSshKey();
+      authorizedKeys.addKey(id, publicKey(sshKey, email));
       sshKeyCache.evict(username);
+
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
 
@@ -118,35 +120,29 @@ public class AccountCreator {
     }
   }
 
-  public TestAccount create(String username, String group)
-      throws OrmException, UnsupportedEncodingException, JSchException {
+  public TestAccount create(String username, String group) throws Exception {
     return create(username, null, username, group);
   }
 
-  public TestAccount create(String username)
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount create(String username) throws Exception {
     return create(username, null, username, (String[]) null);
   }
 
-  public TestAccount admin()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount admin() throws Exception {
     return create("admin", "admin@example.com", "Administrator",
       "Administrators");
   }
 
-  public TestAccount admin2()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount admin2() throws Exception {
     return create("admin2", "admin2@example.com", "Administrator2",
       "Administrators");
   }
 
-  public TestAccount user()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount user() throws Exception {
     return create("user", "user@example.com", "User");
   }
 
-  public TestAccount user2()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount user2() throws Exception {
     return create("user2", "user2@example.com", "User2");
   }
 
@@ -169,6 +165,6 @@ public class AccountCreator {
       throws UnsupportedEncodingException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePublicKey(out, comment);
-    return out.toString(US_ASCII.name());
+    return out.toString(US_ASCII.name()).trim();
   }
 }

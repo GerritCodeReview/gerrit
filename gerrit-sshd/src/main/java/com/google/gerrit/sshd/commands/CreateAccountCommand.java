@@ -29,6 +29,7 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -64,7 +65,8 @@ final class CreateAccountCommand extends SshCommand {
   private CreateAccount.Factory createAccountFactory;
 
   @Override
-  protected void run() throws OrmException, IOException, UnloggedFailure {
+  protected void run() throws OrmException, IOException, ConfigInvalidException,
+      UnloggedFailure {
     CreateAccount.Input input = new CreateAccount.Input();
     input.username = username;
     input.email = email;

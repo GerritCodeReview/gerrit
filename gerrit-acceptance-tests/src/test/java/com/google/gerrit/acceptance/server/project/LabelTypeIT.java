@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 
@@ -414,12 +413,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     cfg.getLabelSections().clear();
     cfg.getLabelSections().put(codeReview.getName(), codeReview);
     saveProjectConfig(cfg);
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      cfg.commit(md);
-    }
   }
 
   @Override

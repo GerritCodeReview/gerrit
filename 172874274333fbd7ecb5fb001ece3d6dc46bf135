@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460016568 +0200\nnonce AB8gjyUdTmQna3hC/VdOULCq+u5f1sNtHaXo/Qwp/DyBAPs6zIszUUVa3neVwWtPCJF5RJq5Sddf\n\n0000000000000000000000000000000000000000 172874274333fbd7ecb5fb001ece3d6dc46bf135 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXBhW4AAoJEFG1/Zeg0O9Rf5oIAIjCRvFwco3bgrhQYiAEYgJt\nrBzOU2YHDXYhKkwyulgO8FAF2VHruvLt2kM1WDCkMkjTQrF+dNtUahOrpjtyETkh\nm9BvTyOiE/3grkR7G9XnXFzJ+zDF9zJ1BUy4noTjdcl7uwo9pOu1UKKdyBdFq8J5\nR0AuUKGqgrx52bJxedrj07e86GQu/I77SI9gk7O0xwE1ImbnLii0xBb01Yv1/F4g\n7H/kBsCe6LpJc+X4N6fjDKnRrx2DdT47NQX0JEjs/QCSYTAH/QT0pXOFLSG8KvBu\n0ZmrseJ2mdnxjXrtvcZ/+BrOvHYnn2ExGYRedSCFUjib8/caL7kbjbN5fjquEGI\u003d\n\u003dEBmk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e71e053_0df791a0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1025043
+      },
+      "writtenOn": "2016-04-07T14:45:27Z",
+      "side": 1,
+      "message": "What does this mean? Does it mean that the group starts with Administrate Server in All-Projects? Or is there some other place/way that it gets this capability?",
+      "range": {
+        "startLine": 103,
+        "startChar": 3,
+        "endLine": 103,
+        "endChar": 4
+      },
+      "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e809c4d_cc08af80",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1025043
+      },
+      "writtenOn": "2016-04-07T14:45:27Z",
+      "side": 1,
+      "message": "This sentence does not appear to be true experientially, and contradicts the paragraph \"This capability...\" below.",
+      "range": {
+        "startLine": 1173,
+        "startChar": 21,
+        "endLine": 1173,
+        "endChar": 23
+      },
+      "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -341,7 +341,7 @@ public class ChangeEditModifier {
           reader,
           file,
           newFile,
-          toBlob(inserter, content));
+          content);
       if (ObjectId.equals(newTree, prevEdit.getTree())) {
         throw new InvalidChangeOperationException("no changes were made");
       }
@@ -403,9 +403,9 @@ public class ChangeEditModifier {
   }
 
   private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
-      ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
+      final ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
       String fileName, @Nullable String newFile,
-      @Nullable final ObjectId content) throws IOException {
+      @Nullable final RawInput content) throws IOException {
     DirCache newTree = readTree(reader, prevEdit);
     DirCacheEditor dce = newTree.editor();
     switch (op) {
@@ -425,15 +425,41 @@ public class ChangeEditModifier {
 
       case CHANGE_ENTRY:
         checkNotNull(content, "new content required");
+        final class ErrorHolder {
+          public IOException lastexception;
+        }
+
+        final ErrorHolder errorHolder = new ErrorHolder();
         dce.add(new PathEdit(fileName) {
           @Override
           public void apply(DirCacheEntry ent) {
             if (ent.getRawMode() == 0) {
               ent.setFileMode(FileMode.REGULAR_FILE);
             }
-            ent.setObjectId(content);
+            FileMode mode = ent.getFileMode();
+            if (FileMode.GITLINK != mode) {
+              try {
+                ent.setObjectId(toBlob(ins, content));
+              } catch (IOException e) {
+                errorHolder.lastexception = e;
+              }
+            } else {
+              ent.setLength(0);
+              ent.setLastModified(0);
+              try {
+                InputStream in = content.getInputStream();
+                ObjectId id;
+                id = ObjectId.fromString(ByteStreams.toByteArray(in), 0);
+                ent.setObjectId(id);
+              } catch (IOException e) {
+                errorHolder.lastexception = e;
+              }
+            }
           }
         });
+        if (errorHolder.lastexception != null) {
+          throw errorHolder.lastexception;
+        }
         break;
 
       case RESTORE_ENTRY:

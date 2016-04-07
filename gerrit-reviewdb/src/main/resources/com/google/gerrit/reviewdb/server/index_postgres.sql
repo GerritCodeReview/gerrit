@@ -96,11 +96,6 @@ ON account_project_watches (project_name);
 
 
 -- *********************************************************************
--- AccountSshKeyAccess
---    @PrimaryKey covers: byAccount, valid
-
-
--- *********************************************************************
 -- ApprovalCategoryAccess
 --    too small to bother indexing
 

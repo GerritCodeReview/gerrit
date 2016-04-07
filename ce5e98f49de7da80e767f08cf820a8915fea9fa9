@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce6be468_ca02c32f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T13:13:46Z",
+      "side": 1,
+      "message": "There is a mismatch in the current approach: your input doesn\u0027t match the data. In both: REST API and SSH command. There are 3 different inputs:\n\n* change message\n* patch line comment\n* label approval data\n\nYou\u0027ve only extended your input with one single tag string, and claim that the same tag should be applied to all three different kinds of data? To me it sounds that you\u0027ve only implemented tagging of change messages, wich is good enough. But why extend and touch patch_set_commens and patch_set_approval at all? This can be done later (if at all, as discussed in person during the hackathon I don\u0027t see any real life use case to tag the label votes).\n\nBut if you would like to tag label votes and patch line comments in addition to change messages, then you should find the way to accept the corresponding input. Obviously.\n\nIOW, the user should be able to provide in one single SSH command or REST endpoint different tags für different target data:\n\n* 1. change message\u003d\"foo\" change-message-tag: \"foo-tag\" (change message can be provided only once, so the cardinality is here always\u003d1)\n* 2. Label-Verified\u003d-1, Label-Verified-Tag\u003dbar, Label-CodeReview\u003d+1, Label-CodeReview-Tag\u003dbaz, ... (cardinality is n, where n is the number of labels configured on specific projects)\n* 3. patch line comment_1\u003d\"this line is not covered\" patch line comment_1-tag: \"Coverity\",  patch line comment_2\u003d\"Not Used\" patch_lins_commet_2-tag\u003d\"FindBugs\" Cardinality\u003dn, ... (cardinality is k depending on how many patch line comment send with this command).\n\nAs you can see from the above, the current approach claims the target cardinality 1+n+k (1 change message + n label votes + k patch line comments) is covered by this change but only provides one single input tag with cardinality 1. Obviously, 1 !\u003d 1 + n + k.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 67
+      },
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

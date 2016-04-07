@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee7a6832_4beee5a3",
+        "filename": "gerrit-cache-h2/BUCK",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "is there any reason why H2 was moved down?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_caa72382",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/TickerTimeProvider.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_4b17c56d",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_aab66fb4",
+        "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "You also define class with same name for tests in gerrit-server how about having one such a class?",
+      "range": {
+        "startLine": 48,
+        "startChar": 23,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_6b140168",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_0b11bd76",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_4a9c9337",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/h2/Util.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-07T14:47:26Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

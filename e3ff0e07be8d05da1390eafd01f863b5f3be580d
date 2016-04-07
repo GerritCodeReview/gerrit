@@ -16,6 +16,24 @@
       "revId": "e3ff0e07be8d05da1390eafd01f863b5f3be580d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8f587d_afb999ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-07T02:49:30Z",
+      "side": 1,
+      "message": "As you can see in the earlier patch sets, I had written the test with the assumption that duplicates should not be created, and had to rewrite it after finding that it\u0027s not the case.\n\nWhen I have time I intend to look into this some more.",
+      "parentUuid": "3cdafa64_2eaca764",
+      "revId": "e3ff0e07be8d05da1390eafd01f863b5f3be580d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

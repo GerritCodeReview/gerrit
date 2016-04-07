@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e809c4d_8c02a75c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-07T14:56:05Z",
+      "side": 1,
+      "message": "Use \"if (subjectHeader instanceOf EmailHeader.String)\" instead of catching ClassCastException. Although admittedly I don\u0027t know this code too well; what else could it actually be?",
+      "revId": "e62ff20e59b2c3aa9ee62349ac2a8a8dddc5e271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

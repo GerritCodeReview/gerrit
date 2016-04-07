@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee7a6832_2ba35972",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T16:06:14Z",
+      "side": 1,
+      "message": "remove public, it is not necessary as this is a private class",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 23
+      },
+      "revId": "e538814440b7a4ca946ba8e11deff5737fb843d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_6bc2c104",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T16:06:14Z",
+      "side": 1,
+      "message": "looking more carefully at this code this looks like unnecessary conversion from a List\u003cRegion\u003e to List\u003cBlameLine\u003e and then from List\u003cBlameLine\u003e into the List\u003cBlameInfo.Blame\u003e\n\nThe List\u003cRegion\u003e is already very close to the List\u003cBlameInfo.Blame\u003e and we can convert this directly without the intermediate conversion into the List\u003cBlameLine\u003e\n\nI am uploading a new patch set with the code further simplified.",
+      "revId": "e538814440b7a4ca946ba8e11deff5737fb843d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_0abf7b7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T16:06:14Z",
+      "side": 1,
+      "message": "Looking at the variable from, the addLines method and the result List it looks like the following condition holds for any element of the result list:\n\n  result.get(N).lineNum \u003d\u003d N+1\n\nThis means that the BlameLine.lineNum is redundant and can be removed. Instead we can use the list index + 1.",
+      "revId": "e538814440b7a4ca946ba8e11deff5737fb843d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_8aca8b1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T16:06:14Z",
+      "side": 1,
+      "message": "this is not necessary\n\na revWalk can parse any number of commits without needing to reset",
+      "revId": "e538814440b7a4ca946ba8e11deff5737fb843d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_4b33453e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-07T16:06:14Z",
+      "side": 1,
+      "message": "nit: space between while and (",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 14
+      },
+      "revId": "e538814440b7a4ca946ba8e11deff5737fb843d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

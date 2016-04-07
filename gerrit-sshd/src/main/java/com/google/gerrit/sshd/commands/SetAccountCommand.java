@@ -47,6 +47,8 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -167,7 +169,8 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void setAccount() throws OrmException, IOException, UnloggedFailure {
+  private void setAccount() throws OrmException, IOException, UnloggedFailure,
+      ConfigInvalidException {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user);
     try {
@@ -220,7 +223,7 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void addSshKeys(List<String> sshKeys) throws RestApiException,
-      OrmException, IOException {
+      OrmException, IOException, ConfigInvalidException {
     for (final String sshKey : sshKeys) {
       AddSshKey.Input in = new AddSshKey.Input();
       in.raw = RawInputUtil.create(sshKey.getBytes(), "plain/text");
@@ -228,8 +231,9 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteSshKeys(List<String> sshKeys) throws RestApiException,
-      OrmException {
+  private void deleteSshKeys(List<String> sshKeys)
+      throws RestApiException, OrmException, RepositoryNotFoundException,
+      IOException, ConfigInvalidException {
     List<SshKeyInfo> infos = getSshKeys.apply(rsrc);
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
@@ -247,7 +251,8 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteSshKey(SshKeyInfo i) throws AuthException, OrmException {
+  private void deleteSshKey(SshKeyInfo i) throws AuthException, OrmException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     AccountSshKey sshKey = new AccountSshKey(
         new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
     deleteSshKey.apply(

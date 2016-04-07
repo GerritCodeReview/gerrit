@@ -18,13 +18,13 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAM
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.ssh.SshKeyCreator;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -32,12 +32,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.spec.InvalidKeySpecException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,6 +63,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
           .loader(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
+        bind(SshKeyCreator.class).to(SshKeyCreatorImpl.class);
       }
     };
   }
@@ -97,48 +97,34 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
   }
 
-  @Override
-  public AccountSshKey create(AccountSshKey.Id id, String encoded)
-      throws InvalidSshKeyException {
-    try {
-      final AccountSshKey key =
-          new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
-      SshUtil.parse(key);
-      return key;
-    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-      throw new InvalidSshKeyException();
-
-    } catch (NoSuchProviderException e) {
-      log.error("Cannot parse SSH key", e);
-      throw new InvalidSshKeyException();
-    }
-  }
-
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema) {
+    Loader(SchemaFactory<ReviewDb> schema,
+        VersionedAuthorizedKeys.Accessor authorizedKeys) {
       this.schema = schema;
+      this.authorizedKeys = authorizedKeys;
     }
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
-        final AccountExternalId.Key key =
+        AccountExternalId.Key key =
             new AccountExternalId.Key(SCHEME_USERNAME, username);
-        final AccountExternalId user = db.accountExternalIds().get(key);
+        AccountExternalId user = db.accountExternalIds().get(key);
         if (user == null) {
           return NO_SUCH_USER;
         }
 
-        final List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-        for (AccountSshKey k : db.accountSshKeys().byAccount(
-            user.getAccountId())) {
+        List<SshKeyCacheEntry> kl = new ArrayList<>(4);
+        for (AccountSshKey k : authorizedKeys.getKeys(user.getAccountId())) {
           if (k.isValid()) {
-            add(db, kl, k);
+            add(kl, k);
           }
         }
+
         if (kl.isEmpty()) {
           return NO_KEYS;
         }
@@ -146,7 +132,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
       }
     }
 
-    private void add(ReviewDb db, List<SshKeyCacheEntry> kl, AccountSshKey k) {
+    private void add(List<SshKeyCacheEntry> kl, AccountSshKey k) {
       try {
         kl.add(new SshKeyCacheEntry(k.getKey(), SshUtil.parse(k)));
       } catch (OutOfMemoryError e) {
@@ -155,16 +141,16 @@ public class SshKeyCacheImpl implements SshKeyCache {
         //
         throw e;
       } catch (Throwable e) {
-        markInvalid(db, k);
+        markInvalid(k);
       }
     }
 
-    private void markInvalid(final ReviewDb db, final AccountSshKey k) {
+    private void markInvalid(AccountSshKey k) {
       try {
         log.info("Flagging SSH key " + k.getKey() + " invalid");
+        authorizedKeys.markKeyInvalid(k.getAccount(), k.getKey().get());
         k.setInvalid();
-        db.accountSshKeys().update(Collections.singleton(k));
-      } catch (OrmException e) {
+      } catch (IOException | ConfigInvalidException e) {
         log.error("Failed to mark SSH key" + k.getKey() + " invalid", e);
       }
     }

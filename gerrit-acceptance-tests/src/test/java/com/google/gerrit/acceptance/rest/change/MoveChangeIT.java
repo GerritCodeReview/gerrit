@@ -45,7 +45,7 @@ import org.junit.Test;
 @NoHttpd
 public class MoveChangeIT extends AbstractDaemonTest {
   @Test
-  public void moveChange_shortRef() throws Exception {
+  public void moveChangeWithShortRef() throws Exception {
     // Move change to a different branch using short ref name
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =
@@ -56,7 +56,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChange_fullRef() throws Exception {
+  public void moveChangeWithFullRef() throws Exception {
     // Move change to a different branch using full ref name
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =
@@ -94,7 +94,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChange_sameChangeId() throws Exception {
+  public void moveChangeToSameChangeId() throws Exception {
     // Move change to a branch with existing change with same change ID
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =
@@ -160,7 +160,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChangeToBranch_WithoutUploadPerms() throws Exception {
+  public void moveChangeToBranchWithoutUploadPerms() throws Exception {
     // Move change to a destination where user doesn't have upload permissions
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =
@@ -175,7 +175,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChangeFromBranch_WithoutAbandonPerms() throws Exception {
+  public void moveChangeFromBranchWithoutAbandonPerms() throws Exception {
     // Move change for which user does not have abandon permissions
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =
@@ -218,7 +218,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChange_WithCurrentPatchSetLocked() throws Exception {
+  public void moveChangeWithCurrentPatchSetLocked() throws Exception {
     // Move change that is locked
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =

@@ -16,6 +16,24 @@
       "revId": "96152cfa37cad6239aec8f613d93ee51124cb071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e71e053_4d61190a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-07T23:04:30Z",
+      "side": 1,
+      "message": "Good catch. Fixed.",
+      "parentUuid": "ee7a6832_8beb6d54",
+      "revId": "96152cfa37cad6239aec8f613d93ee51124cb071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

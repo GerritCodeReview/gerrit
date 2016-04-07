@@ -22,9 +22,11 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -189,10 +191,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     for (PatchSet ps : bundle.getPatchSets()) {
       events.add(new PatchSetEvent(change, ps, manager.getCodeRepo().rw));
-      List<PatchLineComment> comments =
-          PatchLineCommentsUtil.PLC_ORDER.sortedCopy(
-              bundle.getPatchLineComments());
-      for (PatchLineComment c : comments) {
+      for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);
         if (c.getStatus() == Status.PUBLISHED) {
@@ -238,6 +237,17 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       }
       flushEventsToDraftUpdate(manager, plcel, change);
     }
+  }
+
+  private static List<PatchLineComment> getPatchLineComments(ChangeBundle bundle,
+      final PatchSet ps) {
+    return FluentIterable.from(bundle.getPatchLineComments())
+        .filter(new Predicate<PatchLineComment>() {
+          @Override
+          public boolean apply(PatchLineComment in) {
+            return in.getPatchSetId().equals(ps.getId());
+          }
+        }).toSortedList(PatchLineCommentsUtil.PLC_ORDER);
   }
 
   private void flushEventsToUpdate(NoteDbUpdateManager manager,

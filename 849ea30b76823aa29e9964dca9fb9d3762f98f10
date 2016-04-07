@@ -46,6 +46,30 @@
       "revId": "849ea30b76823aa29e9964dca9fb9d3762f98f10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_6bd16117",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:11:42Z",
+      "side": 1,
+      "message": "But this is another method, isn\u0027t it?",
+      "parentUuid": "ce6be468_ca088380",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 42
+      },
+      "revId": "849ea30b76823aa29e9964dca9fb9d3762f98f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

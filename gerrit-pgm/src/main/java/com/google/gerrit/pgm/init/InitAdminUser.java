@@ -43,14 +43,17 @@ import java.util.Collections;
 public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
   private final InitFlags flags;
+  private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private SchemaFactory<ReviewDb> dbFactory;
 
   @Inject
   InitAdminUser(
       InitFlags flags,
-      ConsoleUI ui) {
+      ConsoleUI ui,
+      VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory) {
     this.flags = flags;
     this.ui = ui;
+    this.authorizedKeysFactory = authorizedKeysFactory;
   }
 
   @Override
@@ -110,7 +113,10 @@ public class InitAdminUser implements InitStep {
           db.accountGroupMembers().insert(Collections.singleton(m));
 
           if (sshKey != null) {
-            db.accountSshKeys().insert(Collections.singleton(sshKey));
+            VersionedAuthorizedKeysOnInit authorizedKeys =
+                authorizedKeysFactory.create(id).load();
+            authorizedKeys.addKey(sshKey.getSshPublicKey());
+            authorizedKeys.save("Added SSH key for initial admin user\n");
           }
         }
       }

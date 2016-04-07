@@ -17,6 +17,8 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
+import java.util.Objects;
+
 /** An SSH key approved for use by an {@link Account}. */
 public final class AccountSshKey {
   public static class Id extends IntKey<Account.Id> {
@@ -128,5 +130,21 @@ public final class AccountSshKey {
 
   public void setInvalid() {
     valid = false;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof AccountSshKey) {
+      AccountSshKey other = (AccountSshKey) o;
+      return Objects.equals(id, other.id)
+          && Objects.equals(sshPublicKey, other.sshPublicKey)
+          && Objects.equals(valid, other.valid);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, sshPublicKey, valid);
   }
 }

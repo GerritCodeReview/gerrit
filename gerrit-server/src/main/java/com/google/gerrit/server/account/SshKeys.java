@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
@@ -28,22 +27,26 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
+
 @Singleton
 public class SshKeys implements
     ChildCollection<AccountResource, AccountResource.SshKey> {
   private final DynamicMap<RestView<AccountResource.SshKey>> views;
   private final GetSshKeys list;
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
+  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
   SshKeys(DynamicMap<RestView<AccountResource.SshKey>> views,
       GetSshKeys list, Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider) {
+      VersionedAuthorizedKeys.Accessor authorizedKeys) {
     this.views = views;
     this.list = list;
     this.self = self;
-    this.dbProvider = dbProvider;
+    this.authorizedKeys = authorizedKeys;
   }
 
   @Override
@@ -53,7 +56,8 @@ public class SshKeys implements
 
   @Override
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, IOException,
+      ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new ResourceNotFoundException();
@@ -62,12 +66,10 @@ public class SshKeys implements
   }
 
   public AccountResource.SshKey parse(IdentifiedUser user, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     try {
       int seq = Integer.parseInt(id.get(), 10);
-      AccountSshKey sshKey =
-          dbProvider.get().accountSshKeys()
-              .get(new AccountSshKey.Id(user.getAccountId(), seq));
+      AccountSshKey sshKey = authorizedKeys.getKey(user.getAccountId(), seq);
       if (sshKey == null) {
         throw new ResourceNotFoundException(id);
       }

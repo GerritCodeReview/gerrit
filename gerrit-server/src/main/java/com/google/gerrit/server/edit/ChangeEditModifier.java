@@ -46,6 +46,8 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
@@ -403,7 +405,7 @@ public class ChangeEditModifier {
   }
 
   private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
-      ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
+      ObjectInserter ins, RevCommit prevEdit, final ObjectReader reader,
       String fileName, @Nullable String newFile,
       @Nullable final ObjectId content) throws IOException {
     DirCache newTree = readTree(reader, prevEdit);
@@ -431,7 +433,26 @@ public class ChangeEditModifier {
             if (ent.getRawMode() == 0) {
               ent.setFileMode(FileMode.REGULAR_FILE);
             }
-            ent.setObjectId(content);
+            FileMode mode = ent.getFileMode();
+            if (FileMode.GITLINK != mode) {
+              ent.setObjectId(content);
+            } else {
+              ent.setLength(0);
+              ent.setLastModified(0);
+              try {
+                ObjectId id = ObjectId.fromString(reader.open(content).getBytes(),0);
+                ent.setObjectId(id);
+              } catch (LargeObjectException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              } catch (MissingObjectException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+            }
           }
         });
         break;

@@ -99,7 +99,8 @@ public class AliasCommand extends BaseCommand {
       try {
         cmd.destroy();
       } catch (Exception e) {
-        Throwables.propagate(e);
+        Throwables.propagateIfPossible(e);
+        throw new RuntimeException(e);
       }
     }
   }

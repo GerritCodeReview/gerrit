@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "ce6be468_0a753b96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-07T17:42:08Z",
+      "side": 1,
+      "message": "Thanks for fixing this.",
+      "parentUuid": "ce6be468_ea8227c6",
+      "revId": "e538814440b7a4ca946ba8e11deff5737fb843d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce6be468_0abf7b7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 32

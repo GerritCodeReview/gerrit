@@ -57,6 +57,7 @@ class RevisionNoteBuilder {
     }
   }
 
+  final byte[] baseRaw;
   final List<PatchLineComment> baseComments;
   final Map<PatchLineComment.Key, PatchLineComment> put;
   final Set<PatchLineComment.Key> delete;
@@ -65,10 +66,12 @@ class RevisionNoteBuilder {
 
   RevisionNoteBuilder(RevisionNote base) {
     if (base != null) {
+      baseRaw = base.raw;
       baseComments = base.comments;
       put = Maps.newHashMapWithExpectedSize(base.comments.size());
       pushCert = base.pushCert;
     } else {
+      baseRaw = new byte[0];
       baseComments = Collections.emptyList();
       put = new HashMap<>();
       pushCert = null;

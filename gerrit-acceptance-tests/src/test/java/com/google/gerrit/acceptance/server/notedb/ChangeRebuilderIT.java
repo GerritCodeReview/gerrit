@@ -17,11 +17,14 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -48,6 +51,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
@@ -91,6 +95,40 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     r = amendChange(r.getChangeId());
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void publishedComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putComment(user, id, 1, "comment");
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void draftComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment");
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void draftAndPublishedComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "draft comment");
+    putComment(user, id, 1, "published comment");
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void publishDraftComment() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "draft comment");
+    publishDrafts(user, id);
     checker.rebuildAndCheckChanges(id);
   }
 
@@ -293,6 +331,35 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     AcceptanceTestRequestScope.Context old = setApiUser(account);
     try {
       gApi.changes().id(id.get()).current().createDraft(in);
+    } finally {
+      atrScope.set(old);
+    }
+  }
+
+  private void putComment(TestAccount account, Change.Id id, int line, String msg)
+      throws Exception {
+    CommentInput in = new CommentInput();
+    in.line = line;
+    in.message = msg;
+    ReviewInput rin = new ReviewInput();
+    rin.comments = new HashMap<>();
+    rin.comments.put(PushOneCommit.FILE_NAME, ImmutableList.of(in));
+    rin.drafts = ReviewInput.DraftHandling.KEEP;
+    AcceptanceTestRequestScope.Context old = setApiUser(account);
+    try {
+      gApi.changes().id(id.get()).current().review(rin);
+    } finally {
+      atrScope.set(old);
+    }
+  }
+
+  private void publishDrafts(TestAccount account, Change.Id id)
+      throws Exception {
+    ReviewInput rin = new ReviewInput();
+    rin.drafts = ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS;
+    AcceptanceTestRequestScope.Context old = setApiUser(account);
+    try {
+      gApi.changes().id(id.get()).current().review(rin);
     } finally {
       atrScope.set(old);
     }

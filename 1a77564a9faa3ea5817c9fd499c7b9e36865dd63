@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce6be468_cadf2327",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e809c4d_4ca6ffd4",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 50
+      },
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e71e053_0db0f105",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "ce6be468_8ae92bce",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e71e053_0db0f105",
+      "range": {
+        "startLine": 107,
+        "startChar": 45,
+        "endLine": 107,
+        "endChar": 52
+      },
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_eae467f7",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e809c4d_6ca3bbc3",
+      "range": {
+        "startLine": 107,
+        "startChar": 37,
+        "endLine": 107,
+        "endChar": 40
+      },
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e71e053_6da3b5c3",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-04-07T07:37:28Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 108,
+        "startChar": 31,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7a6832_6bcc0185",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e71e053_6da3b5c3",
       "range": {
         "startLine": 108,
         "startChar": 31,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "ee7a6832_0bc9bd73",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:00:54Z",
+      "side": 1,
+      "message": "Yes, I think it is possible. But then you cannot easily add it back, so I didn\u0027t want to \"recommend\" it here. Should I remove this subsentence?",
+      "parentUuid": "2e71e053_2dadadaa",
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e809c4d_0cb0f705",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2016-04-07T07:37:28Z",
       "side": 1,
       "message": "should?",
+      "range": {
+        "startLine": 1177,
+        "startChar": 16,
+        "endLine": 1177,
+        "endChar": 21
+      },
+      "revId": "1a77564a9faa3ea5817c9fd499c7b9e36865dd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_aaee6fd1",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T08:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e809c4d_0cb0f705",
       "range": {
         "startLine": 1177,
         "startChar": 16,

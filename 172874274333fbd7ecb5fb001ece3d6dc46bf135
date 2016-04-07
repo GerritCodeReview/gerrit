@@ -118,6 +118,30 @@
       "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_4ac57309",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-07T15:11:51Z",
+      "side": 1,
+      "message": "Well, it\u0027s indirectly documented by having different sections in the document that describe capabilities and access rights separately. But good point, we should improve this documentation and make it more clear.",
+      "parentUuid": "2e71e053_2df4cd98",
+      "range": {
+        "startLine": 1173,
+        "startChar": 21,
+        "endLine": 1173,
+        "endChar": 23
+      },
+      "revId": "172874274333fbd7ecb5fb001ece3d6dc46bf135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

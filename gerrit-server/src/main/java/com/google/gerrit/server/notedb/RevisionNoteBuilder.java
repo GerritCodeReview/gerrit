@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -57,6 +56,7 @@ class RevisionNoteBuilder {
     }
   }
 
+  final byte[] baseRaw;
   final List<PatchLineComment> baseComments;
   final Map<PatchLineComment.Key, PatchLineComment> put;
   final Set<PatchLineComment.Key> delete;
@@ -65,10 +65,12 @@ class RevisionNoteBuilder {
 
   RevisionNoteBuilder(RevisionNote base) {
     if (base != null) {
+      baseRaw = base.raw;
       baseComments = base.comments;
       put = Maps.newHashMapWithExpectedSize(base.comments.size());
       pushCert = base.pushCert;
     } else {
+      baseRaw = new byte[0];
       baseComments = Collections.emptyList();
       put = new HashMap<>();
       pushCert = null;
@@ -101,7 +103,12 @@ class RevisionNoteBuilder {
 
     List<PatchLineComment> all =
         new ArrayList<>(baseComments.size() + put.size());
-    for (PatchLineComment c : Iterables.concat(baseComments, put.values())) {
+    for (PatchLineComment c : baseComments) {
+      if (!delete.contains(c.getKey()) && !put.containsKey(c.getKey())) {
+        all.add(c);
+      }
+    }
+    for (PatchLineComment c : put.values()) {
       if (!delete.contains(c.getKey())) {
         all.add(c);
       }

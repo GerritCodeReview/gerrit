@@ -144,6 +144,25 @@ public final class PatchLineComment {
     setWrittenOn(when);
   }
 
+  public PatchLineComment(PatchLineComment o) {
+    key = o.key;
+    lineNbr = o.lineNbr;
+    author = o.author;
+    writtenOn = o.writtenOn;
+    status = o.status;
+    side = o.side;
+    message = o.message;
+    parentUuid = o.parentUuid;
+    revId = o.revId;
+    if (o.range != null) {
+      range = new CommentRange(
+          o.range.getStartLine(),
+          o.range.getStartCharacter(),
+          o.range.getEndLine(),
+          o.range.getEndCharacter());
+    }
+  }
+
   public PatchLineComment.Key getKey() {
     return key;
   }

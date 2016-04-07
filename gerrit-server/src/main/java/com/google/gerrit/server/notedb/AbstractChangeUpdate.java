@@ -186,6 +186,8 @@ public abstract class AbstractChangeUpdate {
     if (cb == null) {
       result = z;
       return z; // Impl intends to delete the ref.
+    } else if (cb == NO_OP_UPDATE) {
+      return null; // Impl is a no-op.
     }
     cb.setAuthor(authorIdent);
     cb.setCommitter(new PersonIdent(serverIdent, when));
@@ -214,12 +216,16 @@ public abstract class AbstractChangeUpdate {
    *     the meta ref should be deleted as a result of this update. The parent,
    *     author, and committer fields in the return value are always
    *     overwritten. The tree ID may be unset by this method, which indicates
-   *     to the caller that it should be copied from the parent commit.
+   *     to the caller that it should be copied from the parent commit. To
+   *     indicate that this update is a no-op (but this could not be determined
+   *     by {@link #isEmpty()}), return the sentinel {@link #NO_OP_UPDATE}.
    * @throws OrmException if a Gerrit-level error occurred.
    * @throws IOException if a lower-level error occurred.
    */
   protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
       ObjectId curr) throws OrmException, IOException;
+
+  protected static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
 
   ObjectId getResult() {
     return result;

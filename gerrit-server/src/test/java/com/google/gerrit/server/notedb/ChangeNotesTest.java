@@ -15,6 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.changeRefName;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
@@ -43,7 +45,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -413,7 +414,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void emptyChangeUpdate() throws Exception {
     Change c = newChange();
-    Ref initial = repo.exactRef(ChangeNoteUtil.changeRefName(c.getId()));
+    Ref initial = repo.exactRef(changeRefName(c.getId()));
     assertThat(initial).isNotNull();
 
     // Empty update doesn't create a new commit.
@@ -421,7 +422,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     assertThat(update.getResult()).isNull();
 
-    Ref updated = repo.exactRef(ChangeNoteUtil.changeRefName(c.getId()));
+    Ref updated = repo.exactRef(changeRefName(c.getId()));
     assertThat(updated.getObjectId()).isEqualTo(initial.getObjectId());
   }
 
@@ -1625,6 +1626,62 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void addingPublishedCommentDoesNotCreateNoOpCommitOnEmptyDraftRef()
+      throws Exception {
+    Change c = newChange();
+    String uuid = "uuid";
+    String rev = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id ps1 = c.currentPatchSetId();
+    String filename = "filename1";
+    short side = (short) 1;
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    Timestamp now = TimeUtil.nowTs();
+    PatchLineComment comment = newComment(ps1, filename, uuid, range,
+        range.getEndLine(), otherUser, null, now, "comment on ps1", side,
+        rev, Status.PUBLISHED);
+    update.putComment(comment);
+    update.commit();
+
+    assertThat(repo.exactRef(changeRefName(c.getId()))).isNotNull();
+    String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
+    assertThat(exactRefAllUsers(draftRef)).isNull();
+  }
+
+  @Test
+  public void addingPublishedCommentDoesNotCreateNoOpCommitOnNonEmptyDraftRef()
+      throws Exception {
+    Change c = newChange();
+    String rev = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id ps1 = c.currentPatchSetId();
+    String filename = "filename1";
+    short side = (short) 1;
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    Timestamp now = TimeUtil.nowTs();
+    PatchLineComment draft = newComment(ps1, filename, "uuid1", range,
+        range.getEndLine(), otherUser, null, now, "draft comment on ps1", side,
+        rev, Status.DRAFT);
+    update.putComment(draft);
+    update.commit();
+
+    String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
+    ObjectId old = exactRefAllUsers(draftRef);
+    assertThat(old).isNotNull();
+
+    update = newUpdate(c, otherUser);
+    PatchLineComment pub = newComment(ps1, filename, "uuid2", range,
+        range.getEndLine(), otherUser, null, now, "comment on ps1", side,
+        rev, Status.PUBLISHED);
+    update.putComment(pub);
+    update.commit();
+
+    assertThat(exactRefAllUsers(draftRef)).isEqualTo(old);
+  }
+
+  @Test
   public void fileComment() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
@@ -1784,8 +1841,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(comment2);
     update.commit();
 
-
-    String refName = RefNames.refsDraftComments(otherUserId, c.getId());
+    String refName = refsDraftComments(otherUserId, c.getId());
     ObjectId oldDraftId = exactRefAllUsers(refName);
 
     update = newUpdate(c, otherUser);

@@ -22,6 +22,69 @@
       "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e71e053_cd08a980",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-07T13:19:33Z",
+      "side": 1,
+      "message": "How about slightly reworded:\n\n\"Apply a \u0027TAG\u0027 to the change message, votes, and inline comments. The \u0027TAG\u0027 can represent an external system like CI that does automated verification of the change. Comments with specific \u0027TAG\u0027 values can be filtered out in the web UI.\"",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 32
+      },
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e71e053_0ddeb126",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-07T13:19:33Z",
+      "side": 1,
+      "message": "I\u0027m not a huge fan of abusing Map.Entry in this way. However I think it will take some careful thought to come up with a data structure for the approvals map that is not so ugly. I think at this point it can be cleaned up in a separate change.",
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e71e053_2ddb6d37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-07T13:19:33Z",
+      "side": 1,
+      "message": "Optional: expectedOneFooter",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 25
+      },
+      "revId": "ce5e98f49de7da80e767f08cf820a8915fea9fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

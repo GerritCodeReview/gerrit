@@ -15,26 +15,39 @@
 package com.google.gerrit.sshd;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.GetSshKeys.readFromDb;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
@@ -116,10 +129,26 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final GitRepositoryManager repoManager;
+    private final Provider<AllUsersName> allUsersName;
+    private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+    private final IdentifiedUser.GenericFactory userFactory;
+    private final boolean readFromGit;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema) {
+    Loader(SchemaFactory<ReviewDb> schema,
+        GitRepositoryManager repoManager,
+        Provider<AllUsersName> allUsersName,
+        Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+        IdentifiedUser.GenericFactory userFactory,
+        @GerritServerConfig Config cfg) {
       this.schema = schema;
+      this.repoManager = repoManager;
+      this.allUsersName = allUsersName;
+      this.metaDataUpdateFactory = metaDataUpdateFactory;
+      this.userFactory = userFactory;
+      this.readFromGit =
+          cfg.getBoolean("user", null, "readSshKeysFromGit", false);
     }
 
     @Override
@@ -133,8 +162,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
         }
 
         final List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-        for (AccountSshKey k : db.accountSshKeys().byAccount(
-            user.getAccountId())) {
+        for (AccountSshKey k : readSshKeys(db, user.getAccountId())) {
           if (k.isValid()) {
             add(db, kl, k);
           }
@@ -143,6 +171,20 @@ public class SshKeyCacheImpl implements SshKeyCache {
           return NO_KEYS;
         }
         return Collections.unmodifiableList(kl);
+      }
+    }
+
+    private List<AccountSshKey> readSshKeys(ReviewDb db, Account.Id accountId)
+        throws OrmException, IOException, ConfigInvalidException {
+      if (readFromGit) {
+        try (Repository git = repoManager.openRepository(allUsersName.get())) {
+          VersionedAuthorizedKeys authorizedKeys =
+              new VersionedAuthorizedKeys(accountId);
+          authorizedKeys.load(git);
+          return authorizedKeys.getKeys();
+        }
+      } else {
+        return db.accountSshKeys().byAccount(accountId).toList();
       }
     }
 
@@ -159,12 +201,24 @@ public class SshKeyCacheImpl implements SshKeyCache {
       }
     }
 
-    private void markInvalid(final ReviewDb db, final AccountSshKey k) {
+    private void markInvalid(ReviewDb db, AccountSshKey k) {
       try {
         log.info("Flagging SSH key " + k.getKey() + " invalid");
+
         k.setInvalid();
         db.accountSshKeys().update(Collections.singleton(k));
-      } catch (OrmException e) {
+
+        List<AccountSshKey> keys = readFromDb(db, k.getAccount());
+        try (MetaDataUpdate md = metaDataUpdateFactory.get()
+                .create(allUsersName.get(), userFactory.create(k.getAccount()));
+            Repository git = repoManager.openRepository(allUsersName.get())) {
+          VersionedAuthorizedKeys authorizedKeys =
+              new VersionedAuthorizedKeys(k.getAccount());
+          authorizedKeys.load(md);
+          authorizedKeys.setKeys(keys);
+          authorizedKeys.commit(md);
+        }
+      } catch (OrmException | IOException | ConfigInvalidException e) {
         log.error("Failed to mark SSH key" + k.getKey() + " invalid", e);
       }
     }

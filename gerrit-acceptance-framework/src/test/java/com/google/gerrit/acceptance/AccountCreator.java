@@ -24,20 +24,31 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,18 +58,32 @@ import java.util.Map;
 public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-  private GroupCache groupCache;
-  private SshKeyCache sshKeyCache;
-  private AccountCache accountCache;
-  private AccountByEmailCache byEmailCache;
+  private final SchemaFactory<ReviewDb> reviewDbProvider;
+  private final GitRepositoryManager repoManager;
+  private final Provider<AllUsersName> allUsersName;
+  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final GroupCache groupCache;
+  private final SshKeyCache sshKeyCache;
+  private final AccountCache accountCache;
+  private final AccountByEmailCache byEmailCache;
 
   @Inject
-  AccountCreator(SchemaFactory<ReviewDb> schema, GroupCache groupCache,
-      SshKeyCache sshKeyCache, AccountCache accountCache,
+  AccountCreator(SchemaFactory<ReviewDb> schema,
+      GitRepositoryManager repoManager,
+      Provider<AllUsersName> allUsersName,
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      GroupCache groupCache,
+      SshKeyCache sshKeyCache,
+      AccountCache accountCache,
       AccountByEmailCache byEmailCache) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
+    this.repoManager = repoManager;
+    this.allUsersName = allUsersName;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.userFactory = userFactory;
     this.groupCache = groupCache;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
@@ -66,17 +91,15 @@ public class AccountCreator {
   }
 
   public synchronized TestAccount create(String username, String email,
-      String fullName, String... groups)
-      throws OrmException, UnsupportedEncodingException, JSchException {
+      String fullName, String... groups) throws OrmException, JSchException,
+          RepositoryNotFoundException, IOException, ConfigInvalidException {
     TestAccount account = accounts.get(username);
     if (account != null) {
       return account;
     }
     try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
-      KeyPair sshKey = genSshKey();
-      AccountSshKey key =
-          new AccountSshKey(new AccountSshKey.Id(id, 1), publicKey(sshKey, email));
+
       AccountExternalId extUser =
           new AccountExternalId(id, new AccountExternalId.Key(
               AccountExternalId.SCHEME_USERNAME, username));
@@ -95,8 +118,6 @@ public class AccountCreator {
       a.setPreferredEmail(email);
       db.accounts().insert(Collections.singleton(a));
 
-      db.accountSshKeys().insert(Collections.singleton(key));
-
       if (groups != null) {
         for (String n : groups) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
@@ -107,7 +128,9 @@ public class AccountCreator {
         }
       }
 
-      sshKeyCache.evict(username);
+      KeyPair sshKey = genSshKey();
+      addSshKey(db, id, username, email, sshKey);
+
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
 
@@ -118,35 +141,57 @@ public class AccountCreator {
     }
   }
 
+  private void addSshKey(ReviewDb db, Account.Id id, String username,
+      String email, KeyPair sshKey)
+          throws OrmException, IOException, ConfigInvalidException {
+    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(id, 1),
+        publicKey(sshKey, email));
+
+    db.accountSshKeys().insert(Collections.singleton(key));
+
+    try (
+        MetaDataUpdate md = metaDataUpdateFactory.get()
+            .create(allUsersName.get(), userFactory.create(id));
+        Repository git = repoManager.openRepository(allUsersName.get())) {
+      VersionedAuthorizedKeys authorizedKeys = new VersionedAuthorizedKeys(id);
+      authorizedKeys.load(md);
+      authorizedKeys.addKey(key.getSshPublicKey());
+      authorizedKeys.commit(md);
+    }
+
+    sshKeyCache.evict(username);
+  }
+
   public TestAccount create(String username, String group)
-      throws OrmException, UnsupportedEncodingException, JSchException {
+      throws OrmException, JSchException, RepositoryNotFoundException,
+      IOException, ConfigInvalidException {
     return create(username, null, username, group);
   }
 
-  public TestAccount create(String username)
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount create(String username) throws OrmException, JSchException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     return create(username, null, username, (String[]) null);
   }
 
-  public TestAccount admin()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount admin() throws OrmException, JSchException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     return create("admin", "admin@example.com", "Administrator",
       "Administrators");
   }
 
-  public TestAccount admin2()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount admin2() throws OrmException, JSchException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     return create("admin2", "admin2@example.com", "Administrator2",
       "Administrators");
   }
 
-  public TestAccount user()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount user() throws OrmException, JSchException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     return create("user", "user@example.com", "User");
   }
 
-  public TestAccount user2()
-      throws UnsupportedEncodingException, OrmException, JSchException {
+  public TestAccount user2() throws OrmException, JSchException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     return create("user2", "user2@example.com", "User2");
   }
 
@@ -169,6 +214,6 @@ public class AccountCreator {
       throws UnsupportedEncodingException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePublicKey(out, comment);
-    return out.toString(US_ASCII.name());
+    return out.toString(US_ASCII.name()).trim();
   }
 }

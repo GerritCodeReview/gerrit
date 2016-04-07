@@ -39,6 +39,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateAccount.Input;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -48,7 +51,10 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,6 +79,10 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final ReviewDb db;
   private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
+  private final GitRepositoryManager repoManager;
+  private final Provider<AllUsersName> allUsersName;
+  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
@@ -82,15 +92,27 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final AuditService auditService;
 
   @Inject
-  CreateAccount(ReviewDb db, Provider<IdentifiedUser> currentUser,
-      GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
-      AccountCache accountCache, AccountByEmailCache byEmailCache,
+  CreateAccount(ReviewDb db,
+      Provider<IdentifiedUser> currentUser,
+      GroupsCollection groupsCollection,
+      GitRepositoryManager repoManager,
+      Provider<AllUsersName> allUsersName,
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      SshKeyCache sshKeyCache,
+      AccountCache accountCache,
+      AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
-      @Assisted String username, AuditService auditService) {
+      @Assisted String username,
+      AuditService auditService) {
     this.db = db;
     this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
+    this.repoManager = repoManager;
+    this.allUsersName = allUsersName;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.userFactory = userFactory;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
@@ -103,7 +125,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   @Override
   public Response<AccountInfo> apply(TopLevelResource rsrc, Input input)
       throws BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, OrmException {
+      UnprocessableEntityException, OrmException, IOException,
+      ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }
@@ -178,10 +201,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     a.setPreferredEmail(input.email);
     db.accounts().insert(Collections.singleton(a));
 
-    if (key != null) {
-      db.accountSshKeys().insert(Collections.singleton(key));
-    }
-
     for (AccountGroup.Id groupId : groups) {
       AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
@@ -190,7 +209,10 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
-    sshKeyCache.evict(username);
+    if (key != null) {
+      addSshKey(db, key, username);
+    }
+
     accountCache.evictByUsername(username);
     byEmailCache.evict(input.email);
 
@@ -198,6 +220,23 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     AccountInfo info = loader.get(id);
     loader.fill();
     return Response.created(info);
+  }
+
+  private void addSshKey(ReviewDb db, AccountSshKey key, String username)
+      throws OrmException, IOException, ConfigInvalidException {
+    db.accountSshKeys().insert(Collections.singleton(key));
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.get()
+            .create(allUsersName.get(), userFactory.create(key.getAccount()));
+        Repository git = repoManager.openRepository(allUsersName.get())) {
+      VersionedAuthorizedKeys authorizedKeys =
+          new VersionedAuthorizedKeys(key.getAccount());
+      authorizedKeys.load(md);
+      authorizedKeys.addKey(key.getSshPublicKey());
+      authorizedKeys.commit(md);
+    }
+
+    sshKeyCache.evict(username);
   }
 
   private Set<AccountGroup.Id> parseGroups(List<String> groups)

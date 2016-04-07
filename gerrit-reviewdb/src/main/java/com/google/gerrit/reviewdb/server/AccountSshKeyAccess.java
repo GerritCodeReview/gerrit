@@ -30,7 +30,4 @@ public interface AccountSshKeyAccess extends
 
   @Query("WHERE id.accountId = ?")
   ResultSet<AccountSshKey> byAccount(Account.Id id) throws OrmException;
-
-  @Query("WHERE id.accountId = ? ORDER BY id.seq DESC LIMIT 1")
-  ResultSet<AccountSshKey> byAccountLast(Account.Id id) throws OrmException;
 }

@@ -22,6 +22,30 @@
       "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce6be468_eae6a78d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-07T22:14:16Z",
+      "side": 1,
+      "message": "+1. Restricting to the ranges would significantly reduce the visual noise. Another improvement would be the ability to jump to the linked change, like the gitiles currently does in blame ranges:\n\n  \"link:89773d8 2015-12-23 13:50:29 +0100 link:[diff] link:[blame]\"",
+      "parentUuid": "ce6be468_6a2637ac",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

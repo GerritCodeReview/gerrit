@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e90d4ca_be96796a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-08T05:34:40Z",
+      "side": 1,
+      "message": "Can\u0027t we assume, that the version always contains this string and left it out in the maven_jar() call and append it in the implementation?",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "bcbe336888c704aeabca77cc8bd4dc0872908379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

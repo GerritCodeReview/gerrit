@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "8e864c95_00a1c6bb",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/TickerTimeProvider.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-08T05:27:48Z",
+      "side": 1,
+      "message": "The code was written in 2014 (see the author date on the commit).",
+      "parentUuid": "ce6be468_caa72382",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "f1c1cb8973c2b89ad9301b2ae07e0d2f2aa20b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7a6832_4b17c56d",
         "filename": "gerrit-cache-h2/src/test/java/com/google/gerrit/server/cache/h2/TickerTimeProviderTest.java",
         "patchSetId": 18

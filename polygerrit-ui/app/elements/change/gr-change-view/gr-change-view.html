@@ -36,14 +36,12 @@ limitations under the License.
 <dom-module id="gr-change-view">
   <template>
     <style>
-      .container {
-        margin: 1em var(--default-horizontal-margin);
-      }
       .container:not(.loading) {
         background-color: var(--view-background-color);
       }
       .container.loading {
         color: #666;
+        padding: 1em var(--default-horizontal-margin);
       }
       .headerContainer {
         height: 4.1em;
@@ -63,7 +61,7 @@ limitations under the License.
         position: fixed;
         top: 0;
         transition: box-shadow 250ms linear;
-        width: calc(100% - (2 * var(--default-horizontal-margin)));
+        width: 100%;
       }
       .header-title {
         flex: 1;
@@ -145,27 +143,16 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin);
       }
       @media screen and (max-width: 50em) {
-        .container {
-          margin: .5em 0 !important;
-        }
-        .container.loading {
-          margin: 1em var(--default-horizontal-margin) !important;
-        }
         .headerContainer {
           height: 5.15em;
         }
         .header {
           align-items: flex-start;
           flex-direction: column;
-          padding: .5em var(--default-horizontal-margin) !important;
+          padding: .5em var(--default-horizontal-margin);
         }
         gr-change-star {
           vertical-align: middle;
-        }
-        .header-title,
-        .header-actions,
-        .header.pinned {
-          width: 100% !important;
         }
         .header-title {
           font-size: 1.1em;
@@ -184,15 +171,15 @@ limitations under the License.
           display: none;
         }
         .patchSelectLabel {
-          margin-left: 0 !important;
+          margin-left: 0;
           margin-right: .5em;
         }
         .header select {
-          margin-left: 0 !important;
+          margin-left: 0;
           margin-right: .5em;
         }
         .header .reply {
-          margin-left: 0 !important;
+          margin-left: 0;
           margin-right: .5em;
         }
         .changeInfo-column:not(:last-of-type) {

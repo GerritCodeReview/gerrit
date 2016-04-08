@@ -25,12 +25,10 @@ limitations under the License.
       :host {
         background-color: var(--view-background-color);
         display: block;
-        margin: 0 var(--default-horizontal-margin);
       }
       .loading,
       .error {
-        margin-top: 1em;
-        background-color: #f1f2f3;
+        padding: 1em var(--default-horizontal-margin);
       }
       .loading {
         color: #666;
@@ -39,11 +37,9 @@ limitations under the License.
         color: #D32F2F;
       }
       gr-change-list {
-        margin-top: 1em;
         width: 100%;
       }
       nav {
-        margin-bottom: 1em;
         padding: .5em 0;
         text-align: center;
       }
@@ -54,9 +50,6 @@ limitations under the License.
         margin-right: .5em;
       }
       @media only screen and (max-width: 50em) {
-        :host {
-          margin: 0;
-        }
         .loading,
         .error {
           padding: 0 var(--default-horizontal-margin);

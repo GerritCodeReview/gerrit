@@ -43,9 +43,14 @@ limitations under the License.
       }
       gr-main-header,
       footer {
-        background-color: var(--primary-color);
         color: var(--primary-text-color);
         padding: .5rem var(--default-horizontal-margin);
+      }
+      gr-main-header {
+        background-color: var(--header-background-color, #eee);
+      }
+      footer {
+        background-color: var(--footer-background-color, #eee);
       }
       main {
         flex: 1;

@@ -39,6 +39,65 @@
       "revId": "75682c4b677db37a862a8fb6d1e8a8220bbd56a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce7cc459_622d36d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T14:43:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e864c95_40faee88",
+      "revId": "75682c4b677db37a862a8fb6d1e8a8220bbd56a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce7cc459_822a3aba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T14:43:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e90d4ca_7e2a31bd",
+      "range": {
+        "startLine": 49,
+        "startChar": 52,
+        "endLine": 49,
+        "endChar": 67
+      },
+      "revId": "75682c4b677db37a862a8fb6d1e8a8220bbd56a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce7cc459_c288c217",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T14:43:12Z",
+      "side": 1,
+      "message": "now that this is a globally available auto merger we must not assume that the headers of the \"merge\" commit are parsed.",
+      "revId": "75682c4b677db37a862a8fb6d1e8a8220bbd56a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

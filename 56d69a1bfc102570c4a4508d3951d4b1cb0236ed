@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e864c95_60f7f29f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-08T13:36:42Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this is fine but I have a slight worry that the commit that comes back from merge() needs its headers parsed so that this doesn\u0027t return null. Do we have test coverage of this line?",
+      "revId": "56d69a1bfc102570c4a4508d3951d4b1cb0236ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae7f904b_41faf288",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-08T13:36:42Z",
+      "side": 1,
+      "message": "Did you want to set a message here?",
+      "revId": "56d69a1bfc102570c4a4508d3951d4b1cb0236ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

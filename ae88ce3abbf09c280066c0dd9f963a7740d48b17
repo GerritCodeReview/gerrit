@@ -34,6 +34,24 @@
       "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e90d4ca_feb9e1ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-08T05:53:41Z",
+      "side": 1,
+      "message": "Well, at least I re-used the code in this patch et: [1] to achieve just that: fetch snapshot artifacts from the Maven Central. I\u0027, fine with letting this change as is.\n\n* [1] https://gerrit-review.googlesource.com/#/c/67921/1",
+      "parentUuid": "8e864c95_40a3cec2",
+      "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

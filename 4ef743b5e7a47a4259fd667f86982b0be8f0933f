@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce7cc459_02ef0ad0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-08T08:04:24Z",
+      "side": 1,
+      "message": "Should this be Status.PUBLISHED?",
+      "range": {
+        "startLine": 1677,
+        "startChar": 13,
+        "endLine": 1677,
+        "endChar": 25
+      },
+      "revId": "4ef743b5e7a47a4259fd667f86982b0be8f0933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e90d4ca_5ef7359f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-08T08:04:24Z",
+      "side": 1,
+      "message": "isEqualTo?\n\nThe test name suggests that we don\u0027t expect a (NoOp) update of this ref.",
+      "range": {
+        "startLine": 1681,
+        "startChar": 43,
+        "endLine": 1681,
+        "endChar": 55
+      },
+      "revId": "4ef743b5e7a47a4259fd667f86982b0be8f0933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

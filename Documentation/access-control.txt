@@ -99,21 +99,14 @@ Gerrit comes with two predefined groups:
 [[administrators]]
 === Administrators
 
-This is the Gerrit "root" identity. The capability
-link:access-control.html#capability_administrateServer['Administrate Server']
-is assigned to this predefined group on Gerrit site creation.
+This is a predefined group, created on Gerrit site initialization, that
+has the capability link:access-control.html#capability_administrateServer[
+'Administrate Server'] assigned.
 
-Users in the 'Administrators' group can perform any action under
-the Admin menu, to any group or project, without further validation
-or any other access controls.  In most installations only those
-users who have direct filesystem and database access would be
-placed into this group.
-
-Membership in the 'Administrators' group does not imply any other
-access rights.  Administrators do not automatically get code review
-approval or submit rights in projects.  This is a feature designed
-to permit administrative users to otherwise access Gerrit as any
-other normal user would, without needing two different accounts.
+It is a normal Gerrit group without magic. This means if you remove
+the 'Administrate Server' capability from it, its members are no longer
+Gerrit administrators, despite the group name. The group may also be
+renamed.
 
 
 [[non-interactive_users]]
@@ -1175,9 +1168,18 @@ review metadata refs in repositories.
 === Administrate Server
 
 This is in effect the owner and administrator role of the Gerrit
-instance.  Any members of a group granted this capability will be
+instance. Any members of a group granted this capability will be
 able to grant any access right to any group. They will also have all
 capabilities granted to them automatically.
+
+In most installations only those users who have direct filesystem and
+database access should be granted this capability.
+
+This capability does not imply any other access rights. Users that have
+this capability do not automatically get code review approval or submit
+rights in projects. This is a feature designed to permit administrative
+users to otherwise access Gerrit as any other normal user would,
+without needing two different accounts.
 
 
 [[capability_batchChangesLimit]]

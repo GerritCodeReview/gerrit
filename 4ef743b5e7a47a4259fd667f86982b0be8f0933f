@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e864c95_c088be17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-08T23:51:14Z",
+      "side": 1,
+      "message": "This should be draftNotes.getRevisionNoteMap(), this was a copy-pase error I believe. The new code triggers this codepath in tests, fortunately.",
+      "revId": "4ef743b5e7a47a4259fd667f86982b0be8f0933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce7cc459_02ef0ad0",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1
@@ -25,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "8e864c95_802a36ba",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-08T23:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce7cc459_02ef0ad0",
+      "range": {
+        "startLine": 1677,
+        "startChar": 13,
+        "endLine": 1677,
+        "endChar": 25
+      },
+      "revId": "4ef743b5e7a47a4259fd667f86982b0be8f0933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e90d4ca_5ef7359f",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1
@@ -36,6 +77,30 @@
       "writtenOn": "2016-04-08T08:04:24Z",
       "side": 1,
       "message": "isEqualTo?\n\nThe test name suggests that we don\u0027t expect a (NoOp) update of this ref.",
+      "range": {
+        "startLine": 1681,
+        "startChar": 43,
+        "endLine": 1681,
+        "endChar": 55
+      },
+      "revId": "4ef743b5e7a47a4259fd667f86982b0be8f0933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_a083bafa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-08T23:51:14Z",
+      "side": 1,
+      "message": "Done. Amusingly these two bugs canceled each other out.",
+      "parentUuid": "4e90d4ca_5ef7359f",
       "range": {
         "startLine": 1681,
         "startChar": 43,

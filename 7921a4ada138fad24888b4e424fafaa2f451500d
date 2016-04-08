@@ -118,6 +118,30 @@
       "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e809c4d_ccd98f15",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Extras.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-08T00:46:28Z",
+      "side": 1,
+      "message": "Thanks. If some users have strong opinion we can add this as a diff preference in the future, but I doubt there will be any.",
+      "parentUuid": "ce6be468_6af3974d",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 11
+      },
+      "revId": "7921a4ada138fad24888b4e424fafaa2f451500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

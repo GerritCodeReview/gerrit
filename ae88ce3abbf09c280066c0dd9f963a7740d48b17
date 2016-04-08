@@ -16,6 +16,24 @@
       "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_40a3cec2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-08T05:43:01Z",
+      "side": 1,
+      "message": "This is removed because it\u0027s not needed.  We don\u0027t (as far as I know) build our own snapshots any more and host them on the Google bucket.\n\nThe following change is a separate feature, to support snapshots off the Maven repo.\n\nHaving said that, it might make it easier to review if I squash them?",
+      "parentUuid": "ce7cc459_22a6ced3",
+      "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

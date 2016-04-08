@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce7cc459_22a6ced3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-08T05:35:38Z",
+      "side": 1,
+      "message": "Mention here, that this approach will be replaced with dedciated repository? I was confused why this is removed, before i saw that it\u0027s replaced with different approach in the follow-up change.",
+      "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

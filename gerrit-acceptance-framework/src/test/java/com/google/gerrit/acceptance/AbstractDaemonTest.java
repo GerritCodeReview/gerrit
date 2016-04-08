@@ -617,6 +617,10 @@ public abstract class AbstractDaemonTest {
     projectCache.evict(cfg.getProject());
   }
 
+  protected void saveProjectConfig(ProjectConfig cfg) throws Exception {
+    saveProjectConfig(project, cfg);
+  }
+
   protected void grant(String permission, Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     grant(permission, project, ref, false);

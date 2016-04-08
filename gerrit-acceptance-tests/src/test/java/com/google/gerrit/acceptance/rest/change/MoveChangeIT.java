@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
@@ -239,12 +238,6 @@ public class MoveChangeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("Move not permitted");
     move(r.getChangeId(), newBranch.get());
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      cfg.commit(md);
-    }
   }
 
   private void move(int changeNum, String destination)

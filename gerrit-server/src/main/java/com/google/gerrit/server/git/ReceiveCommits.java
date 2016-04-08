@@ -193,6 +193,11 @@ public class ReceiveCommits {
       "Please read the documentation and contact an administrator\n"
           + "if you feel the configuration is incorrect";
 
+  private static final String SAME_CHANGE_ID_IN_MULTIPLE_CHANGES =
+      "same Change-Id in multiple changes.\n"
+          + "Squash the commits with the same Change-Id or "
+          + "ensure Change-Ids are unique for each commit";
+
   private enum Error {
         CONFIG_UPDATE("You are not allowed to perform this operation.\n"
         + "Configuration changes can only be pushed by project owners\n"
@@ -1590,7 +1595,7 @@ public class ReceiveCommits {
 
       for (ChangeLookup p : pending) {
         if (newChangeIds.contains(p.changeKey)) {
-          reject(magicBranch.cmd, "squash commits first");
+          reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
           newChanges = Collections.emptyList();
           return;
         }
@@ -1991,7 +1996,7 @@ public class ReceiveCommits {
         // very common error due to users making a new commit rather than
         // amending when trying to address review comments.
         if (rp.getRevWalk().isMergedInto(prior, newCommit)) {
-          reject(inputCommand, "squash commits first");
+          reject(inputCommand, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
           return false;
         }
       }

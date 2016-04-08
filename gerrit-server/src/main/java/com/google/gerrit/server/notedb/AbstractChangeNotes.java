@@ -125,8 +125,7 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
-        Repository repo =
-            args.repoManager.openMetadataRepository(getProjectName());
+        Repository repo = args.repoManager.openRepository(getProjectName());
         LoadHandle handle = openHandle(repo)) {
       revision = handle.id();
       onLoad(handle);
@@ -155,8 +154,7 @@ public abstract class AbstractChangeNotes<T> {
     } else if (!args.migration.enabled()) {
       return null;
     }
-    try (Repository repo =
-        args.repoManager.openMetadataRepository(getProjectName())) {
+    try (Repository repo = args.repoManager.openRepository(getProjectName())) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());
       return ref != null ? ref.getObjectId() : null;
     } catch (IOException e) {

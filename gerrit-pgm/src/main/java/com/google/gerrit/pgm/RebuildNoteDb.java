@@ -133,8 +133,7 @@ public class RebuildNoteDb extends SiteProgram {
         getChangesByProject();
     AtomicBoolean ok = new AtomicBoolean(true);
     Stopwatch sw = Stopwatch.createStarted();
-    try (Repository allUsersRepo =
-        repoManager.openMetadataRepository(allUsersName)) {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
       for (Project.NameKey project : changesByProject.keySet()) {
         try {

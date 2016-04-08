@@ -160,7 +160,7 @@ public class RepoSequenceTest {
 
   @Test
   public void failOnWrongType() throws Exception {
-    try (Repository repo = repoManager.openMetadataRepository(project)) {
+    try (Repository repo = repoManager.openRepository(project)) {
       TestRepository<Repository> tr = new TestRepository<>(repo);
       tr.branch(RefNames.REFS_SEQUENCES + "id").commit().create();
       try {
@@ -206,7 +206,7 @@ public class RepoSequenceTest {
 
   private ObjectId writeBlob(String sequenceName, String value) {
     String refName = RefNames.REFS_SEQUENCES + sequenceName;
-    try (Repository repo = repoManager.openMetadataRepository(project);
+    try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = repo.newObjectInserter()) {
       ObjectId newId = ins.insert(OBJ_BLOB, value.getBytes(UTF_8));
       ins.flush();
@@ -222,7 +222,7 @@ public class RepoSequenceTest {
 
   private String readBlob(String sequenceName) throws Exception {
     String refName = RefNames.REFS_SEQUENCES + sequenceName;
-    try (Repository repo = repoManager.openMetadataRepository(project);
+    try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       ObjectId id = repo.exactRef(refName).getObjectId();
       return new String(rw.getObjectReader().open(id).getCachedBytes(), UTF_8);

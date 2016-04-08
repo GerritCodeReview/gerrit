@@ -311,7 +311,7 @@ public class PatchLineCommentsUtil {
 
   public void deleteAllDraftsFromAllUsers(Change.Id changeId)
       throws IOException {
-    try (Repository repo = repoManager.openMetadataRepository(allUsers);
+    try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
       for (Ref ref : getDraftRefs(repo, changeId).values()) {
@@ -373,7 +373,7 @@ public class PatchLineCommentsUtil {
   }
 
   private Set<String> getRefNamesAllUsers(String prefix) throws OrmException {
-    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefDatabase refDb = repo.getRefDatabase();
       return refDb.getRefs(prefix).keySet();
     } catch (IOException e) {
@@ -383,7 +383,7 @@ public class PatchLineCommentsUtil {
 
   public Map<String, Ref> getDraftRefs(Change.Id changeId)
       throws OrmException {
-    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
       return getDraftRefs(repo, changeId);
     } catch (IOException e) {
       throw new OrmException(e);

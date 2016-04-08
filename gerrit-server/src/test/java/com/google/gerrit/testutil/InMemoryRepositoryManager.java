@@ -89,12 +89,6 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public synchronized Repo openMetadataRepository(
-      Project.NameKey name) throws RepositoryNotFoundException {
-    return openRepository(name);
-  }
-
-  @Override
   public synchronized SortedSet<Project.NameKey> list() {
     SortedSet<Project.NameKey> names = Sets.newTreeSet();
     for (DfsRepository repo : repos.values()) {

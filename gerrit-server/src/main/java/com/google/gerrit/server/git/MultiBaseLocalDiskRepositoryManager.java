@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -48,9 +47,8 @@ public class MultiBaseLocalDiskRepositoryManager extends
   @Inject
   MultiBaseLocalDiskRepositoryManager(SitePaths site,
       @GerritServerConfig Config cfg,
-      NotesMigration notesMigration,
       RepositoryConfig config) {
-    super(site, cfg, notesMigration);
+    super(site, cfg);
     this.config = config;
 
     for (Path alternateBasePath : config.getAllBasePaths()) {

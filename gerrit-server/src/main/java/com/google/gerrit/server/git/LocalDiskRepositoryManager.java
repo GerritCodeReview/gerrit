@@ -14,16 +14,12 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Preconditions.checkState;
-
-import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -124,23 +120,17 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   }
 
   private final Path basePath;
-  private final NotesMigration notesMigration;
-  private final Path noteDbPath;
   private final Lock namesUpdateLock;
   private volatile SortedSet<Project.NameKey> names = new TreeSet<>();
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site,
-      @GerritServerConfig Config cfg,
-      NotesMigration notesMigration) {
-    this.notesMigration = notesMigration;
+      @GerritServerConfig Config cfg) {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
 
-    noteDbPath = site.resolve(MoreObjects.firstNonNull(
-        cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     namesUpdateLock = new ReentrantLock(true /* fair */);
   }
 
@@ -213,15 +203,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   @Override
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
-    Repository repo = createRepository(getBasePath(name), name);
-    if (notesMigration.writeChanges() && !noteDbPath.equals(basePath)) {
-      createRepository(noteDbPath, name);
-    }
-    return repo;
-  }
-
-  private Repository createRepository(Path path, Project.NameKey name)
-      throws RepositoryNotFoundException, RepositoryCaseMismatchException {
+    Path path = getBasePath(name);
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
@@ -273,17 +255,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
       e2 = new RepositoryNotFoundException("Cannot create repository " + name);
       e2.initCause(e1);
       throw e2;
-    }
-  }
-
-  @Override
-  public Repository openMetadataRepository(Project.NameKey name)
-      throws RepositoryNotFoundException, IOException {
-    checkState(notesMigration.readChanges(), "NoteDb disabled");
-    try {
-      return openRepository(noteDbPath, name);
-    } catch (RepositoryNotFoundException e) {
-      return createRepository(noteDbPath, name);
     }
   }
 

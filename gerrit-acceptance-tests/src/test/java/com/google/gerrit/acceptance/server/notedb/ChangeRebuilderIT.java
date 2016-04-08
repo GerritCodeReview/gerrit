@@ -256,7 +256,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   private void assertChangeUpToDate(boolean expected, Change.Id id)
       throws Exception {
-    try (Repository repo = repoManager.openMetadataRepository(project)) {
+    try (Repository repo = repoManager.openRepository(project)) {
       Change c = unwrapDb().changes().get(id);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
@@ -267,7 +267,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   private void assertDraftsUpToDate(boolean expected, Change.Id changeId,
       TestAccount account) throws Exception {
-    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
       Change c = unwrapDb().changes().get(changeId);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
@@ -278,7 +278,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   private ObjectId getMetaRef(Project.NameKey p, String name) throws Exception {
-    try (Repository repo = repoManager.openMetadataRepository(p)) {
+    try (Repository repo = repoManager.openRepository(p)) {
       Ref ref = repo.exactRef(name);
       return ref != null ? ref.getObjectId() : null;
     }

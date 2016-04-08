@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eea6e826_eb9bf190",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-08T04:08:18Z",
+      "side": 1,
+      "message": "Now, that https://gwt-review.googlesource.com/7857 was merged, we can drop this fork altogether. Unfortunately there wasn\u0027t any further rc released yet.",
+      "revId": "05d4b99cdca4939072bcf7ecbb971bba0facfa36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

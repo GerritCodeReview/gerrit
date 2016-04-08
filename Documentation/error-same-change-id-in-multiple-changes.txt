@@ -1,4 +1,4 @@
-= squash commits first
+= same Change-Id in multiple changes
 
 With this error message Gerrit rejects to push a commit if it
 contains the same Change-Id as a predecessor commit.
@@ -50,8 +50,10 @@ than two commits that have the same Change-Id).
   Writing objects: 100% (6/6), 558 bytes, done.
   Total 6 (delta 0), reused 0 (delta 0)
   To ssh://JohnDoe@host:29418/myProject
-   ! [remote rejected] HEAD -> refs/for/master (squash commits first)
+  ! [remote rejected] HEAD -> refs/for/master (same Change-Id in multiple changes.
+  Squash the commits with the same Change-Id or ensure Change-Ids are unique for each commit)
   error: failed to push some refs to 'ssh://JohnDoe@host:29418/myProject'
+
 ----
 
 If it was the intention to rework a change and push a new patch

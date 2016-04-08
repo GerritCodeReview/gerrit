@@ -16,6 +16,29 @@
       "revId": "75682c4b677db37a862a8fb6d1e8a8220bbd56a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e90d4ca_7e2a31bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T13:59:05Z",
+      "side": 1,
+      "message": "Should be AutoMerger",
+      "range": {
+        "startLine": 49,
+        "startChar": 52,
+        "endLine": 49,
+        "endChar": 67
+      },
+      "revId": "75682c4b677db37a862a8fb6d1e8a8220bbd56a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

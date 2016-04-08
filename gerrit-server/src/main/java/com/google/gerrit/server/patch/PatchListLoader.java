@@ -353,11 +353,6 @@ public class PatchListLoader implements Callable<PatchList> {
 
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
       ThreeWayMergeStrategy mergeStrategy) throws IOException {
-    return automerge(repo, rw, b, mergeStrategy, true);
-  }
-
-  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
-      ThreeWayMergeStrategy mergeStrategy, boolean save) throws IOException {
     String hash = b.name();
     String refName = RefNames.REFS_CACHE_AUTOMERGE
         + hash.substring(0, 2)
@@ -480,12 +475,10 @@ public class PatchListLoader implements Callable<PatchList> {
       }
       ins.flush();
 
-      if (save) {
-        RefUpdate update = repo.updateRef(refName);
-        update.setNewObjectId(treeId);
-        update.disableRefLog();
-        update.forceUpdate();
-      }
+      RefUpdate update = repo.updateRef(refName);
+      update.setNewObjectId(treeId);
+      update.disableRefLog();
+      update.forceUpdate();
 
       return rw.lookupTree(treeId);
     }

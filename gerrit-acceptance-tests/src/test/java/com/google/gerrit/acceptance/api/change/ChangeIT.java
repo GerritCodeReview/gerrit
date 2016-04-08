@@ -1074,7 +1074,7 @@ public class ChangeIT extends AbstractDaemonTest {
     pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
         "b.txt", "4711", r.getChangeId()).to("refs/for/master").assertOkStatus();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    try (Repository repo = repoManager.openMetadataRepository(project);
+    try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commitPatchSetCreation = rw.parseCommit(
           repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))

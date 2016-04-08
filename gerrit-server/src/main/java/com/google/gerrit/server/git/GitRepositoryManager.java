@@ -62,23 +62,6 @@ public interface GitRepositoryManager {
       throws RepositoryCaseMismatchException, RepositoryNotFoundException,
       IOException;
 
-  /**
-   * Open the repository storing metadata for the given project.
-   * <p>
-   * This includes any project-specific metadata <em>except</em> what is stored
-   * in {@code refs/meta/config}. Implementations may choose to store all
-   * metadata in the original project.
-   *
-   * @param name the base project name name.
-   * @return the cached metadata Repository instance. Caller must call
-   *         {@code close()} when done to decrement the resource handle.
-   * @throws RepositoryNotFoundException the name does not denote an existing
-   *         repository.
-   * @throws IOException the name cannot be read as a repository.
-   */
-  Repository openMetadataRepository(Project.NameKey name)
-      throws RepositoryNotFoundException, IOException;
-
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();
 

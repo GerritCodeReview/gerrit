@@ -87,7 +87,7 @@ public class StarredChangesUtil {
     if (!migration.writeAccounts()) {
       return;
     }
-    try (Repository repo = repoManager.openMetadataRepository(allUsers);
+    try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(
           RefNames.refsStarredChanges(accountId, changeId));
@@ -136,7 +136,7 @@ public class StarredChangesUtil {
     if (!migration.writeAccounts()) {
       return;
     }
-    try (Repository repo = repoManager.openMetadataRepository(allUsers);
+    try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(
           RefNames.refsStarredChanges(accountId, changeId));
@@ -174,7 +174,7 @@ public class StarredChangesUtil {
     if (!migration.writeAccounts()) {
       return;
     }
-    try (Repository repo = repoManager.openMetadataRepository(allUsers);
+    try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
       batchUpdate.setAllowNonFastForwards(true);
@@ -251,7 +251,7 @@ public class StarredChangesUtil {
   }
 
   private Set<String> getRefNames(String prefix) throws OrmException {
-    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefDatabase refDb = repo.getRefDatabase();
       return refDb.getRefs(prefix).keySet();
     } catch (IOException e) {

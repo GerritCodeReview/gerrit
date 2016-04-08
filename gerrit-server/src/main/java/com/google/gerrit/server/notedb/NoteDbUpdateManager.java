@@ -161,26 +161,24 @@ public class NoteDbUpdateManager {
 
   private void initCodeRepo() throws IOException {
     if (codeRepo == null) {
-      codeRepo = openRepo(projectName, false);
+      codeRepo = openRepo(projectName);
     }
   }
 
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
-      changeRepo = openRepo(projectName, true);
+      changeRepo = openRepo(projectName);
     }
   }
 
   private void initAllUsersRepo() throws IOException {
     if (allUsersRepo == null) {
-      allUsersRepo = openRepo(allUsersName, true);
+      allUsersRepo = openRepo(allUsersName);
     }
   }
 
-  private OpenRepo openRepo(Project.NameKey p, boolean meta) throws IOException {
-    Repository repo = meta
-        ? repoManager.openMetadataRepository(p)
-        : repoManager.openRepository(p);
+  private OpenRepo openRepo(Project.NameKey p) throws IOException {
+    Repository repo = repoManager.openRepository(p);
     ObjectInserter ins = repo.newObjectInserter();
     return new OpenRepo(repo, new RevWalk(ins.newReader()), ins,
         new ChainedReceiveCommands(), true);

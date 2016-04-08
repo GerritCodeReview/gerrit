@@ -117,7 +117,7 @@ public class NoteDbChecker {
 
   public void assertNoChangeRef(Project.NameKey project, Change.Id changeId)
       throws Exception {
-    try (Repository repo = repoManager.openMetadataRepository(project)) {
+    try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef(ChangeNoteUtil.changeRefName(changeId)))
           .isNull();
     }

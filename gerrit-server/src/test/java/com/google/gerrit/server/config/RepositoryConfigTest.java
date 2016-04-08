@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 
@@ -26,7 +26,6 @@ import org.junit.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 public class RepositoryConfigTest {
@@ -98,48 +97,46 @@ public class RepositoryConfigTest {
 
   @Test
   public void testOwnerGroupsWhenNotConfigured() {
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        new String[] {});
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEmpty();
   }
 
   @Test
   public void testOwnerGroupsForStarFilter() {
-    String[] ownerGroups = new String[] {"group1", "group2"};
-    configureOwnerGroups("*", Lists.newArrayList(ownerGroups));
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        ownerGroups);
+    ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
+    configureOwnerGroups("*", ownerGroups);
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+        .containsExactlyElementsIn(ownerGroups);
   }
 
   @Test
   public void testOwnerGroupsForSpecificFilter() {
-    String[] ownerGroups = new String[] {"group1", "group2"};
-    configureOwnerGroups("someProject", Lists.newArrayList(ownerGroups));
+    ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
+    configureOwnerGroups("someProject", ownerGroups);
     assertThat(repoCfg.getOwnerGroups(new NameKey("someOtherProject")))
-        .isEqualTo(new String[] {});
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        ownerGroups);
+        .isEmpty();
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+        .containsExactlyElementsIn(ownerGroups);
   }
 
   @Test
   public void testOwnerGroupsForStartWithFilter() {
-    String[] ownerGroups1 = new String[] {"group1"};
-    String[] ownerGroups2 = new String[] {"group2"};
-    String[] ownerGroups3 = new String[] {"group3"};
+    ImmutableList<String> ownerGroups1 = ImmutableList.of("group1");
+    ImmutableList<String> ownerGroups2 = ImmutableList.of("group2");
+    ImmutableList<String> ownerGroups3 = ImmutableList.of("group3");
 
-    configureOwnerGroups("*", Lists.newArrayList(ownerGroups1));
-    configureOwnerGroups("somePath/*", Lists.newArrayList(ownerGroups2));
-    configureOwnerGroups("somePath/somePath/*",
-        Lists.newArrayList(ownerGroups3));
+    configureOwnerGroups("*", ownerGroups1);
+    configureOwnerGroups("somePath/*", ownerGroups2);
+    configureOwnerGroups("somePath/somePath/*", ownerGroups3);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEqualTo(
-        ownerGroups1);
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+        .containsExactlyElementsIn(ownerGroups1);
 
     assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/someProject")))
-        .isEqualTo(ownerGroups2);
+        .containsExactlyElementsIn(ownerGroups2);
 
     assertThat(
         repoCfg.getOwnerGroups(new NameKey("somePath/somePath/someProject")))
-        .isEqualTo(ownerGroups3);
+        .containsExactlyElementsIn(ownerGroups3);
   }
 
   private void configureOwnerGroups(String projectFilter,
@@ -196,8 +193,10 @@ public class RepositoryConfigTest {
 
   @Test
   public void testAllBasePath() {
-    List<Path> allBasePaths = Arrays.asList(Paths.get("/someBasePath1"),
-        Paths.get("/someBasePath2"), Paths.get("/someBasePath2"));
+    ImmutableList<Path> allBasePaths = ImmutableList.of(
+        Paths.get("/someBasePath1"),
+        Paths.get("/someBasePath2"),
+        Paths.get("/someBasePath2"));
 
     configureBasePath("*", allBasePaths.get(0).toString());
     configureBasePath("project/*", allBasePaths.get(1).toString());

@@ -33,6 +33,16 @@ limitations under the License.
       a {
         display: block;
       }
+      .changeContainer,
+      a {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .changeContainer {
+        display: flex;
+      }
       .relatedChanges a {
         display: inline-block;
       }
@@ -43,6 +53,7 @@ limitations under the License.
       .status {
         color: #666;
         font-weight: bold;
+        margin-left: .25em;
       }
       .notCurrent {
         color: #e65100;
@@ -80,7 +91,7 @@ limitations under the License.
     <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
       <h4>Relation Chain</h4>
       <template is="dom-repeat" items="[[_relatedResponse.changes]]" as="change">
-        <div>
+        <div class="changeContainer">
           <a href$="[[_computeChangeURL(change._change_number, change._revision_number)]]"
               class$="[[_computeLinkClass(change)]]">
             [[change.commit.subject]]

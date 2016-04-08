@@ -1590,7 +1590,10 @@ public class ReceiveCommits {
 
       for (ChangeLookup p : pending) {
         if (newChangeIds.contains(p.changeKey)) {
-          reject(magicBranch.cmd, "squash commits first");
+          reject(magicBranch.cmd,
+              "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or "
+            + "ensure Change-Ids are unique for each commit");
           newChanges = Collections.emptyList();
           return;
         }
@@ -1991,7 +1994,10 @@ public class ReceiveCommits {
         // very common error due to users making a new commit rather than
         // amending when trying to address review comments.
         if (rp.getRevWalk().isMergedInto(prior, newCommit)) {
-          reject(inputCommand, "squash commits first");
+          reject(inputCommand,
+              "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or "
+            + "ensure Change-Ids are unique for each commit");
           return false;
         }
       }

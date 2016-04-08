@@ -70,7 +70,8 @@ java_doc(
   srcs = SRCS,
   deps = [
     '//lib/guice:javax-inject',
-    '//lib/guice:guice_library'
+    '//lib/guice:guice_library',
+    '//lib/guice:guice-assistedinject',
   ],
   visibility = ['PUBLIC'],
 )

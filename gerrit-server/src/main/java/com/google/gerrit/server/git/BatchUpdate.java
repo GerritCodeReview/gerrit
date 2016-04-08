@@ -371,7 +371,7 @@ public class BatchUpdate implements AutoCloseable {
       throw new ResourceNotFoundException(e.getMessage(), e);
 
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e);
+      Throwables.throwIfUnchecked(e);
       throw new UpdateException(e);
     }
   }
@@ -525,7 +525,7 @@ public class BatchUpdate implements AutoCloseable {
         inserter.flush();
       }
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e, RestApiException.class);
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
       throw new UpdateException(e);
     }
   }
@@ -613,7 +613,7 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e, RestApiException.class);
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
       throw new UpdateException(e);
     }
   }

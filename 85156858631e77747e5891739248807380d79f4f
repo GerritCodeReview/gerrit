@@ -238,6 +238,24 @@
     },
     {
       "key": {
+        "uuid": "ab8782d0_01a26abf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-08T23:13:29Z",
+      "side": 1,
+      "message": "Ok.  I think i understand what you mean now.    We need to verify all approvals when a vote happens.  I\u0027ve updated the test to do that now.  Sorry it took so long and thanks for keeping me honest :)",
+      "parentUuid": "2e89e03a_0d4c3171",
+      "revId": "85156858631e77747e5891739248807380d79f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_a407626d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1

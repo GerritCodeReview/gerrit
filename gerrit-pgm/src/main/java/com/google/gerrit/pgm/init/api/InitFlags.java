@@ -45,17 +45,19 @@ public class InitFlags {
   public final FileBasedConfig cfg;
   public final SecureStore sec;
   public final List<String> installPlugins;
+  public final boolean installAllPlugins;
 
   @VisibleForTesting
   @Inject
   public InitFlags(final SitePaths site,
       final SecureStore secureStore,
-      @InstallPlugins final List<String> installPlugins) throws IOException,
-      ConfigInvalidException {
+      @InstallPlugins final List<String> installPlugins,
+      @InstallAllPlugins final Boolean installAllPlugins) throws IOException,
+          ConfigInvalidException {
     sec = secureStore;
     this.installPlugins = installPlugins;
+    this.installAllPlugins = installAllPlugins;
     cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
-
     cfg.load();
   }
 }

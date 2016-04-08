@@ -11,7 +11,8 @@ init - Initialize a new Gerrit server installation
 	[--no-auto-start]
 	[--list-plugins]
 	[--install-plugin=<PLUGIN_NAME>]
-        [--dev]
+	[--install-all-plugins]
+	[--dev]
 	[--skip-all-downloads]
 	[--skip-download=<LIBRARY_NAME>]
 --
@@ -30,10 +31,10 @@ as necessary.
 	configuration defaults are chosen based on the whims of
 	the Gerrit developers.
 +
-If during a schema migration unused objects (e.g. tables, columns)
-are detected they are *not* automatically dropped, but only a list of
-SQL statements to drop these objects is provided. To drop the unused
-objects these SQL statements have to be executed manually.
+	If during a schema migration unused objects (e.g. tables, columns)
+	are detected they are *not* automatically dropped, but only a list of
+	SQL statements to drop these objects is provided. To drop the unused
+	objects these SQL statements have to be executed manually.
 
 --no-auto-start::
 	Don't automatically start the daemon after initializing a
@@ -49,10 +50,16 @@ objects these SQL statements have to be executed manually.
 --list-plugins::
 	Print names of plugins that can be installed during init process.
 
+--install-all-plugins::
+	Automatically install all plugins from gerrit.war without asking.
+	This option also works in batch mode. This option cannot be supplied
+	alongside --install-plugin.
+
 --install-plugin::
 	Automatically install plugin with given name without asking.
-	This option may be supplied more than once to install multiple
-	plugins.
+	This option also works in batch mode. This option may be supplied
+	more than once to install multiple plugins. This option cannot be
+	supplied alongside --install-all-plugins.
 
 --dev::
 	Install in developer mode. Default configuration settings are

@@ -121,8 +121,10 @@ public class InitPlugins implements InitStep {
         Path p = site.plugins_dir.resolve(plugin.name + ".jar");
         boolean upgrade = Files.exists(p);
 
-        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(upgrade,
-            "Install plugin %s version %s", pluginName, plugin.version))) {
+        if (!(initFlags.installPlugins.contains(pluginName)
+            || initFlags.installAllPlugins
+            || ui.yesno(upgrade, "Install plugin %s version %s", pluginName,
+                plugin.version))) {
           Files.deleteIfExists(tmpPlugin);
           continue;
         }

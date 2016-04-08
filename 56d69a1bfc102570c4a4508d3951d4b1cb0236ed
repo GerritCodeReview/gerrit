@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce7cc459_a283befa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T14:52:43Z",
+      "side": 1,
+      "message": "I made sure that AutoMerger.merge returns a RevCommit with parsed headers. However, it could also return a null and this case has to be handled here i.e. return null like in the default: case.",
+      "parentUuid": "8e864c95_60f7f29f",
+      "revId": "56d69a1bfc102570c4a4508d3951d4b1cb0236ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae7f904b_41faf288",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 7
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yeah probably.",
       "parentUuid": "ce7cc459_22332e3f",
+      "revId": "56d69a1bfc102570c4a4508d3951d4b1cb0236ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e90d4ca_fe6ba1e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T14:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e864c95_00454693",
       "revId": "56d69a1bfc102570c4a4508d3951d4b1cb0236ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

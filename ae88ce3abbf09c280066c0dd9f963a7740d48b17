@@ -52,6 +52,24 @@
       "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_60b0d207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-08T06:12:36Z",
+      "side": 1,
+      "message": "\u003e Mention here, that this approach will be replaced with dedciated\n \u003e repository? I was confused why this is removed, before i saw that\n \u003e it\u0027s replaced with different approach in the follow-up change.\n\nDone.",
+      "parentUuid": "ce7cc459_22a6ced3",
+      "revId": "ae88ce3abbf09c280066c0dd9f963a7740d48b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

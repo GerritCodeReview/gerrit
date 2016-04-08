@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e809c4d_0c5b1760",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-08T00:15:21Z",
+      "side": 1,
+      "message": "nit: The intermediate String[] array is not necessary, the whole thing can be inlined into a single statement.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 40
+      },
+      "revId": "c42013b94676220694c55614bf0d1fa53cb503b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e71e053_ade8bd97",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-08T00:15:21Z",
+      "side": 1,
+      "message": "nit: wrap here",
+      "range": {
+        "startLine": 197,
+        "startChar": 36,
+        "endLine": 197,
+        "endChar": 37
+      },
+      "revId": "c42013b94676220694c55614bf0d1fa53cb503b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

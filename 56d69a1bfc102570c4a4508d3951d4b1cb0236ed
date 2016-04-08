@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ce7cc459_026c6a01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-08T15:49:36Z",
+      "side": 1,
+      "message": "This is exactly what I already did :-)",
+      "parentUuid": "8e864c95_80515658",
+      "revId": "56d69a1bfc102570c4a4508d3951d4b1cb0236ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae7f904b_41faf288",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 7

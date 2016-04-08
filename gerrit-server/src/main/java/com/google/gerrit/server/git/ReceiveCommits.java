@@ -1590,7 +1590,9 @@ public class ReceiveCommits {
 
       for (ChangeLookup p : pending) {
         if (newChangeIds.contains(p.changeKey)) {
-          reject(magicBranch.cmd, "squash commits first");
+          reject(magicBranch.cmd,
+            "same change-id in multiple changes. Squash the commits with the same change-id or "
+            + "ensure change-ids are unique for each commit");
           newChanges = Collections.emptyList();
           return;
         }

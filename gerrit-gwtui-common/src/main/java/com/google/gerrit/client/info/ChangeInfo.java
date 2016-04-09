@@ -312,6 +312,7 @@ public class ChangeInfo extends JavaScriptObject {
   public static class EditInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String setName(String n) /*-{ this.name = n; }-*/;
+    public final native String base() /*-{ return this.base; }-*/;
     public final native String baseRevision() /*-{ return this.base_revision; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
 

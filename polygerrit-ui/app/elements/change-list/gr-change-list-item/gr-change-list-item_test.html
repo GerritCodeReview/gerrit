@@ -118,7 +118,7 @@ limitations under the License.
           {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
 
       assert.equal(element._computeProjectURL('combustible-stuff'),
-          '/projects/combustible-stuff,dashboards/default');
+          '/q/status:open+project:combustible-stuff');
 
       assert.equal(element._computeProjectBranchURL(
           'combustible-stuff', 'lemons'),

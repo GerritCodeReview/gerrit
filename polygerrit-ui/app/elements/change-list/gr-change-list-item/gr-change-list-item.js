@@ -127,7 +127,7 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/projects/' + project + ',dashboards/default';
+      return '/q/status:open+project:' + project;
     },
 
     _computeProjectBranchURL: function(project, branch) {

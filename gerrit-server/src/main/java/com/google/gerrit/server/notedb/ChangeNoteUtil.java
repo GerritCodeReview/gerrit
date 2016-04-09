@@ -55,8 +55,10 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class ChangeNoteUtil {
   static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
@@ -152,6 +154,7 @@ public class ChangeNoteUtil {
     if (p.value >= note.length) {
       return ImmutableList.of();
     }
+    Set<PatchLineComment.Key> seen = new HashSet<>();
     List<PatchLineComment> result = Lists.newArrayList();
     int sizeOfNote = note.length;
 
@@ -169,6 +172,10 @@ public class ChangeNoteUtil {
           null : c.getKey().getParentKey().getFileName();
       c = parseComment(note, p, previousFileName, psId, revId,
           isForBase, status);
+      if (!seen.add(c.getKey())) {
+        throw parseException(
+            changeId, "multiple comments for %s in note", c.getKey());
+      }
       result.add(c);
     }
     return result;

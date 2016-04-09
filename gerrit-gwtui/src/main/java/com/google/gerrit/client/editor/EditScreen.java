@@ -421,21 +421,21 @@ public class EditScreen extends Screen {
       }
     }
     cm = CodeMirror.create(editor, Configuration.create()
-        .set("value", content)
-        .set("readOnly", false)
+        .set("autoCloseBrackets", prefs.autoCloseBrackets())
         .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
+        .set("keyMap", prefs.keyMapType().name().toLowerCase())
         .set("lineNumbers", prefs.hideLineNumbers())
-        .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
         .set("matchBrackets", prefs.matchBrackets())
-        .set("autoCloseBrackets", prefs.autoCloseBrackets())
+        .set("mode", mode != null ? mode.mode() : null)
+        .set("readOnly", false)
         .set("scrollbarStyle", "overlay")
-        .set("styleSelectedText", true)
         .set("showTrailingSpace", prefs.showWhitespaceErrors())
-        .set("keyMap", prefs.keyMapType().name().toLowerCase())
+        .set("styleSelectedText", true)
+        .set("tabSize", prefs.tabSize())
         .set("theme", prefs.theme().name().toLowerCase())
-        .set("mode", mode != null ? mode.mode() : null));
+        .set("value", content));
 
     CodeMirror.addCommand("save", new CommandRunner() {
       @Override

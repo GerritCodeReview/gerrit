@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb9c1a2c_dbcb1370",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Why don\u0027t we add it to user edit preferences? Now that we moved them to Git backend this is a trivial change. When I don\u0027t want to see merge view, I would need to always disable it when i enter the editor. This would also be significant optimization, as the merge view wouldn\u0027t need to be injected when the user doesn\u0027t want to use it, instead of disabling it after merge.js was loaded. Or, if we want to provide an easier way to activate merge.js by providing a dedicated checkbox for it on the edit screen header, we could combine both approaches: add a edit preference to activate merge.js on editor load and use the checkbox in header to instantly override the user preferences (that wouldn\u0027t be persisted in the edit preferences).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7062c4_19b2eb08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Do it conditionally on prefs.showInMergeView()? Without it, we would let the single cm instance, when it\u0027s activated, switch to merge.js.",
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9c1a2c_7bbd1fd9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Extract this to a local var.",
+      "range": {
+        "startLine": 416,
+        "startChar": 8,
+        "endLine": 416,
+        "endChar": 51
+      },
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9c1a2c_1bb2db08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "cmOrig?",
+      "range": {
+        "startLine": 430,
+        "startChar": 8,
+        "endLine": 430,
+        "endChar": 14
+      },
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9c1a2c_3bb797f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "cmEdit?",
+      "range": {
+        "startLine": 433,
+        "startChar": 4,
+        "endLine": 433,
+        "endChar": 10
+      },
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7062c4_59b863ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Unrelated changed sorting order. Should be done in its own change.",
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7062c4_39b7aff9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t save also update the content of roiginal? Otherwise the behaviour is inconsistent:\n\n* 1. open inline editor\n* 2. change one line: diff shown\n* 3. save: diff still shown\n* 4. close inline editor\n* 5. reopen inline editor: diff not shown\n\nAnother option would be to compare to the file version from the patch set (base), the change edit is based on, in which case the 5. above would still show the diff.",
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7062c4_f9c85775",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Mention in the commit message, that this dependency was added and that these algorithms in minifed form are merged into  merge.js addon from CodeMirror distro.",
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9c1a2c_bbc2c74f",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Actually unrelated formatting change, but OK.",
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7062c4_d9cb1370",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "May be swap the order here, and add the license for merge.js first, then add a comment line saying, that the google-diff-match-patch is from https://code.google.com/archive/p/google-diff-match-patch/ or similar.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 70
+      },
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9c1a2c_9bc58b5c",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-09T04:59:17Z",
+      "side": 1,
+      "message": "Optional: use here different name, as we\u0027ve manipulated the original merge.js file, say merge_adjusted.js.",
+      "range": {
+        "startLine": 122,
+        "startChar": 61,
+        "endLine": 122,
+        "endChar": 69
+      },
+      "revId": "28c6f143471b526761054af1ce102b604468a722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

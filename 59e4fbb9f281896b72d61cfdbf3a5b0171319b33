@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e864c95_a0a73a82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T07:33:46Z",
+      "side": 1,
+      "message": "canceled",
+      "range": {
+        "startLine": 257,
+        "startChar": 51,
+        "endLine": 257,
+        "endChar": 60
+      },
+      "revId": "59e4fbb9f281896b72d61cfdbf3a5b0171319b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

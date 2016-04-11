@@ -165,7 +165,7 @@ public class AuthSMTPClient extends SMTPClient {
     }
 
     String cmd = encodeBase64(smtpUser.getBytes(UTF_8));
-    if(sendCommand(cmd) != 334) {
+    if (sendCommand(cmd) != 334) {
       return false;
     }
 

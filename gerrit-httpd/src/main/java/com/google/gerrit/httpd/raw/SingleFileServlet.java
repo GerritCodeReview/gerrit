@@ -19,7 +19,7 @@ import com.google.common.cache.Cache;
 import java.nio.file.Path;
 
 /** Serve a single static file, regardless of path. */
-class SingleFileServlet extends ResourceServlet{
+class SingleFileServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
   private final Path path;

@@ -130,17 +130,17 @@ public class PatchListEntry {
   }
 
   int weigh() {
-    int size = 16 + 6*8 + 2*4 + 20 + 16+8+4+20;
+    int size = 16 + 6 * 8 + 2 * 4 + 20 + 16 + 8 + 4 + 20;
     size += stringSize(oldName);
     size += stringSize(newName);
     size += header.length;
-    size += (8 + 16 + 4*4) * edits.size();
+    size += (8 + 16 + 4 * 4) * edits.size();
     return size;
   }
 
   private static int stringSize(String str) {
     if (str != null) {
-      return 16 + 3*4 + 16 + str.length() * 2;
+      return 16 + 3 * 4 + 16 + str.length() * 2;
     }
     return 0;
   }

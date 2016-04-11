@@ -300,7 +300,7 @@ public class ReviewCommand extends SshCommand {
         applyReview(patchSet, review);
       }
 
-      if (rebaseChange){
+      if (rebaseChange) {
         revisionApi(patchSet).rebase();
       }
 

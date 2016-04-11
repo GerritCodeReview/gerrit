@@ -198,7 +198,7 @@ final class ScpCommand extends BaseCommand {
   private void header(final Entry dir, final int len) throws IOException,
       UnsupportedEncodingException {
     final StringBuilder buf = new StringBuilder();
-    switch(dir.getType()){
+    switch (dir.getType()) {
       case DIR:
         buf.append(TYPE_DIR);
         break;

@@ -143,7 +143,8 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
   @Override
   protected IndexSearcher refreshIfNeeded(IndexSearcher referenceToRefresh) throws IOException {
     final IndexReader r = referenceToRefresh.getIndexReader();
-    assert r instanceof DirectoryReader: "searcher's IndexReader should be a DirectoryReader, but got " + r;
+    assert r instanceof DirectoryReader :
+      "searcher's IndexReader should be a DirectoryReader, but got " + r;
     final IndexReader newReader = DirectoryReader.openIfChanged((DirectoryReader) r);
     if (newReader == null) {
       return null;
@@ -171,7 +172,8 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
     final IndexSearcher searcher = acquire();
     try {
       final IndexReader r = searcher.getIndexReader();
-      assert r instanceof DirectoryReader: "searcher's IndexReader should be a DirectoryReader, but got " + r;
+      assert r instanceof DirectoryReader :
+        "searcher's IndexReader should be a DirectoryReader, but got " + r;
       return ((DirectoryReader) r).isCurrent();
     } finally {
       release(searcher);

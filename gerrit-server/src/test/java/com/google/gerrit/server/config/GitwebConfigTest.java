@@ -26,14 +26,14 @@ public class GitwebConfigTest {
 
   @Test
   public void testValidPathSeparator() {
-    for(char c : VALID_CHARACTERS.toCharArray()) {
+    for (char c : VALID_CHARACTERS.toCharArray()) {
       assertTrue("valid character rejected: " + c, GitwebConfig.isValidPathSeparator(c));
     }
   }
 
   @Test
   public void testInalidPathSeparator() {
-    for(char c : SOME_INVALID_CHARACTERS.toCharArray()) {
+    for (char c : SOME_INVALID_CHARACTERS.toCharArray()) {
       assertFalse("invalid character accepted: " + c, GitwebConfig.isValidPathSeparator(c));
     }
   }

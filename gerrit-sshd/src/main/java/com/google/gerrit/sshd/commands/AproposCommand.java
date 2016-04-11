@@ -36,7 +36,7 @@ final class AproposCommand extends SshCommand {
   @Inject
   @CanonicalWebUrl String url;
 
-  @Argument(index=0, required = true, metaVar = "QUERY")
+  @Argument(index = 0, required = true, metaVar = "QUERY")
   private String q;
 
   @Override

@@ -796,7 +796,7 @@ public class RestApiServlet extends HttpServlet {
       final BinaryResult src) throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
-    try(Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
+    try (Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
         JsonWriter json = new JsonWriter(w)) {
       json.setLenient(true);
       json.setHtmlSafe(true);

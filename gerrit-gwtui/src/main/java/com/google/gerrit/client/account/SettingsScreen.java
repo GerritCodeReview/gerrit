@@ -81,7 +81,7 @@ public abstract class SettingsScreen extends MenuScreen {
 
   private void linkByPlugin(String pluginName, String text, String target) {
     if (ambiguousMenuNames.contains(text)) {
-      text += " ("+ pluginName + ")";
+      text += " (" + pluginName + ")";
     }
     link(text, target);
   }

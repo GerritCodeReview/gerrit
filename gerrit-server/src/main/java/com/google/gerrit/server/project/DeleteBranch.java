@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @Singleton
-public class DeleteBranch implements RestModifyView<BranchResource, Input>{
+public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(DeleteBranch.class);
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;

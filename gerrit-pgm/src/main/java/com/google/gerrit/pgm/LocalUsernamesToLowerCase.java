@@ -116,7 +116,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   private class Worker extends Thread {
     @Override
     public void run() {
-      try (ReviewDb db = database.open()){
+      try (ReviewDb db = database.open()) {
         for (;;) {
           final AccountExternalId extId = next();
           if (extId == null) {

@@ -57,14 +57,14 @@ class LineComment extends Composite {
       ps = defaultPs;
       psLoc.removeFromParent();
       psLoc = null;
-      psNum= null;
+      psNum = null;
     } else {
       ps = defaultPs;
       sideLoc.removeFromParent();
       sideLoc = null;
       psLoc.removeFromParent();
       psLoc = null;
-      psNum= null;
+      psNum = null;
     }
 
     if (info.hasLine()) {

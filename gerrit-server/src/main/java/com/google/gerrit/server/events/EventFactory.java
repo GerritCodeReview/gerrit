@@ -244,7 +244,7 @@ public class EventFactory {
         SubmitLabelAttribute la = new SubmitLabelAttribute();
         la.label = lbl.label;
         la.status = lbl.status.name();
-        if(lbl.appliedBy != null) {
+        if (lbl.appliedBy != null) {
           Account a = accountCache.get(lbl.appliedBy).getAccount();
           la.by = asAccountAttribute(a);
         }

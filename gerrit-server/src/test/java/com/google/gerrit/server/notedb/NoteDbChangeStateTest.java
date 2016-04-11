@@ -149,7 +149,7 @@ public class NoteDbChangeStateTest {
     checkArgument(args.length % 2 == 0);
     ImmutableMap.Builder<Account.Id, ObjectId> b = ImmutableMap.builder();
     for (int i = 0; i < args.length / 2; i++) {
-      b.put((Account.Id) args[2*i], (ObjectId) args[2*i+1]);
+      b.put((Account.Id) args[2 * i], (ObjectId) args[2 * i + 1]);
     }
     return b.build();
   }

@@ -132,7 +132,7 @@ public class Hashtags extends Composite {
         ClickEvent.getType());
   }
 
-  void init(ChangeScreen.Style style){
+  void init(ChangeScreen.Style style) {
     this.style = style;
   }
 
@@ -246,12 +246,12 @@ public class Hashtags extends Composite {
       input.init(toJsArrayString(add), toJsArrayString(remove));
       return input;
     }
-    private static JsArrayString toJsArrayString(String commaSeparated){
+    private static JsArrayString toJsArrayString(String commaSeparated) {
       if (commaSeparated == null || commaSeparated.equals("")) {
         return null;
       }
       JsArrayString array = JsArrayString.createArray().cast();
-      for (String hashtag : commaSeparated.split(",")){
+      for (String hashtag : commaSeparated.split(",")) {
         array.push(hashtag.trim());
       }
       return array;

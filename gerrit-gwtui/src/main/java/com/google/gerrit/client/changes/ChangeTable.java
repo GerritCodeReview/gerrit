@@ -493,7 +493,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       if (titleText != null) {
         setTitleText(titleText);
         return true;
-      } else if(titleWidget != null) {
+      } else if (titleWidget != null) {
         setTitleWidget(titleWidget);
         return true;
       }

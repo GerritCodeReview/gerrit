@@ -95,7 +95,7 @@ public class GroupCacheImpl implements GroupCache {
       Optional<AccountGroup> g = byId.get(groupId);
       return g.isPresent() ? g.get() : missing(groupId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load group "+groupId, e);
+      log.warn("Cannot load group " + groupId, e);
       return missing(groupId);
     }
   }

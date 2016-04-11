@@ -71,7 +71,7 @@ public class InitPlugins implements InitStep {
       @Override
       public int compare(PluginData a, PluginData b) {
         return a.name.compareTo(b.name);
-      }});
+      } });
   }
 
   private final ConsoleUI ui;

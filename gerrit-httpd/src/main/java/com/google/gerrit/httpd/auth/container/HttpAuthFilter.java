@@ -157,7 +157,7 @@ class HttpAuthFilter implements Filter {
   }
 
   String getRemoteExternalIdToken(HttpServletRequest req) {
-    if(externalIdHeader != null) {
+    if (externalIdHeader != null) {
       return emptyToNull(req.getHeader(externalIdHeader));
     } else {
       return null;

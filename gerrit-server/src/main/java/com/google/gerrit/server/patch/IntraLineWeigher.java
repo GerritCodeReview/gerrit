@@ -21,8 +21,8 @@ public class IntraLineWeigher implements
     Weigher<IntraLineDiffKey, IntraLineDiff> {
   @Override
   public int weigh(IntraLineDiffKey key, IntraLineDiff value) {
-    return 16 + 8*8 + 2*36     // Size of IntraLineDiffKey, 64 bit JVM
-        + 16 + 2*8 + 16+8+4+20 // Size of IntraLineDiff, 64 bit JVM
-        + (8 + 16 + 4*4) * value.getEdits().size();
+    return 16 + 8 * 8 + 2 * 36     // Size of IntraLineDiffKey, 64 bit JVM
+        + 16 + 2 * 8 + 16 + 8 + 4 + 20 // Size of IntraLineDiff, 64 bit JVM
+        + (8 + 16 + 4 * 4) * value.getEdits().size();
   }
 }

@@ -118,7 +118,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
    * @throws IOException If a file could not be created.
    */
   private File createTempFile(String suffix) throws IOException {
-    String prefix ="gerrit_test_";
+    String prefix = "gerrit_test_";
     if (!Strings.isNullOrEmpty(getName())) {
       prefix += getName() + "_";
     }

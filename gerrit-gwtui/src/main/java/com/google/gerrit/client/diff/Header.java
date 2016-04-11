@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
@@ -91,6 +92,9 @@ public class Header extends Composite {
   private final PatchSet.Id patchSetId;
   private final String path;
   private final DiffView diffScreenType;
+  private final DiffPreferences prefs;
+  private JsArray<FileInfo> files;
+  private int currIndex;
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
@@ -98,13 +102,14 @@ public class Header extends Composite {
   private ReviewedState reviewedState;
 
   Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
-      String path, DiffView diffSreenType) {
+      String path, DiffView diffSreenType, DiffPreferences prefs) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
     this.base = base;
     this.patchSetId = patchSetId;
     this.path = path;
     this.diffScreenType = diffSreenType;
+    this.prefs = prefs;
 
     if (!Gerrit.isSignedIn()) {
       reviewed.getElement().getStyle().setVisibility(Visibility.HIDDEN);
@@ -146,29 +151,19 @@ public class Header extends Composite {
     DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
       @Override
       public void onSuccess(NativeMap<FileInfo> result) {
-        JsArray<FileInfo> files = result.values();
+        files = result.values();
         FileInfo.sortFileInfoByPath(files);
         fileNumber.setInnerText(
             Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
         fileCount.setInnerText(Integer.toString(files.length()));
-        int index = 0; // TODO: Maybe use patchIndex.
+        currIndex = 0;
         for (int i = 0; i < files.length(); i++) {
           if (path.equals(files.get(i).path())) {
-            index = i;
+            currIndex = i;
             break;
           }
         }
-        FileInfo nextInfo = index == files.length() - 1
-            ? null
-            : files.get(index + 1);
-        KeyCommand p = setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
-            index == 0 ? null : files.get(index - 1));
-        KeyCommand n = setupNav(next, ']', PatchUtil.C.nextFileHelp(),
-            nextInfo);
-        if (p != null && n != null) {
-          keys.pair(p, n);
-        }
-        nextPath = nextInfo != null ? nextInfo.path() : null;
+        setupPrevNextFiles();
       }
     });
 
@@ -300,6 +295,37 @@ public class Header extends Composite {
       keys.add(new UpToChangeCommand(patchSetId, 0, key));
       return null;
     }
+  }
+
+  void setupPrevNextFiles() {
+    FileInfo prevInfo = null;
+    FileInfo nextInfo = null;
+    for (int i = currIndex - 1; i >= 0; i--) {
+      FileInfo curr = files.get(i);
+      if (prefs.skipDeleted() && curr.status().equals("D")) {
+        continue;
+      } else {
+        prevInfo = curr;
+        break;
+      }
+    }
+    for (int i = currIndex + 1; i < files.length(); i++) {
+      FileInfo curr = files.get(i);
+      if (prefs.skipDeleted() && curr.status().equals("D")) {
+        continue;
+      } else {
+        nextInfo = curr;
+        break;
+      }
+    }
+    KeyCommand p = setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
+        prevInfo);
+    KeyCommand n = setupNav(next, ']', PatchUtil.C.nextFileHelp(),
+        nextInfo);
+    if (p != null && n != null) {
+      keys.pair(p, n);
+    }
+    nextPath = nextInfo != null ? nextInfo.path() : null;
   }
 
   Runnable toggleReviewed() {

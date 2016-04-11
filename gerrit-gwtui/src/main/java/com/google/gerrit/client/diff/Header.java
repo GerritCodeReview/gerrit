@@ -18,6 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -97,6 +98,8 @@ public class Header extends Composite {
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
+  private JsArray<FileInfo> files;
+  private int currIndex;
   private PreferencesAction prefsAction;
   private ReviewedState reviewedState;
 
@@ -161,12 +164,12 @@ public class Header extends Composite {
     DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
       @Override
       public void onSuccess(NativeMap<FileInfo> result) {
-        JsArray<FileInfo> files = result.values();
+        files = result.values();
         FileInfo.sortFileInfoByPath(files);
         fileNumber.setInnerText(
             Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
         fileCount.setInnerText(Integer.toString(files.length()));
-        setupPrevNextFiles(files, findCurrentFileIndex(files));
+        currIndex = findCurrentFileIndex(files);
       }
     });
 
@@ -300,12 +303,36 @@ public class Header extends Composite {
     }
   }
 
-  void setupPrevNextFiles(JsArray<FileInfo> files, int currIndex) {
+  private boolean shouldSkipFile(FileInfo curr, CommentsCollections comments) {
+    if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      return true;
+    }
+
+    if (prefs.skipUncommented()) {
+      String currPath = curr.path();
+      if (base != null) {
+        JsArray<CommentInfo> publishedBase =
+            comments.publishedBaseAll.get(currPath);
+        if (publishedBase != null && publishedBase.length() > 0) {
+          return false;
+        }
+      }
+      JsArray<CommentInfo> publishedRevision =
+          comments.publishedRevisionAll.get(currPath);
+      if (publishedRevision != null && publishedRevision.length() > 0) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  void setupPrevNextFiles(CommentsCollections comments) {
     FileInfo prevInfo = null;
     FileInfo nextInfo = null;
     for (int i = currIndex - 1; i >= 0; i--) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr, comments)) {
         continue;
       } else {
         prevInfo = curr;
@@ -314,7 +341,7 @@ public class Header extends Composite {
     }
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr, comments)) {
         continue;
       } else {
         nextInfo = curr;

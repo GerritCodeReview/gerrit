@@ -31,6 +31,8 @@ import java.util.Comparator;
 class CommentsCollections {
   private String path;
 
+  NativeMap<JsArray<CommentInfo>> publishedBaseAll;
+  NativeMap<JsArray<CommentInfo>> publishedRevisionAll;
   JsArray<CommentInfo> publishedBase;
   JsArray<CommentInfo> publishedRevision;
   JsArray<CommentInfo> draftsBase;
@@ -57,6 +59,7 @@ class CommentsCollections {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        publishedBaseAll = result;
         publishedBase = sort(result.get(path));
       }
 
@@ -70,6 +73,7 @@ class CommentsCollections {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        publishedRevisionAll = result;
         publishedRevision = sort(result.get(path));
       }
 

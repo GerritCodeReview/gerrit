@@ -135,8 +135,12 @@ limitations under the License.
         align-content: flex-start;
         display: flex;
         flex: 1;
-        flex-wrap: wrap;
         overflow-x: hidden;
+      }
+      .relatedChanges {
+        flex: 1 1 auto;
+        font-size: .9em;
+        overflow: hidden;
       }
       gr-file-list {
         margin-bottom: 1em;
@@ -191,8 +195,11 @@ limitations under the License.
           flex-direction: column;
           flex-wrap: nowrap;
         }
+        .relatedChanges,
         .changeMetadata {
           font-size: 1em;
+        }
+        .changeMetadata {
           border-right: none;
           margin-bottom: 1em;
           margin-top: .25em;

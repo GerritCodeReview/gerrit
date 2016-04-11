@@ -103,6 +103,7 @@ public class PreferencesBox extends Composite {
   @UiField ToggleButton renderEntireFile;
   @UiField ToggleButton matchBrackets;
   @UiField ToggleButton skipDeleted;
+  @UiField ToggleButton skipUncommented;
   @UiField ListBox theme;
   @UiField Element modeLabel;
   @UiField ListBox mode;
@@ -196,6 +197,7 @@ public class PreferencesBox extends Composite {
     expandAllComments.setValue(prefs.expandAllComments());
     matchBrackets.setValue(prefs.matchBrackets());
     skipDeleted.setValue(!prefs.skipDeleted());
+    skipUncommented.setValue(!prefs.skipUncommented());
     setTheme(prefs.theme());
 
     if (view == null || view.canRenderEntireFile(prefs)) {
@@ -502,6 +504,12 @@ public class PreferencesBox extends Composite {
   @UiHandler("skipDeleted")
   void onSkipDeleted(ValueChangeEvent<Boolean> e) {
     prefs.skipDeleted(!e.getValue());
+    // TODO: Update the navigation links on the current DiffScreen
+  }
+
+  @UiHandler("skipUncommented")
+  void onSkipUncommented(ValueChangeEvent<Boolean> e) {
+    prefs.skipUncommented(!e.getValue());
     // TODO: Update the navigation links on the current DiffScreen
   }
 

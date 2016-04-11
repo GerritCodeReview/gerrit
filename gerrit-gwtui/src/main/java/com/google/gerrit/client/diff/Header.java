@@ -95,6 +95,7 @@ public class Header extends Composite {
   private final DiffPreferences prefs;
   private JsArray<FileInfo> files;
   private int currIndex;
+  private boolean hasComments;
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
@@ -194,6 +195,13 @@ public class Header extends Composite {
     } else {
       reviewedState = ReviewedState.AUTO_REVIEW;
     }
+  }
+
+  void setHasComments(CommentsCollections comments) {
+    hasComments =
+        (comments.publishedBase != null && comments.publishedBase.length() > 0)
+        || (comments.publishedRevision != null
+            && comments.publishedRevision.length() > 0);
   }
 
   void setChangeInfo(ChangeInfo info) {
@@ -302,7 +310,8 @@ public class Header extends Composite {
     FileInfo nextInfo = null;
     for (int i = currIndex - 1; i >= 0; i--) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && curr.status().equals("D")) {
+      if (prefs.skipDeleted() && curr.status().equals("D")
+          || prefs.skipUncommented() && !hasComments) {
         continue;
       } else {
         prevInfo = curr;
@@ -311,7 +320,8 @@ public class Header extends Composite {
     }
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && curr.status().equals("D")) {
+      if (prefs.skipDeleted() && curr.status().equals("D")
+          || prefs.skipUncommented() && !hasComments) {
         continue;
       } else {
         nextInfo = curr;

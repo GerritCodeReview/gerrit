@@ -19,9 +19,9 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 
 public interface Resources extends ClientBundle {
-  public static final Resources I = GWT.create(Resources.class);
-  final ChangeConstants C = GWT.create(ChangeConstants.class);
-  final ChangeMessages M = GWT.create(ChangeMessages.class);
+  Resources I = GWT.create(Resources.class);
+  ChangeConstants C = GWT.create(ChangeConstants.class);
+  ChangeMessages M = GWT.create(ChangeMessages.class);
 
   @Source("common.css") Style style();
 

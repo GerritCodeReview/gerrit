@@ -29,7 +29,7 @@ class MaxDb extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  public MaxDb(@GerritServerConfig final Config cfg) {
+  MaxDb(@GerritServerConfig final Config cfg) {
     super("com.sap.dbtech.jdbc.DriverSapDB");
     this.cfg = cfg;
   }

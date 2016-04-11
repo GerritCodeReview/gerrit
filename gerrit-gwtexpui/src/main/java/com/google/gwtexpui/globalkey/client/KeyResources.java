@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 
 public interface KeyResources extends ClientBundle {
-  public static final KeyResources I = GWT.create(KeyResources.class);
+  KeyResources I = GWT.create(KeyResources.class);
 
   @Source("key.css")
   KeyCss css();

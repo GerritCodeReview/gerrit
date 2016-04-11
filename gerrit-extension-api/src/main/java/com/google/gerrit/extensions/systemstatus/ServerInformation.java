@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.systemstatus;
 /** Exports current server information to an extension. */
 public interface ServerInformation {
   /** Current state of the server. */
-  public enum State {
+  enum State {
     /**
      * The server is starting up, and network connections are not yet being
      * accepted. Plugins or extensions starting during this time are starting

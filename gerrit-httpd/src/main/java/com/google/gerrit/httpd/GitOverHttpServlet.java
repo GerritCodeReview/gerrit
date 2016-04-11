@@ -98,7 +98,7 @@ public class GitOverHttpServlet extends GitServlet {
 
     private final boolean enableReceive;
 
-    public Module(boolean enableReceive) {
+    Module(boolean enableReceive) {
       this.enableReceive = enableReceive;
     }
 

@@ -51,7 +51,7 @@ public interface Groups {
   /** @return new request for listing groups. */
   ListRequest list();
 
-  public abstract class ListRequest {
+  abstract class ListRequest {
     private final EnumSet<ListGroupsOption> options =
         EnumSet.noneOf(ListGroupsOption.class);
     private final List<String> projects = new ArrayList<>();

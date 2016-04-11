@@ -82,7 +82,7 @@ final class StreamEvents extends BaseCommand {
   /** Special event to notify clients they missed other events. */
   private static final class DroppedOutputEvent extends Event {
     private static final String TYPE = "dropped-output";
-    public DroppedOutputEvent() {
+    DroppedOutputEvent() {
       super(TYPE);
     }
   }

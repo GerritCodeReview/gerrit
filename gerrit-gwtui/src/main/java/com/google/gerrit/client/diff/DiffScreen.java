@@ -138,7 +138,8 @@ abstract class DiffScreen extends Screen {
     prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    header = new Header(keysNavigation, base, revision, path, diffScreenType);
+    header = new Header(
+        keysNavigation, base, revision, path, diffScreenType, prefs);
   }
 
   @Override

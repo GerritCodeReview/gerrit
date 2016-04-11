@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e864c95_80f5d66f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T04:55:17Z",
+      "side": 1,
+      "message": "\"Cancelled\" with two Ls is the British spelling, while the US spelling uses only one L.  Since US English is used throughout the documentation, we should leave this as it was.\n\nAlso in the javadoc and code below.",
+      "range": {
+        "startLine": 252,
+        "startChar": 37,
+        "endLine": 252,
+        "endChar": 46
+      },
+      "revId": "3b1736df1f87ab8b07d1ba72b0195eb6fa3ac98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8782d0_213f6e0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T04:55:17Z",
+      "side": 1,
+      "message": "Canceled",
+      "range": {
+        "startLine": 264,
+        "startChar": 19,
+        "endLine": 264,
+        "endChar": 28
+      },
+      "revId": "3b1736df1f87ab8b07d1ba72b0195eb6fa3ac98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_a002da2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T04:55:17Z",
+      "side": 1,
+      "message": "Canceled",
+      "range": {
+        "startLine": 266,
+        "startChar": 12,
+        "endLine": 266,
+        "endChar": 21
+      },
+      "revId": "3b1736df1f87ab8b07d1ba72b0195eb6fa3ac98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

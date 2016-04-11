@@ -147,7 +147,7 @@ public class ChangeEditUtil {
       int n = change.currentPatchSetId().get();
       String[] refNames = new String[n];
       for (int i = n; i > 0; i--) {
-        refNames[i-1] = RefNames.refsEdit(
+        refNames[i - 1] = RefNames.refsEdit(
             u.getAccountId(), change.getId(),
             new PatchSet.Id(change.getId(), i));
       }

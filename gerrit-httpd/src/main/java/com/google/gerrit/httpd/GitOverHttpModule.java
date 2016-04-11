@@ -60,7 +60,7 @@ public class GitOverHttpModule extends ServletModule {
     filter("/a/*").through(authFilter);
   }
 
-  private boolean isHttpEnabled(){
+  private boolean isHttpEnabled() {
     return downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.ANON_HTTP)
         || downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.HTTP);
   }

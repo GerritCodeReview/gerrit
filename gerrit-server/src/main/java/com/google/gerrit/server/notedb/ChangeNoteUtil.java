@@ -369,7 +369,7 @@ public class ChangeNoteUtil {
     int commentLength =
         RawParseUtils.parseBase10(note, startOfLength, i);
     int endOfLine = RawParseUtils.nextLF(note, curr.value);
-    if (i.value != endOfLine-1) {
+    if (i.value != endOfLine - 1) {
       throw parseException(changeId, "could not parse %s", PATCH_SET);
     }
     curr.value = endOfLine;

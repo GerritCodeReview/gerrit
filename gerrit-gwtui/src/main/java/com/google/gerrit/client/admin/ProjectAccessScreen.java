@@ -183,7 +183,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     driver.edit(mock);
   }
 
-  @UiHandler(value={"cancel1", "cancel2"})
+  @UiHandler(value = {"cancel1", "cancel2"})
   void onCancel(@SuppressWarnings("unused") ClickEvent event) {
     Gerrit.display(PageLinks.toProjectAcceess(getProjectKey()));
   }

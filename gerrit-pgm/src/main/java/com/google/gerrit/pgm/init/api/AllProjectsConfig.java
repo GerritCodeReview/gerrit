@@ -180,7 +180,7 @@ public class AllProjectsConfig extends VersionedMetaData {
     ru.setExpectedOldObjectId(revision);
     ru.setRefLogMessage(refLogMsg, false);
     RefUpdate.Result r = ru.update();
-    switch(r) {
+    switch (r) {
       case FAST_FORWARD:
       case NEW:
       case NO_CHANGE:

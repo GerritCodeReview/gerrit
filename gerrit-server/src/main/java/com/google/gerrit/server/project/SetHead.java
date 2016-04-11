@@ -90,7 +90,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
         final RefUpdate u = repo.updateRef(Constants.HEAD, true);
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         RefUpdate.Result res = u.link(newHead);
-        switch(res) {
+        switch (res) {
           case NO_CHANGE:
           case RENAMED:
           case FORCED:

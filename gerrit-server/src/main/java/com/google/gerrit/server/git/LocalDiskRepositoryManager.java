@@ -362,7 +362,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     final String name = nameKey.get();
 
     return name.length() == 0  // no empty paths
-      || name.charAt(name.length() -1) == '/' // no suffix
+      || name.charAt(name.length() - 1) == '/' // no suffix
       || name.indexOf('\\') >= 0 // no windows/dos style paths
       || name.charAt(0) == '/' // no absolute paths
       || new File(name).isAbsolute() // no absolute paths

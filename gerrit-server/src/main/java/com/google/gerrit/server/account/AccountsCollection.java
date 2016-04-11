@@ -35,7 +35,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class AccountsCollection implements
     RestCollection<TopLevelResource, AccountResource>,
-    AcceptsCreate<TopLevelResource>{
+    AcceptsCreate<TopLevelResource> {
   private final Provider<CurrentUser> self;
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;

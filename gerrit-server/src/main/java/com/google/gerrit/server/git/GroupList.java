@@ -39,7 +39,7 @@ public class GroupList extends TabFile {
     List<Row> rows = parse(text, FILE_NAME, TRIM, TRIM, errors);
     Map<AccountGroup.UUID, GroupReference> groupsByUUID =
         new HashMap<>(rows.size());
-    for(Row row : rows) {
+    for (Row row : rows) {
       AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);
       String name = row.right;
       GroupReference ref = new GroupReference(uuid, name);

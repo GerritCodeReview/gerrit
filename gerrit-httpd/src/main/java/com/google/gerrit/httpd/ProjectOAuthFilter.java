@@ -221,7 +221,7 @@ class ProjectOAuthFilter implements Filter {
       throw new ServletException("OAuth login provider configuration is"
           + " invalid: Must be of the form pluginName:providerName");
     }
-    defaultAuthPlugin= gitOAuthProvider.substring(0, splitPos);
+    defaultAuthPlugin = gitOAuthProvider.substring(0, splitPos);
     defaultAuthProvider = gitOAuthProvider.substring(splitPos + 1);
     OAuthLoginProvider provider = loginProviders.get(defaultAuthPlugin,
         defaultAuthProvider);

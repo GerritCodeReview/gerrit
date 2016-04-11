@@ -159,7 +159,7 @@ public class Reindex extends SiteProgram {
     int n = result.doneCount() + result.failedCount();
     double t = result.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d documents in %s index in %.01fs (%.01f/s)\n",
-        n, def.getName(), t, n/t);
+        n, def.getName(), t, n / t);
     if (result.success()) {
       index.markReady(true);
     }

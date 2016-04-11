@@ -109,7 +109,7 @@ public abstract class LoggingMockingTestCase extends MockingTestCase {
     // and we can improve later to allow tests to specify which loggers are
     // to check.
     loggerName = this.getClass().getCanonicalName();
-    loggerName = loggerName.substring(0, loggerName.length()-4);
+    loggerName = loggerName.substring(0, loggerName.length() - 4);
     loggerSettings = LogUtil.logToCollection(loggerName, loggedEvents);
   }
 

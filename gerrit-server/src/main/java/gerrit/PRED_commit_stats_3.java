@@ -48,13 +48,13 @@ public class PRED_commit_stats_3 extends Predicate.P3 {
     Term a3 = arg3.dereference();
 
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
-    if(!a1.unify(new IntegerTerm(pl.getPatches().size() -1),engine.trail)) { //Account for /COMMIT_MSG.
+    if (!a1.unify(new IntegerTerm(pl.getPatches().size() - 1),engine.trail)) { //Account for /COMMIT_MSG.
       return engine.fail();
     }
-    if(!a2.unify(new IntegerTerm(pl.getInsertions()),engine.trail)) {
+    if (!a2.unify(new IntegerTerm(pl.getInsertions()),engine.trail)) {
       return engine.fail();
     }
-    if(!a3.unify(new IntegerTerm(pl.getDeletions()),engine.trail)) {
+    if (!a3.unify(new IntegerTerm(pl.getDeletions()),engine.trail)) {
       return engine.fail();
     }
     return cont;

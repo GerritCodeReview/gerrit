@@ -103,7 +103,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
       assertThat(e).hasMessage(
           "Failed to submit 1 change due to the following problems:\n"
           + "Change " + n + ": Change contains a project configuration that"
-          +" changes the parent project.\n"
+          + " changes the parent project.\n"
           + "The change must be submitted by a Gerrit administrator.");
     }
 

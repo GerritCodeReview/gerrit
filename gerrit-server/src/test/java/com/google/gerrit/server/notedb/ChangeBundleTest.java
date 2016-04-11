@@ -135,7 +135,7 @@ public class ChangeBundleTest {
 
     c2.setTopic("topic");
     assertDiffs(b1, b2,
-        "topic differs for Change.Id "+ c1.getId() + ": {null} != {topic}");
+        "topic differs for Change.Id " + c1.getId() + ": {null} != {topic}");
   }
 
   @Test

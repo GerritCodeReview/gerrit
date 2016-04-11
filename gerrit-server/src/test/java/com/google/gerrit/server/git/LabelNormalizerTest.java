@@ -214,7 +214,7 @@ public class LabelNormalizerTest {
   }
 
   private void save(ProjectConfig pc) throws Exception {
-    try(MetaDataUpdate md =
+    try (MetaDataUpdate md =
         metaDataUpdateFactory.create(pc.getProject().getNameKey(), user)) {
       pc.commit(md);
       projectCache.evict(pc.getProject().getNameKey());

@@ -125,7 +125,7 @@ final class ShowCaches extends SshCommand {
     stdout.print('\n');
 
     stdout.print(String.format(//
-        "%1s %-"+nw+"s|%-21s|  %-5s |%-9s|\n" //
+        "%1s %-" + nw + "s|%-21s|  %-5s |%-9s|\n" //
         , "" //
         , "Name" //
         , "Entries" //
@@ -133,7 +133,7 @@ final class ShowCaches extends SshCommand {
         , "Hit Ratio" //
     ));
     stdout.print(String.format(//
-        "%1s %-"+nw+"s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
+        "%1s %-" + nw + "s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
         , "" //
         , "" //
         , "Mem" //
@@ -209,7 +209,7 @@ final class ShowCaches extends SshCommand {
 
   private void printCache(CacheInfo cache) {
     stdout.print(String.format(
-        "%1s %-"+nw+"s|%6s %6s %7s| %7s |%4s %4s|\n",
+        "%1s %-" + nw + "s|%6s %6s %7s| %7s |%4s %4s|\n",
         CacheType.DISK.equals(cache.type) ? "D" : "",
         cache.name,
         nullToEmpty(cache.entries.mem),

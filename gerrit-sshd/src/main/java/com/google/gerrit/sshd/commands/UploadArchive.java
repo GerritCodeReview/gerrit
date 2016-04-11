@@ -127,7 +127,7 @@ public class UploadArchive extends AbstractGitCommand {
         throw new Failure(1, "fatal: 'argument' token or flush expected");
       }
       String[] parts = s.substring(argCmd.length()).split("=", 2);
-      for(String p : parts) {
+      for (String p : parts) {
         args.add(p);
       }
     }

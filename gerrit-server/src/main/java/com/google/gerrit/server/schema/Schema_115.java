@@ -154,7 +154,7 @@ public class Schema_115 extends SchemaVersion {
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
-        try(MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
+        try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
             allUsersName, git, bru)) {
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);

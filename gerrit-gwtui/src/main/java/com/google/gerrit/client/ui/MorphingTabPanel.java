@@ -81,7 +81,7 @@ public class MorphingTabPanel extends TabPanel {
 
         /* Re-insert the widget right after the first visible widget found
            when scanning backwards from the current widget */
-        for (int pos = origPos -1; pos >=0 ; pos--) {
+        for (int pos = origPos - 1; pos >= 0 ; pos--) {
           int visiblePos = visibles.indexOf(widgets.get(pos));
           if (visiblePos != -1) {
             visibles.add(visiblePos + 1, w);

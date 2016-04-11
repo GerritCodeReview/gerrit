@@ -68,10 +68,11 @@ public class InitPlugins implements InitStep {
       }
     });
     return FluentIterable.from(result).toSortedList(new Comparator<PluginData>() {
-      @Override
-      public int compare(PluginData a, PluginData b) {
-        return a.name.compareTo(b.name);
-      }});
+        @Override
+        public int compare(PluginData a, PluginData b) {
+          return a.name.compareTo(b.name);
+        }
+      });
   }
 
   private final ConsoleUI ui;

@@ -104,7 +104,7 @@ public class AsciiDoctor {
 
     for (String attribute : attributes) {
       int equalsIndex = attribute.indexOf('=');
-      if(equalsIndex > -1) {
+      if (equalsIndex > -1) {
         String name = attribute.substring(0, equalsIndex);
         String value = attribute.substring(equalsIndex + 1, attribute.length());
 

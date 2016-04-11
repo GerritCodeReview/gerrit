@@ -44,7 +44,7 @@ public class WebLinks {
 
         @Override
         public boolean apply(WebLinkInfo link) {
-          if (link == null){
+          if (link == null) {
             return false;
           } else if (Strings.isNullOrEmpty(link.name)
               || Strings.isNullOrEmpty(link.url)) {

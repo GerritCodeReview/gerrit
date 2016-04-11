@@ -147,7 +147,7 @@ public class SubmoduleOp {
         ret.addAll(m.subscribedTo(branch));
       }
     }
-    logDebug("Calculated superprojects for " + branch + " are "+ ret);
+    logDebug("Calculated superprojects for " + branch + " are " + ret);
     return ret;
   }
 

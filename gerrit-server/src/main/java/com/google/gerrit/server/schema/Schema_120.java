@@ -55,7 +55,7 @@ public class Schema_120 extends SchemaVersion {
     try (Repository git = mgr.openRepository(subbranch.getParentKey());
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      try(MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
+      try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
           subbranch.getParentKey(), git, bru)) {
         md.setMessage("Added superproject subscription during upgrade");
         ProjectConfig pc = ProjectConfig.read(md);

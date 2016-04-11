@@ -218,7 +218,7 @@ class LoginForm extends HttpServlet {
     url.append(r.providerUrl);
     if (r.providerArgs != null && !r.providerArgs.isEmpty()) {
       boolean first = true;
-      for(Map.Entry<String, String> arg : r.providerArgs.entrySet()) {
+      for (Map.Entry<String, String> arg : r.providerArgs.entrySet()) {
         if (first) {
           url.append('?');
           first = false;

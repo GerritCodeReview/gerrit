@@ -490,7 +490,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
 
     private void touch(SqlHandle c, K key) throws SQLException {
       if (c.touch == null) {
-        c.touch =c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=?");
+        c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=?");
       }
       try {
         c.touch.setTimestamp(1, TimeUtil.nowTs());

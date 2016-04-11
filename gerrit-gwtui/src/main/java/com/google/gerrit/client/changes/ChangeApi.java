@@ -170,7 +170,7 @@ public class ChangeApi {
   public static RestApi hashtags(int changeId) {
     return change(changeId).view("hashtags");
   }
-  public static RestApi hashtag(int changeId, String hashtag){
+  public static RestApi hashtag(int changeId, String hashtag) {
     return change(changeId).view("hashtags").id(hashtag);
   }
 

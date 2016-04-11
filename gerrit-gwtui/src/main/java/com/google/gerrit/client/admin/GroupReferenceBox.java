@@ -47,7 +47,7 @@ public class GroupReferenceBox extends Composite implements
             toValue(event.getSelectedItem()));
       }
     });
-    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>(){
+    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
       @Override
       public void onClose(CloseEvent<RemoteSuggestBox> event) {
         suggestBox.setText("");

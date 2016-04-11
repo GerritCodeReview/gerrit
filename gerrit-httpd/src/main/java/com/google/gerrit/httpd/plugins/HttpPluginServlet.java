@@ -125,7 +125,7 @@ class HttpPluginServlet extends HttpServlet
       int c = host.lastIndexOf(':');
       if (0 <= c) {
         sshHost = host.substring(0, c);
-        sshPort = Integer.parseInt(host.substring(c+1));
+        sshPort = Integer.parseInt(host.substring(c + 1));
       } else {
         sshHost = host;
         sshPort = 22;
@@ -346,7 +346,7 @@ class HttpPluginServlet extends HttpServlet
       int nameOffset) throws IOException {
     if (!entries.isEmpty()) {
       md.append("## ").append(sectionTitle).append(" ##\n");
-      for(PluginEntry entry : entries) {
+      for (PluginEntry entry : entries) {
         String rsrc = entry.getName().substring(prefix.length());
         String entryTitle;
         if (rsrc.endsWith(".html")) {

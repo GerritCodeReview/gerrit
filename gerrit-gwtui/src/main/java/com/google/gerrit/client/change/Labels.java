@@ -59,7 +59,7 @@ class Labels extends Grid {
     init(REMOVE_REVIEWER, REMOVE_VOTE);
   }
 
-  private static final native void init(String r, String v) /*-{
+  private static native void init(String r, String v) /*-{
     $wnd[r] = $entry(function(e) {
       @com.google.gerrit.client.change.Labels::onRemoveReviewer(Lcom/google/gwt/dom/client/NativeEvent;)(e)
     });

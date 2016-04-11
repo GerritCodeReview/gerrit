@@ -77,7 +77,7 @@ public class CommentInfo extends JavaScriptObject {
   public final void side(Side side) {
     sideRaw(side.toString());
   }
-  private final native void sideRaw(String s) /*-{ this.side = s }-*/;
+  private native void sideRaw(String s) /*-{ this.side = s }-*/;
 
   public final native String path() /*-{ return this.path }-*/;
   public final native String id() /*-{ return this.id }-*/;
@@ -90,7 +90,7 @@ public class CommentInfo extends JavaScriptObject {
         ? Side.valueOf(s)
         : Side.REVISION;
   }
-  private final native String sideRaw() /*-{ return this.side }-*/;
+  private native String sideRaw() /*-{ return this.side }-*/;
 
   public final Timestamp updated() {
     Timestamp r = updatedTimestamp();
@@ -103,9 +103,9 @@ public class CommentInfo extends JavaScriptObject {
     }
     return r;
   }
-  private final native String updatedRaw() /*-{ return this.updated }-*/;
-  private final native Timestamp updatedTimestamp() /*-{ return this._ts }-*/;
-  private final native void updatedTimestamp(Timestamp t) /*-{ this._ts = t }-*/;
+  private native String updatedRaw() /*-{ return this.updated }-*/;
+  private native Timestamp updatedTimestamp() /*-{ return this._ts }-*/;
+  private native void updatedTimestamp(Timestamp t) /*-{ this._ts = t }-*/;
 
   public final native AccountInfo author() /*-{ return this.author }-*/;
   public final native int line() /*-{ return this.line || 0 }-*/;

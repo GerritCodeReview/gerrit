@@ -45,7 +45,7 @@ class SideBySideChunkManager extends ChunkManager {
   private static double guessedLineHeightPx = 15;
   private static final JavaScriptObject focusA = initOnClick(A);
   private static final JavaScriptObject focusB = initOnClick(B);
-  private static final native JavaScriptObject initOnClick(DisplaySide s) /*-{
+  private static native JavaScriptObject initOnClick(DisplaySide s) /*-{
     return $entry(function(e){
       @com.google.gerrit.client.diff.SideBySideChunkManager::focus(
         Lcom/google/gwt/dom/client/NativeEvent;

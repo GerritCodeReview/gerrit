@@ -62,7 +62,7 @@ public class Hashtags extends Composite {
     init(REMOVE);
   }
 
-  private static final native void init(String r) /*-{
+  private static native void init(String r) /*-{
     $wnd[r] = $entry(function(e) {
       @com.google.gerrit.client.change.Hashtags::onRemove(Lcom/google/gwt/dom/client/NativeEvent;)(e)
     });

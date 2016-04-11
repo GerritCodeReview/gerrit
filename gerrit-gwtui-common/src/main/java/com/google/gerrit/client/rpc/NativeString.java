@@ -22,7 +22,7 @@ public final class NativeString extends JavaScriptObject {
   public static final JavaScriptObject TYPE = init();
 
   // Used from core and plugins
-  private static final native JavaScriptObject init() /*-{
+  private static native JavaScriptObject init() /*-{
     if ($wnd.Gerrit === undefined || $wnd.Gerrit.JsonString === undefined) {
       return function(s){this.s=s};
     } else {
@@ -30,16 +30,16 @@ public final class NativeString extends JavaScriptObject {
     }
   }-*/;
 
-  static final NativeString wrap(String s) {
+  static NativeString wrap(String s) {
     return wrap0(TYPE, s);
   }
 
-  private static final native NativeString wrap0(JavaScriptObject T, String s)
+  private static native NativeString wrap0(JavaScriptObject T, String s)
   /*-{ return new T(s) }-*/;
 
-  public final native String asString() /*-{ return this.s; }-*/;
+  public native String asString() /*-{ return this.s; }-*/;
 
-  public static final AsyncCallback<NativeString>
+  public static AsyncCallback<NativeString>
   unwrap(final AsyncCallback<String> cb) {
     return new AsyncCallback<NativeString>() {
       @Override
@@ -54,11 +54,11 @@ public final class NativeString extends JavaScriptObject {
     };
   }
 
-  public static final boolean is(JavaScriptObject o) {
+  public static boolean is(JavaScriptObject o) {
     return is(TYPE, o);
   }
 
-  private static final native boolean is(JavaScriptObject T, JavaScriptObject o)
+  private static native boolean is(JavaScriptObject T, JavaScriptObject o)
   /*-{ return o instanceof T }-*/;
 
   protected NativeString() {

@@ -222,9 +222,9 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   protected static class MyFlexTable extends FlexTable {
   }
 
-  private static final native <ItemType> void setRowItem(Element td, ItemType c)
+  private static native <ItemType> void setRowItem(Element td, ItemType c)
   /*-{ td['__gerritRowItem'] = c; }-*/;
 
-  private static final native <ItemType> ItemType getRowItem(Element td)
+  private static native <ItemType> ItemType getRowItem(Element td)
   /*-{ return td['__gerritRowItem']; }-*/;
 }

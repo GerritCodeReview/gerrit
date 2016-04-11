@@ -45,7 +45,7 @@ public class EditGlue {
     }
   }
 
-  private static final native JavaScriptObject get(String id) /*-{
+  private static native JavaScriptObject get(String id) /*-{
     return $wnd.Gerrit.edit_actions[id];
   }-*/;
 

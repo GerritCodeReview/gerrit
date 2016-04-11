@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab7062c4_99291bcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-11T07:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e864c95_80f5d66f",
+      "range": {
+        "startLine": 252,
+        "startChar": 37,
+        "endLine": 252,
+        "endChar": 46
+      },
+      "revId": "3b1736df1f87ab8b07d1ba72b0195eb6fa3ac98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8782d0_213f6e0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ab7062c4_b9265ff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-11T07:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8782d0_213f6e0b",
+      "range": {
+        "startLine": 264,
+        "startChar": 19,
+        "endLine": 264,
+        "endChar": 28
+      },
+      "revId": "3b1736df1f87ab8b07d1ba72b0195eb6fa3ac98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e864c95_a002da2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2016-04-11T04:55:17Z",
       "side": 1,
       "message": "Canceled",
+      "range": {
+        "startLine": 266,
+        "startChar": 12,
+        "endLine": 266,
+        "endChar": 21
+      },
+      "revId": "3b1736df1f87ab8b07d1ba72b0195eb6fa3ac98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9c1a2c_3b1b17ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-11T07:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e864c95_a002da2d",
       "range": {
         "startLine": 266,
         "startChar": 12,

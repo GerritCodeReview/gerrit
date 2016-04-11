@@ -393,8 +393,6 @@
       this._getComments();
 
       var reloadPatchNumDependentResources = function() {
-        if (!this._change) { return Promise.resolve(); }
-
         return Promise.all([
           this._getCommitInfo(),
           this.$.actions.reload(),

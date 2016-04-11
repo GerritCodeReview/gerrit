@@ -83,6 +83,8 @@
 
       this._loading = true;
       return this._getRevisionActions().then(function(revisionActions) {
+        if (!revisionActions) { return; }
+
         this._revisionActions = revisionActions;
         this._loading = false;
       }.bind(this)).catch(function(err) {
@@ -90,7 +92,7 @@
             'and contact the PolyGerrit team for assistance.');
         this._loading = false;
         throw err;
-      });
+      }.bind(this));
     },
 
     _getRevisionActions: function() {

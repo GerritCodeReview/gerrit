@@ -39,8 +39,8 @@ public class DownloadInfo extends JavaScriptObject {
   }
 
   public final native DownloadSchemeInfo scheme(String n) /*-{ return this.schemes[n]; }-*/;
-  private final native NativeMap<DownloadSchemeInfo> _schemes() /*-{ return this.schemes; }-*/;
-  private final native JsArrayString _archives() /*-{ return this.archives; }-*/;
+  private native NativeMap<DownloadSchemeInfo> _schemes() /*-{ return this.schemes; }-*/;
+  private native JsArrayString _archives() /*-{ return this.archives; }-*/;
 
   protected DownloadInfo() {
   }
@@ -96,8 +96,8 @@ public class DownloadInfo extends JavaScriptObject {
     public final native boolean isAuthSupported() /*-{ return this.is_auth_supported || false; }-*/;
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
     public final native String cloneCommand(String n) /*-{ return this.clone_commands[n]; }-*/;
-    private final native NativeMap<NativeString> _commands() /*-{ return this.commands; }-*/;
-    private final native NativeMap<NativeString> _cloneCommands() /*-{ return this.clone_commands; }-*/;
+    private native NativeMap<NativeString> _commands() /*-{ return this.commands; }-*/;
+    private native NativeMap<NativeString> _cloneCommands() /*-{ return this.clone_commands; }-*/;
 
     protected DownloadSchemeInfo() {
     }

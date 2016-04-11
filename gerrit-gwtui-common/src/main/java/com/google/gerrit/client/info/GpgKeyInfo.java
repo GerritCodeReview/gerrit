@@ -27,7 +27,7 @@ public class GpgKeyInfo extends JavaScriptObject {
   public final native JsArrayString userIds() /*-{ return this.user_ids; }-*/;
   public final native String key() /*-{ return this.key; }-*/;
 
-  private final native String statusRaw() /*-{ return this.status; }-*/;
+  private native String statusRaw() /*-{ return this.status; }-*/;
   public final Status status() {
     String s = statusRaw();
     if (s == null) {

@@ -36,7 +36,7 @@ public class ProjectInfo
     return ProjectState.valueOf(getStringState());
   }
 
-  private final native String getStringState() /*-{ return this.state; }-*/;
+  private native String getStringState() /*-{ return this.state; }-*/;
 
   @Override
   public final String getDisplayString() {

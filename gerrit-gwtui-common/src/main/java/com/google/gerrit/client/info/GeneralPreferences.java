@@ -65,7 +65,7 @@ public class GeneralPreferences extends JavaScriptObject {
         ? changesPerPage
         : GeneralPreferencesInfo.DEFAULT_PAGESIZE;
   }
-  private final native short get(String n, int d)
+  private native short get(String n, int d)
   /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
   public final native boolean showSiteHeader()
@@ -81,21 +81,21 @@ public class GeneralPreferences extends JavaScriptObject {
     String s = downloadCommandRaw();
     return s != null ? DownloadCommand.valueOf(s) : null;
   }
-  private final native String downloadCommandRaw()
+  private native String downloadCommandRaw()
   /*-{ return this.download_command }-*/;
 
   public final DateFormat dateFormat() {
     String s = dateFormatRaw();
     return s != null ? DateFormat.valueOf(s) : null;
   }
-  private final native String dateFormatRaw()
+  private native String dateFormatRaw()
   /*-{ return this.date_format }-*/;
 
   public final TimeFormat timeFormat() {
     String s = timeFormatRaw();
     return s != null ? TimeFormat.valueOf(s) : null;
   }
-  private final native String timeFormatRaw()
+  private native String timeFormatRaw()
   /*-{ return this.time_format }-*/;
 
   public final native boolean relativeDateInChangeTable()
@@ -117,14 +117,14 @@ public class GeneralPreferences extends JavaScriptObject {
     String s = reviewCategeoryStrategyRaw();
     return s != null ? ReviewCategoryStrategy.valueOf(s) : ReviewCategoryStrategy.NONE;
   }
-  private final native String reviewCategeoryStrategyRaw()
+  private native String reviewCategeoryStrategyRaw()
   /*-{ return this.review_category_strategy }-*/;
 
   public final DiffView diffView() {
     String s = diffViewRaw();
     return s != null ? DiffView.valueOf(s) : null;
   }
-  private final native String diffViewRaw()
+  private native String diffViewRaw()
   /*-{ return this.diff_view }-*/;
 
   public final EmailStrategy emailStrategy() {
@@ -132,7 +132,7 @@ public class GeneralPreferences extends JavaScriptObject {
     return s != null ? EmailStrategy.valueOf(s) : null;
   }
 
-  private final native String emailStrategyRaw()
+  private native String emailStrategyRaw()
   /*-{ return this.email_strategy }-*/;
 
   public final native JsArray<TopMenuItem> my()
@@ -159,13 +159,13 @@ public class GeneralPreferences extends JavaScriptObject {
   public final void dateFormat(DateFormat f) {
     dateFormatRaw(f != null ? f.toString() : null);
   }
-  private final native void dateFormatRaw(String f)
+  private native void dateFormatRaw(String f)
   /*-{ this.date_format = f }-*/;
 
   public final void timeFormat(TimeFormat f) {
     timeFormatRaw(f != null ? f.toString() : null);
   }
-  private final native void timeFormatRaw(String f)
+  private native void timeFormatRaw(String f)
   /*-{ this.time_format = f }-*/;
 
   public final native void relativeDateInChangeTable(boolean d)
@@ -186,19 +186,19 @@ public class GeneralPreferences extends JavaScriptObject {
   public final void reviewCategoryStrategy(ReviewCategoryStrategy s) {
     reviewCategoryStrategyRaw(s != null ? s.toString() : null);
   }
-  private final native void reviewCategoryStrategyRaw(String s)
+  private native void reviewCategoryStrategyRaw(String s)
   /*-{ this.review_category_strategy = s }-*/;
 
   public final void diffView(DiffView d) {
     diffViewRaw(d != null ? d.toString() : null);
   }
-  private final native void diffViewRaw(String d)
+  private native void diffViewRaw(String d)
   /*-{ this.diff_view = d }-*/;
 
   public final void emailStrategy(EmailStrategy s) {
     emailStrategyRaw(s != null ? s.toString() : null);
   }
-  private final native void emailStrategyRaw(String s)
+  private native void emailStrategyRaw(String s)
   /*-{ this.email_strategy = s }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
@@ -218,8 +218,8 @@ public class GeneralPreferences extends JavaScriptObject {
     return urlAliases;
   }
 
-  private final native String urlAliasToken(String m) /*-{ return this.url_aliases[m]; }-*/;
-  private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
+  private native String urlAliasToken(String m) /*-{ return this.url_aliases[m]; }-*/;
+  private native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
 
   public final void setUrlAliases(Map<String, String> urlAliases) {
     initUrlAliases();
@@ -227,8 +227,8 @@ public class GeneralPreferences extends JavaScriptObject {
       putUrlAlias(e.getKey(), e.getValue());
     }
   }
-  private final native void putUrlAlias(String m, String t) /*-{ this.url_aliases[m] = t; }-*/;
-  private final native void initUrlAliases() /*-{ this.url_aliases = {}; }-*/;
+  private native void putUrlAlias(String m, String t) /*-{ this.url_aliases[m] = t; }-*/;
+  private native void initUrlAliases() /*-{ this.url_aliases = {}; }-*/;
 
   protected GeneralPreferences() {
   }

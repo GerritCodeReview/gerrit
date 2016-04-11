@@ -43,7 +43,7 @@ public class ServerInfo extends JavaScriptObject {
   }
 
   public final native String urlAliasToken(String n) /*-{ return this.url_aliases[n]; }-*/;
-  private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
+  private native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
 
 
   public final boolean hasSshd() {

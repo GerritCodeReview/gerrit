@@ -63,7 +63,7 @@ class PatchSetsBox extends Composite {
     init(OPEN);
   }
 
-  private static final native void init(String o) /*-{
+  private static native void init(String o) /*-{
     $wnd[o] = $entry(function(e,i) {
       return @com.google.gerrit.client.change.PatchSetsBox::onOpen(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
     });

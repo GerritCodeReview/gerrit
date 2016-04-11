@@ -33,9 +33,9 @@ public class GroupInfo extends GroupBaseInfo {
   public final native JsArray<AccountInfo> members() /*-{ return this.members; }-*/;
   public final native JsArray<GroupInfo> includes() /*-{ return this.includes; }-*/;
 
-  private final native int group_id() /*-{ return this.group_id; }-*/;
-  private final native String owner_id() /*-{ return this.owner_id; }-*/;
-  private final native void owner_id(String o) /*-{ if(o)this.owner_id=o; }-*/;
+  private native int group_id() /*-{ return this.group_id; }-*/;
+  private native String owner_id() /*-{ return this.owner_id; }-*/;
+  private native void owner_id(String o) /*-{ if(o)this.owner_id=o; }-*/;
 
   public final AccountGroup.UUID getOwnerUUID() {
     String owner = owner_id();

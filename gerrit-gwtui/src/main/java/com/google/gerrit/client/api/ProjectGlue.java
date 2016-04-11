@@ -61,11 +61,11 @@ public class ProjectGlue {
     }
   }
 
-  private static final native JavaScriptObject projectAction(String id) /*-{
+  private static native JavaScriptObject projectAction(String id) /*-{
     return $wnd.Gerrit.project_actions[id];
   }-*/;
 
-  private static final native JavaScriptObject branchAction(String id) /*-{
+  private static native JavaScriptObject branchAction(String id) /*-{
     return $wnd.Gerrit.branch_actions[id];
   }-*/;
 

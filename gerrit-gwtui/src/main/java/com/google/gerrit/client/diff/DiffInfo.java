@@ -45,7 +45,7 @@ public class DiffInfo extends JavaScriptObject {
     return filterWebLinks(DiffView.UNIFIED_DIFF);
   }
 
-  private final List<WebLinkInfo> filterWebLinks(DiffView diffView) {
+  private List<WebLinkInfo> filterWebLinks(DiffView diffView) {
     List<WebLinkInfo> filteredDiffWebLinks = new LinkedList<>();
     List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(webLinks());
     if (allDiffWebLinks != null) {
@@ -66,7 +66,7 @@ public class DiffInfo extends JavaScriptObject {
   public final ChangeType changeType() {
     return ChangeType.valueOf(changeTypeRaw());
   }
-  private final native String changeTypeRaw()
+  private native String changeTypeRaw()
   /*-{ return this.change_type }-*/;
 
   public final IntraLineStatus intralineStatus() {
@@ -75,7 +75,7 @@ public class DiffInfo extends JavaScriptObject {
         ? IntraLineStatus.valueOf(s)
         : IntraLineStatus.OFF;
   }
-  private final native String intralineStatusRaw()
+  private native String intralineStatusRaw()
   /*-{ return this.intraline_status }-*/;
 
   public final boolean hasSkip() {

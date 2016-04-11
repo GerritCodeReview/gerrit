@@ -30,7 +30,7 @@ import java.util.Objects;
 /** Additional features added to CodeMirror by Gerrit Code Review. */
 public class Extras {
   static final native Extras get(CodeMirror c) /*-{ return c.gerritExtras }-*/;
-  private static final native void set(CodeMirror c, Extras e)
+  private static native void set(CodeMirror c, Extras e)
   /*-{ c.gerritExtras = e }-*/;
 
   static void attach(CodeMirror c) {

@@ -91,7 +91,7 @@ public class ExtensionSettingsScreen extends SettingsScreen {
       return Natives.keys(settingsScreens());
     }
 
-    private static final native NativeMap<NativeString> settingsScreens()
+    private static native NativeMap<NativeString> settingsScreens()
     /*-{ return $wnd.Gerrit.settingsScreens; }-*/;
 
     public final native String getPath() /*-{ return this.path; }-*/;
@@ -114,7 +114,7 @@ public class ExtensionSettingsScreen extends SettingsScreen {
     final native void onLoad() /*-{ this._d.onLoad(this) }-*/;
     final native JsArray<JavaScriptObject> unload() /*-{ return this._u }-*/;
 
-    private static final native Context create(
+    private static native Context create(
         JavaScriptObject T,
         Definition d,
         ExtensionSettingsScreen s,
@@ -122,7 +122,7 @@ public class ExtensionSettingsScreen extends SettingsScreen {
     /*-{ return new T(d,s,e) }-*/;
 
     private static final JavaScriptObject TYPE = init();
-    private static final native JavaScriptObject init() /*-{
+    private static native JavaScriptObject init() /*-{
       var T = function(d,s,e) {
         this._d = d;
         this._s = s;

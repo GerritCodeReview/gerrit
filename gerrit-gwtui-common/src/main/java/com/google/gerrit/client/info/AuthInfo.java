@@ -90,8 +90,8 @@ public class AuthInfo extends JavaScriptObject {
   public final native String editFullNameUrl() /*-{ return this.edit_full_name_url; }-*/;
   public final native String httpPasswordUrl() /*-{ return this.http_password_url; }-*/;
   public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
-  private final native String authTypeRaw() /*-{ return this.auth_type; }-*/;
-  private final native JsArrayString _editableAccountFields()
+  private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
+  private native JsArrayString _editableAccountFields()
   /*-{ return this.editable_account_fields; }-*/;
 
   protected AuthInfo() {

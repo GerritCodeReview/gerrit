@@ -129,7 +129,7 @@ public class AccountCreator {
       }
 
       KeyPair sshKey = genSshKey();
-      addSshKey(db, id, username, email, sshKey);
+      addSshKey(id, username, email, sshKey);
 
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
@@ -141,13 +141,10 @@ public class AccountCreator {
     }
   }
 
-  private void addSshKey(ReviewDb db, Account.Id id, String username,
-      String email, KeyPair sshKey)
-          throws OrmException, IOException, ConfigInvalidException {
+  private void addSshKey(Account.Id id, String username, String email,
+      KeyPair sshKey) throws IOException, ConfigInvalidException {
     AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(id, 1),
         publicKey(sshKey, email));
-
-    db.accountSshKeys().insert(Collections.singleton(key));
 
     try (
         MetaDataUpdate md = metaDataUpdateFactory.get()

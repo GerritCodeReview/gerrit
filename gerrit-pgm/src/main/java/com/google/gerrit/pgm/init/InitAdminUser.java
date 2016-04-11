@@ -117,7 +117,6 @@ public class InitAdminUser implements InitStep {
                 authorizedKeysFactory.create(id).load();
             authorizedKeys.addKey(sshKey.getSshPublicKey());
             authorizedKeys.save("Added SSH key for initial admin user");
-            db.accountSshKeys().insert(Collections.singleton(sshKey));
           }
         }
       }

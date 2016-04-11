@@ -210,7 +210,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     }
 
     if (key != null) {
-      addSshKey(db, key, username);
+      addSshKey(key, username);
     }
 
     accountCache.evictByUsername(username);
@@ -222,10 +222,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     return Response.created(info);
   }
 
-  private void addSshKey(ReviewDb db, AccountSshKey key, String username)
-      throws OrmException, IOException, ConfigInvalidException {
-    db.accountSshKeys().insert(Collections.singleton(key));
-
+  private void addSshKey(AccountSshKey key, String username)
+      throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.get()
             .create(allUsersName.get(), userFactory.create(key.getAccount()));
         Repository git = repoManager.openRepository(allUsersName.get())) {

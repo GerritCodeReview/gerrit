@@ -20,11 +20,9 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -32,7 +30,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -43,26 +40,19 @@ public class SshKeys implements
   private final DynamicMap<RestView<AccountResource.SshKey>> views;
   private final GetSshKeys list;
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final Provider<AllUsersName> allUsersName;
-  private final boolean readFromGit;
 
   @Inject
   SshKeys(DynamicMap<RestView<AccountResource.SshKey>> views,
       GetSshKeys list, Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
-      Provider<AllUsersName> allUsersName,
-      @GerritServerConfig Config cfg) {
+      Provider<AllUsersName> allUsersName) {
     this.views = views;
     this.list = list;
     this.self = self;
-    this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.readFromGit =
-        cfg.getBoolean("user", null, "readSshKeysFromGit", false);
   }
 
   @Override
@@ -82,24 +72,13 @@ public class SshKeys implements
   }
 
   public AccountResource.SshKey parse(IdentifiedUser user, IdString id)
-      throws ResourceNotFoundException, OrmException, IOException,
-      ConfigInvalidException {
-    try {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+    try (Repository git = repoManager.openRepository(allUsersName.get())) {
+      VersionedAuthorizedKeys authorizedKeys =
+          new VersionedAuthorizedKeys(user.getAccountId());
+      authorizedKeys.load(git);
       int seq = Integer.parseInt(id.get(), 10);
-
-      AccountSshKey sshKey;
-      if (readFromGit) {
-        try (Repository git = repoManager.openRepository(allUsersName.get())) {
-          VersionedAuthorizedKeys authorizedKeys =
-              new VersionedAuthorizedKeys(user.getAccountId());
-          authorizedKeys.load(git);
-          sshKey = authorizedKeys.getKey(seq);
-        }
-      } else {
-        sshKey = dbProvider.get().accountSshKeys()
-            .get(new AccountSshKey.Id(user.getAccountId(), seq));
-      }
-
+      AccountSshKey sshKey = authorizedKeys.getKey(seq);
       if (sshKey == null) {
         throw new ResourceNotFoundException(id);
       }

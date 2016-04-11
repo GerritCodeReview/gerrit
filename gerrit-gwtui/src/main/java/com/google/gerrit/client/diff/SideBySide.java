@@ -94,6 +94,7 @@ public class SideBySide extends DiffScreen {
             getChangeStatus().isOpen());
         setTheme(result.getTheme());
         display(comments);
+        header.setupPrevNextFiles(comments);
       }
     };
   }

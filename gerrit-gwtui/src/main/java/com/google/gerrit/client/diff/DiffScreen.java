@@ -209,8 +209,9 @@ abstract class DiffScreen extends Screen {
           }));
     }
 
-    final CommentsCollections comments = new CommentsCollections();
-    comments.load(base, revision, path, group2);
+    final CommentsCollections comments =
+        new CommentsCollections(base, revision, path);
+    comments.load(group2);
 
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(

@@ -98,6 +98,7 @@ public class Unified extends DiffScreen {
             getChangeStatus().isOpen());
         setTheme(result.getTheme());
         display(comments);
+        header.setupPrevNextFiles(comments);
       }
     };
   }

@@ -327,6 +327,10 @@ public class Header extends Composite {
       return true;
     }
 
+    if (prefs.skipUnchanged() && ChangeType.COPIED.matches(curr.status())) {
+      return true;
+    }
+
     if (prefs.skipUncommented()) {
       HasCommentsCallback forBase = new HasCommentsCallback(curr.path());
       HasCommentsCallback forPatchSetId = new HasCommentsCallback(curr.path());

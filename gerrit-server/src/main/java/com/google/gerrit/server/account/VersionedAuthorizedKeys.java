@@ -148,11 +148,21 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /**
    * Adds a new public SSH key.
    *
+   * If the specified public key exists already, the existing key is returned.
+   *
    * @param pub the public SSH key to be added
    * @return the new SSH key
    */
   public AccountSshKey addKey(String pub) {
     checkState(keys != null, "SSH keys not loaded yet");
+
+    for (Optional<AccountSshKey> key : keys.values()) {
+      if (key.isPresent()
+          && key.get().getSshPublicKey().trim().equals(pub.trim())) {
+        return key.get();
+      }
+    }
+
     int seq = keys.isEmpty() ? 1 : keys.lastKey() + 1;
     AccountSshKey key =
         new AccountSshKey(new AccountSshKey.Id(accountId, seq), pub);

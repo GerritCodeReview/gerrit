@@ -311,6 +311,7 @@ public class Header extends Composite {
     for (int i = currIndex - 1; i >= 0; i--) {
       FileInfo curr = files.get(i);
       if (prefs.skipDeleted() && curr.status().equals("D")
+          || prefs.skipUnchanged() && curr.status().equals("C")
           || prefs.skipUncommented() && !hasComments) {
         continue;
       } else {
@@ -321,6 +322,7 @@ public class Header extends Composite {
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
       if (prefs.skipDeleted() && curr.status().equals("D")
+          || prefs.skipUnchanged() && curr.status().equals("C")
           || prefs.skipUncommented() && !hasComments) {
         continue;
       } else {

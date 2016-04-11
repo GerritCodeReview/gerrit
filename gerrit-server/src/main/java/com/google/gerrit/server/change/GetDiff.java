@@ -403,7 +403,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
     private final DiffPreferencesInfo.Whitespace whitespace;
 
-    private IgnoreWhitespace(DiffPreferencesInfo.Whitespace whitespace) {
+    IgnoreWhitespace(DiffPreferencesInfo.Whitespace whitespace) {
       this.whitespace = whitespace;
     }
   }

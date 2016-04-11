@@ -67,7 +67,7 @@ public final class PatchLineComment {
 
     private final char code;
 
-    private Status(final char c) {
+    Status(final char c) {
       code = c;
     }
 

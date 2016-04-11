@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7062c4_b9817fee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-11T08:43:21Z",
+      "side": 1,
+      "message": "Just for my info: why was this update needed?",
+      "revId": "dcd37ad2906eabebeec9900f15804b53314370be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

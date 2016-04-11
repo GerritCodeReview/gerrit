@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebca5a38_ebc87175",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "Overkill. googlesource.com does not use ssh, we completely disable the AccountSshKey table. You can squash these together and save considerable complexity.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_4bb8a5ea",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "It seems like you could save some work if you used the REST API handler directly to do this. Or is this too early in the initialization for that to be available?",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_6bbd61d9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "It feels odd to use inheritance for this rather than having a single class with load/save methods and delegating to VersionedAuthorizedKeys internally.",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_0bb29d08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "Not a Provider",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_2bb759f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "This is like the third or fourth time I\u0027ve seen this block of code so far. Can we factor out some helper methods so you don\u0027t have to keep rewriting this? Plus then you could just inject a single helper class into all these handlers rather than adding 4 or 5 new dependencies.",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_caa483ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "Seems like this would be fine to let propagate as a 500 instead of converting to 400",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_abab4999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "Just inject AllUsersName, it\u0027s not like this changes.",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_8bae8daa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "This getBoolean is duplicated elsewhere, maybe extract this as a static method in this class?",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_cbcb3570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "I really think we need a small test for this class, just to test various cases of file contents \u003c-\u003e parsed map representation.",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_eba151bb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T18:36:57Z",
+      "side": 1,
+      "message": "Why is this readFromDb and not git/db depending on the state of the config?",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

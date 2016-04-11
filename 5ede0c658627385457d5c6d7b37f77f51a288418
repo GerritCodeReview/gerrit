@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "4bc60632_6e0faf89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-11T13:39:26Z",
+      "side": 1,
+      "message": "Fine,thanks a lot.\nYour opinoin is great,I have just debuged the code in the AccountResolver class.The problem is right here.",
+      "parentUuid": "ab7062c4_f9e9379c",
+      "revId": "5ede0c658627385457d5c6d7b37f77f51a288418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7eac0c0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

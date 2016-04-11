@@ -353,8 +353,16 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
 
-    // Add an existing key again
+    // Add an existing key (the request succeeds, but the key isn't added again)
     gApi.accounts().self().addSshKey(inital);
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(2);
+    assertSequenceNumbers(info);
+
+    // Add another new key
+    String newKey2 = AccountCreator.publicKey(
+        AccountCreator.genSshKey(), admin.email);
+    gApi.accounts().self().addSshKey(newKey2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
     assertSequenceNumbers(info);

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "eb9c1a2c_7b8c3f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-11T08:12:48Z",
+      "side": 1,
+      "message": "Hi,Sasa\n1)I hava already found the connection leak in my Gerrit server(2.10.5),which is caused by the command \"suexec\" in Gerrit.When the \"--as\" is assigned a EMAIL address which is inaccurate (maybe not case-sensitive or imcomplete)but existed,the connection leak will occur.\n\n2)Because I am not familar with the Gerrit code,it takes some time to locate the connection leak and I just apply the \"removeAbandoned\" feature to avoid the gerrit crash when the count of connections in database pool is up to the limit.Actually,the result proved that it works.But the log cannot be observed which is still making me confused.\n\n3)And forgive my asking,could you give me some directions to solve this problem?",
+      "parentUuid": "3118652c_95e544f3",
+      "revId": "5ede0c658627385457d5c6d7b37f77f51a288418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7eac0c0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e864c95_80bcf689",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-11T11:21:27Z",
+      "side": 1,
+      "message": "Nit: line slightly too long.",
+      "revId": "c5ccbf196f18a59c6130f4e1df934672125f625a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_a07d7a8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-11T11:21:27Z",
+      "side": 1,
+      "message": "Nit: line slightly too long.",
+      "revId": "c5ccbf196f18a59c6130f4e1df934672125f625a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_e08782d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-11T11:21:27Z",
+      "side": 1,
+      "message": "Nit: line slightly too long.",
+      "revId": "c5ccbf196f18a59c6130f4e1df934672125f625a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_c0827ec6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-11T11:21:27Z",
+      "side": 1,
+      "message": "Nit: line slightly too long.",
+      "revId": "c5ccbf196f18a59c6130f4e1df934672125f625a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8782d0_416dd200",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_stats_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-11T11:21:27Z",
+      "side": 1,
+      "message": "Nit: line too long.",
+      "revId": "c5ccbf196f18a59c6130f4e1df934672125f625a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

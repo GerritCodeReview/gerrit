@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7062c4_7921a7e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-11T06:06:30Z",
+      "side": 1,
+      "message": "Add a\n\n  Bug: Issue 4051\n\nline here to link to the issue.",
+      "revId": "e4c768cb13b62d3e52a860d2e105c2a8b2dde844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

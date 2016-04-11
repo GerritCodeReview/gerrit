@@ -70,6 +70,24 @@
       "revId": "05d4b99cdca4939072bcf7ecbb971bba0facfa36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8782d0_01fb4a8b",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-11T03:22:25Z",
+      "side": 1,
+      "message": "We might as well try this. SuperDevMode is reported to be much faster with GWT 2.8.",
+      "parentUuid": "6ed4b87d_27a6dad3",
+      "revId": "05d4b99cdca4939072bcf7ecbb971bba0facfa36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -81,7 +81,7 @@ public class RebaseUtil {
   }
 
   @AutoValue
-  static abstract class Base {
+  abstract static class Base {
     private static Base create(ChangeControl ctl, PatchSet ps) {
       if (ctl == null) {
         return null;

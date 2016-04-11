@@ -65,7 +65,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   @AutoValue
-  static abstract class Key {
+  abstract static class Key {
     abstract RevId revId();
     abstract PatchLineComment.Key key();
   }

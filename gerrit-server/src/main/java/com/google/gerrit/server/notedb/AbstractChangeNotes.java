@@ -75,7 +75,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   @AutoValue
-  public static abstract class LoadHandle implements AutoCloseable {
+  public abstract static class LoadHandle implements AutoCloseable {
     public static LoadHandle create(RevWalk walk, ObjectId id) {
       return new AutoValue_AbstractChangeNotes_LoadHandle(
           checkNotNull(walk), id != null ? id.copy() : null);

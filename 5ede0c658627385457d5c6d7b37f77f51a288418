@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "ab7062c4_99a83b50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-11T14:10:24Z",
+      "side": 1,
+      "message": "Sounds good. Can you push a fix for review?",
+      "parentUuid": "4bc60632_6e0faf89",
+      "revId": "5ede0c658627385457d5c6d7b37f77f51a288418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71065dd1_f7eac0c0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

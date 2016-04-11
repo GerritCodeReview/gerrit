@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e864c95_005b862a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6be468_2a47df49",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 44
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7a6832_ab6509e9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2016-04-07T20:50:50Z",
       "side": 1,
       "message": "ReviewDb parameter description is missing.",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_20408a32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_ab6509e9",
       "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_2ba0b9b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_4b402533",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 35
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7a6832_4b7b458d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 8
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_0b9b7d92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_4b7b458d",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce6be468_aa5aef23",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 8
@@ -93,6 +177,30 @@
       "writtenOn": "2016-04-07T20:50:50Z",
       "side": 1,
       "message": "In case NoteDb migration was activated for reading changes, it should be read from the NoteDb and not from the database. You could also inject NotesMigration an do it manualy (don\u0027t do that), e.g.:\n\n  if (!migration.readChanges()) {\n      return db.patchSets().get(psId);\n  }\n  return notes.load().getPatchSets().get(psId);\n\n\nBut there is PatchSetUtil with current() method, that does just that. Inject it in the ctor and use it:\n\n  PatchSet patchSet \u003d psUtil.current(dbProvider.get(), ctx.getNotes());\n\nAnd you only should retrieve the patch set when the hook is actually fired.",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 47
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_6a96b76b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6be468_aa5aef23",
       "range": {
         "startLine": 166,
         "startChar": 6,
@@ -140,6 +248,42 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_cba495ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_ab5ae923",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_0a9b7b92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_ab33c9ed",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce6be468_0a4a1b51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 8
@@ -151,6 +295,30 @@
       "writtenOn": "2016-04-07T20:50:50Z",
       "side": 1,
       "message": "This condition is always false, see line 149 above why.",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_4a917370",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6be468_0a4a1b51",
       "range": {
         "startLine": 198,
         "startChar": 4,
@@ -180,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_4b918570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6be468_8a55abf8",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7a6832_6b78818f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
         "patchSetId": 8
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "8e864c95_80479647",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a6832_6b78818f",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7a6832_cb3415db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
         "patchSetId": 8
@@ -214,6 +424,24 @@
       "writtenOn": "2016-04-07T20:50:50Z",
       "side": 1,
       "message": "Shouldn\u0027t the removed reviewer be put to the recepient list:\n\n  add(RecipientType.TO, reviewers);\n\nIf I remove your vote, shouldn\u0027t you in the first place get informed about it? The code looks like only /me would get the mail, but not you. Am I missing something?",
+      "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_403d8ebd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-11T18:23:50Z",
+      "side": 1,
+      "message": "Currently removing a reviewer doesn\u0027t send any events so I was thinking of keeping the same behavior.  I was thinking that we should send events only if a vote is removed?   However what you are suggesting makes sense and now remembering from ML discussion[1] we should really send an event for any reviewer removal.  Fixed.\n\n [1] https://groups.google.com/d/msg/repo-discuss/aULNkde4DKc/WK3Ckr5aEgAJ",
+      "parentUuid": "ee7a6832_cb3415db",
       "revId": "6d32667bf9a3296898163063bc0a63500400b9b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

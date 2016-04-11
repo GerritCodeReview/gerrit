@@ -351,10 +351,10 @@ public class AccountIT extends AbstractDaemonTest {
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
 
-    // Add an existing key again
+    // Add an existing key (the request succeeds, but the key isn't added again)
     gApi.accounts().self().addSshKey(inital);
     info = gApi.accounts().self().listSshKeys();
-    assertThat(info).hasSize(3);
+    assertThat(info).hasSize(2);
   }
 
   private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {

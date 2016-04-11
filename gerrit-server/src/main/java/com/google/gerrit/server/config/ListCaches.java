@@ -41,7 +41,7 @@ import java.util.TreeMap;
 public class ListCaches implements RestReadView<ConfigResource> {
   private final DynamicMap<Cache<?, ?>> cacheMap;
 
-  public static enum OutputFormat {
+  public enum OutputFormat {
     LIST, TEXT_LIST
   }
 

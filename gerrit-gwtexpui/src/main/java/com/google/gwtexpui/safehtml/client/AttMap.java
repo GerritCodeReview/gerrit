@@ -102,7 +102,7 @@ class AttMap {
     }
   }
 
-  private static interface Tag {
+  private interface Tag {
     void assertSafe(String name, String value);
   }
 

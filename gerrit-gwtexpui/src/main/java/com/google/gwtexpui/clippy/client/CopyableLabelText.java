@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 
 interface CopyableLabelText extends Constants {
-  static final CopyableLabelText I = GWT.create(CopyableLabelText.class);
+  final CopyableLabelText I = GWT.create(CopyableLabelText.class);
 
   String tooltip();
   String copied();

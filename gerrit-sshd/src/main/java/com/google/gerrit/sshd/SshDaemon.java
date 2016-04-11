@@ -140,7 +140,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private static final Logger sshDaemonLog =
       LoggerFactory.getLogger(SshDaemon.class);
 
-  public static enum SshSessionBackend {
+  public enum SshSessionBackend {
     MINA,
     NIO2
   }

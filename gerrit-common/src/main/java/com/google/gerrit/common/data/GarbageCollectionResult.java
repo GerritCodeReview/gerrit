@@ -39,7 +39,7 @@ public class GarbageCollectionResult {
   }
 
   public static class Error {
-    public static enum Type {
+    public enum Type {
       /** Git garbage collection was already scheduled for this project */
       GC_ALREADY_SCHEDULED,
 

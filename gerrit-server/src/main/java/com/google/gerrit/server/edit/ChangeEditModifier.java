@@ -82,7 +82,7 @@ import java.util.TimeZone;
 @Singleton
 public class ChangeEditModifier {
 
-  private static enum TreeOperation {
+  private enum TreeOperation {
     CHANGE_ENTRY,
     DELETE_ENTRY,
     RENAME_ENTRY,

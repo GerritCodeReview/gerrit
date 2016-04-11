@@ -208,7 +208,7 @@ class PluginServletContext {
     }
   }
 
-  static interface API {
+  interface API {
     String getContextPath();
     String getInitParameter(String name);
     @SuppressWarnings("rawtypes")

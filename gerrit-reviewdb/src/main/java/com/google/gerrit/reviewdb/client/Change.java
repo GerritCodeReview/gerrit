@@ -281,7 +281,7 @@ public final class Change {
    * codes ('A'..'Z') indicate a change that is closed and cannot be further
    * modified.
    * */
-  public static enum Status {
+  public enum Status {
     /**
      * Change is open and pending review, or review is in progress.
      *

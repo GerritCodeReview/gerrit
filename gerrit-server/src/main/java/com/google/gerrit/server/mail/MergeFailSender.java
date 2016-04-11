@@ -23,7 +23,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change failing to merged. */
 public class MergeFailSender extends ReplyToChangeSender {
-  public static interface Factory {
+  public interface Factory {
     MergeFailSender create(Project.NameKey project, Change.Id id);
   }
 

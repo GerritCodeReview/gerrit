@@ -61,7 +61,7 @@ public interface Projects {
   ListRequest list();
 
   public abstract class ListRequest {
-    public static enum FilterType {
+    public enum FilterType {
       CODE, PARENT_CANDIDATES, PERMISSIONS, ALL
     }
 

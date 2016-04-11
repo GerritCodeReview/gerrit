@@ -80,7 +80,7 @@ import java.util.List;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
-  public static interface Factory {
+  public interface Factory {
     CreateProject create(String name);
   }
 

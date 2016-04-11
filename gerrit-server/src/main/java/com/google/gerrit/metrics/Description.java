@@ -44,7 +44,7 @@ public class Description {
     }
   }
 
-  public static enum FieldOrdering {
+  public enum FieldOrdering {
     /** Default ordering places fields at end of the parent metric name. */
     AT_END,
 

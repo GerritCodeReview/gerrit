@@ -50,7 +50,7 @@ class Message extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Message> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  static interface Style extends CssResource {
+  interface Style extends CssResource {
     String closed();
   }
 

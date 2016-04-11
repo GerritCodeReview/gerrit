@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 public class CreateEmail implements RestModifyView<AccountResource, EmailInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateEmail.class);
 
-  public static interface Factory {
+  public interface Factory {
     CreateEmail create(String email);
   }
 

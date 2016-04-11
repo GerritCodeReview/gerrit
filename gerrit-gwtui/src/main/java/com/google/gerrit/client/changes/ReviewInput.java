@@ -19,11 +19,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
 public class ReviewInput extends JavaScriptObject {
-  public static enum NotifyHandling {
+  public enum NotifyHandling {
     NONE, OWNER, OWNER_REVIEWERS, ALL
   }
 
-  public static enum DraftHandling {
+  public enum DraftHandling {
     DELETE, PUBLISH, KEEP, PUBLISH_ALL_REVISIONS
   }
 

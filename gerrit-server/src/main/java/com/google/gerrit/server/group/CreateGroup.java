@@ -56,7 +56,7 @@ import java.util.Locale;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
-  public static interface Factory {
+  public interface Factory {
     CreateGroup create(@Assisted String name);
   }
 

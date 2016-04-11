@@ -68,7 +68,7 @@ public class Header extends Composite {
     Resources.I.style().ensureInjected();
   }
 
-  private static enum ReviewedState {
+  private enum ReviewedState {
     AUTO_REVIEW, LOADED
   }
 

@@ -37,7 +37,7 @@ public class StarredChanges {
   private static final Event.Type<ChangeStarHandler> TYPE = new Event.Type<>();
 
   /** Handler that can receive notifications of a change's starred status. */
-  public static interface ChangeStarHandler {
+  public interface ChangeStarHandler {
     void onChangeStar(ChangeStarEvent event);
   }
 

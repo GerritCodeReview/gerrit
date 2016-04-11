@@ -27,11 +27,11 @@ public class GeneralPreferencesInfo {
   public static final int[] PAGESIZE_CHOICES = {10, 25, 50, 100};
 
   /** Preferred method to download a change. */
-  public static enum DownloadCommand {
+  public enum DownloadCommand {
     REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH
   }
 
-  public static enum DateFormat {
+  public enum DateFormat {
     /** US style dates: Apr 27, Feb 14, 2010 */
     STD("MMM d", "MMM d, yyyy"),
 
@@ -64,7 +64,7 @@ public class GeneralPreferencesInfo {
     }
   }
 
-  public static enum ReviewCategoryStrategy {
+  public enum ReviewCategoryStrategy {
     NONE,
     NAME,
     EMAIL,
@@ -72,18 +72,18 @@ public class GeneralPreferencesInfo {
     ABBREV
   }
 
-  public static enum DiffView {
+  public enum DiffView {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
   }
 
-  public static enum EmailStrategy {
+  public enum EmailStrategy {
     ENABLED,
     CC_ON_OWN_COMMENTS,
     DISABLED
   }
 
-  public static enum TimeFormat {
+  public enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
 

@@ -19,7 +19,7 @@ import java.util.SortedSet;
 
 public class TreeFormatter {
 
-  public static interface TreeNode {
+  public interface TreeNode {
     String getDisplayName();
     boolean isVisible();
     SortedSet<? extends TreeNode> getChildren();

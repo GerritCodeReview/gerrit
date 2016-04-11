@@ -68,7 +68,7 @@ public final class Patch {
   }
 
   /** Type of modification made to the file path. */
-  public static enum ChangeType implements CodedEnum {
+  public enum ChangeType implements CodedEnum {
     /** Path is being created/introduced by this patch. */
     ADDED('A'),
 
@@ -113,7 +113,7 @@ public final class Patch {
   }
 
   /** Type of formatting for this patch. */
-  public static enum PatchType implements CodedEnum {
+  public enum PatchType implements CodedEnum {
     /**
      * A textual difference between two versions.
      *

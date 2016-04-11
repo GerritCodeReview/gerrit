@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.client.SubmitType;
  * Describes the submit type for a change.
  */
 public class SubmitTypeRecord {
-  public static enum Status {
+  public enum Status {
     /** The type was computed successfully */
     OK,
 

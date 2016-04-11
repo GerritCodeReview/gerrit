@@ -33,7 +33,7 @@ public class CreateChangeSender extends NewChangeSender {
   private static final Logger log =
       LoggerFactory.getLogger(CreateChangeSender.class);
 
-  public static interface Factory {
+  public interface Factory {
     CreateChangeSender create(Project.NameKey project, Change.Id id);
   }
 

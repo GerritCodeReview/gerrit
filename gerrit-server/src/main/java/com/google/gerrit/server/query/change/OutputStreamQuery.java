@@ -69,7 +69,7 @@ public class OutputStreamQuery {
   private static final DateTimeFormatter dtf =
       DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
 
-  public static enum OutputFormat {
+  public enum OutputFormat {
     TEXT, JSON
   }
 

@@ -23,7 +23,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {
-  public static interface Factory {
+  public interface Factory {
     AddReviewerSender create(Project.NameKey project, Change.Id id);
   }
 

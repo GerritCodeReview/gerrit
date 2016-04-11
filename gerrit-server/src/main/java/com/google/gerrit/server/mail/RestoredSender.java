@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being restored by its owner. */
 public class RestoredSender extends ReplyToChangeSender {
-  public static interface Factory extends
+  public interface Factory extends
       ReplyToChangeSender.Factory<RestoredSender> {
     @Override
     RestoredSender create(Project.NameKey project, Change.Id id);

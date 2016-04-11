@@ -66,7 +66,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     PrologCompiler create(Repository git);
   }
 
-  public static enum Status {
+  public enum Status {
     NO_RULES, COMPILED
   }
 

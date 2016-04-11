@@ -121,7 +121,7 @@ public class BaseServiceImplementation {
   }
 
   /** Arbitrary action to run with a database connection. */
-  public static interface Action<T> {
+  public interface Action<T> {
     /**
      * Perform this action, returning the onSuccess value.
      *

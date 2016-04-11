@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a vote that was removed from a change. */
 public class DeleteVoteSender extends ReplyToChangeSender {
-  public static interface Factory extends
+  public interface Factory extends
       ReplyToChangeSender.Factory<DeleteVoteSender> {
     @Override
     DeleteVoteSender create(Project.NameKey project, Change.Id change);

@@ -488,12 +488,12 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Runnable function which can throw an exception. */
-  public static interface CommandRunnable {
+  public interface CommandRunnable {
     void run() throws Exception;
   }
 
   /** Runnable function which can retrieve a project name related to the task */
-  public static interface ProjectCommandRunnable extends CommandRunnable {
+  public interface ProjectCommandRunnable extends CommandRunnable {
     // execute parser command before running, in order to be able to retrieve
     // project name
     void executeParseCommand() throws Exception;

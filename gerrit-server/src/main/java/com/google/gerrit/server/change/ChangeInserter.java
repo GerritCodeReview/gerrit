@@ -77,7 +77,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 public class ChangeInserter extends BatchUpdate.InsertChangeOp {
-  public static interface Factory {
+  public interface Factory {
     ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
   }
 

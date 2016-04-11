@@ -31,7 +31,7 @@ import java.util.Set;
 
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
-  public static interface Factory {
+  public interface Factory {
     ReplacePatchSetSender create(Project.NameKey project, Change.Id id);
   }
 

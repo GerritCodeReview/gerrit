@@ -27,11 +27,11 @@ import org.eclipse.jgit.diff.Edit;
 import java.util.List;
 
 public class PatchScript {
-  public static enum DisplayMethod {
+  public enum DisplayMethod {
     NONE, DIFF, IMG
   }
 
-  public static enum FileMode {
+  public enum FileMode {
     FILE, SYMLINK, GITLINK
   }
 

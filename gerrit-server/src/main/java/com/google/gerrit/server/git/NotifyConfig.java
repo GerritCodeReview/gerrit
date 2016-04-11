@@ -24,7 +24,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public class NotifyConfig implements Comparable<NotifyConfig> {
-  public static enum Header {
+  public enum Header {
     TO, CC, BCC
   }
 

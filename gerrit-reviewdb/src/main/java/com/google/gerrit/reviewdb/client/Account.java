@@ -59,7 +59,7 @@ import java.sql.Timestamp;
  * </ul>
  */
 public final class Account {
-  public static enum FieldName {
+  public enum FieldName {
     FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL
   }
 

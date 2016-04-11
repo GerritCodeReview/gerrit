@@ -57,7 +57,7 @@ public class SmtpEmailSender implements EmailSender {
     }
   }
 
-  public static enum Encryption {
+  public enum Encryption {
     NONE, SSL, TLS
   }
 

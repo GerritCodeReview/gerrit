@@ -91,7 +91,7 @@ public class DataSourceProvider implements Provider<DataSource>,
     }
   }
 
-  public static enum Context {
+  public enum Context {
     SINGLE_USER, MULTI_USER
   }
 

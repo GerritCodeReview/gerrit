@@ -106,7 +106,7 @@ public class MergeUtil {
         : MergeStrategy.RESOLVE;
   }
 
-  public static interface Factory {
+  public interface Factory {
     MergeUtil create(ProjectState project);
     MergeUtil create(ProjectState project, boolean useContentMerge);
   }

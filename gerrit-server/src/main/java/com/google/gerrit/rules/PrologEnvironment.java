@@ -54,7 +54,7 @@ public class PrologEnvironment extends BufferingPrologControl {
   private static final Logger log =
       LoggerFactory.getLogger(PrologEnvironment.class);
 
-  public static interface Factory {
+  public interface Factory {
     /**
      * Construct a new Prolog interpreter.
      *

@@ -76,7 +76,7 @@ import java.util.TreeSet;
 public class ListProjects implements RestReadView<TopLevelResource> {
   private static final Logger log = LoggerFactory.getLogger(ListProjects.class);
 
-  public static enum FilterType {
+  public enum FilterType {
     CODE {
       @Override
       boolean matches(Repository git) throws IOException {

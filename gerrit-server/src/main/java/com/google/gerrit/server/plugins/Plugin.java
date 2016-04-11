@@ -32,7 +32,7 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 public abstract class Plugin {
-  public static enum ApiType {
+  public enum ApiType {
     EXTENSION, PLUGIN, JS
   }
 

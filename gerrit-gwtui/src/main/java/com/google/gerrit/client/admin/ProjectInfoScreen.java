@@ -727,7 +727,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private static class LabeledWidgetsGrid extends FlexTable {
     private String labelSuffix;
 
-    public LabeledWidgetsGrid() {
+    LabeledWidgetsGrid() {
       super();
       labelSuffix = ":";
     }

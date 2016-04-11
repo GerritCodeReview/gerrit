@@ -19,7 +19,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ExternalTextResource;
 
 public interface Themes extends ClientBundle {
-  public static final Themes I = GWT.create(Themes.class);
+  Themes I = GWT.create(Themes.class);
 
   @Source("eclipse.css") ExternalTextResource eclipse();
   @Source("elegant.css") ExternalTextResource elegant();

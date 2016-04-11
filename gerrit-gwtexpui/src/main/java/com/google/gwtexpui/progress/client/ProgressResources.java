@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 
 public interface ProgressResources extends ClientBundle {
-  public static final ProgressResources I = GWT.create(ProgressResources.class);
+  ProgressResources I = GWT.create(ProgressResources.class);
 
   @Source("progress.css")
   ProgressCss css();

@@ -19,7 +19,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface AdminResources extends ClientBundle {
-  public static final AdminResources I = GWT.create(AdminResources.class);
+  AdminResources I = GWT.create(AdminResources.class);
 
   @Source("admin.css")
   AdminCss css();

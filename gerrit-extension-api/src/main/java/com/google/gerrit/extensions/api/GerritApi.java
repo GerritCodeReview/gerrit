@@ -32,7 +32,7 @@ public interface GerritApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements GerritApi {
+  class NotImplemented implements GerritApi {
     @Override
     public Accounts accounts() {
       throw new NotImplementedException();

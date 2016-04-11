@@ -205,7 +205,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   private static class SearchSuggestion implements SuggestOracle.Suggestion {
     private final String suggestion;
     private final String fullQuery;
-    public SearchSuggestion(String suggestion, String fullQuery) {
+    SearchSuggestion(String suggestion, String fullQuery) {
       this.suggestion = suggestion;
       // Add a space to the query if it is a complete operation (e.g.
       // "status:open") so the user can keep on typing.

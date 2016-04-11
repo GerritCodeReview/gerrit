@@ -90,7 +90,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     private String oldTopicName;
     private String newTopicName;
 
-    public Op(Input input) {
+    Op(Input input) {
       this.input = input;
     }
 

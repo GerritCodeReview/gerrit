@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 
 public interface CommonConstants extends Constants {
-  public static final CommonConstants C = GWT.create(CommonConstants.class);
+  CommonConstants C = GWT.create(CommonConstants.class);
 
   String inTheFuture();
   String month();

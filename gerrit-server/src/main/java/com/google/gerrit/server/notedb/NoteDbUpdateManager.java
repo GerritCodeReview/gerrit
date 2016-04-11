@@ -55,8 +55,8 @@ import java.util.Set;
 /**
  * Object to manage a single sequence of updates to NoteDb.
  * <p>
- * Instances are one-time-use. Handles updating both the change meta repo and
- * the All-Users meta repo for any affected changes, with proper ordering.
+ * Instances are one-time-use. Handles updating both the change repo and the
+ * All-Users repo for any affected changes, with proper ordering.
  * <p>
  * To see the state that would be applied prior to executing the full sequence
  * of updates, use {@link #stage()}.
@@ -161,26 +161,24 @@ public class NoteDbUpdateManager {
 
   private void initCodeRepo() throws IOException {
     if (codeRepo == null) {
-      codeRepo = openRepo(projectName, false);
+      codeRepo = openRepo(projectName);
     }
   }
 
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
-      changeRepo = openRepo(projectName, true);
+      changeRepo = openRepo(projectName);
     }
   }
 
   private void initAllUsersRepo() throws IOException {
     if (allUsersRepo == null) {
-      allUsersRepo = openRepo(allUsersName, true);
+      allUsersRepo = openRepo(allUsersName);
     }
   }
 
-  private OpenRepo openRepo(Project.NameKey p, boolean meta) throws IOException {
-    Repository repo = meta
-        ? repoManager.openMetadataRepository(p)
-        : repoManager.openRepository(p);
+  private OpenRepo openRepo(Project.NameKey p) throws IOException {
+    Repository repo = repoManager.openRepository(p);
     ObjectInserter ins = repo.newObjectInserter();
     return new OpenRepo(repo, new RevWalk(ins.newReader()), ins,
         new ChainedReceiveCommands(), true);

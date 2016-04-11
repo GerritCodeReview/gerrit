@@ -23,7 +23,6 @@ import static org.easymock.EasyMock.reset;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -66,11 +65,8 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     configMock = createNiceMock(RepositoryConfig.class);
     expect(configMock.getAllBasePaths()).andReturn(new ArrayList<Path>()).anyTimes();
     replay(configMock);
-    NotesMigration notesMigrationMock = createNiceMock(NotesMigration.class);
-    replay(notesMigrationMock);
     repoManager =
-        new MultiBaseLocalDiskRepositoryManager(site, cfg,
-            notesMigrationMock, configMock);
+        new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
   }
 
   @After
@@ -188,7 +184,6 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
         .andReturn(Arrays.asList(Paths.get("repos"))).anyTimes();
     replay(configMock);
     repoManager =
-        new MultiBaseLocalDiskRepositoryManager(site, cfg,
-            createNiceMock(NotesMigration.class), configMock);
+        new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
   }
 }

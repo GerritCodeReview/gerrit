@@ -119,7 +119,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assume().that(notesMigration.enabled()).isTrue();
 
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
-    try (Repository repo = repoManager.openMetadataRepository(project);
+    try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(
           repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))

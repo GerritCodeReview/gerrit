@@ -134,7 +134,7 @@ class ChangeNotesParser implements AutoCloseable {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
-    this.repo = repoManager.openMetadataRepository(project);
+    this.repo = repoManager.openRepository(project);
     this.noteUtil = noteUtil;
     this.metrics = metrics;
     approvals = Maps.newHashMap();

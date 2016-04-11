@@ -46,9 +46,6 @@ public interface GitRepositoryManager {
 
   /**
    * Create (and open) a repository by name.
-   * <p>
-   * If the implementation supports separate metadata repositories, this method
-   * must also create the metadata repository, but does not open it.
    *
    * @param name the repository name, relative to the base directory.
    * @return the cached Repository instance. Caller must call {@code close()}
@@ -61,23 +58,6 @@ public interface GitRepositoryManager {
   Repository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException,
       IOException;
-
-  /**
-   * Open the repository storing metadata for the given project.
-   * <p>
-   * This includes any project-specific metadata <em>except</em> what is stored
-   * in {@code refs/meta/config}. Implementations may choose to store all
-   * metadata in the original project.
-   *
-   * @param name the base project name name.
-   * @return the cached metadata Repository instance. Caller must call
-   *         {@code close()} when done to decrement the resource handle.
-   * @throws RepositoryNotFoundException the name does not denote an existing
-   *         repository.
-   * @throws IOException the name cannot be read as a repository.
-   */
-  Repository openMetadataRepository(Project.NameKey name)
-      throws RepositoryNotFoundException, IOException;
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -53,16 +52,13 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     site.resolve("git").toFile().mkdir();
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
-    repoManager =
-        new LocalDiskRepositoryManager(site, cfg,
-            createNiceMock(NotesMigration.class));
+    repoManager = new LocalDiskRepositoryManager(site, cfg);
     repoManager.start();
   }
 
   @Test(expected = IllegalStateException.class)
   public void testThatNullBasePathThrowsAnException() {
-    new LocalDiskRepositoryManager(site, new Config(),
-        createNiceMock(NotesMigration.class));
+    new LocalDiskRepositoryManager(site, new Config());
   }
 
   @Test

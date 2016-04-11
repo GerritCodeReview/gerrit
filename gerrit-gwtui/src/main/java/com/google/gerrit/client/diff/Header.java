@@ -94,6 +94,7 @@ public class Header extends Composite {
   private final String path;
   private final DiffView diffScreenType;
   private final DiffPreferences prefs;
+  private boolean hasComments;
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
@@ -199,6 +200,13 @@ public class Header extends Composite {
     }
   }
 
+  void setHasComments(CommentsCollections comments) {
+    hasComments =
+        (comments.publishedBase != null && comments.publishedBase.length() > 0)
+        || (comments.publishedRevision != null
+            && comments.publishedRevision.length() > 0);
+  }
+
   void setChangeInfo(ChangeInfo info) {
     GitwebInfo gw = Gerrit.info().gitweb();
     if (gw != null) {
@@ -300,12 +308,17 @@ public class Header extends Composite {
     }
   }
 
+  private boolean shouldSkipFile(FileInfo curr) {
+    return prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())
+        || prefs.skipUncommented() && !hasComments;
+  }
+
   void setupPrevNextFiles(JsArray<FileInfo> files, int currIndex) {
     FileInfo prevInfo = null;
     FileInfo nextInfo = null;
     for (int i = currIndex - 1; i >= 0; i--) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr)) {
         continue;
       } else {
         prevInfo = curr;
@@ -314,7 +327,7 @@ public class Header extends Composite {
     }
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr)) {
         continue;
       } else {
         nextInfo = curr;

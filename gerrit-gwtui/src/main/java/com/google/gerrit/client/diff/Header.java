@@ -97,6 +97,7 @@ public class Header extends Composite {
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
+  private JsArray<FileInfo> files;
   private PreferencesAction prefsAction;
   private ReviewedState reviewedState;
 
@@ -161,12 +162,11 @@ public class Header extends Composite {
     DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
       @Override
       public void onSuccess(NativeMap<FileInfo> result) {
-        JsArray<FileInfo> files = result.values();
+        files = result.values();
         FileInfo.sortFileInfoByPath(files);
         fileNumber.setInnerText(
             Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
         fileCount.setInnerText(Integer.toString(files.length()));
-        setupPrevNextFiles(files, findCurrentFileIndex(files));
       }
     });
 
@@ -300,12 +300,18 @@ public class Header extends Composite {
     }
   }
 
-  void setupPrevNextFiles(JsArray<FileInfo> files, int currIndex) {
+  private boolean shouldSkipFile(FileInfo curr, CommentsCollections comments) {
+    return prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())
+        || prefs.skipUncommented() && !comments.hasCommentForPath(curr.path());
+  }
+
+  void setupPrevNextFiles(CommentsCollections comments) {
     FileInfo prevInfo = null;
     FileInfo nextInfo = null;
+    int currIndex = findCurrentFileIndex(files);
     for (int i = currIndex - 1; i >= 0; i--) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr, comments)) {
         continue;
       } else {
         prevInfo = curr;
@@ -314,7 +320,7 @@ public class Header extends Composite {
     }
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr, comments)) {
         continue;
       } else {
         nextInfo = curr;

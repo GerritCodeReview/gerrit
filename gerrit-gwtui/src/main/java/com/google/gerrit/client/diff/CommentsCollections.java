@@ -29,17 +29,23 @@ import java.util.Comparator;
 
 /** Collection of published and draft comments loaded from the server. */
 class CommentsCollections {
-  private String path;
-
+  private final String path;
+  private final PatchSet.Id base;
+  private final PatchSet.Id revision;
+  private NativeMap<JsArray<CommentInfo>> publishedBaseAll;
+  private NativeMap<JsArray<CommentInfo>> publishedRevisionAll;
   JsArray<CommentInfo> publishedBase;
   JsArray<CommentInfo> publishedRevision;
   JsArray<CommentInfo> draftsBase;
   JsArray<CommentInfo> draftsRevision;
 
-  void load(PatchSet.Id base, PatchSet.Id revision, String path,
-      CallbackGroup group) {
+  CommentsCollections(PatchSet.Id base, PatchSet.Id revision, String path) {
     this.path = path;
+    this.base = base;
+    this.revision = revision;
+  }
 
+  void load(CallbackGroup group) {
     if (base != null) {
       CommentApi.comments(base, group.add(publishedBase()));
     }
@@ -53,10 +59,26 @@ class CommentsCollections {
     }
   }
 
+  boolean hasCommentForPath(String currPath) {
+    if (base != null) {
+      JsArray<CommentInfo> currPublishedBase = publishedBaseAll.get(currPath);
+      if (currPublishedBase != null && currPublishedBase.length() > 0) {
+        return true;
+      }
+    }
+    JsArray<CommentInfo> currPublishedRevision =
+        publishedRevisionAll.get(currPath);
+    if (currPublishedRevision != null && currPublishedRevision.length() > 0) {
+      return true;
+    }
+    return false;
+  }
+
   private AsyncCallback<NativeMap<JsArray<CommentInfo>>> publishedBase() {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        publishedBaseAll = result;
         publishedBase = sort(result.get(path));
       }
 
@@ -70,6 +92,7 @@ class CommentsCollections {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        publishedRevisionAll = result;
         publishedRevision = sort(result.get(path));
       }
 

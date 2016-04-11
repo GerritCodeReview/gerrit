@@ -357,7 +357,8 @@ class SideBySideCommentManager extends CommentManager {
       return w;
     }
 
-    int lineA, lineB;
+    int lineA;
+    int lineB;
     if (line == 0) {
       lineA = lineB = 0;
     } else if (side == DisplaySide.A) {

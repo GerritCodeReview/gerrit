@@ -192,7 +192,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     deleteRef(change, changeMetaRepo, manager.getChangeRepo().cmds);
 
     for (PatchSet ps : bundle.getPatchSets()) {
-      events.add(new PatchSetEvent(change, ps, manager.getCodeRepo().rw));
+      events.add(new PatchSetEvent(change, ps, manager.getChangeRepo().rw));
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);

@@ -93,6 +93,8 @@ edited to remove noisy warnings.
       <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
+    <module name="RedundantImport"/>
+    <module name="RedundantModifier"/>
   </module>
   <module name="FileTabCharacter">
     <property name="severity" value="ignore"/>

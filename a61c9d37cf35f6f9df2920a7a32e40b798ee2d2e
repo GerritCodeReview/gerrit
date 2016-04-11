@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e864c95_c050be0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-11T16:05:29Z",
+      "side": 1,
+      "message": "equalsIgnoreCase? I have no idea where these strings come from.",
+      "range": {
+        "startLine": 500,
+        "startChar": 29,
+        "endLine": 500,
+        "endChar": 35
+      },
+      "revId": "a61c9d37cf35f6f9df2920a7a32e40b798ee2d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -123,7 +123,7 @@ final class ApproveOption implements Option, Setter<Short> {
   public static class Handler extends OneArgumentOptionHandler<Short> {
     private final ApproveOption cmdOption;
 
-    public Handler(final CmdLineParser parser, final OptionDef option,
+    Handler(final CmdLineParser parser, final OptionDef option,
         final Setter<Short> setter) {
       super(parser, option, setter);
       this.cmdOption = (ApproveOption) setter;

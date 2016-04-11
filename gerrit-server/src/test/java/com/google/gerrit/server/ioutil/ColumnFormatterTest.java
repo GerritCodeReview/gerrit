@@ -29,7 +29,7 @@ public class ColumnFormatterTest {
     private PrintWriter printWriter;
     private StringWriter stringWriter;
 
-    public PrintWriterComparator() {
+    PrintWriterComparator() {
       stringWriter = new StringWriter();
       printWriter = new PrintWriter(stringWriter);
     }

@@ -75,7 +75,7 @@ public interface RevisionApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements RevisionApi {
+  class NotImplemented implements RevisionApi {
     @Override
     public void delete() throws RestApiException {
       throw new NotImplementedException();

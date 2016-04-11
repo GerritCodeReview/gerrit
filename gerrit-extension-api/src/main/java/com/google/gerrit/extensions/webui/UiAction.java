@@ -32,7 +32,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
   Description getDescription(R resource);
 
   /** Describes an action invokable through the web interface. */
-  public static class Description {
+  class Description {
     private String method;
     private String id;
     private String label;

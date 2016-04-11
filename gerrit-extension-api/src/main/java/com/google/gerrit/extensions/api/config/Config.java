@@ -26,7 +26,7 @@ public interface Config {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements Config {
+  class NotImplemented implements Config {
     @Override
     public Server server() {
       throw new NotImplementedException();

@@ -31,7 +31,7 @@ class DocTable extends NavigationTable<DocInfo> {
   private int rows = 0;
   private int dataBeginRow = 0;
 
-  public DocTable() {
+  DocTable() {
     super(Util.C.docItemHelp());
 
     table.setText(0, C_TITLE, Util.C.docTableColumnTitle());
@@ -117,7 +117,7 @@ class DocTable extends NavigationTable<DocInfo> {
   }
 
   public static class DocLink extends Anchor {
-    public DocLink(DocInfo d) {
+    DocLink(DocInfo d) {
       super(com.google.gerrit.client.changes.Util.cropSubject(d.title()));
       setHref(d.getFullUrl());
     }

@@ -25,7 +25,7 @@ class ContextMapper {
   private final String base;
   private final String authorizedBase;
 
-  public ContextMapper(String contextPath) {
+  ContextMapper(String contextPath) {
     base = Strings.nullToEmpty(contextPath) + PLUGINS_PREFIX;
     authorizedBase = Strings.nullToEmpty(contextPath) + AUTHORIZED_PREFIX;
   }

@@ -27,7 +27,7 @@ public interface Server {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements Server {
+  class NotImplemented implements Server {
     @Override
     public String getVersion() throws RestApiException {
       throw new NotImplementedException();

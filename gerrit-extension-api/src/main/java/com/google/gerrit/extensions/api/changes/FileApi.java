@@ -40,7 +40,7 @@ public interface FileApi {
    */
   DiffRequest diffRequest() throws RestApiException;
 
-  public abstract class DiffRequest {
+  abstract class DiffRequest {
     private String base;
     private Integer context;
     private Boolean intraline;
@@ -89,7 +89,7 @@ public interface FileApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements FileApi {
+  class NotImplemented implements FileApi {
     @Override
     public BinaryResult content() throws RestApiException {
       throw new NotImplementedException();

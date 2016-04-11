@@ -23,7 +23,7 @@ import java.util.TreeMap;
 class RepositoryStatistics extends TreeMap<String, Object> {
   private static final long serialVersionUID = 1L;
 
-  public RepositoryStatistics(Properties p) {
+  RepositoryStatistics(Properties p) {
     for (Entry<Object, Object> e : p.entrySet()) {
       put(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,
           e.getKey().toString()), e.getValue());

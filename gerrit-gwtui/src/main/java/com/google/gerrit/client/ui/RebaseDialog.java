@@ -147,7 +147,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
   private static class ChangeSuggestion implements Suggestion {
     private ChangeInfo change;
 
-    public ChangeSuggestion(ChangeInfo change) {
+    ChangeSuggestion(ChangeInfo change) {
       this.change = change;
     }
 

@@ -22,7 +22,7 @@ import java.util.List;
 
 @ExtensionPoint
 public interface TopMenu {
-  public class MenuEntry {
+  class MenuEntry {
     public final String name;
     public final List<MenuItem> items;
 

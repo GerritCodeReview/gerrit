@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
 public @interface CommandMetaData {
-  public enum Mode {
+  enum Mode {
     MASTER, MASTER_OR_SLAVE;
     public boolean isSupported(boolean slaveMode) {
       return this == MASTER_OR_SLAVE || !slaveMode;

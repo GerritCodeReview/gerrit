@@ -37,7 +37,7 @@ public interface ServerPluginProvider {
   /**
    * Descriptor of the Plugin that ServerPluginProvider has to load.
    */
-  public class PluginDescription {
+  class PluginDescription {
     public final PluginUser user;
     public final String canonicalUrl;
     public final Path dataDir;

@@ -46,6 +46,30 @@
       "revId": "bf5276009d3eaddec89a53537015d7eb8704690e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8782d0_012d8ad7",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T08:02:13Z",
+      "side": 1,
+      "message": "you moved the one below (line 42) but not this one :)",
+      "parentUuid": "ab8782d0_81219ae8",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "bf5276009d3eaddec89a53537015d7eb8704690e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

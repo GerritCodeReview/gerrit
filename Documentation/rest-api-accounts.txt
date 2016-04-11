@@ -641,6 +641,9 @@ Adds an SSH key for a user.
 
 The SSH public key must be provided as raw content in the request body.
 
+Trying to add an SSH key that already exists succeeds, but no new SSH
+key is persisted.
+
 .Request
 ----
   POST /accounts/self/sshkeys HTTP/1.0

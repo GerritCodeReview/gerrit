@@ -137,7 +137,7 @@ public class RelatedChanges extends TabPanel {
     abstract String getTitle(int count);
     abstract String getTitle(String count);
 
-    private Tab(String defaultTitle, String tooltip) {
+    Tab(String defaultTitle, String tooltip) {
       this.defaultTitle = defaultTitle;
       this.tooltip = tooltip;
     }

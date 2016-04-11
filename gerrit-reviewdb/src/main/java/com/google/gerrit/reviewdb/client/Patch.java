@@ -89,7 +89,7 @@ public final class Patch {
 
     private final char code;
 
-    private ChangeType(final char c) {
+    ChangeType(final char c) {
       code = c;
     }
 
@@ -148,7 +148,7 @@ public final class Patch {
 
     private final char code;
 
-    private PatchType(final char c) {
+    PatchType(final char c) {
       code = c;
     }
 

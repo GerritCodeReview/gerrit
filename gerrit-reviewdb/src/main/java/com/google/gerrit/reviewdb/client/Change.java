@@ -356,7 +356,7 @@ public final class Change {
     private final boolean closed;
     private final ChangeStatus changeStatus;
 
-    private Status(char c, ChangeStatus cs) {
+    Status(char c, ChangeStatus cs) {
       code = c;
       closed = !(MIN_OPEN <= c && c <= MAX_OPEN);
       changeStatus = cs;

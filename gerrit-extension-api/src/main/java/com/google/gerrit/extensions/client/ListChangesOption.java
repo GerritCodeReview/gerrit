@@ -70,7 +70,7 @@ public enum ListChangesOption {
 
   private final int value;
 
-  private ListChangesOption(int v) {
+  ListChangesOption(int v) {
     this.value = v;
   }
 

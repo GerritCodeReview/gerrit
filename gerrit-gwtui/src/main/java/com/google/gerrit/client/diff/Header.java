@@ -308,6 +308,10 @@ public class Header extends Composite {
       return true;
     }
 
+    if (prefs.skipUnchanged() && ChangeType.COPIED.matches(curr.status())) {
+      return true;
+    }
+
     if (prefs.skipUncommented()) {
       String currPath = curr.path();
       if (base != null) {

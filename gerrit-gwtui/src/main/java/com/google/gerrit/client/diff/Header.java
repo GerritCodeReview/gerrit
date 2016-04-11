@@ -18,6 +18,8 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.CommentApi;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -300,12 +302,51 @@ public class Header extends Composite {
     }
   }
 
+  private class HasCommentsCallback
+      implements AsyncCallback<NativeMap<JsArray<CommentInfo>>> {
+   // Default to true so we don't skip the file if the Rest API call fails
+    private boolean hasComments = true;
+    private final String currPath;
+
+    HasCommentsCallback(String currPath) {
+      this.currPath = currPath;
+    }
+
+    @Override
+    public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+      hasComments = result.get(currPath).length() > 0;
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+    }
+  }
+
+  private boolean shouldSkipFile(FileInfo curr) {
+    if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      return true;
+    }
+
+    if (prefs.skipUncommented()) {
+      HasCommentsCallback forBase = new HasCommentsCallback(curr.path());
+      HasCommentsCallback forPatchSetId = new HasCommentsCallback(curr.path());
+      if (base != null) {
+        CommentApi.comments(base, forBase);
+      }
+      CommentApi.comments(patchSetId, forPatchSetId);
+      if (!forBase.hasComments && !forPatchSetId.hasComments) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void setupPrevNextFiles(JsArray<FileInfo> files, int currIndex) {
     FileInfo prevInfo = null;
     FileInfo nextInfo = null;
     for (int i = currIndex - 1; i >= 0; i--) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr)) {
         continue;
       } else {
         prevInfo = curr;
@@ -314,7 +355,7 @@ public class Header extends Composite {
     }
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
-      if (prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())) {
+      if (shouldSkipFile(curr)) {
         continue;
       } else {
         nextInfo = curr;

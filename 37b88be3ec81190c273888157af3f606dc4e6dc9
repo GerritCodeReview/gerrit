@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab8782d0_0146ea9f",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T06:52:15Z",
+      "side": 1,
+      "message": "Unrelated to this change, but should this paragraph be tab-indented?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 58
+      },
+      "revId": "37b88be3ec81190c273888157af3f606dc4e6dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_6011b276",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T06:52:15Z",
+      "side": 1,
+      "message": "It would be useful to explicitly mention whether or not this option works in batch mode.",
+      "revId": "37b88be3ec81190c273888157af3f606dc4e6dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_800eb651",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T06:52:15Z",
+      "side": 1,
+      "message": "Also here about batch mode.",
+      "revId": "37b88be3ec81190c273888157af3f606dc4e6dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_4014ae67",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T06:52:15Z",
+      "side": 1,
+      "message": "nit: Wrap this line",
+      "revId": "37b88be3ec81190c273888157af3f606dc4e6dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e864c95_2017aa6e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-11T06:52:15Z",
+      "side": 1,
+      "message": "It might be better to be more explicit, i.e. something like \"Cannot use --install-plugin together with --install-all-plugins\".\n\n(IIRC this is how we do it for example in ssh commands that have invalid option combinations).",
+      "range": {
+        "startLine": 103,
+        "startChar": 19,
+        "endLine": 103,
+        "endChar": 63
+      },
+      "revId": "37b88be3ec81190c273888157af3f606dc4e6dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

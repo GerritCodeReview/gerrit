@@ -560,7 +560,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
       }
       setRevision(update, ps);
-      update.setGroups(ps.getGroups());
+      List<String> groups = ps.getGroups();
+      if (!groups.isEmpty()) {
+        update.setGroups(ps.getGroups());
+      }
       if (ps.isDraft()) {
         update.setPatchSetState(PatchSetState.DRAFT);
       }

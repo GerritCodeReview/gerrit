@@ -302,6 +302,7 @@ public class Header extends Composite {
 
   private boolean shouldSkipFile(FileInfo curr, CommentsCollections comments) {
     return prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())
+        || prefs.skipUnchanged() && ChangeType.COPIED.matches(curr.status())
         || prefs.skipUncommented() && !comments.hasCommentForPath(curr.path());
   }
 

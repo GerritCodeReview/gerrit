@@ -69,7 +69,7 @@ public class ThemeLoader {
     }
   }
 
-  private static final ExternalTextResource findTheme(Theme theme) {
+  private static ExternalTextResource findTheme(Theme theme) {
     for (ExternalTextResource r : THEMES) {
       if (theme.name().toLowerCase().equals(r.getName())) {
         return r;

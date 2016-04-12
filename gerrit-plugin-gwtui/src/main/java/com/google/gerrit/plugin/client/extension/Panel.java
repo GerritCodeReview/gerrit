@@ -60,20 +60,20 @@ public class Panel extends SimplePanel {
   }
 
   static final class Context extends JavaScriptObject {
-    final native Element body() /*-{ return this.body }-*/;
+    native Element body() /*-{ return this.body }-*/;
 
-    final native String get(String k) /*-{ return this.p[k]; }-*/;
-    final native int getInt(String k, int d) /*-{
+    native String get(String k) /*-{ return this.p[k]; }-*/;
+    native int getInt(String k, int d) /*-{
       return this.p.hasOwnProperty(k) ? this.p[k] : d
     }-*/;
-    final native int getBoolean(String k, boolean d) /*-{
+    native int getBoolean(String k, boolean d) /*-{
       return this.p.hasOwnProperty(k) ? this.p[k] : d
     }-*/;
-    final native JavaScriptObject getObject(String k)
+    native JavaScriptObject getObject(String k)
     /*-{ return this.p[k]; }-*/;
 
 
-    final native void detach(Panel p) /*-{
+    native void detach(Panel p) /*-{
       this.onUnload($entry(function(){
         p.@com.google.gwt.user.client.ui.Widget::onDetach()();
       }));

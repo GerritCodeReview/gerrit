@@ -246,7 +246,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     }
   }
 
-  private final AccountExternalId.Key toExtIdKey(byte[] fp) {
+  private AccountExternalId.Key toExtIdKey(byte[] fp) {
     return new AccountExternalId.Key(
         AccountExternalId.SCHEME_GPGKEY,
         BaseEncoding.base16().encode(fp));

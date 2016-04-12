@@ -204,6 +204,10 @@ public abstract class ResourceServlet extends HttpServlet {
   Resource getResource(String name) {
     try {
       Path p = getResourcePath(name);
+      if (p == null) {
+        log.warn(String.format("Path doesn't exist %s", name));
+        return null;
+      }
       return cache.get(p, newLoader(p));
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot load static resource %s", name), e);

@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 
 public interface KeyConstants extends Constants {
-  public static final KeyConstants I = GWT.create(KeyConstants.class);
+  KeyConstants I = GWT.create(KeyConstants.class);
 
   String applicationSection();
   String showHelp();

@@ -39,7 +39,7 @@ public interface EmailTokenVerifier {
   ParsedToken decode(String tokenString) throws InvalidTokenException;
 
   /** Exception thrown when a token does not parse correctly. */
-  public static class InvalidTokenException extends Exception {
+  class InvalidTokenException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public InvalidTokenException() {
@@ -52,7 +52,7 @@ public interface EmailTokenVerifier {
   }
 
   /** Pair returned from decode to provide the data used during encode. */
-  public static class ParsedToken {
+  class ParsedToken {
     private final Account.Id accountId;
     private final String emailAddress;
 

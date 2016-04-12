@@ -24,7 +24,7 @@ import java.util.Set;
  * the presence of a user in a particular group.
  */
 public interface GroupMembership {
-  public static final GroupMembership EMPTY =
+  GroupMembership EMPTY =
       new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());
 
   /**

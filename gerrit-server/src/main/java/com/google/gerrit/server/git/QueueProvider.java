@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 public interface QueueProvider {
-  public static enum QueueType {
+  enum QueueType {
     INTERACTIVE, BATCH
   }
 

@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Messages;
 
 public interface CommonMessages extends Messages {
-  public static final CommonMessages M = GWT.create(CommonMessages.class);
+  CommonMessages M = GWT.create(CommonMessages.class);
 
   String secondsAgo(long seconds);
   String minutesAgo(long minutes);

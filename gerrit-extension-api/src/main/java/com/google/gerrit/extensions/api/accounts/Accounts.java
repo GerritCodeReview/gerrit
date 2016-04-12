@@ -75,7 +75,7 @@ public interface Accounts {
    *
    * @see #suggestAccounts()
    */
-  public abstract class SuggestAccountsRequest {
+  abstract class SuggestAccountsRequest {
     private String query;
     private int limit;
 
@@ -116,7 +116,7 @@ public interface Accounts {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements Accounts {
+  class NotImplemented implements Accounts {
     @Override
     public AccountApi id(String id) throws RestApiException {
       throw new NotImplementedException();

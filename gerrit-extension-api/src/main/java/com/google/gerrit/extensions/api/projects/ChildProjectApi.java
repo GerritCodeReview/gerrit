@@ -26,7 +26,7 @@ public interface ChildProjectApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements ChildProjectApi {
+  class NotImplemented implements ChildProjectApi {
     @Override
     public ProjectInfo get() throws RestApiException {
       throw new NotImplementedException();

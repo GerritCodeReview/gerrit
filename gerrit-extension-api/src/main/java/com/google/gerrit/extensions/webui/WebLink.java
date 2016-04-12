@@ -24,7 +24,7 @@ public interface WebLink {
   /**
    * Class that holds target defaults for WebLink anchors.
    */
-  public static class Target {
+  class Target {
     /**
      * Opens the link in a new window or tab
      */

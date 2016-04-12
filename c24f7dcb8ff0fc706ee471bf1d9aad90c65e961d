@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_0b3dbda0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-12T14:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_4b33c5d6",
+      "revId": "c24f7dcb8ff0fc706ee471bf1d9aad90c65e961d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_6b3801b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 12
@@ -31,6 +49,24 @@
       "writtenOn": "2016-04-12T14:33:19Z",
       "side": 1,
       "message": "Maybe append \\n, I think that\u0027s more common in git commit messages as it mimics what most editors do.",
+      "revId": "c24f7dcb8ff0fc706ee471bf1d9aad90c65e961d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_8a23eb99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-12T14:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_6b3801b2",
       "revId": "c24f7dcb8ff0fc706ee471bf1d9aad90c65e961d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

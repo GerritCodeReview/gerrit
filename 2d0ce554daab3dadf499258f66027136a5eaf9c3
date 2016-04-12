@@ -132,6 +132,53 @@
       "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_cb9ed52f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T07:54:59Z",
+      "side": 1,
+      "message": "It will only be two places when the comment below is addressed, so not worth factoring out IMHO.",
+      "parentUuid": "ebca5a38_ab0a6940",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 125,
+        "endChar": 2
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_aa582f60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T07:54:59Z",
+      "side": 1,
+      "message": "Put all of this in a try block, with the db.close steps in a finally block.",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

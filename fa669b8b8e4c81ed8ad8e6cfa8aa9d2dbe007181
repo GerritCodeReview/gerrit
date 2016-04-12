@@ -16,6 +16,52 @@
       "revId": "fa669b8b8e4c81ed8ad8e6cfa8aa9d2dbe007181",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_ca61e30c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T07:51:05Z",
+      "side": 1,
+      "message": "Change-Id",
+      "range": {
+        "startLine": 1594,
+        "startChar": 82,
+        "endLine": 1594,
+        "endChar": 91
+      },
+      "revId": "fa669b8b8e4c81ed8ad8e6cfa8aa9d2dbe007181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_2bbaf998",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T07:51:05Z",
+      "side": 1,
+      "message": "Change-Ids",
+      "range": {
+        "startLine": 1595,
+        "startChar": 22,
+        "endLine": 1595,
+        "endChar": 32
+      },
+      "revId": "fa669b8b8e4c81ed8ad8e6cfa8aa9d2dbe007181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

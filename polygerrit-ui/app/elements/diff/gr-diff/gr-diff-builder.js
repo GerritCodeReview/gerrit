@@ -431,19 +431,33 @@
       html = this._addIntralineHighlights(text, html, line.highlights);
     }
 
-    if (text.length > this._prefs.line_length) {
+    if (this._textLength(text, this._prefs.tab_size) >
+        this._prefs.line_length) {
       html = this._addNewlines(text, html);
     }
     html = this._addTabWrappers(html);
 
     // If the html is equivalent to the text then it didn't get highlighted
     // or escaped. Use textContent which is faster than innerHTML.
-    if (html == text) {
+    if (html === text) {
       td.textContent = text;
     } else {
       td.innerHTML = html;
     }
     return td;
+  };
+
+  GrDiffBuilder.prototype._textLength = function(text, tabSize) {
+    // TODO(andybons): Unicode support.
+    var numChars = 0;
+    for (var i = 0; i < text.length; i++) {
+      if (text[i] === '\t') {
+        numChars += tabSize;
+      } else {
+        numChars++;
+      }
+    }
+    return numChars;
   };
 
   // Advance `index` by the appropriate number of characters that would
@@ -553,10 +567,10 @@
     if (showTabs) {
       str += 'withIndicator';
     }
-    str += '" ';
+    str += '" style="';
     // TODO(andybons): CSS tab-size is not supported in IE.
-    str += 'style="tab-size:' + tabSize + ';';
-    str += 'style="-moz-tab-size:' + tabSize + ';';
+    str += 'tab-size:' + tabSize + ';';
+    str += '-moz-tab-size:' + tabSize + ';';
     str += '">\t</span>';
     return str;
   };

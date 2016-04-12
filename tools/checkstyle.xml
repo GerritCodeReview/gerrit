@@ -96,6 +96,7 @@ edited to remove noisy warnings.
     <module name="RedundantImport"/>
     <module name="RedundantModifier"/>
     <module name="ExplicitInitialization"/>
+    <module name="ArrayTrailingComma"/>
   </module>
   <module name="FileTabCharacter">
     <property name="severity" value="ignore"/>

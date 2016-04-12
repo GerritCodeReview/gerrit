@@ -32,7 +32,7 @@ public class Vim extends JavaScriptObject {
     }
     for (String key : new String[] {
       "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S",
-      "Ctrl-F", "Ctrl-B", "Ctrl-R"}) {
+      "Ctrl-F", "Ctrl-B", "Ctrl-R",}) {
       km.propagate(key);
     }
     for (int i = 0; i <= 9; i++) {

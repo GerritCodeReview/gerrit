@@ -156,6 +156,6 @@ public class BasicSerializationTest {
 
   private static byte[] b(int a, int b, int c, int d, int e, int f, int g, int h) {
     return new byte[] {(byte) a, (byte) b, (byte) c, (byte) d, //
-        (byte) e, (byte) f, (byte) g, (byte) h};
+        (byte) e, (byte) f, (byte) g, (byte) h,};
   }
 }

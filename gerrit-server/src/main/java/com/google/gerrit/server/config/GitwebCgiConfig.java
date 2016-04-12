@@ -54,7 +54,7 @@ public class GitwebCgiConfig {
     String cfgCgi = cfg.getString("gitweb", null, "cgi");
     Path pkgCgi = Paths.get("/usr/lib/cgi-bin/gitweb.cgi");
     String[] resourcePaths = {"/usr/share/gitweb/static", "/usr/share/gitweb",
-        "/var/www/static", "/var/www"};
+        "/var/www/static", "/var/www",};
     Path cgi;
 
     if (cfgCgi != null) {

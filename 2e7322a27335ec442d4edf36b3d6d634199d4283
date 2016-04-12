@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "abbea28e_c942513c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T13:00:12Z",
+      "side": 1,
+      "message": "As for relatively large objects (such as ReviewDb), \nit is recommended to set them null explicitly when those are confirmed no longer in use.Large objects in jvm are a little slower recovered than small objects, but it will be forced to recover in time in the next GC when it\u0027s setted null.",
+      "parentUuid": "ebca5a38_4b4f456a",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 18
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_cb77b59d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 5

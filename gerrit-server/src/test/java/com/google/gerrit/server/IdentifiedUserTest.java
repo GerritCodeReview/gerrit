@@ -60,7 +60,7 @@ public class IdentifiedUserTest {
   private static final String[] TEST_CASES = {
     "",
     "FirstName.LastName@Corporation.com",
-    "!#$%&'+-/=.?^`{|}~@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]"
+    "!#$%&'+-/=.?^`{|}~@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]",
   };
 
   @Before

@@ -151,7 +151,7 @@ public class GerritServer {
         public Void call() throws Exception {
           int rc = daemon.main(new String[] {
               "-d", site.getPath(),
-              "--headless", "--console-log", "--show-stack-trace"});
+              "--headless", "--console-log", "--show-stack-trace",});
           if (rc != 0) {
             System.err.println("Failed to start Gerrit daemon");
             serverStarted.reset();
@@ -172,7 +172,7 @@ public class GerritServer {
     Init init = new Init();
     int rc = init.main(new String[] {
         "-d", tmp.getPath(), "--batch", "--no-auto-start",
-        "--skip-plugins"});
+        "--skip-plugins",});
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }

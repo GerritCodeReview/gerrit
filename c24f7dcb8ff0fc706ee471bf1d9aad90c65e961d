@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1460469355 -0400\nnonce AB8gjyX+r8wFiXQ1GEcfCmziMyu2AVVnUv0bmzz5B12eiJmJ6XFyiRj0i81QBw6pBxlXnP/wIwI4\n\n0000000000000000000000000000000000000000 c24f7dcb8ff0fc706ee471bf1d9aad90c65e961d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXDP5rAAoJEF/XxZqaEoiM/iUP/j3NSN6x+v4jDgKWAiWb/1rw\n+/RiE0LjP6bvaXNui5B33aFbd+65lTKWpQzXACfwKFT66V35h5blCtuS9yjLiizw\nZOr3v49n8fZx98ySRU8WhgW9EDc5aSv05Y044jFBPMfRoQQAnQ+1kutDy3nHK6fi\n2IwZfhUbOPUeeJuturX3hNcucCimFvp1iTZUWAfgz8Ea1lwHswGlrDEeOlIFioXh\nKnxSq0SxzhqX4b8y2PNKNRLF25vacVtNhbOr/9X3TYR7T1K2/3OCtyMSS3oTZkOV\npTtllu4+cVRh1G+ggOdURGJoKypJyWbG9DYHSxSRZAwA0e3TResr3i6AXmFQnd9z\nxRKL5gIgm73/lHYEv1caZ7LHjE+Ud47u7gnzboVvEKUFlZYcORtdsXsS3eFwfZ7H\nRMsgiM2jPxa9wrvF3v0j+v4y/YvYSxsIwSrXTZ4yAg+ydBdS+9KUgETQtYVxbvLt\ny5rbaU7yiGiGn/14+ANqS7Q5D7j2ht/OyEIVHfF2yjIMTpLEa4uiSykcDY9hZ04v\nzWvq5rsIlNpFxfQpa++kBDvrjDgk6WQDk6SxzAYPBgaaBrSbJbD9scBn1V+9WqvQ\n1dN69hB+OO/1/GkZo5dYNZcKptmkxN6akcFEs5CebCs/djOVMD3TVIs+z5jZDHp8\nDMDZD1r/zqGFBG9pQSnZ\n\u003dIkc/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebca5a38_4b33c5d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-12T14:33:19Z",
+      "side": 1,
+      "message": "I think both the author/committer time should be the committer time of the input commit, otherwise this is not a stable output.",
+      "revId": "c24f7dcb8ff0fc706ee471bf1d9aad90c65e961d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_6b3801b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-12T14:33:19Z",
+      "side": 1,
+      "message": "Maybe append \\n, I think that\u0027s more common in git commit messages as it mimics what most editors do.",
+      "revId": "c24f7dcb8ff0fc706ee471bf1d9aad90c65e961d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -39,6 +39,24 @@
       "revId": "7aaf440d52ace1982f038597771f1e8dbf5aa2b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_4c9b9f91",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-04-12T17:30:51Z",
+      "side": 1,
+      "message": "DavidO suggested the ln approach. Not sure which one is better here.",
+      "parentUuid": "4bc9a678_16919c71",
+      "revId": "7aaf440d52ace1982f038597771f1e8dbf5aa2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

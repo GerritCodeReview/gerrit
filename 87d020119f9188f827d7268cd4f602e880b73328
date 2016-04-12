@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbea28e_690fa589",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T05:25:23Z",
+      "side": 1,
+      "message": "Optional: move this line to the line 58, as the rest is common among all other sender and it would be easier to see the differentce here.",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 37
+      },
+      "revId": "87d020119f9188f827d7268cd4f602e880b73328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

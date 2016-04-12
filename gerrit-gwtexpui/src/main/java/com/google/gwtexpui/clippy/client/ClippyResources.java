@@ -21,7 +21,7 @@ import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface ClippyResources extends ClientBundle {
-  public static final ClippyResources I = GWT.create(ClippyResources.class);
+  ClippyResources I = GWT.create(ClippyResources.class);
 
   @Source("clippy.css")
   ClippyCss css();

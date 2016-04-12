@@ -59,7 +59,7 @@ public interface AccountApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements AccountApi {
+  class NotImplemented implements AccountApi {
     @Override
     public AccountInfo get() throws RestApiException {
       throw new NotImplementedException();

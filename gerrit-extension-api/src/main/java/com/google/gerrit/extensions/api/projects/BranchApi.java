@@ -34,7 +34,7 @@ public interface BranchApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements BranchApi {
+  class NotImplemented implements BranchApi {
     @Override
     public BranchApi create(BranchInput in) throws RestApiException {
       throw new NotImplementedException();

@@ -64,7 +64,7 @@ public interface Changes {
   QueryRequest query();
   QueryRequest query(String query);
 
-  public abstract class QueryRequest {
+  abstract class QueryRequest {
     private String query;
     private int limit;
     private int start;
@@ -140,7 +140,7 @@ public interface Changes {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements Changes {
+  class NotImplemented implements Changes {
     @Override
     public ChangeApi id(int id) throws RestApiException {
       throw new NotImplementedException();

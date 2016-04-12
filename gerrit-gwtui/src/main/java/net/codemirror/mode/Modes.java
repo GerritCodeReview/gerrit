@@ -20,7 +20,7 @@ import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 
 public interface Modes extends ClientBundle {
-  public static final Modes I = GWT.create(Modes.class);
+  Modes I = GWT.create(Modes.class);
 
   @Source("apl.js") @DoNotEmbed DataResource apl();
   @Source("asciiarmor.js") @DoNotEmbed DataResource asciiarmor();

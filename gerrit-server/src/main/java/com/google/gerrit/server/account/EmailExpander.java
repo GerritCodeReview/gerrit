@@ -23,7 +23,7 @@ public interface EmailExpander {
 
   String expand(String user);
 
-  public static class None implements EmailExpander {
+  class None implements EmailExpander {
     public static final None INSTANCE = new None();
 
     public static boolean canHandle(final String fmt) {
@@ -44,7 +44,7 @@ public interface EmailExpander {
     }
   }
 
-  public static class Simple implements EmailExpander {
+  class Simple implements EmailExpander {
     private static final String PLACEHOLDER = "{0}";
 
     public static boolean canHandle(final String fmt) {

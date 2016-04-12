@@ -21,7 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.api.config.GerritServerIdProvider;
+import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Binding;
 import com.google.inject.Guice;

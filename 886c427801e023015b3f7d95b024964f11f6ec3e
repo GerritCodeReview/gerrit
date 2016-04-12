@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bb55eae_88521757",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T07:06:01Z",
+      "side": 1,
+      "message": "Why are we changing the logic here and adding it unconditionally? Why this noise: add reviewer/remove reviewer would add this comment even though the reviewer hasn\u0027t voted on this change. If at all this shouldn\u0027t be changed in this change. Here this should stay:\n\n  if (msg.length() \u003e 0) {\n    ChangeMessage changeMessage \u003d [...]",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_898459ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T07:06:01Z",
+      "side": 1,
+      "message": "This is now always false, see the comment above.",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 7
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -157,7 +157,7 @@ public interface ChangeApi {
   ChangeInfo check() throws RestApiException;
   ChangeInfo check(FixInput fix) throws RestApiException;
 
-  public abstract class SuggestedReviewersRequest {
+  abstract class SuggestedReviewersRequest {
     private String query;
     private int limit;
 
@@ -186,7 +186,7 @@ public interface ChangeApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements ChangeApi {
+  class NotImplemented implements ChangeApi {
     @Override
     public String id() {
       throw new NotImplementedException();

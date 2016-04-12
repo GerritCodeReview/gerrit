@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.UIObject;
 /** Displays custom tooltip message below an element. */
 public class Tooltip {
   interface Resources extends ClientBundle {
-    final Resources I = GWT.create(Resources.class);
+    Resources I = GWT.create(Resources.class);
 
     @Source("tooltip.css")
     Css css();

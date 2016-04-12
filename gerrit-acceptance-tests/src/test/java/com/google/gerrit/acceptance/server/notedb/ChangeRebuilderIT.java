@@ -22,11 +22,13 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -39,6 +41,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,6 +53,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -104,6 +108,24 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = r.getPatchSetId().getParentKey();
     putComment(user, id, 1, "comment");
     checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void patchSetWithNullGroups() throws Exception {
+    Timestamp ts = TimeUtil.nowTs();
+    @SuppressWarnings("deprecation")
+    Change c = TestChanges.newChange(project, user.getId(), db.nextChangeId());
+    c.setCreatedOn(ts);
+    c.setLastUpdatedOn(ts);
+    PatchSet ps = TestChanges.newPatchSet(
+        c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+        user.getId());
+    ps.setCreatedOn(ts);
+    db.changes().insert(Collections.singleton(c));
+    db.patchSets().insert(Collections.singleton(ps));
+
+    assertThat(ps.getGroups()).isEmpty();
+    checker.rebuildAndCheckChanges(c.getId());
   }
 
   @Test

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bc47260_b5a1c0bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-12T16:34:46Z",
+      "side": 1,
+      "message": "I think we can handle all 3 kinds of exception the same way.\nAs you cannot throw it out of `apply`, I would store it in a variable and later check for the variable and rethrow that exception if needed.",
+      "range": {
+        "startLine": 445,
+        "startChar": 13,
+        "endLine": 454,
+        "endChar": 15
+      },
+      "revId": "b10df4bd403d5a2a5587f6f746920be08498778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

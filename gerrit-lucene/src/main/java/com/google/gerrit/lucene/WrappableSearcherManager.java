@@ -91,7 +91,7 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
    *
    * @throws IOException if there is a low-level I/O error
    */
-  public WrappableSearcherManager(IndexWriter writer, boolean applyAllDeletes, SearcherFactory searcherFactory) throws IOException {
+  WrappableSearcherManager(IndexWriter writer, boolean applyAllDeletes, SearcherFactory searcherFactory) throws IOException {
     if (searcherFactory == null) {
       searcherFactory = new SearcherFactory();
     }
@@ -108,7 +108,7 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
    *
    * @throws IOException if there is a low-level I/O error
    */
-  public WrappableSearcherManager(Directory dir, SearcherFactory searcherFactory) throws IOException {
+  WrappableSearcherManager(Directory dir, SearcherFactory searcherFactory) throws IOException {
     if (searcherFactory == null) {
       searcherFactory = new SearcherFactory();
     }
@@ -127,7 +127,7 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
    *
    * @throws IOException if there is a low-level I/O error
    */
-  public WrappableSearcherManager(DirectoryReader reader, SearcherFactory searcherFactory) throws IOException {
+  WrappableSearcherManager(DirectoryReader reader, SearcherFactory searcherFactory) throws IOException {
     if (searcherFactory == null) {
       searcherFactory = new SearcherFactory();
     }

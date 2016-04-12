@@ -30,7 +30,7 @@ class PostgreSQL extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  public PostgreSQL(@GerritServerConfig final Config cfg) {
+  PostgreSQL(@GerritServerConfig final Config cfg) {
     super("org.postgresql.Driver");
     this.cfg = cfg;
   }

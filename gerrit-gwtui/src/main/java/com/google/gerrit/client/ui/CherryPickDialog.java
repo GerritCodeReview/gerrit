@@ -85,7 +85,7 @@ public abstract class CherryPickDialog extends TextAreaActionDialog {
   static class BranchSuggestion implements Suggestion {
     private BranchInfo branch;
 
-    public BranchSuggestion(BranchInfo branch) {
+    BranchSuggestion(BranchInfo branch) {
       this.branch = branch;
     }
 

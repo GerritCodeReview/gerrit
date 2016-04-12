@@ -108,7 +108,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
     private Change change;
     private Branch.NameKey newDestKey;
 
-    public Op(ChangeControl ctl, MoveInput input) {
+    Op(ChangeControl ctl, MoveInput input) {
       this.input = input;
       this.caller = ctl.getUser().asIdentifiedUser();
     }

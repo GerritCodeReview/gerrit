@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_2bf2f9b7",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T00:15:36Z",
+      "side": 1,
+      "message": "I intend to fix up long lines in a separate commit.  Note that the checkstyle config is currently set to something like 100 to prevent too much noise.",
+      "parentUuid": "8e864c95_80bcf689",
+      "revId": "c5ccbf196f18a59c6130f4e1df934672125f625a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e864c95_a07d7a8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 2

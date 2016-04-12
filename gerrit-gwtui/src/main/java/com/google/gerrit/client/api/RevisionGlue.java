@@ -46,7 +46,7 @@ public class RevisionGlue {
     }
   }
 
-  private static final native JavaScriptObject get(String id) /*-{
+  private static native JavaScriptObject get(String id) /*-{
     return $wnd.Gerrit.revision_actions[id];
   }-*/;
 

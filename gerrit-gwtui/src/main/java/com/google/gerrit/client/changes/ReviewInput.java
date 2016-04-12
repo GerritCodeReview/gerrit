@@ -42,14 +42,14 @@ public class ReviewInput extends JavaScriptObject {
   public final void notify(NotifyHandling e) {
     _notify(e.name());
   }
-  private final native void _notify(String n) /*-{ this.notify=n; }-*/;
+  private native void _notify(String n) /*-{ this.notify=n; }-*/;
 
   public final void drafts(DraftHandling e) {
     _drafts(e.name());
   }
-  private final native void _drafts(String n) /*-{ this.drafts=n; }-*/;
+  private native void _drafts(String n) /*-{ this.drafts=n; }-*/;
 
-  private final native void init() /*-{
+  private native void init() /*-{
     this.labels = {};
     this.strict_labels = true;
   }-*/;

@@ -258,7 +258,7 @@ public class ModeInfo extends JavaScriptObject {
   public final native JsArrayString mimes()
   /*-{ return this.mimes || [this.mime] }-*/;
 
-  private final native JsArrayString ext()
+  private native JsArrayString ext()
   /*-{ return this.ext || [] }-*/;
 
   protected ModeInfo() {

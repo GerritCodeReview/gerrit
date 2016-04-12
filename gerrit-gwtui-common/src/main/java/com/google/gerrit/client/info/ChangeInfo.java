@@ -71,8 +71,8 @@ public class ChangeInfo extends JavaScriptObject {
     return revList.get(revList.length() - 1).isEdit();
   }
 
-  private final native Timestamp _getCts() /*-{ return this._cts; }-*/;
-  private final native void _setCts(Timestamp ts) /*-{ this._cts = ts; }-*/;
+  private native Timestamp _getCts() /*-{ return this._cts; }-*/;
+  private native void _setCts(Timestamp ts) /*-{ this._cts = ts; }-*/;
 
   public final Timestamp updated() {
     return JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());
@@ -112,12 +112,12 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean mergeable() /*-{ return this.mergeable ? true : false; }-*/;
   public final native int insertions() /*-{ return this.insertions; }-*/;
   public final native int deletions() /*-{ return this.deletions; }-*/;
-  private final native String statusRaw() /*-{ return this.status; }-*/;
+  private native String statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;
-  private final native String createdRaw() /*-{ return this.created; }-*/;
-  private final native String updatedRaw() /*-{ return this.updated; }-*/;
-  private final native String submittedRaw() /*-{ return this.submitted; }-*/;
+  private native String createdRaw() /*-{ return this.created; }-*/;
+  private native String updatedRaw() /*-{ return this.updated; }-*/;
+  private native String submittedRaw() /*-{ return this.submitted; }-*/;
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
   public final native NativeMap<LabelInfo> allLabels() /*-{ return this.labels; }-*/;
@@ -142,7 +142,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native JsArray<AccountInfo> removableReviewers()
   /*-{ return this.removable_reviewers; }-*/;
 
-  private final native NativeMap<JsArray<AccountInfo>> _reviewers()
+  private native NativeMap<JsArray<AccountInfo>> _reviewers()
   /*-{ return this.reviewers; }-*/;
   public final Map<ReviewerState, List<AccountInfo>> reviewers() {
     NativeMap<JsArray<AccountInfo>> reviewers = _reviewers();
@@ -173,14 +173,14 @@ public class ChangeInfo extends JavaScriptObject {
     }
     return SubmitType.valueOf(submitType);
   }
-  private final native String _submitType() /*-{ return this.submit_type; }-*/;
+  private native String _submitType() /*-{ return this.submit_type; }-*/;
 
   public final boolean submittable() {
     init();
     return _submittable();
   }
 
-  private final native boolean _submittable()
+  private native boolean _submittable()
   /*-{ return this.submittable ? true : false; }-*/;
 
   /**
@@ -259,7 +259,7 @@ public class ChangeInfo extends JavaScriptObject {
       return null;
     }
 
-    private final native NativeMap<NativeString> _values() /*-{ return this.values; }-*/;
+    private native NativeMap<NativeString> _values() /*-{ return this.values; }-*/;
     public final Set<String> values() {
       return Natives.keys(_values());
     }
@@ -334,7 +334,7 @@ public class ChangeInfo extends JavaScriptObject {
       revisionInfo.takeFromEdit(edit);
       return revisionInfo;
     }
-    private final native void takeFromEdit(EditInfo edit) /*-{
+    private native void takeFromEdit(EditInfo edit) /*-{
       this._number = 0;
       this.name = edit.name;
       this.commit = edit.commit;
@@ -435,7 +435,7 @@ public class ChangeInfo extends JavaScriptObject {
   public static class GitPerson extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String email() /*-{ return this.email; }-*/;
-    private final native String dateRaw() /*-{ return this.date; }-*/;
+    private native String dateRaw() /*-{ return this.date; }-*/;
 
     public final Timestamp date() {
       return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
@@ -449,7 +449,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native AccountInfo author() /*-{ return this.author; }-*/;
     public final native String message() /*-{ return this.message; }-*/;
     public final native int _revisionNumber() /*-{ return this._revision_number || 0; }-*/;
-    private final native String dateRaw() /*-{ return this.date; }-*/;
+    private native String dateRaw() /*-{ return this.date; }-*/;
 
     public final Timestamp date() {
       return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
@@ -475,7 +475,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArrayString branches() /*-{ return this.branches; }-*/;
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
     public final native JsArrayString external(String n) /*-{ return this.external[n]; }-*/;
-    private final native NativeMap<JsArrayString> external() /*-{ return this.external; }-*/;
+    private native NativeMap<JsArrayString> external() /*-{ return this.external; }-*/;
 
     protected IncludedInInfo() {
     }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc32e5c_14919471",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-12T16:08:51Z",
+      "side": 1,
+      "message": "I\u0027m confused why this is happening. My zip(1) says:\n\n       -q\n       --quiet\n              Quiet mode; eliminate informational messages and comment  prompts.   (Useful,\n              for example, in shell scripts and background tasks).\n\nWe already use -q for exactly this reason. Is OS X different or something?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "7aaf440d52ace1982f038597771f1e8dbf5aa2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bc9a678_16919c71",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-12T16:08:51Z",
+      "side": 1,
+      "message": "Why ln instead of cp -R?",
+      "revId": "7aaf440d52ace1982f038597771f1e8dbf5aa2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

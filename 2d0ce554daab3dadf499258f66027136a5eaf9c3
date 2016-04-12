@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "8bb55eae_28e8cb98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_8a844bff",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 1
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_8b0d2d5d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 1
@@ -89,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "8bb55eae_c8ec8faf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_8b0d2d5d",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 121,
+        "endChar": 41
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_6a7317e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 1
@@ -100,6 +148,30 @@
       "writtenOn": "2016-04-12T07:38:43Z",
       "side": 1,
       "message": "nit: missing spaces after \u0027if\u0027 and before \u0027{\u0027",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 14
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_e8e9539c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_6a7317e6",
       "range": {
         "startLine": 122,
         "startChar": 1,
@@ -242,6 +314,78 @@
       "side": 1,
       "message": "FYI: I usually reply to comments after addressing them publishing a new patchset. My workflow goes like:\n\n1. Read the comments.\n2. Modify code accordingly.\n3. For each comment, draft a \"Done\" reply once my local modification is done, but don\u0027t publish it yet. If a comment doesn\u0027t apply, draft a reply for the reason why.\n4. Upload a new patch set addressing the comments.\n5. Publish the draft comments on the previous patch set.\n\nThis way, when the reviewer(s) get a new email, they can expect that their comments have been addressed in the latest patch set.\n\nIMHO being able to draft inline comments and publish them in batches is one thing that makes Gerrit far superior than GitHub in terms of code review :)",
       "parentUuid": "abbea28e_e9e9559c",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_890d395d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_aa582f60",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_49abc151",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbea28e_e9e9559c",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_a90a7d40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T08:58:59Z",
+      "side": 1,
+      "message": "Yeah,thanks for your helpful advice :)",
+      "parentUuid": "ebca5a38_6bd7a1c6",
       "range": {
         "startLine": 185,
         "startChar": 4,

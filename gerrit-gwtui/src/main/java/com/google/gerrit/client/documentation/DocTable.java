@@ -28,8 +28,8 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 class DocTable extends NavigationTable<DocInfo> {
   private static final int C_TITLE = 1;
 
-  private int rows = 0;
-  private int dataBeginRow = 0;
+  private int rows;
+  private int dataBeginRow;
 
   DocTable() {
     super(Util.C.docItemHelp());

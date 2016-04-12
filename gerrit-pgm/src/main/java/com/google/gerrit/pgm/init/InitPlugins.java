@@ -130,9 +130,8 @@ public class InitPlugins implements InitStep {
 
         if (upgrade) {
           final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(upgrade,
-              "version %s is already installed, overwrite it",
-              installedPluginVersion)) {
+          if (!ui.yesno(upgrade, "%s %s is already installed, overwrite it",
+              plugin.name, installedPluginVersion)) {
             Files.deleteIfExists(tmpPlugin);
             continue;
           }
@@ -145,6 +144,12 @@ public class InitPlugins implements InitStep {
         }
         try {
           Files.move(tmpPlugin, p);
+          if (upgrade) {
+            // or update that is not an upgrade
+            ui.message("Updated %s to %s\n", plugin.name, plugin.version);
+          } else {
+            ui.message("Installed %s %s\n", plugin.name, plugin.version);
+          }
         } catch (IOException e) {
           throw new IOException("Failed to install plugin " + pluginName
               + ": " + tmpPlugin.toAbsolutePath() + " -> "

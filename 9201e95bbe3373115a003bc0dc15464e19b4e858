@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebca5a38_6be6c191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-04-12T13:01:45Z",
+      "side": 1,
+      "message": "The instance of the ReviewDb is provided by RequestScopedReviewDbProvider for the entire context of the request, we should not have to manually close this db, it will be done at the end of the request.\n\nIf I look at other usage of Provider\u003cReviewDb\u003e, we never close the db.\n\nAm I missing something, why do we need to close them in this class? Is this change really fixing you connection leak?",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

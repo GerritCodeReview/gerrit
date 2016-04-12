@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbea28e_2909ad81",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T06:01:22Z",
+      "side": 1,
+      "message": "[optional] Maybe something like this would be better?\n\n\"base\": {\n  \"ref\": \"refs/changes/11/11/2\",\n  \"revision\": \"c35558e0925e6985c91f3a16921537d5e572b7a3\"\n}",
+      "range": {
+        "startLine": 1812,
+        "startChar": 4,
+        "endLine": 1813,
+        "endChar": 62
+      },
+      "revId": "542a34bb6eb0bd576006e11cd06e17e7407dfba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_0904e968",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4390,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T06:01:22Z",
+      "side": 1,
+      "message": "the edit",
+      "range": {
+        "startLine": 4390,
+        "startChar": 49,
+        "endLine": 4390,
+        "endChar": 53
+      },
+      "revId": "542a34bb6eb0bd576006e11cd06e17e7407dfba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

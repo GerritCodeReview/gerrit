@@ -41,6 +41,8 @@ import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.DeleteDraftChange;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
+import com.google.gerrit.server.change.Index;
+import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.PostHashtags;
@@ -95,6 +97,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ListChangeComments listComments;
   private final ListChangeDrafts listDrafts;
   private final Check check;
+  private final Index index;
   private final ChangeEdits.Detail editDetail;
 
   @Inject
@@ -120,6 +123,7 @@ class ChangeApiImpl implements ChangeApi {
       ListChangeComments listComments,
       ListChangeDrafts listDrafts,
       Check check,
+      Index index,
       ChangeEdits.Detail editDetail,
       @Assisted ChangeResource change) {
     this.user = user;
@@ -144,6 +148,7 @@ class ChangeApiImpl implements ChangeApi {
     this.listComments = listComments;
     this.listDrafts = listDrafts;
     this.check = check;
+    this.index = index;
     this.editDetail = editDetail;
     this.change = change;
   }
@@ -398,6 +403,15 @@ class ChangeApiImpl implements ChangeApi {
       return check.apply(change, fix).value();
     } catch (OrmException e) {
       throw new RestApiException("Cannot check change", e);
+    }
+  }
+
+  @Override
+  public void index() throws RestApiException {
+    try {
+      index.apply(change, new Input());
+    } catch (IOException e) {
+      throw new RestApiException("Cannot index change", e);
     }
   }
 }

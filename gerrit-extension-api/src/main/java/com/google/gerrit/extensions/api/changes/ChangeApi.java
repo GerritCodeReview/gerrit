@@ -153,6 +153,7 @@ public interface ChangeApi {
 
   ChangeInfo check() throws RestApiException;
   ChangeInfo check(FixInput fix) throws RestApiException;
+  void index() throws RestApiException;
 
   public abstract class SuggestedReviewersRequest {
     private String query;
@@ -326,6 +327,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo check(FixInput fix) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void index() throws RestApiException {
       throw new NotImplementedException();
     }
 

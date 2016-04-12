@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cbbbd69e_4a0ad37a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T04:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_abc2694f",
+      "range": {
+        "startLine": 250,
+        "startChar": 22,
+        "endLine": 250,
+        "endChar": 32
+      },
+      "revId": "98e07ef856b2edf6dbce0821738f82f3a2131e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_eaa147bb",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-11T21:08:28Z",
       "side": 1,
       "message": "pLabelAttr",
+      "range": {
+        "startLine": 263,
+        "startChar": 22,
+        "endLine": 263,
+        "endChar": 33
+      },
+      "revId": "98e07ef856b2edf6dbce0821738f82f3a2131e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_6a0f9789",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T04:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_eaa147bb",
       "range": {
         "startLine": 263,
         "startChar": 22,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "ebca5a38_4b874509",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T04:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_8aae8baa",
+      "revId": "98e07ef856b2edf6dbce0821738f82f3a2131e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_4be3c5f0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 6
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "cbbbd69e_0a04db68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T04:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_4be3c5f0",
+      "range": {
+        "startLine": 267,
+        "startChar": 14,
+        "endLine": 267,
+        "endChar": 18
+      },
+      "revId": "98e07ef856b2edf6dbce0821738f82f3a2131e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_aaab4f99",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
         "patchSetId": 6
@@ -99,6 +189,30 @@
       "writtenOn": "2016-04-11T21:08:28Z",
       "side": 1,
       "message": "Would rename accordingly.",
+      "range": {
+        "startLine": 268,
+        "startChar": 22,
+        "endLine": 268,
+        "endChar": 31
+      },
+      "revId": "98e07ef856b2edf6dbce0821738f82f3a2131e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_2a099f81",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T04:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_aaab4f99",
       "range": {
         "startLine": 268,
         "startChar": 22,

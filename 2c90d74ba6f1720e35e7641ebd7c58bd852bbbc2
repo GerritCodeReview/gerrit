@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebca5a38_0b161d91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-12T01:30:24Z",
+      "side": 1,
+      "message": "As we have talked about the .length approach for calculating strings \"length\" will eventually get you into trouble due to the way unicode works on the web. \n\nMaybe it might be worth leaving a future note for yourself around this.",
+      "revId": "2c90d74ba6f1720e35e7641ebd7c58bd852bbbc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

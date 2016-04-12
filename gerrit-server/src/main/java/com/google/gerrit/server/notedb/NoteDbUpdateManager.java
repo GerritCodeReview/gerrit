@@ -104,7 +104,6 @@ public class NoteDbUpdateManager {
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
 
-  private OpenRepo codeRepo;
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private Map<Change.Id, NoteDbChangeState.Delta> staged;
@@ -131,12 +130,6 @@ public class NoteDbUpdateManager {
     return this;
   }
 
-  public NoteDbUpdateManager setCodeRepo(Repository repo, RevWalk rw) {
-    checkState(codeRepo == null, "code repo already initialized");
-    codeRepo = new OpenRepo(repo, rw, null, null, false);
-    return this;
-  }
-
   public NoteDbUpdateManager setAllUsersRepo(Repository repo, RevWalk rw,
       ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(allUsersRepo == null, "All-Users repo already initialized");
@@ -149,20 +142,9 @@ public class NoteDbUpdateManager {
     return changeRepo;
   }
 
-  OpenRepo getCodeRepo() throws IOException {
-    initCodeRepo();
-    return codeRepo;
-  }
-
   OpenRepo getAllUsersRepo() throws IOException {
     initAllUsersRepo();
     return allUsersRepo;
-  }
-
-  private void initCodeRepo() throws IOException {
-    if (codeRepo == null) {
-      codeRepo = openRepo(projectName);
-    }
   }
 
   private void initChangeRepo() throws IOException {

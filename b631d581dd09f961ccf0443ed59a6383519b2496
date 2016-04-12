@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbbd69e_aa97cffe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T12:37:31Z",
+      "side": 1,
+      "message": "this line and the following line should be indented 2 more columns.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 10
+      },
+      "revId": "b631d581dd09f961ccf0443ed59a6383519b2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

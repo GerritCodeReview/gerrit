@@ -289,7 +289,7 @@ public abstract class BaseCommand implements Command {
     }
   }
 
-  private final boolean isAdminHighPriorityCommand() {
+  private boolean isAdminHighPriorityCommand() {
     return getClass().getAnnotation(AdminHighPriorityCommand.class) != null;
   }
 

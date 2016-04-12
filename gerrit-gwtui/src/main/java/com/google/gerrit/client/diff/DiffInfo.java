@@ -45,7 +45,7 @@ public class DiffInfo extends JavaScriptObject {
     return filterWebLinks(DiffView.UNIFIED_DIFF);
   }
 
-  private final List<WebLinkInfo> filterWebLinks(DiffView diffView) {
+  private List<WebLinkInfo> filterWebLinks(DiffView diffView) {
     List<WebLinkInfo> filteredDiffWebLinks = new LinkedList<>();
     List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(webLinks());
     if (allDiffWebLinks != null) {

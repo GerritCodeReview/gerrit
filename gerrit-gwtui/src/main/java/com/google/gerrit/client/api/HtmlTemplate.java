@@ -62,19 +62,19 @@ final class HtmlTemplate {
     };
   }-*/;
 
-  private static final String css(String css) {
+  private static String css(String css) {
     String name = DOM.createUniqueId();
     StyleInjector.inject("." + name + "{" + css + "}");
     return name;
   }
 
-  private static final String id(IdMap idMap, String key) {
+  private static String id(IdMap idMap, String key) {
     String id = DOM.createUniqueId();
     idMap.put(id, key);
     return " id='" + id + "'";
   }
 
-  private static final String html(ReplacementMap opts, String id) {
+  private static String html(ReplacementMap opts, String id) {
     int d = id.indexOf('.');
     if (0 < d) {
       String name = id.substring(0, d);
@@ -84,7 +84,7 @@ final class HtmlTemplate {
     return new SafeHtmlBuilder().append(opts.str(id)).asString();
   }
 
-  private static final Node parseHtml(
+  private static Node parseHtml(
       String html,
       IdMap ids,
       ReplacementMap opts,

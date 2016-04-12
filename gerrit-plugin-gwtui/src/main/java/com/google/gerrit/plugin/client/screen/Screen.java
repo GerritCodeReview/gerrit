@@ -62,12 +62,12 @@ public final class Screen extends SimplePanel {
   }
 
   static final class Context extends JavaScriptObject {
-    final native Element body() /*-{ return this.body }-*/;
-    final native JsArrayString token_match() /*-{ return this.token_match }-*/;
-    final native void show() /*-{ this.show() }-*/;
-    final native void setTitle(String t) /*-{ this.setTitle(t) }-*/;
-    final native void setWindowTitle(String t) /*-{ this.setWindowTitle(t) }-*/;
-    final native void detach(Screen s) /*-{
+    native Element body() /*-{ return this.body }-*/;
+    native JsArrayString token_match() /*-{ return this.token_match }-*/;
+    native void show() /*-{ this.show() }-*/;
+    native void setTitle(String t) /*-{ this.setTitle(t) }-*/;
+    native void setWindowTitle(String t) /*-{ this.setWindowTitle(t) }-*/;
+    native void detach(Screen s) /*-{
       this.onUnload($entry(function(){
         s.@com.google.gwt.user.client.ui.Widget::onDetach()();
       }));
@@ -87,7 +87,7 @@ public final class Screen extends SimplePanel {
   }
 
   /** @return the token suffix after {@code "/#/x/plugin-name/"}. */
-  public final String getToken() {
+  public String getToken() {
     return getToken(0);
   }
 
@@ -96,12 +96,12 @@ public final class Screen extends SimplePanel {
    *        group 0 is the entire token, see {@link #getToken()}.
    * @return the token from the regex match group.
    */
-  public final String getToken(int group) {
+  public String getToken(int group) {
     return ctx.token_match().get(group);
   }
 
   /** @return total number of token groups. */
-  public final int getTokenGroups() {
+  public int getTokenGroups() {
     return ctx.token_match().length();
   }
 
@@ -110,7 +110,7 @@ public final class Screen extends SimplePanel {
    *
    * @param titleText text to display above the widget.
    */
-  public final void setPageTitle(String titleText) {
+  public void setPageTitle(String titleText) {
     ctx.setTitle(titleText);
   }
 
@@ -119,7 +119,7 @@ public final class Screen extends SimplePanel {
    *
    * @param titleText text to display in the window title bar.
    */
-  public final void setWindowTitle(String titleText) {
+  public void setWindowTitle(String titleText) {
     ctx.setWindowTitle(titleText);
   }
 
@@ -128,13 +128,13 @@ public final class Screen extends SimplePanel {
    *
    * @param w child containing the content.
    */
-  public final void show(Widget w) {
+  public void show(Widget w) {
     setWidget(w);
     ctx.show();
   }
 
   /** Show this screen in the web interface. */
-  public final void show() {
+  public void show() {
     ctx.show();
   }
 }

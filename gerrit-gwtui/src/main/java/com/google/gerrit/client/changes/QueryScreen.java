@@ -51,7 +51,7 @@ public class QueryScreen extends PagedSingleListScreen implements
   protected AsyncCallback<ChangeList> loadCallback() {
     return new GerritCallback<ChangeList>() {
       @Override
-      public final void onSuccess(ChangeList result) {
+      public void onSuccess(ChangeList result) {
         if (isAttached()) {
           if (result.length() == 1 && isSingleQuery(query)) {
             ChangeInfo c = result.get(0);

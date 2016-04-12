@@ -116,7 +116,16 @@ public class AccountResolver {
   }
 
   private boolean exists(Account.Id id) throws OrmException {
-    return schema.get().accounts().get(id) != null;
+    ReviewDb db = null;
+    db = schema.get();
+    try {
+      return db.accounts().get(id) != null;
+    } finally {
+      if (db != null) {
+        db.close();
+        db = null;
+      }
+    }
   }
 
   /**
@@ -173,32 +182,39 @@ public class AccountResolver {
       return Collections.singleton(id);
     }
 
-    List<Account> m = schema.get().accounts().byFullName(nameOrEmail).toList();
-    if (m.size() == 1) {
-      return Collections.singleton(m.get(0).getId());
-    }
+    ReviewDb db = null;
+    db = schema.get();
+    try {
+      List<Account> m = db.accounts().byFullName(nameOrEmail).toList();
+      if (m.size() == 1) {
+        return Collections.singleton(m.get(0).getId());
+      }
 
-    // At this point we have no clue. Just perform a whole bunch of suggestions
-    // and pray we come up with a reasonable result list.
-    //
-    Set<Account.Id> result = new HashSet<>();
-    String a = nameOrEmail;
-    String b = nameOrEmail + "\u9fa5";
-    for (Account act : schema.get().accounts().suggestByFullName(a, b, 10)) {
-      result.add(act.getId());
-    }
-    for (AccountExternalId extId : schema
-        .get()
-        .accountExternalIds()
-        .suggestByKey(
+      // At this point we have no clue. Just perform a whole bunch of suggestions
+      // and pray we come up with a reasonable result list.
+      //
+      Set<Account.Id> result = new HashSet<>();
+      String a = nameOrEmail;
+      String b = nameOrEmail + "\u9fa5";
+      for (Account act : db.accounts().suggestByFullName(a, b, 10)) {
+        result.add(act.getId());
+      }
+      for (AccountExternalId extId : db.accountExternalIds()
+          .suggestByKey(
             new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
             new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
-      result.add(extId.getAccountId());
+        result.add(extId.getAccountId());
+      }
+      for (AccountExternalId extId : db.accountExternalIds()
+          .suggestByEmailAddress(a, b, 10)) {
+        result.add(extId.getAccountId());
+      }
+      return result;
+    } finally {
+      if (db != null) {
+        db.close();
+        db = null;
+      }
     }
-    for (AccountExternalId extId : schema.get().accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
-      result.add(extId.getAccountId());
-    }
-    return result;
   }
 }

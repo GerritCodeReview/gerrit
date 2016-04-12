@@ -6,16 +6,6 @@ ANNOTATIONS = [
   SRC + 'common/auth/SignInRequired.java',
 ]
 
-EXCLUDES = [
-  SRC + 'common/SiteLibraryLoaderUtil.java',
-  SRC + 'common/PluginData.java',
-  SRC + 'common/FileUtil.java',
-  SRC + 'common/IoUtil.java',
-  SRC + 'common/RawInputUtil.java',
-  SRC + 'common/TimeUtil.java',
-  SRC + 'common/data/SubscribeSection.java',
-]
-
 java_library(
   name = 'annotations',
   srcs = ANNOTATIONS,
@@ -24,13 +14,18 @@ java_library(
 
 gwt_module(
   name = 'client',
-  srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
+  srcs = glob([SRC + 'common/**/*.java']),
   gwt_xml = SRC + 'Common.gwt.xml',
   exported_deps = [
-    '//gerrit-extension-api:client',
+    '//gerrit-extension-api:api',
     '//gerrit-prettify:client',
+    '//lib:guava',
     '//lib:gwtorm_client',
+    '//lib/joda:joda-time',
+    '//lib/log:api',
+    '@jgit//org.eclipse.jgit:jgit',
   ],
+  provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )
 
@@ -43,9 +38,9 @@ java_library(
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',
     '//gerrit-reviewdb:server',
+    '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
-    '//lib:guava',
     '//lib/joda:joda-time',
     '//lib/log:api',
     '@jgit//org.eclipse.jgit:jgit',

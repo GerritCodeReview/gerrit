@@ -105,22 +105,22 @@ class InitSshd implements InitStep {
 
         System.err.print(" rsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen", //
-            "-q" /* quiet */, //
-            "-t", "rsa", //
-            "-P", "", //
-            "-C", comment, //
-            "-f", site.ssh_rsa.toAbsolutePath().toString() //
+        Runtime.getRuntime().exec(new String[] {"ssh-keygen",
+            "-q" /* quiet */,
+            "-t", "rsa",
+            "-P", "",
+            "-C", comment,
+            "-f", site.ssh_rsa.toAbsolutePath().toString(),
             }).waitFor();
 
         System.err.print(" dsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen", //
-            "-q" /* quiet */, //
-            "-t", "dsa", //
-            "-P", "", //
-            "-C", comment, //
-            "-f", site.ssh_dsa.toAbsolutePath().toString() //
+        Runtime.getRuntime().exec(new String[] {"ssh-keygen",
+            "-q" /* quiet */,
+            "-t", "dsa",
+            "-P", "",
+            "-C", comment,
+            "-f", site.ssh_dsa.toAbsolutePath().toString(),
             }).waitFor();
 
       } else {

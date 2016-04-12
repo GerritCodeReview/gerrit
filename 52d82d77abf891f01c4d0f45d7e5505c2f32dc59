@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbbd69e_ca13237d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T08:37:43Z",
+      "side": 1,
+      "message": "optional: put this on the next line, so it\u0027s inside the block consistently with the comments on the previous blocks.",
+      "range": {
+        "startLine": 167,
+        "startChar": 18,
+        "endLine": 167,
+        "endChar": 22
+      },
+      "revId": "52d82d77abf891f01c4d0f45d7e5505c2f32dc59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

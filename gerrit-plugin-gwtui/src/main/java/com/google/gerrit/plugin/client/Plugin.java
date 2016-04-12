@@ -39,48 +39,48 @@ public final class Plugin extends JavaScriptObject {
   }
 
   /** Installed name of the plugin. */
-  public final String getName() {
+  public String getName() {
     return getPluginName();
   }
 
   /** Installed name of the plugin. */
-  public final native String getPluginName()
+  public native String getPluginName()
   /*-{ return this.getPluginName() }-*/;
 
   /** Navigate the UI to the screen identified by the token. */
-  public final native void go(String token)
+  public native void go(String token)
   /*-{ return this.go(token) }-*/;
 
   /** Refresh the current UI. */
-  public final native void refresh()
+  public native void refresh()
   /*-{ return this.refresh() }-*/;
 
   /** Refresh Gerrit's menu bar. */
-  public final native void refreshMenuBar()
+  public native void refreshMenuBar()
   /*-{ return this.refreshMenuBar() }-*/;
 
   /** @return the preferences of the currently signed in user, the default preferences if not signed in */
-  public final native GeneralPreferences getUserPreferences()
+  public native GeneralPreferences getUserPreferences()
   /*-{ return this.getUserPreferences() }-*/;
 
   /** Refresh the user preferences of the current user. */
-  public final native void refreshUserPreferences()
+  public native void refreshUserPreferences()
   /*-{ return this.refreshUserPreferences() }-*/;
 
   /** @return the server info */
-  public final native ServerInfo getServerInfo()
+  public native ServerInfo getServerInfo()
   /*-{ return this.getServerInfo() }-*/;
 
   /** @return the current user */
-  public final native AccountInfo getCurrentUser()
+  public native AccountInfo getCurrentUser()
   /*-{ return this.getCurrentUser() }-*/;
 
   /** Check if user is signed in. */
-  public final native boolean isSignedIn()
+  public native boolean isSignedIn()
   /*-{ return this.isSignedIn() }-*/;
 
   /** Show message in Gerrit's ErrorDialog. */
-  public final native void showError(String message)
+  public native void showError(String message)
   /*-{ return this.showError(message) }-*/;
 
   /**
@@ -90,7 +90,7 @@ public final class Plugin extends JavaScriptObject {
    *        regular expression matching use {@code screenRegex()} .
    * @param entry callback function invoked to create the screen widgets.
    */
-  public final void screen(String token, Screen.EntryPoint entry) {
+  public void screen(String token, Screen.EntryPoint entry) {
     screen(token, wrap(entry));
   }
 
@@ -105,7 +105,7 @@ public final class Plugin extends JavaScriptObject {
    *        {@code Screen} object passed into the {@code Screen.EntryPoint}.
    * @param entry callback function invoked to create the screen widgets.
    */
-  public final void screenRegex(String regex, Screen.EntryPoint entry) {
+  public void screenRegex(String regex, Screen.EntryPoint entry) {
     screenRegex(regex, wrap(entry));
   }
 
@@ -118,7 +118,7 @@ public final class Plugin extends JavaScriptObject {
    * @param token literal anchor token appearing after the plugin name.
    * @param entry callback function invoked to create the settings screen widgets.
    */
-  public final void settingsScreen(String token, String menu, Screen.EntryPoint entry) {
+  public void settingsScreen(String token, String menu, Screen.EntryPoint entry) {
     settingsScreen(token, menu, wrap(entry));
   }
 
@@ -132,7 +132,7 @@ public final class Plugin extends JavaScriptObject {
    *        registered.
    * @param entry callback function invoked to create the panel widgets.
    */
-  public final void panel(GerritUiExtensionPoint extensionPoint, Panel.EntryPoint entry) {
+  public void panel(GerritUiExtensionPoint extensionPoint, Panel.EntryPoint entry) {
     panel(extensionPoint.name(), wrap(entry));
   }
 

@@ -156,7 +156,7 @@ public class GitwebInfo extends JavaScriptObject {
     return url() + pattern.replace(p);
   }
 
-  private final String encode(String segment) {
+  private String encode(String segment) {
     if (type().urlEncode()) {
       return URL.encodeQueryString(type().replacePathSeparator(segment));
     } else {

@@ -29,6 +29,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MergeOp.OpenRepo;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
@@ -67,7 +69,6 @@ public class SubmoduleOp {
 
   private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
-  private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final ProjectCache projectCache;
   private final Set<Branch.NameKey> updatedSubscribers;
@@ -76,20 +77,20 @@ public class SubmoduleOp {
   private final boolean verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private String updateId;
+  private final MergeOp mergeOp;
 
   @Inject
   public SubmoduleOp(
       GitModules.Factory gitmodulesFactory,
       @GerritPersonIdent PersonIdent myIdent,
       @GerritServerConfig Config cfg,
-      GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       ProjectCache projectCache,
       @Nullable Account account,
-      ChangeHooks changeHooks) {
+      ChangeHooks changeHooks,
+      MergeOp mergeOp) {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
-    this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.projectCache = projectCache;
     this.account = account;
@@ -99,11 +100,11 @@ public class SubmoduleOp {
     this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
         "enableSuperProjectSubscriptions", true);
     updatedSubscribers = new HashSet<>();
-
+    this.mergeOp = mergeOp;
   }
 
   public Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
-      SubscribeSection s) throws IOException {
+      SubscribeSection s) throws IOException, NoSuchProjectException {
     Collection<Branch.NameKey> ret = new ArrayList<>();
     logDebug("Inspecting SubscribeSection " + s);
     for (RefSpec r : s.getRefSpecs()) {
@@ -111,11 +112,11 @@ public class SubmoduleOp {
       if (r.matchSource(src.get())) {
         if (r.getDestination() == null) {
           // no need to care for wildcard, as we matched already
-          try (Repository repo = repoManager.openRepository(s.getProject())) {
-            for (Ref ref : repo.getRefDatabase().getRefs(
-                RefNames.REFS_HEADS).values()) {
-              ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
-            }
+          mergeOp.openRepo(s.getProject(), false);
+          OpenRepo or = mergeOp.getRepo(s.getProject());
+          for (Ref ref : or.repo.getRefDatabase().getRefs(
+              RefNames.REFS_HEADS).values()) {
+            ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
           }
         } else if (r.isWildcard()) {
           // refs/heads/*:refs/heads/*
@@ -134,7 +135,7 @@ public class SubmoduleOp {
 
   public Collection<SubmoduleSubscription>
       superProjectSubscriptionsForSubmoduleBranch(
-      Branch.NameKey branch) throws IOException {
+      Branch.NameKey branch) throws IOException, NoSuchProjectException {
     logDebug("Calculating possible superprojects for " + branch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey project = branch.getParentKey();
@@ -174,6 +175,8 @@ public class SubmoduleOp {
       }
     } catch (IOException e) {
       throw new SubmoduleException("Could not calculate all superprojects");
+    } catch (NoSuchProjectException e) {
+
     }
     updatedSubscribers.addAll(updatedBranches);
     // Update subscribers.
@@ -203,7 +206,14 @@ public class SubmoduleOp {
     StringBuilder msgbuf = new StringBuilder("Update git submodules\n\n");
     boolean sameAuthorForAll = true;
 
-    try (Repository pdb = repoManager.openRepository(subscriber.getParentKey())) {
+    try {
+      mergeOp.openRepo(subscriber.getParentKey(), false);
+    } catch (NoSuchProjectException | IOException e) {
+      throw new SubmoduleException("", e);
+    }
+    OpenRepo or = mergeOp.getRepo(subscriber.getParentKey());
+    Repository pdb = or.repo;
+    try {
       if (pdb.exactRef(subscriber.get()) == null) {
         throw new SubmoduleException(
             "The branch was probably deleted from the subscriber repository");
@@ -213,63 +223,67 @@ public class SubmoduleOp {
       DirCacheEditor ed = dc.editor();
 
       for (SubmoduleSubscription s : updates) {
-        try (Repository subrepo = repoManager.openRepository(
-            s.getSubmodule().getParentKey());
-            RevWalk rw = CodeReviewCommit.newRevWalk(subrepo)) {
-          Ref ref = subrepo.getRefDatabase().exactRef(s.getSubmodule().get());
-          if (ref == null) {
-            ed.add(new DeletePath(s.getPath()));
+        try {
+          mergeOp.openRepo(s.getSubmodule().getParentKey(), false);
+        } catch (NoSuchProjectException | IOException e) {
+          throw new SubmoduleException("", e);
+        }
+        OpenRepo subOr = mergeOp.getRepo(s.getSubmodule().getParentKey());
+        Repository subrepo = subOr.repo;
+
+        Ref ref = subrepo.getRefDatabase().exactRef(s.getSubmodule().get());
+        if (ref == null) {
+          ed.add(new DeletePath(s.getPath()));
+          continue;
+        }
+
+        final ObjectId updateTo = ref.getObjectId();
+        RevCommit newCommit = subOr.rw.parseCommit(updateTo);
+
+        if (author == null) {
+          author = newCommit.getAuthorIdent();
+        } else if (!author.equals(newCommit.getAuthorIdent())) {
+          sameAuthorForAll = false;
+        }
+
+        DirCacheEntry dce = dc.getEntry(s.getPath());
+        ObjectId oldId;
+        if (dce != null) {
+          if (!dce.getFileMode().equals(FileMode.GITLINK)) {
+            log.error("Requested to update gitlink " + s.getPath() + " in "
+                + s.getSubmodule().getParentKey().get() + " but entry "
+                + "doesn't have gitlink file mode.");
             continue;
           }
+          oldId = dce.getObjectId();
+        } else {
+          // This submodule did not exist before. We do not want to add
+          // the full submodule history to the commit message, so omit it.
+          oldId = updateTo;
+        }
 
-          final ObjectId updateTo = ref.getObjectId();
-          RevCommit newCommit = rw.parseCommit(updateTo);
-
-          if (author == null) {
-            author = newCommit.getAuthorIdent();
-          } else if (!author.equals(newCommit.getAuthorIdent())) {
-            sameAuthorForAll = false;
+        ed.add(new PathEdit(s.getPath()) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            ent.setFileMode(FileMode.GITLINK);
+            ent.setObjectId(updateTo);
           }
+        });
+        if (verboseSuperProject) {
+          msgbuf.append("Project: " + s.getSubmodule().getParentKey().get());
+          msgbuf.append(" " + s.getSubmodule().getShortName());
+          msgbuf.append(" " + updateTo.getName());
+          msgbuf.append("\n\n");
 
-          DirCacheEntry dce = dc.getEntry(s.getPath());
-          ObjectId oldId;
-          if (dce != null) {
-            if (!dce.getFileMode().equals(FileMode.GITLINK)) {
-              log.error("Requested to update gitlink " + s.getPath() + " in "
-                  + s.getSubmodule().getParentKey().get() + " but entry "
-                  + "doesn't have gitlink file mode.");
-              continue;
+          try {
+            subOr.rw.markStart(newCommit);
+            subOr.rw.markUninteresting(subOr.rw.parseCommit(oldId));
+            for (RevCommit c : subOr.rw) {
+              msgbuf.append(c.getFullMessage() + "\n\n");
             }
-            oldId = dce.getObjectId();
-          } else {
-            // This submodule did not exist before. We do not want to add
-            // the full submodule history to the commit message, so omit it.
-            oldId = updateTo;
-          }
-
-          ed.add(new PathEdit(s.getPath()) {
-            @Override
-            public void apply(DirCacheEntry ent) {
-              ent.setFileMode(FileMode.GITLINK);
-              ent.setObjectId(updateTo);
-            }
-          });
-          if (verboseSuperProject) {
-            msgbuf.append("Project: " + s.getSubmodule().getParentKey().get());
-            msgbuf.append(" " + s.getSubmodule().getShortName());
-            msgbuf.append(" " + updateTo.getName());
-            msgbuf.append("\n\n");
-
-            try {
-              rw.markStart(newCommit);
-              rw.markUninteresting(rw.parseCommit(oldId));
-              for (RevCommit c : rw) {
-                msgbuf.append(c.getFullMessage() + "\n\n");
-              }
-            } catch (IOException e) {
-              throw new SubmoduleException("Could not perform a revwalk to "
-                  + "create superproject commit message", e);
-            }
+          } catch (IOException e) {
+            throw new SubmoduleException("Could not perform a revwalk to "
+                + "create superproject commit message", e);
           }
         }
       }

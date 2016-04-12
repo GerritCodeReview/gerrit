@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cbbbd69e_2a1bdfb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T06:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bb55eae_88c5375c",
+      "range": {
+        "startLine": 127,
+        "startChar": 46,
+        "endLine": 127,
+        "endChar": 55
+      },
+      "revId": "93524859756c418817c77da445f086a776491634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbea28e_09edc9da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-12T05:25:23Z",
       "side": 1,
       "message": "Move the initialization on line 119.",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 133,
+        "endChar": 37
+      },
+      "revId": "93524859756c418817c77da445f086a776491634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_ca2fa3d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T06:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbea28e_09edc9da",
       "range": {
         "startLine": 133,
         "startChar": 6,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "cbbbd69e_ea2ce7dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T06:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbea28e_29f20db8",
+      "revId": "93524859756c418817c77da445f086a776491634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbea28e_c9d6d10e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 9
@@ -76,6 +142,30 @@
       "writtenOn": "2016-04-12T05:25:23Z",
       "side": 1,
       "message": "Initialization on line 118, use new ArraList\u003c\u003e() instead of Lists.newArrayList().",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 33
+      },
+      "revId": "93524859756c418817c77da445f086a776491634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_2be8b998",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T06:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbea28e_c9d6d10e",
       "range": {
         "startLine": 141,
         "startChar": 6,

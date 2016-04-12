@@ -36,7 +36,7 @@ class UnzippedDistribution implements PluginsDistribution {
   private ServletContext servletContext;
   private File pluginsDir;
 
-  public UnzippedDistribution(ServletContext servletContext) {
+  UnzippedDistribution(ServletContext servletContext) {
     this.servletContext = servletContext;
   }
 

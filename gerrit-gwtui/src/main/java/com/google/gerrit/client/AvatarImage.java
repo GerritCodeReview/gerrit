@@ -138,7 +138,7 @@ public class AvatarImage extends Image implements LoadHandler {
     private Timer showTimer;
     private Timer hideTimer;
 
-    public PopupHandler(AccountInfo account, UIObject target) {
+    PopupHandler(AccountInfo account, UIObject target) {
       this.account = account;
       this.target = target;
     }

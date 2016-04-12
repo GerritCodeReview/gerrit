@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cbbbd69e_ca77a39d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T12:51:00Z",
+      "side": 1,
+      "message": "Indeed.  I should have remembered that.",
+      "parentUuid": "ebca5a38_0b305dde",
+      "range": {
+        "startLine": 119,
+        "startChar": 3,
+        "endLine": 128,
+        "endChar": 5
+      },
+      "revId": "b631d581dd09f961ccf0443ed59a6383519b2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_2a63dfe6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 6

@@ -2051,7 +2051,7 @@ public class ReceiveCommits {
       try {
         edit = editUtil.byChange(changeCtl);
       } catch (AuthException | IOException e) {
-        log.error("Cannt retrieve edit", e);
+        log.error("Cannot retrieve edit", e);
         return false;
       }
 

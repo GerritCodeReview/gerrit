@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8bb55eae_68056336",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T09:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_0b87fdd7",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 45
+      },
+      "revId": "633fe306bab5a8a82261a86365ced1aa1358e96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_aaa58f76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-12T09:00:18Z",
       "side": 1,
       "message": "nit: no spaces after ( and before ).",
+      "range": {
+        "startLine": 124,
+        "startChar": 10,
+        "endLine": 124,
+        "endChar": 11
+      },
+      "revId": "633fe306bab5a8a82261a86365ced1aa1358e96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_e99b953c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T09:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_aaa58f76",
       "range": {
         "startLine": 124,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "abbea28e_89a8d94f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T09:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbbd69e_4ad2d3d7",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 9
+      },
+      "revId": "633fe306bab5a8a82261a86365ced1aa1358e96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_2b8c39f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2016-04-12T09:00:18Z",
       "side": 1,
       "message": "nit: wrong indentation, should be 2 not 3",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 9
+      },
+      "revId": "633fe306bab5a8a82261a86365ced1aa1358e96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_08faa759",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T09:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_2b8c39f9",
       "range": {
         "startLine": 207,
         "startChar": 6,

@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbbd69e_2ad19fce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "Can this be simplified to\n    ReviewDb db \u003d schema.get();\n?",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 22
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_4b4f456a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "Is this line necessary?",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 18
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_cb77b59d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "Can this be simplified to\n    ReviewDb db \u003d schema.get();\n?",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 22
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_eb74f19a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "nit: line too long.",
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_cac5630d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "nit: Indent 4 spaces, not 8 on this line.",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 15
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_8b71ada9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "nit: line too long.",
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_ab6ee9c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "nit: Indent 4 spaces, not 5.",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 11
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_6b5481f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T10:40:59Z",
+      "side": 1,
+      "message": "Is this line necessary?",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 18
+      },
+      "revId": "2e7322a27335ec442d4edf36b3d6d634199d4283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

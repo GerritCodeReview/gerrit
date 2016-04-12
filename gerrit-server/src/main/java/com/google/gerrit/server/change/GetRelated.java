@@ -81,7 +81,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
         .byProjectGroups(rsrc.getChange().getProject(), groups);
     if (cds.isEmpty()) {
       return Collections.emptyList();
-    } if (cds.size() == 1
+    }
+    if (cds.size() == 1
         && cds.get(0).getId().equals(rsrc.getChange().getId())) {
       return Collections.emptyList();
     }

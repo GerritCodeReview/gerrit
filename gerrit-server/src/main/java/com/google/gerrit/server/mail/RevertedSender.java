@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being reverted. */
 public class RevertedSender extends ReplyToChangeSender {
-  public static interface Factory {
+  public interface Factory {
     RevertedSender create(Project.NameKey project, Change.Id id);
   }
 

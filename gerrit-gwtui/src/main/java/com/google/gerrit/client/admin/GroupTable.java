@@ -113,7 +113,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
         return a.name().compareTo(b.name());
       }
     });
-    for(GroupInfo group : list.subList(fromIndex, toIndex)) {
+    for (GroupInfo group : list.subList(fromIndex, toIndex)) {
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);

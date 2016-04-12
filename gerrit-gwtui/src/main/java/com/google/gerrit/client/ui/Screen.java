@@ -70,7 +70,7 @@ public abstract class Screen extends View {
   public void registerKeys() {
   }
 
-  private static enum Cols {
+  private enum Cols {
     West, Title, East, FarEast
   }
 

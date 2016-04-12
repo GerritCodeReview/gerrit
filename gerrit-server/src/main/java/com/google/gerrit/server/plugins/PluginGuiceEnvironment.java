@@ -472,7 +472,7 @@ public class PluginGuiceEnvironment {
   private static <T> void replace(Plugin newPlugin,
       ReloadableRegistrationHandle<T> h, Binding<T> b) {
     RegistrationHandle n = h.replace(b.getKey(), b.getProvider());
-    if (n != null){
+    if (n != null) {
       newPlugin.add(n);
     }
   }

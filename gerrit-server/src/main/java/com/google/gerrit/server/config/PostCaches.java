@@ -52,7 +52,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
     }
   }
 
-  public static enum Operation {
+  public enum Operation {
     FLUSH_ALL, FLUSH
   }
 

@@ -39,7 +39,7 @@ import java.util.Map;
 
 /** Access control management for server-wide capabilities. */
 public class CapabilityControl {
-  public static interface Factory {
+  public interface Factory {
     CapabilityControl create(CurrentUser user);
   }
 

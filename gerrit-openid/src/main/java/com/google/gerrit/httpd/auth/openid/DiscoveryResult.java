@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.auth.openid;
 import java.util.Map;
 
 final class DiscoveryResult {
-  static enum Status {
+  enum Status {
     /** Provider was discovered and {@code providerUrl} is valid. */
     VALID,
 

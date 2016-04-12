@@ -66,7 +66,7 @@ public class CommitValidators {
   private static final Logger log = LoggerFactory
       .getLogger(CommitValidators.class);
 
-  public static enum Policy {
+  public enum Policy {
     /** Use {@link #validateForGerritCommits}. */
     GERRIT,
 

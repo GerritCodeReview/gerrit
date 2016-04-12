@@ -49,7 +49,7 @@ public enum ReviewerStateInternal {
   private final FooterKey footerKey;
   private final ReviewerState state;
 
-  private ReviewerStateInternal(FooterKey footerKey, ReviewerState state) {
+  ReviewerStateInternal(FooterKey footerKey, ReviewerState state) {
     this.footerKey = footerKey;
     this.state = state;
   }

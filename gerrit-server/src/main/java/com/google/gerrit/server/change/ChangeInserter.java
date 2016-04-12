@@ -77,7 +77,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 public class ChangeInserter extends BatchUpdate.InsertChangeOp {
-  public static interface Factory {
+  public interface Factory {
     ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
   }
 
@@ -406,7 +406,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
-        for (LabelType lt : labels){
+        for (LabelType lt : labels) {
           allApprovals.put(lt.getName(), (short) 0);
           oldApprovals.put(lt.getName(), null);
         }

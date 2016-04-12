@@ -135,7 +135,7 @@ public class ToolsCatalog {
 
   /** A file served out of the tools root directory. */
   public static class Entry {
-    public static enum Type {
+    public enum Type {
       DIR, FILE
     }
 

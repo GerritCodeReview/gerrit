@@ -164,8 +164,8 @@ public class GetDiff implements RestReadView<FileResource> {
           case INSERT:
           case REPLACE:
             List<Edit> internalEdit = edit instanceof ReplaceEdit
-              ? ((ReplaceEdit) edit).getInternalEdits()
-              : null;
+                ? ((ReplaceEdit) edit).getInternalEdits()
+                : null;
             content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
             break;
           case EMPTY:
@@ -403,7 +403,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
     private final DiffPreferencesInfo.Whitespace whitespace;
 
-    private IgnoreWhitespace(DiffPreferencesInfo.Whitespace whitespace) {
+    IgnoreWhitespace(DiffPreferencesInfo.Whitespace whitespace) {
       this.whitespace = whitespace;
     }
   }

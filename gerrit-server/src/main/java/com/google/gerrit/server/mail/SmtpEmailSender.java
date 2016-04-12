@@ -57,7 +57,7 @@ public class SmtpEmailSender implements EmailSender {
     }
   }
 
-  public static enum Encryption {
+  public enum Encryption {
     NONE, SSL, TLS
   }
 
@@ -159,10 +159,10 @@ public class SmtpEmailSender implements EmailSender {
     setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
     setMissingHeader(hdrs, "Content-Disposition", "inline");
     setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
-    if(importance != null) {
+    if (importance != null) {
       setMissingHeader(hdrs, "Importance", importance);
     }
-    if(expiryDays > 0) {
+    if (expiryDays > 0) {
       Date expiry = new Date(TimeUtil.nowMs() +
         expiryDays * 24 * 60 * 60 * 1000L );
       setMissingHeader(hdrs, "Expiry-Date",

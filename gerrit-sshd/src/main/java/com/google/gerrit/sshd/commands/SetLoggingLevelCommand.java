@@ -40,7 +40,7 @@ public class SetLoggingLevelCommand extends SshCommand {
   private static final String LOG_CONFIGURATION = "log4j.properties";
   private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
 
-  private static enum LevelOption {
+  private enum LevelOption {
     ALL,
     TRACE,
     DEBUG,

@@ -623,7 +623,7 @@ public class PluginLoader implements LifecycleListener {
     for (String name : pluginPaths.keys()) {
       for (Path pluginPath : pluginPaths.asMap().get(name)) {
         if (!pluginPath.getFileName().toString().endsWith(".disabled")) {
-          assert(!activePlugins.containsKey(name));
+          assert !activePlugins.containsKey(name);
           activePlugins.put(name, pluginPath);
         }
       }
@@ -656,7 +656,7 @@ public class PluginLoader implements LifecycleListener {
         continue;
       }
       Path winner = Iterables.getFirst(enabled, null);
-      assert(winner != null);
+      assert winner != null;
       // Disable all loser plugins by renaming their file names to
       // "file.disabled" and replace the disabled files in the multimap.
       Collection<Path> elementsToRemove = Lists.newArrayList();

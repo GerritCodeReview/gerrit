@@ -288,8 +288,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   public static class ChangeKindWeigher implements Weigher<Key, ChangeKind> {
     @Override
     public int weigh(Key key, ChangeKind changeKind) {
-      return 16 + 2*36 + 2*key.strategyName.length() // Size of Key, 64 bit JVM
-          + 2*changeKind.name().length(); // Size of ChangeKind, 64 bit JVM
+      return 16 + 2 * 36 + 2 * key.strategyName.length() // Size of Key, 64 bit JVM
+          + 2 * changeKind.name().length(); // Size of ChangeKind, 64 bit JVM
     }
   }
 

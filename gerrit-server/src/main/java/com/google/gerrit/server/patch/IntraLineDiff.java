@@ -37,7 +37,7 @@ import java.util.List;
 public class IntraLineDiff implements Serializable {
   static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;
 
-  public static enum Status implements CodedEnum {
+  public enum Status implements CodedEnum {
     EDIT_LIST('e'), DISABLED('D'), TIMEOUT('T'), ERROR('E');
 
     private final char code;

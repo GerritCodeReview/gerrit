@@ -24,7 +24,7 @@ import com.google.gwtorm.client.StringKey;
 public final class Project {
   /** Project name key */
   public static class NameKey extends
-      StringKey<com.google.gwtorm.client.Key<?>>{
+      StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)

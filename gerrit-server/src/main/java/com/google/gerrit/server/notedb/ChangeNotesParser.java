@@ -479,7 +479,7 @@ class ChangeNotesParser implements AutoCloseable {
 
     int ptr = size - 1;
     int changeMessageEnd = -1;
-    while(ptr > changeMessageStart) {
+    while (ptr > changeMessageStart) {
       ptr = RawParseUtils.prevLF(raw, ptr, '\r');
       if (ptr == -1) {
         break;

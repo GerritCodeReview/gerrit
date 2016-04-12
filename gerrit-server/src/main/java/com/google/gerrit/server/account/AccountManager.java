@@ -354,7 +354,7 @@ public class AccountManager {
         }
         try {
           update(db, who, extId);
-        } catch(NameAlreadyUsedException | InvalidUserNameException e) {
+        } catch (NameAlreadyUsedException | InvalidUserNameException e) {
           throw new AccountException("Account update failed", e);
         }
 

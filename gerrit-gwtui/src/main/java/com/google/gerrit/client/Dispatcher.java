@@ -424,7 +424,7 @@ public class Dispatcher {
       int line = 0;
       int at = rest.lastIndexOf('@');
       if (at > 0) {
-        String l = rest.substring(at+1);
+        String l = rest.substring(at + 1);
         if (l.startsWith("a")) {
           side = DisplaySide.A;
           l = l.substring(1);

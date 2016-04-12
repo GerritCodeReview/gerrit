@@ -95,7 +95,7 @@ public class FileTable extends FlowPanel {
     String restoreDelete();
   }
 
-  public static enum Mode {
+  public enum Mode {
     REVIEW,
     EDIT
   }

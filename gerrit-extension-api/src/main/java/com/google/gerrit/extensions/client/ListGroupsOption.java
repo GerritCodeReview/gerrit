@@ -26,7 +26,7 @@ public enum ListGroupsOption {
 
   private final int value;
 
-  private ListGroupsOption(int v) {
+  ListGroupsOption(int v) {
     this.value = v;
   }
 

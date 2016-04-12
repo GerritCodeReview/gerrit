@@ -103,7 +103,7 @@ public class GroupCollector {
     return rsrc.getPatchSet().getGroups();
   }
 
-  private static interface Lookup {
+  private interface Lookup {
     List<String> lookup(PatchSet.Id psId)
         throws OrmException, NoSuchChangeException;
   }

@@ -100,7 +100,7 @@ public class ServerPlugin extends Plugin {
       this.sysModule = load(sysName, classLoader);
       this.sshModule = load(sshName, classLoader);
       this.httpModule = load(httpName, classLoader);
-    } catch(ClassNotFoundException e) {
+    } catch (ClassNotFoundException e) {
       throw new InvalidPluginException("Unable to load plugin Guice Modules", e);
     }
   }

@@ -52,7 +52,7 @@ public class CommentSender extends ReplyToChangeSender {
   private static final Logger log = LoggerFactory
       .getLogger(CommentSender.class);
 
-  public static interface Factory {
+  public interface Factory {
     CommentSender create(Project.NameKey project, Change.Id id);
   }
 

@@ -99,7 +99,7 @@ public class StarredChanges implements
   @SuppressWarnings("unchecked")
   @Override
   public RestModifyView<AccountResource, EmptyInput> create(
-      AccountResource parent, IdString id) throws UnprocessableEntityException{
+      AccountResource parent, IdString id) throws UnprocessableEntityException {
     try {
       return createProvider.get()
           .setChange(changes.parse(TopLevelResource.INSTANCE, id));

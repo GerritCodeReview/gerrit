@@ -303,7 +303,7 @@ public abstract class OutgoingEmail {
     } else if (email != null) {
       return email;
 
-    } else /* (name == null && email == null) */{
+    } else /* (name == null && email == null) */ {
       return args.anonymousCowardName + " #" + accountId;
     }
   }

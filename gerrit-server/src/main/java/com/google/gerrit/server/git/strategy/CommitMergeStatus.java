@@ -59,7 +59,7 @@ public enum CommitMergeStatus {
 
   private String message;
 
-  private CommitMergeStatus(String message) {
+  CommitMergeStatus(String message) {
     this.message = message;
   }
 

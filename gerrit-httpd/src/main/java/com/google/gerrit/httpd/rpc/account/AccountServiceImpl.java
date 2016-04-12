@@ -74,7 +74,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   @Override
   public void changeDiffPreferences(final DiffPreferencesInfo diffPref,
       AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>(){
+    run(callback, new Action<VoidResult>() {
       @Override
       public VoidResult run(ReviewDb db) throws OrmException {
         if (!getUser().isIdentifiedUser()) {

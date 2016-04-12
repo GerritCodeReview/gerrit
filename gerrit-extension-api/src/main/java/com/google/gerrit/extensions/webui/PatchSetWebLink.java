@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
-public interface PatchSetWebLink extends WebLink{
+public interface PatchSetWebLink extends WebLink {
 
   /**
    * {@link com.google.gerrit.extensions.common.WebLinkInfo}

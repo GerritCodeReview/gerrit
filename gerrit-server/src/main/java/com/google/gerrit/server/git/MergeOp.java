@@ -706,7 +706,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   @AutoValue
-  static abstract class BranchBatch {
+  abstract static class BranchBatch {
     @Nullable abstract SubmitType submitType();
     abstract List<ChangeData> changes();
   }

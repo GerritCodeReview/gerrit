@@ -31,7 +31,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
-  public static interface Factory {
+  public interface Factory {
     MergedSender create(Project.NameKey project, Change.Id id);
   }
 

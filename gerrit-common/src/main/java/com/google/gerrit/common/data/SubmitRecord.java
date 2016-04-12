@@ -23,7 +23,7 @@ import java.util.Objects;
  * Describes the state required to submit a change.
  */
 public class SubmitRecord {
-  public static enum Status {
+  public enum Status {
     /** The change is ready for submission. */
     OK,
 
@@ -49,7 +49,7 @@ public class SubmitRecord {
   public String errorMessage;
 
   public static class Label {
-    public static enum Status {
+    public enum Status {
       /**
        * This label provides what is necessary for submission.
        * <p>

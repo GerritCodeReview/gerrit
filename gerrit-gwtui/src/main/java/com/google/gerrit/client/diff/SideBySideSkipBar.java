@@ -44,9 +44,9 @@ class SideBySideSkipBar extends SkipBar {
     String noExpand();
   }
 
-  @UiField(provided=true) Anchor skipNum;
-  @UiField(provided=true) Anchor upArrow;
-  @UiField(provided=true) Anchor downArrow;
+  @UiField(provided = true) Anchor skipNum;
+  @UiField(provided = true) Anchor upArrow;
+  @UiField(provided = true) Anchor downArrow;
   @UiField SkipBarStyle style;
 
   private final SideBySideSkipManager manager;

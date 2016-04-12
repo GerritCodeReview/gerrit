@@ -28,7 +28,7 @@ public class ReviewerResource implements RestResource {
   public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =
       new TypeLiteral<RestView<ReviewerResource>>() {};
 
-  public static interface Factory {
+  public interface Factory {
     ReviewerResource create(ChangeResource change, Account.Id id);
   }
 

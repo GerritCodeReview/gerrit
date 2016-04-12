@@ -67,7 +67,7 @@ public final class MostSpecificComparator implements
         cmp = -1;
       } else if (!p1_finite && p2_finite) {
         cmp = 1;
-      } else /* if (f1 == f2) */{
+      } else /* if (f1 == f2) */ {
         cmp = 0;
       }
     }

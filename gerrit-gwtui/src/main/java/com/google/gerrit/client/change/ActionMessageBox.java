@@ -35,7 +35,7 @@ abstract class ActionMessageBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ActionMessageBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  static interface Style extends CssResource {
+  interface Style extends CssResource {
     String popup();
   }
 

@@ -262,7 +262,7 @@ public class WorkQueue {
      * <li>{@link #DONE}: finished executing, if not periodic.</li>
      * </ol>
      */
-    public static enum State {
+    public enum State {
       // Ordered like this so ordinal matches the order we would
       // prefer to see tasks sorted in: done before running,
       // running before ready, ready before sleeping.

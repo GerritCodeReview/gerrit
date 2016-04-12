@@ -68,7 +68,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private static final Logger log =
       LoggerFactory.getLogger(PatchSetInserter.class);
 
-  public static interface Factory {
+  public interface Factory {
     PatchSetInserter create(RefControl refControl, PatchSet.Id psId,
         RevCommit commit);
   }

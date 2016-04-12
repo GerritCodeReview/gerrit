@@ -100,7 +100,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   /** Order of execution of the various phases. */
-  public static enum Order {
+  public enum Order {
     /**
      * Update the repository and execute all ref updates before touching the
      * database.

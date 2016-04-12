@@ -380,7 +380,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       hooks.doChangeMergedHook(change, account, newPatchSet, ctx.getDb(),
           commit.getName());
     }
-    try{
+    try {
       runHook(ctx);
     } catch (Exception e) {
       log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
@@ -403,7 +403,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
     Map<String, Short> allApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
-    for (LabelType lt : labels){
+    for (LabelType lt : labels) {
       allApprovals.put(lt.getName(), (short) 0);
       oldApprovals.put(lt.getName(), null);
     }

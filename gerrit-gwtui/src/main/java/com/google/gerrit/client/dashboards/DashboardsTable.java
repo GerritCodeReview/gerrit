@@ -84,7 +84,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     });
 
     String ref = null;
-    for(DashboardInfo d : list) {
+    for (DashboardInfo d : list) {
       if (!d.ref().equals(ref)) {
         ref = d.ref();
         insertTitleRow(table.getRowCount(), ref);

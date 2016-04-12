@@ -936,7 +936,7 @@ public class Gerrit implements EntryPoint {
 
       @Override
       public void onKeyDown(KeyDownEvent event) {
-        if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           showHidePopup();
           event.preventDefault();
         }

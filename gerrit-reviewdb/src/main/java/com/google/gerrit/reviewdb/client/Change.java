@@ -281,7 +281,7 @@ public final class Change {
    * codes ('A'..'Z') indicate a change that is closed and cannot be further
    * modified.
    * */
-  public static enum Status {
+  public enum Status {
     /**
      * Change is open and pending review, or review is in progress.
      *
@@ -356,7 +356,7 @@ public final class Change {
     private final boolean closed;
     private final ChangeStatus changeStatus;
 
-    private Status(char c, ChangeStatus cs) {
+    Status(char c, ChangeStatus cs) {
       code = c;
       closed = !(MIN_OPEN <= c && c <= MAX_OPEN);
       changeStatus = cs;

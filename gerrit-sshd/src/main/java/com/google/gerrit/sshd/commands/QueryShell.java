@@ -51,7 +51,7 @@ public class QueryShell {
     QueryShell create(@Assisted InputStream in, @Assisted OutputStream out);
   }
 
-  public static enum OutputFormat {
+  public enum OutputFormat {
     PRETTY, JSON, JSON_SINGLE
   }
 

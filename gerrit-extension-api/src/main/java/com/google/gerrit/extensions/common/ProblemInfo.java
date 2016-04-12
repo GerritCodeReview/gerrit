@@ -15,7 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 public class ProblemInfo {
-  public static enum Status {
+  public enum Status {
     FIXED, FIX_FAILED
   }
 

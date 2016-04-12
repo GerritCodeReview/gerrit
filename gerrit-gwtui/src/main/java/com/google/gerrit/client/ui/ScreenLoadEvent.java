@@ -36,7 +36,7 @@ public class ScreenLoadEvent extends GwtEvent<ScreenLoadHandler> {
     return TYPE;
   }
 
-  public Screen getScreen(){
+  public Screen getScreen() {
     return screen;
   }
 }

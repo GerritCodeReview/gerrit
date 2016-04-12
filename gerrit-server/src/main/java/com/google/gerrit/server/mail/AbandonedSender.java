@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being abandoned by its owner. */
 public class AbandonedSender extends ReplyToChangeSender {
-  public static interface Factory extends
+  public interface Factory extends
       ReplyToChangeSender.Factory<AbandonedSender> {
     @Override
     AbandonedSender create(Project.NameKey project, Change.Id change);

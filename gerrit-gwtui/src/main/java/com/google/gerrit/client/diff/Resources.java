@@ -20,7 +20,7 @@ import com.google.gwt.resources.client.ImageResource;
 
 /** Resources used by diff. */
 interface Resources extends ClientBundle {
-  static final Resources I = GWT.create(Resources.class);
+  final Resources I = GWT.create(Resources.class);
 
   @Source("CommentBox.css") CommentBox.Style style();
   @Source("Scrollbar.css") Scrollbar.Style scrollbarStyle();

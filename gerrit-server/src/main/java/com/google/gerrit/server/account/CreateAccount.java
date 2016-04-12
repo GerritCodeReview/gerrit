@@ -66,7 +66,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     public List<String> groups;
   }
 
-  public static interface Factory {
+  public interface Factory {
     CreateAccount create(String username);
   }
 

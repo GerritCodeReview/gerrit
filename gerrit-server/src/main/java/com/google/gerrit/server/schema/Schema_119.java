@@ -149,7 +149,7 @@ public class Schema_119 extends SchemaVersion {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, GeneralPreferencesInfo> e
           : imports.entrySet()) {
-        try(MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
+        try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
             allUsersName, git, bru)) {
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);

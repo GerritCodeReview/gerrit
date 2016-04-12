@@ -447,7 +447,8 @@ public class ChangeBundle {
     checkArgument(a.getClass() == b.getClass());
     Class<?> clazz = a.getClass();
 
-    Timestamp ta, tb;
+    Timestamp ta;
+    Timestamp tb;
     try {
       Field f = clazz.getDeclaredField(field);
       checkArgument(f.getAnnotation(Column.class) != null);

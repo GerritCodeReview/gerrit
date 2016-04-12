@@ -46,7 +46,7 @@ class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  static interface Style extends CssResource {
+  interface Style extends CssResource {
     String closed();
   }
 

@@ -31,7 +31,7 @@ public enum ArchiveFormat {
   private final ArchiveCommand.Format<?> format;
   private final String mimeType;
 
-  private ArchiveFormat(String mimeType, ArchiveCommand.Format<?> format) {
+  ArchiveFormat(String mimeType, ArchiveCommand.Format<?> format) {
     this.format = format;
     this.mimeType = mimeType;
     ArchiveCommand.registerFormat(name(), format);

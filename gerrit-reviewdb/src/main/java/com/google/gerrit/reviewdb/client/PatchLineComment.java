@@ -60,14 +60,14 @@ public final class PatchLineComment {
   public static final char STATUS_DRAFT = 'd';
   public static final char STATUS_PUBLISHED = 'P';
 
-  public static enum Status {
+  public enum Status {
     DRAFT(STATUS_DRAFT),
 
     PUBLISHED(STATUS_PUBLISHED);
 
     private final char code;
 
-    private Status(final char c) {
+    Status(final char c) {
       code = c;
     }
 

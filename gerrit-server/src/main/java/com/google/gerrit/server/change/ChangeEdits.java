@@ -403,7 +403,7 @@ public class ChangeEdits implements
             rsrc.getChangeEdit(),
             rsrc.getPath(),
             input.content);
-      } catch(InvalidChangeOperationException | IOException e) {
+      } catch (InvalidChangeOperationException | IOException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
@@ -434,7 +434,7 @@ public class ChangeEdits implements
         throws AuthException, ResourceConflictException {
       try {
         editModifier.deleteFile(rsrc.getChangeEdit(), rsrc.getPath());
-      } catch(InvalidChangeOperationException | IOException e) {
+      } catch (InvalidChangeOperationException | IOException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();

@@ -64,6 +64,7 @@ class InitIndex implements InitStep {
           site, def.getLatest().getVersion(), true);
     }
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
+      // Do nothing
     } else {
       final String message = String.format(
         "\nThe index must be %sbuilt before starting Gerrit:\n"

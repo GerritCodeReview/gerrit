@@ -140,7 +140,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private static final Logger sshDaemonLog =
       LoggerFactory.getLogger(SshDaemon.class);
 
-  public static enum SshSessionBackend {
+  public enum SshSessionBackend {
     MINA,
     NIO2
   }
@@ -489,21 +489,21 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         do {
           bits = next(31);
           val = bits % n;
-        } while (bits - val + (n-1) < 0);
+        } while (bits - val + (n - 1) < 0);
         return val;
       }
       throw new IllegalArgumentException();
     }
 
     protected final int next(int numBits) {
-      int bytes = (numBits+7)/8;
+      int bytes = (numBits + 7) / 8;
       byte[] next = new byte[bytes];
       int ret = 0;
       random.nextBytes(next);
       for (int i = 0; i < bytes; i++) {
         ret = (next[i] & 0xFF) | (ret << 8);
       }
-      return ret >>> (bytes*8 - numBits);
+      return ret >>> (bytes * 8 - numBits);
     }
   }
 
@@ -674,7 +674,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         try {
           kerberosPrincipal = "host/" +
               InetAddress.getLocalHost().getCanonicalHostName();
-        } catch(UnknownHostException e) {
+        } catch (UnknownHostException e) {
           kerberosPrincipal = "host/localhost";
         }
       }

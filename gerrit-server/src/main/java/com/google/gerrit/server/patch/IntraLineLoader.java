@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 class IntraLineLoader implements Callable<IntraLineDiff> {
   static final Logger log = LoggerFactory.getLogger(IntraLineLoader.class);
 
-  static interface Factory {
+  interface Factory {
     IntraLineLoader create(IntraLineDiffKey key, IntraLineDiffArgs args);
   }
 

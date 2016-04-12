@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abbea28e_496e6103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Thanks for reminding, I should have thought about this myself. But nice that it simplifies this change :-)\n\nDone",
+      "parentUuid": "ebca5a38_ebc87175",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_4bb8a5ea",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AccountCreator.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-04-11T18:36:57Z",
       "side": 1,
       "message": "It seems like you could save some work if you used the REST API handler directly to do this. Or is this too early in the initialization for that to be available?",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_096869f1",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "This would require injection of a current user which we don\u0027t have available here. However with the new patch set the code is much shorter.",
+      "parentUuid": "ebca5a38_4bb8a5ea",
       "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "8bb55eae_48873f09",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Not sure if this can work with how VersionedMetaData is designed today. It doesn\u0027t offer any public safe method that could be used. But I removed this inheritance to make it cleaner.",
+      "parentUuid": "ebca5a38_6bbd61d9",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_0bb29d08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2016-04-11T18:36:57Z",
       "side": 1,
       "message": "Not a Provider",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_296d2d02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_0bb29d08",
       "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "abbea28e_8923f999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_2bb759f9",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_caa483ce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2016-04-11T18:36:57Z",
       "side": 1,
       "message": "Seems like this would be fine to let propagate as a 500 instead of converting to 400",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_e87713d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "I think the correct response code depends on the reason for the InvalidSshKeyException. If it is because the supplied key is not valid, 400 seems correct since the calling user provided a malformed key in the input. If it\u0027s because the JVM is missing the key algorithm or the provider, 501 Not Implemented would be better?\n\nAnyway changing the response code should go into a separate change.",
+      "parentUuid": "cbbbd69e_caa483ce",
       "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "abbea28e_a997ddfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_abab4999",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_8bae8daa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
         "patchSetId": 1
@@ -138,6 +270,24 @@
       "writtenOn": "2016-04-11T18:36:57Z",
       "side": 1,
       "message": "This getBoolean is duplicated elsewhere, maybe extract this as a static method in this class?",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_496421f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "No longer applicable after squashing the next change into this one.",
+      "parentUuid": "ebca5a38_8bae8daa",
       "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -161,6 +311,47 @@
     },
     {
       "key": {
+        "uuid": "8bb55eae_48641ff0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebca5a38_cbcb3570",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_6969e5c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "We must convert RFC 4716 style keys to OpenSSH style keys. Also we want to parse the key to check that it is valid before adding it. \n\nBoth of this requires classes from SSH libs that we cannot reference here directly. Instead we must delegate the SSH key creation to the SSH layer. So far this was done in SshKeyCacheImpl. Since SshKeyCacheImpl needs VersionedAuthorizedKeys to load keys and to mark keys as invalid, VersionedAuthorizedKeys should not depend on SshKeyCacheImpl as this would be a dependency circle. Instead split of the SSH key creation from SshKeyCacheImpl into SshKeyCreatorImpl. This way SshKeyCacheImpl depends on VersionedAuthorizedKeys and VersionedAuthorizedKeys depends on SshKeyCreator, and we don\u0027t have a dependency circle.\n\nDone.",
+      "range": {
+        "startLine": 83,
+        "startChar": 7,
+        "endLine": 84,
+        "endChar": 75
+      },
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebca5a38_eba151bb",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
         "patchSetId": 1
@@ -172,6 +363,24 @@
       "writtenOn": "2016-04-11T18:36:57Z",
       "side": 1,
       "message": "Why is this readFromDb and not git/db depending on the state of the config?",
+      "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_68b003b9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-12T15:50:19Z",
+      "side": 1,
+      "message": "Done by squashing the next change into this one.",
+      "parentUuid": "ebca5a38_eba151bb",
       "revId": "474acc8bf5b9f55bc3c9b3671b17cb2c52dbf95a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

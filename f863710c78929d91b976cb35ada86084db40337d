@@ -45,6 +45,30 @@
       "revId": "f863710c78929d91b976cb35ada86084db40337d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbbd69e_ea9b873c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-12T08:51:25Z",
+      "side": 1,
+      "message": "The ssh keys are provided in a raw input, so first we need to extract them to a list of Strings (done above).\n\nThe intention here is to validate them (the Strings) all first, and then only proceed if we know they\u0027re all valid.\n\nI didn\u0027t want to validate-then-add them one-by-one, because it will result in potentially only partially adding the keys if one of them was invalid.",
+      "parentUuid": "dc92be65_2bc2b954",
+      "range": {
+        "startLine": 111,
+        "startChar": 31,
+        "endLine": 111,
+        "endChar": 40
+      },
+      "revId": "f863710c78929d91b976cb35ada86084db40337d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -117,7 +117,7 @@ import java.util.Set;
 public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
-  private class OpenRepo {
+  public class OpenRepo {
     final Repository repo;
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
@@ -361,16 +361,22 @@ public class MergeOp implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  private OpenRepo getRepo(Project.NameKey project) {
+  public OpenRepo getRepo(Project.NameKey project) {
     OpenRepo or = openRepos.get(project);
     checkState(or != null, "repo not yet opened: %s", project);
     return or;
   }
 
-  private void openRepo(Project.NameKey project)
+  public void openRepo(Project.NameKey project, boolean abortIfOpen)
       throws NoSuchProjectException, IOException {
-    checkState(!openRepos.containsKey(project),
-        "repo already opened: %s", project);
+    if (abortIfOpen) {
+      checkState(!openRepos.containsKey(project),
+          "repo already opened: %s", project);
+    } else {
+      if (openRepos.containsKey(project)) {
+        return;
+      }
+    }
     ProjectState projectState = projectCache.get(project);
     if (projectState == null) {
       throw new NoSuchProjectException(project);
@@ -864,7 +870,7 @@ public class MergeOp implements AutoCloseable {
       throws IntegrationException {
     for (Project.NameKey project : projects) {
       try {
-        openRepo(project);
+        openRepo(project, true);
       } catch (NoSuchProjectException noProject) {
         logWarn("Project " + noProject.project() + " no longer exists, "
             + "abandoning open changes");

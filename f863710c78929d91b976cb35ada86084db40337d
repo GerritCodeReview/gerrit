@@ -69,6 +69,30 @@
       "revId": "f863710c78929d91b976cb35ada86084db40337d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebca5a38_eb8dd1f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T09:00:31Z",
+      "side": 1,
+      "message": "I didn\u0027t make myself clear. I thought the Map here was used to handle duplicates. If we used an ImmutableSet\u003cString\u003e instead of an ArrayList\u003cString\u003e above, then we only need an ArrayList\u003cAccountSshKey\u003e here, which might simplify code a little bit but this is no big deal.",
+      "parentUuid": "cbbbd69e_ea9b873c",
+      "range": {
+        "startLine": 111,
+        "startChar": 31,
+        "endLine": 111,
+        "endChar": 40
+      },
+      "revId": "f863710c78929d91b976cb35ada86084db40337d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbbd69e_2abaff98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T08:44:13Z",
+      "side": 1,
+      "message": "Now that this long message gets duplicated in two places, we should factor it out into a String constant like COMMAND_REJECTION_MESSAGE_FOOTER.",
+      "revId": "03a3ed5015c1c2f6cd8333c9eb225335ec7d91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

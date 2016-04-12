@@ -111,7 +111,7 @@ public class SideBySide extends DiffScreen {
         cmB.refresh();
       }
     });
-    setLineLength(Patch.COMMIT_MSG.equals(prefs) ? 72 : prefs.lineLength());
+    setLineLength(Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     diffTable.refresh();
 
     if (getStartLine() == 0) {

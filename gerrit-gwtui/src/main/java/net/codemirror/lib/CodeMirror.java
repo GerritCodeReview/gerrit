@@ -138,7 +138,7 @@ public class CodeMirror extends JavaScriptObject {
     addLineClassNative(line, where.value(), className);
   }
 
-  private final native void addLineClassNative(int line, String where,
+  private native void addLineClassNative(int line, String where,
       String lineClass) /*-{
     this.addLineClass(line, where, lineClass)
   }-*/;
@@ -148,7 +148,7 @@ public class CodeMirror extends JavaScriptObject {
     addLineClassNative(line, where.value(), className);
   }
 
-  private final native void addLineClassNative(LineHandle line, String where,
+  private native void addLineClassNative(LineHandle line, String where,
       String lineClass) /*-{
     this.addLineClass(line, where, lineClass)
   }-*/;
@@ -158,7 +158,7 @@ public class CodeMirror extends JavaScriptObject {
     removeLineClassNative(line, where.value(), className);
   }
 
-  private final native void removeLineClassNative(int line, String where,
+  private native void removeLineClassNative(int line, String where,
       String lineClass) /*-{
     this.removeLineClass(line, where, lineClass)
   }-*/;
@@ -168,7 +168,7 @@ public class CodeMirror extends JavaScriptObject {
     removeLineClassNative(line, where.value(), className);
   }
 
-  private final native void removeLineClassNative(LineHandle line, String where,
+  private native void removeLineClassNative(LineHandle line, String where,
       String lineClass) /*-{
     this.removeLineClass(line, where, lineClass)
   }-*/;

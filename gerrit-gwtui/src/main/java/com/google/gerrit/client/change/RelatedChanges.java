@@ -385,7 +385,7 @@ public class RelatedChanges extends TabPanel {
       String s = statusRaw();
       return s != null ? Change.Status.valueOf(s) : null;
     }
-    private final native String statusRaw() /*-{ return this.status; }-*/;
+    private native String statusRaw() /*-{ return this.status; }-*/;
 
     final native void setId(String i)
     /*-{ if(i)this.change_id=i; }-*/;

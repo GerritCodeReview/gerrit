@@ -37,8 +37,8 @@ public class GroupAuditEventInfo extends JavaScriptObject {
   public final native AccountInfo memberAsUser() /*-{ return this.member; }-*/;
   public final native GroupInfo memberAsGroup() /*-{ return this.member; }-*/;
 
-  private final native String dateRaw() /*-{ return this.date; }-*/;
-  private final native String typeRaw() /*-{ return this.type; }-*/;
+  private native String dateRaw() /*-{ return this.date; }-*/;
+  private native String typeRaw() /*-{ return this.type; }-*/;
 
   protected GroupAuditEventInfo() {
   }

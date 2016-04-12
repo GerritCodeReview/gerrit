@@ -55,11 +55,11 @@ public class ChangeGlue {
     }
   }
 
-  private static final native JavaScriptObject get(String id) /*-{
+  private static native JavaScriptObject get(String id) /*-{
     return $wnd.Gerrit.change_actions[id];
   }-*/;
 
-  private static final native boolean invoke(JavaScriptObject h,
+  private static native boolean invoke(JavaScriptObject h,
       ChangeInfo a, RevisionInfo r)
   /*-{ return h(a,r) }-*/;
 

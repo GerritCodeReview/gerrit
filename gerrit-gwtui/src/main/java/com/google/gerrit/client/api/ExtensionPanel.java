@@ -130,14 +130,14 @@ public class ExtensionPanel extends FlowPanel {
     final native void putBoolean(String k, boolean v) /*-{ this.p[k] = v; }-*/;
     final native void putObject(String k, JavaScriptObject v) /*-{ this.p[k] = v; }-*/;
 
-    private static final native Context create(
+    private static native Context create(
         JavaScriptObject T,
         Definition d,
         Element e)
     /*-{ return new T(d,e) }-*/;
 
     private static final JavaScriptObject TYPE = init();
-    private static final native JavaScriptObject init() /*-{
+    private static native JavaScriptObject init() /*-{
       var T = function(d,e) {
         this._d = d;
         this._u = [];

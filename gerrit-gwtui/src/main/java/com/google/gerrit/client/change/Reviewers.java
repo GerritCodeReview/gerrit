@@ -293,7 +293,7 @@ public class Reviewers extends Composite {
       return Natives.keys(_approvals());
     }
     final native String approval(String l) /*-{ return this.approvals[l]; }-*/;
-    private final native NativeMap<NativeString> _approvals() /*-{ return this.approvals; }-*/;
+    private native NativeMap<NativeString> _approvals() /*-{ return this.approvals; }-*/;
 
     protected ReviewerInfo() {
     }

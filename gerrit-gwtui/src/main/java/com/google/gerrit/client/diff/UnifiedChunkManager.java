@@ -38,7 +38,7 @@ import java.util.List;
 /** Colors modified regions for {@link Unified}. */
 class UnifiedChunkManager extends ChunkManager {
   private static final JavaScriptObject focus = initOnClick();
-  private static final native JavaScriptObject initOnClick() /*-{
+  private static native JavaScriptObject initOnClick() /*-{
     return $entry(function(e){
       @com.google.gerrit.client.diff.UnifiedChunkManager::focus(
         Lcom/google/gwt/dom/client/NativeEvent;)(e)

@@ -76,7 +76,7 @@ class PluginName {
   protected static final native JavaScriptException makeException()
   /*-{ try { null.a() } catch (e) { return e } }-*/;
 
-  private static final native boolean hasStack(JavaScriptException e)
+  private static native boolean hasStack(JavaScriptException e)
   /*-{ return !!e.stack }-*/;
 
   /** Extracts URL from the stack frame. */
@@ -103,7 +103,7 @@ class PluginName {
       return UNKNOWN;
     }
 
-    private static final native JsArrayString getStack(JavaScriptException e)
+    private static native JsArrayString getStack(JavaScriptException e)
     /*-{ return e.stack ? e.stack.split('\n') : [] }-*/;
   }
 }

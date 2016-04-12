@@ -473,8 +473,8 @@ public class RefControl {
   }
 
   private static class AllowedRange {
-    private int allowMin = 0;
-    private int allowMax = 0;
+    private int allowMin;
+    private int allowMax;
     private int blockMin = Integer.MIN_VALUE;
     private int blockMax = Integer.MAX_VALUE;
 

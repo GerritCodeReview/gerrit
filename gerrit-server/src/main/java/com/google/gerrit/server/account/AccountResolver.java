@@ -116,7 +116,9 @@ public class AccountResolver {
   }
 
   private boolean exists(Account.Id id) throws OrmException {
-    return schema.get().accounts().get(id) != null;
+    try (ReviewDb db = schema.get()) {
+      return db.accounts().get(id) != null;
+    }
   }
 
   /**
@@ -173,32 +175,32 @@ public class AccountResolver {
       return Collections.singleton(id);
     }
 
-    List<Account> m = schema.get().accounts().byFullName(nameOrEmail).toList();
-    if (m.size() == 1) {
-      return Collections.singleton(m.get(0).getId());
-    }
+    try (ReviewDb db = schema.get()) {
+      List<Account> m = db.accounts().byFullName(nameOrEmail).toList();
+      if (m.size() == 1) {
+        return Collections.singleton(m.get(0).getId());
+      }
 
-    // At this point we have no clue. Just perform a whole bunch of suggestions
-    // and pray we come up with a reasonable result list.
-    //
-    Set<Account.Id> result = new HashSet<>();
-    String a = nameOrEmail;
-    String b = nameOrEmail + "\u9fa5";
-    for (Account act : schema.get().accounts().suggestByFullName(a, b, 10)) {
-      result.add(act.getId());
+      // At this point we have no clue. Just perform a whole bunch of suggestions
+      // and pray we come up with a reasonable result list.
+      //
+      Set<Account.Id> result = new HashSet<>();
+      String a = nameOrEmail;
+      String b = nameOrEmail + "\u9fa5";
+      for (Account act : db.accounts().suggestByFullName(a, b, 10)) {
+        result.add(act.getId());
+      }
+      for (AccountExternalId extId : db.accountExternalIds()
+          .suggestByKey(
+              new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
+              new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
+        result.add(extId.getAccountId());
+      }
+      for (AccountExternalId extId : db.accountExternalIds()
+          .suggestByEmailAddress(a, b, 10)) {
+        result.add(extId.getAccountId());
+      }
+      return result;
     }
-    for (AccountExternalId extId : schema
-        .get()
-        .accountExternalIds()
-        .suggestByKey(
-            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
-            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
-      result.add(extId.getAccountId());
-    }
-    for (AccountExternalId extId : schema.get().accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
-      result.add(extId.getAccountId());
-    }
-    return result;
   }
 }

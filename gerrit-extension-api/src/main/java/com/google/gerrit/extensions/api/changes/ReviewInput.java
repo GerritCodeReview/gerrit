@@ -26,6 +26,8 @@ public class ReviewInput {
   @DefaultInput
   public String message;
 
+  public String tag;
+
   public Map<String, Short> labels;
   public Map<String, List<CommentInput>> comments;
 

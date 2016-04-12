@@ -222,13 +222,13 @@ public class ChangeBundle {
         // the Change with the state implied by a ChangeNotes.
         101);
     checkColumns(ChangeMessage.Key.class, 1, 2);
-    checkColumns(ChangeMessage.class, 1, 2, 3, 4, 5);
+    checkColumns(ChangeMessage.class, 1, 2, 3, 4, 5, 6);
     checkColumns(PatchSet.Id.class, 1, 2);
     checkColumns(PatchSet.class, 1, 2, 3, 4, 5, 6, 8);
     checkColumns(PatchSetApproval.Key.class, 1, 2, 3);
-    checkColumns(PatchSetApproval.class, 1, 2, 3);
+    checkColumns(PatchSetApproval.class, 1, 2, 3, 6);
     checkColumns(PatchLineComment.Key.class, 1, 2);
-    checkColumns(PatchLineComment.class, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    checkColumns(PatchLineComment.class, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   }
 
   private final Change change;

@@ -280,14 +280,14 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "Differing numbers of ChangeMessages for Change.Id " + id + ":\n"
         + "ChangeMessage{key=" + id + ",uuid1, author=100,"
-        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1,"
+        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1, tag=null,"
         + " message=[message 2]}\n"
         + "ChangeMessage{key=" + id + ",uuid2, author=100,"
-        + " writtenOn=2009-09-30 17:00:12.0, patchset=" + id + ",1,"
+        + " writtenOn=2009-09-30 17:00:12.0, patchset=" + id + ",1, tag=null,"
         + " message=[null]}\n"
         + "--- vs. ---\n"
         + "ChangeMessage{key=" + id + ",uuid1, author=100,"
-        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1,"
+        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1, tag=null,"
         + " message=[message 2]}");
   }
 

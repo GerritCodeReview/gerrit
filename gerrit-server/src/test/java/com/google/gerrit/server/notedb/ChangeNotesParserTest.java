@@ -414,6 +414,32 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     assertParseFails(writeCommit(msg, serverIdent));
   }
 
+  @Test
+  public void parseTag() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "Subject: Change subject\n"
+        + "Tag:\n");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "Subject: Change subject\n"
+        + "Tag: jenkins\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "Subject: Change subject\n"
+        + "Tag: ci\n"
+        + "Tag: jenkins\n");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, noteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

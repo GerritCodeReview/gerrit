@@ -74,6 +74,10 @@ public final class ChangeMessage {
   @Column(id = 5, notNull = false)
   protected PatchSet.Id patchset;
 
+  /** Tag associated with change message */
+  @Column(id = 6, notNull = false)
+  protected String tag;
+
   protected ChangeMessage() {
   }
 
@@ -117,6 +121,14 @@ public final class ChangeMessage {
     message = s;
   }
 
+  public String getTag() {
+    return tag;
+  }
+
+  public void setTag(String tag) {
+    this.tag = tag;
+  }
+
   public PatchSet.Id getPatchSetId() {
     return patchset;
   }
@@ -132,6 +144,7 @@ public final class ChangeMessage {
         + ", author=" + author
         + ", writtenOn=" + writtenOn
         + ", patchset=" + patchset
+        + ", tag=" + tag
         + ", message=[" + message
         + "]}";
   }

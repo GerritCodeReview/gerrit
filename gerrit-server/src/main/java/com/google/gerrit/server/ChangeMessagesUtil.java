@@ -76,6 +76,7 @@ public class ChangeMessagesUtil {
         "cannot store change message by %s in update by %s",
         changeMessage.getAuthor(), update.getAccountId());
     update.setChangeMessage(changeMessage.getMessage());
+    update.setTag(changeMessage.getTag());
     db.changeMessages().insert(Collections.singleton(changeMessage));
   }
 }

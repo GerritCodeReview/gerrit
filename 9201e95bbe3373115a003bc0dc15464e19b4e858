@@ -22,6 +22,30 @@
       "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_29352dcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-12T13:16:50Z",
+      "side": 1,
+      "message": "Actually,there was a connection leak which was caused by the command \"suexec --as\" in Gerrit.\nWhen the \"--as\" is assigned a EMAIL address which is inaccurate (maybe not case-sensitive or imcomplete) but existed,the connection leak will occur.\nAnd after I closed the db manually in the class,the connection leak was fixed.",
+      "parentUuid": "ebca5a38_6be6c191",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

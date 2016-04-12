@@ -37,7 +37,7 @@ import java.util.TreeSet;
 class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "cherrypick", "followup", "hashtags", "publish",
-    "rebase", "restore", "revert", "submit", "topic", "/"};
+    "rebase", "restore", "revert", "submit", "topic", "/",};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);

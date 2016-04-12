@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbea28e_a9f4bd97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "Add a note, that now, that side by side und unified diff screens share the same code base, this feature is made available in both diff screens.",
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_693a451c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "To tell the whole story, add a note, that this preference wasn\u0027t migrated from old style side by side screen to new side by side, but this diff preference were converted from database to the git backend, but removed from the diff preferences box.",
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_48e3bff0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "Be here more explicit about the consequences, e.g.: Diff screen must be restarted to have an effect of changed prefs.",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_08edc7da",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "We try to avoid unneeded instance variables in client code.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 24
+      },
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_28f20bb8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "This can be preserved as local var and passed to the setupPrevNextFiles().",
+      "range": {
+        "startLine": 154,
+        "startChar": 8,
+        "endLine": 154,
+        "endChar": 13
+      },
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_c8d6cf0e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "Same here, the whole block can be extracted in a method and the result can be used, e.g.:\n\n  setupPrevNextFiles(files, fileIndex(files));",
+      "range": {
+        "startLine": 159,
+        "startChar": 8,
+        "endLine": 165,
+        "endChar": 9
+      },
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbea28e_c9fd7180",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "Use ChangeType matches method:\n\n  ChangeType.DELETED.matches(curr.status()",
+      "range": {
+        "startLine": 305,
+        "startChar": 33,
+        "endLine": 305,
+        "endChar": 58
+      },
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb55eae_a8dd9b29",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-12T06:10:27Z",
+      "side": 1,
+      "message": "And here.",
+      "range": {
+        "startLine": 314,
+        "startChar": 33,
+        "endLine": 314,
+        "endChar": 58
+      },
+      "revId": "880ee93bec03adfae0ebf02380305c4ec0904fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

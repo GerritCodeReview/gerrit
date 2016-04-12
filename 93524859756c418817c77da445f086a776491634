@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbbd69e_cafd6380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-12T04:57:23Z",
+      "side": 1,
+      "message": "this is still set to add a comment only when an approval is has changed.  We want to add a comment on every removal as discussed on gerrit ML[1]\n\n [1] https://groups.google.com/d/msg/repo-discuss/aULNkde4DKc/WK3Ckr5aEgAJ",
+      "revId": "93524859756c418817c77da445f086a776491634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -159,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "cbbbd69e_4ad97311",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-12T07:56:51Z",
+      "side": 1,
+      "message": "Ok that makes sense :)",
+      "parentUuid": "ebca5a38_cb9ed52f",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 125,
+        "endChar": 2
+      },
+      "revId": "2d0ce554daab3dadf499258f66027136a5eaf9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbbd69e_aa582f60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 1

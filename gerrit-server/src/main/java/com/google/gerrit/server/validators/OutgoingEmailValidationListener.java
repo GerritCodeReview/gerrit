@@ -29,7 +29,7 @@ public interface OutgoingEmailValidationListener {
   /**
    * Arguments supplied to validateOutgoingEmail.
    */
-  public static class Args {
+  class Args {
     // in arguments
     public String messageClass;
 

@@ -32,6 +32,6 @@ public interface AccountExternalIdCreator {
    *
    * @return a list of external identifiers, or an empty list.
    */
-  public List<AccountExternalId> create(Account.Id id, String username,
+  List<AccountExternalId> create(Account.Id id, String username,
       String email);
 }

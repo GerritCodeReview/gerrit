@@ -31,7 +31,7 @@ public interface ProjectApi {
   ListRefsRequest<BranchInfo> branches();
   ListRefsRequest<TagInfo> tags();
 
-  public abstract class ListRefsRequest<T extends RefInfo> {
+  abstract class ListRefsRequest<T extends RefInfo> {
     protected int limit;
     protected int start;
     protected String substring;
@@ -108,7 +108,7 @@ public interface ProjectApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements ProjectApi {
+  class NotImplemented implements ProjectApi {
     @Override
     public ProjectApi create() throws RestApiException {
       throw new NotImplementedException();

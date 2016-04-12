@@ -52,6 +52,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   private final Change change;
   private final Account.Id author;
+  private final boolean autoRebuild;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private RevisionNoteMap revisionNoteMap;
@@ -61,9 +62,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Args args,
       @Assisted Change change,
       @Assisted Account.Id author) {
-    super(args, change.getId());
-    this.change = change;
-    this.author = author;
+    this(args, change, author, true);
   }
 
   @AssistedInject
@@ -74,6 +73,18 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     super(args, changeId);
     this.change = null;
     this.author = author;
+    this.autoRebuild = true;
+  }
+
+  DraftCommentNotes(
+      Args args,
+      Change change,
+      Account.Id author,
+      boolean autoRebuild) {
+    super(args, change.getId());
+    this.change = change;
+    this.author = author;
+    this.autoRebuild = autoRebuild;
   }
 
   RevisionNoteMap getRevisionNoteMap() {
@@ -138,7 +149,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   protected LoadHandle openHandle(Repository repo) throws IOException {
-    if (change != null) {
+    if (change != null && autoRebuild) {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       // Only check if this particular user's drafts are up to date, to avoid
       // reading unnecessary refs.

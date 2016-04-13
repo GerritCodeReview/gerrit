@@ -73,6 +73,16 @@ public class SchemaUtil {
   }
 
   @SafeVarargs
+  public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields,
+      FieldDef<V, ?>... moreFields) {
+    return new Schema<>(
+        new ImmutableList.Builder<FieldDef<V, ?>>()
+            .addAll(fields)
+            .addAll(ImmutableList.copyOf(moreFields))
+            .build());
+  }
+
+  @SafeVarargs
   public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
     return schema(ImmutableList.copyOf(fields));
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bc47260_55914c3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-04-13T17:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb925a65_cb521558",
+      "revId": "2f7ad8a7ce51f36bdf09526edc6c011f37cca2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb925a65_eb4fd1b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-13T08:24:17Z",
       "side": 1,
       "message": "args.submitInput may be null, so we must check for null here.",
+      "range": {
+        "startLine": 522,
+        "startChar": 14,
+        "endLine": 522,
+        "endChar": 30
+      },
+      "revId": "2f7ad8a7ce51f36bdf09526edc6c011f37cca2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_0d6ef101",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-04-13T17:53:07Z",
+      "side": 1,
+      "message": "Now using args.notifyHandling, which can\u0027t be null.",
+      "parentUuid": "eb925a65_eb4fd1b0",
       "range": {
         "startLine": 522,
         "startChar": 14,

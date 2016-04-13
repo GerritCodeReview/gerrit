@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab68629f_99b71bfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T20:37:22Z",
+      "side": 1,
+      "message": "I would prefer to only fire the hook, reviewer-deleted event and send a mail in the case, the reviewer was deleted with a vote. The same logic when a message is added to the change table. Any changes to this logic should be done in its own change.",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb55eae_88521757",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 12
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "So this what I\u0027ve been referring to from discussion[1] on Gerrit ML.  Andrew\u0027s suggestion was to \"Include reviewer additions/removals in the message log\".  Did i misinterpret? \n\n[1] https://groups.google.com/d/msg/repo-discuss/aULNkde4DKc/WK3Ckr5aEgAJ",
       "parentUuid": "8bb55eae_88521757",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab68629f_79ac07b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T20:37:22Z",
+      "side": 1,
+      "message": "I don\u0027t have opinion on Andrew\u0027s suggestion (but this can be a controversal proposal, as the core developers (maintainers) in many projects often complain that they are getting a lot of spam from many tools. For example they are added to every change in Gerrit and to every issue in Bugzilla, etc.).\n\nAll I\u0027m saying here, this shouldn\u0027t be changed here, where we fire a hook and extending the notification firehose from change message table only to email as well. Any changes to the logic when to spam the change table (and reiewers) should be done in its own change.",
+      "parentUuid": "ebca5a38_8b30cdc4",
       "range": {
         "startLine": 161,
         "startChar": 6,

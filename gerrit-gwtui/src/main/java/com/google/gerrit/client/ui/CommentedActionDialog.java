@@ -35,7 +35,7 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
   protected final FlowPanel contentPanel;
   protected FocusWidget focusOn;
 
-  protected boolean sent = false;
+  protected boolean sent;
 
   public CommentedActionDialog(final String title, final String heading) {
     super(/* auto hide */false, /* modal */true);

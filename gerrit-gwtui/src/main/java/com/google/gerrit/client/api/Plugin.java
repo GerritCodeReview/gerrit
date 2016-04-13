@@ -26,14 +26,14 @@ final class Plugin extends JavaScriptObject {
     return create(TYPE, url, name);
   }
 
-  final native String url() /*-{ return this._scriptUrl }-*/;
-  final native String name() /*-{ return this.name }-*/;
+  native String url() /*-{ return this._scriptUrl }-*/;
+  native String name() /*-{ return this.name }-*/;
 
-  final native boolean loaded() /*-{ return this._success || this._failure != null }-*/;
-  final native Exception failure() /*-{ return this._failure }-*/;
-  final native void failure(Exception e) /*-{ this._failure = e }-*/;
-  final native boolean success() /*-{ return this._success || false }-*/;
-  final native void _initialized() /*-{ this._success = true }-*/;
+  native boolean loaded() /*-{ return this._success || this._failure != null }-*/;
+  native Exception failure() /*-{ return this._failure }-*/;
+  native void failure(Exception e) /*-{ this._failure = e }-*/;
+  native boolean success() /*-{ return this._success || false }-*/;
+  native void _initialized() /*-{ this._success = true }-*/;
 
   private static native Plugin create(JavaScriptObject T, String u, String n)
   /*-{ return new T(u,n) }-*/;

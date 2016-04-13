@@ -214,7 +214,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private class SendEmailOp extends BatchUpdate.Op {
     private final ChangeInserter ins;
 
-    public SendEmailOp(ChangeInserter ins) {
+    SendEmailOp(ChangeInserter ins) {
       this.ins = ins;
     }
 
@@ -236,7 +236,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private class PostRevertedMessageOp extends BatchUpdate.Op {
     private final ObjectId computedChangeId;
 
-    public PostRevertedMessageOp(ObjectId computedChangeId) {
+    PostRevertedMessageOp(ObjectId computedChangeId) {
       this.computedChangeId = computedChangeId;
     }
 

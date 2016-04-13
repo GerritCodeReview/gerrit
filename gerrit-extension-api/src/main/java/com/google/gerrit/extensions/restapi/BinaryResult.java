@@ -62,7 +62,7 @@ public abstract class BinaryResult implements Closeable {
   private Charset characterEncoding;
   private long contentLength = -1;
   private boolean gzip = true;
-  private boolean base64 = false;
+  private boolean base64;
   private String attachmentName;
 
   /** @return the MIME type of the result, for HTTP clients. */

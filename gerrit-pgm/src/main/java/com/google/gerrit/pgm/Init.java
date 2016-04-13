@@ -52,7 +52,7 @@ public class Init extends BaseInit {
   private boolean noAutoStart;
 
   @Option(name = "--skip-plugins", usage = "Don't install plugins")
-  private boolean skipPlugins = false;
+  private boolean skipPlugins;
 
   @Option(name = "--list-plugins", usage = "List available plugins")
   private boolean listPlugins;

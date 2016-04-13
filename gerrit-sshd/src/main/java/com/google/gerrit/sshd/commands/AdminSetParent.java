@@ -81,7 +81,7 @@ final class AdminSetParent extends SshCommand {
   @Inject
   private Provider<ListChildProjects> listChildProjects;
 
-  private Project.NameKey newParentKey = null;
+  private Project.NameKey newParentKey;
 
   @Override
   protected void run() throws Failure {

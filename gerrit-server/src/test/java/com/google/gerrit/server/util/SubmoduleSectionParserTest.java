@@ -268,7 +268,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     private final String path;
     private final String branch;
 
-    public SubmoduleSection(final String url, final String path,
+    SubmoduleSection(final String url, final String path,
         final String branch) {
       this.url = url;
       this.path = path;

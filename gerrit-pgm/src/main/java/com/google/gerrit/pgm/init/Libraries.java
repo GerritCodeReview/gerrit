@@ -116,7 +116,7 @@ class Libraries {
     return doGet(cfg, name, key, true);
   }
 
-  private static final String doGet(Config cfg, String name, String key,
+  private static String doGet(Config cfg, String name, String key,
       boolean required) {
     String val = cfg.getString("library", name, key);
     if ((val == null || val.isEmpty()) && required) {

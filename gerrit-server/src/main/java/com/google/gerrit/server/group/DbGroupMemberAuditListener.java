@@ -49,7 +49,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   private final UniversalGroupBackend groupBackend;
 
   @Inject
-  public DbGroupMemberAuditListener(SchemaFactory<ReviewDb> schema,
+  DbGroupMemberAuditListener(SchemaFactory<ReviewDb> schema,
       AccountCache accountCache, GroupCache groupCache,
       UniversalGroupBackend groupBackend) {
     this.schema = schema;

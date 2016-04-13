@@ -259,7 +259,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
 
     public static final String MESSAGE = "Invalid Revision";
 
-    public InvalidRevisionException() {
+    InvalidRevisionException() {
       super(MESSAGE);
     }
   }

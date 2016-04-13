@@ -236,14 +236,14 @@ public class ApiGlue {
     }
   }
 
-  private static final String getPluginName() {
+  private static String getPluginName() {
     if (pluginName != null) {
       return pluginName;
     }
     return PluginName.fromUrl(PluginName.getCallerUrl());
   }
 
-  private static final void go(String urlOrToken) {
+  private static void go(String urlOrToken) {
     if (urlOrToken.startsWith("http:")
         || urlOrToken.startsWith("https:")
         || urlOrToken.startsWith("//")) {
@@ -253,35 +253,35 @@ public class ApiGlue {
     }
   }
 
-  private static final void refresh() {
+  private static void refresh() {
     Gerrit.display(History.getToken());
   }
 
-  private static final ServerInfo getServerInfo() {
+  private static ServerInfo getServerInfo() {
     return Gerrit.info();
   }
 
-  private static final AccountInfo getCurrentUser() {
+  private static AccountInfo getCurrentUser() {
     return Gerrit.getUserAccount();
   }
 
-  private static final GeneralPreferences getUserPreferences() {
+  private static GeneralPreferences getUserPreferences() {
     return Gerrit.getUserPreferences();
   }
 
-  private static final void refreshUserPreferences() {
+  private static void refreshUserPreferences() {
     Gerrit.refreshUserPreferences();
   }
 
-  private static final void refreshMenuBar() {
+  private static void refreshMenuBar() {
     Gerrit.refreshMenuBar();
   }
 
-  private static final boolean isSignedIn() {
+  private static boolean isSignedIn() {
     return Gerrit.isSignedIn();
   }
 
-  private static final void showError(String message) {
+  private static void showError(String message) {
     new ErrorDialog(message).center();
   }
 

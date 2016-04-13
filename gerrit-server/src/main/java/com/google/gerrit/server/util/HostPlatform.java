@@ -21,11 +21,11 @@ public final class HostPlatform {
   private static final boolean win32 = computeWin32();
 
   /** @return true if this JVM is running on a Windows platform. */
-  public static final boolean isWin32() {
+  public static boolean isWin32() {
     return win32;
   }
 
-  private static final boolean computeWin32() {
+  private static boolean computeWin32() {
     final String osDotName =
         AccessController.doPrivileged(new PrivilegedAction<String>() {
           @Override

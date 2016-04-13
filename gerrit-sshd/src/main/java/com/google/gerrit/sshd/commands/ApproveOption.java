@@ -123,6 +123,7 @@ final class ApproveOption implements Option, Setter<Short> {
   public static class Handler extends OneArgumentOptionHandler<Short> {
     private final ApproveOption cmdOption;
 
+    // CS IGNORE RedundantModifier FOR NEXT 1 LINES. REASON: needed by org.kohsuke.args4j.Option
     public Handler(final CmdLineParser parser, final OptionDef option,
         final Setter<Short> setter) {
       super(parser, option, setter);

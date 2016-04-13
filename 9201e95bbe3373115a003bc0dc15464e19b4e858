@@ -118,6 +118,30 @@
       "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_4c91df3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-13T09:53:57Z",
+      "side": 1,
+      "message": "Can you provide more details on how to reproduce the connection leak?\nIs it enough to repeat the:\n\n suexec ... --as EMAIL_1\n\nN times (with the same wrong email) in order to leak N connections?\nOr do you need to change the email in order to leak yet another connection?",
+      "parentUuid": "abbea28e_29352dcf",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

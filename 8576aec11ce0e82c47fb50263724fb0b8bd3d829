@@ -42,6 +42,29 @@
     },
     {
       "key": {
+        "uuid": "2bc47260_b52c60dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T10:39:13Z",
+      "side": 1,
+      "message": "It\u0027s called \"unit\" here and in the code, but \"width\" in the subject.\n\nCan we not call it \"size\" like we do with \"tab size\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb925a65_2b8c792b",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 2

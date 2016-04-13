@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab36a2c5_29a24dc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-13T20:29:06Z",
+      "side": 1,
+      "message": "I went with the change id only.",
+      "parentUuid": "2b89d23a_cdf7899b",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "86599ca7eeaf5034426054ddb75d0bfb6bca9730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bc47260_350f708a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-13T01:25:10Z",
       "side": 1,
       "message": "repeated word",
+      "range": {
+        "startLine": 119,
+        "startChar": 15,
+        "endLine": 119,
+        "endChar": 17
+      },
+      "revId": "86599ca7eeaf5034426054ddb75d0bfb6bca9730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_a8955b5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-13T20:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bc47260_350f708a",
       "range": {
         "startLine": 119,
         "startChar": 15,

@@ -70,6 +70,30 @@
       "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_8dcbc170",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T00:40:50Z",
+      "side": 1,
+      "message": "\u003e If I look at other usage of Provider\u003cReviewDb\u003e, we never close the db\n\nHmm, yes, I think this is correct.  Let\u0027s try to fix this another way.",
+      "parentUuid": "ebca5a38_6be6c191",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

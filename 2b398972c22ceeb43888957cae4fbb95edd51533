@@ -22,6 +22,30 @@
       "revId": "2b398972c22ceeb43888957cae4fbb95edd51533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_c8b1af05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-13T21:00:14Z",
+      "side": 1,
+      "message": "I was expecting them to be cached, but it\u0027s still bad :(",
+      "parentUuid": "ab4dc25b_51af34a7",
+      "range": {
+        "startLine": 336,
+        "startChar": 6,
+        "endLine": 336,
+        "endChar": 53
+      },
+      "revId": "2b398972c22ceeb43888957cae4fbb95edd51533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

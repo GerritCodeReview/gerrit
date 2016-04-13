@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b988e84_8cd6670d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T07:18:38Z",
+      "side": 1,
+      "message": "This can\u0027t work. comments aren\u0027t loaded at this point yet. comments.load() is executed asynchronously so that setHasComments method would never see the comments.",
+      "range": {
+        "startLine": 214,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 36
+      },
+      "revId": "6e22ceae87f346629c93dff3afca4650a1c91993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_acd3231c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T07:18:38Z",
+      "side": 1,
+      "message": "This is wrong. This condition doesn\u0027t honour curr argument. So that this code would only consider (when asynchronous problem is fixed, see my other comment) the path that was used when diff screen was opened, because only for this path the comments are retrieved, but would ignore all other comments on all other files, see DiffScreen:\n\n  comments.load(base, revision, path, group2);\n  header.setHasComments(comments);\n\nThe consequence would be: either all or none next/prev links are active.",
+      "range": {
+        "startLine": 313,
+        "startChar": 8,
+        "endLine": 313,
+        "endChar": 50
+      },
+      "revId": "6e22ceae87f346629c93dff3afca4650a1c91993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

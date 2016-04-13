@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb925a65_cb521558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-13T08:24:17Z",
+      "side": 1,
+      "message": "submitInput is nullable here.\n\nMaybe we should just pass in here NotifyHandling too?",
+      "revId": "2f7ad8a7ce51f36bdf09526edc6c011f37cca2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb925a65_eb4fd1b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-13T08:24:17Z",
+      "side": 1,
+      "message": "args.submitInput may be null, so we must check for null here.",
+      "range": {
+        "startLine": 522,
+        "startChar": 14,
+        "endLine": 522,
+        "endChar": 30
+      },
+      "revId": "2f7ad8a7ce51f36bdf09526edc6c011f37cca2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

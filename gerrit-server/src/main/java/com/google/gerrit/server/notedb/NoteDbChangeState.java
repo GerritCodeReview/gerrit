@@ -140,7 +140,7 @@ public class NoteDbChangeState {
     return state;
   }
 
-  private static String toString(ObjectId changeMetaId,
+  public static String toString(ObjectId changeMetaId,
       Map<Account.Id, ObjectId> draftIds) {
     List<Account.Id> accountIds = Lists.newArrayList(draftIds.keySet());
     Collections.sort(accountIds, ReviewDbUtil.intKeyOrdering());
@@ -158,7 +158,7 @@ public class NoteDbChangeState {
   private final ObjectId changeMetaId;
   private final ImmutableMap<Account.Id, ObjectId> draftIds;
 
-  NoteDbChangeState(Change.Id changeId, ObjectId changeMetaId,
+  public NoteDbChangeState(Change.Id changeId, ObjectId changeMetaId,
       Map<Account.Id, ObjectId> draftIds) {
     this.changeId = checkNotNull(changeId);
     this.changeMetaId = checkNotNull(changeMetaId);

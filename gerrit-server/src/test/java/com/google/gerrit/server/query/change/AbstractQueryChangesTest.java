@@ -1173,6 +1173,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byStarredBy() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+
+    gApi.accounts().self().starChange(change1.getId().toString());
+    gApi.accounts().self().starChange(change2.getId().toString());
+
+    int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId().get();
+
+    assertQuery("starredby:self", change2, change1);
+    assertQuery("starredby:" + user2);
+  }
+
+  @Test
   public void byFrom() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));

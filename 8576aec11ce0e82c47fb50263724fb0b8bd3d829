@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "eb925a65_ab106971",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-13T11:50:59Z",
+      "side": 1,
+      "message": "Yes, having an inline edit in two browser windows messed this up. Fixed in PS4.",
+      "parentUuid": "0b988e84_2cb013b8",
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb925a65_0b87bd09",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

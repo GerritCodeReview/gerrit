@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0b988e84_2cb013b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T11:29:11Z",
+      "side": 1,
+      "message": "Note done yet? InlineEdit: without dash (\u0027-\u0027) char.",
+      "parentUuid": "eb925a65_2b7399e6",
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb925a65_0b87bd09",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

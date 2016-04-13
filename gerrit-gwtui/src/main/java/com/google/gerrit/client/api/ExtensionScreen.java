@@ -109,7 +109,7 @@ public class ExtensionScreen extends Screen {
     final native void onLoad() /*-{ this._d.onLoad(this) }-*/;
     final native JsArray<JavaScriptObject> unload() /*-{ return this._u }-*/;
 
-    private static final native Context create(
+    private static native Context create(
         JavaScriptObject T,
         Definition d,
         ExtensionScreen s,
@@ -118,7 +118,7 @@ public class ExtensionScreen extends Screen {
     /*-{ return new T(d,s,e,m) }-*/;
 
     private static final JavaScriptObject TYPE = init();
-    private static final native JavaScriptObject init() /*-{
+    private static native JavaScriptObject init() /*-{
       var T = function(d,s,e,m) {
         this._d = d;
         this._s = s;

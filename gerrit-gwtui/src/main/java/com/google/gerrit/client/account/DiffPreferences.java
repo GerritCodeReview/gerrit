@@ -158,11 +158,11 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean skipDeleted() /*-{ return this.skip_deleted || false }-*/;
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
 
-  private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
-  private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
-  private final native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
-  private final native String themeRaw() /*-{ return this.theme }-*/;
-  private final native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
+  private native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
+  private native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
+  private native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
+  private native String themeRaw() /*-{ return this.theme }-*/;
+  private native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
   protected DiffPreferences() {
   }

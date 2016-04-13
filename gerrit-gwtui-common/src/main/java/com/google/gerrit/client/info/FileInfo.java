@@ -37,12 +37,12 @@ public class FileInfo extends JavaScriptObject {
   public final long size() {
     return (long)_size();
   }
-  private final native double _size() /*-{ return this.size || 0; }-*/;
+  private native double _size() /*-{ return this.size || 0; }-*/;
 
   public final long sizeDelta() {
     return (long)_sizeDelta();
   }
-  private final native double _sizeDelta() /*-{ return this.size_delta || 0; }-*/;
+  private native double _sizeDelta() /*-{ return this.size_delta || 0; }-*/;
 
   public final native int _row() /*-{ return this._row }-*/;
   public final native void _row(int r) /*-{ this._row = r }-*/;

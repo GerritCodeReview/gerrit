@@ -22,7 +22,7 @@ public class SubmitInfo extends JavaScriptObject {
     return Change.Status.valueOf(statusRaw());
   }
 
-  private final native String statusRaw() /*-{ return this.status; }-*/;
+  private native String statusRaw() /*-{ return this.status; }-*/;
 
   protected SubmitInfo() {
   }

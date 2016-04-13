@@ -40,9 +40,9 @@ public class AccountInfo extends JavaScriptObject {
     return ts;
   }
 
-  private final native String registeredOnRaw() /*-{ return this.registered_on; }-*/;
-  private final native Timestamp _getRegisteredOn() /*-{ return this._cts; }-*/;
-  private final native void _setRegisteredOn(Timestamp ts) /*-{ this._cts = ts; }-*/;
+  private native String registeredOnRaw() /*-{ return this.registered_on; }-*/;
+  private native Timestamp _getRegisteredOn() /*-{ return this._cts; }-*/;
+  private native void _setRegisteredOn(Timestamp ts) /*-{ this._cts = ts; }-*/;
 
   /**
    * @return true if the server supplied avatar information about this account.
@@ -64,7 +64,7 @@ public class AccountInfo extends JavaScriptObject {
     return null;
   }
 
-  private final native JsArray<AvatarInfo> avatars()
+  private native JsArray<AvatarInfo> avatars()
   /*-{ return this.avatars }-*/;
 
   public final native void name(String n) /*-{ this.name = n }-*/;

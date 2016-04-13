@@ -56,12 +56,12 @@ public class EditPreferences extends JavaScriptObject {
   public final void theme(Theme i) {
     setThemeRaw(i != null ? i.toString() : Theme.DEFAULT.toString());
   }
-  private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
+  private native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
 
   public final void keyMapType(KeyMapType i) {
     setkeyMapTypeRaw(i != null ? i.toString() : KeyMapType.DEFAULT.toString());
   }
-  private final native void setkeyMapTypeRaw(String i) /*-{ this.key_map_type = i }-*/;
+  private native void setkeyMapTypeRaw(String i) /*-{ this.key_map_type = i }-*/;
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
@@ -78,13 +78,13 @@ public class EditPreferences extends JavaScriptObject {
     String s = themeRaw();
     return s != null ? Theme.valueOf(s) : Theme.DEFAULT;
   }
-  private final native String themeRaw() /*-{ return this.theme }-*/;
+  private native String themeRaw() /*-{ return this.theme }-*/;
 
   public final KeyMapType keyMapType() {
     String s = keyMapTypeRaw();
     return s != null ? KeyMapType.valueOf(s) : KeyMapType.DEFAULT;
   }
-  private final native String keyMapTypeRaw() /*-{ return this.key_map_type }-*/;
+  private native String keyMapTypeRaw() /*-{ return this.key_map_type }-*/;
 
   public final int tabSize() {
     return get("tab_size", 8);
@@ -105,7 +105,7 @@ public class EditPreferences extends JavaScriptObject {
   public final native boolean hideLineNumbers() /*-{ return this.hide_line_numbers || false }-*/;
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
   public final native boolean autoCloseBrackets() /*-{ return this.auto_close_brackets || false }-*/;
-  private final native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
+  private native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
   protected EditPreferences() {
   }

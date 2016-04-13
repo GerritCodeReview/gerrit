@@ -115,7 +115,7 @@ public class FileTable extends FlowPanel {
     init(DELETE, RESTORE, REVIEWED, OPEN);
   }
 
-  private static final native void init(String d, String t, String r, String o) /*-{
+  private static native void init(String d, String t, String r, String o) /*-{
     $wnd[d] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onDelete(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });

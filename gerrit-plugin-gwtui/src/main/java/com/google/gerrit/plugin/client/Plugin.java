@@ -94,7 +94,7 @@ public final class Plugin extends JavaScriptObject {
     screen(token, wrap(entry));
   }
 
-  private final native void screen(String t, JavaScriptObject e)
+  private native void screen(String t, JavaScriptObject e)
   /*-{ this.screen(t, e) }-*/;
 
   /**
@@ -109,7 +109,7 @@ public final class Plugin extends JavaScriptObject {
     screenRegex(regex, wrap(entry));
   }
 
-  private final native void screenRegex(String p, JavaScriptObject e)
+  private native void screenRegex(String p, JavaScriptObject e)
   /*-{ this.screen(new $wnd.RegExp(p), e) }-*/;
 
   /**
@@ -122,7 +122,7 @@ public final class Plugin extends JavaScriptObject {
     settingsScreen(token, menu, wrap(entry));
   }
 
-  private final native void settingsScreen(String t, String m, JavaScriptObject e)
+  private native void settingsScreen(String t, String m, JavaScriptObject e)
   /*-{ this.settingsScreen(t, m, e) }-*/;
 
   /**
@@ -136,7 +136,7 @@ public final class Plugin extends JavaScriptObject {
     panel(extensionPoint.name(), wrap(entry));
   }
 
-  private final native void panel(String i, JavaScriptObject e)
+  private native void panel(String i, JavaScriptObject e)
   /*-{ this.panel(i, e) }-*/;
 
   protected Plugin() {
@@ -144,17 +144,17 @@ public final class Plugin extends JavaScriptObject {
 
   native void _initialized() /*-{ this._success = true }-*/;
   native void _loaded() /*-{ this._loadedGwt() }-*/;
-  private static final native Plugin install(String u)
+  private static native Plugin install(String u)
   /*-{ return $wnd.Gerrit.installGwt(u) }-*/;
 
-  private static final native JavaScriptObject wrap(Screen.EntryPoint b) /*-{
+  private static native JavaScriptObject wrap(Screen.EntryPoint b) /*-{
     return $entry(function(c){
       b.@com.google.gerrit.plugin.client.screen.Screen.EntryPoint::onLoad(Lcom/google/gerrit/plugin/client/screen/Screen;)(
         @com.google.gerrit.plugin.client.screen.Screen::new(Lcom/google/gerrit/plugin/client/screen/Screen$Context;)(c));
     });
   }-*/;
 
-  private static final native JavaScriptObject wrap(Panel.EntryPoint b) /*-{
+  private static native JavaScriptObject wrap(Panel.EntryPoint b) /*-{
     return $entry(function(c){
       b.@com.google.gerrit.plugin.client.extension.Panel.EntryPoint::onLoad(Lcom/google/gerrit/plugin/client/extension/Panel;)(
         @com.google.gerrit.plugin.client.extension.Panel::new(Lcom/google/gerrit/plugin/client/extension/Panel$Context;)(c));

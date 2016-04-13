@@ -74,7 +74,7 @@ public interface PluginContentScanner {
    * provided by a plugin to extend an existing
    * extension point in Gerrit.
    */
-  public static class ExtensionMetaData {
+  class ExtensionMetaData {
     public final String className;
     public final String annotationValue;
 

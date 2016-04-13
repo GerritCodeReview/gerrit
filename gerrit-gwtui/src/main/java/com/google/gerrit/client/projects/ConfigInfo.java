@@ -69,7 +69,7 @@ public class ConfigInfo extends JavaScriptObject {
   public final native NativeMap<ActionInfo> actions()
   /*-{ return this.actions; }-*/;
 
-  private final native String submitTypeRaw()
+  private native String submitTypeRaw()
   /*-{ return this.submit_type }-*/;
 
   public final ProjectState state() {
@@ -78,13 +78,13 @@ public class ConfigInfo extends JavaScriptObject {
     }
     return ProjectState.valueOf(stateRaw());
   }
-  private final native String stateRaw()
+  private native String stateRaw()
   /*-{ return this.state }-*/;
 
   public final native MaxObjectSizeLimitInfo maxObjectSizeLimit()
   /*-{ return this.max_object_size_limit; }-*/;
 
-  private final native NativeMap<CommentLinkInfo> commentlinks0()
+  private native NativeMap<CommentLinkInfo> commentlinks0()
   /*-{ return this.commentlinks; }-*/;
   final List<FindReplace> commentlinks() {
     JsArray<CommentLinkInfo> cls = commentlinks0().values();
@@ -143,7 +143,7 @@ public class ConfigInfo extends JavaScriptObject {
     public final InheritableBoolean configuredValue() {
       return InheritableBoolean.valueOf(configuredValueRaw());
     }
-    private final native String configuredValueRaw()
+    private native String configuredValueRaw()
     /*-{ return this.configured_value }-*/;
 
     public final void setConfiguredValue(InheritableBoolean v) {

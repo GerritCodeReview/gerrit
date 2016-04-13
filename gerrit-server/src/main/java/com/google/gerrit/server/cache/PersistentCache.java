@@ -18,7 +18,7 @@ public interface PersistentCache {
 
   DiskStats diskStats();
 
-  public static class DiskStats {
+  class DiskStats {
     private final long size;
     private final long space;
     private final long hitCount;

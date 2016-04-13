@@ -24,7 +24,7 @@ public interface TagApi {
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements TagApi {
+  class NotImplemented implements TagApi {
     @Override
     public TagInfo get() throws RestApiException {
       throw new NotImplementedException();

@@ -21,7 +21,7 @@ import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 import com.google.gwt.resources.client.ExternalTextResource;
 
 interface Lib extends ClientBundle {
-  final Lib I = GWT.create(Lib.class);
+  Lib I = GWT.create(Lib.class);
 
   @Source("cm.css")
   ExternalTextResource css();

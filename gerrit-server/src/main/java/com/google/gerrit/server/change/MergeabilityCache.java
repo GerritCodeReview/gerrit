@@ -23,7 +23,7 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Cache for mergeability of commits into destination branches. */
 public interface MergeabilityCache {
-  public static class NotImplemented implements MergeabilityCache {
+  class NotImplemented implements MergeabilityCache {
     @Override
     public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
         String mergeStrategy, Branch.NameKey dest, Repository repo) {

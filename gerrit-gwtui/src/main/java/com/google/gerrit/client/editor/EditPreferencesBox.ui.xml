@@ -184,6 +184,12 @@ limitations under the License.
             alignment='RIGHT'/></td>
       </tr>
       <tr>
+        <th><ui:msg>Indent Unit</ui:msg></th>
+        <td><x:NpIntTextBox ui:field='indentUnit'
+            visibleLength='4'
+            alignment='RIGHT'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Cursor Blink Rate</ui:msg></th>
         <td><x:NpIntTextBox ui:field='cursorBlinkRate'
             visibleLength='4'

@@ -214,6 +214,30 @@
       "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_2c69f3c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-13T15:29:48Z",
+      "side": 1,
+      "message": "\u003e For example,if your email_address is aa000@@gmail.com,you just execute command \"suexec ... --as aA000\"(not case-sensitive) or \"suexec ... --as aa0\"(imcomplete),it will be reproduced.\n\nWhat happens if you keep repeating the same command with the same wrong email? Do you see further connections being leaked?\nCan you exhaust the whole connection pool by just repeating the same command again and again?",
+      "parentUuid": "0b988e84_2c82d3c7",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

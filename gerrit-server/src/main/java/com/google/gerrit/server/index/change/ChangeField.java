@@ -576,6 +576,23 @@ public class ChangeField {
         }
       };
 
+  /** Users who have starred this change. */
+  public static final FieldDef<ChangeData, Iterable<Integer>> STARREDBY =
+      new FieldDef.Repeatable<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_STARREDBY, FieldType.INTEGER, true) {
+        @Override
+        public Iterable<Integer> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return Iterables.transform(input.starredBy(),
+              new Function<Account.Id, Integer>() {
+            @Override
+            public Integer apply(Account.Id accountId) {
+              return accountId.get();
+            }
+          });
+        }
+      };
+
   /** Opaque group identifiers for this change's patch sets. */
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       new FieldDef.Repeatable<ChangeData, String>(

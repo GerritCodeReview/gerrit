@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.BatchUpdateReviewDb;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -78,8 +79,8 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException,
+      OrmException, IOException, NoSuchChangeException {
     checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
         "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteDraftChangeOp");
@@ -117,7 +118,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
 
     // Non-atomic operation on Accounts table; not much we can do to make it
     // atomic.
-    starredChangesUtil.unstarAll(id);
+    starredChangesUtil.unstarAll(change.getProject(), id);
 
     ctx.deleteChange();
     return true;

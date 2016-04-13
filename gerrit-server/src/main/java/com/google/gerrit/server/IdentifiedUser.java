@@ -338,7 +338,7 @@ public class IdentifiedUser extends CurrentUser {
             FluentIterable.from(
               starredQuery != null
               ? starredQuery
-              : starredChangesUtil.query(accountId))
+              : starredChangesUtil.queryFromIndex(accountId))
             .toSet();
       } finally {
         starredQuery = null;
@@ -356,7 +356,7 @@ public class IdentifiedUser extends CurrentUser {
 
   public void asyncStarredChanges() {
     if (starredChanges == null && starredChangesUtil != null) {
-      starredQuery = starredChangesUtil.query(accountId);
+      starredQuery = starredChangesUtil.queryFromIndex(accountId);
     }
   }
 

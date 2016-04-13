@@ -186,11 +186,23 @@ public class ChangeIndexer {
   /**
    * Synchronously index a change.
    *
-   * @param change change to index.
    * @param db review database.
+   * @param change change to index.
    */
   public void index(ReviewDb db, Change change) throws IOException {
     index(changeDataFactory.create(db, change));
+  }
+
+  /**
+   * Synchronously index a change.
+   *
+   * @param db review database.
+   * @param project the project to which the change belongs.
+   * @param changeId ID of the change to index.
+   */
+  public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
+      throws IOException {
+    index(changeDataFactory.create(db, project, changeId));
   }
 
   /**

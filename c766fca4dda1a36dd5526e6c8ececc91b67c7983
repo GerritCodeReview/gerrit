@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b988e84_ccf78f9b",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Vim.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-13T08:02:05Z",
+      "side": 1,
+      "message": "Why not here?",
+      "range": {
+        "startLine": 29,
+        "startChar": 61,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "c766fca4dda1a36dd5526e6c8ececc91b67c7983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb925a65_2b3ab91a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebCgiConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-13T08:02:05Z",
+      "side": 1,
+      "message": "Should we be consistent regarding whether it is \",}\" or \", }\"?",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 39
+      },
+      "revId": "c766fca4dda1a36dd5526e6c8ececc91b67c7983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

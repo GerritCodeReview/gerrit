@@ -366,6 +366,11 @@ public class EditScreen extends Screen {
         Patch.COMMIT_MSG.equals(path) ? 72 : length);
   }
 
+  void setIndentUnit(int indentunit) {
+    cm.setOption("indentUnit",
+        Patch.COMMIT_MSG.equals(path) ? 2 : indentunit);
+  }
+
   void setShowLineNumbers(boolean show) {
     cm.setOption("lineNumbers", show);
   }
@@ -424,6 +429,7 @@ public class EditScreen extends Screen {
         .set("autoCloseBrackets", prefs.autoCloseBrackets())
         .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
+        .set("indentUnit", prefs.indentUnit())
         .set("keyMap", prefs.keyMapType().name().toLowerCase())
         .set("lineNumbers", prefs.hideLineNumbers())
         .set("lineWrapping", false)

@@ -134,7 +134,7 @@ public class JythonShell {
       new Class[]  { String.class, pyObject },
       new Object[] { getDefaultBanner() +
         " running for Gerrit " + com.google.gerrit.common.Version.getVersion(),
-        null });
+        null, });
   }
 
   public void set(String key, Object content) {

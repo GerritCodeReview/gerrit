@@ -25,6 +25,7 @@ import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
+import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -197,6 +198,10 @@ public class BaseInit extends SiteProgram {
     }
   }
 
+  protected boolean installAllPlugins() {
+    return false;
+  }
+
   protected boolean getAutoStart() {
     return false;
   }
@@ -245,6 +250,8 @@ public class BaseInit extends SiteProgram {
                 getInstallPlugins(), Lists.<String> newArrayList());
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
+        bind(new TypeLiteral<Boolean>() {}).annotatedWith(
+            InstallAllPlugins.class).toInstance(installAllPlugins());
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
 
         String secureStoreClassName;

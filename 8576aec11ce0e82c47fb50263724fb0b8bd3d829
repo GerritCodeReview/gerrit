@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b988e84_8c2f47d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T09:49:56Z",
+      "side": 1,
+      "message": "Nit: All other commits in inline edit series were prefixed with \"InlineEdit:\"",
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb925a65_0b87bd09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T09:49:56Z",
+      "side": 1,
+      "message": "inline",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb925a65_2b8c792b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T09:49:56Z",
+      "side": 1,
+      "message": "Use same indent as previous line",
+      "range": {
+        "startLine": 1822,
+        "startChar": 14,
+        "endLine": 1822,
+        "endChar": 34
+      },
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_cc294fcc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T09:49:56Z",
+      "side": 1,
+      "message": "indent \u003d\u003d 0 doesn\u0027t make sense?",
+      "range": {
+        "startLine": 137,
+        "startChar": 32,
+        "endLine": 137,
+        "endChar": 33
+      },
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb925a65_6b968139",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T09:49:56Z",
+      "side": 1,
+      "message": "Camel Case: indentUnit or just indent or unit.",
+      "range": {
+        "startLine": 369,
+        "startChar": 25,
+        "endLine": 369,
+        "endChar": 35
+      },
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_ec260bf9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-13T09:49:56Z",
+      "side": 1,
+      "message": "0?",
+      "range": {
+        "startLine": 371,
+        "startChar": 40,
+        "endLine": 371,
+        "endChar": 41
+      },
+      "revId": "8576aec11ce0e82c47fb50263724fb0b8bd3d829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

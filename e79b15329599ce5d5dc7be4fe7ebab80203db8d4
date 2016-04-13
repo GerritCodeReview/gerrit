@@ -1,4 +1,177 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460476745 +0200\nnonce AB8gjyVwZXH0ISBA90ZjO55XhC6B4LuqqD/y6H/yXqWbLW9NA8CcKcqTvIPv15jwyRjMMTjpixHe\n\n0000000000000000000000000000000000000000 42aab85ab0a394d7d746fd32c1023853887dfed1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXDRtJAAoJEFG1/Zeg0O9R394H/AsUVIzRTqJ+T9BOBLWYgOgk\n3KIkBOGGvdhsY2G20U3JYbLDCVEpK439mc+ahWgXWC/aVC1IbaEV5g9/5nB4zGTC\nj5yH+PDfCEPMqkVHqEHwoV/eXzdlYPYJniduWLrcHKY+ifpuOyPQvgA+jW04PCr7\nwY+Eyb7mMbGbZMl4jb/RNJax4LIfbKHeybZ9GLdyrOiYey8FA9RAtH5R6OT+head\nZNpPyKLfs3WJT2MDIWRG/eXuVgmf5dy9cW6ptsqiRtTByUl0gfiNcZNcw23PKwAx\nMlUiomwvf6q5+wqICZPnXmmmOLQ8WQcnZmDbTSj9UTsfJx2eshTWmEepOPUuCbk\u003d\n\u003df3qN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bc47260_150a7479",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "\"out\" or \"off\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 68,
+        "endLine": 38,
+        "endChar": 70
+      },
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_eddd2529",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "\"cyclic dependency\"?",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_cdc5c95b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_edc28550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "nit: too many spaces",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 10
+      },
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_2de80dcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "Optional: Add a reference to documentation of the SSH file format?",
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_4ded59da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "on",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bc47260_f5ddf828",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "was",
+      "range": {
+        "startLine": 61,
+        "startChar": 73,
+        "endLine": 61,
+        "endChar": 75
+      },
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_8dd6610d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T01:16:26Z",
+      "side": 1,
+      "message": "and",
+      "range": {
+        "startLine": 64,
+        "startChar": 44,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "e79b15329599ce5d5dc7be4fe7ebab80203db8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

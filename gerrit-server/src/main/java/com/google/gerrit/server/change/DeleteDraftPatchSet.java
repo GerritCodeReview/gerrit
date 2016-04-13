@@ -148,7 +148,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)
-        throws OrmException, RestApiException {
+        throws OrmException, RestApiException, IOException {
       Change c = ctx.getChange();
       if (deletedOnlyPatchSet()) {
         deleteChangeOp = deleteChangeOpProvider.get();

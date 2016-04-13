@@ -15,18 +15,24 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -65,26 +71,33 @@ public class StarredChangesUtil {
   private final NotesMigration migration;
   private final Provider<ReviewDb> dbProvider;
   private final PersonIdent serverIdent;
+  private final ChangeIndexer indexer;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   StarredChangesUtil(GitRepositoryManager repoManager,
       AllUsersName allUsers,
       NotesMigration migration,
       Provider<ReviewDb> dbProvider,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      ChangeIndexer indexer,
+      Provider<InternalChangeQuery> queryProvider) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.migration = migration;
     this.dbProvider = dbProvider;
     this.serverIdent = serverIdent;
+    this.indexer = indexer;
+    this.queryProvider = queryProvider;
   }
 
-  public void star(Account.Id accountId, Change.Id changeId)
-      throws OrmException {
+  public void star(Account.Id accountId, Project.NameKey project,
+      Change.Id changeId) throws OrmException, IOException {
     dbProvider.get().starredChanges()
         .insert(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
     if (!migration.writeAccounts()) {
+      indexer.index(dbProvider.get(), project, changeId);
       return;
     }
     try (Repository repo = repoManager.openRepository(allUsers);
@@ -98,6 +111,7 @@ public class StarredChangesUtil {
       RefUpdate.Result result = u.update(rw);
       switch (result) {
         case NEW:
+          indexer.index(dbProvider.get(), project, changeId);
           return;
         case FAST_FORWARD:
         case FORCED:
@@ -128,12 +142,13 @@ public class StarredChangesUtil {
     }
   }
 
-  public void unstar(Account.Id accountId, Change.Id changeId)
-      throws OrmException {
+  public void unstar(Account.Id accountId, Project.NameKey project,
+      Change.Id changeId) throws OrmException, IOException {
     dbProvider.get().starredChanges()
         .delete(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
     if (!migration.writeAccounts()) {
+      indexer.index(dbProvider.get(), project, changeId);
       return;
     }
     try (Repository repo = repoManager.openRepository(allUsers);
@@ -146,6 +161,7 @@ public class StarredChangesUtil {
       RefUpdate.Result result = u.delete();
       switch (result) {
         case FORCED:
+          indexer.index(dbProvider.get(), project, changeId);
           return;
         case FAST_FORWARD:
         case IO_FAILURE:
@@ -168,10 +184,12 @@ public class StarredChangesUtil {
     }
   }
 
-  public void unstarAll(Change.Id changeId) throws OrmException {
+  public void unstarAll(Project.NameKey project, Change.Id changeId)
+      throws OrmException, IOException, NoSuchChangeException {
     dbProvider.get().starredChanges().delete(
         dbProvider.get().starredChanges().byChange(changeId));
     if (!migration.writeAccounts()) {
+      indexer.index(dbProvider.get(), project, changeId);
       return;
     }
     try (Repository repo = repoManager.openRepository(allUsers);
@@ -180,7 +198,7 @@ public class StarredChangesUtil {
       batchUpdate.setAllowNonFastForwards(true);
       batchUpdate.setRefLogIdent(serverIdent);
       batchUpdate.setRefLogMessage("Unstar change " + changeId.get(), true);
-      for (Account.Id accountId : byChange(changeId)) {
+      for (Account.Id accountId : byChangeFromIndex(changeId)) {
         String refName = RefNames.refsStarredChanges(changeId, accountId);
         Ref ref = repo.getRefDatabase().getRef(refName);
         batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(),
@@ -194,13 +212,14 @@ public class StarredChangesUtil {
               changeId.get(), command.getRefName(), command.getResult()));
         }
       }
+      indexer.index(dbProvider.get(), project, changeId);
     } catch (IOException e) {
       throw new OrmException(
           String.format("Unstar change %d failed", changeId.get()), e);
     }
   }
 
-  public Iterable<Account.Id> byChange(Change.Id changeId)
+  public Set<Account.Id> byChange(Change.Id changeId)
       throws OrmException {
     if (!migration.readAccounts()) {
       return FluentIterable
@@ -210,7 +229,7 @@ public class StarredChangesUtil {
             public Account.Id apply(StarredChange in) {
               return in.getAccountId();
             }
-          });
+          }).toSet();
     }
     return FluentIterable
         .from(getRefNames(RefNames.refsStarredChangesPrefix(changeId)))
@@ -219,28 +238,40 @@ public class StarredChangesUtil {
           public Account.Id apply(String refPart) {
             return Account.Id.fromRefPart(refPart);
           }
-        });
+        }).toSet();
   }
 
-  public ResultSet<Change.Id> query(final Account.Id accountId) {
+  public Set<Account.Id> byChangeFromIndex(Change.Id changeId)
+      throws OrmException, NoSuchChangeException {
+    Set<String> fields = ImmutableSet.of(
+        ChangeField.ID.getName(),
+        ChangeField.STARREDBY.getName());
+    List<ChangeData> changeData = queryProvider.get().setRequestedFields(fields)
+        .byLegacyChangeId(changeId);
+    if (changeData.size() != 1) {
+      throw new NoSuchChangeException(changeId);
+    }
+    return changeData.get(0).starredBy();
+  }
+
+  public ResultSet<Change.Id> queryFromIndex(final Account.Id accountId) {
     try {
       if (!migration.readAccounts()) {
         return new ChangeIdResultSet(
             dbProvider.get().starredChanges().byAccount(accountId));
       }
 
+      Set<String> fields = ImmutableSet.of(
+          ChangeField.ID.getName(),
+          ChangeField.STARREDBY.getName());
+      List<ChangeData> changeData =
+          queryProvider.get().setRequestedFields(fields).byIsStarred(accountId);
       return new ListResultSet<>(FluentIterable
-          .from(getRefNames(RefNames.REFS_STARRED_CHANGES))
-          .filter(new Predicate<String>() {
+          .from(changeData)
+          .transform(new Function<ChangeData, Change.Id>() {
             @Override
-            public boolean apply(String refPart) {
-              return refPart.endsWith("/" + accountId.get());
-            }
-          })
-          .transform(new Function<String, Change.Id>() {
-            @Override
-            public Change.Id apply(String changeId) {
-              return Change.Id.parse(changeId);
+            public Change.Id apply(ChangeData cd) {
+              return cd.getId();
             }
           }).toList());
     } catch (OrmException | RuntimeException e) {

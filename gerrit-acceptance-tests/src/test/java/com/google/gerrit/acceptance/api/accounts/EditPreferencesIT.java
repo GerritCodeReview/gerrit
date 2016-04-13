@@ -33,6 +33,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
         .getEditPreferences();
 
     assertThat(out.lineLength).isEqualTo(100);
+    assertThat(out.indentUnit).isEqualTo(2);
     assertThat(out.tabSize).isEqualTo(8);
     assertThat(out.cursorBlinkRate).isEqualTo(0);
     assertThat(out.hideTopMenu).isNull();
@@ -47,6 +48,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
 
     // change some default values
     out.lineLength = 80;
+    out.indentUnit = 4;
     out.tabSize = 4;
     out.cursorBlinkRate = 500;
     out.hideTopMenu = true;
@@ -80,6 +82,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
   private void assertEditPreferences(EditPreferencesInfo out,
       EditPreferencesInfo in) throws Exception {
     assertThat(out.lineLength).isEqualTo(in.lineLength);
+    assertThat(out.indentUnit).isEqualTo(in.indentUnit);
     assertThat(out.tabSize).isEqualTo(in.tabSize);
     assertThat(out.cursorBlinkRate).isEqualTo(in.cursorBlinkRate);
     assertThat(out.hideTopMenu).isEqualTo(in.hideTopMenu);

@@ -142,6 +142,78 @@
       "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bc47260_75f2c8b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-13T12:55:45Z",
+      "side": 1,
+      "message": "Yes,I think so.Maybe we should find another way to fix it.",
+      "parentUuid": "2bc47260_f5ab3898",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b89d23a_0de351f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-13T12:55:45Z",
+      "side": 1,
+      "message": "Yes,I think so,too.",
+      "parentUuid": "2b89d23a_8dcbc170",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b988e84_2c82d3c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-13T12:55:45Z",
+      "side": 1,
+      "message": "For example,if your email_address is aa000@@gmail.com,you just execute command \"suexec ... --as aA000\"(not case-sensitive) or \"suexec ... --as aa0\"(imcomplete),it will be reproduced.",
+      "parentUuid": "0b988e84_4c91df3e",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

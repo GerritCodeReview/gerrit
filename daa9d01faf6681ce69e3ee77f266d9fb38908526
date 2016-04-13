@@ -52,6 +52,24 @@
       "revId": "daa9d01faf6681ce69e3ee77f266d9fb38908526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bc47260_d529dccb",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-13T10:48:53Z",
+      "side": 1,
+      "message": "In that case the java implementation is still going to be invoked on each call.  Is that going to be any more efficient than this call to revision.matches()?",
+      "parentUuid": "0b988e84_4c68fff2",
+      "revId": "daa9d01faf6681ce69e3ee77f266d9fb38908526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

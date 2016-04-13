@@ -79,7 +79,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException {
+      throws RestApiException, OrmException, IOException {
     checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
         "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteDraftChangeOp");
@@ -117,7 +117,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
 
     // Non-atomic operation on Accounts table; not much we can do to make it
     // atomic.
-    starredChangesUtil.unstarAll(id);
+    starredChangesUtil.unstarAll(change.getProject(), id);
 
     ctx.deleteChange();
     return true;

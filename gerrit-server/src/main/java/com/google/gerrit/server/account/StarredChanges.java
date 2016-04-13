@@ -42,6 +42,8 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 @Singleton
 public class StarredChanges implements
     ChildCollection<AccountResource, AccountResource.StarredChange>,
@@ -130,12 +132,13 @@ public class StarredChanges implements
 
     @Override
     public Response<?> apply(AccountResource rsrc, EmptyInput in)
-        throws AuthException, OrmException {
+        throws AuthException, OrmException, IOException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed to add starred change");
       }
       try {
-        starredChangesUtil.star(self.get().getAccountId(), change.getId());
+        starredChangesUtil.star(self.get().getAccountId(), change.getProject(),
+            change.getId());
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
@@ -177,12 +180,12 @@ public class StarredChanges implements
 
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc,
-        EmptyInput in) throws AuthException, OrmException {
+        EmptyInput in) throws AuthException, OrmException, IOException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed remove starred change");
       }
       starredChangesUtil.unstar(self.get().getAccountId(),
-          rsrc.getChange().getId());
+          rsrc.getChange().getProject(), rsrc.getChange().getId());
       return Response.none();
     }
   }

@@ -114,6 +114,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
+  private static final String STARREDBY_FIELD = ChangeField.STARREDBY.getName();
 
   static Term idTerm(ChangeData cd) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
@@ -413,6 +414,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REVIEWEDBY_FIELD)) {
       decodeReviewedBy(doc, cd);
     }
+    if (fields.contains(STARREDBY_FIELD)) {
+      decodeStarredBy(doc, cd);
+    }
     return cd;
   }
 
@@ -464,6 +468,17 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
       cd.setReviewedBy(accounts);
     }
+  }
+
+  private void decodeStarredBy(Document doc, ChangeData cd) {
+    IndexableField[] starredBy = doc.getFields(STARREDBY_FIELD);
+    Set<Account.Id> accounts =
+        Sets.newHashSetWithExpectedSize(starredBy.length);
+    for (IndexableField r : starredBy) {
+      int id = r.numericValue().intValue();
+      accounts.add(new Account.Id(id));
+    }
+    cd.setStarredBy(accounts);
   }
 
   private static <T> List<T> decodeProtos(Document doc, String fieldName,

@@ -193,7 +193,7 @@ public class AccountApiImpl implements AccountApi {
         IdString.fromUrl(id));
       starredChangesCreate.setChange(rsrc);
       starredChangesCreate.apply(account, new StarredChanges.EmptyInput());
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot star change", e);
     }
   }
@@ -207,7 +207,7 @@ public class AccountApiImpl implements AccountApi {
           new AccountResource.StarredChange(account.getUser(), rsrc);
       starredChangesDelete.apply(starredChange,
           new StarredChanges.EmptyInput());
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot unstar change", e);
     }
   }

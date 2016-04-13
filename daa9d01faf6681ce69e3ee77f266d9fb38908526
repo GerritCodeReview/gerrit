@@ -70,6 +70,24 @@
       "revId": "daa9d01faf6681ce69e3ee77f266d9fb38908526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb925a65_ab5ea94c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-13T11:06:43Z",
+      "side": 1,
+      "message": "Yes, because revision.matches has to compile the regex first. Compiling regex is IMHO definitely more expensive than a tiny for loop here.",
+      "parentUuid": "2bc47260_d529dccb",
+      "revId": "daa9d01faf6681ce69e3ee77f266d9fb38908526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

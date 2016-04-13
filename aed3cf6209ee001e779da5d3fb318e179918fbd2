@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_e89f537a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-13T20:45:57Z",
+      "side": 1,
+      "message": "you could squash these two lines together. No need to declare and then use a variable separately. Maybe it could even be inlined directly below? Most dense version all in one line:\n\n    ent.setObjectId(ObjectId.fromString(\n        ByteStreams.toByteArray(content.getInputStream()), 0));\n\nWhen we have \"just one line\" for both cases, we could swap the try with the if, such that we on,ly have one catch for the IOException? (Not sure if this would be more readable?)\n(Oh you would need to put setLength/LastModified somewhere, too)",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 73
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -63,6 +63,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -1814,7 +1815,7 @@ public class ReceiveCommits {
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(db, rsrc.getChange(),
-          changeCtl.getUser().asIdentifiedUser(), false, null);
+          changeCtl.getUser().asIdentifiedUser(), false, new SubmitInput());
     }
     addMessage("");
     Change c = notesFactory

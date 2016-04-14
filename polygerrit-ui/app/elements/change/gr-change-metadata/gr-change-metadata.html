@@ -104,6 +104,18 @@ limitations under the License.
       <span class="value">[[change.branch]]</span>
     </section>
     <section>
+      <span class="title">Commit</span>
+      <span class="value">
+        <template is="dom-if" if="[[_computeShowWebLink(commitInfo)]]">
+          <a target="_blank"
+              href$="[[_computeWebLink(commitInfo)]]">[[_computeShortHash(change)]]</a>
+        </template>
+        <template is="dom-if" if="[[!_computeShowWebLink(commitInfo)]]">
+          [[_computeShortHash(change)]]
+        </template>
+      </span>
+    </section>
+    <section>
       <span class="title">Topic</span>
       <span class="value">[[change.topic]]</span>
     </section>

@@ -22,6 +22,30 @@
       "revId": "efedab9e02712760750eb03208fcad0f253066c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_51e1f4e0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-14T06:11:50Z",
+      "side": 1,
+      "message": "Yes. My first guess was, that it can be both, according to the org.eclipse.jgit.diff.DiffEntry.ChangeType comments:\n\n  /** Rename an existing file to a new location */\n  RENAME,\n  /** Copy an existing file to a new location, keeping the original */\n  COPY;\n\nI tried copy a file to a new location but the change type was stll ADD. RENAME works as expected, though. So yes, replace ChangeType.COPIED with ChangeType.RENAMED.",
+      "parentUuid": "8b2d5e79_48c69f67",
+      "range": {
+        "startLine": 305,
+        "startChar": 36,
+        "endLine": 305,
+        "endChar": 76
+      },
+      "revId": "efedab9e02712760750eb03208fcad0f253066c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

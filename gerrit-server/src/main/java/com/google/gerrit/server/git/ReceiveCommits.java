@@ -695,7 +695,8 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(formatChangeUrl(canonicalWebUrl, c.change, false));
+        addMessage(formatChangeUrl(canonicalWebUrl, c.change,
+            c.change.getSubject(), false));
       }
       addMessage("");
     }
@@ -720,20 +721,21 @@ public class ReceiveCommits {
       addMessage("Updated Changes:");
       boolean edit = magicBranch != null && magicBranch.edit;
       for (ReplaceRequest u : updated) {
-        addMessage(formatChangeUrl(canonicalWebUrl, u.change, edit));
+        addMessage(formatChangeUrl(canonicalWebUrl, u.change,
+            u.info.getSubject(), edit));
       }
       addMessage("");
     }
   }
 
   private static String formatChangeUrl(String url, Change change,
-      boolean edit) {
+      String subject, boolean edit) {
     StringBuilder m = new StringBuilder()
         .append("  ")
         .append(url)
         .append(change.getChangeId())
         .append(" ")
-        .append(ChangeUtil.cropSubject(change.getSubject()));
+        .append(ChangeUtil.cropSubject(subject));
     if (change.getStatus() == Change.Status.DRAFT) {
       m.append(" [DRAFT]");
     }

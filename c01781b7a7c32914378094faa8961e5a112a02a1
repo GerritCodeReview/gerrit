@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_28fb2b8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-14T06:59:13Z",
+      "side": 1,
+      "message": "Worth mentioning that Mac OS\u0027s command line is based on BSD, and the BSD variant of the ln command does not have the -t option?.\n\nhttp://www.freebsd.org/cgi/man.cgi?ln",
+      "revId": "c01781b7a7c32914378094faa8961e5a112a02a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

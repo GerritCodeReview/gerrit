@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab68629f_19d78b0b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-14T04:37:58Z",
+      "side": 1,
+      "message": "Just path. This class doesn\u0027t know anything about rendering of next/prev links in Header class.",
+      "range": {
+        "startLine": 62,
+        "startChar": 35,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "4819785c27e60fd2a5d28461f21c78fd58a4d670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab68629f_59e103e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-14T04:37:58Z",
+      "side": 1,
+      "message": "Remove all curr prefixes in this method.",
+      "range": {
+        "startLine": 64,
+        "startChar": 27,
+        "endLine": 64,
+        "endChar": 31
+      },
+      "revId": "4819785c27e60fd2a5d28461f21c78fd58a4d670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

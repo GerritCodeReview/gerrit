@@ -297,6 +297,27 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Skip Deleted Files</ui:msg></th>
+        <td><g:ToggleButton ui:field='skipDeleted'>
+          <g:upFace><ui:msg>Yes</ui:msg></g:upFace>
+          <g:downFace><ui:msg>No</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
+        <th><ui:msg>Skip Unchanged Files</ui:msg></th>
+        <td><g:ToggleButton ui:field='skipUnchanged'>
+          <g:upFace><ui:msg>Yes</ui:msg></g:upFace>
+          <g:downFace><ui:msg>No</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
+        <th><ui:msg>Skip Uncommented Files</ui:msg></th>
+        <td><g:ToggleButton ui:field='skipUncommented'>
+          <g:upFace><ui:msg>Yes</ui:msg></g:upFace>
+          <g:downFace><ui:msg>No</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <td></td>
         <td>
           <g:Button ui:field='apply' styleName='{style.apply}'>

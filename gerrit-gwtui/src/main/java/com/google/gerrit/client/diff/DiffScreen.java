@@ -138,7 +138,8 @@ abstract class DiffScreen extends Screen {
     prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    header = new Header(keysNavigation, base, revision, path, diffScreenType);
+    header = new Header(
+        keysNavigation, base, revision, path, diffScreenType, prefs);
   }
 
   @Override
@@ -208,8 +209,9 @@ abstract class DiffScreen extends Screen {
           }));
     }
 
-    final CommentsCollections comments = new CommentsCollections();
-    comments.load(base, revision, path, group2);
+    final CommentsCollections comments =
+        new CommentsCollections(base, revision, path);
+    comments.load(group2);
 
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(

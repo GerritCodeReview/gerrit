@@ -60,6 +60,7 @@ public class DiffPreferencesInfo {
   public Whitespace ignoreWhitespace;
   public Boolean retainHeader;
   public Boolean skipDeleted;
+  public Boolean skipUnchanged;
   public Boolean skipUncommented;
 
   public static DiffPreferencesInfo defaults() {
@@ -78,6 +79,7 @@ public class DiffPreferencesInfo {
     i.showTabs = true;
     i.showWhitespaceErrors = true;
     i.skipDeleted = false;
+    i.skipUnchanged = false;
     i.skipUncommented = false;
     i.syntaxHighlighting = true;
     i.hideTopMenu = false;

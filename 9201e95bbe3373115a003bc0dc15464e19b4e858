@@ -238,6 +238,30 @@
       "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab36a2c5_c9037161",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1022287
+      },
+      "writtenOn": "2016-04-14T01:50:51Z",
+      "side": 1,
+      "message": "1、More and more connection can not be closed（one command,on unclosed connection）\n2、Unless the gerrit would be restarted，the leaked connections will not be freed.\n3、Yes，actually gerrit applications would crash because the whole connection pool was exhausted by just repeating the same command again and again\n4、If the command was not executed no more,the phenomenon that connections was leaked would not occur.",
+      "parentUuid": "0b988e84_2c69f3c7",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 35
+      },
+      "revId": "9201e95bbe3373115a003bc0dc15464e19b4e858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

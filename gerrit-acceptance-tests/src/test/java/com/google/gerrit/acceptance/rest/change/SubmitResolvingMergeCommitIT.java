@@ -92,10 +92,10 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     approve(g.getChangeId());
     approve(h.getChangeId());
 
-    assertMergeable(e.getChange(), true);
-    assertMergeable(f.getChange(), true);
-    assertMergeable(g.getChange(), false);
-    assertMergeable(h.getChange(), false);
+    assertMergeable(e.getChange());
+    assertMergeable(f.getChange());
+    assertNotMergeable(g.getChange());
+    assertNotMergeable(h.getChange());
 
     PushOneCommit.Result m = createChange("M", "new.txt", "Resolved conflict",
         ImmutableList.of(d.getCommit(), h.getCommit()));
@@ -103,7 +103,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
 
     assertChangeSetMergeable(m.getChange(), true);
 
-    assertMergeable(m.getChange(), true);
+    assertMergeable(m.getChange());
     submit(m.getChangeId());
 
     assertMerged(e.getChangeId());
@@ -138,15 +138,15 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     PushOneCommit.Result g = createChange("G", "new.txt", "Conflicting line #2",
         ImmutableList.of(f.getCommit()));
 
-    assertMergeable(e.getChange(), true);
+    assertMergeable(e.getChange());
 
     approve(a.getChangeId());
     approve(b.getChangeId());
     submit(b.getChangeId());
 
-    assertMergeable(e.getChange(), false);
-    assertMergeable(f.getChange(), true);
-    assertMergeable(g.getChange(), true);
+    assertNotMergeable(e.getChange());
+    assertMergeable(f.getChange());
+    assertMergeable(g.getChange());
 
     approve(c.getChangeId());
     approve(d.getChangeId());
@@ -156,7 +156,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     approve(f.getChangeId());
     approve(g.getChangeId());
 
-    assertMergeable(g.getChange(), false);
+    assertNotMergeable(g.getChange());
     assertChangeSetMergeable(g.getChange(), false);
   }
 
@@ -278,7 +278,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     approve(c.getChangeId());
     approve(e.getChangeId());
     approve(d.getChangeId());
-    assertMergeable(d.getChange(), false);
+    assertNotMergeable(d.getChange());
     assertChangeSetMergeable(d.getChange(), false);
   }
 
@@ -297,10 +297,14 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }
 
-  private void assertMergeable(ChangeData change, boolean expected)
-      throws Exception {
+  private void assertMergeable(ChangeData change) throws Exception {
     change.setMergeable(null);
-    assertThat(change.isMergeable()).isEqualTo(expected);
+    assertThat(change.isMergeable()).isTrue();
+  }
+
+  private void assertNotMergeable(ChangeData change) throws Exception {
+    change.setMergeable(null);
+    assertThat(change.isMergeable()).isFalse();
   }
 
   private void assertMerged(String changeId) throws Exception {

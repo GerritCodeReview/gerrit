@@ -131,7 +131,7 @@
     },
 
     _normalizeFilesResponse: function(response) {
-      var paths = Object.keys(response).sort();
+      var paths = this._sortFilePaths(Object.keys(response));
       var files = [];
       for (var i = 0; i < paths.length; i++) {
         var info = response[paths[i]];
@@ -141,6 +141,38 @@
         files.push(info);
       }
       return files;
+    },
+
+    _sortFilePaths: function(paths) {
+      return paths.sort(function(a, b) {
+        // The commit message always goes first.
+        if (a === COMMIT_MESSAGE_PATH) {
+          return -1;
+        }
+        if (b === COMMIT_MESSAGE_PATH) {
+          return 1;
+        }
+
+        var aLastDotIndex = a.lastIndexOf('.');
+        var aExt = a.substr(aLastDotIndex + 1);
+        var aFile = a.substr(0, aLastDotIndex);
+
+        var bLastDotIndex = b.lastIndexOf('.');
+        var bExt = b.substr(bLastDotIndex + 1);
+        var bFile = a.substr(0, bLastDotIndex);
+
+        // Sort header files above others with the same base name.
+        if (aFile.length > 0 && aFile === bFile) {
+          if (aExt === 'h') {
+            return -1;
+          }
+          if (bExt === 'h') {
+            return 1;
+          }
+        }
+
+        return a.localeCompare(b);
+      });
     },
 
     _handleKey: function(e) {

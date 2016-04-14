@@ -14,9 +14,16 @@
 
 package com.google.gerrit.server;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
@@ -45,6 +52,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -60,11 +69,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Singleton
 public class StarredChangesUtil {
   private static final Logger log =
       LoggerFactory.getLogger(StarredChangesUtil.class);
+
+  private static final String DEFAULT_LABEL = "star";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
@@ -100,45 +113,17 @@ public class StarredChangesUtil {
       indexer.index(dbProvider.get(), project, changeId);
       return;
     }
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RefUpdate u = repo.updateRef(
-          RefNames.refsStarredChanges(changeId, accountId));
-      u.setExpectedOldObjectId(ObjectId.zeroId());
-      u.setNewObjectId(emptyTree(repo));
-      u.setRefLogIdent(serverIdent);
-      u.setRefLogMessage("Star change " + changeId.get(), false);
-      RefUpdate.Result result = u.update(rw);
-      switch (result) {
-        case NEW:
-          indexer.index(dbProvider.get(), project, changeId);
-          return;
-        case FAST_FORWARD:
-        case FORCED:
-        case IO_FAILURE:
-        case LOCK_FAILURE:
-        case NOT_ATTEMPTED:
-        case NO_CHANGE:
-        case REJECTED:
-        case REJECTED_CURRENT_BRANCH:
-        case RENAMED:
-        default:
-          throw new OrmException(
-              String.format("Star change %d for account %d failed: %s",
-                  changeId.get(), accountId.get(), result.name()));
-      }
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      String refName = RefNames.refsStarredChanges(changeId, accountId);
+      ObjectId oldObjectId = getObjectId(repo, refName);
+      SortedSet<String> labels = readLabels(repo, oldObjectId);
+      labels.add(DEFAULT_LABEL);
+      updateLabels(repo, refName, oldObjectId, labels);
+      indexer.index(dbProvider.get(), project, changeId);
     } catch (IOException e) {
       throw new OrmException(
           String.format("Star change %d for account %d failed",
               changeId.get(), accountId.get()), e);
-    }
-  }
-
-  private static ObjectId emptyTree(Repository repo) throws IOException {
-    try (ObjectInserter oi = repo.newObjectInserter()) {
-      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      oi.flush();
-      return id;
     }
   }
 
@@ -288,6 +273,89 @@ public class StarredChangesUtil {
       return refDb.getRefs(prefix).keySet();
     } catch (IOException e) {
       throw new OrmException(e);
+    }
+  }
+
+  private static ObjectId getObjectId(Repository repo, String refName)
+      throws IOException {
+    Ref ref = repo.exactRef(refName);
+    return ref != null ? ref.getObjectId() : ObjectId.zeroId();
+  }
+
+  private static TreeSet<String> readLabels(Repository repo, ObjectId id)
+      throws IOException {
+    if (ObjectId.zeroId().equals(id)) {
+      return new TreeSet<>();
+    }
+
+    try (ObjectReader reader = repo.newObjectReader()) {
+      ObjectLoader obj = reader.open(id, Constants.OBJ_BLOB);
+      TreeSet<String> labels = new TreeSet<>();
+      Iterables.addAll(labels,
+          Splitter.on(CharMatcher.whitespace()).omitEmptyStrings()
+              .split(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8)));
+      return labels;
+    }
+  }
+
+  public static ObjectId writeLabels(Repository repo, SortedSet<String> labels)
+      throws IOException {
+    SortedSet<String> invalidLabels = validateLabels(labels);
+    if (!invalidLabels.isEmpty()) {
+      throw new IllegalArgumentException(
+          String.format("Invalid star labels: %s",
+              Joiner.on(", ").join(labels)));
+    }
+
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      ObjectId id = oi.insert(Constants.OBJ_BLOB,
+          Joiner.on("\n").join(labels).getBytes(UTF_8));
+      oi.flush();
+      return id;
+    }
+  }
+
+  private static SortedSet<String> validateLabels(Set<String> labels) {
+    if (labels == null) {
+      return ImmutableSortedSet.of();
+    }
+
+    SortedSet<String> invalidLabels = new TreeSet<>();
+    for (String label : labels) {
+      if (CharMatcher.WHITESPACE.matchesAnyOf(label)) {
+        invalidLabels.add(label);
+      }
+    }
+    return invalidLabels;
+  }
+
+  private void updateLabels(Repository repo, String refName,
+      ObjectId oldObjectId, SortedSet<String> labels)
+          throws IOException, OrmException {
+    try (RevWalk rw = new RevWalk(repo)) {
+      RefUpdate u = repo.updateRef(refName);
+      u.setExpectedOldObjectId(oldObjectId);
+      u.setForceUpdate(true);
+      u.setNewObjectId(writeLabels(repo, labels));
+      u.setRefLogIdent(serverIdent);
+      u.setRefLogMessage("Update star labels", true);
+      RefUpdate.Result result = u.update(rw);
+      switch (result) {
+        case NEW:
+        case FORCED:
+        case NO_CHANGE:
+        case FAST_FORWARD:
+          return;
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+          throw new OrmException(
+              String.format("Update star labels on ref %s failed: %s", refName,
+                  result.name()));
+      }
     }
   }
 

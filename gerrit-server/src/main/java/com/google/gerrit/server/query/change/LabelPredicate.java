@@ -141,10 +141,10 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     List<Predicate<ChangeData>> r =
         Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
-      r.add(not(equalsLabelPredicate(args, label, i)));
-      r.add(not(equalsLabelPredicate(args, label, -i)));
+      r.add(equalsLabelPredicate(args, label, i));
+      r.add(equalsLabelPredicate(args, label, -i));
     }
-    return and(r);
+    return not(or(r));
   }
 
   private static Predicate<ChangeData> equalsLabelPredicate(Args args,

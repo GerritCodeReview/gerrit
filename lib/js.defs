@@ -146,7 +146,7 @@ def vulcanize(
     cmd = ' '.join([
       'unzip', '-qd', '$TMP', '$(location %s)' % components,
       '&&', 'rm', '-rf', '$SRCDIR/bower_components',
-      '&&', 'ln', '-s', '-f', '-t', '$SRCDIR', '$TMP/bower_components',
+      '&&', 'ln', '-s', '-f', '$SRCDIR', '$TMP/bower_components',
       '&&', run_npm_binary('//lib/js:vulcanize')
     ] + VULCANIZE_FLAGS + extra_flags + [
       '--out-html', '$OUT',

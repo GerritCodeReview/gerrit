@@ -204,5 +204,19 @@ limitations under the License.
 
       saveStub.restore();
     });
+
+    test('file path sorting', function() {
+      assert.deepEqual(element._sortFilePaths(
+          ['.b', '/COMMIT_MSG', '.a', 'file']),
+          ['/COMMIT_MSG', '.a', '.b', 'file']);
+
+      assert.deepEqual(element._sortFilePaths(
+          ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h']),
+          ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']);
+
+      assert.deepEqual(element._sortFilePaths(
+          ['.b', '/COMMIT_MSG', 'foo/bar.cc', 'foo/bar.hxx']),
+          ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']);
+    });
   });
 </script>

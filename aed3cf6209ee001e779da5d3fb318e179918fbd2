@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_b17220e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab4dc25b_b1394028",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab36a2c5_49af81a7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-13T20:48:12Z",
       "side": 1,
       "message": "Do we want to warn the user about that or put a TODO in the code?\n\nI guess that behavior is fine as the submodule could be hosted somewhere else so we would not have the possibility to even find out if the sha1 is good.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_d167a420",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Added more info to commit message.",
+      "parentUuid": "ab36a2c5_49af81a7",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_718278f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_28a24bc0",
+      "range": {
+        "startLine": 21,
+        "startChar": 33,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_71f51892",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2016-04-14T06:41:21Z",
       "side": 1,
       "message": "Just exception, or camelCase.",
+      "range": {
+        "startLine": 429,
+        "startChar": 29,
+        "endLine": 429,
+        "endChar": 42
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_312d50d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab4dc25b_71f51892",
       "range": {
         "startLine": 429,
         "startChar": 29,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ab68629f_b98bff13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab68629f_5953c35c",
+      "range": {
+        "startLine": 436,
+        "startChar": 12,
+        "endLine": 438,
+        "endChar": 13
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab68629f_f943b78f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 4
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_f195882b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab68629f_f943b78f",
+      "range": {
+        "startLine": 439,
+        "startChar": 12,
+        "endLine": 439,
+        "endChar": 46
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab68629f_19494bb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 4
@@ -151,6 +295,30 @@
       "writtenOn": "2016-04-14T06:41:21Z",
       "side": 1,
       "message": "I would swap the order and inverse the logic in this condition:\n\n  if (ent.getFileMode() \u003d\u003d FileMode.GITLINK)",
+      "range": {
+        "startLine": 440,
+        "startChar": 16,
+        "endLine": 440,
+        "endChar": 40
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_b18b0014",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab68629f_19494bb1",
       "range": {
         "startLine": 440,
         "startChar": 16,
@@ -198,6 +366,30 @@
       "side": 1,
       "message": "+1 to swap if with try/catch block.",
       "parentUuid": "8b2d5e79_e89f537a",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 73
+      },
+      "revId": "aed3cf6209ee001e779da5d3fb318e179918fbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_d190843e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-14T08:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab4dc25b_91343c2f",
       "range": {
         "startLine": 451,
         "startChar": 0,

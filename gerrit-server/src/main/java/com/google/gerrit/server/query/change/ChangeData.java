@@ -909,14 +909,14 @@ public class ChangeData {
     if (mergeable == null) {
       Change c = change();
       if (c == null) {
-        return null;
+        return false;
       }
       if (c.getStatus() == Change.Status.MERGED) {
         mergeable = true;
       } else {
         PatchSet ps = currentPatchSet();
         if (ps == null || !changeControl().isPatchVisible(ps, db)) {
-          return null;
+          return false;
         }
         try (Repository repo = repoManager.openRepository(project())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());

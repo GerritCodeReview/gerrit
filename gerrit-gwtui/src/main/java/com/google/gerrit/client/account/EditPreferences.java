@@ -24,6 +24,7 @@ public class EditPreferences extends JavaScriptObject {
     EditPreferences p = createObject().cast();
     p.tabSize(in.tabSize);
     p.lineLength(in.lineLength);
+    p.indentUnit(in.indentUnit);
     p.cursorBlinkRate(in.cursorBlinkRate);
     p.hideTopMenu(in.hideTopMenu);
     p.showTabs(in.showTabs);
@@ -40,6 +41,7 @@ public class EditPreferences extends JavaScriptObject {
   public final EditPreferencesInfo copyTo(EditPreferencesInfo p) {
     p.tabSize = tabSize();
     p.lineLength = lineLength();
+    p.indentUnit = indentUnit();
     p.cursorBlinkRate = cursorBlinkRate();
     p.hideTopMenu = hideTopMenu();
     p.showTabs = showTabs();
@@ -65,6 +67,7 @@ public class EditPreferences extends JavaScriptObject {
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
+  public final native void indentUnit(int c) /*-{ this.indent_unit = c }-*/;
   public final native void cursorBlinkRate(int r) /*-{ this.cursor_blink_rate = r }-*/;
   public final native void hideTopMenu(boolean s) /*-{ this.hide_top_menu = s }-*/;
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;
@@ -92,6 +95,10 @@ public class EditPreferences extends JavaScriptObject {
 
   public final int lineLength() {
     return get("line_length", 100);
+  }
+
+  public final int indentUnit() {
+    return get("indent_unit", 2);
   }
 
   public final int cursorBlinkRate() {

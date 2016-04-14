@@ -1361,6 +1361,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
+    "indent_unit": 2,
     "cursor_blink_rate": 530,
     "hide_top_menu": true,
     "show_whitespace_errors": true,
@@ -1391,6 +1392,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
+    "indent_unit": 2,
     "cursor_blink_rate": 530,
     "hide_top_menu": true,
     "show_tabs": true,
@@ -1817,6 +1819,8 @@ supported: `DEFAULT`, `EMACS`, `VIM`.
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||
 Number of characters that should be displayed per line.
+|`indent_unit`                 ||
+Number of spaces that should be used for auto-indent.
 |`cursor_blink_rate`           ||
 Half-period in milliseconds used for cursor blinking.
 Setting it to 0 disables cursor blinking.

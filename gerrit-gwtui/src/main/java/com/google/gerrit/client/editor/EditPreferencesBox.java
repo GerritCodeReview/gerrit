@@ -60,6 +60,7 @@ public class EditPreferencesBox extends Composite {
   @UiField Anchor close;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox lineLength;
+  @UiField NpIntTextBox indentUnit;
   @UiField NpIntTextBox cursorBlinkRate;
   @UiField ToggleButton topMenu;
   @UiField ToggleButton syntaxHighlighting;
@@ -94,6 +95,7 @@ public class EditPreferencesBox extends Composite {
 
     tabWidth.setIntValue(prefs.tabSize());
     lineLength.setIntValue(prefs.lineLength());
+    indentUnit.setIntValue(prefs.indentUnit());
     cursorBlinkRate.setIntValue(prefs.cursorBlinkRate());
     topMenu.setValue(!prefs.hideTopMenu());
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
@@ -124,6 +126,17 @@ public class EditPreferencesBox extends Composite {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
         view.setLineLength(prefs.lineLength());
+      }
+    }
+  }
+
+  @UiHandler("indentUnit")
+  void onIndentUnit(ValueChangeEvent<String> e) {
+    String v = e.getValue();
+    if (v != null && v.length() > 0) {
+      prefs.indentUnit(Math.max(0, Integer.parseInt(v)));
+      if (view != null) {
+        view.setIndentUnit(prefs.indentUnit());
       }
     }
   }

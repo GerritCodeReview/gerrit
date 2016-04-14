@@ -588,40 +588,76 @@ public abstract class AbstractQueryChangesTest {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo, null, null, null, null);
-    Change change = insert(ins);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    ChangeInserter ins3 = newChange(repo, null, null, null, null);
+    ChangeInserter ins4 = newChange(repo, null, null, null, null);
+    ChangeInserter ins5 = newChange(repo, null, null, null, null);
+    Change noLabelChange = insert(ins);
+    Change reviewPlus1Change = insert(ins2);
+    Change reviewPlus2Change = insert(ins3);
+    Change reviewMinus1Change = insert(ins4);
+    Change reviewMinus2Change = insert(ins5);
 
-    gApi.changes().id(change.getId().get()).current()
-      .review(new ReviewInput().label("Code-Review", 1));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current()
+        .review(new ReviewInput().label("Code-Review", 1));
+    gApi.changes().id(reviewPlus2Change.getId().get()).current()
+        .review(new ReviewInput().label("Code-Review", 2));
+    gApi.changes().id(reviewMinus1Change.getId().get()).current()
+        .review(new ReviewInput().label("Code-Review", -1));
+    gApi.changes().id(reviewMinus2Change.getId().get()).current()
+        .review(new ReviewInput().label("Code-Review", -2));
 
-    assertQuery("label:Code-Review=-2");
-    assertQuery("label:Code-Review-2");
-    assertQuery("label:Code-Review=-1");
-    assertQuery("label:Code-Review-1");
-    assertQuery("label:Code-Review=0");
-    assertQuery("label:Code-Review=+1", change);
-    assertQuery("label:Code-Review=1", change);
-    assertQuery("label:Code-Review+1", change);
-    assertQuery("label:Code-Review=+2");
-    assertQuery("label:Code-Review=2");
-    assertQuery("label:Code-Review+2");
+    assertQuery("label:Code-Review=-2", reviewMinus2Change);
+    assertQuery("label:Code-Review-2", reviewMinus2Change);
+    assertQuery("label:Code-Review=-1", reviewMinus1Change);
+    assertQuery("label:Code-Review-1", reviewMinus1Change);
+    assertQuery("label:Code-Review=0", noLabelChange);
+    assertQuery("label:Code-Review=+1", reviewPlus1Change);
+    assertQuery("label:Code-Review=1", reviewPlus1Change);
+    assertQuery("label:Code-Review+1", reviewPlus1Change);
+    assertQuery("label:Code-Review=+2", reviewPlus2Change);
+    assertQuery("label:Code-Review=2", reviewPlus2Change);
+    assertQuery("label:Code-Review+2", reviewPlus2Change);
 
-    assertQuery("label:Code-Review>=0", change);
-    assertQuery("label:Code-Review>0", change);
-    assertQuery("label:Code-Review>=1", change);
-    assertQuery("label:Code-Review>1");
-    assertQuery("label:Code-Review>=2");
+    assertQuery("label:Code-Review>-3", reviewMinus2Change, reviewMinus1Change,
+        reviewPlus2Change, reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review>=-2", reviewMinus2Change, reviewMinus1Change,
+        reviewPlus2Change, reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review>-2", reviewMinus1Change, reviewPlus2Change,
+        reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review>=-1", reviewMinus1Change, reviewPlus2Change,
+        reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review>-1", reviewPlus2Change, reviewPlus1Change,
+        noLabelChange);
+    assertQuery("label:Code-Review>=0", reviewPlus2Change, reviewPlus1Change,
+        noLabelChange);
+    assertQuery("label:Code-Review>0", reviewPlus2Change, reviewPlus1Change);
+    assertQuery("label:Code-Review>=1", reviewPlus2Change, reviewPlus1Change);
+    assertQuery("label:Code-Review>1", reviewPlus2Change);
+    assertQuery("label:Code-Review>=2", reviewPlus2Change);
+    assertQuery("label:Code-Review>2");
 
-    assertQuery("label: Code-Review<=2", change);
-    assertQuery("label: Code-Review<2", change);
-    assertQuery("label: Code-Review<=1", change);
-    assertQuery("label:Code-Review<1");
-    assertQuery("label:Code-Review<=0");
+    assertQuery("label:Code-Review<=2", reviewMinus2Change, reviewMinus1Change,
+        reviewPlus2Change, reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review<2", reviewMinus2Change, reviewMinus1Change,
+        reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review<=1", reviewMinus2Change, reviewMinus1Change,
+        reviewPlus1Change, noLabelChange);
+    assertQuery("label:Code-Review<1", reviewMinus2Change, reviewMinus1Change,
+        noLabelChange);
+    assertQuery("label:Code-Review<=0", reviewMinus2Change, reviewMinus1Change,
+        noLabelChange);
+    assertQuery("label:Code-Review<0", reviewMinus2Change, reviewMinus1Change);
+    assertQuery("label:Code-Review<=-1", reviewMinus2Change, reviewMinus1Change);
+    assertQuery("label:Code-Review<-1", reviewMinus2Change);
+    assertQuery("label:Code-Review<=-2", reviewMinus2Change);
+    assertQuery("label:Code-Review<-2");
 
     assertQuery("label:Code-Review=+1,anotheruser");
-    assertQuery("label:Code-Review=+1,user", change);
-    assertQuery("label:Code-Review=+1,user=user", change);
-    assertQuery("label:Code-Review=+1,Administrators", change);
-    assertQuery("label:Code-Review=+1,group=Administrators", change);
+    assertQuery("label:Code-Review=+1,user", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
   }
 
   private String createGroup(String name, String owner) throws Exception {

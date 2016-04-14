@@ -126,21 +126,8 @@
     },
 
     _getFiles: function() {
-      return this.$.restAPI.getChangeFiles(this.changeNum, this.patchNum).then(
-          this._normalizeFilesResponse.bind(this));
-    },
-
-    _normalizeFilesResponse: function(response) {
-      var paths = Object.keys(response).sort();
-      var files = [];
-      for (var i = 0; i < paths.length; i++) {
-        var info = response[paths[i]];
-        info.__path = paths[i];
-        info.lines_inserted = info.lines_inserted || 0;
-        info.lines_deleted = info.lines_deleted || 0;
-        files.push(info);
-      }
-      return files;
+      return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
+          this.changeNum, this.patchNum);
     },
 
     _handleKey: function(e) {

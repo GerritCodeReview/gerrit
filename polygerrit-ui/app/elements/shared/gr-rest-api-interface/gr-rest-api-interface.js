@@ -238,6 +238,67 @@
           this.getChangeActionURL(changeNum, patchNum, '/files'));
     },
 
+    getChangeFilesAsSpeciallySortedArray: function(changeNum, patchNum) {
+      return this.getChangeFiles(changeNum, patchNum).then(
+          this._normalizeChangeFilesResponse.bind(this));
+    },
+
+    getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchNum) {
+      return this.getChangeFiles(changeNum, patchNum).then(function(files) {
+        return Object.keys(files).sort(this._specialFilePathCompare.bind(this));
+      }.bind(this));
+    },
+
+    _normalizeChangeFilesResponse: function(response) {
+      var paths = Object.keys(response).sort(
+          this._specialFilePathCompare.bind(this));
+      var files = [];
+      for (var i = 0; i < paths.length; i++) {
+        var info = response[paths[i]];
+        info.__path = paths[i];
+        info.lines_inserted = info.lines_inserted || 0;
+        info.lines_deleted = info.lines_deleted || 0;
+        files.push(info);
+      }
+      return files;
+    },
+
+    _specialFilePathCompare: function(a, b) {
+      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+      // The commit message always goes first.
+      if (a === COMMIT_MESSAGE_PATH) {
+        return -1;
+      }
+      if (b === COMMIT_MESSAGE_PATH) {
+        return 1;
+      }
+
+      var aLastDotIndex = a.lastIndexOf('.');
+      var aExt = a.substr(aLastDotIndex + 1);
+      var aFile = a.substr(0, aLastDotIndex);
+
+      var bLastDotIndex = b.lastIndexOf('.');
+      var bExt = b.substr(bLastDotIndex + 1);
+      var bFile = a.substr(0, bLastDotIndex);
+
+      // Sort header files above others with the same base name.
+      var headerExts = ['h', 'hxx', 'hpp'];
+      if (aFile.length > 0 && aFile === bFile) {
+        if (headerExts.indexOf(aExt) !== -1 &&
+            headerExts.indexOf(bExt) !== -1) {
+          return a.localeCompare(b);
+        }
+        if (headerExts.indexOf(aExt) !== -1) {
+          return -1;
+        }
+        if (headerExts.indexOf(bExt) !== -1) {
+          return 1;
+        }
+      }
+
+      return a.localeCompare(b);
+    },
+
     getChangeRevisionActions: function(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/actions'));

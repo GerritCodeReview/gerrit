@@ -109,9 +109,9 @@
     },
 
     _getFiles: function(changeNum, patchNum) {
-      return this.$.restAPI.getChangeFiles(changeNum, patchNum).then(
-          function(files) {
-            this._fileList = Object.keys(files).sort();
+      return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
+          changeNum, patchNum).then(function(files) {
+            this._fileList = files;
           }.bind(this));
     },
 

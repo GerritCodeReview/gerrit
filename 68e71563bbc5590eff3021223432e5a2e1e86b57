@@ -22,6 +22,30 @@
       "revId": "68e71563bbc5590eff3021223432e5a2e1e86b57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_881b37bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-14T10:46:25Z",
+      "side": 1,
+      "message": "Good question.\n\nI only changed the explicit returns of null because that\u0027s what FindBugs was complaining about.\n\nThis change still needs some work to change the existing places where callers of isMergeable have handling of the null value.",
+      "parentUuid": "ab68629f_b9ddbfff",
+      "range": {
+        "startLine": 932,
+        "startChar": 0,
+        "endLine": 932,
+        "endChar": 44
+      },
+      "revId": "68e71563bbc5590eff3021223432e5a2e1e86b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

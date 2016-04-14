@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab68629f_991b9bbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-14T07:03:43Z",
+      "side": 1,
+      "message": "Should be mentioned here, that different indentaion levels for different file modes not supported? For example, it is not possible to set indentation level \u003d 4 in python and 2 in C++. But with this change the level can be changed in inline edit preferences.",
+      "revId": "b5c7b74dcb24d87b6914c3caf795417db6104aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -305,8 +306,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     try {
       // BCC anyone who has starred this change.
       //
-      for (Account.Id accountId : args.starredChangesUtil
-          .byChangeFromIndex(change.getId())) {
+      for (Account.Id accountId : args.starredChangesUtil.byChangeFromIndex(
+          change.getId(), StarredChangesUtil.DEFAULT_LABEL)) {
         super.add(RecipientType.BCC, accountId);
       }
     } catch (OrmException | NoSuchChangeException err) {

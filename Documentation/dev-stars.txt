@@ -1,0 +1,73 @@
+= Gerrit Code Review - Stars
+
+== Description
+
+Changes can be starred with labels that behave like private hashtags.
+Any label can be applied to a change, but these labels are only visible
+to the user for which the labels have been set.
+
+Stars allow users to categorize changes by self-defined criteria and
+then build link:user-dashboards.html[dashboards] for them by making use
+of the link:#query-stars[star query operators].
+
+[[star-api]]
+== Star API
+
+The link:rest-api-accounts.html#star-endpoints[star REST API] supports:
+
+* link:rest-api-accounts.html#get-stars[
+  get star labels from a change]
+* link:rest-api-accounts.html#set-stars[
+  update star labels on a change]
+* link:rest-api-accounts.html#get-starred-changes[
+  list changes that are starred by any label]
+
+Star labels are also included in
+link:rest-api-changes.html#change-info[ChangeInfo] entities that are
+returned by the link:rest-api-changes.html[changes REST API].
+
+There are link:rest-api-accounts.html#default-star-endpoints[
+additional REST endpoints] for the link:#default-star[default star].
+
+Only the link:#default-star[default star] is shown in the WebUi and
+can be updated from there. Other stars do not show up in the WebUi.
+
+[[default-star]]
+== Default Star
+
+If the default star is set by a user, this user is automatically
+notified by email whenever updates are made to that change.
+
+The default star is the star that is shown in the WebUI and which can
+be updated from there.
+
+The default star is represented by the special star label 'star'.
+
+[[query-stars]]
+== Query Stars
+
+There are several query operators to find changes with stars:
+
+* link:user-search.html#star[star:<LABEL>]:
+  Matches any change that was starred by the current user with the
+  label `<LABEL>`.
+* link:user-search.html#has-stars[has:stars]:
+  Matches any change that was starred by the current user with any
+  label.
+* link:user-search.html#is-starred[is:starred] /
+  link:user-search.html#has-star[has:star]:
+  Matches any change that was starred by the current user with the
+  link:#default-star[default star].
+
+[[syntax]]
+== Syntax
+
+Star labels cannot contain whitespace characters. All other characters
+are allowed.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

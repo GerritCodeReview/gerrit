@@ -25,7 +25,7 @@
   src_roots = java, resources, src
 
 [project]
-  ignore = .git, eclipse-out
+  ignore = .git, eclipse-out, lib/jgit
   parallel_parsing = true
 
 [cache]

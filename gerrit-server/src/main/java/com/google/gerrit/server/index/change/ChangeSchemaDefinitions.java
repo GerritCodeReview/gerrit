@@ -104,6 +104,8 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   static final Schema<ChangeData> V29 = schema(V28, ChangeField.STARBY);
 
+  static final Schema<ChangeData> V30 = schema(V27, ChangeField.STARBY);
+
   public static final ChangeSchemaDefinitions INSTANCE =
       new ChangeSchemaDefinitions();
 

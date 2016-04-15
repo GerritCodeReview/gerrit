@@ -117,6 +117,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
+  @Deprecated
   private static final String STARREDBY_FIELD = ChangeField.STARREDBY.getName();
   private static final String STARBY_FIELD = ChangeField.STARBY.getName();
 
@@ -477,6 +478,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  @Deprecated
   private void decodeStarredBy(Document doc, ChangeData cd) {
     IndexableField[] starredBy = doc.getFields(STARREDBY_FIELD);
     Set<Account.Id> accounts =

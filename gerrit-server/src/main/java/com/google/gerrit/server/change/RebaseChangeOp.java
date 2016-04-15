@@ -16,6 +16,10 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -38,6 +42,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -46,11 +52,16 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class RebaseChangeOp extends BatchUpdate.Op {
   public interface Factory {
     RebaseChangeOp create(ChangeControl ctl, PatchSet originalPatchSet,
         @Nullable String baseCommitish);
+    RebaseChangeOp create(ChangeControl ctl, PatchSet originalPatchSet,
+        @Nullable String baseCommitish, @Nullable ObjectId[] parents);
   }
 
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -61,6 +72,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private final PatchSet originalPatchSet;
 
   private String baseCommitish;
+  private ObjectId[] parents;
   private PersonIdent committerIdent;
   private boolean runHooks = true;
   private CommitValidators.Policy validate;
@@ -80,12 +92,26 @@ public class RebaseChangeOp extends BatchUpdate.Op {
       @Assisted ChangeControl ctl,
       @Assisted PatchSet originalPatchSet,
       @Assisted @Nullable String baseCommitish) {
+    this(patchSetInserterFactory, mergeUtilFactory, rebaseUtil, ctl,
+        originalPatchSet, baseCommitish, null);
+  }
+
+  @AssistedInject
+  RebaseChangeOp(
+      PatchSetInserter.Factory patchSetInserterFactory,
+      MergeUtil.Factory mergeUtilFactory,
+      RebaseUtil rebaseUtil,
+      @Assisted ChangeControl ctl,
+      @Assisted PatchSet originalPatchSet,
+      @Assisted @Nullable String baseCommitish,
+      @Assisted @Nullable ObjectId[] parents) {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
     this.ctl = ctl;
     this.originalPatchSet = originalPatchSet;
     this.baseCommitish = baseCommitish;
+    this.parents = parents;
   }
 
   public RebaseChangeOp setCommitterIdent(PersonIdent committerIdent) {
@@ -193,6 +219,27 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     return rebasedPatchSet;
   }
 
+  public static Optional<RevCommit[]> getRebasedParents(RevWalk rw, ObjectId base,
+      RevCommit[] originalParents) {
+    try {
+      RevCommit baseCommit = rw.parseCommit(base);
+      List<RevCommit> parents = new ArrayList<>(originalParents.length);
+      Iterator<RevCommit> parentsIt = Iterators.forArray(originalParents);
+      while (parentsIt.hasNext()) {
+        RevCommit parent = parentsIt.next();
+        if (rw.isMergedInto(parent, baseCommit)) {
+          return Optional.of(FluentIterable.from(parents).append(baseCommit)
+              .append(Lists.newArrayList(parentsIt)).toArray(RevCommit.class));
+        }
+        parents.add(parent);
+      }
+    } catch (IOException e) {
+      //Optional.absent is sufficient and it will be propagated by caller
+    }
+
+    return Optional.absent();
+  }
+
   private MergeUtil newMergeUtil() {
     ProjectState project = ctl.getProjectControl().getProjectState();
     return forceContentMerge
@@ -213,16 +260,25 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private RevCommit rebaseCommit(RepoContext ctx, RevCommit original,
       ObjectId base) throws ResourceConflictException, MergeConflictException,
       IOException {
-    RevCommit parentCommit = original.getParent(0);
-
-    if (base.equals(parentCommit)) {
-      throw new ResourceConflictException("Change is already up to date.");
+    ThreeWayMerger merger = null;
+    if (original.getParentCount() == 1) {
+      parents = new ObjectId[] {base};
+      merger = rebaseWithOneParent(ctx, original, base);
+    } else {
+      // Re-create merge commit on the top of current target if any of commit parents is
+      // parent of target tip. That looks actually cleaner in history than merge of merge commit.
+      // It is kind of a 'rebase' over one of merge parents commit.
+      if (parents == null) {
+        Optional<RevCommit[]> hasRebasableParents =
+            getRebasedParents(ctx.getRevWalk(), base, original.getParents());
+        if (!hasRebasableParents.isPresent()) {
+          throw new ResourceConflictException(
+              "Rebase of merge commit was not possible. Base is not derived from any parent");
+        }
+        parents = hasRebasableParents.get();
+      }
+      merger = rebaseWithMoreParents(ctx, parents);
     }
-
-    ThreeWayMerger merger = newMergeUtil().newThreeWayMerger(
-        ctx.getRepository(), ctx.getInserter());
-    merger.setBase(parentCommit);
-    merger.merge(original, base);
 
     if (merger.getResultTreeId() == null) {
       throw new MergeConflictException(
@@ -231,7 +287,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
 
     CommitBuilder cb = new CommitBuilder();
     cb.setTreeId(merger.getResultTreeId());
-    cb.setParentId(base);
+    cb.setParentIds(parents);
     cb.setAuthor(original.getAuthorIdent());
     cb.setMessage(original.getFullMessage());
     if (committerIdent != null) {
@@ -243,5 +299,29 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();
     return ctx.getRevWalk().parseCommit(objectId);
+  }
+
+  private ThreeWayMerger rebaseWithMoreParents(RepoContext ctx, ObjectId[] parents)
+        throws IOException, MissingObjectException, IncorrectObjectTypeException {
+    ThreeWayMerger merger = newMergeUtil().newThreeWayMerger(
+        ctx.getRepository(), ctx.getInserter());
+    merger.merge(parents);
+    return merger;
+  }
+
+  private ThreeWayMerger rebaseWithOneParent(RepoContext ctx, RevCommit original, ObjectId base)
+        throws ResourceConflictException, IOException, MissingObjectException,
+        IncorrectObjectTypeException {
+    RevCommit parentCommit = original.getParent(0);
+
+    if (base.equals(parentCommit)) {
+      throw new ResourceConflictException("Change is already up to date.");
+    }
+
+    ThreeWayMerger merger = newMergeUtil().newThreeWayMerger(
+        ctx.getRepository(), ctx.getInserter());
+    merger.setBase(parentCommit);
+    merger.merge(original, base);
+    return merger;
   }
 }

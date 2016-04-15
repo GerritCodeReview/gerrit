@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -71,6 +72,37 @@ import java.util.TreeSet;
 
 @Singleton
 public class StarredChangesUtil {
+  @AutoValue
+  public abstract static class StarField {
+    private static final String SEPARATOR = ":";
+
+    public static StarField parse(String s) {
+      int p = s.indexOf(SEPARATOR);
+      if (p >= 0) {
+        try {
+          Account.Id accountId = Account.Id.parse(s.substring(0, p));
+          String label = s.substring(p + 1);
+          return create(accountId, label);
+        } catch (NumberFormatException e) {
+          return null;
+        }
+      }
+      return null;
+    }
+
+    public static StarField create(Account.Id accountId, String label) {
+      return new AutoValue_StarredChangesUtil_StarField(accountId, label);
+    }
+
+    public abstract Account.Id accountId();
+    public abstract String label();
+
+    @Override
+    public String toString() {
+      return accountId() + SEPARATOR + label();
+    }
+  }
+
   private static final Logger log =
       LoggerFactory.getLogger(StarredChangesUtil.class);
 

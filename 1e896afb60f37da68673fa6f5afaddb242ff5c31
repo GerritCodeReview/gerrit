@@ -298,6 +298,24 @@
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_ff47ff9b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/AuthorizedKeysTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:51:43Z",
+      "side": 1,
+      "message": "Yeah but do we want to support those people editing authorized_keys files manually in their non-unixy editors?",
+      "parentUuid": "8b2d5e79_285fab4b",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

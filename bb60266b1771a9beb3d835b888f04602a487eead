@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_b5c080fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T16:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_a8d63bc7",
+      "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_e8d033cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_757c288e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T16:41:45Z",
+      "side": 1,
+      "message": "And it\u0027s only a single call to writeLabels, since the object ID will be the same for all refs.",
+      "parentUuid": "8b2d5e79_e8d033cd",
+      "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_08c66718",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2016-04-15T15:05:12Z",
       "side": 1,
       "message": "Optional: use a normal text progress monitor.",
+      "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_11992cf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T16:41:45Z",
+      "side": 1,
+      "message": "Do we have a writer available here?",
+      "parentUuid": "8b2d5e79_08c66718",
       "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

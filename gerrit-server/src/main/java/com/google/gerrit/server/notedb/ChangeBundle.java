@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -332,8 +333,7 @@ public class ChangeBundle {
       return;
     }
 
-    // At least one is from NoteDb, so we need to ignore UUIDs for both, and
-    // allow timestamp slop if the sources differ.
+    // At least one is from NoteDb, so comparisons are inexact as noted below.
     Change.Id id = bundleA.getChange().getId();
     checkArgument(id.equals(bundleB.getChange().getId()));
     List<ChangeMessage> as = bundleA.changeMessages;
@@ -349,8 +349,25 @@ public class ChangeBundle {
       ChangeMessage a = as.get(i);
       ChangeMessage b = bs.get(i);
       String desc = "ChangeMessage on " + id + " at index " + i;
+
+      // Ignore null PatchSet.Id on a ReviewDb change; all entities in NoteDb
+      // have a PatchSet.Id.
+      boolean checkPsId = true;
+      if (bundleA.source == REVIEW_DB) {
+        checkPsId = a.getPatchSetId() != null;
+      } else if (bundleB.source == REVIEW_DB) {
+        checkPsId = b.getPatchSetId() != null;
+      }
+
+      // Ignore UUIDs for both sides.
+      List<String> exclude = Lists.newArrayList("key");
+      if (!checkPsId) {
+        exclude.add("patchset");
+      }
+
+      // Normal column-wise diff also allows timestamp slop.
       diffColumnsExcluding(diffs, ChangeMessage.class, desc, bundleA, a,
-          bundleB, b, "key");
+          bundleB, b, exclude);
     }
   }
 
@@ -417,7 +434,14 @@ public class ChangeBundle {
   private static <T> void diffColumnsExcluding(List<String> diffs,
       Class<T> clazz, String desc, ChangeBundle bundleA, T a,
       ChangeBundle bundleB, T b, String... exclude) {
-    Set<String> toExclude = Sets.newLinkedHashSet(Arrays.asList(exclude));
+    diffColumnsExcluding(diffs, clazz, desc, bundleA, a, bundleB, b,
+        Arrays.asList(exclude));
+  }
+
+  private static <T> void diffColumnsExcluding(List<String> diffs,
+      Class<T> clazz, String desc, ChangeBundle bundleA, T a,
+      ChangeBundle bundleB, T b, Iterable<String> exclude) {
+    Set<String> toExclude = Sets.newLinkedHashSet(exclude);
     for (Field f : clazz.getDeclaredFields()) {
       Column col = f.getAnnotation(Column.class);
       if (col == null) {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -215,7 +216,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
     }
 
-    Collections.sort(events, EVENT_ORDER);
+    sortEvents(change.getId(), events);
 
     events.add(new FinalUpdatesEvent(change, noteDbChange));
 
@@ -251,6 +252,22 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
             return in.getPatchSetId().equals(ps.getId());
           }
         }).toSortedList(PatchLineCommentsUtil.PLC_ORDER);
+  }
+
+  private void sortEvents(Change.Id changeId, List<Event> events) {
+    Collections.sort(events, EVENT_ORDER);
+
+    // Fill in any missing patch set IDs using the latest patch set of the
+    // change at the time of the event. This is as if a user added a
+    // ChangeMessage on the change by replying from the latest patch set.
+    int ps = 1;
+    for (Event e : events) {
+      if (e.psId == null) {
+        e.psId = new PatchSet.Id(changeId, ps);
+      } else {
+        ps = Math.max(ps, e.psId.get());
+      }
+    }
   }
 
   private void flushEventsToUpdate(NoteDbUpdateManager manager,
@@ -371,7 +388,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           .compareTrueFirst(a.predatesChange, b.predatesChange)
           .compare(a.when, b.when)
           .compare(a.who, b.who, ReviewDbUtil.intKeyOrdering())
-          .compare(a.psId.get(), b.psId.get())
+          .compare(a.psId, b.psId, ReviewDbUtil.intKeyOrdering().nullsLast())
           .result();
     }
   };
@@ -380,10 +397,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // NOTE: EventList only supports direct subclasses, not an arbitrary
     // hierarchy.
 
-    final PatchSet.Id psId;
     final Account.Id who;
     final Timestamp when;
     final boolean predatesChange;
+    PatchSet.Id psId;
 
     protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
         Timestamp changeCreatedOn) {
@@ -449,7 +466,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
       Event last = getLast();
       if (!Objects.equals(e.who, last.who)
-          || !Objects.equals(e.psId, last.psId)) {
+          || !e.psId.equals(last.psId)) {
         return false; // Different patch set or author.
       }
 
@@ -482,9 +499,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
 
     PatchSet.Id getPatchSetId() {
-      PatchSet.Id id = get(0).psId;
+      PatchSet.Id id = checkNotNull(get(0).psId);
       for (int i = 1; i < size(); i++) {
-        checkState(Objects.equals(id, get(i).psId),
+        checkState(get(i).psId.equals(id),
             "mismatched patch sets in EventList: %s != %s", id, get(i).psId);
       }
       return id;

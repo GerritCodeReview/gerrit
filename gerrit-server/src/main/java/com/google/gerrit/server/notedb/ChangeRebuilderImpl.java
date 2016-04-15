@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
@@ -369,7 +370,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       return ComparisonChain.start()
           .compareTrueFirst(a.predatesChange, b.predatesChange)
           .compare(a.when, b.when)
-          .compare(a.who.get(), b.who.get())
+          .compare(a.who, b.who, ReviewDbUtil.intKeyOrdering())
           .compare(a.psId.get(), b.psId.get())
           .result();
     }

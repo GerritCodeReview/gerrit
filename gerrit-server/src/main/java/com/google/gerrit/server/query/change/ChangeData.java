@@ -24,10 +24,12 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -345,7 +347,9 @@ public class ChangeData {
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
   private Set<Account.Id> draftsByUser;
+  @Deprecated
   private Set<Account.Id> starredByUser;
+  private ImmutableMultimap<Account.Id, String> stars;
   private PersonIdent author;
   private PersonIdent committer;
 
@@ -1050,15 +1054,29 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
     this.hashtags = hashtags;
   }
 
+  @Deprecated
   public Set<Account.Id> starredBy() throws OrmException {
     if (starredByUser == null) {
-      starredByUser = checkNotNull(starredChangesUtil).byChange(legacyId);
+      starredByUser = checkNotNull(starredChangesUtil).byChange(
+          legacyId, StarredChangesUtil.DEFAULT_LABEL);
     }
     return starredByUser;
   }
 
+  @Deprecated
   public void setStarredBy(Set<Account.Id> starredByUser) {
     this.starredByUser = starredByUser;
+  }
+
+  public ImmutableMultimap<Account.Id, String> stars() throws OrmException {
+    if (stars == null) {
+      stars = checkNotNull(starredChangesUtil).byChange(legacyId);
+    }
+    return stars;
+  }
+
+  public void setStars(Multimap<Account.Id, String> stars) {
+    this.stars = ImmutableMultimap.copyOf(stars);
   }
 
   @AutoValue

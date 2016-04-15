@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,22 +15,25 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-@Deprecated
-class IsStarredByPredicate extends IndexPredicate<ChangeData> {
+public class StarPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id accountId;
+  private final String label;
 
-  IsStarredByPredicate(Account.Id accountId) {
-    super(ChangeField.STARREDBY, accountId.toString());
+  StarPredicate(Account.Id accountId, String label) {
+    super(ChangeField.STAR,
+        StarredChangesUtil.StarField.create(accountId, label).toString());
     this.accountId = accountId;
+    this.label = label;
   }
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.starredBy().contains(accountId);
+    return cd.stars().get(accountId).contains(label);
   }
 
   @Override
@@ -40,6 +43,6 @@ class IsStarredByPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public String toString() {
-    return ChangeQueryBuilder.FIELD_STARREDBY + ":" + accountId;
+    return ChangeQueryBuilder.FIELD_STAR + ":" + label;
   }
 }

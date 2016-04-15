@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,18 +19,17 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-@Deprecated
-class IsStarredByPredicate extends IndexPredicate<ChangeData> {
+public class HasStarsPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id accountId;
 
-  IsStarredByPredicate(Account.Id accountId) {
-    super(ChangeField.STARREDBY, accountId.toString());
+  HasStarsPredicate(Account.Id accountId) {
+    super(ChangeField.STARBY, accountId.toString());
     this.accountId = accountId;
   }
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.starredBy().contains(accountId);
+    return cd.stars().containsKey(accountId);
   }
 
   @Override
@@ -40,6 +39,6 @@ class IsStarredByPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public String toString() {
-    return ChangeQueryBuilder.FIELD_STARREDBY + ":" + accountId;
+    return ChangeQueryBuilder.FIELD_STARBY + ":" + accountId;
   }
 }

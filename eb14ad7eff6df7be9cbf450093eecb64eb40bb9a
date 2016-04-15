@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_686fe3c6",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2016-04-15T16:50:39Z",
+      "side": 1,
+      "message": "r/outdated/no-current/ is better?",
+      "parentUuid": "68f5903c_5f74abcd",
+      "range": {
+        "startLine": 124,
+        "startChar": 55,
+        "endLine": 124,
+        "endChar": 63
+      },
+      "revId": "eb14ad7eff6df7be9cbf450093eecb64eb40bb9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db363bde_f2b16809",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 6

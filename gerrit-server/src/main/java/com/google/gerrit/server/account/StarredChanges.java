@@ -53,31 +53,29 @@ public class StarredChanges implements
   private final ChangesCollection changes;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
   private final Provider<Create> createProvider;
+  private final StarredChangesUtil starredChangesUtil;
 
   @Inject
   StarredChanges(ChangesCollection changes,
       DynamicMap<RestView<AccountResource.StarredChange>> views,
-      Provider<Create> createProvider) {
+      Provider<Create> createProvider,
+      StarredChangesUtil starredChangesUtil) {
     this.changes = changes;
     this.views = views;
     this.createProvider = createProvider;
+    this.starredChangesUtil = starredChangesUtil;
   }
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
-    try {
-      user.asyncStarredChanges();
-
-      ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-      if (user.getStarredChanges().contains(change.getId())) {
-        return new AccountResource.StarredChange(user, change);
-      }
-      throw new ResourceNotFoundException(id);
-    } finally {
-      user.abortStarredChanges();
+    ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
+    if (starredChangesUtil.getLabels(user.getAccountId(), change.getId())
+        .contains(StarredChangesUtil.DEFAULT_LABEL)) {
+      return new AccountResource.StarredChange(user, change);
     }
+    throw new ResourceNotFoundException(id);
   }
 
   @Override
@@ -138,7 +136,7 @@ public class StarredChanges implements
       }
       try {
         starredChangesUtil.star(self.get().getAccountId(), change.getProject(),
-            change.getId());
+            change.getId(), StarredChangesUtil.DEFAULT_LABELS, null);
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
@@ -184,8 +182,9 @@ public class StarredChanges implements
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesUtil.unstar(self.get().getAccountId(),
-          rsrc.getChange().getProject(), rsrc.getChange().getId());
+      starredChangesUtil.star(self.get().getAccountId(),
+          rsrc.getChange().getProject(), rsrc.getChange().getId(), null,
+          StarredChangesUtil.DEFAULT_LABELS);
       return Response.none();
     }
   }

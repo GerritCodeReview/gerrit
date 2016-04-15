@@ -79,6 +79,7 @@ public abstract class CurrentUser {
   public abstract GroupMembership getEffectiveGroups();
 
   /** Set of changes starred by this user. */
+  @Deprecated
   public abstract Set<Change.Id> getStarredChanges();
 
   /** Filters selecting changes the user wants to monitor. */

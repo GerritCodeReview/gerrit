@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460742805 +0200\nnonce AB8gjyXVDcQWEOHC3233/fE9OmdnYF+JcWM4wzYjM9xOTovjdcIvm2Y09s7qyUO3tuq5Py0UW6NJ\n\n0000000000000000000000000000000000000000 0ecc945a9dfb9e1ef1ffac2cee9390e6554868db refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXESqVAAoJEFG1/Zeg0O9RU7MH/1I8Oqy8Zs6DBy+DsIPRdDm/\nP/pXHFSktMN0sDm3RwCALnJDBGLh7DiHjNiNjGBi/RmlBXsz/uIO5y3rsIKrltk/\n7gpPi5zqcydTJxjNIvV+k9USJYFGs+rc4RnrtwGzOsGy8VYcsWt1sZby2vOs/UV8\n5WoBZ7Pd63FQuQe8SpvmiTgfyMYFuzxbPLg5IYFjw9/U1M3HNRjnr0+gwvyact10\nczwWX9q6hmYUeR4KO7hcB/M9iLn2GIcl/i3aXjOt8S1MuTWKUdQp1wHutOLOO3Ks\n0CjHsiytb0zvqS61sO4uzowRuH1RcEvx+WPUdflD8tRCqO/12zn93XVsbgy9YAY\u003d\n\u003ds8o9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f5903c_df11db76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T19:06:48Z",
+      "side": 1,
+      "message": "Optional: create(accountId, label)",
+      "revId": "0ecc945a9dfb9e1ef1ffac2cee9390e6554868db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

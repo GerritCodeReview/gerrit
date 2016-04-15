@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460699581 +0200\nnonce AB8gjyV5254cg65B1fEJZTRsygw1rlhT3LF+pUAy9Y7Bds909StPw4GBQ+3pg/V82czuKOLd+sGa\n\n0000000000000000000000000000000000000000 055b2c016eac6d15ffdde064097ffadef4e48606 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXEIG9AAoJEFG1/Zeg0O9RKVcIAManYec8Sm0zuBQc4BZYJYAC\n2ojBMtRHDapTxv7XFsa1iCJb6kGrjpVLLvkHujLF7BZSJrx0e6KWco4ChQVIAyw1\n9IxNp8EewaY8IktO24mOfaj29vg/tfj+OcriDHK4eiz3idKPj8FVGBtCGM9XhSo6\nLmGGsSoTVqBjnCbLdGEShoK07DEfWJ+RGHGChgmUrscU6uKVosAST9SG5MxoajQt\nyoWCZHdreLgg1/uBti/dk6WrdfNHcLoUJp7MU26bqQ0QkaqEkjV7bH23xlnemxn1\n04Fe371ua1/vA0zujQanUEy2BCDpg41N1St/ahJEKm7WlIepfIk0hl6jZ4NaMIU\u003d\n\u003dqHQ7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_08ed87a8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:22:08Z",
+      "side": 1,
+      "message": "Any reason not to inline this in the Account.Id constructor?",
+      "range": {
+        "startLine": 478,
+        "startChar": 6,
+        "endLine": 478,
+        "endChar": 42
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_28ea4b91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:22:08Z",
+      "side": 1,
+      "message": "If there are more than 1, shouldn\u0027t we raise some other error than \"not found\"?  Maybe \"resource conflict\"?",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 259,
+        "endChar": 5
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_3fb3270f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:22:08Z",
+      "side": 1,
+      "message": "I know it\u0027s done like this before, but is it possible to instead do something like \n\n V27.getFields().values() + ChangeField.STARREDBY\n\ninstead of repeating all the fields that are the same as the previous schema?",
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_48f77f74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByLegacyPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:22:08Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

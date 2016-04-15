@@ -36,7 +36,7 @@ class BowerComponentsServlet extends ResourceServlet {
     } else {
       bowerComponents = GerritLauncher
           .newZipFileSystem(zip)
-          .getPath("bower_components/");
+          .getPath("/");
     }
   }
 

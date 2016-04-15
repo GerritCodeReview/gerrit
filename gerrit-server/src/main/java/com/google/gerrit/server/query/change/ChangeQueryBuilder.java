@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -138,6 +139,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_REVIEWEDBY = "reviewedby";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
+  public static final String FIELD_STAR = "star";
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_TOPIC = "topic";
@@ -646,6 +648,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> star(String label) throws QueryParseException {
+    return new StarPredicate(self(), label);
+  }
+
+  @Operator
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
     return starredby(parseAccount(who));
@@ -662,6 +669,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Predicate<ChangeData> starredby(Account.Id who)
       throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.STAR)) {
+      return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
+    }
+
     return args.getSchema().hasField(ChangeField.STARREDBY)
         ? new IsStarredByPredicate(who)
         : new IsStarredByLegacyPredicate(args.asUser(who));

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -22,8 +23,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /** Send notice about a vote that was removed from a change. */
 public class DeleteVoteSender extends ReplyToChangeSender {
+  private final Set<Account.Id> reviewers = new HashSet<>();
+
   public interface Factory extends
       ReplyToChangeSender.Factory<DeleteVoteSender> {
     @Override
@@ -38,13 +45,19 @@ public class DeleteVoteSender extends ReplyToChangeSender {
     super(ea, "deleteVote", newChangeData(ea, project, id));
   }
 
+  public void addReviewers(Collection<Account.Id> cc) {
+    reviewers.addAll(cc);
+  }
+
   @Override
   protected void init() throws EmailException {
     super.init();
 
     ccAllApprovals();
     bccStarredBy();
+    ccExistingReviewers();
     includeWatchers(NotifyType.ALL_COMMENTS);
+    add(RecipientType.TO, reviewers);
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_68a60383",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:59:47Z",
+      "side": 0,
+      "message": "I suppose you could say something in the commit message about how we want to use a specific preference rather than the global readAccounts bit in NotesMigration because we\u0027re doing piecemeal migration of just this field. I understood that part but it might not be obvious to someone reading this later :)",
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_1114cc64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T06:20:07Z",
+      "side": 1,
+      "message": "\u003e But before the NoteDb, the whole Gerrit \n \u003e server code (e.g. ChangeIndexer) already has Change in the \n \u003e API.\n\nExactly, having had Change everywhere in the API was making the implementation of NoteDb very difficult. Because it meant that we loaded changes from the database everywhere in the code. This is why Dave put so much effort into writing BatchUpdate, so that we have a single place where a Change is loaded and updated. Without this we wouldn\u0027t know which Change instance to update for NoteDb, as for all those Change instances that were loaded all over the codebase it wasn\u0027t clear if they were read in a transaction, if any fields had been updated so far or if any results had been written back already...",
+      "parentUuid": "2820f890_b5ad20b0",
+      "range": {
+        "startLine": 95,
+        "startChar": 41,
+        "endLine": 96,
+        "endChar": 24
+      },
+      "revId": "df53f19178eb904f5c5a5dbde9f126f6a83e6bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_b1ddc0ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
         "patchSetId": 3

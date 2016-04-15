@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -30,6 +31,8 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
+
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -168,31 +171,82 @@ public class RebaseIfNecessary extends SubmitStrategy {
   }
 
   private class RebaseMultipleParentsOp extends SubmitStrategyOp {
+    private RebaseChangeOp rebaseOp;
+    private CodeReviewCommit newCommit;
+
     private RebaseMultipleParentsOp(CodeReviewCommit toMerge) {
       super(RebaseIfNecessary.this.args, toMerge);
     }
 
     @Override
     public void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException {
-      // There are multiple parents, so this is a merge commit. We don't want
-      // to rebase the merge as clients can't easily rebase their history with
-      // that merge present and replaced by an equivalent merge with a different
-      // first parent. So instead behave as though MERGE_IF_NECESSARY was
-      // configured.
+        throws IntegrationException, IOException, OrmException,
+        InvalidChangeOperationException, RestApiException {
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
         mergeTip.moveTipTo(toMerge, toMerge);
         acceptMergeTip(mergeTip);
       } else {
-        CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
-            args.serverIdent, args.serverIdent, args.repo, args.rw,
-            args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
-        mergeTip.moveTipTo(newTip, toMerge);
+        Optional<RevCommit[]> parents = RebaseChangeOp.getRebasedParents(ctx.getRevWalk(),
+            mergeTip.getCurrentTip(), toMerge.getParents());
+        if (parents.isPresent()) {
+          PatchSet origPs = args.psUtil.get(
+              ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
+          // in order to avoid check if parents might
+          // be rebased call factory and provide new parents
+          rebaseOp = args.rebaseFactory.create(
+                toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name(), parents.get())
+              .setRunHooks(false)
+              .setCopyApprovals(false)
+              .setValidatePolicy(CommitValidators.Policy.NONE);
+          try {
+            rebaseOp.updateRepo(ctx);
+          } catch (MergeConflictException | NoSuchChangeException e) {
+            toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
+            throw new IntegrationException(
+                "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);
+          }
+          newCommit = args.rw.parseCommit(rebaseOp.getRebasedCommit());
+          newCommit.copyFrom(toMerge);
+          newCommit.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
+          newCommit.setPatchsetId(rebaseOp.getPatchSetId());
+          args.mergeTip.moveTipTo(newCommit, newCommit);
+          args.commits.put(args.mergeTip.getCurrentTip());
+        } else {
+          // there is no other option as to resolve it through MERGE_IF_NECESSARY
+          CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
+              args.serverIdent, args.serverIdent, args.repo, args.rw,
+              args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
+          mergeTip.moveTipTo(newTip, toMerge);
+        }
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
           mergeTip.getCurrentTip(), args.alreadyAccepted);
       acceptMergeTip(mergeTip);
+    }
+
+    @Override
+    public PatchSet updateChangeImpl(ChangeContext ctx)
+        throws NoSuchChangeException, ResourceConflictException,
+        OrmException, IOException  {
+      if (rebaseOp == null) {
+        // Took the fast-forward option, nothing to do.
+        return null;
+      }
+
+      rebaseOp.updateChange(ctx);
+      ctx.getChange().setCurrentPatchSet(
+          args.patchSetInfoFactory.get(
+              args.rw, newCommit, rebaseOp.getPatchSetId()));
+      newCommit.setControl(ctx.getControl());
+      return rebaseOp.getPatchSet();
+    }
+
+    @Override
+    public void postUpdateImpl(Context ctx) throws OrmException {
+      if (rebaseOp != null) {
+        rebaseOp.postUpdate(ctx);
+      }
     }
   }
 

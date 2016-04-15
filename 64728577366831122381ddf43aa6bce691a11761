@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f5903c_9f27d3f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:28:59Z",
+      "side": 1,
+      "message": "Please use composition instead of inheritance. I\u0027ve converted most of the ChangeResource hierarchy to do this, but I hadn\u0027t started on AccountResource.",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_5f8b8b13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:28:59Z",
+      "side": 1,
+      "message": "It feels a little odd to parse an unrelated resource type in the AccountResource hierarchy. Maybe just use ChangeFinder#findOne directly?\n\nOnce nice thing about that is then you can catch a specific NoSuchChangeException on l. 117 below, so it\u0027s a little clearer what kind of thing is not found.",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_7f864f0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:28:59Z",
+      "side": 1,
+      "message": "Maybe a little more specific, like \"... of another account\"?",
+      "range": {
+        "startLine": 101,
+        "startChar": 35,
+        "endLine": 101,
+        "endChar": 70
+      },
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_3f90c73b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:28:59Z",
+      "side": 1,
+      "message": "This is weird, why can\u0027t Post handle a new resource?",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_6898c330",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:28:59Z",
+      "side": 1,
+      "message": "What\u0027s the reasoning for having the extension API have different behavior than the REST API? I would expect either the REST API to return an empty list (my preferred solution) or the extension API to let the RNFE propagate.",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

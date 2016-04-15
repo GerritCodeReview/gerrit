@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_31af10f2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T19:57:29Z",
+      "side": 1,
+      "message": "May be. The similar name is also used for filter, when we rename it, we should rename the filter as well.",
+      "parentUuid": "8b2d5e79_48ff7f0d",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "6f2c7615f296b601e0c3990309243c4153460f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_8807b7ff",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-15T19:41:31Z",
       "side": 1,
       "message": "Should we add this to the documentation?",
+      "range": {
+        "startLine": 32,
+        "startChar": 41,
+        "endLine": 32,
+        "endChar": 71
+      },
+      "revId": "6f2c7615f296b601e0c3990309243c4153460f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_11b20c57",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T19:57:29Z",
+      "side": 1,
+      "message": "I mentioned in the commit message, that this is experimnetal feature and wasn\u0027t documented yet. We can do it later, though.",
+      "parentUuid": "8b2d5e79_8807b7ff",
       "range": {
         "startLine": 32,
         "startChar": 41,

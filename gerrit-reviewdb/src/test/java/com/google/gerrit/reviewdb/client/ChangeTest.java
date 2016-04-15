@@ -15,6 +15,8 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -79,11 +81,40 @@ public class ChangeTest {
         .isEqualTo("refs/changes/34/1234/");
   }
 
+  @Test
+  public void parseRefNameParts() {
+    assertRefPart(1, "01/1");
+
+    assertNotRefPart(null);
+    assertNotRefPart("");
+
+    // This method assumes that the common prefix "refs/changes/" was removed.
+    assertNotRefPart("refs/changes/01/1");
+
+    // Invalid characters.
+    assertNotRefPart("01a/1");
+    assertNotRefPart("01/a1");
+
+    // Mismatched shard.
+    assertNotRefPart("01/23");
+
+    // Shard too short.
+    assertNotRefPart("1/1");
+  }
+
   private static void assertRef(int changeId, String refName) {
     assertThat(Change.Id.fromRef(refName)).isEqualTo(new Change.Id(changeId));
   }
 
   private static void assertNotRef(String refName) {
     assertThat(Change.Id.fromRef(refName)).isNull();
+  }
+
+  private static void assertRefPart(int changeId, String refName) {
+    assertEquals(new Change.Id(changeId), Change.Id.fromRefPart(refName));
+  }
+
+  private static void assertNotRefPart(String refName) {
+    assertNull(Change.Id.fromRefPart(refName));
   }
 }

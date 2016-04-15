@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_c8860fda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:11:53Z",
+      "side": 1,
+      "message": "Oh, but maybe make the first argument a Schema\u003cV\u003e rather than a Collection\u003cFieldDef\u003e? Will save a bit more typing in the schema definitions.",
+      "parentUuid": "68f5903c_5f394b23",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_7f340f2f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 6

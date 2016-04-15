@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_0891070e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:15:27Z",
+      "side": 1,
+      "message": "Neither this javadoc nor the name of the field actually gives me a hint as to what it actually looks like. I think I have to go read the implementation of StarField for that?\n\nI also am not the biggest fan of the name but I want to grok it a little better before I suggest an alternative.",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_288ecbf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:15:27Z",
+      "side": 1,
+      "message": "Maybe just \"stars\"? The fact that the key type is Account.Id I think is sufficient to show that it is \"by\" user.\n\n(This argument does not apply when the result is just an Iterable\u003cAccount.Id\u003e.)",
+      "range": {
+        "startLine": 1036,
+        "startChar": 47,
+        "endLine": 1036,
+        "endChar": 54
+      },
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -356,6 +356,45 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffChangeMessagesAllowsNullPatchSetIdFromReviewDb()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    int id = c.getId().get();
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    cm1.setMessage("message 1");
+    ChangeMessage cm2 = clone(cm1);
+    cm2.setPatchSetId(null);
+
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm2), patchSets(),
+        approvals(), comments(), REVIEW_DB);
+
+    // Both are ReviewDb, exact patch set ID match is required.
+    assertDiffs(b1, b2,
+        "patchset differs for ChangeMessage.Key " + c.getId() + ",uuid:"
+            + " {" + id + ",1} != {null}");
+
+    // Null patch set ID on ReviewDb is ignored.
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(cm2), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+
+    // Null patch set ID on NoteDb is not ignored (but is not realistic).
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(cm2), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "patchset differs for ChangeMessage on " + id + " at index 0:"
+            + " {" + id + ",1} != {null}");
+  }
+
+  @Test
   public void diffPatchSetIdSets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     TestChanges.incrementPatchSet(c);

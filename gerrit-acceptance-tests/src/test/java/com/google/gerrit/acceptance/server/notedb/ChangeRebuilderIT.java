@@ -40,6 +40,7 @@ import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.NoteDbChecker;
@@ -59,6 +60,7 @@ import org.junit.Test;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
@@ -165,10 +167,46 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Events need to be otherwise identical for the account ID to be compared.
     ChangeMessage msg1 =
-        insertMessage(psId, user.getId(), TimeUtil.nowTs(), "message 1");
-    insertMessage(psId, null, msg1.getWrittenOn(), "message 2");
+        insertMessage(id, psId, user.getId(), TimeUtil.nowTs(), "message 1");
+    insertMessage(id, psId, null, msg1.getWrittenOn(), "message 2");
 
     checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void nullPatchSetId() throws Exception {
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId1 = r.getPatchSetId();
+    Change.Id id = psId1.getParentKey();
+
+    // Events need to be otherwise identical for the PatchSet.ID to be compared.
+    ChangeMessage msg1 =
+        insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 1");
+    insertMessage(id, null, user.getId(), msg1.getWrittenOn(), "message 2");
+
+    PatchSet.Id psId2 = amendChange(r.getChangeId()).getPatchSetId();
+
+    ChangeMessage msg3 =
+        insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 3");
+    insertMessage(id, null, user.getId(), msg3.getWrittenOn(), "message 4");
+
+    checker.rebuildAndCheckChanges(id);
+
+    notesMigration.setWriteChanges(true);
+    notesMigration.setReadChanges(true);
+
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    Map<String, PatchSet.Id> psIds = new HashMap<>();
+    for (ChangeMessage msg : notes.getChangeMessages()) {
+      PatchSet.Id psId = msg.getPatchSetId();
+      assertThat(psId).named("patchset for " + msg).isNotNull();
+      psIds.put(msg.getMessage(), psId);
+    }
+    // Patch set IDs were replaced during conversion process.
+    assertThat(psIds).containsEntry("message 1", psId1);
+    assertThat(psIds).containsEntry("message 2", psId1);
+    assertThat(psIds).containsEntry("message 3", psId2);
+    assertThat(psIds).containsEntry("message 4", psId2);
   }
 
   @Test
@@ -404,9 +442,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private ChangeMessage insertMessage(PatchSet.Id psId, Account.Id author,
-      Timestamp ts, String message) throws Exception {
-    Change.Id id = psId.getParentKey();
+  private ChangeMessage insertMessage(Change.Id id, PatchSet.Id psId,
+      Account.Id author, Timestamp ts, String message) throws Exception {
     ChangeMessage msg = new ChangeMessage(
         new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
         author, ts, psId);

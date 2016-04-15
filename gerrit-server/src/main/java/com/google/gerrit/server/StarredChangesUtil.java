@@ -90,7 +90,7 @@ public class StarredChangesUtil {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(
-          RefNames.refsStarredChanges(accountId, changeId));
+          RefNames.refsStarredChanges(changeId, accountId));
       u.setExpectedOldObjectId(ObjectId.zeroId());
       u.setNewObjectId(emptyTree(repo));
       u.setRefLogIdent(serverIdent);
@@ -139,7 +139,7 @@ public class StarredChangesUtil {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(
-          RefNames.refsStarredChanges(accountId, changeId));
+          RefNames.refsStarredChanges(changeId, accountId));
       u.setForceUpdate(true);
       u.setRefLogIdent(serverIdent);
       u.setRefLogMessage("Unstar change " + changeId.get(), true);
@@ -181,7 +181,7 @@ public class StarredChangesUtil {
       batchUpdate.setRefLogIdent(serverIdent);
       batchUpdate.setRefLogMessage("Unstar change " + changeId.get(), true);
       for (Account.Id accountId : byChange(changeId)) {
-        String refName = RefNames.refsStarredChanges(accountId, changeId);
+        String refName = RefNames.refsStarredChanges(changeId, accountId);
         Ref ref = repo.getRefDatabase().getRef(refName);
         batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(),
             ObjectId.zeroId(), refName));
@@ -200,7 +200,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public Iterable<Account.Id> byChange(final Change.Id changeId)
+  public Iterable<Account.Id> byChange(Change.Id changeId)
       throws OrmException {
     if (!migration.readAccounts()) {
       return FluentIterable
@@ -212,13 +212,8 @@ public class StarredChangesUtil {
             }
           });
     }
-    return FluentIterable.from(getRefNames(RefNames.REFS_STARRED_CHANGES))
-        .filter(new Predicate<String>() {
-          @Override
-          public boolean apply(String refPart) {
-            return refPart.endsWith("/" + changeId.get());
-          }
-        })
+    return FluentIterable
+        .from(getRefNames(RefNames.refsStarredChangesPrefix(changeId)))
         .transform(new Function<String, Account.Id>() {
           @Override
           public Account.Id apply(String refPart) {
@@ -227,7 +222,7 @@ public class StarredChangesUtil {
         });
   }
 
-  public ResultSet<Change.Id> query(Account.Id accountId) {
+  public ResultSet<Change.Id> query(final Account.Id accountId) {
     try {
       if (!migration.readAccounts()) {
         return new ChangeIdResultSet(
@@ -235,7 +230,13 @@ public class StarredChangesUtil {
       }
 
       return new ListResultSet<>(FluentIterable
-          .from(getRefNames(RefNames.refsStarredChangesPrefix(accountId)))
+          .from(getRefNames(RefNames.REFS_STARRED_CHANGES))
+          .filter(new Predicate<String>() {
+            @Override
+            public boolean apply(String refPart) {
+              return refPart.endsWith("/" + accountId.get());
+            }
+          })
           .transform(new Function<String, Change.Id>() {
             @Override
             public Change.Id apply(String changeId) {

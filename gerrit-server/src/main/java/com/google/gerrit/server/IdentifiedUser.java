@@ -348,6 +348,7 @@ public class IdentifiedUser extends CurrentUser {
     return starredChanges;
   }
 
+  @Deprecated
   public void clearStarredChanges() {
     // Async query may have started before an update that the caller expects
     // to see the results of, so we can't trust it.
@@ -355,13 +356,14 @@ public class IdentifiedUser extends CurrentUser {
     starredChanges = null;
   }
 
-  @SuppressWarnings("deprecation")
+  @Deprecated
   public void asyncStarredChanges() {
     if (starredChanges == null && starredChangesUtil != null) {
       starredQuery = starredChangesUtil.queryFromIndex(accountId);
     }
   }
 
+  @Deprecated
   public void abortStarredChanges() {
     if (starredQuery != null) {
       try {

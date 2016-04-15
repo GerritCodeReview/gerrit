@@ -21,7 +21,7 @@ import com.google.gwtorm.client.IntKey;
 
 /** Static utilities for ReviewDb types. */
 public class ReviewDbUtil {
-  private static final Function<IntKey<?>, Integer> INT_KEY_FUNCTION =
+  public static final Function<IntKey<?>, Integer> INT_KEY_FUNCTION =
       new Function<IntKey<?>, Integer>() {
         @Override
         public Integer apply(IntKey<?> in) {

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2820f890_f5ccb889",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T06:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_08ed87a8",
+      "range": {
+        "startLine": 478,
+        "startChar": 6,
+        "endLine": 478,
+        "endChar": 42
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_28ea4b91",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2016-04-15T06:22:08Z",
       "side": 1,
       "message": "If there are more than 1, shouldn\u0027t we raise some other error than \"not found\"?  Maybe \"resource conflict\"?",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 259,
+        "endChar": 5
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_710b5847",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T06:54:38Z",
+      "side": 1,
+      "message": "Having 2 changes with the same numeric ID should never happen and if it does it\u0027s a severe data inconsistency. So having this case result in a 500 ISE response to the client (actually not \"not found\") is the right thing to do in my opinion. Conflict might be OK as well, but then we should consistently throw this exception in all places were we find multiple changes with the same numeric ID. E.g. ChangeFinder also throws NoSuchChangeException in this case and would need to be adapted. So if we change it, it should be done in a separate change.",
+      "parentUuid": "8b2d5e79_28ea4b91",
       "range": {
         "startLine": 257,
         "startChar": 4,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_55e7ecfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T06:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_3fb3270f",
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_48f77f74",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByLegacyPredicate.java",
         "patchSetId": 4
@@ -77,6 +143,30 @@
       "writtenOn": "2016-04-15T06:22:08Z",
       "side": 1,
       "message": "2016?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_95c34456",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByLegacyPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T06:54:38Z",
+      "side": 1,
+      "message": "This file was just renamed from IsStarredByPredicate, so I think it makes sense to keep the original date.",
+      "parentUuid": "8b2d5e79_48f77f74",
       "range": {
         "startLine": 1,
         "startChar": 17,

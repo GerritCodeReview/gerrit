@@ -133,7 +133,10 @@ public abstract class ResourceServlet extends HttpServlet {
     if (req.getPathInfo() == null) {
       name = "/";
     } else {
-      name = CharMatcher.is('/').trimFrom(req.getPathInfo());
+      name = req.getPathInfo();
+      if (name.length() != 1) {
+        name = CharMatcher.is('/').trimFrom(name);
+      }
     }
     if (isUnreasonableName(name)) {
       notFound(rsp);

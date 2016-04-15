@@ -46,6 +46,11 @@ class FontsServlet extends ResourceServlet {
       throw new IOException("No fonts found: " + zip
           + ". Run `buck build //polygerrit-ui:fonts`?");
     }
+    if (pathInfo.startsWith("fonts")) {
+      int offset = "fonts".length() + 1;
+      pathInfo = pathInfo.substring(offset,
+          pathInfo.length());
+    }
     return fonts.resolve(pathInfo);
   }
 

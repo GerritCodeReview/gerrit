@@ -46,6 +46,12 @@ class BowerComponentsServlet extends ResourceServlet {
       throw new IOException("No polymer components found: " + zip
           + ". Run `buck build //polygerrit-ui:polygerrit_components`?");
     }
+    // Why we need to remove here bower_components suffix?
+    if (pathInfo.startsWith("bower_components")) {
+      int offset = "bower_components".length() + 1;
+      pathInfo = pathInfo.substring(offset,
+          pathInfo.length());
+    }
     return bowerComponents.resolve(pathInfo);
   }
 

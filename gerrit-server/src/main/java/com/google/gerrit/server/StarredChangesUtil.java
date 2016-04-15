@@ -345,7 +345,7 @@ public class StarredChangesUtil {
     }
   }
 
-  private static SortedSet<String> validateLabels(Set<String> labels) {
+  public static SortedSet<String> validateLabels(Set<String> labels) {
     if (labels == null) {
       return Collections.emptySortedSet();
     }

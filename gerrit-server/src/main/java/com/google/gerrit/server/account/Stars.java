@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Joiner;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -21,7 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -30,10 +32,10 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountResource.Star;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.query.change.QueryChanges;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,55 +44,66 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.util.Collection;
+import java.util.Set;
+import java.util.SortedSet;
 
 @Singleton
-public class StarredChanges implements
-    ChildCollection<AccountResource, AccountResource.StarredChange>,
+public class Stars
+    implements ChildCollection<AccountResource, AccountResource.Star>,
     AcceptsCreate<AccountResource> {
-  private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
+  private static final Logger log = LoggerFactory.getLogger(Stars.class);
 
+  private final Provider<CurrentUser> self;
   private final ChangesCollection changes;
-  private final DynamicMap<RestView<AccountResource.StarredChange>> views;
-  private final Provider<Create> createProvider;
   private final StarredChangesUtil starredChangesUtil;
+  private final DynamicMap<RestView<AccountResource.Star>> views;
+  private final Provider<Create> createProvider;
 
   @Inject
-  StarredChanges(ChangesCollection changes,
-      DynamicMap<RestView<AccountResource.StarredChange>> views,
-      Provider<Create> createProvider,
-      StarredChangesUtil starredChangesUtil) {
+  Stars(Provider<CurrentUser> self,
+      ChangesCollection changes,
+      StarredChangesUtil starredChangesUtil,
+      DynamicMap<RestView<AccountResource.Star>> views,
+      Provider<Create> createProvider) {
+    this.self = self;
     this.changes = changes;
+    this.starredChangesUtil = starredChangesUtil;
     this.views = views;
     this.createProvider = createProvider;
-    this.starredChangesUtil = starredChangesUtil;
   }
 
   @Override
-  public AccountResource.StarredChange parse(AccountResource parent, IdString id)
+  public Star parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-    if (starredChangesUtil.getLabels(user.getAccountId(), change.getId())
-        .contains(StarredChangesUtil.DEFAULT_LABEL)) {
-      return new AccountResource.StarredChange(user, change);
+    Set<String> labels =
+        starredChangesUtil.getLabels(user.getAccountId(), change.getId());
+    if (!labels.isEmpty()) {
+      return new AccountResource.Star(user, change, labels);
     }
     throw new ResourceNotFoundException(id);
   }
 
   @Override
-  public DynamicMap<RestView<AccountResource.StarredChange>> views() {
+  public DynamicMap<RestView<Star>> views() {
     return views;
   }
 
   @Override
-  public RestView<AccountResource> list() throws ResourceNotFoundException {
+  public RestView<AccountResource> list()
+      throws ResourceNotFoundException {
     return new RestReadView<AccountResource>() {
       @Override
-      public Object apply(AccountResource self) throws BadRequestException,
+      public Object apply(AccountResource rsrc) throws BadRequestException,
           AuthException, OrmException {
+        if (self.get() != rsrc.getUser()) {
+          throw new AuthException(
+              "not allowed to list stars of another account");
+        }
         QueryChanges query = changes.list();
-        query.addQuery("starredby:" + self.getUser().getAccountId().get());
+        query.addQuery("has:stars");
         return query.apply(TopLevelResource.INSTANCE);
       }
     };
@@ -98,13 +111,14 @@ public class StarredChanges implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public RestModifyView<AccountResource, EmptyInput> create(
-      AccountResource parent, IdString id) throws UnprocessableEntityException {
+  public RestModifyView<AccountResource, StarsInput> create(AccountResource parent,
+      IdString id) throws RestApiException {
     try {
       return createProvider.get()
           .setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {
-      throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
+      throw new UnprocessableEntityException(
+          String.format("change %s not found", id.get()));
     } catch (OrmException e) {
       log.error("cannot resolve change", e);
       throw new UnprocessableEntityException("internal server error");
@@ -112,13 +126,14 @@ public class StarredChanges implements
   }
 
   @Singleton
-  public static class Create implements RestModifyView<AccountResource, EmptyInput> {
+  public static class Create implements RestModifyView<AccountResource, StarsInput> {
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
     private ChangeResource change;
 
     @Inject
-    Create(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
+    Create(Provider<CurrentUser> self,
+        StarredChangesUtil starredChangesUtil) {
       this.self = self;
       this.starredChangesUtil = starredChangesUtil;
     }
@@ -129,66 +144,69 @@ public class StarredChanges implements
     }
 
     @Override
-    public Response<?> apply(AccountResource rsrc, EmptyInput in)
-        throws AuthException, OrmException, IOException {
+    public SortedSet<String> apply(AccountResource rsrc, StarsInput in)
+        throws AuthException, BadRequestException, OrmException {
       if (self.get() != rsrc.getUser()) {
-        throw new AuthException("not allowed to add starred change");
+        throw new AuthException(
+            "not allowed to star change for another account");
       }
-      try {
-        starredChangesUtil.star(self.get().getAccountId(), change.getProject(),
-            change.getId(), StarredChangesUtil.DEFAULT_LABELS, null);
-      } catch (OrmDuplicateKeyException e) {
-        return Response.none();
+      SortedSet<String> invalidLabels = StarredChangesUtil.validateLabels(in.add);
+      if (!invalidLabels.isEmpty()) {
+        throw new BadRequestException(
+            "invalid labels: " + Joiner.on(", ").join(invalidLabels));
       }
-      return Response.none();
+      return starredChangesUtil.star(self.get().getAccountId(),
+          change.getProject(), change.getId(), in.add, in.remove);
     }
   }
 
   @Singleton
-  static class Put implements
-      RestModifyView<AccountResource.StarredChange, EmptyInput> {
-    private final Provider<CurrentUser> self;
-
-    @Inject
-    Put(Provider<CurrentUser> self) {
-      this.self = self;
-    }
-
-    @Override
-    public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
-        throws AuthException {
-      if (self.get() != rsrc.getUser()) {
-        throw new AuthException("not allowed update starred changes");
-      }
-      return Response.none();
-    }
-  }
-
-  @Singleton
-  public static class Delete implements
-      RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  public static class Get implements
+      RestReadView<AccountResource.Star> {
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 
     @Inject
-    Delete(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
+    Get(Provider<CurrentUser> self,
+        StarredChangesUtil starredChangesUtil) {
       this.self = self;
       this.starredChangesUtil = starredChangesUtil;
     }
 
     @Override
-    public Response<?> apply(AccountResource.StarredChange rsrc,
-        EmptyInput in) throws AuthException, OrmException, IOException {
+    public SortedSet<String> apply(AccountResource.Star rsrc)
+        throws AuthException, OrmException {
       if (self.get() != rsrc.getUser()) {
-        throw new AuthException("not allowed remove starred change");
+        throw new AuthException("not allowed to get stars of another account");
       }
-      starredChangesUtil.star(self.get().getAccountId(),
-          rsrc.getChange().getProject(), rsrc.getChange().getId(), null,
-          StarredChangesUtil.DEFAULT_LABELS);
-      return Response.none();
+      return starredChangesUtil.getLabels(self.get().getAccountId(),
+          rsrc.getChange().getId());
     }
   }
 
-  public static class EmptyInput {
+  @Singleton
+  public static class Post implements
+      RestModifyView<AccountResource.Star, StarsInput> {
+    private final Provider<CurrentUser> self;
+    private final StarredChangesUtil starredChangesUtil;
+
+    @Inject
+    Post(Provider<CurrentUser> self,
+        StarredChangesUtil starredChangesUtil) {
+      this.self = self;
+      this.starredChangesUtil = starredChangesUtil;
+    }
+
+    @Override
+    public Collection<String> apply(AccountResource.Star rsrc, StarsInput in)
+        throws AuthException, OrmException {
+      if (self.get() != rsrc.getUser()) {
+        throw new AuthException(
+            "not allowed to update stars of another account");
+      }
+      return starredChangesUtil.star(self.get().getAccountId(),
+          rsrc.getChange().getProject(), rsrc.getChange().getId(), in.add,
+          in.remove);
+    }
   }
 }

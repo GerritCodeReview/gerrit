@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,23 +14,23 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.common.cache.Cache;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
-import java.nio.file.Path;
+/*
+ * Workaround null path info in Guice filter:
+ * https://github.com/google/guice/issues/807
+ */
+class GuiceFilterRequestWrapper extends HttpServletRequestWrapper {
 
-class PolyGerritUiServlet extends ResourceServlet {
-  private static final long serialVersionUID = 1L;
-
-  private final Path ui;
-
-  PolyGerritUiServlet(Cache<Path, Resource> cache, Path ui) {
-    super(cache, true);
-    this.ui = ui;
+  GuiceFilterRequestWrapper(HttpServletRequest req) {
+    super(req);
   }
 
   @Override
-  public Path getResourcePath(String pathInfo) {
-    System.out.println("PolyGerritUiServlet: " + pathInfo);
-    return ui.resolve(pathInfo);
+  public String getPathInfo() {
+    String uri = getRequestURI();
+    String ctx = getContextPath();
+    return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
   }
 }

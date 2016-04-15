@@ -50,6 +50,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.GZIPOutputStream;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -127,13 +128,22 @@ public abstract class ResourceServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
+  public void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     String name;
+    String dbg = req.getPathInfo();
+    log.error("==> ResourceServlet: " + dbg);
     if (req.getPathInfo() == null) {
       name = "/";
     } else {
-      name = CharMatcher.is('/').trimFrom(req.getPathInfo());
+      name = req.getPathInfo();
+      Object o = req.getAttribute(RequestDispatcher.FORWARD_SERVLET_PATH);
+      if (o != null && ((Boolean)o).booleanValue() == true) {
+        name = name.substring("polygerrit_ui".length(), name.length());
+      }
+      if (name.length() != 1) {
+        name = CharMatcher.is('/').trimFrom(name);
+      }
     }
     if (isUnreasonableName(name)) {
       notFound(rsp);

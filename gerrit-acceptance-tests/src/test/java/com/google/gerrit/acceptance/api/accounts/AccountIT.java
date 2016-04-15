@@ -34,9 +34,12 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -46,6 +49,7 @@ import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -67,6 +71,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -173,11 +178,82 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .starChange(triplet);
-    assertThat(info(triplet).starred).isTrue();
+    ChangeInfo change = info(triplet);
+    assertThat(change.starred).isTrue();
+    assertThat(change.stars).contains(StarredChangesUtil.DEFAULT_LABEL);
+
     gApi.accounts()
         .self()
         .unstarChange(triplet);
-    assertThat(info(triplet).starred).isNull();
+    change = info(triplet);
+    assertThat(change.starred).isNull();
+    assertThat(change.stars).isNull();
+  }
+
+  @Test
+  public void starUnstarChangeWithLabels() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
+    assertThat(gApi.accounts().self().getStarredChanges()).isEmpty();
+
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(
+            new HashSet<>(Arrays.asList(
+                StarredChangesUtil.DEFAULT_LABEL, "red", "blue"))));
+    ChangeInfo change = info(triplet);
+    assertThat(change.starred).isTrue();
+    assertThat(change.stars).containsExactly(
+        "blue", "red", StarredChangesUtil.DEFAULT_LABEL).inOrder();
+    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
+        "blue", "red", StarredChangesUtil.DEFAULT_LABEL).inOrder();
+    List<ChangeInfo> starredChanges =
+        gApi.accounts().self().getStarredChanges();
+    assertThat(starredChanges).hasSize(1);
+    ChangeInfo starredChange = starredChanges.get(0);
+    assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
+    assertThat(starredChange.starred).isTrue();
+    assertThat(starredChange.stars)
+        .containsExactly("blue", "red", StarredChangesUtil.DEFAULT_LABEL)
+        .inOrder();
+
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(
+            new HashSet<>(Arrays.asList("yellow")),
+            new HashSet<>(
+                Arrays.asList(StarredChangesUtil.DEFAULT_LABEL, "blue"))));
+    change = info(triplet);
+    assertThat(change.starred).isNull();
+    assertThat(change.stars).containsExactly("red", "yellow").inOrder();
+    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
+        "red", "yellow").inOrder();
+    starredChanges = gApi.accounts().self().getStarredChanges();
+    assertThat(starredChanges).hasSize(1);
+    starredChange = starredChanges.get(0);
+    assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
+    assertThat(starredChange.starred).isNull();
+    assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to get stars of another account");
+    gApi.accounts().id(Integer.toString((admin.id.get()))).getStars(triplet);
+  }
+
+  @Test
+  public void starWithInvalidLabels() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(
+        "invalid labels: another invalid label, invalid label");
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(
+            new HashSet<>(Arrays.asList(StarredChangesUtil.DEFAULT_LABEL,
+                "invalid label", "blue", "another invalid label"))));
   }
 
   @Test

@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "68f5903c_ff301f30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:17:38Z",
+      "side": 1,
+      "message": "Exposing public final fields makes this a good candidate for using @AutoValue.",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_df2d5bd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:17:38Z",
+      "side": 1,
+      "message": "Just call this toString",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_bf2a97bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:17:38Z",
+      "side": 1,
+      "message": "This seems like unnecessary work, can\u0027t you just do this with cd.starredBy().contains(user.getAccountId())?\n\nI don\u0027t think you should have to expose DEFAULT_LABEL.",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_0891070e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 1

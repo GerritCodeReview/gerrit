@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_1fb863e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:57:07Z",
+      "side": 1,
+      "message": "Agreed.  Let\u0027s punt this to a follow-up change later.",
+      "parentUuid": "ab4dc25b_710b5847",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 259,
+        "endChar": 5
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_3fb3270f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 4
@@ -167,6 +191,30 @@
       "side": 1,
       "message": "This file was just renamed from IsStarredByPredicate, so I think it makes sense to keep the original date.",
       "parentUuid": "8b2d5e79_48f77f74",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4278750925ae5d5205c63b0b77a1f5bbbb4f9a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_ffcc9f89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByLegacyPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:57:07Z",
+      "side": 1,
+      "message": "OK.  It\u0027s not showing as a rename in the diff, so I missed it.",
+      "parentUuid": "2820f890_95c34456",
       "range": {
         "startLine": 1,
         "startChar": 17,

@@ -30,10 +30,10 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -45,6 +45,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -78,38 +79,36 @@ public class StarredChangesUtil {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
-  private final NotesMigration migration;
   private final Provider<ReviewDb> dbProvider;
   private final PersonIdent serverIdent;
   private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final boolean readFromGit;
 
   @Inject
   StarredChangesUtil(GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      NotesMigration migration,
       Provider<ReviewDb> dbProvider,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeIndexer indexer,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      @GerritServerConfig Config cfg) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
-    this.migration = migration;
     this.dbProvider = dbProvider;
     this.serverIdent = serverIdent;
     this.indexer = indexer;
     this.queryProvider = queryProvider;
+    this.readFromGit =
+        cfg.getBoolean("user", null, "readStarredChangesFromGit", false);
   }
 
   public void star(Account.Id accountId, Project.NameKey project,
-      Change.Id changeId) throws OrmException, IOException {
+      Change.Id changeId) throws OrmException {
     dbProvider.get().starredChanges()
         .insert(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
-    if (!migration.writeAccounts()) {
-      indexer.index(dbProvider.get(), project, changeId);
-      return;
-    }
+
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(accountId, changeId);
       ObjectId oldObjectId = getObjectId(repo, refName);
@@ -125,14 +124,11 @@ public class StarredChangesUtil {
   }
 
   public void unstar(Account.Id accountId, Project.NameKey project,
-      Change.Id changeId) throws OrmException, IOException {
+      Change.Id changeId) throws OrmException {
     dbProvider.get().starredChanges()
         .delete(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
-    if (!migration.writeAccounts()) {
-      indexer.index(dbProvider.get(), project, changeId);
-      return;
-    }
+
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(
@@ -167,13 +163,10 @@ public class StarredChangesUtil {
   }
 
   public void unstarAll(Project.NameKey project, Change.Id changeId)
-      throws OrmException, IOException, NoSuchChangeException {
+      throws OrmException, NoSuchChangeException {
     dbProvider.get().starredChanges().delete(
         dbProvider.get().starredChanges().byChange(changeId));
-    if (!migration.writeAccounts()) {
-      indexer.index(dbProvider.get(), project, changeId);
-      return;
-    }
+
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
@@ -203,7 +196,7 @@ public class StarredChangesUtil {
 
   public Iterable<Account.Id> byChange(final Change.Id changeId)
       throws OrmException {
-    if (!migration.readAccounts()) {
+    if (!readFromGit) {
       return FluentIterable
           .from(dbProvider.get().starredChanges().byChange(changeId))
           .transform(new Function<StarredChange, Account.Id>() {
@@ -243,7 +236,7 @@ public class StarredChangesUtil {
 
   public ResultSet<Change.Id> query(Account.Id accountId) {
     try {
-      if (!migration.readAccounts()) {
+      if (!readFromGit) {
         return new ChangeIdResultSet(
             dbProvider.get().starredChanges().byAccount(accountId));
       }

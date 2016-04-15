@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_4824dfa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T19:02:59Z",
+      "side": 1,
+      "message": "Oh yeah I completely missed that this was outside the loop. Carry on.",
+      "parentUuid": "2820f890_757c288e",
+      "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_08c66718",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
         "patchSetId": 2
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Do we have a writer available here?",
       "parentUuid": "8b2d5e79_08c66718",
+      "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_6821a390",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T19:02:59Z",
+      "side": 1,
+      "message": "stderr (the default if you call new TextProgressMonitor()) is fine, I assume.",
+      "parentUuid": "ab4dc25b_11992cf7",
       "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

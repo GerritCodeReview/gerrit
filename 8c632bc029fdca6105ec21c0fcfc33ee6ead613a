@@ -22,6 +22,24 @@
       "revId": "8c632bc029fdca6105ec21c0fcfc33ee6ead613a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_2875eb94",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-15T16:31:15Z",
+      "side": 1,
+      "message": "Just for you, Michael. Done.",
+      "parentUuid": "8b2d5e79_88d89710",
+      "revId": "8c632bc029fdca6105ec21c0fcfc33ee6ead613a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

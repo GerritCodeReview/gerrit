@@ -42,7 +42,6 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -141,7 +140,7 @@ public class ReviewCommand extends SshCommand {
   private AllProjectsName allProjects;
 
   @Inject
-  private Provider<GerritApi> gApi;
+  private GerritApi gApi;
 
   @Inject
   private PatchSetParser psParser;
@@ -251,7 +250,7 @@ public class ReviewCommand extends SshCommand {
 
   private void applyReview(PatchSet patchSet,
       final ReviewInput review) throws RestApiException {
-    gApi.get().changes()
+    gApi.changes()
         .id(patchSet.getId().getParentKey().get())
         .revision(patchSet.getRevision().get())
         .review(review);
@@ -326,7 +325,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private ChangeApi changeApi(PatchSet patchSet) throws RestApiException {
-    return gApi.get().changes().id(patchSet.getId().getParentKey().get());
+    return gApi.changes().id(patchSet.getId().getParentKey().get());
   }
 
   private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {

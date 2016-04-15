@@ -34,7 +34,6 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -62,16 +61,16 @@ public class SetMembersCommand extends SshCommand {
   private List<AccountGroup.UUID> groups = Lists.newArrayList();
 
   @Inject
-  private Provider<AddMembers> addMembers;
+  private AddMembers addMembers;
 
   @Inject
-  private Provider<DeleteMembers> deleteMembers;
+  private DeleteMembers deleteMembers;
 
   @Inject
-  private Provider<AddIncludedGroups> addIncludedGroups;
+  private AddIncludedGroups addIncludedGroups;
 
   @Inject
-  private Provider<DeleteIncludedGroups> deleteIncludedGroups;
+  private DeleteIncludedGroups deleteIncludedGroups;
 
   @Inject
   private GroupsCollection groupsCollection;
@@ -89,19 +88,19 @@ public class SetMembersCommand extends SshCommand {
           groupsCollection.parse(TopLevelResource.INSTANCE,
               IdString.fromUrl(groupUuid.get()));
       if (!accountsToRemove.isEmpty()) {
-        deleteMembers.get().apply(resource, fromMembers(accountsToRemove));
+        deleteMembers.apply(resource, fromMembers(accountsToRemove));
         reportMembersAction("removed from", resource, accountsToRemove);
       }
       if (!groupsToRemove.isEmpty()) {
-        deleteIncludedGroups.get().apply(resource, fromGroups(groupsToRemove));
+        deleteIncludedGroups.apply(resource, fromGroups(groupsToRemove));
         reportGroupsAction("excluded from", resource, groupsToRemove);
       }
       if (!accountsToAdd.isEmpty()) {
-        addMembers.get().apply(resource, fromMembers(accountsToAdd));
+        addMembers.apply(resource, fromMembers(accountsToAdd));
         reportMembersAction("added to", resource, accountsToAdd);
       }
       if (!groupsToInclude.isEmpty()) {
-        addIncludedGroups.get().apply(resource, fromGroups(groupsToInclude));
+        addIncludedGroups.apply(resource, fromGroups(groupsToInclude));
         reportGroupsAction("included to", resource, groupsToInclude);
       }
     }

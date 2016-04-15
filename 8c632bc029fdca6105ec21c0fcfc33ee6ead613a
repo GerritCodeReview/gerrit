@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_88d89710",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-15T03:32:50Z",
+      "side": 1,
+      "message": "Consider also supporting \".hpp\"?",
+      "range": {
+        "startLine": 166,
+        "startChar": 24,
+        "endLine": 166,
+        "endChar": 25
+      },
+      "revId": "8c632bc029fdca6105ec21c0fcfc33ee6ead613a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

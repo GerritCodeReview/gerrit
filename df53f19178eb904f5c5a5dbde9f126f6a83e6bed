@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "2820f890_b5ad20b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T06:05:06Z",
+      "side": 1,
+      "message": "Before this change the API is:\n\n  StarredChangesUtil#star(Account.Id, Change.Id);\n\nAter this change it\u0027s extended to:\n\n  StarredChangesUtil#star(Account.Id, Project.NameKey, Change.Id);\n\nYou mean that the extending it instead to be:\n\n  StarredChangesUtil#star(Account.Id, Change)\n\nis not clean? But before the NoteDb, the whole Gerrit server code (e.g. ChangeIndexer) already has Change in the API. TBH I don\u0027t see how it is not a clean API, but OK.",
+      "parentUuid": "ab4dc25b_f1e748c7",
+      "range": {
+        "startLine": 95,
+        "startChar": 41,
+        "endLine": 96,
+        "endChar": 24
+      },
+      "revId": "df53f19178eb904f5c5a5dbde9f126f6a83e6bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_b1ddc0ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
         "patchSetId": 3

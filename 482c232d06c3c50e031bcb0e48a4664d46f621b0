@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460722555 +0200\nnonce AB8gjyVlGiZYxl/kSMjr1b4zCUni+Qhh2BUjqoka2YxB6iZ7/uRPAQ7qIdiYW2A0TEcZb7z30fAj\n\n0000000000000000000000000000000000000000 1e954bb5464e84539ee0e637d9009737aad73858 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXENt7AAoJEFG1/Zeg0O9RXykIAKOOePp1lm7f1GQstuW6pnHv\n1cSCWhE6/7rkcwi167GLVGRcQIvPro7rP4cwvUd1xo2LLRQLFATIo+WdOXvMFLWw\nvdPwAV+kDYnJ4WAHDseUH4ZDBRyFoH97WYh9465eNqm5oLNDRUdrGo+jc1wZ+uF4\nqosyVyi+/rQaRuww0+sqgbaKVeoAkXue5sFlNegHBXNrQCtv6/sjm3Khzb7wNHty\nBd8LJ5ugxLtvg0fkixXcLgfNMeu88WG7zT3hKPTmxCtQKy1kjDKvtFf11XVCWOC1\nRN1SxVP2Pkn0BSrYFgCzMKJV+7oKcUGutYcsDn2+bQ60+Bdvrr0OmI3Xq/f14LY\u003d\n\u003dAWaf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_a8af1b5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:47:29Z",
+      "side": 1,
+      "message": "We have a slight caching issue here. We need to update the ETag for the change when this happens, so we can set the appropriate value for the starred field in ChangeInfo.\n\nI think we just need to include the starred-changes ref value for this user in the ETag we serve to that user.",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_5f394b23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:47:29Z",
+      "side": 1,
+      "message": "Great idea, we should have done this years ago ;)",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_7f340f2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:47:29Z",
+      "side": 1,
+      "message": "Discussed offline. I think this is too much work to do during reindex. Should change to organize refs by change instead of user, to make this a smaller scan. Since we are serving \"is:starred\" from the index, that should give us good enough performance for the per-user case.",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_3f3e870d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:47:29Z",
+      "side": 1,
+      "message": "aka cd.starredBy().contains(accountId)",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

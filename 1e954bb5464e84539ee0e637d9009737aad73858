@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f5903c_ff793fca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:33:56Z",
+      "side": 1,
+      "message": "Instead of implementing this like 5 times to return an empty map, maybe just make it non-abstract?",
+      "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_bf83b7f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:33:56Z",
+      "side": 1,
+      "message": "Don\u0027t bother with the object reads to get the contents, just use the SHA-1 of the ref.",
+      "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_df767bda",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:33:56Z",
+      "side": 1,
+      "message": "Intentional?",
+      "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

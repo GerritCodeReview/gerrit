@@ -508,6 +508,17 @@ visible to all reviewers of the change, but other users cannot see the
 draft patch set. A draft patch set can be published and deleted in the
 same way as a draft change.
 
+[[stars]]
+== Stars
+
+Changes can be link:user-stars.html[starred with labels] that behave
+like private hashtags. A user can apply any label to a change, but
+these labels are only visible to that user.
+
+Stars allow users to categorize changes by self-defined criteria and
+then build link:#dashboards[dashboards] for them by making use of the
+link:user-stars.html#query-stars[star query operators].
+
 [[inline-edit]]
 == Inline Edit
 

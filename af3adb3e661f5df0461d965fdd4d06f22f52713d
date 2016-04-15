@@ -70,6 +70,30 @@
       "revId": "af3adb3e661f5df0461d965fdd4d06f22f52713d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_f134a8d4",
+        "filename": "lib/BUCK",
+        "patchSetId": 42
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-15T12:13:44Z",
+      "side": 1,
+      "message": "Stacktrace below:\n\nIf I remember correctly, then soy is really picky about only being there once in the classpath in the correct version.(see https://groups.google.com/forum/#!topic/repo-discuss/L0BwVEkzl3s)\n\n\njava.lang.NoClassDefFoundError: com/google/template/soy/SoyFileSet\n        at com.google.gitiles.DefaultRenderer.\u003cinit\u003e(DefaultRenderer.java:49)\n        at com.google.gitiles.DefaultRenderer.\u003cinit\u003e(DefaultRenderer.java:36)\n        at com.google.gitiles.GitilesFilter.setDefaultRenderer(GitilesFilter.java:312)\n        at com.google.gitiles.GitilesFilter.setDefaultFields(GitilesFilter.java:291)\n        at com.google.gitiles.GitilesFilter.init(GitilesFilter.java:198)\n        at com.google.gitiles.GitilesServlet.init(GitilesServlet.java:75)\n        at com.google.inject.servlet.ServletDefinition.init(ServletDefinition.java:121)\n        at com.google.inject.servlet.ManagedServletPipeline.init(ManagedServletPipeline.java:82)\n        at com.google.inject.servlet.ManagedFilterPipeline.initPipeline(ManagedFilterPipeline.java:103)\n        at com.google.inject.servlet.GuiceFilter.init(GuiceFilter.java:220)\n        at com.google.gerrit.httpd.plugins.HttpPluginServlet.load(HttpPluginServlet.java:190)\n        at com.google.gerrit.httpd.plugins.HttpPluginServlet.install(HttpPluginServlet.java:164)\n        at com.google.gerrit.httpd.plugins.HttpPluginServlet.init(HttpPluginServlet.java:144)\n        at com.google.inject.servlet.ServletDefinition.init(ServletDefinition.java:121)\n        at com.google.inject.servlet.ManagedServletPipeline.init(ManagedServletPipeline.java:82)\n        at com.google.inject.servlet.ManagedFilterPipeline.initPipeline(ManagedFilterPipeline.java:103)\n        at com.google.inject.servlet.GuiceFilter.init(GuiceFilter.java:220)\n        at org.eclipse.jetty.servlet.FilterHolder.initialize(FilterHolder.java:138)\n        at org.eclipse.jetty.servlet.ServletHandler.initialize(ServletHandler.java:852)\n        at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:298)\n        at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:741)\n        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)\n        at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)\n        at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)\n        at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)\n        at org.eclipse.jetty.server.handler.RequestLogHandler.doStart(RequestLogHandler.java:140)\n        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)\n        at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)\n        at org.eclipse.jetty.server.Server.start(Server.java:387)\n        at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)\n        at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)\n        at org.eclipse.jetty.server.Server.doStart(Server.java:354)\n        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)\n        at com.google.gerrit.pgm.http.jetty.JettyServer$Lifecycle.start(JettyServer.java:96)\n        at com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:74)\n        at com.google.gerrit.pgm.Daemon.start(Daemon.java:310)\n        at com.google.gerrit.pgm.Daemon.run(Daemon.java:211)\n        at com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:64)\n        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n        at java.lang.reflect.Method.invoke(Method.java:497)\n        at com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:161)\n        at com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:102)\n        at com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:59)\n        at Main.main(Main.java:25)\nCaused by: java.lang.ClassNotFoundException: com.google.template.soy.SoyFileSet\n        at java.net.URLClassLoader.findClass(URLClassLoader.java:381)\n        at java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n        at java.lang.ClassLoader.loadClass(ClassLoader.java:357)",
+      "parentUuid": "2820f890_356910f6",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 50
+      },
+      "revId": "af3adb3e661f5df0461d965fdd4d06f22f52713d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

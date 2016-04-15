@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_bfadf7af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T04:42:14Z",
+      "side": 1,
+      "message": "Ok.  I have done as you request.  \n\nAlthough there is one thing about this that might be inconsistent with how `add-reviewer` event works.  add-reviewer will send event, hook and email every time a reviewer is added, it just doesn\u0027t add a comment to the change history.  It seems like to be more consistent with `add-reviewer` behavior the `delete-reviewer` event should also send event, hook and email every time a reviewer is removed regardless of whether the reviewer has a vote.  Also reviewer-delete should should only write to the comment history if a vote is removed. \n\nI\u0027m ok implementing either way,  I thought I would just point out that possible discrepancy.",
+      "parentUuid": "ab68629f_99b71bfa",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb55eae_88521757",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 12
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_dfa0bbb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T04:42:14Z",
+      "side": 1,
+      "message": "ok.  I see what you mean and that\u0027s probably a good idea.  I have changed it to send event, hook and email only when a vote has been removed.",
+      "parentUuid": "ab68629f_79ac07b2",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbea28e_898459ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 12
@@ -107,6 +155,30 @@
       "writtenOn": "2016-04-12T07:06:01Z",
       "side": 1,
       "message": "This is now always false, see the comment above.",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 7
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_9faa3394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T04:42:14Z",
+      "side": 1,
+      "message": "as-is should be ok now.",
+      "parentUuid": "abbea28e_898459ff",
       "range": {
         "startLine": 179,
         "startChar": 6,

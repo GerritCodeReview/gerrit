@@ -24,8 +24,10 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.IndexRewriter.OPEN_STATUSES;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -35,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -116,6 +119,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeField.REVIEWEDBY.getName();
   private static final String HASHTAG_FIELD =
       ChangeField.HASHTAG_CASE_AWARE.getName();
+  private static final String STAR_FIELD = ChangeField.STAR.getName();
+  @Deprecated
   private static final String STARREDBY_FIELD = ChangeField.STARREDBY.getName();
 
   static Term idTerm(ChangeData cd) {
@@ -422,6 +427,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(STARREDBY_FIELD)) {
       decodeStarredBy(doc, cd);
     }
+    if (fields.contains(STAR_FIELD)) {
+      decodeStar(doc, cd);
+    }
     return cd;
   }
 
@@ -484,6 +492,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setHashtags(hashtags);
   }
 
+  @Deprecated
   private void decodeStarredBy(Document doc, ChangeData cd) {
     IndexableField[] starredBy = doc.getFields(STARREDBY_FIELD);
     Set<Account.Id> accounts =
@@ -492,6 +501,19 @@ public class LuceneChangeIndex implements ChangeIndex {
       accounts.add(new Account.Id(r.numericValue().intValue()));
     }
     cd.setStarredBy(accounts);
+  }
+
+  private void decodeStar(Document doc, ChangeData cd) {
+    IndexableField[] star = doc.getFields(STAR_FIELD);
+    Multimap<Account.Id, String> stars = ArrayListMultimap.create();
+    for (IndexableField r : star) {
+      StarredChangesUtil.StarField starField =
+          StarredChangesUtil.StarField.parse(r.stringValue());
+      if (starField != null) {
+        stars.put(starField.accountId(), starField.label());
+      }
+    }
+    cd.setStars(stars);
   }
 
   private static <T> List<T> decodeProtos(Document doc, String fieldName,

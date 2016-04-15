@@ -46,8 +46,16 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 public class StaticModule extends ServletModule {
@@ -55,7 +63,8 @@ public class StaticModule extends ServletModule {
       LoggerFactory.getLogger(StaticModule.class);
 
   public static final String CACHE = "static_content";
-
+  private static final String GERRIT_UI_COOKIE = "GERRIT_UI";
+  private static final String POLYGERRIT = "polygerrit";
   public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
       ImmutableList.of(
         "/",
@@ -70,6 +79,7 @@ public class StaticModule extends ServletModule {
         "/groups/*",
         "/projects/*");
 
+  private static final String STATIC_MODULE_PATHS = "StaticModulePath";
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
@@ -85,6 +95,9 @@ public class StaticModule extends ServletModule {
     this.options = options;
   }
 
+  @Provides
+  @Singleton
+  @Named(STATIC_MODULE_PATHS)
   private Paths getPaths() {
     if (paths == null) {
       paths = new Paths();
@@ -104,11 +117,14 @@ public class StaticModule extends ServletModule {
             .weigher(ResourceServlet.Weigher.class);
       }
     });
-    if (options.enablePolyGerrit()) {
-      install(new CoreStaticModule());
-      install(new PolyGerritUiModule());
+    install(new CoreStaticModule());
+    if (options.enablePolyGWT()) {
+      filter("/*").through(PolyGWTFilter.class);
+      install(new GwtUiModule());
+      install(new PolyGerritUiModule(true));
+    } else if (options.enablePolyGerrit()) {
+      install(new PolyGerritUiModule(false));
     } else if (options.enableDefaultUi()) {
-      install(new CoreStaticModule());
       install(new GwtUiModule());
     }
   }
@@ -216,8 +232,14 @@ public class StaticModule extends ServletModule {
   }
 
   private class PolyGerritUiModule extends ServletModule {
+    private final boolean forwardMode;
+    PolyGerritUiModule(boolean forwardMode) {
+      this.forwardMode = forwardMode;
+    }
+
     @Override
     public void configureServlets() {
+      String prefix = forwardMode ? "/polygerrit_ui" : "";
       Path buckOut = getPaths().buckOut;
       if (buckOut != null) {
         serve("/bower_components/*").with(BowerComponentsServlet.class);
@@ -230,10 +252,12 @@ public class StaticModule extends ServletModule {
 
       Key<HttpServlet> indexKey = named(POLYGERRIT_INDEX_SERVLET);
       for (String p : POLYGERRIT_INDEX_PATHS) {
-        filter(p).through(XsrfCookieFilter.class);
-        serve(p).with(indexKey);
+        if (!forwardMode) {
+          filter(p).through(XsrfCookieFilter.class);
+        }
+        serve(prefix + p).with(indexKey);
       }
-      serve("/*").with(PolyGerritUiServlet.class);
+      serve(prefix + "/*").with(PolyGerritUiServlet.class);
     }
 
     @Provides
@@ -396,5 +420,153 @@ public class StaticModule extends ServletModule {
 
   private static Key<HttpServlet> named(String name) {
     return Key.get(HttpServlet.class, Names.named(name));
+  }
+
+  @Singleton
+  private static class PolyGWTFilter implements Filter {
+    private final Paths paths;
+    private final HttpServlet polyGerritIndex;
+    private final PolyGerritUiServlet polygerritUI;
+    private final BowerComponentsServlet bowerComponentServlet;
+    private final FontsServlet fontServlet;
+
+    @Inject
+    PolyGWTFilter(@Named(STATIC_MODULE_PATHS) Paths paths,
+        @Named(POLYGERRIT_INDEX_SERVLET) HttpServlet polyGerritIndex,
+        PolyGerritUiServlet polygerritUI,
+        BowerComponentsServlet bowerComponentServlet,
+        FontsServlet fontServlet) {
+      this.paths = paths;
+      this.polyGerritIndex = polyGerritIndex;
+      this.polygerritUI = polygerritUI;
+      this.bowerComponentServlet = bowerComponentServlet;
+      this.fontServlet = fontServlet;
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res,
+        FilterChain chain) throws IOException, ServletException {
+      HttpServletRequest httpReq = (HttpServletRequest)req;
+      HttpServletResponse httpRes = (HttpServletResponse)res;
+      if (isPolygerritUI(httpReq, httpRes)) {
+        GuiceFilterRequestWrapper reqWrapper =
+            new GuiceFilterRequestWrapper(httpReq);
+        String path = pathInfo(httpReq);
+        if (path.startsWith("/bower_components/")) {
+          if (paths.isDev()) {
+            bowerComponentServlet.service(reqWrapper, res);
+          } else {
+            polygerritUI.service(reqWrapper, res);
+          }
+        } else if (path.startsWith("/fonts/")) {
+          if (paths.isDev()) {
+            fontServlet.service(reqWrapper, res);
+          } else {
+            polygerritUI.service(reqWrapper, res);
+          }
+        } else if (path.equals("/")
+            || path.startsWith("/c/")
+            || path.startsWith("/q/")
+            || path.startsWith("/x/")
+            || path.startsWith("/admin/")
+            || path.startsWith("/dashboard/")
+            || path.startsWith("/settings/")) {
+          polyGerritIndex.service(reqWrapper, res);
+          // TODO(davido): Find a way not to hard code it
+        } else if (path.startsWith("/styles/")
+            || path.startsWith("/elements/")
+            || path.startsWith("/behaviors/")
+            || path.startsWith("/scripts/")) {
+          polygerritUI.service(reqWrapper, res);
+        } else {
+          chain.doFilter(req, res);
+        }
+      } else {
+        chain.doFilter(req, res);
+      }
+    }
+
+    private static boolean isPolygerritUI(HttpServletRequest req,
+        HttpServletResponse res) {
+      String polygerritUI = req.getParameter(POLYGERRIT);
+      if ("1".equals(polygerritUI)) {
+        return setPolyGerritCookie(res, true);
+      } else if ("0".equals(polygerritUI)) {
+        return setPolyGerritCookie(res, false);
+      } else {
+        return isPolyGerritCookie(req);
+      }
+    }
+
+    private static String pathInfo(HttpServletRequest req) {
+      String uri = req.getRequestURI();
+      String ctx = req.getContextPath();
+      return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
+    }
+
+    private static boolean isPolyGerritCookie(HttpServletRequest req) {
+      final Cookie[] all = req.getCookies();
+      if (all != null) {
+        for (Cookie c : all) {
+          if (GERRIT_UI_COOKIE.equals(c.getName())) {
+            final String v = c.getValue();
+            return v != null && v.equals(POLYGERRIT);
+          }
+        }
+      }
+      return false;
+    }
+
+    private static boolean setPolyGerritCookie(HttpServletResponse res,
+        boolean polygerrit) {
+      Cookie cookie = new Cookie(GERRIT_UI_COOKIE, "");
+      res.addCookie(cookie);
+      cookie.setPath("/");
+      cookie.setValue(polygerrit ? "polygerrit" : "gwt");
+      cookie.setSecure(true);
+      cookie.setMaxAge(polygerrit ? -1: 0);
+      res.addCookie(cookie);
+      return polygerrit;
+    }
+  }
+
+  private static class GuiceFilterRequestWrapper
+      extends HttpServletRequestWrapper {
+    GuiceFilterRequestWrapper(HttpServletRequest req) {
+      super(req);
+    }
+
+    @Override
+    public String getPathInfo() {
+      String uri = getRequestURI();
+      String ctx = getContextPath();
+      // This is a workaround for long standing guice filter bug:
+      // https://github.com/google/guice/issues/807
+      String res = uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
+
+      // Match the logic in the ResourceServlet, that re-add "/"
+      // for null path info
+      if ("/".equals(res)) {
+        return null;
+      }
+
+      // We need to remove /bower_components and /fonts prefixes, to match
+      // the paths in servlets.
+      if (res.startsWith("/bower_components/")) {
+        res = res.substring(18, res.length());
+      }
+      if (res.startsWith("/fonts/")) {
+        res = res.substring(7, res.length());
+      }
+      return res;
+    }
   }
 }

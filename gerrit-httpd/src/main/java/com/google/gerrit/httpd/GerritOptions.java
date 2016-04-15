@@ -20,6 +20,7 @@ public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
   private final boolean enablePolyGerrit;
+  private final boolean enablePolyGWT;
   private final boolean forcePolyGerritDev;
 
   public GerritOptions(Config cfg, boolean headless, boolean slave,
@@ -28,11 +29,12 @@ public class GerritOptions {
     this.slave = slave;
     this.enablePolyGerrit = forcePolyGerritDev
         || cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
+    this.enablePolyGWT = cfg.getBoolean("gerrit", null, "enablePolyGWT", false);
     this.forcePolyGerritDev = forcePolyGerritDev;
   }
 
   public boolean enableDefaultUi() {
-    return !headless && !enablePolyGerrit;
+    return !headless && !enablePolyGerrit && !enablePolyGWT;
   }
 
   public boolean enableMasterFeatures() {
@@ -41,6 +43,10 @@ public class GerritOptions {
 
   public boolean enablePolyGerrit() {
     return !headless && enablePolyGerrit;
+  }
+
+  public boolean enablePolyGWT() {
+    return enablePolyGWT;
   }
 
   public boolean forcePolyGerritDev() {

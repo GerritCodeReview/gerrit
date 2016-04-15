@@ -27,11 +27,14 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.config.AllUsersName;
@@ -151,6 +154,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = r.getPatchSetId().getParentKey();
     putDraft(user, id, 1, "draft comment");
     publishDrafts(user, id);
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void nullAccountId() throws Exception {
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId = r.getPatchSetId();
+    Change.Id id = psId.getParentKey();
+
+    // Events need to be otherwise identical for the account ID to be compared.
+    ChangeMessage msg1 =
+        insertMessage(psId, user.getId(), TimeUtil.nowTs(), "message 1");
+    insertMessage(psId, null, msg1.getWrittenOn(), "message 2");
+
     checker.rebuildAndCheckChanges(id);
   }
 
@@ -385,6 +402,22 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     } finally {
       atrScope.set(old);
     }
+  }
+
+  private ChangeMessage insertMessage(PatchSet.Id psId, Account.Id author,
+      Timestamp ts, String message) throws Exception {
+    Change.Id id = psId.getParentKey();
+    ChangeMessage msg = new ChangeMessage(
+        new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
+        author, ts, psId);
+    msg.setMessage(message);
+    db.changeMessages().insert(Collections.singleton(msg));
+
+    Change c = db.changes().get(id);
+    c.setLastUpdatedOn(ts);
+    db.changes().update(Collections.singleton(c));
+
+    return msg;
   }
 
   private ReviewDb unwrapDb() {

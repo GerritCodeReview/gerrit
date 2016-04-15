@@ -38,7 +38,7 @@ public class ReviewDbUtil {
       };
 
   private static final Ordering<? extends IntKey<?>> INT_KEY_ORDERING =
-      Ordering.natural().onResultOf(INT_KEY_FUNCTION);
+      Ordering.natural().nullsFirst().onResultOf(INT_KEY_FUNCTION).nullsFirst();
 
   @SuppressWarnings("unchecked")
   public static <K extends IntKey<?>> Ordering<K> intKeyOrdering() {

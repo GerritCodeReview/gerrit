@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_c85d2f26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:39:07Z",
+      "side": 1,
+      "message": "Good point, I had forgotten about that until I reviewed where you modify it later.\n\nLong term, as I noted, it\u0027ll be faster to just check the ref SHA-1 rather than reading the blob contents. But I think for now this is fine.",
+      "parentUuid": "ab4dc25b_91327cd1",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_5f394b23",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
         "patchSetId": 6
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "Doesn\u0027t work because cd.starredBy() returns an Iterable. Not sure if it\u0027s worth to change the API everywhere to Set?",
       "parentUuid": "68f5903c_3f3e870d",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_7f6f6ffd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T15:39:07Z",
+      "side": 1,
+      "message": "Well in that case Iterables.contains.\n\nAnyway I think later I also recommended converting it to Set for independent reasons, it may make sense now.",
+      "parentUuid": "2820f890_55afec5b",
       "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

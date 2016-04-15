@@ -46,6 +46,30 @@
       "revId": "af3adb3e661f5df0461d965fdd4d06f22f52713d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_f5627810",
+        "filename": "lib/BUCK",
+        "patchSetId": 42
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T12:10:59Z",
+      "side": 1,
+      "message": "Well the problem is clear. As pointed out in the commit message:\n\n  Introduces a new dependency on gitiles-servlet in gerrit-server\nto reuse BlameCache.\n\nThe consequence is: starting from this change we would have to adjust the packaging of the gitiles-plugin and stop shipping gitiles-servlet. And of course, gitiles plugin must use the same version of gitiles, as gerrit core.\n\nAnother approach would be to move the blame cache from gitiles-servlet to JGit or its own project.",
+      "parentUuid": "2820f890_356910f6",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 50
+      },
+      "revId": "af3adb3e661f5df0461d965fdd4d06f22f52713d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

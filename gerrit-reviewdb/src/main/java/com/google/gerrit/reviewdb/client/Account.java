@@ -49,10 +49,6 @@ import java.sql.Timestamp;
  * the internal SSH daemon. One record per SSH key uploaded by the user, keys
  * are checked in random order until a match is found.</li>
  *
- * <li>{@link StarredChange}: user has starred the change, tracking
- * notifications of updates on that change, or just book-marking it for faster
- * future reference. One record per starred change.</li>
- *
  * <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side
  * and unified diff</li>
  *

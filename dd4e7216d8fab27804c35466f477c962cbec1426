@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_c8ea8f53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T19:06:48Z",
+      "side": 1,
+      "message": "How about (drum roll please) \"STAR\"",
+      "parentUuid": "2820f890_b572c0ab",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_288ecbf0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1

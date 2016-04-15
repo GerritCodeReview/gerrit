@@ -118,6 +118,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
+  @Deprecated
   private static final String STARREDBY_FIELD = ChangeField.STARREDBY.getName();
 
   static Term idTerm(ChangeData cd) {
@@ -477,6 +478,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  @Deprecated
   private void decodeStarredBy(Document doc, ChangeData cd) {
     IndexableField[] starredBy = doc.getFields(STARREDBY_FIELD);
     Set<Account.Id> accounts =

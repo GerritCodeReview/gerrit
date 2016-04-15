@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_91327cd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:19:36Z",
+      "side": 1,
+      "message": "The ETag computation already includes whether the user has starred the change or not. Isn\u0027t this sufficient?",
+      "parentUuid": "8b2d5e79_a8af1b5b",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_5f394b23",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
         "patchSetId": 6
@@ -55,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_d13c04a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:19:36Z",
+      "side": 1,
+      "message": "Nice idea. Done.",
+      "parentUuid": "8b2d5e79_c8860fda",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_7f340f2f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 6
@@ -72,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_b13780c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:19:36Z",
+      "side": 1,
+      "message": "Done by predecessor change.",
+      "parentUuid": "68f5903c_7f340f2f",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_3f3e870d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByPredicate.java",
         "patchSetId": 6
@@ -83,6 +137,24 @@
       "writtenOn": "2016-04-15T14:47:29Z",
       "side": 1,
       "message": "aka cd.starredBy().contains(accountId)",
+      "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_55afec5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:19:36Z",
+      "side": 1,
+      "message": "Doesn\u0027t work because cd.starredBy() returns an Iterable. Not sure if it\u0027s worth to change the API everywhere to Set?",
+      "parentUuid": "68f5903c_3f3e870d",
       "revId": "482c232d06c3c50e031bcb0e48a4664d46f621b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

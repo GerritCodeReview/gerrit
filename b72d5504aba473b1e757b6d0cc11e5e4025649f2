@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_bff5f76e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T18:59:29Z",
+      "side": 1,
+      "message": "I will remove the API extension stuff in next PS and push it as a separate change.",
+      "parentUuid": "2820f890_75e2e8ee",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_91aa7c4c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-15T06:59:52Z",
       "side": 1,
       "message": "Assert is missing.",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_ff625f10",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T18:59:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab4dc25b_91aa7c4c",
       "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_e85d931c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ReviewerApiImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T18:59:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2820f890_d5c9bc77",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2820f890_7590a86e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 13
@@ -110,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_3f69e7f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T18:59:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2820f890_7590a86e",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 71
+      },
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2820f890_5595ac5c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 13
@@ -121,6 +199,30 @@
       "writtenOn": "2016-04-15T05:06:05Z",
       "side": 1,
       "message": "As is, this condition is awlays false.",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 183,
+        "endChar": 7
+      },
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_1f6e23fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-04-15T18:59:29Z",
+      "side": 1,
+      "message": "sorry about that, it\u0027s fixed now",
+      "parentUuid": "2820f890_5595ac5c",
       "range": {
         "startLine": 181,
         "startChar": 6,

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460703248 +0200\nnonce AB8gjyWuIpCX3g8MgBK/FbrEKkIezgbRE0XYx/syvps7/JCYPzAzc1t7/TKaIe7cPuHGLQyzB748\n\n0000000000000000000000000000000000000000 a04b076aab64d3cc4b5d7c68cb0da8c58d804aa5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXEJAQAAoJEFG1/Zeg0O9RPVEH/1BsQDzB/RP1sTYXjneDBOx1\nHKyNgKti9xX8HjnJjN5I7n49ODQJXMgBirRi/jOE13QxRYHdEBOqy9iqqUmSEyxN\nsaLE4wyxDl9gtYmvj8PuPu2nj9yjwphdITmCkJiS/ELNLOXwMXq9IgtfLudVmw7h\nIgENWcmACA6/PI5A/y+00QfB5LtGS1cyGZQ1eQjzlNkgeLcU0Ge3dNyqSfVPCbfl\n4iji61kdewbt7sqVy7xI8gdIxU0D0PHCpovlGQl3BSbYzqRtxmvy7fIT+J05821J\nOonzFRKe3ZX2KgA5dE4AdOBSRYLYJS01nAd/TLxP21j5C2zcEI3d488CtAPpD5A\u003d\n\u003d3Typ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f5903c_dfc9db77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T06:58:57Z",
+      "side": 1,
+      "message": "Maybe in a follow-up change these can also be changed to use the new constructor.",
+      "revId": "ce61b90a46f39731398413183adec364942b1082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2820f890_b5a7607f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_c8b44fae",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_9f4eb3b4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2016-04-15T15:00:57Z",
       "side": 1,
       "message": "Nit: logger before any other fields.",
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_5131f4c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_9f4eb3b4",
       "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +131,54 @@
     },
     {
       "key": {
+        "uuid": "2820f890_95a4647b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:54:31Z",
+      "side": 1,
+      "message": "The refs/starred-changes namespace is exclusively managed by Gerrit. So relying on Linus line endings here should be OK.\n\nThe authorized_keys file is in the user branch, hence the user might modify it. This is why I consider supporting Windows line endings there as well, but I\u0027m also fine with removing this support there.",
+      "parentUuid": "8b2d5e79_089f472c",
+      "range": {
+        "startLine": 293,
+        "startChar": 23,
+        "endLine": 293,
+        "endChar": 27
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_55d80cf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:54:31Z",
+      "side": 1,
+      "message": "This is a good reminder. I was thinking about limiting the allowed characters for a label, but then I forgot about it. I should ass a check for this somewhere later in this series.\n\nI could imagine to have \u0027,\u0027 in a label name, but I would forbid whitespace.\n\nDone.",
+      "parentUuid": "8b2d5e79_289c0b35",
+      "range": {
+        "startLine": 293,
+        "startChar": 16,
+        "endLine": 293,
+        "endChar": 22
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_48a93f52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -100,6 +190,24 @@
       "writtenOn": "2016-04-15T14:56:51Z",
       "side": 1,
       "message": "I thought the point of listing all the cases was so we wouldn\u0027t ever write default. Forcing us to reconsider all switch statements any time a new enum value is added.",
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_91599c0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T15:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_48a93f52",
       "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

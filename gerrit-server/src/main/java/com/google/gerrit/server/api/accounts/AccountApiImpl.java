@@ -19,10 +19,12 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -42,6 +44,7 @@ import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
 import com.google.gerrit.server.account.StarredChanges;
+import com.google.gerrit.server.account.Stars;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
@@ -54,6 +57,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -72,6 +76,9 @@ public class AccountApiImpl implements AccountApi {
   private final SetEditPreferences setEditPreferences;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
+  private final Stars stars;
+  private final Stars.Get starsGet;
+  private final Stars.Post starsPost;
   private final CreateEmail.Factory createEmailFactory;
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
@@ -89,6 +96,9 @@ public class AccountApiImpl implements AccountApi {
       SetEditPreferences setEditPreferences,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
+      Stars stars,
+      Stars.Get starsGet,
+      Stars.Post starsPost,
       CreateEmail.Factory createEmailFactory,
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
@@ -106,6 +116,9 @@ public class AccountApiImpl implements AccountApi {
     this.setEditPreferences = setEditPreferences;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
+    this.stars = stars;
+    this.starsGet = starsGet;
+    this.starsPost = starsPost;
     this.createEmailFactory = createEmailFactory;
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
@@ -186,11 +199,11 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void starChange(String id) throws RestApiException {
+  public void starChange(String changeId) throws RestApiException {
     try {
       ChangeResource rsrc = changes.parse(
         TopLevelResource.INSTANCE,
-        IdString.fromUrl(id));
+        IdString.fromUrl(changeId));
       starredChangesCreate.setChange(rsrc);
       starredChangesCreate.apply(account, new StarredChanges.EmptyInput());
     } catch (OrmException | IOException e) {
@@ -199,16 +212,48 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void unstarChange(String id) throws RestApiException {
+  public void unstarChange(String changeId) throws RestApiException {
     try {
       ChangeResource rsrc =
-          changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(id));
+          changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
       AccountResource.StarredChange starredChange =
           new AccountResource.StarredChange(account.getUser(), rsrc);
       starredChangesDelete.apply(starredChange,
           new StarredChanges.EmptyInput());
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot unstar change", e);
+    }
+  }
+
+  @Override
+  public void setStars(String changeId, StarsInput input)
+      throws RestApiException {
+    try {
+      AccountResource.Star rsrc =
+          stars.parse(account, IdString.fromUrl(changeId));
+      starsPost.apply(rsrc, input);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot post stars", e);
+    }
+  }
+
+  @Override
+  public SortedSet<String> getStars(String changeId) throws RestApiException {
+    try {
+      AccountResource.Star rsrc =
+          stars.parse(account, IdString.fromUrl(changeId));
+      return starsGet.apply(rsrc);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get stars", e);
+    }
+  }
+
+  @Override
+  public List<ChangeInfo> getStarredChanges() throws RestApiException {
+    try {
+      return stars.list().apply(account);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get starred changes", e);
     }
   }
 

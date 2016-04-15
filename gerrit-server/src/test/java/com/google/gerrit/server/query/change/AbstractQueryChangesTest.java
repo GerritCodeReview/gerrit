@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -55,6 +56,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -94,6 +96,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1187,6 +1190,35 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("starredby:self", change2, change1);
     assertQuery("starredby:" + user2);
+  }
+
+  @Test
+  public void byStar() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
+    insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
+
+    gApi.accounts()
+        .self()
+        .setStars(change1.getId().toString(),
+            new StarsInput(new HashSet<>(Arrays.asList("red", "blue"))));
+    gApi.accounts()
+        .self()
+        .setStars(change2.getId().toString(),
+            new StarsInput(new HashSet<>(Arrays.asList(
+                StarredChangesUtil.DEFAULT_LABEL, "green", "blue"))));
+
+    // check labeled stars
+    assertQuery("star:red", change1);
+    assertQuery("star:blue", change2, change1);
+    assertQuery("has:stars", change2, change1);
+
+    // check default star
+    assertQuery("has:star", change2);
+    assertQuery("is:starred", change2);
+    assertQuery("starredby:self", change2);
+    assertQuery("star:" + StarredChangesUtil.DEFAULT_LABEL, change2);
   }
 
   @Test

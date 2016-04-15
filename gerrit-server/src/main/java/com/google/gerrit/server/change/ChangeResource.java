@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -25,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -51,10 +54,13 @@ public class ChangeResource implements RestResource, HasETag {
     ChangeResource create(ChangeControl ctl);
   }
 
+  private final StarredChangesUtil starredChangesUtil;
   private final ChangeControl control;
 
   @AssistedInject
-  ChangeResource(@Assisted ChangeControl control) {
+  ChangeResource(StarredChangesUtil starredChangesUtil,
+      @Assisted ChangeControl control) {
+    this.starredChangesUtil = starredChangesUtil;
     this.control = control;
   }
 
@@ -115,8 +121,10 @@ public class ChangeResource implements RestResource, HasETag {
   @Override
   public String getETag() {
     CurrentUser user = control.getUser();
-    Hasher h = Hashing.md5().newHasher()
-        .putBoolean(user.getStarredChanges().contains(getId()));
+    Hasher h = Hashing.md5().newHasher();
+    h.putString(
+        starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(),
+        UTF_8);
     prepareETag(h, user);
     return h.hash().toString();
   }

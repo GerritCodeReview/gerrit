@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "2820f890_75e2e8ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T06:59:52Z",
+      "side": 1,
+      "message": "The commit message doesn\u0027t mention that the API was extended.",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_91aa7c4c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T06:59:52Z",
+      "side": 1,
+      "message": "Assert is missing.",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_55beccd6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T06:59:52Z",
+      "side": 1,
+      "message": "All these tests are not related to this change and in fact they would succeed even without this change. Move them in its own change together with the API extension.",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_35b3500f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T06:59:52Z",
+      "side": 1,
+      "message": "This reviewer API extension is not related to this change: firing a hook and sending mail. Yes, it\u0027s used by this change in removeReviewer unit test. Move it in its own change. Also you may consider to use the new API in SSH command SetReviewersCommand like you did in the unit test: removeReviewer.\n\nYes, I did something similar in DeleteVote change: added the delete vote feature and the API in the same change. But the difference here, is that the DeleteReviewer REST endpoint already exists.",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_d5c9bc77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ReviewerApiImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T06:59:52Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2820f890_7590a86e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 13

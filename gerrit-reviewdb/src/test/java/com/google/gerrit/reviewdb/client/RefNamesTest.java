@@ -50,14 +50,14 @@ public class RefNamesTest {
 
   @Test
   public void refsStarredChanges() throws Exception {
-    assertThat(RefNames.refsStarredChanges(accountId, changeId))
-      .isEqualTo("refs/starred-changes/23/1011123/67473");
+    assertThat(RefNames.refsStarredChanges(changeId, accountId))
+      .isEqualTo("refs/starred-changes/73/67473/1011123");
   }
 
   @Test
   public void refsStarredChangesPrefix() throws Exception {
-    assertThat(RefNames.refsStarredChangesPrefix(accountId))
-      .isEqualTo("refs/starred-changes/23/1011123/");
+    assertThat(RefNames.refsStarredChangesPrefix(changeId))
+      .isEqualTo("refs/starred-changes/73/67473/");
   }
 
   @Test

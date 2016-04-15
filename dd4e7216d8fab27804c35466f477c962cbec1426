@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_f578388f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T17:53:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_ff301f30",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_df2d5bd8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-15T15:17:38Z",
       "side": 1,
       "message": "Just call this toString",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_d5753c97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T17:53:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_df2d5bd8",
       "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_11804c73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T17:53:40Z",
+      "side": 1,
+      "message": "This was done as preparation for a later change, will move it there.\n\nDone",
+      "parentUuid": "68f5903c_bf2a97bc",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_0891070e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_b572c0ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T17:53:40Z",
+      "side": 1,
+      "message": "Included the format into the javadoc.\n\nIf you have a better name, let me know :-)",
+      "parentUuid": "8b2d5e79_0891070e",
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_288ecbf0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -81,6 +153,30 @@
       "writtenOn": "2016-04-15T15:15:27Z",
       "side": 1,
       "message": "Maybe just \"stars\"? The fact that the key type is Account.Id I think is sufficient to show that it is \"by\" user.\n\n(This argument does not apply when the result is just an Iterable\u003cAccount.Id\u003e.)",
+      "range": {
+        "startLine": 1036,
+        "startChar": 47,
+        "endLine": 1036,
+        "endChar": 54
+      },
+      "revId": "dd4e7216d8fab27804c35466f477c962cbec1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_317d503e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-15T17:53:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_288ecbf0",
       "range": {
         "startLine": 1036,
         "startChar": 47,

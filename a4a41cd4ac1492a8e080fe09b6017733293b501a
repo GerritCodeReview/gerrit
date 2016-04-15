@@ -22,6 +22,23 @@
       "revId": "a4a41cd4ac1492a8e080fe09b6017733293b501a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_883257d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T21:02:13Z",
+      "side": 1,
+      "message": "If you want this instance to share an OpenRepo with this particular MergeOp, here is where you need to pass something in (Repository, OpenRepo, this, whatever)",
+      "revId": "a4a41cd4ac1492a8e080fe09b6017733293b501a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

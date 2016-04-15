@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_d1f96466",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T05:06:05Z",
+      "side": 1,
+      "message": "Sending a mail to reviewer on `add-reviewer` event is necessary. How the reviewer would be notified otherwise.",
+      "parentUuid": "68f5903c_bfadf7af",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "886c427801e023015b3f7d95b024964f11f6ec3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb55eae_88521757",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 12

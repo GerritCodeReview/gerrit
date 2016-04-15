@@ -21,10 +21,12 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -341,6 +343,7 @@ public class ChangeData {
   private Set<Account.Id> reviewedBy;
   private Set<Account.Id> draftsByUser;
   private Iterable<Account.Id> starredByUser;
+  private ImmutableMultimap<Account.Id, String> starsByUser;
   private PersonIdent author;
   private PersonIdent committer;
 
@@ -1028,6 +1031,17 @@ public class ChangeData {
 
   public void setStarredBy(Iterable<Account.Id> starredByUser) {
     this.starredByUser = starredByUser;
+  }
+
+  public ImmutableMultimap<Account.Id, String> starsBy() throws OrmException {
+    if (starsByUser == null) {
+      starsByUser = starredChangesUtil.byChange(legacyId);
+    }
+    return starsByUser;
+  }
+
+  public void setStarsBy(Multimap<Account.Id, String> starsByUser) {
+    this.starsByUser = ImmutableMultimap.copyOf(starsByUser);
   }
 
   @AutoValue

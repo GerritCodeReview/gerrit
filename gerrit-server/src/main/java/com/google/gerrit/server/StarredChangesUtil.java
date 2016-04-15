@@ -69,6 +69,36 @@ import java.util.TreeSet;
 
 @Singleton
 public class StarredChangesUtil {
+  public static class StarField {
+    private static final String SEPARATOR = ":";
+
+    public final Account.Id accountId;
+    public final String label;
+
+    public static StarField parse(String s) {
+      int p = s.indexOf(SEPARATOR);
+      if (p >= 0) {
+        try {
+          Account.Id accountId = Account.Id.parse(s.substring(0, p));
+          String label = s.substring(p + 1);
+          return new StarField(accountId, label);
+        } catch (NumberFormatException e) {
+          return null;
+        }
+      }
+      return null;
+    }
+
+    public StarField(Account.Id accountId, String label) {
+      this.accountId = accountId;
+      this.label = label;
+    }
+
+    public String serialize() {
+      return accountId + SEPARATOR + label;
+    }
+  }
+
   public static final String DEFAULT_LABEL = "default";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
       ImmutableSortedSet.copyOf(Collections.singleton(DEFAULT_LABEL));

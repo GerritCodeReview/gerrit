@@ -422,6 +422,9 @@ public class ChangeJson {
       out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL)
           ? true
           : null;
+      if (!stars.isEmpty()) {
+        out.stars = stars;
+      }
     }
 
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {

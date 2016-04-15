@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2820f890_7590a86e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T05:06:05Z",
+      "side": 1,
+      "message": "The instance should only be created when votes were removed and msg.length() \u003e 0. So move it again as it was in base version i nthe if below.",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 71
+      },
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_5595ac5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T05:06:05Z",
+      "side": 1,
+      "message": "As is, this condition is awlays false.",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 183,
+        "endChar": 7
+      },
+      "revId": "b72d5504aba473b1e757b6d0cc11e5e4025649f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

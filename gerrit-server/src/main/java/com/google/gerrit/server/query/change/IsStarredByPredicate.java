@@ -19,6 +19,7 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
+@Deprecated
 class IsStarredByPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id accountId;
 

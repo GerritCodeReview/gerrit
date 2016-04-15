@@ -579,6 +579,7 @@ public class ChangeField {
       };
 
   /** Users who have starred this change. */
+  @Deprecated
   public static final FieldDef<ChangeData, Iterable<Integer>> STARREDBY =
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_STARREDBY, FieldType.INTEGER, true) {

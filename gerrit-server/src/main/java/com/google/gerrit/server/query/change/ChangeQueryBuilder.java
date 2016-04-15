@@ -138,6 +138,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_REVIEWEDBY = "reviewedby";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
+  public static final String FIELD_STARBY = "starby";
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_TOPIC = "topic";

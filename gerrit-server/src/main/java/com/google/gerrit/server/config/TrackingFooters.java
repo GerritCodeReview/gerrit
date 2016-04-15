@@ -39,6 +39,10 @@ public class TrackingFooters {
 
   public Multimap<String, String> extract(List<FooterLine> lines) {
     Multimap<String, String> r = ArrayListMultimap.create();
+    if (lines == null) {
+      return r;
+    }
+
     for (FooterLine footer : lines) {
       for (TrackingFooter config : trackingFooters) {
         if (footer.matches(config.footerKey())) {

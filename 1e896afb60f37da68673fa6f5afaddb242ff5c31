@@ -280,6 +280,24 @@
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_285fab4b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/AuthorizedKeysTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-15T00:51:26Z",
+      "side": 1,
+      "message": "I\u0027d rather not drop that support.  We (unfortunately) do have users who run git on Windows :(",
+      "parentUuid": "8b2d5e79_886df706",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460722555 +0200\nnonce AB8gjyVlGiZYxl/kSMjr1b4zCUni+Qhh2BUjqoka2YxB6iZ7/uRPAQ7qIdiYW2A0TEcZb7z30fAj\n\n0000000000000000000000000000000000000000 1e954bb5464e84539ee0e637d9009737aad73858 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXENt7AAoJEFG1/Zeg0O9RXykIAKOOePp1lm7f1GQstuW6pnHv\n1cSCWhE6/7rkcwi167GLVGRcQIvPro7rP4cwvUd1xo2LLRQLFATIo+WdOXvMFLWw\nvdPwAV+kDYnJ4WAHDseUH4ZDBRyFoH97WYh9465eNqm5oLNDRUdrGo+jc1wZ+uF4\nqosyVyi+/rQaRuww0+sqgbaKVeoAkXue5sFlNegHBXNrQCtv6/sjm3Khzb7wNHty\nBd8LJ5ugxLtvg0fkixXcLgfNMeu88WG7zT3hKPTmxCtQKy1kjDKvtFf11XVCWOC1\nRN1SxVP2Pkn0BSrYFgCzMKJV+7oKcUGutYcsDn2+bQ60+Bdvrr0OmI3Xq/f14LY\u003d\n\u003dAWaf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_c8b44fae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:56:51Z",
+      "side": 1,
+      "message": "\"star\" perhaps?",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_289c0b35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:56:51Z",
+      "side": 1,
+      "message": "Relate to the \\r\\n question, what about something considerably more lenient in parsing, like Splitter.on(CharMatcher.whitespace().or(CharMatcher.is(\u0027,\u0027)).omitEmptyStrings()?\n\nOr do we explicitly want to support labels containing arbitrary non-newline characters?",
+      "range": {
+        "startLine": 293,
+        "startChar": 16,
+        "endLine": 293,
+        "endChar": 22
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_089f472c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:56:51Z",
+      "side": 1,
+      "message": "This is not what you did in authorized_keys, where you allow \\r\\n.\n\nI think we need to come up with a common rule for NoteDb text formats and use it consistently.",
+      "range": {
+        "startLine": 293,
+        "startChar": 23,
+        "endLine": 293,
+        "endChar": 27
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_48a93f52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T14:56:51Z",
+      "side": 1,
+      "message": "I thought the point of listing all the cases was so we wouldn\u0027t ever write default. Forcing us to reconsider all switch statements any time a new enum value is added.",
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

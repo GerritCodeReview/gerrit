@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460738471 +0200\nnonce AB8gjyXaEX4spGwz01V++2SsuPMGfEGuhrrcb8SEmbbMEnFqv0kz6aiu8ov935DMF/JNw2hW1H75\n\n0000000000000000000000000000000000000000 68a99ccbe383d227dbf409c9fc389b1c076e704a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXERmnAAoJEFG1/Zeg0O9RldAH/1YnN53MIg776OzD/MpGZWX0\nQdbwWFeIIQw6KcCDG4r01a9zc+nMfS4Ng7etNpZ6faXWkw7yyLQnP9aahMsCcbM6\neQHrJTbmwyU7/M4sy8AJ0JdVZ6r+bdBoUCIZP4nr1cog94e4hohiVu1a/o86yIJ9\no6cA0lRtPZyUEhlgyzIv+bYu7FLLgpeq7zoDLH0XnufLOUy6/v8XBwPRIed7s1zz\nVASB5K2W1HTiVxeCpLCTAAcssDF3AVXSAqvLLRYr7lPx8o2ezMh/y6bu8hpyl8If\nF2wOwItRc5r7nYs6RVtofIWeqyyCNaN3h3fnKd5kbDcPfk2osu/E7ZqsXhbtxhE\u003d\n\u003dDGXe\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_c82fef81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T18:56:26Z",
+      "side": 1,
+      "message": "You don\u0027t need to request this field, since you\u0027re not reading it back from the ChangeDatas. (You can search by a field without reading back the stored value.)",
+      "revId": "83926f5ed0c392ea523ebe354b7451183ba2197f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

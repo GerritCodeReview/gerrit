@@ -301,6 +301,18 @@ public class StarredChangesUtil {
     return refDb.getRefs(prefix).keySet();
   }
 
+  public ObjectId getObjectId(Account.Id accountId, Change.Id changeId) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return getObjectId(repo,
+          RefNames.refsStarredChanges(changeId, accountId));
+    } catch (IOException e) {
+      log.error(String.format(
+          "Getting star object ID for account %d on change %d failed",
+          accountId.get(), changeId.get()), e);
+      return ObjectId.zeroId();
+    }
+  }
+
   private static ObjectId getObjectId(Repository repo, String refName)
       throws IOException {
     Ref ref = repo.exactRef(refName);

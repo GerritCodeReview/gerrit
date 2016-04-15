@@ -94,6 +94,30 @@
       "revId": "af3adb3e661f5df0461d965fdd4d06f22f52713d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_11f5ac2d",
+        "filename": "lib/BUCK",
+        "patchSetId": 42
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-15T12:49:32Z",
+      "side": 1,
+      "message": "\u003e The consequence is: starting from this change we would have to\n \u003e adjust the packaging of the gitiles-plugin and stop shipping\n \u003e gitiles-servlet. And of course, gitiles plugin must use the same\n \u003e version of gitiles, as gerrit core.\n\nThat would make updating gitiles(+ gitiles-plugin) quite hard as one always needs to rebuild a matching gerrit core.\n \n \u003e Another approach would be to move the blame cache from\n \u003e gitiles-servlet to JGit or its own project.\n\nSeems preferable to me.",
+      "parentUuid": "2820f890_f5627810",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 50
+      },
+      "revId": "af3adb3e661f5df0461d965fdd4d06f22f52713d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

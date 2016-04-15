@@ -19,8 +19,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
@@ -72,7 +74,7 @@ public class StarredChangesUtil {
   private static final Logger log =
       LoggerFactory.getLogger(StarredChangesUtil.class);
 
-  private static final String DEFAULT_LABEL = "star";
+  public static final String DEFAULT_LABEL = "star";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
       ImmutableSortedSet.of(DEFAULT_LABEL);
 
@@ -98,53 +100,49 @@ public class StarredChangesUtil {
     this.queryProvider = queryProvider;
   }
 
-  public void star(Account.Id accountId, Project.NameKey project,
+  public ImmutableSortedSet<String> getLabels(Account.Id accountId,
       Change.Id changeId) throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      String refName = RefNames.refsStarredChanges(changeId, accountId);
-      ObjectId oldObjectId = getObjectId(repo, refName);
-      SortedSet<String> labels = readLabels(repo, oldObjectId);
-      labels.add(DEFAULT_LABEL);
-      updateLabels(repo, refName, oldObjectId, labels);
-      indexer.index(dbProvider.get(), project, changeId);
+      return ImmutableSortedSet.copyOf(
+          readLabels(repo, RefNames.refsStarredChanges(changeId, accountId)));
     } catch (IOException e) {
       throw new OrmException(
-          String.format("Star change %d for account %d failed",
+          String.format("Reading stars from change %d for account %d failed",
               changeId.get(), accountId.get()), e);
     }
   }
 
-  public void unstar(Account.Id accountId, Project.NameKey project,
-      Change.Id changeId) throws OrmException {
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RefUpdate u = repo.updateRef(
-          RefNames.refsStarredChanges(changeId, accountId));
-      u.setForceUpdate(true);
-      u.setRefLogIdent(serverIdent);
-      u.setRefLogMessage("Unstar change " + changeId.get(), true);
-      RefUpdate.Result result = u.delete();
-      switch (result) {
-        case FORCED:
-          indexer.index(dbProvider.get(), project, changeId);
-          return;
-        case FAST_FORWARD:
-        case IO_FAILURE:
-        case LOCK_FAILURE:
-        case NEW:
-        case NOT_ATTEMPTED:
-        case NO_CHANGE:
-        case REJECTED:
-        case REJECTED_CURRENT_BRANCH:
-        case RENAMED:
-        default:
-          throw new OrmException(
-              String.format("Unstar change %d for account %d failed: %s",
-                  changeId.get(), accountId.get(), result.name()));
+  public boolean isStarred(Account.Id accountId, Change.Id changeId,
+      String label) throws OrmException {
+    return getLabels(accountId, changeId).contains(label);
+  }
+
+  public ImmutableSortedSet<String> star(Account.Id accountId,
+      Project.NameKey project, Change.Id changeId, Set<String> labelsToAdd,
+      Set<String> labelsToRemove) throws OrmException {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      String refName = RefNames.refsStarredChanges(changeId, accountId);
+      ObjectId oldObjectId = getObjectId(repo, refName);
+
+      SortedSet<String> labels = readLabels(repo, oldObjectId);
+      if (labelsToAdd != null) {
+        labels.addAll(labelsToAdd);
       }
+      if (labelsToRemove != null) {
+        labels.removeAll(labelsToRemove);
+      }
+
+      if (labels.isEmpty()) {
+        deleteRef(repo, refName, oldObjectId);
+      } else {
+        updateLabels(repo, refName, oldObjectId, labels);
+      }
+
+      indexer.index(dbProvider.get(), project, changeId);
+      return ImmutableSortedSet.copyOf(labels);
     } catch (IOException e) {
       throw new OrmException(
-          String.format("Unstar change %d for account %d failed",
+          String.format("Star change %d for account %d failed",
               changeId.get(), accountId.get()), e);
     }
   }
@@ -178,16 +176,55 @@ public class StarredChangesUtil {
     }
   }
 
-  public Set<Account.Id> byChange(Change.Id changeId)
+  public ImmutableMultimap<Account.Id, String> byChange(Change.Id changeId)
       throws OrmException {
-    return FluentIterable
-        .from(getRefNames(RefNames.refsStarredChangesPrefix(changeId)))
-        .transform(new Function<String, Account.Id>() {
-          @Override
-          public Account.Id apply(String refPart) {
-            return Account.Id.parse(refPart);
-          }
-        }).toSet();
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      ImmutableMultimap.Builder<Account.Id, String> builder =
+          new ImmutableMultimap.Builder<>();
+      for (String refPart : getRefNames(repo,
+          RefNames.refsStarredChangesPrefix(changeId))) {
+        Account.Id accountId = Account.Id.parse(refPart);
+        builder.putAll(accountId,
+            readLabels(repo, RefNames.refsStarredChanges(changeId, accountId)));
+      }
+      return builder.build();
+    } catch (IOException e) {
+      throw new OrmException(String.format(
+          "Get accounts that starred change %d failed", changeId.get()), e);
+    }
+  }
+
+  public Set<Account.Id> byChange(final Change.Id changeId,
+      final String label) throws OrmException {
+    try (final Repository repo = repoManager.openRepository(allUsers)) {
+      return FluentIterable
+          .from(getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId)))
+          .transform(new Function<String, Account.Id>() {
+            @Override
+            public Account.Id apply(String refPart) {
+              return Account.Id.parse(refPart);
+            }
+          })
+          .filter(new Predicate<Account.Id>() {
+            @Override
+            public boolean apply(Account.Id accountId) {
+              try {
+                return readLabels(repo,
+                    RefNames.refsStarredChanges(changeId, accountId))
+                        .contains(label);
+              } catch (IOException e) {
+                log.error(String.format(
+                    "Cannot query stars by account %d on change %d",
+                    accountId.get(), changeId.get()), e);
+                return false;
+              }
+            }
+          }).toSet();
+    } catch (IOException e) {
+      throw new OrmException(
+          String.format("Get accounts that starred change %d failed",
+              changeId.get()), e);
+    }
   }
 
   public Set<Account.Id> byChangeFromIndex(Change.Id changeId)
@@ -201,6 +238,65 @@ public class StarredChangesUtil {
       throw new NoSuchChangeException(changeId);
     }
     return changeData.get(0).starredBy();
+  }
+
+  public ImmutableMultimap<Change.Id, String> byAccount(Account.Id accountId)
+      throws OrmException {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      ImmutableMultimap.Builder<Change.Id, String> builder =
+          new ImmutableMultimap.Builder<>();
+      for (String refPart : getRefNames(repo, RefNames.REFS_STARRED_CHANGES)) {
+        if (refPart.endsWith("/" + accountId.get())) {
+          Change.Id changeId = Change.Id.fromRefPart(refPart);
+          builder.putAll(changeId, readLabels(repo,
+              RefNames.refsStarredChanges(changeId, accountId)));
+        }
+      }
+      return builder.build();
+    } catch (IOException e) {
+      throw new OrmException(
+          String.format("Get changes that were starred by %d failed",
+              accountId.get()), e);
+    }
+  }
+
+  public Set<Change.Id> byAccount(final Account.Id accountId,
+      final String label) throws OrmException {
+    try (final Repository repo = repoManager.openRepository(allUsers)) {
+      return FluentIterable
+          .from(getRefNames(repo, RefNames.REFS_STARRED_CHANGES))
+          .filter(new Predicate<String>() {
+            @Override
+            public boolean apply(String refPart) {
+              return refPart.endsWith("/" + accountId.get());
+            }
+          })
+          .transform(new Function<String, Change.Id>() {
+            @Override
+            public Change.Id apply(String refPart) {
+              return Change.Id.fromRefPart(refPart);
+            }
+          })
+          .filter(new Predicate<Change.Id>() {
+            @Override
+            public boolean apply(Change.Id changeId) {
+              try {
+                return readLabels(repo,
+                    RefNames.refsStarredChanges(changeId, accountId))
+                        .contains(label);
+              } catch (IOException e) {
+                log.error(String.format(
+                    "Cannot query stars by account %d on change %d",
+                    accountId.get(), changeId.get()), e);
+                return false;
+              }
+            }
+          }).toSet();
+    } catch (IOException e) {
+      throw new OrmException(
+          String.format("Get changes that were starred by %d failed",
+              accountId.get()), e);
+    }
   }
 
   public ResultSet<Change.Id> queryFromIndex(final Account.Id accountId) {
@@ -226,19 +322,21 @@ public class StarredChangesUtil {
     }
   }
 
-  private Set<String> getRefNames(String prefix) throws OrmException {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      RefDatabase refDb = repo.getRefDatabase();
-      return refDb.getRefs(prefix).keySet();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+  private static Set<String> getRefNames(Repository repo, String prefix)
+      throws IOException {
+    RefDatabase refDb = repo.getRefDatabase();
+    return refDb.getRefs(prefix).keySet();
   }
 
   private static ObjectId getObjectId(Repository repo, String refName)
       throws IOException {
     Ref ref = repo.exactRef(refName);
     return ref != null ? ref.getObjectId() : ObjectId.zeroId();
+  }
+
+  private static SortedSet<String> readLabels(Repository repo, String refName)
+      throws IOException {
+    return readLabels(repo, getObjectId(repo, refName));
   }
 
   private static TreeSet<String> readLabels(Repository repo, ObjectId id)
@@ -294,6 +392,31 @@ public class StarredChangesUtil {
               String.format("Update star labels on ref %s failed: %s", refName,
                   result.name()));
       }
+    }
+  }
+
+  private void deleteRef(Repository repo, String refName, ObjectId oldObjectId)
+      throws IOException, OrmException {
+    RefUpdate u = repo.updateRef(refName);
+    u.setForceUpdate(true);
+    u.setExpectedOldObjectId(oldObjectId);
+    u.setRefLogIdent(serverIdent);
+    u.setRefLogMessage("Unstar change", true);
+    RefUpdate.Result result = u.delete();
+    switch (result) {
+      case FORCED:
+        return;
+      case NEW:
+      case NO_CHANGE:
+      case FAST_FORWARD:
+      case IO_FAILURE:
+      case LOCK_FAILURE:
+      case NOT_ATTEMPTED:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case RENAMED:
+        throw new OrmException(String.format("Delete star ref %s failed: %s",
+            refName, result.name()));
     }
   }
 }

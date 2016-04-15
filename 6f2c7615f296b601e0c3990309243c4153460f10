@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_48ff7f0d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-15T19:41:04Z",
+      "side": 1,
+      "message": "I find this name confusing. Maybe something like \"enableUiSwitch\"?",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "6f2c7615f296b601e0c3990309243c4153460f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -62,7 +62,7 @@ class UrlModule extends ServletModule {
     filter("/*").through(Key.get(CacheControlFilter.class));
     bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
 
-    if (options.enableDefaultUi()) {
+    if (options.enableGwtUi()) {
       filter("/").through(XsrfCookieFilter.class);
       serve("/").with(HostPageServlet.class);
       serve("/Gerrit").with(LegacyGerritServlet.class);

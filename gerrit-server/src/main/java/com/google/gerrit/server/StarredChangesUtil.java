@@ -21,16 +21,13 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -45,7 +42,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -64,7 +60,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -73,6 +68,8 @@ import java.util.TreeSet;
 @Singleton
 public class StarredChangesUtil {
   private static final String DEFAULT_LABEL = "default";
+  public static final ImmutableSortedSet<String> DEFAULT_LABELS =
+      ImmutableSortedSet.copyOf(Collections.singleton(DEFAULT_LABEL));
 
   private static final Logger log =
       LoggerFactory.getLogger(StarredChangesUtil.class);
@@ -83,7 +80,6 @@ public class StarredChangesUtil {
   private final PersonIdent serverIdent;
   private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final boolean readFromGit;
 
   @Inject
   StarredChangesUtil(GitRepositoryManager repoManager,
@@ -91,24 +87,17 @@ public class StarredChangesUtil {
       Provider<ReviewDb> dbProvider,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeIndexer indexer,
-      Provider<InternalChangeQuery> queryProvider,
-      @GerritServerConfig Config cfg) {
+      Provider<InternalChangeQuery> queryProvider) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.dbProvider = dbProvider;
     this.serverIdent = serverIdent;
     this.indexer = indexer;
     this.queryProvider = queryProvider;
-    this.readFromGit =
-        cfg.getBoolean("user", null, "readStarredChangesFromGit", false);
   }
 
   public void star(Account.Id accountId, Project.NameKey project,
       Change.Id changeId) throws OrmException {
-    dbProvider.get().starredChanges()
-        .insert(Collections.singleton(new StarredChange(
-            new StarredChange.Key(accountId, changeId))));
-
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(accountId, changeId);
       ObjectId oldObjectId = getObjectId(repo, refName);
@@ -125,10 +114,6 @@ public class StarredChangesUtil {
 
   public void unstar(Account.Id accountId, Project.NameKey project,
       Change.Id changeId) throws OrmException {
-    dbProvider.get().starredChanges()
-        .delete(Collections.singleton(new StarredChange(
-            new StarredChange.Key(accountId, changeId))));
-
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(
@@ -164,9 +149,6 @@ public class StarredChangesUtil {
 
   public void unstarAll(Project.NameKey project, Change.Id changeId)
       throws OrmException, NoSuchChangeException {
-    dbProvider.get().starredChanges().delete(
-        dbProvider.get().starredChanges().byChange(changeId));
-
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
@@ -196,16 +178,6 @@ public class StarredChangesUtil {
 
   public Iterable<Account.Id> byChange(final Change.Id changeId)
       throws OrmException {
-    if (!readFromGit) {
-      return FluentIterable
-          .from(dbProvider.get().starredChanges().byChange(changeId))
-          .transform(new Function<StarredChange, Account.Id>() {
-            @Override
-            public Account.Id apply(StarredChange in) {
-              return in.getAccountId();
-            }
-          });
-    }
     return FluentIterable.from(getRefNames(RefNames.REFS_STARRED_CHANGES))
         .filter(new Predicate<String>() {
           @Override
@@ -236,11 +208,6 @@ public class StarredChangesUtil {
 
   public ResultSet<Change.Id> query(Account.Id accountId) {
     try {
-      if (!readFromGit) {
-        return new ChangeIdResultSet(
-            dbProvider.get().starredChanges().byAccount(accountId));
-      }
-
       return new ListResultSet<>(FluentIterable
           .from(getRefNames(RefNames.refsStarredChangesPrefix(accountId)))
           .transform(new Function<String, Change.Id>() {
@@ -326,40 +293,6 @@ public class StarredChangesUtil {
               String.format("Update star labels on ref %s failed: %s", refName,
                   result.name()));
       }
-    }
-  }
-
-  private static class ChangeIdResultSet implements ResultSet<Change.Id> {
-    private static final Function<StarredChange, Change.Id>
-        STARRED_CHANGE_TO_CHANGE_ID =
-            new Function<StarredChange, Change.Id>() {
-              @Override
-              public Change.Id apply(StarredChange starredChange) {
-                return starredChange.getChangeId();
-              }
-            };
-
-    private final ResultSet<StarredChange> starredChangesResultSet;
-
-    ChangeIdResultSet(ResultSet<StarredChange> starredChangesResultSet) {
-      this.starredChangesResultSet = starredChangesResultSet;
-    }
-
-    @Override
-    public Iterator<Change.Id> iterator() {
-      return Iterators.transform(starredChangesResultSet.iterator(),
-          STARRED_CHANGE_TO_CHANGE_ID);
-    }
-
-    @Override
-    public List<Change.Id> toList() {
-      return Lists.transform(starredChangesResultSet.toList(),
-          STARRED_CHANGE_TO_CHANGE_ID);
-    }
-
-    @Override
-    public void close() {
-      starredChangesResultSet.close();
     }
   }
 }

@@ -15,6 +15,8 @@
 package com.google.gerrit.server;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -54,6 +56,11 @@ public class InternalUser extends CurrentUser {
   @Override
   public Set<Change.Id> getStarredChanges() {
     return Collections.emptySet();
+  }
+
+  @Override
+  public Multimap<Change.Id, String> getStars() {
+    return ImmutableMultimap.of();
   }
 
   @Override

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -108,8 +110,10 @@ public class ChangeResource implements RestResource, HasETag {
   @Override
   public String getETag() {
     CurrentUser user = control.getUser();
-    Hasher h = Hashing.md5().newHasher()
-        .putBoolean(user.getStarredChanges().contains(getId()));
+    Hasher h = Hashing.md5().newHasher();
+    for (String starLabel : user.getStars().get(getId())) {
+      h.putString(starLabel, UTF_8);
+    }
     prepareETag(h, user);
     return h.hash().toString();
   }

@@ -327,6 +327,7 @@ public class StarredChangesUtil {
     }
   }
 
+  @Deprecated
   public ResultSet<Change.Id> query(Account.Id accountId) {
     try {
       return new ListResultSet<>(

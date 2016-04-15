@@ -15,7 +15,9 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -218,6 +220,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
+  private Multimap<Change.Id, String> stars;
   private ResultSet<Change.Id> starredQuery;
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
@@ -347,6 +350,24 @@ public class IdentifiedUser extends CurrentUser {
     return starredChanges;
   }
 
+  @Override
+  public Multimap<Change.Id, String> getStars() {
+    if (stars == null) {
+      if (starredChangesUtil == null) {
+        throw new IllegalStateException("StarredChangesUtil is missing");
+      }
+      try {
+        stars = starredChangesUtil.byAccount(accountId);
+      } catch (OrmException e) {
+        log.error(String.format("Cannot query starred changes for account %d",
+            accountId.get()), e);
+        stars = ImmutableMultimap.of();
+      }
+    }
+    return stars;
+  }
+
+  @Deprecated
   public void clearStarredChanges() {
     // Async query may have started before an update that the caller expects
     // to see the results of, so we can't trust it.
@@ -354,12 +375,14 @@ public class IdentifiedUser extends CurrentUser {
     starredChanges = null;
   }
 
+  @Deprecated
   public void asyncStarredChanges() {
     if (starredChanges == null && starredChangesUtil != null) {
       starredQuery = starredChangesUtil.query(accountId);
     }
   }
 
+  @Deprecated
   public void abortStarredChanges() {
     if (starredQuery != null) {
       try {

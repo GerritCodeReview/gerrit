@@ -67,17 +67,12 @@ public class StarredChanges implements
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
-    try {
-      user.asyncStarredChanges();
-
-      ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-      if (user.getStarredChanges().contains(change.getId())) {
-        return new AccountResource.StarredChange(user, change);
-      }
-      throw new ResourceNotFoundException(id);
-    } finally {
-      user.abortStarredChanges();
+    ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
+    if (user.getStars().get(change.getId())
+        .contains(StarredChangesUtil.DEFAULT_LABEL)) {
+      return new AccountResource.StarredChange(user, change);
     }
+    throw new ResourceNotFoundException(id);
   }
 
   @Override

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -79,7 +80,11 @@ public abstract class CurrentUser {
   public abstract GroupMembership getEffectiveGroups();
 
   /** Set of changes starred by this user. */
+  @Deprecated
   public abstract Set<Change.Id> getStarredChanges();
+
+  /** User star labels on changes */
+  public abstract Multimap<Change.Id, String> getStars();
 
   /** Filters selecting changes the user wants to monitor. */
   public abstract Collection<AccountProjectWatch> getNotificationFilters();

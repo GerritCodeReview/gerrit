@@ -331,6 +331,7 @@ public class StarredChangesUtil {
     }
   }
 
+  @Deprecated
   public ResultSet<Change.Id> queryFromIndex(final Account.Id accountId) {
     try {
       Set<String> fields = ImmutableSet.of(

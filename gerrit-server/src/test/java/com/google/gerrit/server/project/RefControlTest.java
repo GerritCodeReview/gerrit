@@ -34,7 +34,9 @@ import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
@@ -913,6 +915,11 @@ public class RefControlTest {
     @Override
     public Set<Change.Id> getStarredChanges() {
       return Collections.emptySet();
+    }
+
+    @Override
+    public Multimap<Change.Id, String> getStars() {
+      return ImmutableMultimap.of();
     }
 
     @Override

@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_1fd2a3d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026177
+      },
+      "writtenOn": "2016-04-15T22:06:11Z",
+      "side": 1,
+      "message": "Ah, I see.  It is unclear at the moment then from what Gerrit API the proper host name should be derived.",
+      "parentUuid": "68f5903c_5fd82bf4",
+      "revId": "6a7f90426ad7637c959117cc00ca4b16597840db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_5faf0b5c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

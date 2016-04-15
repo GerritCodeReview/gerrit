@@ -95,37 +95,36 @@ public class RefNames {
 
   public static String refsDraftComments(Account.Id accountId,
       Change.Id changeId) {
-    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId);
+    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId.get());
     r.append(changeId.get());
     return r.toString();
   }
 
   public static String refsDraftCommentsPrefix(Account.Id accountId) {
-    return buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId).toString();
+    return buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId.get()).toString();
   }
 
-  public static String refsStarredChanges(Account.Id accountId,
-      Change.Id changeId) {
-    StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, accountId);
-    r.append(changeId.get());
+  public static String refsStarredChanges(Change.Id changeId,
+      Account.Id accountId) {
+    StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get());
+    r.append(accountId.get());
     return r.toString();
   }
 
-  public static String refsStarredChangesPrefix(Account.Id accountId) {
-    return buildRefsPrefix(REFS_STARRED_CHANGES, accountId).toString();
+  public static String refsStarredChangesPrefix(Change.Id changeId) {
+    return buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get()).toString();
   }
 
-  private static StringBuilder buildRefsPrefix(String prefix,
-      Account.Id accountId) {
+  private static StringBuilder buildRefsPrefix(String prefix, int id) {
     StringBuilder r = new StringBuilder();
     r.append(prefix);
-    int n = accountId.get() % 100;
+    int n = id % 100;
     if (n < 10) {
       r.append('0');
     }
     r.append(n);
     r.append('/');
-    r.append(accountId.get());
+    r.append(id);
     r.append('/');
     return r;
   }

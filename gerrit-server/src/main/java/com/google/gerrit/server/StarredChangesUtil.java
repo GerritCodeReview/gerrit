@@ -64,8 +64,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -269,7 +272,14 @@ public class StarredChangesUtil {
     if (changeData.size() != 1) {
       throw new NoSuchChangeException(changeId);
     }
-    return changeData.get(0).starredBy();
+    Set<Account.Id> accounts = new HashSet<>();
+    for (Map.Entry<Account.Id, Collection<String>> e : changeData.get(0)
+        .stars().asMap().entrySet()) {
+      if (e.getValue().contains(DEFAULT_LABEL)) {
+        accounts.add(e.getKey());
+      }
+    }
+    return accounts;
   }
 
   @Deprecated

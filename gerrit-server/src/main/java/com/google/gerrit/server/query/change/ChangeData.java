@@ -342,6 +342,7 @@ public class ChangeData {
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
   private Set<Account.Id> draftsByUser;
+  @Deprecated
   private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
   private PersonIdent author;
@@ -1021,6 +1022,7 @@ public class ChangeData {
     this.reviewedBy = reviewedBy;
   }
 
+  @Deprecated
   public Set<Account.Id> starredBy() throws OrmException {
     if (starredByUser == null) {
       starredByUser = starredChangesUtil.byChange(legacyId,
@@ -1029,6 +1031,7 @@ public class ChangeData {
     return starredByUser;
   }
 
+  @Deprecated
   public void setStarredBy(Set<Account.Id> starredByUser) {
     this.starredByUser = starredByUser;
   }

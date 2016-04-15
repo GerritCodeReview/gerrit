@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2820f890_1543b493",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-15T08:21:00Z",
+      "side": 0,
+      "message": "Why was this removed?",
+      "revId": "eb1dcc089f9819f3e60c7523934b5c2ee457b33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -247,6 +247,17 @@ named exactly `Foo.java` and does not match `AbstractFoo.java`.
 Regular expression matching can be enabled by starting the string
 with `^`. In this mode `file:` is an alias of `path:` (see above).
 
+[[star]]
+star:'LABEL'::
++
+Matches any change that was starred by the current user with the label
+'LABEL'.
++
+E.g. if changes that are not interesting are marked with an `ignore`
+star, they could be filtered out by '-star:ignore'.
++
+'star:star' is the same as 'has:star' and 'is:starred'.
+
 [[has]]
 has:draft::
 +
@@ -254,8 +265,12 @@ True if there is a draft comment saved by the current user.
 
 has:star::
 +
-Same as 'is:starred', true if the change has been starred by the
-current user.
+Same as 'is:starred' and 'star:star', true if the change has been
+starred by the current user with the default label.
+
+has:stars::
++
+True if the change has been starred by the current user with any label.
 
 has:edit::
 +
@@ -265,7 +280,7 @@ True if the change has inline edit created by the current user.
 is:starred::
 +
 Same as 'has:star', true if the change has been starred by the
-current user.
+current user with the default label.
 
 is:watched::
 +
@@ -510,7 +525,7 @@ the change.  This flag is always added to any query.
 
 starredby:'USER'::
 +
-Matches changes that have been starred by 'USER'.
+Matches changes that have been starred by 'USER' with the default label.
 The special case `starredby:self` applies to the caller.
 
 watchedby:'USER'::

@@ -179,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_9ff23383",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T18:59:42Z",
+      "side": 1,
+      "message": "\u003e The refs/starred-changes namespace is exclusively managed by\n \u003e Gerrit. So relying on Linus line endings here should be OK.\n \u003e \n \u003e The authorized_keys file is in the user branch, hence the user\n \u003e might modify it. This is why I consider supporting Windows line\n \u003e endings there as well, but I\u0027m also fine with removing this support\n \u003e there.\n\nI don\u0027t know if I buy into the distinction between \"exclusively managed by Gerrit\" and \"user might modify it.\" I think in the long term potentially everything is human-editable. (Though admittedly it\u0027s a bit harder with a ref pointing directly to a blob because you can\u0027t check it out directly.)\n\nAnyway, with the current any-whitespace approach I think we can punt on this question in this change :)",
+      "parentUuid": "2820f890_95a4647b",
+      "range": {
+        "startLine": 293,
+        "startChar": 23,
+        "endLine": 293,
+        "endChar": 27
+      },
+      "revId": "11b33f663ce01a0ea372161fa11323e02be652e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_48a93f52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -50,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -588,6 +590,26 @@ public class ChangeField {
             @Override
             public Integer apply(Account.Id accountId) {
               return accountId.get();
+            }
+          });
+        }
+      };
+
+  /**
+   * Star labels on this change in the format: <account-id>:<label>
+   */
+  public static final FieldDef<ChangeData, Iterable<String>> STAR =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_STAR, FieldType.EXACT, true) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return Iterables.transform(input.stars().entries(),
+              new Function<Map.Entry<Account.Id, String>, String>() {
+            @Override
+            public String apply(Map.Entry<Account.Id, String> e) {
+              return StarredChangesUtil.StarField.create(
+                  e.getKey(), e.getValue()).toString();
             }
           });
         }

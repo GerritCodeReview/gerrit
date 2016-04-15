@@ -647,6 +647,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> star(String label) throws QueryParseException {
+    return new StarByPredicate(self(), label);
+  }
+
+  @Operator
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
     return starredby(parseAccount(who));

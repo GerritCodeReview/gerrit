@@ -82,10 +82,10 @@ public class SetReviewersCommand extends SshCommand {
   private ReviewerResource.Factory reviewerFactory;
 
   @Inject
-  private Provider<PostReviewers> postReviewersProvider;
+  private PostReviewers postReviewers;
 
   @Inject
-  private Provider<DeleteReviewer> deleteReviewerProvider;
+  private DeleteReviewer deleteReviewer;
 
   @Inject
   private Provider<CurrentUser> userProvider;
@@ -123,12 +123,11 @@ public class SetReviewersCommand extends SshCommand {
 
     // Remove reviewers
     //
-    DeleteReviewer delete = deleteReviewerProvider.get();
     for (Account.Id reviewer : toRemove) {
       ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
       String error = null;
       try {
-        delete.apply(rsrc, new DeleteReviewer.Input());
+        deleteReviewer.apply(rsrc, new DeleteReviewer.Input());
       } catch (ResourceNotFoundException e) {
         error = String.format("could not remove %s: not found", reviewer);
       } catch (Exception e) {
@@ -143,14 +142,13 @@ public class SetReviewersCommand extends SshCommand {
 
     // Add reviewers
     //
-    PostReviewers post = postReviewersProvider.get();
     for (String reviewer : toAdd) {
       AddReviewerInput input = new AddReviewerInput();
       input.reviewer = reviewer;
       input.confirmed = true;
       String error;
       try {
-        error = post.apply(changeRsrc, input).error;
+        error = postReviewers.apply(changeRsrc, input).error;
       } catch (Exception e) {
         error = String.format("could not add %s: %s", reviewer, e.getMessage());
       }

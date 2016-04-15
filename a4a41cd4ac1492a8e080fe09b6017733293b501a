@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_6813633c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-15T20:56:58Z",
+      "side": 1,
+      "message": "This is a reason for not using a new, generic OpenRepo implementation in MergeOp.\n\nThis is *not* a reason for reusing MergeOp\u0027s implementation here.\n\nPlease do not inject a MergeOp if you don\u0027t plan on calling #merge on it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "a4a41cd4ac1492a8e080fe09b6017733293b501a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

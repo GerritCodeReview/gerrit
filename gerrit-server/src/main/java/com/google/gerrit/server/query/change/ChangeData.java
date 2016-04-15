@@ -1020,7 +1020,8 @@ public class ChangeData {
 
   public Iterable<Account.Id> starredBy() throws OrmException {
     if (starredByUser == null) {
-      starredByUser = starredChangesUtil.byChange(legacyId);
+      starredByUser = starredChangesUtil.byChange(legacyId,
+          StarredChangesUtil.DEFAULT_LABEL);
     }
     return starredByUser;
   }

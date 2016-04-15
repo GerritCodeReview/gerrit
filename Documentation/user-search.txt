@@ -255,7 +255,7 @@ True if there is a draft comment saved by the current user.
 has:star::
 +
 Same as 'is:starred', true if the change has been starred by the
-current user.
+current user with the default label.
 
 has:edit::
 +
@@ -265,7 +265,7 @@ True if the change has inline edit created by the current user.
 is:starred::
 +
 Same as 'has:star', true if the change has been starred by the
-current user.
+current user with the default label.
 
 is:watched::
 +
@@ -510,7 +510,7 @@ the change.  This flag is always added to any query.
 
 starredby:'USER'::
 +
-Matches changes that have been starred by 'USER'.
+Matches changes that have been starred by 'USER' with the default label.
 The special case `starredby:self` applies to the caller.
 
 watchedby:'USER'::

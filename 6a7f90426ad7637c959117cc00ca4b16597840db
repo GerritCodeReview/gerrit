@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f5903c_9f0b5345",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-15T20:43:22Z",
+      "side": 1,
+      "message": "return commitInfo.web_links \u0026\u0026 commitInfo.web_links.length \u003e\u003d 1;",
+      "revId": "6a7f90426ad7637c959117cc00ca4b16597840db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_7faacf4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-15T20:43:22Z",
+      "side": 1,
+      "message": "I don’t think this is correct. The Gitiles link on this change points to https://gerrit.googlesource.com/gerrit/+/6a7f90426ad7637c959117cc00ca4b16597840db, which is not a relative path to gerrit-review.googlesource.com",
+      "revId": "6a7f90426ad7637c959117cc00ca4b16597840db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_5faf0b5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-15T20:43:22Z",
+      "side": 1,
+      "message": "This is incorrect. You want the short hash of the commit corresponding to the patch set. This is within the change.revisions map, with the latest revision of the change at change.current_revision.",
+      "revId": "6a7f90426ad7637c959117cc00ca4b16597840db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

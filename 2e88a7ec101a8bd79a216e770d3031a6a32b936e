@@ -16,6 +16,23 @@
       "revId": "2e88a7ec101a8bd79a216e770d3031a6a32b936e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_886b3781",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-16T19:48:32Z",
+      "side": 1,
+      "message": "nit: Trailing whitespace.",
+      "revId": "2e88a7ec101a8bd79a216e770d3031a6a32b936e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

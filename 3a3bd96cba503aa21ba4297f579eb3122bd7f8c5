@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "8b2d5e79_084e6741",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-16T08:39:08Z",
+      "side": 1,
+      "message": "If I put merge.js in CM_ADDONS then it will be include unconditionally in the bundled cm.js. This is not optimal because the DiffScreen doesn\u0027t use the addon - only the EditScreen does.\n\nBesides, the addon only works if diff-match-patch is present, so it makes sense to bundle them during the build process.\n\nI might also refactor how the other addons are loaded in a later change.",
+      "parentUuid": "8b2d5e79_8859770d",
+      "range": {
+        "startLine": 95,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "3a3bd96cba503aa21ba4297f579eb3122bd7f8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_c8536fe7",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 13
@@ -106,6 +130,30 @@
       "writtenOn": "2016-04-16T05:11:33Z",
       "side": 1,
       "message": "maybe we should give it another name , avoid confusing with others addonS in CM_ADDONS",
+      "range": {
+        "startLine": 119,
+        "startChar": 32,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "3a3bd96cba503aa21ba4297f579eb3122bd7f8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5903c_5f814bc2",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-16T08:39:08Z",
+      "side": 1,
+      "message": "The other addons are currently bundled with the main codemirror.js into cm.js so they don\u0027t go into addon/. I also renamed the file to be merge_bundled.js to make the alteration clear.",
+      "parentUuid": "8b2d5e79_c8536fe7",
       "range": {
         "startLine": 119,
         "startChar": 32,

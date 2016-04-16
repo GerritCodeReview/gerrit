@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab4dc25b_515e54be",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-16T07:20:40Z",
+      "side": 1,
+      "message": "This logic: takes the content from the original patch set on non-edit (lines 259-261 added below) and call the GET diff REST handler on edit patch set is broken and only works as expected in one specific use case:\n\nWorking use case:\n\n* 1. open inline editor on non-edit patch set: original file is retrieved and put into cmOrig\n* 2. change the content in cmEdit\n* 3. save\n* 4. exit inline editor\n* 5. re-enter the same file: diff endpoint is correct and cmOrig/cmEdit have correct contents\n\nBroken use cases:\n\nScenario I: reverting the changes in the change edit (continue the above use case):\n\n* 6. revert changes\n* 7. save\n* 8. exit inline editor\n* 9. re-enter the same file: diff endpoint returns no content: no differences. The cmOrig is empty and the merge view errorneously shows that the whole content was added, even though there were no changes compared to base.\n\nScenario II: entering further files in inline editor after createing the change edit by changing first file:\n\n* 1. create change edit by modifying one file\n* 2. save\n* 3. exit\n* 4. enter inline editor for already existing change edit (revision.get() \u003d\u003d 0) for further files\n* 5. Diff API always returns no content: all files are rendered as new files, with no content in cmOrig\n\nOne way to fix it is not to use diff REST handler but use GET /changes/\u003cid\u003e/revisions/\u003cid\u003e/files/\u003cname\u003e/content handler instead, using EditInfo.base() you\u0027ve added in the previous change, something like:\n\n  ChangeEditApi.get(PatchSet.Id.fromRef(result.base()), path,\n      new HttpCallback\u003cNativeString\u003e() {\n  [...]",
+      "range": {
+        "startLine": 216,
+        "startChar": 14,
+        "endLine": 226,
+        "endChar": 19
+      },
+      "revId": "3a3bd96cba503aa21ba4297f579eb3122bd7f8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_f14e6811",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 13

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2d5e79_48313fc7",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2016-04-16T04:52:59Z",
+      "side": 1,
+      "message": "It would be clear to say\n  \"Merge the JS file of merge addon with JS file of google-diff-match-patch\" \nas it is not all files of addons to merge and it is not CSS file of merge addon to merge.",
+      "range": {
+        "startLine": 95,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "3a3bd96cba503aa21ba4297f579eb3122bd7f8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

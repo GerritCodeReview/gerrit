@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -29,6 +30,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,6 +52,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
+  private final AccountIndexer indexer;
 
   private final ReviewDb db;
   private final IdentifiedUser user;
@@ -58,11 +61,13 @@ public class ChangeUserName implements Callable<VoidResult> {
   @Inject
   ChangeUserName(final AccountCache accountCache,
       final SshKeyCache sshKeyCache,
-
-      @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
+      AccountIndexer indexer,
+      @Assisted final ReviewDb db,
+      @Assisted final IdentifiedUser user,
       @Nullable @Assisted final String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
+    this.indexer = indexer;
 
     this.db = db;
     this.user = user;
@@ -71,7 +76,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
-      InvalidUserNameException {
+      InvalidUserNameException, IOException {
     final Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
@@ -120,6 +125,7 @@ public class ChangeUserName implements Callable<VoidResult> {
     accountCache.evict(user.getAccountId());
     accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
+    indexer.index(user.getAccountId());
     return VoidResult.INSTANCE;
   }
 

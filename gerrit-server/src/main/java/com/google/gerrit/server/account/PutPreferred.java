@@ -23,11 +23,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutPreferred.Input;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -39,18 +41,23 @@ public class PutPreferred implements
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache byIdCache;
+  private final AccountIndexer indexer;
 
   @Inject
-  PutPreferred(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider,
-      AccountCache byIdCache) {
+  PutPreferred(Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      AccountCache byIdCache,
+      AccountIndexer indexer) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
+    this.indexer = indexer;
   }
 
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws AuthException, ResourceNotFoundException, OrmException,
+      IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set preferred email address");
@@ -59,7 +66,7 @@ public class PutPreferred implements
   }
 
   public Response<String> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, IOException {
     Account a = dbProvider.get().accounts().get(user.getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
@@ -70,6 +77,7 @@ public class PutPreferred implements
     a.setPreferredEmail(email);
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
+    indexer.index(a.getId());
     return Response.created("");
   }
 }

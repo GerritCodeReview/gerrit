@@ -20,10 +20,12 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,26 +43,28 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final ExternalIdDetailFactory detailFactory;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
-
+  private final AccountIndexer indexer;
   private final Set<AccountExternalId.Key> keys;
 
   @Inject
-  DeleteExternalIds(final ReviewDb db, final IdentifiedUser user,
-      final ExternalIdDetailFactory detailFactory,
-      final AccountByEmailCache byEmailCache, final AccountCache accountCache,
-
-      @Assisted final Set<AccountExternalId.Key> keys) {
+  DeleteExternalIds(ReviewDb db,
+      IdentifiedUser user,
+      ExternalIdDetailFactory detailFactory,
+      AccountByEmailCache byEmailCache,
+      AccountCache accountCache,
+      AccountIndexer indexer,
+      @Assisted Set<AccountExternalId.Key> keys) {
     this.db = db;
     this.user = user;
     this.detailFactory = detailFactory;
     this.byEmailCache = byEmailCache;
     this.accountCache = accountCache;
-
+    this.indexer = indexer;
     this.keys = keys;
   }
 
   @Override
-  public Set<AccountExternalId.Key> call() throws OrmException {
+  public Set<AccountExternalId.Key> call() throws IOException, OrmException {
     final Map<AccountExternalId.Key, AccountExternalId> have = have();
 
     List<AccountExternalId> toDelete = new ArrayList<>();
@@ -77,6 +81,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
       for (AccountExternalId e : toDelete) {
         byEmailCache.evict(e.getEmailAddress());
       }
+      indexer.index(user.getAccountId());
     }
 
     return toKeySet(toDelete);

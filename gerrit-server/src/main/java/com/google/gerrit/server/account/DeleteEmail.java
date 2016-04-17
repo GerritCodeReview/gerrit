@@ -26,10 +26,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import java.io.IOException;
 
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
@@ -40,20 +43,29 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   private final Realm realm;
   private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
+  private final AccountCache byIdCache;
+  private final AccountIndexer indexer;
 
   @Inject
-  DeleteEmail(Provider<CurrentUser> self, Realm realm,
-      Provider<ReviewDb> dbProvider, AccountManager accountManager) {
+  DeleteEmail(Provider<CurrentUser> self,
+      Realm realm,
+      Provider<ReviewDb> dbProvider,
+      AccountManager accountManager,
+      AccountCache byIdCache,
+      AccountIndexer indexer) {
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;
     this.accountManager = accountManager;
+    this.byIdCache = byIdCache;
+    this.indexer = indexer;
   }
 
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, MethodNotAllowedException, OrmException {
+      ResourceConflictException, MethodNotAllowedException, OrmException,
+      IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to delete email address");
@@ -63,7 +75,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException,
-      MethodNotAllowedException, OrmException {
+      MethodNotAllowedException, OrmException, IOException {
     if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
@@ -79,6 +91,9 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }
+
+    byIdCache.evict(user.getAccountId());
+    indexer.index(user.getAccount().getId());
     return Response.none();
   }
 }

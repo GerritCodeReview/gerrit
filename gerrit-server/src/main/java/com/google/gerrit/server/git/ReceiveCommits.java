@@ -107,6 +107,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -306,6 +307,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TagCache tagCache;
   private final AccountCache accountCache;
+  private final AccountIndexer accountIndexer;
   private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ExecutorService sendEmailExecutor;
@@ -372,6 +374,7 @@ public class ReceiveCommits {
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
       final AccountCache accountCache,
+      AccountIndexer accountIndexer,
       final ChangeCache changeCache,
       final ChangesCollection changes,
       final ChangeInserter.Factory changeInserterFactory,
@@ -416,6 +419,7 @@ public class ReceiveCommits {
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
+    this.accountIndexer = accountIndexer;
     this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -2351,6 +2355,7 @@ public class ReceiveCommits {
               db.accounts().update(Collections.singleton(a));
               user.getAccount().setFullName(a.getFullName());
               accountCache.evict(a.getId());
+              accountIndexer.index(a.getId());
             }
           } catch (OrmException e) {
             log.warn("Cannot default full_name", e);

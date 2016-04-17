@@ -29,7 +29,6 @@ import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -51,7 +50,7 @@ final class FlushCaches extends SshCommand {
   private boolean list;
 
   @Inject
-  private Provider<ListCaches> listCaches;
+  private ListCaches listCaches;
 
   @Inject
   private PostCaches postCaches;
@@ -94,7 +93,7 @@ final class FlushCaches extends SshCommand {
 
   @SuppressWarnings("unchecked")
   private void doList() {
-    for (String name : (List<String>) listCaches.get()
+    for (String name : (List<String>) listCaches
         .setFormat(OutputFormat.LIST).apply(new ConfigResource())) {
       stderr.print(name);
       stderr.print('\n');

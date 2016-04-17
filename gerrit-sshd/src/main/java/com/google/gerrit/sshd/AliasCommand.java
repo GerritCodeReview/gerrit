@@ -20,7 +20,6 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.inject.Provider;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
@@ -33,12 +32,12 @@ import java.util.concurrent.atomic.AtomicReference;
 /** Command that executes some other command. */
 public class AliasCommand extends BaseCommand {
   private final DispatchCommandProvider root;
-  private final Provider<CurrentUser> currentUser;
+  private final CurrentUser currentUser;
   private final CommandName command;
   private final AtomicReference<Command> atomicCmd;
 
   AliasCommand(@CommandName(Commands.ROOT) DispatchCommandProvider root,
-      Provider<CurrentUser> currentUser, CommandName command) {
+      CurrentUser currentUser, CommandName command) {
     this.root = root;
     this.currentUser = currentUser;
     this.command = command;
@@ -108,12 +107,11 @@ public class AliasCommand extends BaseCommand {
   private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
     RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
     if (rc != null) {
-      CurrentUser user = currentUser.get();
-      CapabilityControl ctl = user.getCapabilities();
+      CapabilityControl ctl = currentUser.getCapabilities();
       if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
         String msg = String.format(
             "fatal: %s does not have \"%s\" capability.",
-            user.getUserName(), rc.value());
+            currentUser.getUserName(), rc.value());
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
       }
     }

@@ -27,7 +27,6 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
@@ -39,7 +38,7 @@ import java.util.List;
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
   @Inject
-  private Provider<ReviewDb> db;
+  private ReviewDb db;
 
   @Inject
   private TransferConfig config;
@@ -71,7 +70,7 @@ final class Upload extends AbstractGitCommand {
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
       up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
-          projectControl, db.get(), true));
+          projectControl, db, true));
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());

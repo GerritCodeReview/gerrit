@@ -21,15 +21,14 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 @CommandMetaData(name = "type", description = "Test prolog submit type")
 final class TestSubmitTypeCommand extends BaseTestPrologCommand {
   @Inject
-  private Provider<TestSubmitType> view;
+  private TestSubmitType view;
 
   @Override
   protected RestModifyView<RevisionResource, TestSubmitRuleInput> createView() {
-    return view.get();
+    return view;
   }
 }

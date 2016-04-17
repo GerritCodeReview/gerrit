@@ -23,7 +23,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.sshd.server.Command;
@@ -45,7 +44,7 @@ final class DispatchCommand extends BaseCommand {
     DispatchCommand create(Map<String, CommandProvider> map);
   }
 
-  private final Provider<CurrentUser> currentUser;
+  private final CurrentUser currentUser;
   private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
 
@@ -56,7 +55,7 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  DispatchCommand(final Provider<CurrentUser> cu,
+  DispatchCommand(CurrentUser cu,
       @Assisted final Map<String, CommandProvider> all) {
     currentUser = cu;
     commands = all;

@@ -25,7 +25,6 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
@@ -50,8 +49,8 @@ public final class SuExec extends BaseCommand {
   private final DispatchCommandProvider dispatcher;
 
   private boolean enableRunAs;
-  private Provider<CurrentUser> caller;
-  private Provider<SshSession> session;
+  private CurrentUser caller;
+  private SshSession session;
   private IdentifiedUser.GenericFactory userFactory;
   private SshScope.Context callingContext;
 
@@ -69,7 +68,8 @@ public final class SuExec extends BaseCommand {
   @Inject
   SuExec(final SshScope sshScope,
       @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
-      final Provider<CurrentUser> caller, final Provider<SshSession> session,
+      final CurrentUser caller,
+      final SshSession session,
       final IdentifiedUser.GenericFactory userFactory,
       final SshScope.Context callingContext,
       AuthConfig config) {
@@ -112,12 +112,12 @@ public final class SuExec extends BaseCommand {
   }
 
   private void checkCanRunAs() throws UnloggedFailure {
-    if (caller.get() instanceof PeerDaemonUser) {
+    if (caller instanceof PeerDaemonUser) {
       // OK.
     } else if (!enableRunAs) {
       throw new UnloggedFailure(1,
           "fatal: suexec disabled by auth.enableRunAs = false");
-    } else if (!caller.get().getCapabilities().canRunAs()) {
+    } else if (!caller.getCapabilities().canRunAs()) {
       throw new UnloggedFailure(1, "fatal: suexec not permitted");
     }
   }
@@ -125,16 +125,15 @@ public final class SuExec extends BaseCommand {
   private SshSession newSession() {
     final SocketAddress peer;
     if (peerAddress == null) {
-      peer = session.get().getRemoteAddress();
+      peer = session.getRemoteAddress();
     } else {
       peer = peerAddress;
     }
-    CurrentUser self = caller.get();
-    if (self instanceof PeerDaemonUser) {
-      self = null;
+    if (caller instanceof PeerDaemonUser) {
+      caller = null;
     }
-    return new SshSession(session.get(), peer,
-        userFactory.runAs(peer, accountId, self));
+    return new SshSession(session, peer,
+        userFactory.runAs(peer, accountId, caller));
   }
 
   private static String join(List<String> args) {

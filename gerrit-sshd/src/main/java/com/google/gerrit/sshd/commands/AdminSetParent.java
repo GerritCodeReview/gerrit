@@ -33,7 +33,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -79,7 +78,7 @@ final class AdminSetParent extends SshCommand {
   private AllProjectsName allProjectsName;
 
   @Inject
-  private Provider<ListChildProjects> listChildProjects;
+  private ListChildProjects listChildProjects;
 
   private Project.NameKey newParentKey;
 
@@ -187,7 +186,7 @@ final class AdminSetParent extends SshCommand {
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (final ProjectInfo child : listChildProjects.get().apply(
+    for (final ProjectInfo child : listChildProjects.apply(
         new ProjectResource(parent))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {

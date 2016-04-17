@@ -29,7 +29,7 @@ public class AliasCommandProvider implements Provider<Command> {
   private DispatchCommandProvider root;
 
   @Inject
-  private Provider<CurrentUser> currentUser;
+  private CurrentUser currentUser;
 
   public AliasCommandProvider(CommandName command) {
     this.command = command;

@@ -20,16 +20,15 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitRule;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 /** Command that allows testing of prolog submit-rules in a live instance. */
 @CommandMetaData(name = "rule", description = "Test prolog submit rules")
 final class TestSubmitRuleCommand extends BaseTestPrologCommand {
   @Inject
-  private Provider<TestSubmitRule> view;
+  private TestSubmitRule view;
 
   @Override
   protected RestModifyView<RevisionResource, TestSubmitRuleInput> createView() {
-    return view.get();
+    return view;
   }
 }

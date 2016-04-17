@@ -32,6 +32,11 @@ public class CapabilityUtils {
       .getLogger(CapabilityUtils.class);
 
   public static void checkRequiresCapability(Provider<CurrentUser> userProvider,
+      String pluginName, Class<?> clazz) throws AuthException {
+    checkRequiresCapability(userProvider.get(), pluginName, clazz);
+  }
+
+  public static void checkRequiresCapability(CurrentUser user,
       String pluginName, Class<?> clazz)
       throws AuthException {
     RequiresCapability rc = getClassAnnotation(clazz, RequiresCapability.class);
@@ -45,7 +50,6 @@ public class CapabilityUtils {
           RequiresAnyCapability.class.getSimpleName()));
       throw new AuthException("cannot check capability");
     }
-    CurrentUser user = userProvider.get();
     CapabilityControl ctl = user.getCapabilities();
     if (ctl.canAdministrateServer()) {
       return;

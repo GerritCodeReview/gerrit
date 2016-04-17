@@ -40,6 +40,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateAccount.Input;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -49,6 +50,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,6 +77,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final GroupsCollection groupsCollection;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
+  private final AccountIndexer indexer;
   private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
@@ -82,17 +85,23 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final AuditService auditService;
 
   @Inject
-  CreateAccount(ReviewDb db, Provider<IdentifiedUser> currentUser,
-      GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
-      AccountCache accountCache, AccountByEmailCache byEmailCache,
+  CreateAccount(ReviewDb db,
+      Provider<IdentifiedUser> currentUser,
+      GroupsCollection groupsCollection,
+      SshKeyCache sshKeyCache,
+      AccountCache accountCache,
+      AccountIndexer indexer,
+      AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
-      @Assisted String username, AuditService auditService) {
+      AuditService auditService,
+      @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
+    this.indexer = indexer;
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
@@ -103,7 +112,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   @Override
   public Response<AccountInfo> apply(TopLevelResource rsrc, Input input)
       throws BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, OrmException {
+      UnprocessableEntityException, OrmException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -193,6 +202,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     sshKeyCache.evict(username);
     accountCache.evictByUsername(username);
     byEmailCache.evict(input.email);
+    indexer.index(id);
 
     AccountLoader loader = infoLoader.create(true);
     AccountInfo info = loader.get(id);

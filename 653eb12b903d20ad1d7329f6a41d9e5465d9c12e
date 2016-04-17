@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2820f890_55db6c99",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-04-17T08:48:11Z",
+      "side": 1,
+      "message": "Seems a bit complex ... why not simply \"switchPolyGerrit\" ?",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 70
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_b1a300d7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-04-17T08:48:11Z",
+      "side": 1,
+      "message": "Standalone class file?",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -207,7 +208,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       req.setSkipAuthentication(true);
       return accountCache.get(accountManager.authenticate(req).getAccountId())
           .getAccount();
-    } catch (AccountException e) {
+    } catch (AccountException | IOException e) {
       return null;
     }
   }

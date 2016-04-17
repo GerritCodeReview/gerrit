@@ -32,6 +32,8 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
+import java.io.IOException;
+
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
@@ -93,7 +95,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       AuthRequest req = AuthRequest.forUser(user);
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
-    } catch (AccountException e) {
+    } catch (AccountException | IOException e) {
       throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }
   }

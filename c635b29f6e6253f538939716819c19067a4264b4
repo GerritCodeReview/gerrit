@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_1193ec87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-17T09:59:31Z",
+      "side": 1,
+      "message": "I misread the commit message and missed that it was just a revert of the original change. I added a comment to the offending place in the code and the commit message with the explanation why all tests were passing.",
+      "parentUuid": "4ef294a8_ceda0331",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9103d1be_78f6a1a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -41,6 +65,29 @@
         "startChar": 27,
         "endLine": 11,
         "endChar": 53
+      },
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_f1ad88c2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-17T09:59:31Z",
+      "side": 1,
+      "message": "This else branch must belongs to the if (v.version !\u003d search.version)  and not if (v.schema !\u003d null), like it was in the base version. Now the write index is never set and reindexing of changes is broken.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 7
       },
       "revId": "c635b29f6e6253f538939716819c19067a4264b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -65,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_3190f078",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexActivateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-17T09:59:31Z",
+      "side": 1,
+      "message": "User provided the name as input.",
+      "parentUuid": "9103d1be_18f96594",
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c521ce_843b4620",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
         "patchSetId": 1
@@ -76,6 +141,30 @@
       "writtenOn": "2016-03-30T21:23:18Z",
       "side": 1,
       "message": "start, rather?",
+      "range": {
+        "startLine": 35,
+        "startChar": 29,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "c635b29f6e6253f538939716819c19067a4264b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_35e0f041",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-17T09:59:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11c521ce_843b4620",
       "range": {
         "startLine": 35,
         "startChar": 29,

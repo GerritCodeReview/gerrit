@@ -22,11 +22,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.DeleteActive.Input;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
@@ -37,16 +39,20 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
 
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache byIdCache;
+  private final AccountIndexer indexer;
 
   @Inject
-  DeleteActive(Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  DeleteActive(Provider<ReviewDb> dbProvider,
+      AccountCache byIdCache,
+      AccountIndexer indexer) {
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
+    this.indexer = indexer;
   }
 
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, IOException {
     Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
@@ -57,6 +63,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
     a.setActive(false);
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
+    indexer.index(a.getId());
     return Response.none();
   }
 }

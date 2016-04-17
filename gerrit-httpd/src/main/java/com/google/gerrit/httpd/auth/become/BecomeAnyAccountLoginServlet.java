@@ -223,7 +223,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     String fakeId = AccountExternalId.SCHEME_UUID + UUID.randomUUID();
     try {
       return accountManager.authenticate(new AuthRequest(fakeId));
-    } catch (AccountException e) {
+    } catch (AccountException | IOException e) {
       getServletContext().log("cannot create new account", e);
       return null;
     }

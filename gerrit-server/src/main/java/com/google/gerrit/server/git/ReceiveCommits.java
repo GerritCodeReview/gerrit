@@ -101,6 +101,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -292,6 +293,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TagCache tagCache;
   private final AccountCache accountCache;
+  private final AccountIndexer accountIndexer;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
@@ -354,6 +356,7 @@ public class ReceiveCommits {
       GitRepositoryManager repoManager,
       TagCache tagCache,
       AccountCache accountCache,
+      AccountIndexer accountIndexer,
       @Nullable SearchingChangeCacheImpl changeCache,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
@@ -394,6 +397,7 @@ public class ReceiveCommits {
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
+    this.accountIndexer = accountIndexer;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeUpdateExector = changeUpdateExector;
@@ -2298,6 +2302,7 @@ public class ReceiveCommits {
               db.accounts().update(Collections.singleton(a));
               user.getAccount().setFullName(a.getFullName());
               accountCache.evict(a.getId());
+              accountIndexer.index(a.getId());
             }
           } catch (OrmException e) {
             log.warn("Cannot default full_name", e);

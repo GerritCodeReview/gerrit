@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.UPDATED_SORT_FIELD;
+import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
@@ -57,10 +58,11 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Schema<ChangeData> schema,
       SitePaths sitePaths,
       Directory dir,
-      String name,
+      String subIndex,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory) throws IOException {
-    super(schema, sitePaths, dir, name, writerConfig, searcherFactory);
+    super(schema, sitePaths, dir, NAME, subIndex, writerConfig,
+        searcherFactory);
   }
 
   @Override

@@ -98,10 +98,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   static final Schema<ChangeData> V27 = schema(V26.getFields().values());
 
+  public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE =
       new ChangeSchemaDefinitions();
 
   private ChangeSchemaDefinitions() {
-    super("changes", ChangeData.class);
+    super(NAME, ChangeData.class);
   }
 }

@@ -341,6 +341,7 @@ public class ReceiveCommits {
   private final Provider<SubmoduleOp> subOpProvider;
   private final Provider<Submit> submitProvider;
   private final Provider<MergeOp> mergeOpProvider;
+  private final Provider<OpenRepoManager> ormProvider;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
@@ -391,6 +392,7 @@ public class ReceiveCommits {
       final Provider<SubmoduleOp> subOpProvider,
       final Provider<Submit> submitProvider,
       final Provider<MergeOp> mergeOpProvider,
+      final Provider<OpenRepoManager> ormProvider,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
@@ -440,6 +442,7 @@ public class ReceiveCommits {
     this.subOpProvider = subOpProvider;
     this.submitProvider = submitProvider;
     this.mergeOpProvider = mergeOpProvider;
+    this.ormProvider = ormProvider;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
 
@@ -673,8 +676,9 @@ public class ReceiveCommits {
     }
     // Update superproject gitlinks if required.
     SubmoduleOp op = subOpProvider.get();
-    try {
-      op.updateSuperProjects(db, branches, "receiveID");
+    try (OpenRepoManager orm = ormProvider.get()) {
+      orm.setContext(db, TimeUtil.nowTs(), user);
+      op.updateSuperProjects(db, branches, "receiveID", orm);
     } catch (SubmoduleException e) {
       log.error("Can't update the superprojects", e);
     }

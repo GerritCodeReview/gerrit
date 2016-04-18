@@ -209,11 +209,11 @@ public class OutputStreamQuery {
 
           if (includePatchSets) {
             if (includeFiles) {
-              eventFactory.addPatchSets(c, d.patches(),
+              eventFactory.addPatchSets(c, d.visiblePatches(),
                   includeApprovals ? d.approvals().asMap() : null,
                   includeFiles, d.change(), labelTypes);
             } else {
-              eventFactory.addPatchSets(c, d.patches(),
+              eventFactory.addPatchSets(c, d.visiblePatches(),
                   includeApprovals ? d.approvals().asMap() : null,
                   labelTypes);
             }
@@ -240,7 +240,7 @@ public class OutputStreamQuery {
           if (includeComments) {
             eventFactory.addComments(c, d.messages());
             if (includePatchSets) {
-              eventFactory.addPatchSets(c, d.patches(),
+              eventFactory.addPatchSets(c, d.visiblePatches(),
                   includeApprovals ? d.approvals().asMap() : null,
                   includeFiles, d.change(), labelTypes);
               for (PatchSetAttribute attribute : c.patchSets) {

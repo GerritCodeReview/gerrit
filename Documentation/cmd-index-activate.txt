@@ -5,7 +5,7 @@ gerrit index activate - Activate the latest index version available
 
 == SYNOPSIS
 --
-'ssh' -p @SSH_PORT@ @SSH_HOST@ 'gerrit index activate'
+'ssh' -p <port> <host> 'gerrit index activate'
 --
 
 == DESCRIPTION

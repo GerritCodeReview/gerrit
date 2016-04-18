@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_d4f95266",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T16:09:05Z",
+      "side": 1,
+      "message": "StarsInput with add and remove was following the example of HashtagsInput, since stars are kind of private hashtags.\n\n \u003e PUT /accounts/X/stars.changes/Y \u003d\u003e set exact set of stars\n\nIs there a good use case for this? For hashtags we also do not support to set an exact set of hashtags.\n\n \u003e POST /accounts/X/stars.changes \u003d\u003e StarsInput containing \n \u003e map of change -\u003e (add, remove)\n\nMaybe this is all we need to set stars? It\u0027s not that pretty, but maybe it\u0027s an advantage that we can set stars on many changes with a single request.\n\nThe Java API could then have a convenient method to set stars on a single change.",
+      "parentUuid": "68f5903c_5f538b12",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_6898c330",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 1
@@ -219,6 +237,24 @@
       "side": 1,
       "message": "I\u0027m kind of conflicted here. I think the REST API is really suboptimal and I agree that if you were designing an API from scratch it would look more like this extension API than the REST API. But still this is a higher level of divergence than we see elsewhere.",
       "parentUuid": "ab4dc25b_94098a87",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_18b889e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T16:09:05Z",
+      "side": 1,
+      "message": "I\u0027m also not sure what\u0027s best to do for reading stars.\n\nI think we should have\n\n GET /accounts/\u003caccount-Id\u003e/stars.changes/\n\nto list all changes that were starred by any label (the method for this is still missing in the API). This matches listing of starred changes by \n\n GET /accounts/\u003caccount-Id\u003e/starred.changes/\n\nInterestingly the \"starred.changes\" API only supports setting/removing the star by\n\n PUT/DELETE /accounts/\u003caccount-Id\u003e/starred.changes/\u003cchange-id\u003e\n\nbut no read with a GET request. Read is only supported by getting the ChangeInfo and inspecting the \u0027starred\u0027 field in it. This is also why the AccountApi is missing an isStarred(String id) method.\n\nMaybe for now we could get away the same way and not offer a getStars(String id) method here? It\u0027s ugly but then we are  at least consistent with the \"starred.changes\" API and we may implement getStars(String id) only later if we ever want to allow reading stars of another user.",
+      "parentUuid": "8b2d5e79_28c88bcb",
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

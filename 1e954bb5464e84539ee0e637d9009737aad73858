@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_d5eadcfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:54:10Z",
+      "side": 1,
+      "message": "I somehow thought that was an interface...\n\nWith the new patch set, this method is no longer needed.",
+      "parentUuid": "68f5903c_ff793fca",
+      "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_bf83b7f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_14fe7a7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:54:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_bf83b7f6",
+      "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_df767bda",
         "filename": "plugins/replication",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-15T15:33:56Z",
       "side": 1,
       "message": "Intentional?",
+      "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2820f890_b5f760e5",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:54:10Z",
+      "side": 1,
+      "message": "No, I only missed to push that commit. It was needed because the replication plugin has an implementation of CurrentUser and I implemented the new getStars() method there. \n\nBut now with having the default implementation for that method directly in CurrentUser it\u0027s no longer needed to update the replication plugin.",
+      "parentUuid": "68f5903c_df767bda",
       "revId": "1e954bb5464e84539ee0e637d9009737aad73858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

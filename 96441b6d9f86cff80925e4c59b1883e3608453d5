@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460989073 +0200\nnonce AB8gjyXPDfPJ+qEygn0HmyWZ6T8EO6OuPNZhE8Kw6jtjVfu0EYiIPlwsL0MlQ7hvmuJXKA78g7S2\n\n0000000000000000000000000000000000000000 96441b6d9f86cff80925e4c59b1883e3608453d5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXFOyRAAoJEFG1/Zeg0O9R76kH/3mtC6zUgZgZ92obt3XTQbj1\nrrwMIzbyeU2f4aGuf2rrfy3Ffvv+l1Bh1Uk4WoRMOdOcG1/GPgDxx4B8wZOl42MV\nf28ZrRO6wWirgNH5wJKVe4vmwDfJhAMz8vfbwjDaHM3K7Fw1K407Col5oQjLj8FJ\nyBDFGRcX9AKOL81/zehMqz9hqxkNsd01VdeoslK5a1jqLJhHDSr8vPf2E6ZA35sK\nvgjHmFkryrHIQxGC/MjtvpuvozGP8FE+dkuw14rAV4jU0FMNY0VoR/YRzUGAbM2w\n1+aD7LdxiqnlkeGbPDT3LF6X/FH132ghaE4CIXkuYImyaBmiy32Fmjlbp8s/0WU\u003d\n\u003dWWdB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2820f890_f57a78f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T14:22:29Z",
+      "side": 1,
+      "message": "This query is not supported yet. To support it we need another field in the index (\"hasStars: \u003caccount-id\u003e\") if we don\u0027t want to do a full scan of the refs/starred-changes/ namespaces.",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "96441b6d9f86cff80925e4c59b1883e3608453d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

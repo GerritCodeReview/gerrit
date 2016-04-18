@@ -185,6 +185,7 @@ class SideBySideSkipBar extends SkipBar {
       otherBar.expandAll();
       otherBar.updateSelection();
     }
+    cm.refresh();
     cm.focus();
   }
 
@@ -202,6 +203,7 @@ class SideBySideSkipBar extends SkipBar {
     if (otherBar != null) {
       otherBar.expandBefore(NUM_ROWS_TO_EXPAND);
     }
+    cm.refresh();
     cm.focus();
   }
 
@@ -212,6 +214,7 @@ class SideBySideSkipBar extends SkipBar {
     if (otherBar != null) {
       otherBar.expandAfter();
     }
+    cm.refresh();
     cm.focus();
   }
 }

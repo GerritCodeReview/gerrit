@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -539,7 +541,16 @@ public class ChangeData {
   public Collection<PatchSet> patches()
       throws OrmException {
     if (patches == null) {
-      patches = db.patchSets().byChange(legacyId).toList();
+      patches = FluentIterable.from(db.patchSets().byChange(legacyId))
+          .filter(new Predicate<PatchSet>() {
+            @Override
+            public boolean apply(PatchSet input) {
+              try {
+                return changeControl().isPatchVisible(input, db);
+              } catch (OrmException e) {
+                return false;
+              }
+            }}).toList();
     }
     return patches;
   }

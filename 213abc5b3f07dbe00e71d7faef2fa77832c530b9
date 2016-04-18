@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_d0a3dcc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-18T19:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88dc84fe_7095505d",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "213abc5b3f07dbe00e71d7faef2fa77832c530b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8d5c8d0_319fd07d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2016-04-18T19:21:52Z",
       "side": 1,
       "message": "@Test annotation is missing.",
+      "revId": "213abc5b3f07dbe00e71d7faef2fa77832c530b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d5c8d0_b1aae093",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-18T19:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8d5c8d0_319fd07d",
       "revId": "213abc5b3f07dbe00e71d7faef2fa77832c530b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

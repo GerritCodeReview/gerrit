@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_bf4bb755",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-18T16:14:09Z",
+      "side": 1,
+      "message": "\u003e Is there a good use case for this?\n\nNot really, if you ask me I think this is an example of REST being kind of dumb. Fans will tell you it\u0027s the be-all and end-all of HTTP-based API design but, surprise, there are plenty of use cases for which it is not a great fit.\n\n\u003e Maybe this is all we need to set stars?\n\nFine by me, certainly for the purposes of this change. If someone wants something else they can come up with a clean API proposal and then implement it :)",
+      "parentUuid": "ab4dc25b_d4f95266",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_6898c330",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 1
@@ -255,6 +273,24 @@
       "side": 1,
       "message": "I\u0027m also not sure what\u0027s best to do for reading stars.\n\nI think we should have\n\n GET /accounts/\u003caccount-Id\u003e/stars.changes/\n\nto list all changes that were starred by any label (the method for this is still missing in the API). This matches listing of starred changes by \n\n GET /accounts/\u003caccount-Id\u003e/starred.changes/\n\nInterestingly the \"starred.changes\" API only supports setting/removing the star by\n\n PUT/DELETE /accounts/\u003caccount-Id\u003e/starred.changes/\u003cchange-id\u003e\n\nbut no read with a GET request. Read is only supported by getting the ChangeInfo and inspecting the \u0027starred\u0027 field in it. This is also why the AccountApi is missing an isStarred(String id) method.\n\nMaybe for now we could get away the same way and not offer a getStars(String id) method here? It\u0027s ugly but then we are  at least consistent with the \"starred.changes\" API and we may implement getStars(String id) only later if we ever want to allow reading stars of another user.",
       "parentUuid": "8b2d5e79_28c88bcb",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_a8c2bba5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-18T16:14:09Z",
+      "side": 1,
+      "message": "\u003e Maybe for now we could get away the same way and not offer a getStars(String id) method here?\n\nI suppose that could be ok. Basically we are leaving this API unfinished, but given the scope of the rest of this change at this point, I think that\u0027s probably fine.",
+      "parentUuid": "2820f890_18b889e5",
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

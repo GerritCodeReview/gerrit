@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_5f538b12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-18T14:26:07Z",
+      "side": 1,
+      "message": "Right, ok, I forgot about that feature of POST.\n\nI think the inconsistency stems from the fact that we\u0027re trying to POST to a star resource, rather than PUT, so it has to exist first, whereas in the Java API it feels more natural to have a single set method.\n\nWould it be better to do:\n\n* PUT /accounts/X/stars.changes/Y \u003d\u003e set exact set of stars\n* POST /accounts/X/stars.changes \u003d\u003e StarsInput containing map of change -\u003e (add, remove)\n* (optional) POST /accounts/X/stars.changes/Y \u003d\u003e single (add, remove) input.\n\nThat is how e.g. the group member REST API works.\n\nThe big downside is it\u0027s easy to misuse PUT stars.changes/Y and forget that it\u0027s \"overwrite\" instead of \"add\". To which the response is \"that\u0027s what PUT means\" which has never been very satisfying to me personally.",
+      "parentUuid": "ab4dc25b_54e1e2e0",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_6898c330",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 1
@@ -183,6 +201,24 @@
       "side": 1,
       "message": "Good point.\n\nThis comes from our REST API schema which is \n\n  /accounts/\u003caccount-id\u003e/stars.changes/\u003cchange-id\u003e\n\nThe REST collection /accounts/\u003caccount-id\u003e/stars.changes/ only contains changes that have been starred. This allows users to get all starred changes by \n\n  GET /accounts/\u003caccount-id\u003e/stars.changes/\n\nThis is nice and it would be unexpected to get changes with no stars for this request\n\nBut this also means that trying to get stars from a change that has none results in a ResourceNotFoundException.\n\nFWIW this matches the behaviour of the old star REST API, /accounts/\u003caccount-id\u003e/starred.changes/ only contains changes that have been starred (by the default star).\n\nAll this makes sense for the REST API, but looking at the Java API my expectation was to rather get an empty label list for changes with no stars. This is why I implemented it like this, but I agree that it\u0027s inconsistent.\n\nFor now I\u0027m changing this implementation to be consistent with the REST API and throw ResourceNotFoundException as well.\n\nDo you think we should change /accounts/\u003caccount-id\u003e/stars.changes/ to always contain all changes? This would also fix your other comment above.",
       "parentUuid": "8b2d5e79_6898c330",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_28c88bcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-18T14:26:07Z",
+      "side": 1,
+      "message": "I\u0027m kind of conflicted here. I think the REST API is really suboptimal and I agree that if you were designing an API from scratch it would look more like this extension API than the REST API. But still this is a higher level of divergence than we see elsewhere.",
+      "parentUuid": "ab4dc25b_94098a87",
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

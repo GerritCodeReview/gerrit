@@ -218,15 +218,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    try (MergeOp op = mergeOpProvider.get()) {
-      ReviewDb db = dbProvider.get();
-      op.merge(db, change, caller, true, input);
-      try {
-        change = changeNotesFactory
-            .createChecked(db, change.getProject(), change.getId()).getChange();
-      } catch (NoSuchChangeException e) {
-        throw new ResourceConflictException("change is deleted");
-      }
+    MergeOp op = mergeOpProvider.get();
+    ReviewDb db = dbProvider.get();
+    op.merge(db, change, caller, true, input);
+    try {
+      change = changeNotesFactory
+          .createChecked(db, change.getProject(), change.getId()).getChange();
+    } catch (NoSuchChangeException e) {
+      throw new ResourceConflictException("change is deleted");
     }
 
     switch (change.getStatus()) {

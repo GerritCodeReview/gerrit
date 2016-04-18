@@ -322,6 +322,9 @@ public class EditPreferencesBox extends Composite {
         KeyMapType.EMACS.name().toLowerCase(),
         KeyMapType.EMACS.name());
     keyMap.addItem(
+        KeyMapType.SUBLIME.name().toLowerCase(),
+        KeyMapType.SUBLIME.name());
+    keyMap.addItem(
         KeyMapType.VIM.name().toLowerCase(),
         KeyMapType.VIM.name());
   }

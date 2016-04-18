@@ -117,6 +117,8 @@ abstract class DiffScreen extends Screen {
   private PreferencesAction prefsAction;
   private int reloadVersionId;
 
+  private SkipManager skipManager;
+
   @UiField(provided = true)
   Header header;
 
@@ -600,8 +602,8 @@ abstract class DiffScreen extends Screen {
     operation(new Runnable() {
       @Override
       public void run() {
-        getSkipManager().removeAll();
-        getSkipManager().render(context, diff);
+        skipManager.removeAll();
+        skipManager.render(context, diff);
         updateRenderEntireFile();
       }
     });
@@ -692,7 +694,13 @@ abstract class DiffScreen extends Screen {
 
   abstract CommentManager getCommentManager();
 
-  abstract SkipManager getSkipManager();
+  SkipManager getSkipManager() {
+    return skipManager;
+  }
+
+  void setSkipManager(SkipManager manager) {
+    skipManager = manager;
+  }
 
   Change.Status getChangeStatus() {
     return changeStatus;
@@ -875,12 +883,12 @@ abstract class DiffScreen extends Screen {
             operation(new Runnable() {
               @Override
               public void run() {
-                getSkipManager().removeAll();
+                skipManager.removeAll();
                 getChunkManager().reset();
                 getDiffTable().scrollbar.removeDiffAnnotations();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
-                getSkipManager().render(prefs.context(), diff);
+                skipManager.render(prefs.context(), diff);
               }
             });
           }
@@ -942,4 +950,6 @@ abstract class DiffScreen extends Screen {
 
   abstract ScreenLoadCallback<ConfigInfoCache.Entry> getScreenLoadCallback(
       CommentsCollections comments);
+
+  abstract boolean isSideBySide();
 }

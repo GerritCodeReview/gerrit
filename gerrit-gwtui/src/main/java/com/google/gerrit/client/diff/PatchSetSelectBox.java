@@ -21,7 +21,6 @@ import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -148,7 +147,7 @@ class PatchSetSelectBox extends Composite {
     PatchSet.Id revision = sideA ? other.idActive : id;
 
     return new InlineHyperlink(label,
-        parent.diffScreenType == DiffView.SIDE_BY_SIDE
+        parent.isSideBySide()
             ? Dispatcher.toSideBySide(diffBase, revision, path)
             : Dispatcher.toUnified(diffBase, revision, path));
   }

@@ -171,6 +171,7 @@ class UnifiedSkipBar extends SkipBar {
   void onExpandAll(@SuppressWarnings("unused") ClickEvent e) {
     expandAll();
     updateSelection();
+    cm.refresh();
     cm.focus();
   }
 
@@ -182,12 +183,14 @@ class UnifiedSkipBar extends SkipBar {
   @UiHandler("upArrow")
   void onExpandBefore(@SuppressWarnings("unused") ClickEvent e) {
     expandBefore(NUM_ROWS_TO_EXPAND);
+    cm.refresh();
     cm.focus();
   }
 
   @UiHandler("downArrow")
   void onExpandAfter(@SuppressWarnings("unused") ClickEvent e) {
     expandAfter();
+    cm.refresh();
     cm.focus();
   }
 }

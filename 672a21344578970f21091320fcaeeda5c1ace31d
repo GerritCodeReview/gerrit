@@ -16,6 +16,24 @@
       "revId": "672a21344578970f21091320fcaeeda5c1ace31d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_a8db9b99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-18T13:03:51Z",
+      "side": 1,
+      "message": "Yes, that would be an optimization.\n\nAlthough I\u0027m not sure that this is even the right place for the fix.  Maybe the list of patch sets shouldn\u0027t even include the ones that aren\u0027t visible?\n\nI\u0027ll have a look at how the change screen is getting this information; on there you can\u0027t see the current patch set if it\u0027s a draft.",
+      "parentUuid": "ab4dc25b_b40e8e8a",
+      "revId": "672a21344578970f21091320fcaeeda5c1ace31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

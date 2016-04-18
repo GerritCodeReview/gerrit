@@ -117,7 +117,7 @@ import java.util.Set;
 public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
-  private class OpenRepo {
+  public class OpenRepo {
     final Repository repo;
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
@@ -361,16 +361,22 @@ public class MergeOp implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  private OpenRepo getRepo(Project.NameKey project) {
+  public OpenRepo getRepo(Project.NameKey project) {
     OpenRepo or = openRepos.get(project);
     checkState(or != null, "repo not yet opened: %s", project);
     return or;
   }
 
-  private void openRepo(Project.NameKey project)
+  public void openRepo(Project.NameKey project, boolean abortIfOpen)
       throws NoSuchProjectException, IOException {
-    checkState(!openRepos.containsKey(project),
-        "repo already opened: %s", project);
+    if (abortIfOpen) {
+      checkState(!openRepos.containsKey(project),
+          "repo already opened: %s", project);
+    } else {
+      if (openRepos.containsKey(project)) {
+        return;
+      }
+    }
     ProjectState projectState = projectCache.get(project);
     if (projectState == null) {
       throw new NoSuchProjectException(project);
@@ -647,8 +653,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException(msg, e);
     }
 
-    SubmoduleOp subOp = subOpProvider.get();
-    updateSuperProjects(subOp, br.values());
+    updateSuperProjects(br.values());
   }
 
   private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
@@ -848,11 +853,11 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void updateSuperProjects(SubmoduleOp subOp,
-      Collection<Branch.NameKey> branches) {
+  private void updateSuperProjects(Collection<Branch.NameKey> branches) {
     logDebug("Updating superprojects");
+    SubmoduleOp subOp = subOpProvider.get();
     try {
-      subOp.updateSuperProjects(db, branches, submissionId);
+      subOp.updateSuperProjects(db, branches, submissionId, this);
       logDebug("Updating superprojects done");
     } catch (SubmoduleException e) {
       logError("The gitlinks were not updated according to the "
@@ -864,7 +869,7 @@ public class MergeOp implements AutoCloseable {
       throws IntegrationException {
     for (Project.NameKey project : projects) {
       try {
-        openRepo(project);
+        openRepo(project, true);
       } catch (NoSuchProjectException noProject) {
         logWarn("Project " + noProject.project() + " no longer exists, "
             + "abandoning open changes");

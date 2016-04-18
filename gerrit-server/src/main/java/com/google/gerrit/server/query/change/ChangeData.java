@@ -470,8 +470,10 @@ public class ChangeData {
       }
       for (PatchSet p : patches()) {
         if (p.getId().equals(c.currentPatchSetId())) {
-          currentPatchSet = p;
-          return p;
+          if (changeControl().isPatchVisible(p, db)) {
+            currentPatchSet = p;
+            return p;
+          }
         }
       }
     }

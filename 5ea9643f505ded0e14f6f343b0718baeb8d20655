@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f5903c_3f58c72a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-04-18T14:58:16Z",
+      "side": 1,
+      "message": "Working on making the tests more readable",
+      "revId": "5ea9643f505ded0e14f6f343b0718baeb8d20655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

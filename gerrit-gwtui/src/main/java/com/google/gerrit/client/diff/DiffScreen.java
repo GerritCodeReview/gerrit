@@ -99,7 +99,7 @@ abstract class DiffScreen extends Screen {
   final PatchSet.Id revision;
   final String path;
   final DiffPreferences prefs;
-  final DiffView diffScreenType;
+  final SkipManager skipManager;
 
   private DisplaySide startSide;
   private int startLine;
@@ -133,13 +133,13 @@ abstract class DiffScreen extends Screen {
     this.path = path;
     this.startSide = startSide;
     this.startLine = startLine;
-    this.diffScreenType = diffScreenType;
 
     prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     header = new Header(
         keysNavigation, base, revision, path, diffScreenType, prefs);
+    skipManager = new SkipManager(this);
   }
 
   @Override
@@ -600,8 +600,8 @@ abstract class DiffScreen extends Screen {
     operation(new Runnable() {
       @Override
       public void run() {
-        getSkipManager().removeAll();
-        getSkipManager().render(context, diff);
+        skipManager.removeAll();
+        skipManager.render(context, diff);
         updateRenderEntireFile();
       }
     });
@@ -691,8 +691,6 @@ abstract class DiffScreen extends Screen {
   abstract ChunkManager getChunkManager();
 
   abstract CommentManager getCommentManager();
-
-  abstract SkipManager getSkipManager();
 
   Change.Status getChangeStatus() {
     return changeStatus;
@@ -875,12 +873,12 @@ abstract class DiffScreen extends Screen {
             operation(new Runnable() {
               @Override
               public void run() {
-                getSkipManager().removeAll();
+                skipManager.removeAll();
                 getChunkManager().reset();
                 getDiffTable().scrollbar.removeDiffAnnotations();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
-                getSkipManager().render(prefs.context(), diff);
+                skipManager.render(prefs.context(), diff);
               }
             });
           }
@@ -942,4 +940,6 @@ abstract class DiffScreen extends Screen {
 
   abstract ScreenLoadCallback<ConfigInfoCache.Entry> getScreenLoadCallback(
       CommentsCollections comments);
+
+  abstract boolean isSideBySide();
 }

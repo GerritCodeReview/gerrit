@@ -169,7 +169,7 @@ class SideBySideCommentManager extends CommentManager {
   @Override
   void insertNewDraft(DisplaySide side, int line) {
     if (line == 0) {
-      host.getSkipManager().ensureFirstLineIsVisible();
+      host.skipManager.ensureFirstLineIsVisible();
     }
 
     SideBySideCommentGroup group = group(side, line);

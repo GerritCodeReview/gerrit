@@ -170,7 +170,7 @@ class UnifiedCommentManager extends CommentManager {
   @Override
   void insertNewDraft(DisplaySide side, int cmLinePlusOne) {
     if (cmLinePlusOne == 0) {
-      getDiffScreen().getSkipManager().ensureFirstLineIsVisible();
+      getDiffScreen().skipManager.ensureFirstLineIsVisible();
     }
 
     CommentGroup group = group(side, cmLinePlusOne);

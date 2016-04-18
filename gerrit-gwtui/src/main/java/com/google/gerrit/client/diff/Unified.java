@@ -68,7 +68,6 @@ public class Unified extends DiffScreen {
 
   private UnifiedChunkManager chunkManager;
   private UnifiedCommentManager commentManager;
-  private UnifiedSkipManager skipManager;
 
   private boolean autoHideDiffTableHeader;
 
@@ -188,7 +187,6 @@ public class Unified extends DiffScreen {
     setShowTabs(prefs.showTabs());
 
     chunkManager = new UnifiedChunkManager(this, cm, diffTable.scrollbar);
-    skipManager = new UnifiedSkipManager(this, commentManager);
 
     operation(new Runnable() {
       @Override
@@ -407,7 +405,7 @@ public class Unified extends DiffScreen {
   }
 
   @Override
-  UnifiedSkipManager getSkipManager() {
-    return skipManager;
+  boolean isSideBySide() {
+    return false;
   }
 }

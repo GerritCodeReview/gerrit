@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c8d2fce6_f2a068b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-18T18:56:49Z",
+      "side": 1,
+      "message": "Ok, the next patch progressed to not inject MergeOp any more.\nMergeOp just passes itself to SubmoduleOp, which sounds sane to me. ReceiveCommits however still needs to construct a MergeOp. By now I think ripping out the OpenRepo management is best instead of bringing in the whole MergeOp.",
+      "parentUuid": "8b2d5e79_6813633c",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "a4a41cd4ac1492a8e080fe09b6017733293b501a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_883257d1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4

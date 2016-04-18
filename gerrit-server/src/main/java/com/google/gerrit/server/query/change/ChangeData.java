@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -542,6 +544,27 @@ public class ChangeData {
       patches = db.patchSets().byChange(legacyId).toList();
     }
     return patches;
+  }
+
+  /**
+   * @return patches for the change visible to the current user.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Collection<PatchSet> visiblePatches() throws OrmException {
+    Collection<PatchSet> allPatches = patches();
+
+    return allPatches == null
+        ? ImmutableList.<PatchSet> of()
+        : FluentIterable.from(allPatches)
+            .filter(new Predicate<PatchSet>() {
+              @Override
+              public boolean apply(PatchSet input) {
+                try {
+                  return changeControl().isPatchVisible(input, db);
+                } catch (OrmException e) {
+                  return false;
+                }
+              }}).toList();
   }
 
   /**

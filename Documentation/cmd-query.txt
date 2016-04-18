@@ -54,15 +54,17 @@ command line parser in the server).
 
 --current-patch-set::
 	Include information about the current patch set in the results.
+	Note that the information will only be included when the current
+	patch set is visible to the caller.
 
 --patch-sets::
-	Include information about all patch sets.  If combined with
-	the --current-patch-set flag then the current patch set
-	information will be output twice, once in each field.
+	Include information about all patch sets visible to the caller.
+        If combined with the --current-patch-set flag then the current patch
+	set information will be output twice, once in each field.
 
 --all-approvals::
-	Include information about all patch sets along with the
-	approval information for each patch set.  If combined with
+	Include information about all patch sets visible to the caller along
+	with the approval information for each patch set.  If combined with
 	the --current-patch-set flag then the current patch set
 	information will be output twice, once in each field.
 
@@ -76,7 +78,7 @@ command line parser in the server).
 --comments::
 	Include comments for all changes. If combined with the
 	--patch-sets flag then all inline/file comments are included for
-	each patch set.
+	each patch set that is visible to the caller.
 
 --commit-message::
 	Include the full commit message in the change description.

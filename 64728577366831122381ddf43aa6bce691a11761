@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2820f890_955b44cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:53:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_9f27d3f6",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_5f8b8b13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-15T15:28:59Z",
       "side": 1,
       "message": "It feels a little odd to parse an unrelated resource type in the AccountResource hierarchy. Maybe just use ChangeFinder#findOne directly?\n\nOnce nice thing about that is then you can catch a specific NoSuchChangeException on l. 117 below, so it\u0027s a little clearer what kind of thing is not found.",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_b4e76efa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:53:17Z",
+      "side": 1,
+      "message": "This cannot be done easily, because we have the id as an IdString here and ChangeFinder#findOne requires a Change.Id. IdString may not be a valid Change.Id and in this case we cannot fail with a NoSuchChangeException because this exception requires a Change.Id. So if IdString is an invalid Change.Id we really can only fail with a ResourceNotFoundException.\n\nSo ChangesCollection.parse does really what we want and need.",
+      "parentUuid": "68f5903c_5f8b8b13",
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "2820f890_f5edd818",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:53:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f5903c_7f864f0f",
+      "range": {
+        "startLine": 101,
+        "startChar": 35,
+        "endLine": 101,
+        "endChar": 70
+      },
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_3f90c73b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 1
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "ab4dc25b_54e1e2e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:53:17Z",
+      "side": 1,
+      "message": "Post is bound to the\n\n  /accounts/\u003caccount-id\u003e/stars.changes/\u003cchange-id\u003e\n\nURL and implements updating of changes which have already been starred.\n\nChanges with no stars a not listed as member of the /accounts/\u003caccount-id\u003e/stars.changes/ collection and a Post request on a non-existing member of this collection fails as expected with ResourceNotFoundException. \n\nCreation of new members in a REST collection is handled by the class that implements the collection (by implementing the AcceptsCreate interface). On request level this is either Post or Put.\n\nSo instead of invoking Stars.Create here directly, I should rather do the creation via the Stars class which implements the REST collection. Done.",
+      "parentUuid": "68f5903c_3f90c73b",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_6898c330",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2016-04-15T15:28:59Z",
       "side": 1,
       "message": "What\u0027s the reasoning for having the extension API have different behavior than the REST API? I would expect either the REST API to return an empty list (my preferred solution) or the extension API to let the RNFE propagate.",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_94098a87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:53:17Z",
+      "side": 1,
+      "message": "Good point.\n\nThis comes from our REST API schema which is \n\n  /accounts/\u003caccount-id\u003e/stars.changes/\u003cchange-id\u003e\n\nThe REST collection /accounts/\u003caccount-id\u003e/stars.changes/ only contains changes that have been starred. This allows users to get all starred changes by \n\n  GET /accounts/\u003caccount-id\u003e/stars.changes/\n\nThis is nice and it would be unexpected to get changes with no stars for this request\n\nBut this also means that trying to get stars from a change that has none results in a ResourceNotFoundException.\n\nFWIW this matches the behaviour of the old star REST API, /accounts/\u003caccount-id\u003e/starred.changes/ only contains changes that have been starred (by the default star).\n\nAll this makes sense for the REST API, but looking at the Java API my expectation was to rather get an empty label list for changes with no stars. This is why I implemented it like this, but I agree that it\u0027s inconsistent.\n\nFor now I\u0027m changing this implementation to be consistent with the REST API and throw ResourceNotFoundException as well.\n\nDo you think we should change /accounts/\u003caccount-id\u003e/stars.changes/ to always contain all changes? This would also fix your other comment above.",
+      "parentUuid": "8b2d5e79_6898c330",
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2820f890_15861443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T14:22:38Z",
+      "side": 1,
+      "message": "Copied this comment over to \n  https://gerrit-review.googlesource.com/76661",
+      "parentUuid": "ab4dc25b_94342a2f",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "84136b3a1d4658b07b16c3a78b08ba31011d4b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2820f890_d513fcec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2016-04-18T12:53:17Z",
       "side": 1,
       "message": "Forgot here to check that the label are valid.",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 209,
+        "endChar": 21
+      },
+      "revId": "84136b3a1d4658b07b16c3a78b08ba31011d4b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_b4720ee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T14:22:38Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/76661",
+      "parentUuid": "2820f890_d513fcec",
       "range": {
         "startLine": 207,
         "startChar": 6,

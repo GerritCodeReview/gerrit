@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1460983508 +0200\nnonce AB8gjyUvxGc6F8ZDQPDYg3onG1mtXhRiL74FvB4pgJGWbzsZOvJCLfLIc4IJiQABNIT9ISMMVcrY\n\n0000000000000000000000000000000000000000 91237863fb2e6b0338627110cb49365a2d9f007f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXFNbUAAoJEFG1/Zeg0O9R5g4IAJurRAyMiYFpo9Cv6n8usaZU\nlZRTU6ydxWQ5G3NiC45MQL93ZDnb/NVQW8lX+25kci1Jg4K42kNmMHUMsTjwNt1U\n1jwQb/saw6k8CQhaqUFr4y4MhkIpj+b/C4MbgeioOk83QwX2PEmChYJRjUau5Ncz\ni9QsPiy27HGJr6qD6lOnr0Bl8ev1Wuuhtbu9LvqGbTHCTtczwgNSAJEHjC9QiHQA\nZ/i1OTx5kZD6Eg+7/Yl1e+rTO397bqYTv/D5MnGnjpWv2Z+W4b2vss+QBuS5DNeE\ndXZbdhMx1D9ZvMenqid1PotiCd9YOmHDxOWinjDlg3UxKwbeDCml4/EedqyKe1A\u003d\n\u003d+JmW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2820f890_75cc28b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T13:00:50Z",
+      "side": 1,
+      "message": "The changes that add those 2 schema versions ([1] and this change) should be squashed.\n\n[1] https://gerrit-review.googlesource.com/76664",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 70
+      },
+      "revId": "91237863fb2e6b0338627110cb49365a2d9f007f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

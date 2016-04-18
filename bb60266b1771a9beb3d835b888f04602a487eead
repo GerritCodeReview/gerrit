@@ -141,6 +141,24 @@
       "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab4dc25b_d4b15205",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-18T12:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_6821a390",
+      "revId": "bb60266b1771a9beb3d835b888f04602a487eead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

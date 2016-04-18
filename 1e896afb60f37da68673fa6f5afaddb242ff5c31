@@ -266,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "68f5903c_bf997735",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ssh/SshKeyCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-18T01:40:57Z",
+      "side": 1,
+      "message": "get() is implemented in SshKeyCacheImpl.\n\n Iterable\u003cSshKeyCacheEntry\u003e get(String username)\n\n(but not in NoSshKeyCache)",
+      "parentUuid": "8b2d5e79_a872bbdf",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_886df706",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/AuthorizedKeysTest.java",
         "patchSetId": 4
@@ -313,6 +331,24 @@
       "side": 1,
       "message": "Yeah but do we want to support those people editing authorized_keys files manually in their non-unixy editors?",
       "parentUuid": "8b2d5e79_285fab4b",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2d5e79_487a1f47",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/AuthorizedKeysTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-18T01:40:57Z",
+      "side": 1,
+      "message": "Whether we want to is a different question from whether we need to ;)\n\nI\u0027d rather keep the support, if it\u0027s not too much effort to do so, otherwise OK let\u0027s drop it.",
+      "parentUuid": "68f5903c_ff47ff9b",
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -236,6 +236,11 @@ public abstract class AbstractDaemonTest {
     return push.to(git, ref);
   }
 
+  protected PushOneCommit.Result amendChangeAsDraft(String changeId)
+      throws GitAPIException, IOException {
+    return amendChange(changeId, "refs/drafts/master");
+  }
+
   protected ChangeInfo getChange(String changeId, ListChangesOption... options)
       throws IOException {
     return getChange(adminSession, changeId, options);

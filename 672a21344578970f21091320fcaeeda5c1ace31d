@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab4dc25b_b40e8e8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-18T11:23:49Z",
+      "side": 1,
+      "message": "Can we stop the looping if we found a current patchset that is invisible?",
+      "revId": "672a21344578970f21091320fcaeeda5c1ace31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

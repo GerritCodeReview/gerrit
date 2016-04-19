@@ -85,6 +85,8 @@
           selectedChangeIndex: 0,
         },
       };
+
+      this._loadPlugins
     },
 
     _accountChanged: function(account) {

@@ -366,6 +366,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(RequestMetricsFilter.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
+    modules.add(new HttpPluginModule());
     modules.add(sysInjector.getInstance(StaticModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
     if (sshInjector != null) {
@@ -374,7 +375,6 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new NoSshModule());
     }
     modules.add(H2CacheBasedWebSession.module());
-    modules.add(new HttpPluginModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

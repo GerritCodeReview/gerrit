@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e87500ba_133e4c0d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T07:57:24Z",
+      "side": 1,
+      "message": "nit: wrong indentation\n\nSame on lines below.",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 4
+      },
+      "revId": "ea308efd6619f27b95fd289c21d98b2b4c95feed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d2fce6_5286140f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T07:57:24Z",
+      "side": 1,
+      "message": "ReviewInput.reject()",
+      "range": {
+        "startLine": 600,
+        "startChar": 12,
+        "endLine": 600,
+        "endChar": 54
+      },
+      "revId": "ea308efd6619f27b95fd289c21d98b2b4c95feed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87500ba_33434894",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T07:57:24Z",
+      "side": 1,
+      "message": "ReviewInput.dislike()",
+      "range": {
+        "startLine": 604,
+        "startChar": 12,
+        "endLine": 604,
+        "endChar": 54
+      },
+      "revId": "ea308efd6619f27b95fd289c21d98b2b4c95feed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d2fce6_12908c3b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T07:57:24Z",
+      "side": 1,
+      "message": "ReviewInput.recommend()",
+      "range": {
+        "startLine": 610,
+        "startChar": 12,
+        "endLine": 610,
+        "endChar": 53
+      },
+      "revId": "ea308efd6619f27b95fd289c21d98b2b4c95feed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d2fce6_728b1814",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T07:57:24Z",
+      "side": 1,
+      "message": "ReviewInput.approve()",
+      "range": {
+        "startLine": 614,
+        "startChar": 12,
+        "endLine": 614,
+        "endChar": 53
+      },
+      "revId": "ea308efd6619f27b95fd289c21d98b2b4c95feed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

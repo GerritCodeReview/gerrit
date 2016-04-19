@@ -294,6 +294,24 @@
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d5c8d0_91f8fc8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T06:16:45Z",
+      "side": 1,
+      "message": "Looking at this again I think it\u0027s actually easy to solve.\n\nRestCollection\u0027s have one method for listing members (list()) and another method for parsing a single member for direct access (parse(RestResource, IdString)).\n\nI will implement list() so that it returns only changes that have at least one star, this gives us the right behaviour for\n\n  GET /accounts/\u003caccount-Id\u003e/stars.changes/\n\nHowever, the parse(...) method should return a resource for any change no matter if it has stars or not. This means\n\n  GET /accounts/\u003caccount-Id\u003e/starred.changes/\u003cchange-id\u003e\n\nwill return an empty label list for changes with no stars (and not ResourceNotFoundException as it was before).\n\nThis means that also \n\n  POST /accounts/\u003caccount-Id\u003e/starred.changes/\u003cchange-id\u003e\n\nwould always work, regardless of whether the change has already stars or not.\n\nAny concerns about this design?",
+      "parentUuid": "8b2d5e79_a8c2bba5",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

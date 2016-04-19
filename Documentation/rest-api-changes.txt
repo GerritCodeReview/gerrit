@@ -4236,6 +4236,8 @@ Accepted but ignored.
 The comment message. +
 If not set and an existing draft comment is updated, the existing draft
 comment is deleted.
+|`tag`         |optional|
+Value of the `tag` field.
 |===========================
 
 [[comment-range]]

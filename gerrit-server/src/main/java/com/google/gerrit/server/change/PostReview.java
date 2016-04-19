@@ -161,7 +161,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       checkLabels(revision, input.strictLabels, input.labels);
     }
     if (input.comments != null) {
-      checkComments(revision, input.comments);
+      checkComments(revision, input.comments, input.tag);
     }
     if (input.notify == null) {
       log.warn("notify = null; assuming notify = NONE");
@@ -271,7 +271,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void checkComments(RevisionResource revision, Map<String, List<CommentInput>> in)
+  private void checkComments(RevisionResource revision,
+      Map<String, List<CommentInput>> in, String expectedTag)
       throws BadRequestException, OrmException {
     Iterator<Map.Entry<String, List<CommentInput>>> mapItr =
         in.entrySet().iterator();
@@ -309,6 +310,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         c.message = Strings.nullToEmpty(c.message).trim();
         if (c.message.isEmpty()) {
           listItr.remove();
+        }
+        if (c.tag != null && !c.tag.equals(expectedTag)) {
+          throw new BadRequestException(String.format(
+              "tag for comment does not match tag for review: %s != %s",
+              c.tag, expectedTag));
         }
       }
       if (list.isEmpty()) {

@@ -32,6 +32,7 @@ public abstract class Comment {
   public String inReplyTo;
   public Timestamp updated;
   public String message;
+  public String tag;
 
   public static class Range {
     public int startLine;

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68be70e4_97b744f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-04-19T23:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_98b775f8",
+      "revId": "ec0efec272cffb3e25e8d2ab6b9ea6b78312f40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68be70e4_b7b24808",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-19T23:32:50Z",
       "side": 1,
       "message": "Put this inside the other block, no sense in doing two false checks otherwise.",
+      "revId": "ec0efec272cffb3e25e8d2ab6b9ea6b78312f40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68be70e4_77cdd082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-04-19T23:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68be70e4_b7b24808",
       "revId": "ec0efec272cffb3e25e8d2ab6b9ea6b78312f40e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

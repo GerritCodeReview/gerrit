@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461070326 +0200\nnonce AB8gjyWly1EA4fT38R67BHbFRddwBnnNXMTirUt2F+VbTu30Oy0JFrumLgKZ9DqQf808MnDv66yI\n\n0000000000000000000000000000000000000000 0e4474356b12633a43f8394e9a48d526621b8ff6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXFin2AAoJEFG1/Zeg0O9RzjwH/jPWJY/eqH7kRriNVMFhFMKu\n6FNakoF8qJHOdK4iGAiI/a8ZaLvjBIssv0hNRQNlObGHcppCc40lFB98uL/JciVn\n1swtWKqbW1pFWztGUIX/PJqRvynAeITVt2k53ZOq8DmmA3+S/f1KVIHm9MsPNAHz\nh9SJ0VtMvbUI/JAbN9WI5las/AKXkJishtw0yMggx2AEXl/aV6dS6mto2UZWO1dm\npmiFePuFBJ5yYmxhcS2tqmdXO+iAYObDoNxoS+CRSmutS2o6SZpocEr9DiwXkKmS\nzgd1oPKpE2jG6J2slSp7La1UbCHXp6tLwu+GnJDuboc9UQli2zdySm+2Dl0t+Ws\u003d\n\u003dhLha\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e87500ba_d330d430",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T12:57:45Z",
+      "side": 1,
+      "message": "This is fine for now, but I was thinking of something more generic that could be used in future for other combinations of mutually exclusive labels.\n\n private static void check(Set\u003cString\u003e labels, Set\u003cString\u003e labels) {\n   if (labels.containsAll(exclusive)) {\n     throw IllegalLabelException.mutuallyExclusive(exclusive);\n   }\n }\n\nin this implementation the exception would also need to be modified to handle a variable number of labels.\n\nI\u0027m not sure if this is really worth the effort though.  Is it likely that there will be future use cases for it?",
+      "range": {
+        "startLine": 372,
+        "startChar": 2,
+        "endLine": 377,
+        "endChar": 3
+      },
+      "revId": "0e4474356b12633a43f8394e9a48d526621b8ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

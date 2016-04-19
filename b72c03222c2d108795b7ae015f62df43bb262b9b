@@ -16,6 +16,24 @@
       "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87500ba_73e780fd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/KeyMapType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-19T01:32:39Z",
+      "side": 1,
+      "message": "I don\u0027t think so. Any reference on why it might cause problems?",
+      "parentUuid": "c8d2fce6_32b830e6",
+      "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

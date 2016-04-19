@@ -597,6 +597,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     changeMessagesByPatchSet = ImmutableListMultimap.of();
     comments = ImmutableListMultimap.of();
     hashtags = ImmutableSet.of();
+    patchSets = ImmutableSortedMap.of();
   }
 
   @Override

@@ -615,6 +615,9 @@ public class SubmitRuleEvaluator {
     if (patchSet == null) {
       patchSet = cd.currentPatchSet();
     }
+    if (patchSet == null) {
+      throw new OrmException("No patch set found");
+    }
   }
 
   private String getProjectName() {

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "68be70e4_77a4b0cc",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1020422
+      },
+      "writtenOn": "2016-04-19T19:52:08Z",
+      "side": 1,
+      "message": "I think the word \"Outdated patch sets are any patch set that is not the current patch set on the change\" is very good.  \n\nI did not got it from this patch and then later I got it from the code of https://gerrit-the patch: review.googlesource.com/c/72163/6/gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java\n\nyes maybe it is just not common for me only, anyway the code is clear so you can ignore my proposal.",
+      "parentUuid": "e87500ba_33002825",
+      "revId": "eb14ad7eff6df7be9cbf450093eecb64eb40bb9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db363bde_f2b16809",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 6

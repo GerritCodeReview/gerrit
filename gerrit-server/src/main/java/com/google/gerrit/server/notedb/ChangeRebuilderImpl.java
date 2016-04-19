@@ -292,6 +292,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         labelNameComparator);
     update.setAllowWriteToNewRef(true);
     update.setPatchSetId(events.getPatchSetId());
+    update.setTag(events.getTag());
     for (Event e : events) {
       e.apply(update);
     }
@@ -399,13 +400,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     final Account.Id who;
     final Timestamp when;
+    final String tag;
     final boolean predatesChange;
     PatchSet.Id psId;
 
     protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
-        Timestamp changeCreatedOn) {
+        Timestamp changeCreatedOn, String tag) {
       this.psId = psId;
       this.who = who;
+      this.tag = tag;
       // Truncate timestamps at the change's createdOn timestamp.
       predatesChange = when.before(changeCreatedOn);
       this.when = predatesChange ? changeCreatedOn : when;
@@ -466,8 +469,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
       Event last = getLast();
       if (!Objects.equals(e.who, last.who)
-          || !e.psId.equals(last.psId)) {
-        return false; // Different patch set or author.
+          || !e.psId.equals(last.psId)
+          || !Objects.equals(e.tag, last.tag)) {
+        return false; // Different patch set, author, or tag.
       }
 
       long t = e.when.getTime();
@@ -525,6 +529,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           accountCache.get(id).getAccount(), getWhen(), serverIdent,
           anonymousCowardName);
     }
+
+    String getTag() {
+      return getLast().tag;
+    }
   }
 
   private static class ApprovalEvent extends Event {
@@ -532,7 +540,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     ApprovalEvent(PatchSetApproval psa, Timestamp changeCreatedOn) {
       super(psa.getPatchSetId(), psa.getAccountId(), psa.getGranted(),
-          changeCreatedOn);
+          changeCreatedOn, psa.getTag());
       this.psa = psa;
     }
 
@@ -555,7 +563,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
       super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
-          change.getCreatedOn());
+          change.getCreatedOn(), null);
       this.change = change;
       this.ps = ps;
       this.rw = rw;
@@ -616,7 +624,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
         PatchListCache cache) {
       super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(),
-          c.getWrittenOn(), change.getCreatedOn());
+          c.getWrittenOn(), change.getCreatedOn(), c.getTag());
       this.c = c;
       this.change = change;
       this.ps = ps;
@@ -650,7 +658,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
         Set<String> hashtags, Timestamp changeCreatdOn) {
-      super(psId, who, when, changeCreatdOn);
+      super(psId, who, when, changeCreatdOn,
+          // Somewhat confusingly, hashtags do not use the setTag method on
+          // AbstractChangeUpdate, so pass null as the tag.
+          null);
       this.hashtags = hashtags;
     }
 
@@ -686,7 +697,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     ChangeMessageEvent(ChangeMessage message, Change noteDbChange,
         Timestamp changeCreatedOn) {
       super(message.getPatchSetId(), message.getAuthor(),
-          message.getWrittenOn(), changeCreatedOn);
+          message.getWrittenOn(), changeCreatedOn, message.getTag());
       this.message = message;
       this.noteDbChange = noteDbChange;
     }
@@ -755,7 +766,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     FinalUpdatesEvent(Change change, Change noteDbChange) {
       super(change.currentPatchSetId(), change.getOwner(),
-          change.getLastUpdatedOn(), change.getCreatedOn());
+          change.getLastUpdatedOn(), change.getCreatedOn(), null);
       this.change = change;
       this.noteDbChange = noteDbChange;
     }

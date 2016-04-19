@@ -4236,6 +4236,10 @@ Accepted but ignored.
 The comment message. +
 If not set and an existing draft comment is updated, the existing draft
 comment is deleted.
+|`tag`         |optional, drafts only|
+Value of the `tag` field. Only allowed on link:#create-draft[draft comment] +
+inputs; for published comments, use the `tag` field in +
+link#review-input[ReviewInput]
 |===========================
 
 [[comment-range]]

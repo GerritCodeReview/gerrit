@@ -19,7 +19,6 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -470,11 +469,48 @@ public class CommentsIT extends AbstractDaemonTest {
         + "\n");
   }
 
+  @Test
+  public void commentTags() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    CommentInput pub = new CommentInput();
+    pub.line = 1;
+    pub.message = "published comment";
+    pub.path = FILE_NAME;
+    ReviewInput rin = newInput(pub);
+    rin.tag = "tag1";
+    gApi.changes().id(r.getChangeId()).current().review(rin);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(r.getChangeId()).current().commentsAsList();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).tag).isEqualTo("tag1");
+
+    DraftInput draft = new DraftInput();
+    draft.line = 2;
+    draft.message = "draft comment";
+    draft.path = FILE_NAME;
+    draft.tag = "tag2";
+    addDraft(r.getChangeId(), r.getCommit().name(), draft);
+
+    List<CommentInfo> drafts =
+        gApi.changes().id(r.getChangeId()).current().draftsAsList();
+    assertThat(drafts).hasSize(1);
+    assertThat(drafts.get(0).tag).isEqualTo("tag2");
+  }
+
   private static String extractComments(String msg) {
     // Extract lines between start "....." and end "-- ".
     Pattern p = Pattern.compile(".*[.]{5}\n+(.*)\\n+-- \n.*", Pattern.DOTALL);
     Matcher m = p.matcher(msg);
     return m.matches() ? m.group(1) : msg;
+  }
+
+  private ReviewInput newInput(CommentInput c) {
+    ReviewInput in = new ReviewInput();
+    in.comments = new HashMap<>();
+    in.comments.put(c.path, Lists.newArrayList(c));
+    return in;
   }
 
   private void addComment(PushOneCommit.Result r, String message)
@@ -488,9 +524,7 @@ public class CommentsIT extends AbstractDaemonTest {
     c.line = 1;
     c.message = message;
     c.path = FILE_NAME;
-    ReviewInput in = new ReviewInput();
-    in.comments = ImmutableMap.<String, List<CommentInput>> of(
-        FILE_NAME, ImmutableList.of(c));
+    ReviewInput in = newInput(c);
     in.omitDuplicateComments = omitDuplicateComments;
     gApi.changes()
         .id(r.getChangeId())

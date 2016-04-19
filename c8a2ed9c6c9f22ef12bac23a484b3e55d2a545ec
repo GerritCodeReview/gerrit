@@ -34,6 +34,24 @@
       "revId": "c8a2ed9c6c9f22ef12bac23a484b3e55d2a545ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_f0fb8087",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-04-19T06:41:58Z",
+      "side": 0,
+      "message": "polygerrit-ui/run-server.sh:32",
+      "parentUuid": "a8d5c8d0_113e4c0d",
+      "revId": "c8a2ed9c6c9f22ef12bac23a484b3e55d2a545ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

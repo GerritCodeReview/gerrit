@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_106964f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T12:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d2fce6_526ff4fc",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "8b6a55871b02ef788ddd1ea13769c103dde362ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e87500ba_732220ee",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a8d5c8d0_11e2ccbb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T12:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e87500ba_732220ee",
+      "revId": "8b6a55871b02ef788ddd1ea13769c103dde362ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e87500ba_531da4ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-04-19T12:37:04Z",
       "side": 1,
       "message": "Optional: Use containsAll(..) and factor this out to a method named something like checkMutuallyExclusiveLabels(...)?",
+      "range": {
+        "startLine": 187,
+        "startChar": 12,
+        "endLine": 187,
+        "endChar": 75
+      },
+      "revId": "8b6a55871b02ef788ddd1ea13769c103dde362ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d5c8d0_31e7d0cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T12:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e87500ba_531da4ac",
       "range": {
         "startLine": 187,
         "startChar": 12,

@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "c8d2fce6_72dd58fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026177
+      },
+      "writtenOn": "2016-04-19T13:46:29Z",
+      "side": 1,
+      "message": "I spoke with dborowitz@ and he explained the following.\n\nGerrit-review is actually a special case and is not using the Gitiles plugin.  This can be verified by going to \"https://gerrit-review.googlesource.com/plugins/?all\".\n\nThe lack of web-links can be seen on this commit:  https://gerrit-review.googlesource.com/changes/76655/revisions/32dc52bf223e8bdb3479113334f9c52228c61269/commit?links\n\nInstead, it is using Gitweb, a web display of commits that was supported before the existence of plugins.  Gitweb is configured using the site\u0027s \"etc/gerrit.config\" file.\n\nThe relevant settings are:\n[gitweb]\n  cgi \u003d # The location of the Gitweb cgi file.\n  linkname \u003d # How the gitweb link is shown \"(gitiles)\" in gerrit-review.\nhttps://git.eclipse.org/r/Documentation/config-gerrit.html#gitweb.linkname",
+      "parentUuid": "68f5903c_1fd2a3d4",
+      "revId": "6a7f90426ad7637c959117cc00ca4b16597840db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_5faf0b5c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

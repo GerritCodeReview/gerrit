@@ -35,6 +35,24 @@
       "revId": "ce61b90a46f39731398413183adec364942b1082",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d5c8d0_5186140f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T08:54:47Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/76750",
+      "parentUuid": "ab4dc25b_b1af805b",
+      "revId": "ce61b90a46f39731398413183adec364942b1082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

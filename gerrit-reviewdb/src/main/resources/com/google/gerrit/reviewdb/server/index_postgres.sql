@@ -135,11 +135,3 @@ WHERE status = 'd';
 -- PatchSetAccess
 CREATE INDEX patch_sets_byRevision
 ON patch_sets (revision);
-
--- *********************************************************************
--- StarredChangeAccess
---    @PrimaryKey covers: byAccount
-
-CREATE INDEX starred_changes_byChange
-ON starred_changes (change_id);
-

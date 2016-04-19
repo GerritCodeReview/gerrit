@@ -14,57 +14,31 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.query.OrPredicate;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gwtorm.server.OrmException;
 
-import java.util.List;
-import java.util.Set;
+class IsStarredByPredicate extends IndexPredicate<ChangeData> {
+  private final Account.Id accountId;
 
-class IsStarredByPredicate extends OrPredicate<ChangeData> {
-  private static String describe(CurrentUser user) {
-    if (user.isIdentifiedUser()) {
-      return user.getAccountId().toString();
-    }
-    return user.toString();
-  }
-
-  private static List<Predicate<ChangeData>> predicates(Set<Change.Id> ids) {
-    List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(ids.size());
-    for (Change.Id id : ids) {
-      r.add(new LegacyChangeIdPredicate(id));
-    }
-    return r;
-  }
-
-  private final CurrentUser user;
-
-  IsStarredByPredicate(Arguments args) throws QueryParseException {
-    super(predicates(args.getIdentifiedUser().getStarredChanges()));
-    this.user = args.getIdentifiedUser();
+  IsStarredByPredicate(Account.Id accountId) {
+    super(ChangeField.STARREDBY, accountId.toString());
+    this.accountId = accountId;
   }
 
   @Override
-  public boolean match(final ChangeData object) {
-    return user.getStarredChanges().contains(object.getId());
+  public boolean match(ChangeData cd) throws OrmException {
+    return cd.starredBy().contains(accountId);
   }
 
   @Override
   public int getCost() {
-    return 0;
+    return 1;
   }
 
   @Override
   public String toString() {
-    String val = describe(user);
-    if (val.indexOf(' ') < 0) {
-      return ChangeQueryBuilder.FIELD_STARREDBY + ":" + val;
-    } else {
-      return ChangeQueryBuilder.FIELD_STARREDBY + ":\"" + val + "\"";
-    }
+    return ChangeQueryBuilder.FIELD_STARREDBY + ":" + accountId;
   }
 }

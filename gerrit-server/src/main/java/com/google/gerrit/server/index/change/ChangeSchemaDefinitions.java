@@ -96,7 +96,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       ChangeField.COMMITTER,
       ChangeField.DRAFTBY);
 
+  @Deprecated
   static final Schema<ChangeData> V27 = schema(V26.getFields().values());
+
+  static final Schema<ChangeData> V28 = schema(V27, ChangeField.STARREDBY);
 
   public static final ChangeSchemaDefinitions INSTANCE =
       new ChangeSchemaDefinitions();

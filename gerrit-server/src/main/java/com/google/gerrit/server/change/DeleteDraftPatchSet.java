@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -99,8 +100,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws RestApiException, OrmException, IOException {
+    public boolean updateChange(ChangeContext ctx) throws RestApiException,
+        OrmException, IOException, NoSuchChangeException {
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (patchSet == null) {
         return false; // Nothing to do.
@@ -148,7 +149,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)
-        throws OrmException, RestApiException {
+        throws OrmException, RestApiException, IOException,
+        NoSuchChangeException {
       Change c = ctx.getChange();
       if (deletedOnlyPatchSet()) {
         deleteChangeOp = deleteChangeOpProvider.get();

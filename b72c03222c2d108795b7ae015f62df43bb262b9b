@@ -70,6 +70,24 @@
       "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d5c8d0_f1fb8887",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/KeyMapType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-19T05:55:44Z",
+      "side": 1,
+      "message": "Enums are stored by their names. ConfigUtil#storeSection() is calling:\n\n  cfg.setEnum(section, sub, n, (Enum\u003c?\u003e) c);\n\non line 301. Config#setEnum() in JGit is retrieving the enum value like this: [1].\n\n  n \u003d value.name().toLowerCase().replace(\u0027_\u0027, \u0027 \u0027);\n\n\n[1] https://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java#L765-L773",
+      "parentUuid": "e87500ba_f3d2b019",
+      "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

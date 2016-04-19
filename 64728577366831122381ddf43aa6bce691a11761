@@ -312,6 +312,24 @@
       "revId": "64728577366831122381ddf43aa6bce691a11761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_501dacac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T08:45:46Z",
+      "side": 1,
+      "message": "Implemented with patch set 8 of [1].\n\n[1] https://gerrit-review.googlesource.com/76661",
+      "parentUuid": "a8d5c8d0_91f8fc8c",
+      "revId": "64728577366831122381ddf43aa6bce691a11761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

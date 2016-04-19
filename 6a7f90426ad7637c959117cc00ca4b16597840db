@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "c8d2fce6_d2ebe492",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-19T13:59:02Z",
+      "side": 1,
+      "message": "The Gitiles plugin used to use the gitweb config options to configure itself. Then in 2014[1] upstream Gerrit acquired the ability for plugins to provide WebLinks in code rather than relying on setting the config. a few months later[2] Gitiles was changed to use this extension mechanism.\n\nWe never migrated the Gitiles support for googlesource.com to use the WebLink extension points. Probably we should do that.\n\n \u003e Gerrit-review is actually a special case and is not using the Gitiles plugin.  This can be verified by going to \"https://gerrit-review.googlesource.com/plugins/?all\".\n\nWellll...it\u0027s true that gerrit-review doesn\u0027t use the Gitiles plugin. But that page is insufficient proof of that fact; we actually do use some plugins, we just link them in statically in a way that causes them not to show up in that list. Just, again, Gitiles is not in the list of plugins we do install.\n\n \u003e The relevant settings are:\n \u003e [gitweb]\n \u003e cgi \u003d # The location of the Gitweb cgi file.\n\nNo, gitiles does not use the CGI interface.\n\n \u003e linkname \u003d # How the gitweb link is shown \"(gitiles)\" in\n \u003e gerrit-review.\n \u003e https://git.eclipse.org/r/Documentation/config-gerrit.html#gitweb.linkname\n\nThat is a small fraction of the relevant settings :)\nThe actual config we use is:\n\n [gitweb]\n   type \u003d \u0027custom\u0027\n   url \u003d https://gerrit.googlesource.com/ # dynamically generated per host\n   linkname \u003d \u0027gitiles\u0027\n   revision \u003d \u0027\\${project}/+/\\${commit}\u0027\n   project \u003d \u0027\\${project}\u0027\n   branch \u003d \u0027\\${project}/+/\\${branch}\u0027\n   roottree \u003d \u0027\\${project}/+/\\${commit}/\u0027\n   file \u003d \u0027\\${project}/+/\\${commit}/\\${file}\u0027\n   filehistory \u003d \u0027\\${project}/+log/\\${branch}/\\${file}\u0027\n\n\nBottom line, Gerrit supports configuring web links in multiple ways, and unless we change something on the server side, PolyGerrit needs to support all of them. If you would rather change the server side so that everything uses the WebLink extension point, that\u0027s ok too.\n\n[1] https://gerrit-review.googlesource.com/54860\n[2] https://gerrit-review.googlesource.com/68284",
+      "parentUuid": "c8d2fce6_72dd58fc",
+      "revId": "6a7f90426ad7637c959117cc00ca4b16597840db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f5903c_5faf0b5c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

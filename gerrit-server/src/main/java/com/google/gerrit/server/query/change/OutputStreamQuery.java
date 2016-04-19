@@ -35,7 +35,6 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -73,7 +72,7 @@ public class OutputStreamQuery {
     TEXT, JSON
   }
 
-  private final Provider<ReviewDb> db;
+  private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final QueryProcessor queryProcessor;
@@ -97,7 +96,7 @@ public class OutputStreamQuery {
 
   @Inject
   OutputStreamQuery(
-      Provider<ReviewDb> db,
+      ReviewDb db,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       QueryProcessor queryProcessor,
@@ -239,7 +238,7 @@ public class OutputStreamQuery {
     ChangeControl cc = d.changeControl().forUser(user);
 
     LabelTypes labelTypes = cc.getLabelTypes();
-    ChangeAttribute c = eventFactory.asChangeAttribute(db.get(), d.change());
+    ChangeAttribute c = eventFactory.asChangeAttribute(db, d.change());
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {
@@ -248,7 +247,7 @@ public class OutputStreamQuery {
     }
 
     if (includeAllReviewers) {
-      eventFactory.addAllReviewers(db.get(), c, d.notes());
+      eventFactory.addAllReviewers(db, c, d.notes());
     }
 
     if (includeSubmitRecords) {
@@ -276,7 +275,7 @@ public class OutputStreamQuery {
     }
 
     if (includePatchSets) {
-      eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
+      eventFactory.addPatchSets(db, rw, c, d.patchSets(),
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles, d.change(), labelTypes);
     }
@@ -285,7 +284,7 @@ public class OutputStreamQuery {
       PatchSet current = d.currentPatchSet();
       if (current != null) {
         c.currentPatchSet =
-            eventFactory.asPatchSetAttribute(db.get(), rw, d.change(), current);
+            eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet,
             d.currentApprovals(), labelTypes);
 
@@ -303,7 +302,7 @@ public class OutputStreamQuery {
     if (includeComments) {
       eventFactory.addComments(c, d.messages());
       if (includePatchSets) {
-        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
+        eventFactory.addPatchSets(db, rw, c, d.patchSets(),
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles, d.change(), labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {

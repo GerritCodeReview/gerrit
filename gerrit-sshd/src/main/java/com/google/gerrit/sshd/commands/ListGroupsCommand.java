@@ -72,7 +72,7 @@ public class ListGroupsCommand extends SshCommand {
         final GroupControl.GenericFactory genericGroupControlFactory,
         final Provider<IdentifiedUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
-        final Provider<GetGroups> accountGetGroups,
+        final GetGroups accountGetGroups,
         final GroupJson json,
         GroupBackend groupBackend) {
       super(groupCache, groupControlFactory, genericGroupControlFactory,

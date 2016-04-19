@@ -33,7 +33,6 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -88,7 +87,7 @@ public class SetReviewersCommand extends SshCommand {
   private DeleteReviewer deleteReviewer;
 
   @Inject
-  private Provider<CurrentUser> userProvider;
+  private CurrentUser currentUser;
 
   @Inject
   private ChangesCollection changesCollection;
@@ -162,8 +161,7 @@ public class SetReviewersCommand extends SshCommand {
   }
 
   private void addChangeImpl(String id) throws UnloggedFailure, OrmException {
-    List<ChangeControl> matched =
-        changeFinder.find(id, userProvider.get());
+    List<ChangeControl> matched = changeFinder.find(id, currentUser);
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId()) && inProject(ctl.getProject())

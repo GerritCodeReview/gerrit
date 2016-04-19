@@ -66,7 +66,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GroupControl.GenericFactory genericGroupControlFactory;
   private final Provider<IdentifiedUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final Provider<GetGroups> accountGetGroups;
+  private final GetGroups accountGetGroups;
   private final GroupJson json;
   private final GroupBackend groupBackend;
 
@@ -149,7 +149,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final GroupControl.GenericFactory genericGroupControlFactory,
       final Provider<IdentifiedUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
-      final Provider<GetGroups> accountGetGroups, GroupJson json,
+      final GetGroups accountGetGroups,
+      GroupJson json,
       GroupBackend groupBackend) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
@@ -197,7 +198,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
 
     if (user != null) {
-      return accountGetGroups.get().apply(
+      return accountGetGroups.apply(
           new AccountResource(userFactory.create(user)));
     }
 

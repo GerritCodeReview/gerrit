@@ -28,12 +28,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -253,6 +255,42 @@ public class AccountIT extends AbstractDaemonTest {
         .setStars(triplet, new StarsInput(
             new HashSet<>(Arrays.asList(StarredChangesUtil.DEFAULT_LABEL,
                 "invalid label", "blue", "another invalid label"))));
+  }
+
+  @Test
+  public void starWithDefaultAndIgnoreLabel() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("The labels " + StarredChangesUtil.DEFAULT_LABEL
+        + " and " + StarredChangesUtil.IGNORE_LABEL + " are mutually exclusive."
+        + " Only one of them can be set.");
+    gApi.accounts().self().setStars(triplet,
+        new StarsInput(
+            new HashSet<>(Arrays.asList(StarredChangesUtil.DEFAULT_LABEL,
+                "blue", StarredChangesUtil.IGNORE_LABEL))));
+  }
+
+  @Test
+  public void ignoreChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+
+    setApiUser(user);
+    gApi.accounts().self().setStars(r.getChangeId(),
+        new StarsInput(ImmutableSet.of(StarredChangesUtil.IGNORE_LABEL)));
+
+    sender.clear();
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .abandon();
+    assertThat(sender.getMessages()).hasSize(0);
   }
 
   @Test

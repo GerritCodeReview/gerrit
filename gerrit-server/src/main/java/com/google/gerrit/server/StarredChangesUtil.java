@@ -64,11 +64,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -115,6 +112,13 @@ public class StarredChangesUtil {
               Joiner.on(", ").join(invalidLabels)));
     }
 
+    static IllegalLabelException mutuallyExclusiveLabels(String label1,
+        String label2) {
+      return new IllegalLabelException(
+          String.format("The labels %s and %s are mutually exclusive."
+              + " Only one of them can be set.", label1, label2));
+    }
+
     IllegalLabelException(String message) {
       super(message);
     }
@@ -124,6 +128,7 @@ public class StarredChangesUtil {
       LoggerFactory.getLogger(StarredChangesUtil.class);
 
   public static final String DEFAULT_LABEL = "star";
+  public static final String IGNORE_LABEL = "ignore";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
       ImmutableSortedSet.of(DEFAULT_LABEL);
 
@@ -179,6 +184,10 @@ public class StarredChangesUtil {
       if (labels.isEmpty()) {
         deleteRef(repo, refName, oldObjectId);
       } else {
+        if (labels.contains(DEFAULT_LABEL) && labels.contains(IGNORE_LABEL)) {
+          throw IllegalLabelException.mutuallyExclusiveLabels(DEFAULT_LABEL,
+              IGNORE_LABEL);
+        }
         updateLabels(repo, refName, oldObjectId, labels);
       }
 
@@ -282,18 +291,6 @@ public class StarredChangesUtil {
       throw new NoSuchChangeException(changeId);
     }
     return changeData.get(0).stars();
-  }
-
-  public Set<Account.Id> byChangeFromIndex(Change.Id changeId, String label)
-      throws OrmException, NoSuchChangeException {
-    Set<Account.Id> accounts = new HashSet<>();
-    for (Map.Entry<Account.Id, Collection<String>> e : byChangeFromIndex(
-        changeId).asMap().entrySet()) {
-      if (e.getValue().contains(label)) {
-        accounts.add(e.getKey());
-      }
-    }
-    return accounts;
   }
 
   @Deprecated

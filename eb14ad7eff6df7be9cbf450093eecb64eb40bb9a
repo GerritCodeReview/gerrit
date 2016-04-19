@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e87500ba_33002825",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2016-04-19T16:49:23Z",
+      "side": 1,
+      "message": "\u003e I feel you are introducing a new concept ‘outdated’,\n \u003e I am curious what is outdated change. is there some defination of \n \u003e it? or should we add some description for it?\n\nHmm, maybe that term isn\u0027t used elsewhere, but I thought it was a common term for Gerrit. Outdated patch sets are any patch set that is not the current patch set on the change. Do you think that needs to be in the docs somewhere? Or should I change my wording in the doc to just say that?",
+      "parentUuid": "68f5903c_5f74abcd",
+      "range": {
+        "startLine": 124,
+        "startChar": 55,
+        "endLine": 124,
+        "endChar": 63
+      },
+      "revId": "eb14ad7eff6df7be9cbf450093eecb64eb40bb9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db363bde_f2b16809",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 6

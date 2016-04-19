@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_10b404ac",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_8886d70a",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_a88b9b13",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2016-04-14T19:32:51Z",
       "side": 1,
       "message": "Not needed if you use a single try-with-resources",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 7
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_30b908a3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_a88b9b13",
       "range": {
         "startLine": 152,
         "startChar": 8,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_d09d1c33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_c890cf3e",
+      "range": {
+        "startLine": 30,
+        "startChar": 29,
+        "endLine": 30,
+        "endChar": 48
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab36a2c5_c990d13e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 4
@@ -89,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "a8d5c8d0_51d374db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab36a2c5_c990d13e",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_e895932b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 4
@@ -100,6 +190,24 @@
       "writtenOn": "2016-04-14T19:32:51Z",
       "side": 1,
       "message": "Optional: if you make VersionedAuthorizedKeys AutoCloseable you can avoid all these finally blocks.",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d5c8d0_91c0fcfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Good idea!!! \n\nDone",
+      "parentUuid": "8b2d5e79_e895932b",
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -129,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_70531013",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Yes, it\u0027s dense.\n\nDone, but I kept the Optional.",
+      "parentUuid": "ab36a2c5_e995952b",
+      "range": {
+        "startLine": 180,
+        "startChar": 2,
+        "endLine": 180,
+        "endChar": 59
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_087bc7c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 4
@@ -146,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_d0c67c19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_087bc7c4",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab36a2c5_8986d90a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 4
@@ -157,6 +307,30 @@
       "writtenOn": "2016-04-14T19:32:51Z",
       "side": 1,
       "message": "The point of Accessor is you never need to touch VersionedAuthorizedKeys directly, right? In which case these methods can all be private.",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 8
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_f0c38006",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Yes, at least all current use cases are covered by the Accessor.\n\nOnly setKeys(...) must stay public because it is used by the schema migration.\n\nDone.",
+      "parentUuid": "ab36a2c5_8986d90a",
       "range": {
         "startLine": 218,
         "startChar": 2,
@@ -192,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_7081d0c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Thanks!\n\nDone",
+      "parentUuid": "8b2d5e79_28788bc5",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 18
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_4885bff8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 4
@@ -203,6 +401,30 @@
       "writtenOn": "2016-04-14T19:32:51Z",
       "side": 1,
       "message": "Factor out a checkLoaded method or something to avoid repeating this string constant",
+      "range": {
+        "startLine": 238,
+        "startChar": 4,
+        "endLine": 238,
+        "endChar": 56
+      },
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_507ccc8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2d5e79_4885bff8",
       "range": {
         "startLine": 238,
         "startChar": 4,
@@ -232,6 +454,24 @@
     },
     {
       "key": {
+        "uuid": "88dc84fe_108644dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "Nice.\n\nDone.",
+      "parentUuid": "ab36a2c5_a98b9d13",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b2d5e79_688283f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
         "patchSetId": 4
@@ -243,6 +483,24 @@
       "writtenOn": "2016-04-14T19:32:51Z",
       "side": 1,
       "message": "I strongly prefer using Ordering for this kind of thing:\n\n Ordering.natural().onResultOf(new Function\u003cAccountSshKey, Integer\u003e(){...}).sortedCopy(e.getValue())",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_b0965803",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_123.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "I agree that this is much nicer.\n\nDone, but moved the sorting into VersionedAuthorizedKeys.setKeys(...).",
+      "parentUuid": "8b2d5e79_688283f3",
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -278,6 +536,24 @@
       "side": 1,
       "message": "get() is implemented in SshKeyCacheImpl.\n\n Iterable\u003cSshKeyCacheEntry\u003e get(String username)\n\n(but not in NoSshKeyCache)",
       "parentUuid": "8b2d5e79_a872bbdf",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_706a30bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ssh/SshKeyCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "As discussed offline the SshKeyCacheImpl class contains more functionality which is used within the SSH layer and the only purpose of this interface is to allow higher layers to evict entries from that cache.",
+      "parentUuid": "68f5903c_bf997735",
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -349,6 +625,24 @@
       "side": 1,
       "message": "Whether we want to is a different question from whether we need to ;)\n\nI\u0027d rather keep the support, if it\u0027s not too much effort to do so, otherwise OK let\u0027s drop it.",
       "parentUuid": "68f5903c_ff47ff9b",
+      "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_907234ac",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/AuthorizedKeysTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T15:34:50Z",
+      "side": 1,
+      "message": "I\u0027ve added a test to cover parsing from a file with Windows line endings.\n\nDone.",
+      "parentUuid": "8b2d5e79_487a1f47",
       "revId": "1e896afb60f37da68673fa6f5afaddb242ff5c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

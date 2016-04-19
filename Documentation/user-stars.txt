@@ -44,6 +44,14 @@ be updated from there.
 
 The default star is represented by the special star label 'star'.
 
+[[ignore-star]]
+== Ignore Star
+
+If the ignore star is set by a user, this user gets no email
+notifications for updates of that change.
+
+The ignore star is represented by the special star label 'ignore'.
+
 [[query-stars]]
 == Query Stars
 

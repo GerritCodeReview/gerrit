@@ -34,6 +34,24 @@
       "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d2fce6_7210f8a5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/KeyMapType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T01:35:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure how enums are getting serialized for example in the account preferences in git.  If it\u0027s with the name, OK, but if it\u0027s using numeric identifiers it will cause problems.\n\n(Sorry, I would check it myself if I had time)",
+      "parentUuid": "e87500ba_73e780fd",
+      "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

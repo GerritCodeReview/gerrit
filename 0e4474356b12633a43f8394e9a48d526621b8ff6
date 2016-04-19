@@ -23,6 +23,30 @@
       "revId": "0e4474356b12633a43f8394e9a48d526621b8ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_905c7455",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T13:03:42Z",
+      "side": 1,
+      "message": "For now I don\u0027t plan to add any more labels that Gerrit should be aware of. I think we can easily change this code later when we need it.",
+      "parentUuid": "e87500ba_d330d430",
+      "range": {
+        "startLine": 372,
+        "startChar": 2,
+        "endLine": 377,
+        "endChar": 3
+      },
+      "revId": "0e4474356b12633a43f8394e9a48d526621b8ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

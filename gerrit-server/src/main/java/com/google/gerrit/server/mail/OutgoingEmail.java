@@ -486,7 +486,7 @@ public abstract class OutgoingEmail {
     return r.toString();
   }
 
-  private void removeUser(Account user) {
+  protected void removeUser(Account user) {
     String fromEmail = user.getPreferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext();) {
       if (j.next().email.equals(fromEmail)) {

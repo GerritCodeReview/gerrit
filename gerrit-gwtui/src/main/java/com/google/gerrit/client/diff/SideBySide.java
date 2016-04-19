@@ -66,7 +66,6 @@ public class SideBySide extends DiffScreen {
 
   private SideBySideChunkManager chunkManager;
   private SideBySideCommentManager commentManager;
-  private SideBySideSkipManager skipManager;
 
   public SideBySide(
       PatchSet.Id base,
@@ -197,7 +196,7 @@ public class SideBySide extends DiffScreen {
     setShowTabs(prefs.showTabs());
 
     chunkManager = new SideBySideChunkManager(this, cmA, cmB, diffTable.scrollbar);
-    skipManager = new SideBySideSkipManager(this, commentManager);
+    setSkipManager(new SkipManager(this, commentManager));
 
     operation(new Runnable() {
       @Override
@@ -210,7 +209,7 @@ public class SideBySide extends DiffScreen {
 
         render(diff);
         commentManager.render(comments, prefs.expandAllComments());
-        skipManager.render(prefs.context(), diff);
+        getSkipManager().render(prefs.context(), diff);
       }
     });
 
@@ -415,10 +414,5 @@ public class SideBySide extends DiffScreen {
   @Override
   SideBySideCommentManager getCommentManager() {
     return commentManager;
-  }
-
-  @Override
-  SideBySideSkipManager getSkipManager() {
-    return skipManager;
   }
 }

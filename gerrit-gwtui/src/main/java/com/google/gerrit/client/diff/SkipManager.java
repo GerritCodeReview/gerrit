@@ -17,28 +17,89 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gwt.core.client.JsArray;
 
+import net.codemirror.lib.CodeMirror;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Collapses common regions with {@link SideBySideSkipBar} for {@link SideBySide}
+/** Collapses common regions with {@link SkipBar} for {@link SideBySide}
  *  and {@link Unified}. */
-abstract class SkipManager {
-  private Set<SkipBar> skipBars;
+class SkipManager {
+  private final Set<SkipBar> skipBars;
+  private final CommentManager commentManager;
+  private final DiffScreen host;
   private SkipBar line0;
-  private CommentManager commentManager;
   private int lineA;
   private int lineB;
 
-  SkipManager(CommentManager commentManager) {
+  SkipManager(DiffScreen host, CommentManager commentManager) {
+    this.host = host;
     this.commentManager = commentManager;
+    this.skipBars = new HashSet<>();
   }
 
-  abstract void render(int context, DiffInfo diff);
+  void render(int context, DiffInfo diff) {
+    if (host.diffScreenType == DiffView.SIDE_BY_SIDE) {
+      renderSideBySide(context, diff);
+    } else {
+      renderUnified(context, diff);
+    }
+  }
 
-  List<SkippedLine> getSkippedLines(int context, DiffInfo diff) {
+  private void renderSideBySide(int context, DiffInfo diff) {
+    List<SkippedLine> skips = getSkippedLines(context, diff);
+
+    if (!skips.isEmpty()) {
+      CodeMirror cmA = host.getCmFromSide(DisplaySide.A);
+      CodeMirror cmB = host.getCmFromSide(DisplaySide.B);
+
+      for (SkippedLine skip : skips) {
+        SkipBar barA = newSkipBar(cmA, DisplaySide.A, skip);
+        SkipBar barB = newSkipBar(cmB, DisplaySide.B, skip);
+        SkipBar.link(barA, barB);
+        skipBars.add(barA);
+        skipBars.add(barB);
+
+        if (skip.getStartA() == 0 || skip.getStartB() == 0) {
+          barA.upArrow.setVisible(false);
+          barB.upArrow.setVisible(false);
+          setLine0(barB);
+        } else if (skip.getStartA() + skip.getSize() == getLineA()
+            || skip.getStartB() + skip.getSize() == getLineB()) {
+          barA.downArrow.setVisible(false);
+          barB.downArrow.setVisible(false);
+        }
+      }
+    }
+  }
+
+  private void renderUnified(int context, DiffInfo diff) {
+    List<SkippedLine> skips = getSkippedLines(context, diff);
+
+    if (!skips.isEmpty()) {
+      CodeMirror cm = host.getCms()[0];
+
+      for (SkippedLine skip : skips) {
+        SkipBar bar = newSkipBar(cm, DisplaySide.A, skip);
+        skipBars.add(bar);
+
+        if (skip.getStartA() == 0 || skip.getStartB() == 0) {
+          bar.upArrow.setVisible(false);
+          setLine0(bar);
+        } else if (skip.getStartA() + skip.getSize() == getLineA()
+            || skip.getStartB() + skip.getSize() == getLineB()) {
+          bar.downArrow.setVisible(false);
+        }
+      }
+    }
+  }
+
+  private List<SkippedLine> getSkippedLines(int context, DiffInfo diff) {
     if (context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
       return new ArrayList<>();
     }
@@ -72,6 +133,18 @@ abstract class SkipManager {
     return commentManager.splitSkips(context, skips);
   }
 
+  private SkipBar newSkipBar(CodeMirror cm, DisplaySide side,
+      SkippedLine skip) {
+    int start = host.getCmLine(
+        side == DisplaySide.A ? skip.getStartA() : skip.getStartB(), side);
+    int end = start + skip.getSize() - 1;
+
+    SkipBar bar = new SkipBar(this, cm);
+    host.getDiffTable().add(bar);
+    bar.collapse(start, end, true);
+    return bar;
+  }
+
   void ensureFirstLineIsVisible() {
     if (line0 != null) {
       line0.expandBefore(1);
@@ -80,17 +153,20 @@ abstract class SkipManager {
   }
 
   void removeAll() {
-    if (skipBars != null) {
+    if (!skipBars.isEmpty()) {
       for (SkipBar bar : skipBars) {
         bar.expandSideAll();
       }
-      skipBars = null;
       line0 = null;
     }
   }
 
-  SkipBar getLine0() {
-    return line0;
+  void remove(SkipBar a, SkipBar b) {
+    skipBars.remove(a);
+    skipBars.remove(b);
+    if (getLine0() == a || getLine0() == b) {
+      setLine0(null);
+    }
   }
 
   int getLineA() {
@@ -101,15 +177,11 @@ abstract class SkipManager {
     return lineB;
   }
 
+  SkipBar getLine0() {
+    return line0;
+  }
+
   void setLine0(SkipBar bar) {
     line0 = bar;
-  }
-
-  void setSkipBars(Set<SkipBar> bars) {
-    skipBars = bars;
-  }
-
-  Set<SkipBar> getSkipBars() {
-    return skipBars;
   }
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8d5c8d0_9151dc56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-19T07:02:29Z",
+      "side": 1,
+      "message": "I intentionally removed this line in Ib2ef8dff94 but given the combination of BUCK and run-server.sh this was a mistake. I was confused by this statement in the commit message:\n\n  Delete $SRCDIR/bower_components before linking since folder \n  gets created by \u0027run-server.sh\u0027.\n\nin Ibccbbcb752f2. Because run-server.sh created the directory in polygerrit-ui/app, and Buck is using another directory:\n\n  gerrit/buck-out/gen/polygerrit-ui/app/gr-app__vulcanized__srcs\n\nBut this tree is created from already manipulated (by run-server.sh) polygerrit-ui/app directory. That why we have real directory there and not just symbolic link.\n\nTo reproduce you always need to run Buck fist, run run-server.sh, re-run Buck: now it\u0027s broken.\n\nActually creating non-versioned stuff in your source tree is always a bad idea and confuse your build toolchain, but this is a topic for another change.",
+      "revId": "153618d2674cf6d5aaf25ae43c362d60d53dac7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88dc84fe_b0f5f895",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

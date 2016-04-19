@@ -22,6 +22,30 @@
       "revId": "8a867d6414b55a3a6edb6f0b12725f4477301618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88dc84fe_d030bc30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-19T09:10:11Z",
+      "side": 1,
+      "message": "But the definition of V24 was already removed, wasn\u0027t it?",
+      "parentUuid": "e87500ba_d347749c",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "8a867d6414b55a3a6edb6f0b12725f4477301618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,6 +47,30 @@
       "revId": "0e4474356b12633a43f8394e9a48d526621b8ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87500ba_b32758f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T13:24:04Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "88dc84fe_905c7455",
+      "range": {
+        "startLine": 372,
+        "startChar": 2,
+        "endLine": 377,
+        "endChar": 3
+      },
+      "revId": "0e4474356b12633a43f8394e9a48d526621b8ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

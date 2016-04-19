@@ -137,6 +137,9 @@ limitations under the License.
           view="[[params.view]]"
           on-close="_handleKeyboardShortcutDialogClose"></gr-keyboard-shortcuts-dialog>
     </gr-overlay>
+    <template is="dom-repeat" items="[[_serverConfig.plugin.js_resource_paths]]" as="path">
+      <script src$="/[[path]]" defer></script>
+    </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-app.js"></script>

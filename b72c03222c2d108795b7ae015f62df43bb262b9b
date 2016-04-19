@@ -88,6 +88,24 @@
       "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d2fce6_9251dc56",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/KeyMapType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T05:56:41Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "a8d5c8d0_f1fb8887",
+      "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

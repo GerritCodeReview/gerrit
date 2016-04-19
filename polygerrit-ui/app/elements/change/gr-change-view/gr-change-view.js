@@ -204,6 +204,11 @@
             this.set('viewState.showReplyDialog', false);
           }
         }.bind(this));
+
+        this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
+          change: this._change,
+          patchNum: this._patchNum,
+        });
       }.bind(this));
     },
 

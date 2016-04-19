@@ -17,5 +17,6 @@ package com.google.gerrit.extensions.client;
 public enum KeyMapType {
   DEFAULT,
   EMACS,
+  SUBLIME,
   VIM
 }

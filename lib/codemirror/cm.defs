@@ -8,8 +8,9 @@ CM_CSS = [
 CM_JS = [
   'lib/codemirror.js',
   'mode/meta.js',
-  'keymap/vim.js',
   'keymap/emacs.js',
+  'keymap/sublime.js',
+  'keymap/vim.js',
 ]
 
 CM_ADDONS = [

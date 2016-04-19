@@ -14,11 +14,25 @@
 (function(window) {
   'use strict';
 
-  function Plugin() {}
+  function Plugin(url) {
+    this._url = url;
+    if (this._url.pathname.indexOf('/plugins') === -1) {
+      console.warn('Plugin not being loaded from /plugins base path:',
+          url.href, '— Unable to determine name.');
+      return;
+    }
+    this._name = url.pathname.split('/')[2];
+  }
+
+  Plugin.prototype._name = '';
 
   Plugin.prototype.on = function(eventName, callback) {
     document.createElement('gr-js-api-interface').addEventCallback(eventName,
         callback);
+  };
+
+  Plugin.prototype.url = function(opt_path) {
+    return this._url.origin + '/plugins/' + this._name + opt_path || '/';
   };
 
   var Gerrit = window.Gerrit || {};
@@ -36,7 +50,8 @@
   },
 
   Gerrit.install = function(callback) {
-    callback(new Plugin());
+    // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
+    callback(new Plugin(new URL(document.currentScript.src)));
   };
 
   window.Gerrit = Gerrit;

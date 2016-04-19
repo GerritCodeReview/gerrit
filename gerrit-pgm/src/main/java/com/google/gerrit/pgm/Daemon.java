@@ -467,9 +467,9 @@ public class Daemon extends SiteProgram {
     modules.add(H2CacheBasedWebSession.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
+    modules.add(new HttpPluginModule());
     modules.add(sysInjector.getInstance(StaticModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
-    modules.add(new HttpPluginModule());
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     } else {

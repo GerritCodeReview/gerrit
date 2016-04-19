@@ -52,6 +52,24 @@
       "revId": "c8a2ed9c6c9f22ef12bac23a484b3e55d2a545ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d2fce6_722238ee",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T06:43:22Z",
+      "side": 0,
+      "message": "Ugh.  I didn\u0027t notice additional changes had been made in the second patch set.",
+      "parentUuid": "88dc84fe_f0fb8087",
+      "revId": "c8a2ed9c6c9f22ef12bac23a484b3e55d2a545ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

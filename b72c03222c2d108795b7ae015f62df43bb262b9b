@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d2fce6_32b830e6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/KeyMapType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-19T00:15:45Z",
+      "side": 1,
+      "message": "Is it OK to add a new entry in the middle of the enum?\n\nI.e. it won\u0027t cause any problems with serialization?",
+      "revId": "b72c03222c2d108795b7ae015f62df43bb262b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

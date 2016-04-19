@@ -143,6 +143,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
             comment.getLine(),
             ctx.getUser().getAccountId(),
             comment.getParentUuid(), ctx.getWhen());
+        comment.setTag(origComment.getTag());
         setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
         plcUtil.putComments(ctx.getDb(), update,
             Collections.singleton(update(comment, in, ctx.getWhen())));
@@ -172,6 +173,10 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       e.setLine(in.range != null ? in.range.endLine : in.line);
     }
     e.setWrittenOn(when);
+    if (in.tag != null) {
+      // TODO(dborowitz): Can we support changing tags via PUT?
+      e.setTag(in.tag);
+    }
     return e;
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -49,9 +51,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -304,11 +308,22 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     try {
-      // BCC anyone who has starred this change.
+      // BCC anyone who has starred this change
+      // and remove anyone who has ignored this change.
       //
-      for (Account.Id accountId : args.starredChangesUtil.byChangeFromIndex(
-          change.getId(), StarredChangesUtil.DEFAULT_LABEL)) {
-        super.add(RecipientType.BCC, accountId);
+      Multimap<Account.Id, String> stars =
+          args.starredChangesUtil.byChangeFromIndex(change.getId());
+      for (Map.Entry<Account.Id, Collection<String>> e :
+          stars.asMap().entrySet()) {
+        if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
+          super.add(RecipientType.BCC, e.getKey());
+        }
+        if (e.getValue().contains(StarredChangesUtil.IGNORE_LABEL)) {
+          AccountState accountState = args.accountCache.get(e.getKey());
+          if (accountState != null) {
+            removeUser(accountState.getAccount());
+          }
+        }
       }
     } catch (OrmException | NoSuchChangeException err) {
       // Just don't BCC everyone. Better to send a partial message to those

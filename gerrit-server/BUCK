@@ -34,7 +34,7 @@ java_library(
     '//gerrit-util-ssl:ssl',
     '//lib:args4j',
     '//lib:automaton',
-    '//lib:gitiles-servlet',
+    '//lib:blame-cache',
     '//lib:grappa',
     '//lib:gson',
     '//lib:guava',

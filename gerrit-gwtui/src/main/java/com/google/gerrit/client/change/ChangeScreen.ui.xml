@@ -347,6 +347,10 @@ limitations under the License.
       padding-top: 5px;
     }
 
+    .relatedExtension {
+      padding-top: 5px;
+    }
+
     .pushCertStatus {
       padding-left: 5px;
     }
@@ -520,6 +524,7 @@ limitations under the License.
         </td>
         <td class='{style.relatedColumn}'>
           <c:RelatedChanges ui:field='related'/>
+          <g:SimplePanel ui:field='relatedExtension' styleName='{style.relatedExtension}'/>
         </td>
       </tr>
     </table>

@@ -95,7 +95,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   }
 
   private static String queryIncoming(String who) {
-    return "is:open reviewer:" + who + " -owner:" + who;
+    return "is:open reviewer:" + who + " -owner:" + who + " -star:ignore";
   }
 
   private static String queryClosed(String who) {

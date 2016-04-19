@@ -281,7 +281,7 @@ public class StarredChangesUtil {
 
     SortedSet<String> invalidLabels = new TreeSet<>();
     for (String label : labels) {
-      if (CharMatcher.WHITESPACE.matchesAnyOf(label)) {
+      if (CharMatcher.whitespace().matchesAnyOf(label)) {
         invalidLabels.add(label);
       }
     }

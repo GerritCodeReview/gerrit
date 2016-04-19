@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88dc84fe_d0799cca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-19T11:53:02Z",
+      "side": 1,
+      "message": "I wouldn\u0027t just copy/paste their announcement, but filter it out for only relevant for us. We are specific directory based cache from the beginning, so that this one shouldn\u0027t affect us.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "271b924cff2a8e4e27ab42f013c5f6557a637cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_36f99890",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_e1b7a6f6",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_9809b583",
         "filename": "Documentation/user-stars.txt",
         "patchSetId": 12
@@ -37,6 +61,30 @@
       "writtenOn": "2016-04-20T06:20:31Z",
       "side": 1,
       "message": "add a colon after",
+      "range": {
+        "startLine": 16,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 70
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_16f69ca0",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_9809b583",
       "range": {
         "startLine": 16,
         "startChar": 62,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_f5331846",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_b804796b",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 2
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_78ff0177",
         "filename": "Documentation/user-stars.txt",
         "patchSetId": 12
@@ -83,6 +155,30 @@
       "writtenOn": "2016-04-20T06:20:31Z",
       "side": 1,
       "message": "Is there any intention to add this functionality in the UI in future?",
+      "range": {
+        "startLine": 34,
+        "startChar": 27,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_f6332046",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "I think it should be exposed in the UI (maybe similar to how one can assign labels to emails in Gmail), but I don\u0027t plan to work on this any time soon.",
+      "parentUuid": "88bba4f1_78ff0177",
       "range": {
         "startLine": 34,
         "startChar": 27,
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_d6382423",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_58fc3d80",
+      "range": {
+        "startLine": 66,
+        "startChar": 48,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_38f98990",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 12
@@ -129,6 +249,30 @@
       "writtenOn": "2016-04-20T06:20:31Z",
       "side": 1,
       "message": "nit: long line",
+      "range": {
+        "startLine": 225,
+        "startChar": 78,
+        "endLine": 225,
+        "endChar": 85
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b63da811",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_38f98990",
       "range": {
         "startLine": 225,
         "startChar": 78,
@@ -164,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_9642ac8d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_18f6c5a0",
+      "range": {
+        "startLine": 124,
+        "startChar": 67,
+        "endLine": 124,
+        "endChar": 83
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_41cdb282",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
         "patchSetId": 12
@@ -175,6 +343,30 @@
       "writtenOn": "2016-04-20T06:20:31Z",
       "side": 1,
       "message": "nit: don\u0027t we usually wrap after \"implements\"?",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 14
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_b53da011",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_41cdb282",
       "range": {
         "startLine": 48,
         "startChar": 4,
@@ -204,6 +396,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_55452c92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "It\u0027s already tested as part of AccountIt#starUnstarChangeWithLabels().",
+      "parentUuid": "a8e30849_81c7ba62",
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_f8331146",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 12
@@ -227,6 +437,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_9542a48d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "stars.list().apply(account) returns Object and the cast to List\u003cChangeInfo\u003e creates a type safety warning otherwise.",
+      "parentUuid": "88bba4f1_f8331146",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 253,
+        "endChar": 32
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_21ca2e6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 12
@@ -238,6 +472,30 @@
       "writtenOn": "2016-04-20T06:20:31Z",
       "side": 1,
       "message": "V28",
+      "range": {
+        "startLine": 106,
+        "startChar": 13,
+        "endLine": 106,
+        "endChar": 16
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_754828ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:22:37Z",
+      "side": 1,
+      "message": "It\u0027s intentional to drop the STARREDBY that was added in V28. It\u0027s no longer needed since we can get the same information from the new STAR field.\n\nI added a comment about this. Done",
+      "parentUuid": "a8e30849_21ca2e6c",
       "range": {
         "startLine": 106,
         "startChar": 13,

@@ -1,4 +1,252 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461068071 +0200\nnonce AB8gjyU56c/gX6C0NWtuVH6s40shDD9rQ89p+y4YYDvi6nO7p9qAPwEpkDnr89IsM8zUUtOj7elW\n\n0000000000000000000000000000000000000000 8b6a55871b02ef788ddd1ea13769c103dde362ff refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXFiEnAAoJEFG1/Zeg0O9RvbsIALTFCHEXCX56cWkak1b0onow\nOTSPe/TuF/G8wCivdwtHAzxBkSN9ecxUjewK63+WqMIcBaYg/H7+YwEHD2CMZr63\nTmvVLqXOTvFpxO0hxxtNC2DFMDaqKW9UyTe78gdbP3SHJq+ePY0kBxBjKodwFqZL\n/Aba5AluR6nLBAuARgmtFHRYgIYbRwmqvgn0HRzvsYdUENh4w4VUEiFbl+cVmQbf\nuBh5mzIyNmsU869MWBtEhXucdIRpKO6tbZ6afVxfnrsrjtYXa+frO6KFl5YiUAE0\nUd8386IhM2KOnnAr9OqiKUWv47ywj5JFOpzfTTIz2ZHu7g/hCWbmYpIUrS9a1og\u003d\n\u003dRkOX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_e1b7a6f6",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "All the previous entries are in the -ing form.\n\n\"Starring Changes\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_9809b583",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "add a colon after",
+      "range": {
+        "startLine": 16,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 70
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_b804796b",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 2
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_78ff0177",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "Is there any intention to add this functionality in the UI in future?",
+      "range": {
+        "startLine": 34,
+        "startChar": 27,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_58fc3d80",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "Replace with period.",
+      "range": {
+        "startLine": 66,
+        "startChar": 48,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_38f98990",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "nit: long line",
+      "range": {
+        "startLine": 225,
+        "startChar": 78,
+        "endLine": 225,
+        "endChar": 85
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_18f6c5a0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "nit: long line",
+      "range": {
+        "startLine": 124,
+        "startChar": 67,
+        "endLine": 124,
+        "endChar": 83
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_41cdb282",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "nit: don\u0027t we usually wrap after \"implements\"?",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 14
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_81c7ba62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Stars.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "Is it worth adding tests for this case?",
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_f8331146",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "What is this suppressing?",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 253,
+        "endChar": 32
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_21ca2e6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:20:31Z",
+      "side": 1,
+      "message": "V28",
+      "range": {
+        "startLine": 106,
+        "startChar": 13,
+        "endLine": 106,
+        "endChar": 16
+      },
+      "revId": "ea8c433fd76be8f4b72b23e32b259a36cb9dceeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

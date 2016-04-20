@@ -8,8 +8,8 @@ DEPS = [
   '//lib/guice:guice',
   '//lib/guice:guice-assistedinject',
   '//lib/guice:guice-servlet',
+  '//lib/jgit/org.eclipse.jgit:jgit',
   '//lib/log:api',
-  '@jgit//org.eclipse.jgit:jgit',
 ]
 
 java_library(
@@ -50,7 +50,7 @@ java_test(
     '//lib:truth',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcprov',
-    '@jgit//org.eclipse.jgit.junit:junit',
+    '//lib/jgit/org.eclipse.jgit.junit:junit',
   ],
   source_under_test = [':gpg'],
   visibility = ['//tools/eclipse:classpath'],

@@ -59,6 +59,8 @@ java_library(
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/jgit/org.eclipse.jgit.archive:jgit-archive',
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/log:jsonevent-layout',
@@ -70,8 +72,6 @@ java_library(
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',
     '//lib/prolog:runtime',
-    '@jgit//org.eclipse.jgit:jgit',
-    '@jgit//org.eclipse.jgit.archive:jgit-archive',
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',
@@ -102,8 +102,8 @@ TESTUTIL_DEPS = [
   '//lib/log:api',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
-  '@jgit//org.eclipse.jgit:jgit',
-  '@jgit//org.eclipse.jgit.junit:junit',
+  '//lib/jgit/org.eclipse.jgit:jgit',
+  '//lib/jgit/org.eclipse.jgit.junit:junit',
 ]
 
 TESTUTIL = glob([

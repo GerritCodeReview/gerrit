@@ -8,5 +8,5 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
   repository = REPO,
   unsign = True,
-  deps = ['@jgit//org.eclipse.jgit:jgit'],
+  deps = ['//lib/jgit/org.eclipse.jgit:jgit'],
 )

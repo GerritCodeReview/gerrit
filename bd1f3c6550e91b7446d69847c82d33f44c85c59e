@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1460487154 -0700\npushee rpc://gerrit/gerrit\nnonce AB8gjyXT8AuDvaULtfscFMVp9tVn01D7Obu7uTQF7us17rbnQSxogQJ3yllBbh+9zTxfMvb9R7+V\n\n0000000000000000000000000000000000000000 bd1f3c6550e91b7446d69847c82d33f44c85c59e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXDUPyAAoJELOGKwXbr+wPFxsQAKWf0B+K0y050CVAJpY1Wcj8\nUAFOXyp4iDqU/1S1q3HeoEN/ppNSRQAUMA00Zu2TYiaWtNXTtKqaeTIc2SGvFO7y\n41XOtRamEqb6YUpJS+5cgKeOk25xTCOpZZffni7zYdKk+Fh55YYW/BJ64kMY3fml\nAIHe+nNl96pbF0q21626/w6LaD1gJE5Vsc0V8S/7Gb2gTVI8tr0E1J2CoF9sHIgJ\nlN5aXpNboOsm5iPH5euq1U4fGnd1XnIfsFLYHB+i9HETTRkyINfb/qhxyFsXCzpD\nyB01ac28ucJwdIOiicqvixZp69o+3sQ/K3MkCr9vuX1EXEhHMYDiMoo/YLvvAGtU\nQW56dQCcsWHbihhft6KkUNg1csC/o+BH4cGGcKtC+UWA7m1aeUMZHeyRCcTm7rMu\nmzZZnHhU6RjHsBKs/FAjwK1koF66sbiVN86AZToGqjp25jAjvzD/q+rbokJZR+qC\nP+VTXltkJzKUBgrXiElHOLSYwxKMn7S6l3r4szNabSY/4sEDz38frALH1I4eqL0h\nNOJjvkTADkuRfL4c5yaY4ow1JhftBb0Z1nPV2g4IPTQrxnHywOFxmj/JlzixaOHC\ngdJ2gH7PRGbB0cOhJtIyaM2wAePcszJArWJDJ+gLYDkNSEpXHaW5a2UCn/lQZSlH\nSHrmvT2WLdNY3jm3ukXW\n\u003d+5V8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "88bba4f1_d8ae0d5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-04-20T23:58:38Z",
+      "side": 1,
+      "message": "accountLoader is not initialized here.\n\nIt was always initialized by the caller inside ChangeJson when this function was private. Changing the function to public will get us NPEs here.",
+      "range": {
+        "startLine": 748,
+        "startChar": 4,
+        "endLine": 748,
+        "endChar": 17
+      },
+      "revId": "bd1f3c6550e91b7446d69847c82d33f44c85c59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_615a7659",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-04-20T23:58:38Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 922,
+        "startChar": 19,
+        "endLine": 922,
+        "endChar": 32
+      },
+      "revId": "bd1f3c6550e91b7446d69847c82d33f44c85c59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

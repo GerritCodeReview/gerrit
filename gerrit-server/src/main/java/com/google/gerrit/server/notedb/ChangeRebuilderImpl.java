@@ -234,7 +234,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     EventList<PatchLineCommentEvent> plcel = new EventList<>();
     for (Account.Id author : draftCommentEvents.keys()) {
-      for (PatchLineCommentEvent e : draftCommentEvents.get(author)) {
+      for (PatchLineCommentEvent e :
+          EVENT_ORDER.sortedCopy(draftCommentEvents.get(author))) {
         if (!plcel.canAdd(e)) {
           flushEventsToDraftUpdate(manager, plcel, change);
           checkState(plcel.canAdd(e));

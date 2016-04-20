@@ -19,11 +19,6 @@ from subprocess import check_call, CalledProcessError, Popen, PIPE
 
 MAIN = ['//tools/eclipse:classpath']
 PAT = re.compile(r'"(//.*?)" -> "//tools:download_file"')
-# TODO(davido): Remove this hack when Buck bugs are fixed:
-# https://github.com/facebook/buck/issues/656
-# https://github.com/facebook/buck/issues/658
-JGIT = re.compile(r'//org.eclipse.jgit.*')
-CELL = '//lib/jgit'
 
 opts = OptionParser()
 opts.add_option('--src', action='store_true')
@@ -36,8 +31,6 @@ for line in p.stdout:
   m = PAT.search(line)
   if m:
     n = m.group(1)
-    if JGIT.match(n):
-      n = CELL + n[1:]
     if args.src and n.endswith('__download_bin'):
       n = n[:-13] + 'src'
     targets.add(n)

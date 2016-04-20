@@ -23,8 +23,8 @@ java_library(
     '//lib:gwtorm',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
+    '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/log:api',
-    '@jgit//org.eclipse.jgit:jgit',
   ],
   provided_deps = ['//lib:servlet-api-3_1'],
   visibility = [

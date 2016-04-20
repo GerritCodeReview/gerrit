@@ -19,16 +19,13 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.common.base.Function;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
-import com.google.common.util.concurrent.AsyncFunction;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -42,7 +39,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
@@ -139,53 +135,23 @@ public class RebuildNoteDb extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
-    ListeningExecutorService executor = newExecutor();
     System.out.println("Rebuilding the NoteDb");
 
-    Multimap<Project.NameKey, Change.Id> changesByProject =
+    ImmutableMultimap<Project.NameKey, Change.Id> changesByProject =
         getChangesByProject();
-    AtomicBoolean ok = new AtomicBoolean(true);
+    boolean ok = true;
     Stopwatch sw = Stopwatch.createStarted();
-    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
+        ReviewDb db = unwrap(schemaFactory.open())) {
       deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
       List<Project.NameKey> projectNames = Ordering.usingToString()
           .sortedCopy(changesByProject.keySet());
       for (Project.NameKey project : projectNames) {
         try {
-          List<ListenableFuture<?>> futures = Lists.newArrayList();
-
-          // Here, we elide the project name to 50 characters to ensure that
-          // the whole monitor line for a project fits on one line (<80 chars).
-          final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
-              FormatUtil.elide(project.get(), 50));
-          Task doneTask =
-              mpm.beginSubTask("done", changesByProject.get(project).size());
-          Task failedTask =
-              mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
-
-          for (Change.Id id : changesByProject.get(project)) {
-            // TODO(dborowitz): This can fail if the project no longer exists.
-            // We might not want to just skip conversion of those changes, and
-            // instead move them somewhere like a special lost+found repo.
-            ListenableFuture<?> future = rebuilder.rebuildAsync(id, executor);
-            futures.add(future);
-            future.addListener(
-                new RebuildListener(id, future, ok, doneTask, failedTask),
-                MoreExecutors.directExecutor());
-          }
-
-          mpm.waitFor(Futures.transformAsync(Futures.successfulAsList(futures),
-              new AsyncFunction<List<?>, Void>() {
-                @Override
-                public ListenableFuture<Void> apply(List<?> input) {
-                  mpm.end();
-                  return Futures.immediateFuture(null);
-                }
-              }));
+          ok |= rebuilder.rebuildProject(db, changesByProject, project, allUsersRepo);
         } catch (Exception e) {
-          log.error("Error rebuilding NoteDb", e);
-          ok.set(false);
-          break;
+          log.error("Error rebuilding project " + project, e);
+          ok = false;
         }
       }
     }
@@ -193,7 +159,7 @@ public class RebuildNoteDb extends SiteProgram {
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
         changesByProject.size(), t, changesByProject.size() / t);
-    return ok.get() ? 0 : 1;
+    return ok ? 0 : 1;
   }
 
   private static void execute(BatchRefUpdate bru, Repository repo)
@@ -243,7 +209,7 @@ public class RebuildNoteDb extends SiteProgram {
     }
   }
 
-  private Multimap<Project.NameKey, Change.Id> getChangesByProject()
+  private ImmutableMultimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {
     // Memorize all changes so we can close the db connection and allow
     // rebuilder threads to use the full connection pool.
@@ -277,7 +243,7 @@ public class RebuildNoteDb extends SiteProgram {
           }
         }
       }
-      return changesByProject;
+      return ImmutableMultimap.copyOf(changesByProject);
     }
   }
 

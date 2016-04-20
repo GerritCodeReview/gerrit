@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_b685a8d0",
+        "filename": "tools/maven/api.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-20T20:07:33Z",
+      "side": 0,
+      "message": "The mention of api.py should be removed from Documentation/dev-buck.txt and it should be explained how to use the generated scripts instead.",
+      "revId": "c2eda8fae16bccfd4c07212a15e8acc819c18a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

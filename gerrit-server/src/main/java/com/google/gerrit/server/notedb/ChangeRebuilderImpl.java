@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.MoreObjects;
@@ -28,12 +29,14 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,6 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -61,13 +65,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,6 +89,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChangeRebuilderImpl extends ChangeRebuilder {
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeRebuilder.class);
+
   /**
    * The maximum amount of time between the ReviewDb timestamp of the first and
    * last events batched together into a single NoteDb update.
@@ -176,6 +189,38 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     buildUpdates(manager, bundle);
     return NoteDbChangeState.applyDelta(
         change, manager.stage().get(change.getId()));
+  }
+
+  @Override
+  public boolean rebuildProject(ReviewDb db,
+      ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
+      Project.NameKey project, Repository allUsersRepo)
+      throws NoSuchChangeException, IOException, OrmException,
+      ConfigInvalidException {
+    checkArgument(allChanges.containsKey(project));
+    boolean ok = true;
+    ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
+    NoteDbUpdateManager manager = updateManagerFactory.create(project);
+    pm.beginTask(
+        FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
+    try (ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
+        RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
+      manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
+          new ChainedReceiveCommands());
+      for (Change.Id changeId : allChanges.get(project)) {
+        try {
+          buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+        } catch (Throwable t) {
+          log.error("Failed to rebuild change " + changeId, t);
+          ok = false;
+        }
+        pm.update(1);
+      }
+      manager.execute();
+    } finally {
+      pm.endTask();
+    }
+    return ok;
   }
 
   private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)

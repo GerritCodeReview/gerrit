@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_150c545b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-20T19:00:28Z",
+      "side": 1,
+      "message": "If I\u0027m not mistaken I called it BlameMeta before it was pointed out that it should be Meta... :)\n\nPlease confirm if I should call it BlameMetaInfo.",
+      "parentUuid": "48d52c29_966d0c03",
+      "range": {
+        "startLine": 4456,
+        "startChar": 4,
+        "endLine": 4456,
+        "endChar": 8
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_f6d200d7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-20T19:00:28Z",
+      "side": 1,
+      "message": "If I am not mistaken I called it BlameMeta in the very first versions of this change when it was pointed out that it should be called Meta. :)",
+      "parentUuid": "48d52c29_966d0c03",
+      "range": {
+        "startLine": 4456,
+        "startChar": 4,
+        "endLine": 4456,
+        "endChar": 8
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_76639016",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 45
@@ -82,6 +130,30 @@
       "writtenOn": "2016-04-20T11:35:23Z",
       "side": 1,
       "message": "Maybe \"RangeInfo\"?",
+      "range": {
+        "startLine": 4469,
+        "startChar": 4,
+        "endLine": 4469,
+        "endChar": 10
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_f5a9d858",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4469,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-20T19:00:28Z",
+      "side": 1,
+      "message": "BlameRangeInfo to be consistent with BlameMetaInfo?",
+      "parentUuid": "48d52c29_76639016",
       "range": {
         "startLine": 4469,
         "startChar": 4,

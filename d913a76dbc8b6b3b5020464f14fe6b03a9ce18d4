@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_96ff4c47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-20T16:30:21Z",
+      "side": 1,
+      "message": "See my statement: \"The enforcement during the post review to normalize the comments tags and change message tag [...] in this change is wrong.\" I haven\u0027t read the code, only the commit message. From that i got the impression that this change can already start fixing the problem I described by allowing patch-line-comment-tag, that was previously set by PutDraftComment and change-message-tag, that was provided by post-review to be *different*. If this would be too intrusive change and would be done later in its own change, please ignore my comment.",
+      "parentUuid": "88bba4f1_98941531",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "d913a76dbc8b6b3b5020464f14fe6b03a9ce18d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_d8e60d00",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1

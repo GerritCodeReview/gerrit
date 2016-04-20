@@ -33,8 +33,8 @@ java_library(
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
     '//lib/log:api',
+    '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/mina:sshd',
-    '@jgit//org.eclipse.jgit:jgit',
   ],
   visibility = [
     '//gerrit-plugin-api/...',

@@ -29,7 +29,7 @@ java_library(
     '//gerrit-reviewdb:server',
     '//lib:guava',
     '//lib:gwtjsonrpc',
-    '@jgit//org.eclipse.jgit:jgit',
+    '//lib/jgit/org.eclipse.jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )

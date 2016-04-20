@@ -569,6 +569,24 @@
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_a173dee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-20T19:16:27Z",
+      "side": 1,
+      "message": "So? We are talking about public vs. not-public. The data is public, so it should be public everywhere.",
+      "parentUuid": "88bba4f1_18f3658a",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

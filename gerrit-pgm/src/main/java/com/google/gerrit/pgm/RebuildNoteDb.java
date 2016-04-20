@@ -54,6 +54,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -271,7 +272,11 @@ public class RebuildNoteDb extends SiteProgram {
         future.get();
         doneTask.update(1);
       } catch (ExecutionException | InterruptedException e) {
-        fail(e);
+        if (e.getCause() instanceof RepositoryNotFoundException) {
+          noRepo((RepositoryNotFoundException) e.getCause());
+        } else {
+          fail(e);
+        }
       } catch (RuntimeException e) {
         failAndThrow(e);
       } catch (Error e) {
@@ -284,6 +289,12 @@ public class RebuildNoteDb extends SiteProgram {
     private void fail(Throwable t) {
       log.error("Failed to rebuild change " + changeId, t);
       ok.set(false);
+      failedTask.update(1);
+    }
+
+    private void noRepo(RepositoryNotFoundException e) {
+      log.warn("Skipped rebuilding change " + changeId + ": " + e.getMessage());
+      // Don't flip ok bit.
       failedTask.update(1);
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_b585a0d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-20T21:47:58Z",
+      "side": 1,
+      "message": "Why are we (incorrectly) adding gitiles-servlet to Gerrit core in previous change, and replacing it in the follow-up (this) change with blame-cache and exporting blame-cache in the next change? Wouldn\u0027t squashing these three changes be cleaner from the Git history point of view? Or are you doing this to attribute change author (you in this case?) in which case I would just add your name to the footer of previous change with \"Contributed-By:\" prefix.",
+      "revId": "31ead6ff9f854fb68e90210fb129c04ec29126a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

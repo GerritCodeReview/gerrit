@@ -144,7 +144,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject());
     buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
-    return execute(db, changeId, manager);
+    NoteDbChangeState result = execute(db, changeId, manager);
+    manager.execute();
+    return result;
   }
 
   private NoteDbChangeState execute(ReviewDb db, Change.Id changeId,

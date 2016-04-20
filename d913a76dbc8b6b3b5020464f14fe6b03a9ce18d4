@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_1681fced",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-04-20T10:56:37Z",
+      "side": 1,
+      "message": "this sound messy for me. Actually this \"messiness\" was the reason why I decided to go with single filed in ReviewInput and then propagate its value. After all we want to have the same tag on all entities that are included in the \"code review\" namely: review comment, labels and comments.\n\nCan\u0027t we edit draft comment and set tag during PostReview?",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "d913a76dbc8b6b3b5020464f14fe6b03a9ce18d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_15dd7426",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

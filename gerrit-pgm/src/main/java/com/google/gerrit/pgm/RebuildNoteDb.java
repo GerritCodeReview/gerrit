@@ -20,6 +20,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -136,7 +137,9 @@ public class RebuildNoteDb extends SiteProgram {
     Stopwatch sw = Stopwatch.createStarted();
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
-      for (Project.NameKey project : changesByProject.keySet()) {
+      List<Project.NameKey> projectNames = Ordering.usingToString()
+          .sortedCopy(changesByProject.keySet());
+      for (Project.NameKey project : projectNames) {
         try {
           List<ListenableFuture<?>> futures = Lists.newArrayList();
 

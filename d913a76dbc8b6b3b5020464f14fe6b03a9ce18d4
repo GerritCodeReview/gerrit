@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a8e30849_a138fe21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-20T15:23:17Z",
+      "side": 1,
+      "message": "The cause of the messiness is the inheritance structure of com.google.gerrit.extensions.client.Comment.\n\nThat\u0027s inherited by DraftInput, CommentInput, and CommentInfo. So if you put a \"tag\" field in Comment, you get one in CommentInput whether you like it or not. This was my attempt to deal with that.\n\nI guess I didn\u0027t really need to do that, though. I could put the tag field directly in DraftInput like you did in CommentInfo. Then you have the same field repeated in two different subclasses.\n\nI\u0027ll do that.",
+      "parentUuid": "48d52c29_1681fced",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "d913a76dbc8b6b3b5020464f14fe6b03a9ce18d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_15dd7426",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

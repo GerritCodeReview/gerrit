@@ -119,6 +119,7 @@ public class ModeInfo extends JavaScriptObject {
       Modes.I.ruby(),
       Modes.I.rust(),
       Modes.I.sas(),
+      Modes.I.sass(),
       Modes.I.scheme(),
       Modes.I.shell(),
       Modes.I.smalltalk(),

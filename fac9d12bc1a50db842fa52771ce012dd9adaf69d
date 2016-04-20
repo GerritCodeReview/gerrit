@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_56609407",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4433,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T11:35:23Z",
+      "side": 1,
+      "message": "The sections that describe the entities should be sorted alphabetically.",
+      "range": {
+        "startLine": 4433,
+        "startChar": 0,
+        "endLine": 4433,
+        "endChar": 13
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_9594e430",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T11:35:23Z",
+      "side": 1,
+      "message": "All current entity names end with \u0027Info\u0027. The new names should be consistent with this naming pattern. Also the difference between \u0027Blame\u0027 and \u0027BlameInfo\u0027 is not clear when you just look at the names.",
+      "range": {
+        "startLine": 4443,
+        "startChar": 4,
+        "endLine": 4443,
+        "endChar": 9
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_966d0c03",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T11:35:23Z",
+      "side": 1,
+      "message": "BlameMetaInfo?\n\nMeta is very generic and just from the name one cannot guess what it is about.",
+      "range": {
+        "startLine": 4456,
+        "startChar": 4,
+        "endLine": 4456,
+        "endChar": 8
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_76639016",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4469,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T11:35:23Z",
+      "side": 1,
+      "message": "Maybe \"RangeInfo\"?",
+      "range": {
+        "startLine": 4469,
+        "startChar": 4,
+        "endLine": 4469,
+        "endChar": 10
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

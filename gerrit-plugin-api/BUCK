@@ -42,8 +42,8 @@ java_library(
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/mina:sshd',
-    '@jgit//org.eclipse.jgit:jgit',
-    '@jgit//org.eclipse.jgit.http.server:jgit-servlet',
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet',
   ],
   visibility = ['PUBLIC'],
 )

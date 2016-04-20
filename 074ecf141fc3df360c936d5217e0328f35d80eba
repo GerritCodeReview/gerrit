@@ -623,6 +623,24 @@
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_b8fa3957",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-20T19:33:28Z",
+      "side": 1,
+      "message": "So it is possible to look up a user\u0027s starred changes using a query operator, but not using the REST API. Ok I guess?\n\nI still think starredby:user should not exist (even for the purposes of rendering their dashboard) but I guess we\u0027re stuck with it.",
+      "parentUuid": "48d52c29_96d18cd2",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

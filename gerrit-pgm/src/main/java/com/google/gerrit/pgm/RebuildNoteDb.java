@@ -256,7 +256,6 @@ public class RebuildNoteDb extends SiteProgram {
     private Task doneTask;
     private Task failedTask;
 
-
     private RebuildListener(Change.Id changeId, ListenableFuture<?> future,
         AtomicBoolean ok, Task doneTask, Task failedTask) {
       this.changeId = changeId;

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_95ff4447",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_185a4558",
+      "range": {
+        "startLine": 74,
+        "startChar": 61,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_787a61c0",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 13
@@ -37,6 +61,30 @@
       "writtenOn": "2016-04-20T17:08:21Z",
       "side": 1,
       "message": "This claim is a little misleading. Generally speaking we don\u0027t expect users to use the REST API directly, so users aren\u0027t really going to be applying arbitrary labels to changes. They will be using the built-in label(s), plus anything provided by plugins that happen to be on their host. But for plugins, the fact that they use the labeled star thing as the storage layer is, from the user\u0027s perspective, mostly an implementation detail.\n\nAll of which is to say I don\u0027t think this belongs in the \"user\" documentation.",
+      "range": {
+        "startLine": 515,
+        "startChar": 23,
+        "endLine": 515,
+        "endChar": 61
+      },
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_95e624cd",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Okay, I have removed this paragraph again.\n\nDone",
+      "parentUuid": "88bba4f1_787a61c0",
       "range": {
         "startLine": 515,
         "startChar": 23,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_d6aee45e",
+        "filename": "Documentation/user-stars.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Okay, I\u0027m moving this to the \"dev\" space then.\n\nDone",
+      "parentUuid": "88bba4f1_58779dd6",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_c11c22b4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 13
@@ -77,6 +143,30 @@
       "writtenOn": "2016-04-20T17:08:21Z",
       "side": 1,
       "message": "ImmutableSet.of is shorter",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 40
+      },
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_75eca8ab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_c11c22b4",
       "range": {
         "startLine": 203,
         "startChar": 12,
@@ -112,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_55e9ac99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_a1211eea",
+      "range": {
+        "startLine": 204,
+        "startChar": 16,
+        "endLine": 204,
+        "endChar": 48
+      },
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_f86e71ff",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/StarsInput.java",
         "patchSetId": 13
@@ -123,6 +237,24 @@
       "writtenOn": "2016-04-20T17:08:21Z",
       "side": 1,
       "message": "@DefaultInput has no effect on non-String fields, see RestApiServlet.java:645\n\nI guess if you really wanted a DefaultInput field you could add a separate String _addOne field or something, but I don\u0027t think it\u0027s necessary at this point.",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b6b368c5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/StarsInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_f86e71ff",
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -152,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_35f6307a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/StarsInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_d873ade5",
+      "range": {
+        "startLine": 26,
+        "startChar": 20,
+        "endLine": 26,
+        "endChar": 22
+      },
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_01172a8e",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 13
@@ -163,6 +319,24 @@
       "writtenOn": "2016-04-20T17:08:21Z",
       "side": 1,
       "message": "Needs tests",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_15f3348a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_01172a8e",
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -186,6 +360,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_96b86ca0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Account.Id.parse uses the Id#fromString(...) method and this one can fail with NumberFormatException:\n\n  public void fromString(final String in) {\n    set(Integer.parseInt(KeyUtil.parseFromString(getParentKey(), in)));\n  }",
+      "parentUuid": "88bba4f1_b868f9f2",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_e11b26b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 13
@@ -197,6 +389,24 @@
       "writtenOn": "2016-04-20T17:08:21Z",
       "side": 1,
       "message": "If I\u0027m reading Stars.java right the only non-RestApiException that can happen is OrmException, right? I try not to catch Exception because you\u0027ll (often unintentionally) get RuntimeExceptions as well.",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_769ef02f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_e11b26b6",
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -220,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_569bf43d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_41313232",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_986d3503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 13
@@ -237,6 +465,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_f500b82a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "Let\u0027s do this later when we need it?",
+      "parentUuid": "88bba4f1_986d3503",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_5860bd07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 13
@@ -248,6 +494,24 @@
       "writtenOn": "2016-04-20T17:08:21Z",
       "side": 1,
       "message": "I know we added this in a previous change, but thinking about it again, I really don\u0027t think this should be allowed. In the REST API we explicitly disallow getting stars belonging to someone else.",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d505bc38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T18:44:38Z",
+      "side": 1,
+      "message": "No, this method exists already since ages.\nIt\u0027s because the default star is actually public :(\nThis is needed because there is a magical starredby:\u0027USER\u0027 query operator [1]. I guess that historically this was used for the user dashboard and it was made public so that you could see dashboards of other users...\n\nNot sure if we can change this, but if then it should rather be a separate change.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search.html#_magical_operators",
+      "parentUuid": "88bba4f1_5860bd07",
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

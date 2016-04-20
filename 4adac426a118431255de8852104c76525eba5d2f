@@ -16,6 +16,24 @@
       "revId": "4adac426a118431255de8852104c76525eba5d2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_e194c631",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-04-20T18:46:20Z",
+      "side": 1,
+      "message": "Ok. Please make sure you fix this eventually because there are quite a few servers running not at /. Our canaries are at / so its fine for now but before we go all \u00271.0\u0027 with PolyGerrit we\u0027ll need to address this.\n\nThe way we do this today in GWT isn\u0027t feasible in PolyGerrit because of the HTML5 URL structure. We rely on the # anchor cut in document.location.href and the stuff to the left of # is the \"base URL\", we add /plugins/ and then the next directory component is the plugin name.",
+      "parentUuid": "88bba4f1_d88a8d0f",
+      "revId": "4adac426a118431255de8852104c76525eba5d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

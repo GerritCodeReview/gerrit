@@ -70,6 +70,30 @@
       "revId": "d5c81b83869c88ed337bffebac92377f1c112208",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_15a57475",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T19:32:25Z",
+      "side": 1,
+      "message": "If you ignore the change you will not get email notifications for the change even when you are reviewer or when you are watching that project. That\u0027s the purpose of the ignore star, you looked once at the change and then you decided to ignore it by setting the ignore star. \n\nIf you are watching a project you get at least notified about the initial change, because you can\u0027t ignore it before it is created.\n\nIf somebody adds you as a reviewer to a change that you have ignored, you will still get this one email so that you know about the review request.",
+      "parentUuid": "a8e30849_417ad2bf",
+      "range": {
+        "startLine": 284,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 25
+      },
+      "revId": "d5c81b83869c88ed337bffebac92377f1c112208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

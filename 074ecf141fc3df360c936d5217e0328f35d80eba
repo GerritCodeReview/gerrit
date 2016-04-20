@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "88bba4f1_185a4558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2016-04-20T18:30:53Z",
+      "side": 1,
+      "message": "r/where/were/",
+      "range": {
+        "startLine": 74,
+        "startChar": 61,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_787a61c0",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 13

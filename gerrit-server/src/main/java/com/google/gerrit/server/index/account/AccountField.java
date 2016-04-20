@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -128,10 +129,10 @@ public class AccountField {
 
   public static final FieldDef<AccountState, String> USERNAME =
       new FieldDef.Single<AccountState, String>(
-            "username", null, false) {
+            "username", FieldType.EXACT, false) {
         @Override
         public String get(AccountState input, FillArgs args) {
-          return input.getUserName().toLowerCase();
+          return Strings.nullToEmpty(input.getUserName()).toLowerCase();
         }
       };
 

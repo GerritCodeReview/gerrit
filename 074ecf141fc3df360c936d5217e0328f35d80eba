@@ -641,6 +641,24 @@
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d5d7fcc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T19:37:37Z",
+      "side": 1,
+      "message": "\u003e So it is possible to look up a user\u0027s starred changes using a query\n \u003e operator\n\nOnly changes starred by the default star can be queried by other users, other star labels are not queryable by other users.\n\n \u003e I still think starredby:user should not exist (even for the purposes of \n \u003e rendering their dashboard) but I guess we\u0027re stuck with it.\n\nI agree. Actually I think it\u0027s not used by dashboards anymore. Maybe we could propose to remove it.",
+      "parentUuid": "88bba4f1_b8fa3957",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

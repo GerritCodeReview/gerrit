@@ -24,12 +24,12 @@ java_library(
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',  # SSH should not depend on servlet
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/jgit/org.eclipse.jgit.archive:jgit-archive',
     '//lib/log:api',
     '//lib/log:log4j',
     '//lib/mina:core',
     '//lib/mina:sshd',
-    '@jgit//org.eclipse.jgit:jgit',
-    '@jgit//org.eclipse.jgit.archive:jgit-archive',
   ],
   provided_deps = [
     '//lib/bouncycastle:bcprov',

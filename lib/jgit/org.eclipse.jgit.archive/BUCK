@@ -7,7 +7,7 @@ maven_jar(
   sha1 = 'c065b765aac56cdbe531634fdfd829a6ce8bbd0c',
   license = 'jgit',
   repository = REPO,
-  deps = ['@jgit//org.eclipse.jgit:jgit'],
+  deps = ['//lib/jgit/org.eclipse.jgit:jgit'],
   unsign = True,
   exclude = [
     'about.html',

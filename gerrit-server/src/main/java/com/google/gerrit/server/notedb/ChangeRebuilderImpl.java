@@ -181,7 +181,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
-      throws IOException, OrmException, ConfigInvalidException {
+      throws IOException, OrmException {
     Change change = new Change(bundle.getChange());
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
@@ -322,7 +322,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,
-      NoteDbUpdateManager manager) throws IOException, ConfigInvalidException {
+      NoteDbUpdateManager manager) throws IOException {
     String refName = ChangeNoteUtil.changeRefName(change.getId());
     ObjectId old = manager.getChangeRepo().getObjectId(refName);
     if (old == null) {
@@ -334,8 +334,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     rw.reset();
     rw.markStart(rw.parseCommit(old));
     for (RevCommit commit : rw) {
-      Account.Id authorId =
-          changeNoteUtil.parseIdent(commit.getAuthorIdent(), change.getId());
+      Account.Id authorId;
+      try {
+        authorId =
+            changeNoteUtil.parseIdent(commit.getAuthorIdent(), change.getId());
+      } catch (ConfigInvalidException e) {
+        continue; // Corrupt data, no valid hashtags in this commit.
+      }
       PatchSet.Id psId = parsePatchSetId(change, commit);
       Set<String> hashtags = parseHashtags(commit);
       if (authorId == null || psId == null || hashtags == null) {

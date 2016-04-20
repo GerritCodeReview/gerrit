@@ -120,7 +120,7 @@ public class RebuildNoteDb extends SiteProgram {
     sysInjector = createSysInjector();
     sysInjector.injectMembers(this);
     if (!notesMigration.enabled()) {
-      die("NoteDb is not enabled.");
+      throw die("NoteDb is not enabled.");
     }
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);

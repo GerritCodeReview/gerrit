@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_365d1850",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T11:48:40Z",
+      "side": 1,
+      "message": "Are these the users that should be notified because their vote was removed? If yes, can we find a better name?",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 41
+      },
+      "revId": "9e262ced421efb8b31eda506c77efd0d23b6f8d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_3584f0fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T11:48:40Z",
+      "side": 1,
+      "message": "Looks like nobody is calling this method?",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "9e262ced421efb8b31eda506c77efd0d23b6f8d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

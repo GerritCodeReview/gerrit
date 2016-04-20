@@ -1,1 +1,0 @@
-../../../tools/merge_jars.py

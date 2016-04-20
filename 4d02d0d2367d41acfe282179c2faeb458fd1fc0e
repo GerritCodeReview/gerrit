@@ -47,6 +47,30 @@
       "revId": "4d02d0d2367d41acfe282179c2faeb458fd1fc0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_58455d92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T06:41:51Z",
+      "side": 1,
+      "message": "From the Web UI is OK.\n\nThanks",
+      "parentUuid": "a8e30849_01ec4adc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 71
+      },
+      "revId": "4d02d0d2367d41acfe282179c2faeb458fd1fc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

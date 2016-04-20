@@ -163,6 +163,29 @@
       "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_7590280b",
+        "filename": "lib/BUCK",
+        "patchSetId": 45
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-20T21:54:10Z",
+      "side": 1,
+      "message": "Why are we adding the wrong dependency here and causing breakage of gitiles-plugin with this commit? I would prefer to use blame-cache already in this change. At very least, this should be mentioned in the commit message: \"We are doing it wrong, because ...\".",
+      "range": {
+        "startLine": 266,
+        "startChar": 10,
+        "endLine": 266,
+        "endChar": 25
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

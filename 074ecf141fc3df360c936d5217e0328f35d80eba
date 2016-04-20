@@ -378,6 +378,24 @@
     },
     {
       "key": {
+        "uuid": "a8e30849_6181d6ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-20T19:11:08Z",
+      "side": 1,
+      "message": "Ugh, I see I was thinking of fromRef.\n\nI would rather not use that method, so we can avoid using exceptions for control flow. How about Ints.tryParse here instead.",
+      "parentUuid": "48d52c29_96b86ca0",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_e11b26b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 13

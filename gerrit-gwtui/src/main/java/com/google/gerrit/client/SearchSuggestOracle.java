@@ -29,7 +29,9 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   private static final List<ParamSuggester> paramSuggester = Arrays.asList(
       new ParamSuggester(Arrays.asList("project:", "parentproject:"),
           new ProjectNameSuggestOracle()),
-      new ParamSuggester(Arrays.asList("owner:", "reviewer:"),
+      new ParamSuggester(Arrays.asList(
+          "owner:", "reviewer:", "commentby:", "reviewedby:", "author:",
+          "committer:", "from:"),
           new AccountSuggestOracle() {
             @Override
             public void onRequestSuggestions(final Request request, final Callback done) {

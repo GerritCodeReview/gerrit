@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_81ae9aa8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-20T04:05:16Z",
+      "side": 1,
+      "message": "can we be safer about this... like what if the plugin name is /plugins-wow.js\n\nthis would incorrectly catch right?",
+      "revId": "9acc9553e9deaa08e553438751d4ae03917291e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

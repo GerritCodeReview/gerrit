@@ -23,6 +23,30 @@
       "revId": "4d02d0d2367d41acfe282179c2faeb458fd1fc0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_01ec4adc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-04-20T06:39:25Z",
+      "side": 1,
+      "message": "Split out https://gerrit-review.googlesource.com/76800.\n\nCan we do cherry-picks from the web UI or do I have to do that manually? I can send changes for stable branches later.",
+      "parentUuid": "88bba4f1_58cafd6c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 71
+      },
+      "revId": "4d02d0d2367d41acfe282179c2faeb458fd1fc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_61ab969a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T04:30:02Z",
+      "side": 1,
+      "message": "Should be:\n\n assertThat(approval.getLabelId()).isEqualTo(codeReview);\n\nFollowing usages of assertThat also need to be corrected.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 59
+      },
+      "revId": "1d355ee3b8ace6eff5bd4ebde668da61faadd1a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

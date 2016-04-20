@@ -264,8 +264,11 @@ public class ChangeNoteUtil {
   private static CommentRange parseCommentRange(byte[] note, MutableInteger ptr) {
     CommentRange range = new CommentRange(-1, -1, -1, -1);
 
+    int last = ptr.value;
     int startLine = RawParseUtils.parseBase10(note, ptr.value, ptr);
-    if (startLine == 0) {
+    if (ptr.value == last) {
+      return null;
+    } else if (startLine == 0) {
       range.setEndLine(0);
       ptr.value += 1;
       return range;
@@ -282,30 +285,33 @@ public class ChangeNoteUtil {
       return null;
     }
 
+    last = ptr.value;
     int startChar = RawParseUtils.parseBase10(note, ptr.value, ptr);
-    if (note[ptr.value] == '-') {
+    if (ptr.value == last) {
+      return null;
+    } else if (note[ptr.value] == '-') {
       range.setStartCharacter(startChar);
       ptr.value += 1;
     } else {
       return null;
     }
 
+    last = ptr.value;
     int endLine = RawParseUtils.parseBase10(note, ptr.value, ptr);
-    if (endLine == 0) {
+    if (ptr.value == last) {
       return null;
-    }
-    if (note[ptr.value] == ':') {
+    } else if (note[ptr.value] == ':') {
       range.setEndLine(endLine);
       ptr.value += 1;
     } else {
       return null;
     }
 
+    last = ptr.value;
     int endChar = RawParseUtils.parseBase10(note, ptr.value, ptr);
-    if (endChar == 0) {
+    if (ptr.value == last) {
       return null;
-    }
-    if (note[ptr.value] == '\n') {
+    } else if (note[ptr.value] == '\n') {
       range.setEndCharacter(endChar);
       ptr.value += 1;
     } else {
@@ -377,11 +383,15 @@ public class ChangeNoteUtil {
     int startOfLength =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 1;
     MutableInteger i = new MutableInteger();
+    i.value = startOfLength;
     int commentLength =
         RawParseUtils.parseBase10(note, startOfLength, i);
+    if (i.value == startOfLength) {
+      throw parseException(changeId, "could not parse %s", LENGTH);
+    }
     int endOfLine = RawParseUtils.nextLF(note, curr.value);
     if (i.value != endOfLine - 1) {
-      throw parseException(changeId, "could not parse %s", PATCH_SET);
+      throw parseException(changeId, "could not parse %s", LENGTH);
     }
     curr.value = endOfLine;
     return checkResult(commentLength, "comment length", changeId);

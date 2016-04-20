@@ -1224,6 +1224,45 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void patchLineCommentsFileComment() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    PatchSet.Id psId = c.currentPatchSetId();
+    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+
+    PatchLineComment comment = newPublishedComment(psId, "file1",
+        "uuid", null, 0, otherUser, null,
+        TimeUtil.nowTs(), "message", (short) 1, revId.get());
+    update.setPatchSetId(psId);
+    update.putComment(comment);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getComments())
+        .isEqualTo(ImmutableMultimap.of(revId, comment));
+  }
+
+  @Test
+  public void patchLineCommentsZeroColumns() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    PatchSet.Id psId = c.currentPatchSetId();
+    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    CommentRange range = new CommentRange(1, 0, 2, 0);
+
+    PatchLineComment comment = newPublishedComment(psId, "file1",
+        "uuid", range, range.getEndLine(), otherUser, null,
+        TimeUtil.nowTs(), "message", (short) 1, revId.get());
+    update.setPatchSetId(psId);
+    update.putComment(comment);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getComments())
+        .isEqualTo(ImmutableMultimap.of(revId, comment));
+  }
+
+  @Test
   public void patchLineCommentNotesFormatSide1() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);

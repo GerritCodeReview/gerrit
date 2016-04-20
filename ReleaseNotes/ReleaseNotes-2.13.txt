@@ -82,7 +82,7 @@ TODO
 Upgrades
 --------
 
-* Upgrade CodeMirror to 5.13.4
+* Upgrade CodeMirror to 5.14.0
 
 * Upgrade Guava to 19.0
 

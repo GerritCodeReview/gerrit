@@ -12,6 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+sh_bang_template = (' && '.join([
+  "echo '#!/bin/sh -eux' > $OUT",
+  'echo "" >> $OUT',
+  'echo "# this script should run from the root of your workspace." >> $OUT',
+  'echo "" >> $OUT',
+  'echo %s >> $OUT',
+  'echo "" >> $OUT',
+  'echo %s >> $OUT',
+  # This is supposed to be handled by executable=True, but it doesn't
+  # work. Bug?
+  'chmod 0755 $OUT' ]))
+
 def maven_package(
     version,
     repository = None,
@@ -20,44 +32,60 @@ def maven_package(
     src = {},
     doc = {},
     war = {}):
-  cmd = ['$(exe //tools/maven:mvn)', '-v', version, '-o', '$OUT']
-  api_cmd = []
-  for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc)]:
-    for a,t in d.iteritems():
-      api_cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
 
+  build_cmd = [ 'buck', 'build' ]
+
+  cmd = ['$(exe //tools/maven:mvn)', '-v', version]
+  api_cmd = []
+  api_targets = []
+  for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc)]:
+    for a,t in sorted(d.iteritems()):
+      api_cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
+      api_targets.append(t)
+
+  build_cmd_str = ' '.join(build_cmd)
   genrule(
-    name = 'api_install',
-    cmd = ' '.join(cmd + api_cmd + ['-a', 'install']),
-    out = 'api_install.info',
+    name = 'gen_api_install',
+    cmd = sh_bang_template % (' '.join(build_cmd + api_targets), ' '.join(cmd + ['-a', 'install'])),
+    out = 'api_install.sh',
+    executable = True,
   )
 
   if repository and url:
     genrule(
-      name = 'api_deploy',
-      cmd = ' '.join(cmd + api_cmd + [
+      name = 'gen_api_deploy',
+      cmd = sh_bang_template % (
+          ' '.join(build_cmd + api_targets), ' '.join(cmd + api_cmd + [
         '-a', 'deploy',
         '--repository', repository,
-        '--url', url]),
-      out = 'api_deploy.info',
+        '--url', url])),
+      out = 'api_deploy.sh',
+      executable = True,
     )
 
   war_cmd = []
-  for a,t in war.iteritems():
+  war_targets = []
+  for a,t in sorted(war.iteritems()):
     war_cmd.append('-s %s:war:$(location %s)' % (a,t))
+    war_targets.append(t)
 
   genrule(
-    name = 'war_install',
-    cmd = ' '.join(cmd + war_cmd + ['-a', 'install']),
-    out = 'war_install.info',
+    name = 'gen_war_install',
+    cmd = sh_bang_template % (' '.join(build_cmd + war_targets),
+                              ' '.join(cmd + war_cmd + ['-a', 'install'])),
+    out = 'war_install.sh',
+    executable = True,
   )
 
   if repository and url:
     genrule(
-      name = 'war_deploy',
-      cmd = ' '.join(cmd + war_cmd + [
+      name = 'gen_war_deploy',
+      cmd = sh_bang_template % (
+          ' '.join(build_cmd + war_targets),
+          ' '.join(cmd + war_cmd + [
         '-a', 'deploy',
         '--repository', repository,
-        '--url', url]),
-      out = 'war_deploy.info',
+        '--url', url])),
+      out = 'war_deploy.sh',
+      executable = True,
     )

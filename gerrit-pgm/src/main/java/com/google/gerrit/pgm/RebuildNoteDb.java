@@ -16,8 +16,10 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.common.base.Function;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
@@ -70,6 +72,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -83,6 +86,14 @@ public class RebuildNoteDb extends SiteProgram {
   @Option(name = "--threads",
       usage = "Number of threads to use for rebuilding NoteDb")
   private int threads = Runtime.getRuntime().availableProcessors();
+
+  @Option(name = "--project",
+      usage = "Projects to rebuild; recommended for debugging only")
+  private List<String> projects = new ArrayList<>();
+
+  @Option(name = "--change",
+      usage = "Individual change numbers to rebuild; recommended for debugging only")
+  private List<Integer> changes = new ArrayList<>();
 
   private Injector dbInjector;
   private Injector sysInjector;
@@ -239,8 +250,32 @@ public class RebuildNoteDb extends SiteProgram {
     Multimap<Project.NameKey, Change.Id> changesByProject =
         ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
-      for (Change c : unwrap(db).changes().all()) {
-        changesByProject.put(c.getProject(), c.getId());
+      if (projects.isEmpty() && !changes.isEmpty()) {
+        Iterable<Change> todo = unwrap(db).changes().get(
+            Iterables.transform(changes, new Function<Integer, Change.Id>() {
+              @Override
+              public Change.Id apply(Integer in) {
+                return new Change.Id(in);
+              }
+            }));
+        for (Change c : todo) {
+          changesByProject.put(c.getProject(), c.getId());
+        }
+      } else {
+        for (Change c : unwrap(db).changes().all()) {
+          boolean include = false;
+          if (projects.isEmpty() && changes.isEmpty()) {
+            include = true;
+          } else if (!projects.isEmpty()
+              && projects.contains(c.getProject().get())) {
+            include = true;
+          } else if (!changes.isEmpty() && changes.contains(c.getId().get())) {
+            include = true;
+          }
+          if (include) {
+            changesByProject.put(c.getProject(), c.getId());
+          }
+        }
       }
       return changesByProject;
     }

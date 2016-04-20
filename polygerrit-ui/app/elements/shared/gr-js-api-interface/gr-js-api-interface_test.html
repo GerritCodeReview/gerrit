@@ -35,12 +35,19 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-      Gerrit.install(function(p) { plugin = p; });
+      Gerrit.install(function(p) { plugin = p; },
+          'http://test.com/plugins/testplugin/static/test.js');
     });
 
     teardown(function() {
       element._removeEventCallbacks();
       plugin = null;
+    });
+
+    test('url', function() {
+      assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
+      assert.equal(plugin.url('/static/test.js'),
+          'http://test.com/plugins/testplugin/static/test.js');
     });
 
     test('history event', function(done) {
@@ -56,8 +63,8 @@ limitations under the License.
       var testChange = {
         _number: 42,
         revisions: {
-          def: { _number: 2 },
-          abc: { _number: 1 },
+          def: {_number: 2},
+          abc: {_number: 1},
         },
       };
       plugin.on(element.EventType.SHOW_CHANGE, function(change, revision) {

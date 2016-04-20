@@ -366,7 +366,6 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(RequestMetricsFilter.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
-    modules.add(sysInjector.getInstance(StaticModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
     if (sshInjector != null) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
@@ -383,6 +382,9 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new OAuthModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
+
+    // StaticModule contains a "/*" wildcard, place it last.
+    modules.add(sysInjector.getInstance(StaticModule.class));
 
     return sysInjector.createChildInjector(modules);
   }

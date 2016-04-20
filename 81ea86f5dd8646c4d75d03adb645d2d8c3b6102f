@@ -23,6 +23,30 @@
       "revId": "81ea86f5dd8646c4d75d03adb645d2d8c3b6102f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_56fc1480",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AuthorizedKeys.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-20T07:04:35Z",
+      "side": 1,
+      "message": "No, there is no validation of the key done here. The key is only assigned to a String member.\n\nAlso when the SSK keys were in the database we instantiated AccountSshKey for invalid keys. Invalid keys only have the invalid flag that we set below.",
+      "parentUuid": "a8e30849_21d34e20",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 46,
+        "endChar": 75
+      },
+      "revId": "81ea86f5dd8646c4d75d03adb645d2d8c3b6102f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

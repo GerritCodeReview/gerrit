@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_e19e867e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4618,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T01:55:21Z",
+      "side": 1,
+      "message": "patches",
+      "range": {
+        "startLine": 4618,
+        "startChar": 50,
+        "endLine": 4618,
+        "endChar": 57
+      },
+      "revId": "2eee5f6b3471c7fc8ed0d8522f4ace6c520d8b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_98f095b1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-20T01:55:21Z",
+      "side": 1,
+      "message": "This is incorrect usage of the assertThat API and I don\u0027t think it\u0027s actually performing any assertion.\n\nIt should be something like:\n\n assertThat(e.getMessage()).isEqualTo(\"revision not current\");\n\nSame for the other assertThat calls in the added code.  I see the existing code also has the same problem; I\u0027ll check if that\u0027s still the case in master (this commit is based on an outdated master).",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 64
+      },
+      "revId": "2eee5f6b3471c7fc8ed0d8522f4ace6c520d8b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

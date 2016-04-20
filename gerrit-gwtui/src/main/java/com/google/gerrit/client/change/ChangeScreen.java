@@ -189,6 +189,7 @@ public class ChangeScreen extends Screen {
   @UiField Element actionText;
   @UiField Element actionDate;
   @UiField SimplePanel changeExtension;
+  @UiField SimplePanel relatedExtension;
 
   @UiField Actions actions;
   @UiField Labels labels;
@@ -333,6 +334,9 @@ public class ChangeScreen extends Screen {
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
         changeExtension, change, rev);
+    addExtensionPoint(
+        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_RELATED_INFO_BLOCK,
+        relatedExtension, change, rev);
   }
 
   private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,

@@ -191,26 +191,21 @@ Versions and Create Release Tag] section.
 * Push the WAR to Maven Central:
 +
 ----
-  buck build war_deploy
+  buck build //tools/maven:gen_war_deploy
+  sh buck-out/gen/tools/maven/gen_war_deploy/war_deploy.sh
 ----
 
 * Push the plugin artifacts to Maven Central:
 +
 ----
-  buck build api_deploy
-----
-+
-For troubleshooting, the environment variable `VERBOSE` can be set. This
-prints out the commands that are executed by the Buck build process:
-+
-----
-  VERBOSE=1 buck build api_deploy
+  buck build //tools/maven:gen_api_deploy
+  sh buck-out/gen/tools/maven/gen_api_deploy/api_deploy.sh
 ----
 +
 If no artifacts are uploaded, clean the `buck-out` folder and retry:
 +
 ----
-  rm -rf buck-out
+  buck clean ; rm -rf buck-out
 ----
 
 * Push the plugin Maven archetypes to Maven Central:

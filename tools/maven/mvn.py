@@ -69,7 +69,12 @@ for spec in args.s:
       file=stderr)
     exit(1)
 
-with open(args.o, 'w') as fd:
+
+out = stderr
+if args.o:
+  out = open(args.o, 'w')
+
+with out as fd:
   if args.repository:
     print('Repository: %s' % args.repository, file=fd)
   if args.url:

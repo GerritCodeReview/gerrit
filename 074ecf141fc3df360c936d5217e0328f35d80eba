@@ -551,6 +551,24 @@
       "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_18f3658a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1020422
+      },
+      "writtenOn": "2016-04-20T19:14:15Z",
+      "side": 1,
+      "message": "No, in link [1] it is said \"However, they are recognized by the query parser, and may prove useful in limited contexts to administrators or power-users.\u0027",
+      "parentUuid": "88bba4f1_38f6297a",
+      "revId": "074ecf141fc3df360c936d5217e0328f35d80eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

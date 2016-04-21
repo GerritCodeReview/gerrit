@@ -395,6 +395,10 @@ public class CodeMirror extends JavaScriptObject {
     return this.setGutterMarker(line, gutterId, value);
   }-*/;
 
+  public final native boolean hasSearchHighlight() /*-{
+    return this.state.search && !!this.state.search.query;
+  }-*/;
+
   protected CodeMirror() {
   }
 

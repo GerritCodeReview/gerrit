@@ -932,8 +932,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(readNote(notes, commit)).isEqualTo(
         pushCert
-        + "Patch-set: 2\n"
         + "Revision: " + commit.name() + "\n"
+        + "Patch-set: 2\n"
         + "File: a.txt\n"
         + "\n"
         + "1:2-3:4\n"
@@ -1275,8 +1275,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           walk.getObjectReader().open(
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      assertThat(noteString).isEqualTo("Patch-set: 1\n"
-          + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+      assertThat(noteString).isEqualTo(
+          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "Patch-set: 1\n"
           + "File: file1\n"
           + "\n"
           + "1:1-2:1\n"
@@ -1345,8 +1346,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           walk.getObjectReader().open(
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      assertThat(noteString).isEqualTo("Base-for-patch-set: 1\n"
-          + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+      assertThat(noteString).isEqualTo(
+          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "Base-for-patch-set: 1\n"
           + "File: file1\n"
           + "\n"
           + "1:1-2:1\n"
@@ -1364,6 +1366,91 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           + "comment 2\n"
           + "\n");
     }
+  }
+
+  @Test
+  public void patchLineCommentNotesFormatMultiplePatchSetsSameRevId()
+      throws Exception {
+    Change c = newChange();
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
+    String uuid3 = "uuid3";
+    String message1 = "comment 1";
+    String message2 = "comment 2";
+    String message3 = "comment 3";
+    CommentRange range1 = new CommentRange(1, 1, 2, 1);
+    CommentRange range2 = new CommentRange(2, 1, 3, 1);
+    Timestamp time = TimeUtil.nowTs();
+    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+
+    PatchSet.Id psId1 = c.currentPatchSetId();
+    PatchSet.Id psId2 = new PatchSet.Id(c.getId(), psId1.get() + 1);
+
+    PatchLineComment comment1 = newPublishedComment(psId1, "file1",
+        uuid1, range1, range1.getEndLine(), otherUser, null, time, message1,
+        (short) 0, revId.get());
+    PatchLineComment comment2 = newPublishedComment(psId1, "file1",
+        uuid2, range2, range2.getEndLine(), otherUser, null, time, message2,
+        (short) 0, revId.get());
+    PatchLineComment comment3 = newPublishedComment(psId2, "file1",
+        uuid3, range1, range1.getEndLine(), otherUser, null, time, message3,
+        (short) 0, revId.get());
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(psId2);
+    update.putComment(comment3);
+    update.putComment(comment2);
+    update.putComment(comment1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
+
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+      assertThat(noteString).isEqualTo(
+          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "Base-for-patch-set: 1\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + timeStr + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid1\n"
+          + "Bytes: 9\n"
+          + "comment 1\n"
+          + "\n"
+          + "2:1-3:1\n"
+          + timeStr + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid2\n"
+          + "Bytes: 9\n"
+          + "comment 2\n"
+          + "\n"
+          + "Base-for-patch-set: 2\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + timeStr + "\n"
+          + "Author: Other Account <2@gerrit>\n"
+          + "UUID: uuid3\n"
+          + "Bytes: 9\n"
+          + "comment 3\n"
+          + "\n");
+    }
+
+    assertThat(notes.getComments()).isEqualTo(
+        ImmutableMultimap.of(
+            revId, comment1,
+            revId, comment2,
+            revId, comment3));
   }
 
   @Test

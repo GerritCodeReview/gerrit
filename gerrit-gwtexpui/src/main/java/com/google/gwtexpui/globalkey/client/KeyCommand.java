@@ -15,12 +15,14 @@
 package com.google.gwtexpui.globalkey.client;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 
-public abstract class KeyCommand implements KeyPressHandler {
+public abstract class KeyCommand implements KeyDownHandler, KeyPressHandler {
   public static final int M_CTRL = 1 << 16;
   public static final int M_ALT = 2 << 16;
   public static final int M_META = 4 << 16;
@@ -103,5 +105,13 @@ public abstract class KeyCommand implements KeyPressHandler {
     b.append(name);
     b.closeSpan();
     b.append(">");
+  }
+
+  @Override
+  public void onKeyDown(KeyDownEvent event) {
+    // In general, a KeyCommand should only handle a keypress event. For keys
+    // or key combinations that don't fire a keypress, onKeyDown will be called
+    // as a fallback. A KeyCommand that handles these keys should override the
+    // onKeyDown method.
   }
 }

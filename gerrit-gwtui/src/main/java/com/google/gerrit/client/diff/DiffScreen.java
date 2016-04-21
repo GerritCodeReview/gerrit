@@ -52,6 +52,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -509,8 +510,17 @@ abstract class DiffScreen extends Screen {
           header.toggleReviewed().run();
         }
       });
-      keysAction.add(new NoOpKeyCommand(KeyCommand.M_CTRL | KeyCommand.M_ALT,
-          'e', Gerrit.C.keyEditor()));
+      keysAction.add(new KeyCommand(KeyCommand.M_CTRL | KeyCommand.M_ALT,
+          KeyCodes.KEY_E, Gerrit.C.keyEditor()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+        }
+
+        @Override
+        public void onKeyDown(KeyDownEvent event) {
+          openEditScreen(getCmFromSide(DisplaySide.B)).run();
+        }
+      });
     }
     keysAction.add(new KeyCommand(
         KeyCommand.M_SHIFT, 'M', PatchUtil.C.markAsReviewedAndGoToNext()) {

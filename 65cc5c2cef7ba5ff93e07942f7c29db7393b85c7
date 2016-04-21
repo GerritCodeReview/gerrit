@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88bba4f1_78c70116",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T01:56:15Z",
+      "side": 1,
+      "message": "e is only used in the log.warn to print the message; just pass in a String here and call getMessage already at line 276?",
+      "range": {
+        "startLine": 295,
+        "startChar": 24,
+        "endLine": 295,
+        "endChar": 53
+      },
+      "revId": "65cc5c2cef7ba5ff93e07942f7c29db7393b85c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

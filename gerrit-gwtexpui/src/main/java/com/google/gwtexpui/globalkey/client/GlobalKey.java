@@ -46,15 +46,16 @@ public class GlobalKey {
 
   private static void initEvents() {
     if (active == null) {
+      DocWidget.get().addKeyDownHandler(new KeyDownHandler() {
+        @Override
+        public void onKeyDown(final KeyDownEvent event) {
+          prepareEvent().onKeyDown(event);
+        }
+      });
       DocWidget.get().addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          final KeyCommandSet s = active.live;
-          if (s != active.all) {
-            active.live = active.all;
-            restoreTimer.cancel();
-          }
-          s.onKeyPress(event);
+          prepareEvent().onKeyPress(event);
         }
       });
 
@@ -68,6 +69,15 @@ public class GlobalKey {
       global = new State(null);
       active = global;
     }
+  }
+
+  private static KeyCommandSet prepareEvent() {
+    KeyCommandSet s = active.live;
+    if (s != active.all) {
+      active.live = active.all;
+      restoreTimer.cancel();
+    }
+    return s;
   }
 
   private static void initDialog() {

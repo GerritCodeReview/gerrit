@@ -17,8 +17,11 @@ package com.google.gwtexpui.globalkey.client;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
+import com.google.gwt.event.dom.client.HasKeyDownHandlers;
 import com.google.gwt.event.dom.client.HasKeyPressHandlers;
 import com.google.gwt.event.dom.client.HasMouseMoveHandlers;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -28,7 +31,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DocWidget extends Widget
-    implements HasKeyPressHandlers, HasMouseMoveHandlers {
+    implements HasKeyDownHandlers, HasKeyPressHandlers, HasMouseMoveHandlers {
   private static DocWidget me;
 
   public static DocWidget get() {
@@ -42,6 +45,11 @@ public class DocWidget extends Widget
     setElement((Element) docnode());
     onAttach();
     RootPanel.detachOnWindowClose(this);
+  }
+
+  @Override
+  public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+    return addDomHandler(handler, KeyDownEvent.getType());
   }
 
   @Override

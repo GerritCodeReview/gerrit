@@ -145,6 +145,9 @@ public class KeyCommandSet implements KeyPressHandler {
     if (event.isMetaKeyDown()) {
       mask |= KeyCommand.M_META;
     }
+    if (event.isShiftKeyDown()) {
+      mask |= KeyCommand.M_SHIFT;
+    }
     return mask;
   }
 }

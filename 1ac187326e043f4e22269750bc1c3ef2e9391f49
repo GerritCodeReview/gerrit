@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_55288c76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-21T07:21:55Z",
+      "side": 1,
+      "message": "I hope that also \"*\" and \"#\" still work as before?",
+      "revId": "1ac187326e043f4e22269750bc1c3ef2e9391f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

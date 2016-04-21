@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import java.util.Map;
@@ -22,4 +23,20 @@ public interface ReviewerApi {
 
   Map<String, Short> votes() throws RestApiException;
   void deleteVote(String label) throws RestApiException;
+
+  /**
+   * A default implementation which allows source compatibility
+   * when adding new methods to the interface.
+   **/
+  class NotImplemented implements ReviewerApi {
+    @Override
+    public Map<String, Short> votes() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteVote(String label) throws RestApiException {
+      throw new NotImplementedException();
+    }
+  }
 }

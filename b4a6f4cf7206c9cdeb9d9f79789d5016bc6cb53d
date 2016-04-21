@@ -142,6 +142,29 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_35fe3011",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-21T08:19:51Z",
+      "side": 1,
+      "message": "No metaVar on boolean options. Meta var only makes sense for non boolean options, see: [1]. I guess it was borrowed from GetDiff REST handler, where base is a string.\n\n* [1] http://args4j.kohsuke.org/args4j/apidocs/org/kohsuke/args4j/Option.html#metaVar()",
+      "range": {
+        "startLine": 79,
+        "startChar": 45,
+        "endLine": 79,
+        "endChar": 61
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3118652c_550d6c56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 21
@@ -193,6 +216,30 @@
       "writtenOn": "2016-03-31T13:03:48Z",
       "side": 1,
       "message": "true\n\nI guess that when --base is used then it implies true. Not using --blame means false. We don\u0027t need --base\u003dtrue or --base\u003dfalse. Therefore, the parameter value can be ignored.",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "b4a6f4cf7206c9cdeb9d9f79789d5016bc6cb53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_75f4a832",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-21T08:19:51Z",
+      "side": 1,
+      "message": "The problem with the just ignoring the value is that Eclipse is now issuing unused var warning. It\u0027s also not consistent with the rest of the code. Adding @SuppressWarnings(\"unused\") doesn\u0027t seem to be appropriate here as well. My suggestion is:\n\n  @Option(name \u003d \"--base\", aliases \u003d {\"-b\"}, usage\u003d\"...\")\n  private boolean base;",
+      "parentUuid": "3118652c_75106872",
       "range": {
         "startLine": 82,
         "startChar": 16,

@@ -264,6 +264,11 @@ public class PermissionRule implements Comparable<PermissionRule> {
     return rule;
   }
 
+  public boolean hasRange() {
+    return (!(getMin() == null || getMin() == 0))
+      || (!(getMax() == null || getMax() == 0));
+  }
+
   public static int parseInt(String value) {
     if (value.startsWith("+")) {
       value = value.substring(1);

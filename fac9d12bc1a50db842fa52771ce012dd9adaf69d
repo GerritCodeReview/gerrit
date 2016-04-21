@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_d50dbc1f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-21T08:18:22Z",
+      "side": 1,
+      "message": "I think changing this name to BlameMetaInfo would be good, assuming that this is a blame specific entity which is unlikely to be used in other contexts.\n\nThis doesn\u0027t mean that the \u0027meta\u0027 json field in Blame should be renamed, \u0027meta\u0027 is good here since it is in the context of the Blame entity.",
+      "parentUuid": "48d52c29_f6d200d7",
+      "range": {
+        "startLine": 4456,
+        "startChar": 4,
+        "endLine": 4456,
+        "endChar": 8
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_76639016",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 45
@@ -154,6 +178,30 @@
       "side": 1,
       "message": "BlameRangeInfo to be consistent with BlameMetaInfo?",
       "parentUuid": "48d52c29_76639016",
+      "range": {
+        "startLine": 4469,
+        "startChar": 4,
+        "endLine": 4469,
+        "endChar": 10
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b6e92860",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4469,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-21T08:18:22Z",
+      "side": 1,
+      "message": "I would prefer RangeInfo, this entity contains nothing which is specific to blame and it could be reused in other contexts.",
+      "parentUuid": "28d0f83a_f5a9d858",
       "range": {
         "startLine": 4469,
         "startChar": 4,

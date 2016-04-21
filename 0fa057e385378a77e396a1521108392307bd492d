@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88bba4f1_b857d9fc",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "This replaces install (to the local repo) with deploy (to the release repo).\n\nNote that api_deploy and war_deploy targets are still mentioned in dev-release.txt",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 165,
+        "endChar": 58
+      },
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_61bef680",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "This won\u0027t work any more because the war_install alias was removed from .buckconfig",
+      "range": {
+        "startLine": 171,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 24
+      },
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_21c4ee0e",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "should be run",
+      "range": {
+        "startLine": 18,
+        "startChar": 23,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_81c17a01",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "Why not just `+x`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 9,
+        "endLine": 25,
+        "endChar": 13
+      },
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_41c77215",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "nit: no spaces here, or before the closing ]",
+      "range": {
+        "startLine": 36,
+        "startChar": 15,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_01cd6a35",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_e1d166d1",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T13:07:11Z",
+      "side": 1,
+      "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 10
+      },
+      "revId": "0fa057e385378a77e396a1521108392307bd492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

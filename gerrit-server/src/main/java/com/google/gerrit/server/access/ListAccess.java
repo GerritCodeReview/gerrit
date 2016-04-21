@@ -14,35 +14,26 @@
 
 package com.google.gerrit.server.access;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.GetAccess;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectJson;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -51,10 +42,8 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ListAccess implements RestReadView<TopLevelResource> {
 
@@ -65,27 +54,29 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   private final Provider<CurrentUser> self;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final ProjectCache projectCache;
-  private final ProjectJson projectJson;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final GroupControl.Factory groupControlFactory;
+  private final ProjectJson projectJson;
   private final GroupBackend groupBackend;
   private final AllProjectsName allProjectsName;
 
   @Inject
   public ListAccess(Provider<CurrentUser> self,
       ProjectControl.GenericFactory projectControlFactory,
-      ProjectCache projectCache, ProjectJson projectJson,
+      ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
-      GroupControl.Factory groupControlFactory, GroupBackend groupBackend,
-      AllProjectsName allProjectsName) {
+      GroupControl.Factory groupControlFactory,
+      GroupBackend groupBackend,
+      AllProjectsName allProjectsName,
+      ProjectJson projectJson) {
     this.self = self;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
-    this.projectJson = projectJson;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupControlFactory = groupControlFactory;
     this.groupBackend = groupBackend;
     this.allProjectsName = allProjectsName;
+    this.projectJson =  projectJson;
   }
 
   @Override
@@ -113,7 +104,8 @@ public class ListAccess implements RestReadView<TopLevelResource> {
           projectCache.evict(config.getProject());
           pc = open(projectName);
         }
-        access.put(p, new ProjectAccessInfo(pc, config));
+        GetAccess ga = new GetAccess(groupControlFactory, allProjectsName, projectJson);
+        access.put(p, ga.apply(new ProjectResource(pc)));
       } catch (ConfigInvalidException e) {
         throw new ResourceConflictException(e.getMessage());
       } catch (RepositoryNotFoundException e) {
@@ -133,166 +125,4 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     }
   }
 
-  public class ProjectAccessInfo {
-    public String revision;
-    public ProjectInfo inheritsFrom;
-    public Map<String, AccessSectionInfo> local;
-    public Boolean isOwner;
-    public Set<String> ownerOf;
-    public Boolean canUpload;
-    public Boolean canAdd;
-    public Boolean configVisible;
-
-    public ProjectAccessInfo(ProjectControl pc, ProjectConfig config) {
-      final RefControl metaConfigControl =
-          pc.controlForRef(RefNames.REFS_CONFIG);
-      local = Maps.newHashMap();
-      ownerOf = Sets.newHashSet();
-      Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
-
-      for (AccessSection section : config.getAccessSections()) {
-        String name = section.getName();
-        if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
-          if (pc.isOwner()) {
-            local.put(name, new AccessSectionInfo(section));
-            ownerOf.add(name);
-
-          } else if (metaConfigControl.isVisible()) {
-            local.put(section.getName(), new AccessSectionInfo(section));
-          }
-
-        } else if (RefConfigSection.isValid(name)) {
-          RefControl rc = pc.controlForRef(name);
-          if (rc.isOwner()) {
-            local.put(name, new AccessSectionInfo(section));
-            ownerOf.add(name);
-
-          } else if (metaConfigControl.isVisible()) {
-            local.put(name, new AccessSectionInfo(section));
-
-          } else if (rc.isVisible()) {
-            // Filter the section to only add rules describing groups that
-            // are visible to the current-user. This includes any group the
-            // user is a member of, as well as groups they own or that
-            // are visible to all users.
-
-            AccessSection dst = null;
-            for (Permission srcPerm : section.getPermissions()) {
-              Permission dstPerm = null;
-
-              for (PermissionRule srcRule : srcPerm.getRules()) {
-                AccountGroup.UUID group = srcRule.getGroup().getUUID();
-                if (group == null) {
-                  continue;
-                }
-
-                Boolean canSeeGroup = visibleGroups.get(group);
-                if (canSeeGroup == null) {
-                  try {
-                    canSeeGroup = groupControlFactory.controlFor(group).isVisible();
-                  } catch (NoSuchGroupException e) {
-                    canSeeGroup = Boolean.FALSE;
-                  }
-                  visibleGroups.put(group, canSeeGroup);
-                }
-
-                if (canSeeGroup) {
-                  if (dstPerm == null) {
-                    if (dst == null) {
-                      dst = new AccessSection(name);
-                      local.put(name, new AccessSectionInfo(dst));
-                    }
-                    dstPerm = dst.getPermission(srcPerm.getName(), true);
-                  }
-                  dstPerm.add(srcRule);
-                }
-              }
-            }
-          }
-        }
-      }
-
-      if (ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
-        // Special case: If the section list is empty, this project has no current
-        // access control information. Rely on what ProjectControl determines
-        // is ownership, which probably means falling back to site administrators.
-        ownerOf.add(AccessSection.ALL);
-      }
-
-
-      if (config.getRevision() != null) {
-        revision = config.getRevision().name();
-      }
-
-      ProjectState parent =
-          Iterables.getFirst(pc.getProjectState().parents(), null);
-      if (parent != null) {
-        inheritsFrom = projectJson.format(parent.getProject());
-      }
-
-      if (pc.getProject().getNameKey().equals(allProjectsName)) {
-        if (pc.isOwner()) {
-          ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
-        }
-      }
-
-      isOwner = toBoolean(pc.isOwner());
-      canUpload = toBoolean(pc.isOwner()
-          || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
-      canAdd = toBoolean(pc.canAddRefs());
-      configVisible = pc.isOwner() || metaConfigControl.isVisible();
-    }
-  }
-
-  public static class AccessSectionInfo {
-    public Map<String, PermissionInfo> permissions;
-
-    public AccessSectionInfo(AccessSection section) {
-      permissions = Maps.newHashMap();
-      for (Permission p : section.getPermissions()) {
-        permissions.put(p.getName(), new PermissionInfo(p));
-      }
-    }
-  }
-
-  public static class PermissionInfo {
-    public String label;
-    public Boolean exclusive;
-    public Map<String, PermissionRuleInfo> rules;
-
-    public PermissionInfo(Permission permission) {
-      label = permission.getLabel();
-      exclusive = toBoolean(permission.getExclusiveGroup());
-      rules = Maps.newHashMap();
-      for (PermissionRule r : permission.getRules()) {
-        rules.put(r.getGroup().getUUID().get(), new PermissionRuleInfo(r));
-      }
-    }
-  }
-
-  public static class PermissionRuleInfo {
-    public PermissionRule.Action action;
-    public Boolean force;
-    public Integer min;
-    public Integer max;
-
-
-    public PermissionRuleInfo(PermissionRule rule) {
-      action = rule.getAction();
-      force = toBoolean(rule.getForce());
-      if (hasRange(rule)) {
-        min = rule.getMin();
-        max = rule.getMax();
-      }
-    }
-
-    private boolean hasRange(PermissionRule rule) {
-      return (!(rule.getMin() == null || rule.getMin() == 0))
-          || (!(rule.getMax() == null || rule.getMax() == 0));
-    }
-  }
-
-  private static Boolean toBoolean(boolean value) {
-    return value ? true : null;
-  }
 }

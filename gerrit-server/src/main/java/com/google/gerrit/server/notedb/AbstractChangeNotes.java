@@ -136,11 +136,13 @@ public abstract class AbstractChangeNotes<T> {
     return self();
   }
 
-  protected LoadHandle openHandle(Repository repo) throws IOException {
+  protected ObjectId readRef(Repository repo) throws IOException {
     Ref ref = repo.getRefDatabase().exactRef(getRefName());
-    return LoadHandle.create(
-        new RevWalk(repo),
-        ref != null ? ref.getObjectId() : null);
+    return ref != null ? ref.getObjectId() : null;
+  }
+
+  protected LoadHandle openHandle(Repository repo) throws IOException {
+    return LoadHandle.create(new RevWalk(repo), readRef(repo));
   }
 
   public T reload() throws OrmException {

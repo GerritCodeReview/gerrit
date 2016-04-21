@@ -14,10 +14,12 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProjectApi {
@@ -27,6 +29,8 @@ public interface ProjectApi {
 
   String description() throws RestApiException;
   void description(PutDescriptionInput in) throws RestApiException;
+
+  ProjectAccessInfo access() throws RestApiException;
 
   ListRefsRequest<BranchInfo> branches();
   ListRefsRequest<TagInfo> tags();
@@ -126,6 +130,11 @@ public interface ProjectApi {
 
     @Override
     public String description() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ProjectAccessInfo access() throws RestApiException {
       throw new NotImplementedException();
     }
 

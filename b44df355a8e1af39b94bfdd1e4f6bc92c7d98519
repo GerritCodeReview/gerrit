@@ -1,0 +1,249 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_a152be0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "This also fixes a bug, right? Only talking about caching in the commit message makes it sound like this is just for performance.",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_c14d4271",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_41793291",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_81733ab1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_d8e4cd89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_18224597",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "This is the MergeOp-specific stuff that makes this class not appropriate for general use. You need some Javadoc warning people not to use this, and maybe it shouldn\u0027t be public, and maybe it should have a more specific name.\n\nAlternatively you could maybe add a wrapper in MergeOp that sets up the RevWalk in the way you need.",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 37
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_38fe2911",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Maybe checkState(db !\u003d null) with a message that you need to call setContext() before getUpdate()",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_f8df91b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "What is the purpose of this? What is wrong with silently returning in that case?",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_b8e91960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_98ee5564",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "This name is not consistent with elsewhere in Gerrit, since you\u0027re already updating this code, please rename it.",
+      "range": {
+        "startLine": 217,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_58f1dd40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Extract as a local",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_6170b6a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Change readTree to take a RevWalk so you can reuse the RevWalk from or",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_78f4a132",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T14:11:30Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

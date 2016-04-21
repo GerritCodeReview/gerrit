@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88bba4f1_b83b59ac",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T18:34:17Z",
+      "side": 1,
+      "message": "I think following the logic is sufficiently complex enough that I\u0027d rather keep it for readability.\n\n\u003e Also it wouldn\u0027t harm to invoke projects.contains(...) if projects is empty.\n\nSure but then it would always return false. Empty means include everything.",
+      "parentUuid": "48d52c29_16221c97",
+      "range": {
+        "startLine": 269,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 40
+      },
+      "revId": "5878ee7fd43d7aaf838df1cb1ae53ee9ccbef42f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_d5e49c89",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-21T07:31:27Z",
       "side": 1,
       "message": "Unneeded condition?\n\nThere is no problem with invoking changes.contains(...) if changes is empty.",
+      "range": {
+        "startLine": 272,
+        "startChar": 21,
+        "endLine": 272,
+        "endChar": 39
+      },
+      "revId": "5878ee7fd43d7aaf838df1cb1ae53ee9ccbef42f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_8125faa0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T18:34:17Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "28d0f83a_d5e49c89",
       "range": {
         "startLine": 272,
         "startChar": 21,

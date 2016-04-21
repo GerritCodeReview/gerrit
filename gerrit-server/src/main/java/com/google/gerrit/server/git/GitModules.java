@@ -19,6 +19,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.git.OpenRepoManager.OpenRepo;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -27,9 +29,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,28 +49,29 @@ public class GitModules {
   private static final Logger log = LoggerFactory.getLogger(GitModules.class);
 
   public interface Factory {
-    GitModules create(Branch.NameKey project, String submissionId);
+    GitModules create(Branch.NameKey project, String submissionId,
+        OpenRepoManager m);
   }
 
   private static final String GIT_MODULES = ".gitmodules";
 
   private final String thisServer;
-  private final GitRepositoryManager repoManager;
   private final SubmoduleSectionParser.Factory subSecParserFactory;
   private final Branch.NameKey branch;
   private final String submissionId;
+  private final OpenRepoManager orm;
 
   Set<SubmoduleSubscription> subscriptions;
 
   @AssistedInject
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      GitRepositoryManager repoManager,
       SubmoduleSectionParser.Factory subSecParserFactory,
       @Assisted Branch.NameKey branch,
-      @Assisted String submissionId) throws SubmoduleException {
-    this.repoManager = repoManager;
+      @Assisted String submissionId,
+      @Assisted OpenRepoManager orm) throws SubmoduleException {
     this.subSecParserFactory = subSecParserFactory;
+    this.orm = orm;
     this.branch = branch;
     this.submissionId = submissionId;
     try {
@@ -84,24 +85,27 @@ public class GitModules {
   void load() throws IOException {
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
+    try {
+      orm.openRepo(project, false);
+    } catch (NoSuchProjectException e) {
+      throw new IOException(e);
+    }
+    OpenRepo or = orm.getRepo(project);
 
-      ObjectId id = repo.resolve(branch.get());
-      if (id == null) {
-        throw new IOException("Cannot open branch " + branch.get());
-      }
-      RevCommit commit = rw.parseCommit(id);
+    ObjectId id = or.repo.resolve(branch.get());
+    if (id == null) {
+      throw new IOException("Cannot open branch " + branch.get());
+    }
+    RevCommit commit = or.rw.parseCommit(id);
 
-      TreeWalk tw = TreeWalk.forPath(repo, GIT_MODULES, commit.getTree());
-      if (tw == null
-          || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
-        return;
-      }
-
+    TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree());
+    if (tw == null
+        || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
+      return;
+    }
+    try {
       BlobBasedConfig bbc =
-          new BlobBasedConfig(null, repo, commit, GIT_MODULES);
-
+          new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
       subscriptions = subSecParserFactory.create(bbc, thisServer,
           branch).parseAllSections();
     } catch (ConfigInvalidException e) {

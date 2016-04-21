@@ -136,6 +136,30 @@
       "revId": "d5c81b83869c88ed337bffebac92377f1c112208",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_f608c011",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-21T09:21:54Z",
+      "side": 1,
+      "message": "Done. I also added a test to check that adding a user as reviewer to a change that was ignored by that user, still triggers an email notification.",
+      "parentUuid": "88bba4f1_38a8694d",
+      "range": {
+        "startLine": 284,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 25
+      },
+      "revId": "d5c81b83869c88ed337bffebac92377f1c112208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

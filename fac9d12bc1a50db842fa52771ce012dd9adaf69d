@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_3517502b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-21T08:35:28Z",
+      "side": 1,
+      "message": "I think my comment here is only about the documentation. It\u0027s actually not needed that the entity names match 100% with the class name. BlameInfo.Meta for class SGTM.",
+      "parentUuid": "48d52c29_76f4b032",
+      "range": {
+        "startLine": 4456,
+        "startChar": 4,
+        "endLine": 4456,
+        "endChar": 8
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_76639016",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 45

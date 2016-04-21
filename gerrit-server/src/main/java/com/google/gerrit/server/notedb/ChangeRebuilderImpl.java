@@ -333,7 +333,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       labelNameComparator = Ordering.natural();
     }
     ChangeUpdate update = updateFactory.create(
-        notesFactory.createWithAutoRebuildingDisabled(change),
+        notesFactory.createWithAutoRebuildingDisabled(
+            change, manager.getChangeRepo().cmds),
         events.getAccountId(),
         events.newAuthorIdent(),
         events.getWhen(),
@@ -349,12 +350,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void flushEventsToDraftUpdate(NoteDbUpdateManager manager,
       EventList<PatchLineCommentEvent> events, Change change)
-      throws OrmException {
+      throws OrmException, IOException {
     if (events.isEmpty()) {
       return;
     }
     ChangeDraftUpdate update = draftUpdateFactory.create(
-        notesFactory.createWithAutoRebuildingDisabled(change),
+        notesFactory.createWithAutoRebuildingDisabled(
+            change, manager.getChangeRepo().cmds),
         events.getAccountId(),
         events.newAuthorIdent(),
         events.getWhen());

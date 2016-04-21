@@ -80,7 +80,7 @@ import java.util.List;
 /** Base class for SideBySide and Unified */
 abstract class DiffScreen extends Screen {
   static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
-      .propagate("Ctrl-F");
+      .propagate("Ctrl-F").propagate("Ctrl-G").propagate("Shift-Ctrl-G");
 
   enum FileSize {
     SMALL(0),
@@ -317,7 +317,6 @@ abstract class DiffScreen extends Screen {
         .on("']'", header.navigate(Direction.NEXT))
         .on("R", header.toggleReviewed())
         .on("O", getCommentManager().toggleOpenBox(cm))
-        .on("Enter", getCommentManager().toggleOpenBox(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("Ctrl-Alt-E", openEditScreen(cm))
         .on("P", getChunkManager().diffChunkNav(cm, Direction.PREV))
@@ -367,7 +366,34 @@ abstract class DiffScreen extends Screen {
         .on("Ctrl-F", new Runnable() {
           @Override
           public void run() {
-            cm.vim().handleKey("/");
+            cm.execCommand("find");
+          }
+        })
+        .on("Ctrl-G", new Runnable() {
+          @Override
+          public void run() {
+            cm.execCommand("findNext");
+          }
+        })
+        .on("Enter", maybeNextCmSearch(cm))
+        .on("Shift-Ctrl-G", new Runnable() {
+          @Override
+          public void run() {
+            cm.execCommand("findPrev");
+          }
+        })
+        .on("Shift-Enter", new Runnable() {
+          @Override
+          public void run() {
+            cm.execCommand("findPrev");
+          }
+        })
+        .on("Esc", new Runnable() {
+          @Override
+          public void run() {
+            cm.setCursor(cm.getCursor());
+            cm.execCommand("clearSearch");
+            cm.vim().handleEx("nohlsearch");
           }
         })
         .on("Ctrl-A", new Runnable() {
@@ -773,6 +799,20 @@ abstract class DiffScreen extends Screen {
           cm.vim().handleKey("n");
         } else {
           getChunkManager().diffChunkNav(cm, Direction.NEXT).run();
+        }
+      }
+    };
+  }
+
+  Runnable maybeNextCmSearch(final CodeMirror cm) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (cm.hasSearchHighlight()) {
+          cm.execCommand("findNext");
+        } else {
+          cm.execCommand("clearSearch");
+          getCommentManager().toggleOpenBox(cm).run();
         }
       }
     };

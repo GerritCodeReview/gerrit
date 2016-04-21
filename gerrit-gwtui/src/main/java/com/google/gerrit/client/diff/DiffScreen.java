@@ -49,6 +49,7 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -116,6 +117,8 @@ abstract class DiffScreen extends Screen {
   private List<HandlerRegistration> handlers;
   private PreferencesAction prefsAction;
   private int reloadVersionId;
+
+  private CodeMirror lastFocusedCm;
 
   @UiField(provided = true)
   Header header;
@@ -310,6 +313,12 @@ abstract class DiffScreen extends Screen {
   void registerCmEvents(final CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("focus", updateActiveLine(cm));
+    cm.on("blur", new Runnable() {
+      @Override
+      public void run() {
+        lastFocusedCm = cm;
+      }
+    });
     KeyMap keyMap = KeyMap.create()
         .on("A", upToChange(true))
         .on("U", upToChange(false))
@@ -542,6 +551,13 @@ abstract class DiffScreen extends Screen {
     } else {
       keysComment = null;
     }
+    keysAction.add(new KeyCommand(KeyCommand.M_SHIFT, 'F',
+        PatchUtil.C.focusOnCodeMirror()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        focusOnLastFocusedCm();
+      }
+    });
   }
 
   void registerHandlers() {
@@ -551,7 +567,12 @@ abstract class DiffScreen extends Screen {
     if (keysComment != null) {
       handlers.add(GlobalKey.add(this, keysComment));
     }
-    handlers.add(ShowHelpCommand.addFocusHandler(getFocusHandler()));
+    handlers.add(ShowHelpCommand.addFocusHandler(new FocusHandler() {
+      @Override
+      public void onFocus(FocusEvent event) {
+        focusOnLastFocusedCm();
+      }
+    }));
   }
 
   void setupSyntaxHighlighting() {
@@ -935,7 +956,13 @@ abstract class DiffScreen extends Screen {
     };
   }
 
-  abstract FocusHandler getFocusHandler();
+  private void focusOnLastFocusedCm() {
+    if (lastFocusedCm != null) {
+      lastFocusedCm.focus();
+    } else {
+      getCmFromSide(DisplaySide.B).focus();
+    }
+  }
 
   abstract CodeMirror[] getCms();
 

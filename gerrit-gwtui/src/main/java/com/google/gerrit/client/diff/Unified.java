@@ -32,8 +32,6 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -159,16 +157,6 @@ public class Unified extends DiffScreen {
     super.registerKeys();
 
     registerHandlers();
-  }
-
-  @Override
-  FocusHandler getFocusHandler() {
-    return new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        cm.focus();
-      }
-    };
   }
 
   private void display(final CommentsCollections comments) {

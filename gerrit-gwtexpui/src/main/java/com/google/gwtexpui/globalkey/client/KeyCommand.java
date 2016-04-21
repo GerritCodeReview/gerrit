@@ -15,12 +15,14 @@
 package com.google.gwtexpui.globalkey.client;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 
-public abstract class KeyCommand implements KeyPressHandler {
+public abstract class KeyCommand implements KeyDownHandler, KeyPressHandler {
   public static final int M_CTRL = 1 << 16;
   public static final int M_ALT = 2 << 16;
   public static final int M_META = 4 << 16;
@@ -33,6 +35,7 @@ public abstract class KeyCommand implements KeyPressHandler {
   }
 
   final int keyMask;
+  private final int charCode;
   private final String helpText;
   KeyCommand sibling;
 
@@ -41,8 +44,14 @@ public abstract class KeyCommand implements KeyPressHandler {
   }
 
   public KeyCommand(final int mask, final char key, final String help) {
+    this(mask, key, key, help);
+  }
+
+  public KeyCommand(final int mask, final int key, final int code,
+      final String help) {
     assert help != null;
     keyMask = mask | key;
+    charCode = mask | code;
     helpText = help;
   }
 
@@ -53,20 +62,20 @@ public abstract class KeyCommand implements KeyPressHandler {
   SafeHtml describeKeyStroke() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
 
-    if ((keyMask & M_CTRL) == M_CTRL) {
+    if ((charCode & M_CTRL) == M_CTRL) {
       modifier(b, KeyConstants.I.keyCtrl());
     }
-    if ((keyMask & M_ALT) == M_ALT) {
+    if ((charCode & M_ALT) == M_ALT) {
       modifier(b, KeyConstants.I.keyAlt());
     }
-    if ((keyMask & M_META) == M_META) {
+    if ((charCode & M_META) == M_META) {
       modifier(b, KeyConstants.I.keyMeta());
     }
-    if ((keyMask & M_SHIFT) == M_SHIFT) {
+    if ((charCode & M_SHIFT) == M_SHIFT) {
       modifier(b, KeyConstants.I.keyShift());
     }
 
-    final char c = (char) (keyMask & 0xffff);
+    final char c = (char) (charCode & 0xffff);
     switch (c) {
       case KeyCodes.KEY_ENTER:
         namedKey(b, KeyConstants.I.keyEnter());
@@ -103,5 +112,13 @@ public abstract class KeyCommand implements KeyPressHandler {
     b.append(name);
     b.closeSpan();
     b.append(">");
+  }
+
+  @Override
+  public void onKeyDown(KeyDownEvent event) {
+    // In general, a KeyCommand should only handle a keypress event. For keys
+    // or key combinations that don't fire a keypress, onKeyDown will be called
+    // as a fallback. A KeyCommand that handles these keys should override the
+    // onKeyDown method.
   }
 }

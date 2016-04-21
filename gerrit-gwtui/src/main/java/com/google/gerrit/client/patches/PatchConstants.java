@@ -35,6 +35,7 @@ public interface PatchConstants extends Constants {
   String toggleSideA();
   String toggleIntraline();
   String showPreferences();
+  String focusOnCodeMirror();
 
   String toggleReviewed();
   String markAsReviewedAndGoToNext();

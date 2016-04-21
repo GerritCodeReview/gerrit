@@ -45,6 +45,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -274,18 +275,6 @@ public class Header extends Composite {
         : Dispatcher.toSideBySide(base, patchSetId, info.path());
   }
 
-  private KeyCommand addNavKeyCommand(int mask, int key, String help,
-      final String url) {
-    KeyCommand k = new KeyCommand(mask, key, help) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        Gerrit.display(url);
-      }
-    };
-    keys.add(k);
-    return k;
-  }
-
   private KeyCommand setupNav(InlineHyperlink link, char key, String help, FileInfo info) {
     if (info != null) {
       final String url = url(info);
@@ -293,7 +282,13 @@ public class Header extends Composite {
       link.setTitle(PatchUtil.M.fileNameWithShortcutKey(
           FileInfo.getFileName(info.path()),
           Character.toString(key)));
-      KeyCommand k = addNavKeyCommand(0, key, help, url);
+      KeyCommand k = new KeyCommand(0, key, help) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          Gerrit.display(url);
+        }
+      };
+      keys.add(k);
       if (link == prev) {
         hasPrev = true;
       } else {
@@ -311,6 +306,41 @@ public class Header extends Composite {
     return prefs.skipDeleted() && ChangeType.DELETED.matches(curr.status())
         || prefs.skipUnchanged() && ChangeType.RENAMED.matches(curr.status())
         || prefs.skipUncommented() && !comments.hasCommentForPath(curr.path());
+  }
+
+  private KeyCommand addAlternativeNavKeyCommand(final FileInfo info,
+      boolean prev) {
+    KeyCommand k = new KeyCommand(KeyCommand.M_CTRL | KeyCommand.M_ALT,
+        prev ? KeyCodes.KEY_EIGHT : KeyCodes.KEY_NINE,
+        prev ? PatchUtil.C.previousFileHelp() : PatchUtil.C.nextFileHelp()) {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        Gerrit.display(url(info));
+      }
+
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+      }
+    };
+    keys.add(k);
+    return k;
+  }
+
+  private void addAlternativeUpToChangeKeyCommand(boolean prev) {
+    keys.add(new KeyCommand(KeyCommand.M_CTRL | KeyCommand.M_ALT,
+        prev ? KeyCodes.KEY_EIGHT : KeyCodes.KEY_NINE,
+        PatchUtil.C.upToChange()) {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        Gerrit.display(PageLinks.toChange(
+            patchSetId.getParentKey(),
+            patchSetId.getId()));
+      }
+
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+      }
+    });
   }
 
   void setupPrevNextFiles(CommentsCollections comments) {
@@ -342,25 +372,20 @@ public class Header extends Composite {
 
     // On German keyboards, '[' and ']' are entered with AltGr+8 and AltGr+9,
     // which are translated to Ctrl+Alt+8 and Ctrl+Alt+9 by most modern
-    // browsers.
+    // browsers. Chrome does not fire keypress for these on US keyboards, so
+    // handle the keydown instead.
     KeyCommand pAlternative = null;
     if (p != null) {
-      pAlternative = addNavKeyCommand(
-          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_EIGHT,
-          PatchUtil.C.previousFileHelp(), url(prevInfo));
+      pAlternative = addAlternativeNavKeyCommand(prevInfo, true);
     } else {
-      keys.add(new UpToChangeCommand(patchSetId,
-          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_EIGHT));
+      addAlternativeUpToChangeKeyCommand(true);
     }
 
     KeyCommand nAlternative = null;
     if (n != null) {
-      nAlternative = addNavKeyCommand(
-          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_NINE,
-          PatchUtil.C.nextFileHelp(), url(nextInfo));
+      nAlternative = addAlternativeNavKeyCommand(nextInfo, false);
     } else {
-      keys.add(new UpToChangeCommand(patchSetId,
-          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_NINE));
+      addAlternativeUpToChangeKeyCommand(false);
     }
 
     if (p != null && n != null) {

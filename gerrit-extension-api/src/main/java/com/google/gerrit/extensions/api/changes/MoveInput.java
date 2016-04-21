@@ -16,5 +16,5 @@ package com.google.gerrit.extensions.api.changes;
 
 public class MoveInput {
   public String message;
-  public String destination_branch;
+  public String destinationBranch;
 }

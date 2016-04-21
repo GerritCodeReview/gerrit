@@ -253,7 +253,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   private void move(String changeId, String destination, String message)
       throws RestApiException {
     MoveInput in = new MoveInput();
-    in.destination_branch = destination;
+    in.destinationBranch = destination;
     in.message = message;
     gApi.changes().id(changeId).move(in);
   }

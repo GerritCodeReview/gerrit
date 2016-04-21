@@ -219,7 +219,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void move(String destination) throws RestApiException {
     MoveInput in = new MoveInput();
-    in.destination_branch = destination;
+    in.destinationBranch = destination;
     move(in);
   }
 

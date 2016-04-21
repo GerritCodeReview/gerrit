@@ -87,8 +87,8 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
   public ChangeInfo apply(ChangeResource req, MoveInput input)
       throws RestApiException, OrmException, UpdateException {
     ChangeControl control = req.getControl();
-    input.destination_branch = RefNames.fullName(input.destination_branch);
-    if (!control.canMoveTo(input.destination_branch, dbProvider.get())) {
+    input.destinationBranch = RefNames.fullName(input.destinationBranch);
+    if (!control.canMoveTo(input.destinationBranch, dbProvider.get())) {
       throw new AuthException("Move not permitted");
     }
 
@@ -123,7 +123,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       }
 
       Project.NameKey projectKey = change.getProject();
-      newDestKey = new Branch.NameKey(projectKey, input.destination_branch);
+      newDestKey = new Branch.NameKey(projectKey, input.destinationBranch);
       Branch.NameKey changePrevDest = change.getDest();
       if (changePrevDest.equals(newDestKey)) {
         throw new ResourceConflictException(
@@ -140,17 +140,17 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
           throw new ResourceConflictException("Merge commit cannot be moved");
         }
 
-        ObjectId refId = repo.resolve(input.destination_branch);
+        ObjectId refId = repo.resolve(input.destinationBranch);
         // Check if destination ref exists in project repo
         if (refId == null) {
           throw new ResourceConflictException(
-              "Destination " + input.destination_branch + " not found in the project");
+              "Destination " + input.destinationBranch + " not found in the project");
         }
         RevCommit refCommit = revWalk.parseCommit(refId);
         if (revWalk.isMergedInto(currPatchsetRevCommit, refCommit)) {
           throw new ResourceConflictException(
               "Current patchset revision is reachable from tip of "
-                  + input.destination_branch);
+                  + input.destinationBranch);
         }
       }
 

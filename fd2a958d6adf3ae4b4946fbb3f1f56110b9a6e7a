@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_81a85a4f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "It\u0027s not necessary to inject this. You can just use AllProjectsNameProvider.DEFAULT.\n\nSee [1] for example.\n\n[1] https://gerrit-review.googlesource.com/#/c/75020/2/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/SetParentIT.java",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 42
+      },
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_58767da3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/AccessApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_3873c9b3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/PermissionRuleActionInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "nit: one per line",
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_61a55675",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_187005a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_c1d262d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_a1d75ec5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T10:20:11Z",
+      "side": 1,
+      "message": "nit: don\u0027t use final unless it\u0027s needed to prevent compilation errors",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "fd2a958d6adf3ae4b4946fbb3f1f56110b9a6e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

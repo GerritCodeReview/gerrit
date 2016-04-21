@@ -16,6 +16,24 @@
       "revId": "d1fbb06c33ba3b6f2673edeae2d82fbfa4327aa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_6149d65c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-21T18:03:51Z",
+      "side": 1,
+      "message": "Since they are standard browser search bindings, I don\u0027t feel too obliged to add them in KeyHelpPopup, especially since that popup is already pretty crowded.",
+      "parentUuid": "a8e30849_213fceb6",
+      "revId": "d1fbb06c33ba3b6f2673edeae2d82fbfa4327aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

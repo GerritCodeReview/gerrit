@@ -15,12 +15,14 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,8 +33,8 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerId;
@@ -48,7 +50,6 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -151,6 +152,11 @@ public class ChangeNoteUtil {
         serverId, email);
   }
 
+  private static boolean match(byte[] note, MutableInteger p, byte[] expected) {
+    int m = RawParseUtils.match(note, p.value, expected);
+    return m == p.value + expected.length;
+  }
+
   public List<PatchLineComment> parseNote(byte[] note, MutableInteger p,
       Change.Id changeId, Status status) throws ConfigInvalidException {
     if (p.value >= note.length) {
@@ -159,21 +165,33 @@ public class ChangeNoteUtil {
     Set<PatchLineComment.Key> seen = new HashSet<>();
     List<PatchLineComment> result = Lists.newArrayList();
     int sizeOfNote = note.length;
+    byte[] psb = PATCH_SET.getBytes(UTF_8);
+    byte[] bpsb = BASE_PATCH_SET.getBytes(UTF_8);
 
-    boolean isForBase =
-        (RawParseUtils.match(note, p.value, PATCH_SET.getBytes(UTF_8))) < 0;
+    RevId revId = new RevId(parseStringField(note, p, changeId, REVISION));
+    String fileName = null;
+    PatchSet.Id psId = null;
+    boolean isForBase = false;
 
-    PatchSet.Id psId = parsePsId(note, p, changeId, isForBase ? BASE_PATCH_SET : PATCH_SET);
-
-    RevId revId =
-        new RevId(parseStringField(note, p, changeId, REVISION));
-
-    PatchLineComment c = null;
     while (p.value < sizeOfNote) {
-      String previousFileName = c == null ?
-          null : c.getKey().getParentKey().getFileName();
-      c = parseComment(note, p, previousFileName, psId, revId,
-          isForBase, status);
+      boolean matchPs = match(note, p, psb);
+      boolean matchBase = match(note, p, bpsb);
+      if (matchPs) {
+        fileName = null;
+        psId = parsePsId(note, p, changeId, PATCH_SET);
+        isForBase = false;
+      } else if (matchBase) {
+        fileName = null;
+        psId = parsePsId(note, p, changeId, BASE_PATCH_SET);
+        isForBase = true;
+      } else if (psId == null) {
+        throw parseException(changeId, "missing %s or %s header",
+            PATCH_SET, BASE_PATCH_SET);
+      }
+
+      PatchLineComment c =
+          parseComment(note, p, fileName, psId, revId, isForBase, status);
+      fileName = c.getKey().getParentKey().getFileName();
       if (!seen.add(c.getKey())) {
         throw parseException(
             changeId, "multiple comments for %s in note", c.getKey());
@@ -434,105 +452,113 @@ public class ChangeNoteUtil {
     }
   }
 
-  public byte[] buildNote(List<PatchLineComment> comments) {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    buildNote(comments, out);
-    return out.toByteArray();
-  }
-
   /**
    * Build a note that contains the metadata for and the contents of all of the
    * comments in the given list of comments.
    *
-   * @param comments A list of the comments to be written to the
-   *            output stream. All of the comments in this list must have the
-   *            same side and must share the same patch set ID.
+   * @param comments Comments to be written to the output stream, keyed by patch
+   *     set ID; multiple patch sets are allowed since base revisions may be
+   *     shared across patch sets. All of the comments must share the same
+   *     RevId, and all the comments for a given patch set must have the same
+   *     side.
    * @param out output stream to write to.
    */
-  void buildNote(List<PatchLineComment> comments, OutputStream out) {
+  void buildNote(Multimap<PatchSet.Id, PatchLineComment> comments,
+      OutputStream out) {
     if (comments.isEmpty()) {
       return;
     }
+
+    List<PatchSet.Id> psIds =
+        ReviewDbUtil.intKeyOrdering().sortedCopy(comments.keySet());
+
     OutputStreamWriter streamWriter = new OutputStreamWriter(out, UTF_8);
     try (PrintWriter writer = new PrintWriter(streamWriter)) {
-      PatchLineComment first = comments.get(0);
+      RevId revId = comments.values().iterator().next().getRevId();
+      appendHeaderField(writer, REVISION, revId.get());
 
-      short side = first.getSide();
-      PatchSet.Id psId = PatchLineCommentsUtil.getCommentPsId(first);
-      appendHeaderField(writer, side == 0
-          ? BASE_PATCH_SET
-          : PATCH_SET,
-          Integer.toString(psId.get()));
-      appendHeaderField(writer, REVISION, first.getRevId().get());
+      for (PatchSet.Id psId : psIds) {
+        List<PatchLineComment> psComments =
+            PLC_ORDER.sortedCopy(comments.get(psId));
+        PatchLineComment first = psComments.get(0);
 
-      String currentFilename = null;
+        short side = first.getSide();
+        appendHeaderField(writer, side == 0
+            ? BASE_PATCH_SET
+            : PATCH_SET,
+            Integer.toString(psId.get()));
 
-      for (PatchLineComment c : comments) {
-        PatchSet.Id currentPsId = PatchLineCommentsUtil.getCommentPsId(c);
-        checkArgument(psId.equals(currentPsId),
-            "All comments being added must all have the same PatchSet.Id. The "
-            + "comment below does not have the same PatchSet.Id as the others "
-            + "(%s).\n%s", psId.toString(), c.toString());
-        checkArgument(side == c.getSide(),
-            "All comments being added must all have the same side. The "
-            + "comment below does not have the same side as the others "
-            + "(%s).\n%s", side, c.toString());
-        String commentFilename =
-            QuotedString.GIT_PATH.quote(c.getKey().getParentKey().getFileName());
+        String currentFilename = null;
 
-        if (!commentFilename.equals(currentFilename)) {
-          currentFilename = commentFilename;
-          writer.print("File: ");
-          writer.print(commentFilename);
-          writer.print("\n\n");
+        for (PatchLineComment c : psComments) {
+          checkArgument(revId.equals(c.getRevId()),
+              "All comments being added must have all the same RevId. The "
+              + "comment below does not have the same RevId as the others "
+              + "(%s).\n%s", revId, c);
+          checkArgument(side == c.getSide(),
+              "All comments being added must all have the same side. The "
+              + "comment below does not have the same side as the others "
+              + "(%s).\n%s", side, c);
+          String commentFilename = QuotedString.GIT_PATH.quote(
+              c.getKey().getParentKey().getFileName());
+
+          if (!commentFilename.equals(currentFilename)) {
+            currentFilename = commentFilename;
+            writer.print("File: ");
+            writer.print(commentFilename);
+            writer.print("\n\n");
+          }
+
+          appendOneComment(writer, c);
         }
-
-        // The CommentRange field for a comment is allowed to be null.
-        // If it is indeed null, then in the first line, we simply use the line
-        // number field for a comment instead. If it isn't null, we write the
-        // comment range itself.
-        CommentRange range = c.getRange();
-        if (range != null) {
-          writer.print(range.getStartLine());
-          writer.print(':');
-          writer.print(range.getStartCharacter());
-          writer.print('-');
-          writer.print(range.getEndLine());
-          writer.print(':');
-          writer.print(range.getEndCharacter());
-        } else {
-          writer.print(c.getLine());
-        }
-        writer.print("\n");
-
-        writer.print(formatTime(serverIdent, c.getWrittenOn()));
-        writer.print("\n");
-
-        PersonIdent ident = newIdent(
-            accountCache.get(c.getAuthor()).getAccount(),
-            c.getWrittenOn(), serverIdent, anonymousCowardName);
-        String nameString = ident.getName() + " <" + ident.getEmailAddress()
-            + ">";
-        appendHeaderField(writer, AUTHOR, nameString);
-
-        String parent = c.getParentUuid();
-        if (parent != null) {
-          appendHeaderField(writer, PARENT, parent);
-        }
-
-        appendHeaderField(writer, UUID, c.getKey().get());
-
-        if (c.getTag() != null) {
-          appendHeaderField(writer, TAG, c.getTag());
-        }
-
-        byte[] messageBytes = c.getMessage().getBytes(UTF_8);
-        appendHeaderField(writer, LENGTH,
-            Integer.toString(messageBytes.length));
-
-        writer.print(c.getMessage());
-        writer.print("\n\n");
       }
     }
+  }
+
+  private void appendOneComment(PrintWriter writer, PatchLineComment c) {
+    // The CommentRange field for a comment is allowed to be null. If it is
+    // null, then in the first line, we simply use the line number field for a
+    // comment instead. If it isn't null, we write the comment range itself.
+    CommentRange range = c.getRange();
+    if (range != null) {
+      writer.print(range.getStartLine());
+      writer.print(':');
+      writer.print(range.getStartCharacter());
+      writer.print('-');
+      writer.print(range.getEndLine());
+      writer.print(':');
+      writer.print(range.getEndCharacter());
+    } else {
+      writer.print(c.getLine());
+    }
+    writer.print("\n");
+
+    writer.print(formatTime(serverIdent, c.getWrittenOn()));
+    writer.print("\n");
+
+    PersonIdent ident = newIdent(
+        accountCache.get(c.getAuthor()).getAccount(),
+        c.getWrittenOn(), serverIdent, anonymousCowardName);
+    String nameString = ident.getName() + " <" + ident.getEmailAddress()
+        + ">";
+    appendHeaderField(writer, AUTHOR, nameString);
+
+    String parent = c.getParentUuid();
+    if (parent != null) {
+      appendHeaderField(writer, PARENT, parent);
+    }
+
+    appendHeaderField(writer, UUID, c.getKey().get());
+
+    if (c.getTag() != null) {
+      appendHeaderField(writer, TAG, c.getTag());
+    }
+
+    byte[] messageBytes = c.getMessage().getBytes(UTF_8);
+    appendHeaderField(writer, LENGTH,
+        Integer.toString(messageBytes.length));
+
+    writer.print(c.getMessage());
+    writer.print("\n\n");
   }
 }

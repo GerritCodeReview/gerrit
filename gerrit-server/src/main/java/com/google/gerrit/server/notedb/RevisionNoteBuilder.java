@@ -15,15 +15,16 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -101,19 +102,17 @@ class RevisionNoteBuilder {
       out.write('\n');
     }
 
-    List<PatchLineComment> all =
-        new ArrayList<>(baseComments.size() + put.size());
+    Multimap<PatchSet.Id, PatchLineComment> all = ArrayListMultimap.create();
     for (PatchLineComment c : baseComments) {
       if (!delete.contains(c.getKey()) && !put.containsKey(c.getKey())) {
-        all.add(c);
+        all.put(c.getPatchSetId(), c);
       }
     }
     for (PatchLineComment c : put.values()) {
       if (!delete.contains(c.getKey())) {
-        all.add(c);
+        all.put(c.getPatchSetId(), c);
       }
     }
-    Collections.sort(all, PLC_ORDER);
     noteUtil.buildNote(all, out);
     return out.toByteArray();
   }

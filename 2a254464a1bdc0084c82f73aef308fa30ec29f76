@@ -23,6 +23,30 @@
       "revId": "2a254464a1bdc0084c82f73aef308fa30ec29f76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_41f49232",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:41:57Z",
+      "side": 1,
+      "message": "Thanks for spotting this one!",
+      "parentUuid": "a8e30849_01ea8a52",
+      "range": {
+        "startLine": 358,
+        "startChar": 8,
+        "endLine": 358,
+        "endChar": 28
+      },
+      "revId": "2a254464a1bdc0084c82f73aef308fa30ec29f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_a1363ec4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-04-21T20:40:48Z",
+      "side": 1,
+      "message": "This method is used in many places, not only from the ssh query command. Are you sure that filtering patchset based on visibility here will not cause any unwanted side effect?",
+      "range": {
+        "startLine": 541,
+        "startChar": 30,
+        "endLine": 541,
+        "endChar": 37
+      },
+      "revId": "746eedfe29ed0eb9960027c12a9a9e3e491006e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

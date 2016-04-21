@@ -166,6 +166,29 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_1649fc5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-21T05:19:31Z",
+      "side": 1,
+      "message": "May be use on variable instead of hard coding it?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_7590280b",
         "filename": "lib/BUCK",
         "patchSetId": 45

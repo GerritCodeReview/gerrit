@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88bba4f1_b85479d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_a152be0c",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_c14d4271",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -36,6 +60,24 @@
       "writtenOn": "2016-04-21T14:11:30Z",
       "side": 1,
       "message": "Long line.",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_d85f2dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_c14d4271",
       "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a8e30849_0131eae4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_41793291",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_81733ab1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
         "patchSetId": 10
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "88bba4f1_781dc148",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_81733ab1",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_d8e4cd89",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
         "patchSetId": 10
@@ -87,6 +165,24 @@
       "writtenOn": "2016-04-21T14:11:30Z",
       "side": 1,
       "message": "private?",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_581afd52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_d8e4cd89",
       "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "a8e30849_a13bdec4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "I made it not public (but defaulting to protected).\nAlso added Javadoc.\n\nSo renaming it, do we want to put focus on it being a helper for MergeOp (i.e. put MergeOp in its name) or rather that it should provide the property of opening a repo just once and keeping that handle for the whole transaction?\n\nUserTransactionOpenRepoCache ?",
+      "parentUuid": "88bba4f1_18224597",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 37
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_38fe2911",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
         "patchSetId": 10
@@ -127,6 +247,24 @@
       "writtenOn": "2016-04-21T14:11:30Z",
       "side": 1,
       "message": "Maybe checkState(db !\u003d null) with a message that you need to call setContext() before getUpdate()",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_3817492b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_38fe2911",
       "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "88bba4f1_18148522",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OpenRepoManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "In MergeOp, we had this check to make sure we only call openRepo exactly once per repo. I guess that helped finding bugs by restricting the API to the expectations. As SubmoduleOp and GitModules may try to open a repository more than once, we need to drop this restriction.\n\nWe want to keep it for MergeOp though?",
+      "parentUuid": "88bba4f1_f8df91b4",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_b8e91960",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 10
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "a8e30849_e135e6d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_b8e91960",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_98ee5564",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 10
@@ -178,6 +352,30 @@
       "writtenOn": "2016-04-21T14:11:30Z",
       "side": 1,
       "message": "This name is not consistent with elsewhere in Gerrit, since you\u0027re already updating this code, please rename it.",
+      "range": {
+        "startLine": 217,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 18
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_412bf274",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_98ee5564",
       "range": {
         "startLine": 217,
         "startChar": 15,
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "88bba4f1_f831d1cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bba4f1_58f1dd40",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_6170b6a4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 10
@@ -230,6 +452,24 @@
     },
     {
       "key": {
+        "uuid": "88bba4f1_182da56c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e30849_6170b6a4",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88bba4f1_78f4a132",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 10
@@ -241,6 +481,24 @@
       "writtenOn": "2016-04-21T14:11:30Z",
       "side": 1,
       "message": "Unnecessary final",
+      "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_f85af1fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-04-21T19:05:10Z",
+      "side": 1,
+      "message": "We need the final because of the code below\n\n       ed.add(new PathEdit(s.getPath()) {\n          @Override\n          public void apply(DirCacheEntry ent) {\n            ent.setFileMode(FileMode.GITLINK);\n            ent.setObjectId(updateTo);\n          }\n        });",
+      "parentUuid": "88bba4f1_78f4a132",
       "revId": "b44df355a8e1af39b94bfdd1e4f6bc92c7d98519",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

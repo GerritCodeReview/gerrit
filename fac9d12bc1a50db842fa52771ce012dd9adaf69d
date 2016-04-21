@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_d53b7cc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-21T06:58:36Z",
+      "side": 1,
+      "message": "Earlier I used the variable and then changed it after somebody requested it on this review. Please confirm if you prefer using the variable.",
+      "parentUuid": "48d52c29_1649fc5c",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_7590280b",
         "filename": "lib/BUCK",
         "patchSetId": 45

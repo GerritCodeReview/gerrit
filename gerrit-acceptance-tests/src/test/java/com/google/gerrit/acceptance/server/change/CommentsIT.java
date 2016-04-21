@@ -383,6 +383,10 @@ public class CommentsIT extends AbstractDaemonTest {
         newDraft(FILE_NAME, Side.REVISION, 1, "join lines"));
     addDraft(r2.getChangeId(), r2.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 2, "typo: content"));
+    addDraft(r2.getChangeId(), r2.getCommit().getName(),
+        newDraft(FILE_NAME, Side.PARENT, 1, "comment 1 on base"));
+    addDraft(r2.getChangeId(), r2.getCommit().getName(),
+        newDraft(FILE_NAME, Side.PARENT, 2, "comment 2 on base"));
 
     PushOneCommit.Result other = createChange();
     // Drafts on other changes aren't returned.
@@ -431,9 +435,11 @@ public class CommentsIT extends AbstractDaemonTest {
         .comments();
     assertThat(ps2Map.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> ps2List = ps2Map.get(FILE_NAME);
-    assertThat(ps2List).hasSize(2);
-    assertThat(ps2List.get(0).message).isEqualTo("join lines");
-    assertThat(ps2List.get(1).message).isEqualTo("typo: content");
+    assertThat(ps2List).hasSize(4);
+    assertThat(ps2List.get(0).message).isEqualTo("comment 1 on base");
+    assertThat(ps2List.get(1).message).isEqualTo("comment 2 on base");
+    assertThat(ps2List.get(2).message).isEqualTo("join lines");
+    assertThat(ps2List.get(3).message).isEqualTo("typo: content");
 
     ImmutableList<Message> messages =
         email.getMessages(r2.getChangeId(), "comment");
@@ -443,7 +449,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(extractComments(messages.get(0).body())).isEqualTo(
         "Patch Set 2:\n"
         + "\n"
-        + "(4 comments)\n"
+        + "(6 comments)\n"
         + "\n"
         + "comments\n"
         + "\n"
@@ -460,6 +466,14 @@ public class CommentsIT extends AbstractDaemonTest {
         + "\n"
         + url + "#/c/" + c + "/2/a.txt\n"
         + "File a.txt:\n"
+        + "\n"
+        + "PS2, Line 1: \n"
+        + "comment 1 on base\n"
+        + "\n"
+        + "\n"
+        + "PS2, Line 2: \n"
+        + "comment 2 on base\n"
+        + "\n"
         + "\n"
         + "PS2, Line 1: ew\n"
         + "join lines\n"

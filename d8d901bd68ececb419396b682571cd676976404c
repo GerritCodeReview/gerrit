@@ -22,6 +22,30 @@
       "revId": "d8d901bd68ececb419396b682571cd676976404c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_7826e196",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T18:37:03Z",
+      "side": 1,
+      "message": "Good points. I think it\u0027s still not valid to have a CommentRange with line 0; file comments have a null range. But that\u0027s splitting hairs, certainly more detail than is required in this commit message.",
+      "parentUuid": "28d0f83a_15fb3421",
+      "range": {
+        "startLine": 12,
+        "startChar": 39,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "d8d901bd68ececb419396b682571cd676976404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -57,6 +57,10 @@ public class Vim extends JavaScriptObject {
     $wnd.CodeMirror.Vim.handleKey(this, key)
   }-*/;
 
+  public final native void handleEx(String exCommand) /*-{
+    $wnd.CodeMirror.Vim.handleEx(this, exCommand);
+  }-*/;
+
   public final native boolean hasSearchHighlight() /*-{
     var v = this.state.vim;
     return v && v.searchState_ && !!v.searchState_.getOverlay();

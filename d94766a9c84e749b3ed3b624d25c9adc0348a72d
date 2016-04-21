@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1461198385 -0700\npushee rpc://gerrit/gerrit\nnonce AB8gjyWMHHQFaMrbJ3hS4+wWkGu1QaJK9OtaCRGsKqCD+aJOrv4fke/nxfN/dbPI6zp+iffOlB1X\n\n0000000000000000000000000000000000000000 9c19e0b3073a6fcf73585de1e9d5cee139c1732f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXGB4xAAoJELOGKwXbr+wPeuIP/2CtbS2n71mrRELwG3M0rnON\nvB58/iPIMcPFAOrZwUc9/ZlqvuQnz2mwoGnPJI6Q5GocP/PLECq0pFDreJ8QhR96\nBsoBVenfiG7Aya7r0RPR8S1CSg0s0FjEnTZoJVVA7gxhkR06L88fy9R2ZT8riQxz\naRWBXsa5zpQwFCAVWh+JjzZGaTnNA6wOliR5j70IQH7veHurNpnnnnYVADF+zrCr\nnwIlvYSS+MGq6R6joFTO2M9+ylsGboBEsJ7YbX/lUo2m6sMkhzlk5QvsvPEIjjAl\nSR7Y4g+nZnkahkjzHmhjj+Tc67Zf3Qf1ct5xNO9jxdmDAxQZdm8eSD+QXaTVW+T0\nc2JzQ8xC2cvl6l6U2x8saSHgrApLUuxIYBXarEPJ0pSRWt4tnvq2EofufPYMZANw\n6BpJHY4jG8tVzpUrYaJ9qc6tpOJzA+GC8D3KeVrTJqH1eLIj16h5ixeAeDfxouiH\nA/DFJOlLqhcP24QtDIO4/o+n0PdT7ZJDHZLckNLrYqpHFMAGHoH0GzYd/l4zKnPS\nKyavHTSodg1os00RQ9wcTcn3/jx0vRaItKXzrGYDPk/wXobKmJ8TjAvryjxY1sIv\nvCtM+jIgfPprp3LQlsJPX9nl1f2tNZbpkK3ZIvbNqCYln2k/ujFmw9yXe8pDdB1k\n2Umf+UcT+VdrpBnOrPc3\n\u003dijMx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_a1ae3e5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T08:17:03Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "d94766a9c84e749b3ed3b624d25c9adc0348a72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_01b44aab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T08:17:03Z",
+      "side": 1,
+      "message": "Can this be a Singleton?",
+      "revId": "d94766a9c84e749b3ed3b624d25c9adc0348a72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_e1b846a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T08:17:03Z",
+      "side": 1,
+      "message": "name this \"author\" since it gets set by the setAuthor() method?",
+      "range": {
+        "startLine": 179,
+        "startChar": 25,
+        "endLine": 179,
+        "endChar": 29
+      },
+      "revId": "d94766a9c84e749b3ed3b624d25c9adc0348a72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_9863f5e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-21T08:17:03Z",
+      "side": 1,
+      "message": "nit: long line\n\n(it was already too long, but while we\u0027re here we might as well fix it)",
+      "revId": "d94766a9c84e749b3ed3b624d25c9adc0348a72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1461265543 -0700\nnonce AB8gjyW+s2vSNWJv0Bn+meeIJrNZPFdXRFUqm/4iDvH7EcMN/2HPx6RP7mlJt96s6hbawUWmsP7p\n\n0000000000000000000000000000000000000000 2a254464a1bdc0084c82f73aef308fa30ec29f76 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXGSSHAAoJEGt7+xNJsB0bAFIH/RYn9fFEIzR5WenkbJq5NA+C\nRAwmME5IqAuoxGJ+xhBH+ClGV5V67T6ER7RdW5yqP4HGuCvuhcpJLY5321Z0o+06\nGfvprL75xxK1GtT/FORnekPZnIO7hgLtzv0cFCfICy446/AByS9l588EQl3VVwMy\nDhqn6ev+vY56bNIEkiK0sZHdcyy7xb05TDLlTiUlSWL3C7cAfEnFkk6vmpymPlUN\n6cU89y+uzRW1SnMC0DiMUhxBPbFWR2RXDHCzGUGobWmxc9Lh9rjI1AKs36o7lPld\nNXYNZEi4AuCDlLiBmkirvUFSw2a7lkUcYm4G9CgtkfGCOzSVNpnyLZXm1gDLB/E\u003d\n\u003dDmV2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_01ea8a52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-21T19:35:58Z",
+      "side": 1,
+      "message": "rw.getObjectReader()",
+      "range": {
+        "startLine": 358,
+        "startChar": 8,
+        "endLine": 358,
+        "endChar": 28
+      },
+      "revId": "2a254464a1bdc0084c82f73aef308fa30ec29f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

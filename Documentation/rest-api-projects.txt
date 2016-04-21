@@ -2472,6 +2472,45 @@ The path to the `GerritSiteHeader.html` file.
 The path to the `GerritSiteFooter.html` file.
 |=============================
 
+[[get-access]]
+=== List Access Rights for Project
+--
+'GET //projects/link:rest-api-projects.html#project-name[\{project-name\}]/access'
+--
+
+Lists the access rights for a single project.
+
+As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
+
+.Request
+----
+  GET /projects/MyProject/access HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "revision": "61157ed63e14d261b6dca40650472a9b0bd88474",
+    "inherits_from": {
+      "id": "All-Projects",
+      "name": "All-Projects",
+      "description": "Access inherited by all other projects."
+    },
+    "local": {},
+    "is_owner": true,
+    "owner_of": [
+      "refs/*"
+    ],
+    "can_upload": true,
+    "can_add": true,
+    "config_visible": true
+
+  }
+----
 
 GERRIT
 ------

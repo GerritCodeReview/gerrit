@@ -36,7 +36,7 @@ public class ShowHelpCommand extends KeyCommand {
   }
 
   public ShowHelpCommand() {
-    super(0, '?', KeyConstants.I.showHelp());
+    super(KeyCommand.M_SHIFT, '?', KeyConstants.I.showHelp());
   }
 
   @Override

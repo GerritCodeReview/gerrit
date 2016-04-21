@@ -30,8 +30,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -161,7 +159,7 @@ public class SideBySide extends DiffScreen {
         new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_LEFT, PatchUtil.C.focusSideA()),
         new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_RIGHT, PatchUtil.C.focusSideB()));
     getKeysAction().add(new KeyCommand(
-        KeyCommand.M_SHIFT, 'a', PatchUtil.C.toggleSideA()) {
+        KeyCommand.M_SHIFT, 'A', PatchUtil.C.toggleSideA()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         diffTable.toggleA().run();
@@ -169,16 +167,6 @@ public class SideBySide extends DiffScreen {
     });
 
     registerHandlers();
-  }
-
-  @Override
-  FocusHandler getFocusHandler() {
-    return new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        cmB.focus();
-      }
-    };
   }
 
   private void display(final CommentsCollections comments) {

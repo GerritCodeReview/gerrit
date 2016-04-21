@@ -14,8 +14,12 @@
 
 package com.google.gwtexpui.globalkey.client;
 
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.shared.EventHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class KeyCommandSet implements KeyPressHandler {
+public class KeyCommandSet implements KeyDownHandler, KeyPressHandler {
   private final Map<Integer, KeyCommand> map;
   private List<KeyCommandSet> sets;
   private String name;
@@ -122,6 +126,20 @@ public class KeyCommandSet implements KeyPressHandler {
   }
 
   @Override
+  public void onKeyDown(final KeyDownEvent event) {
+    int mask = toMask(event);
+    final KeyCommand k = map.get(mask);
+    if (k != null) {
+      // In most cases, Chrome won't fire keypress when Ctrl or Alt is in the
+      // key combination, so handle the keydown instead.
+      if ((mask & KeyCommand.M_CTRL) == KeyCommand.M_CTRL
+          || (mask & KeyCommand.M_ALT) == KeyCommand.M_ALT) {
+        k.onKeyDown(event);
+      }
+    }
+  }
+
+  @Override
   public void onKeyPress(final KeyPressEvent event) {
     final KeyCommand k = map.get(toMask(event));
     if (k != null) {
@@ -131,23 +149,31 @@ public class KeyCommandSet implements KeyPressHandler {
     }
   }
 
-  static int toMask(final KeyPressEvent event) {
-    int mask = event.getUnicodeCharCode();
-    if (mask == 0) {
-      mask = event.getNativeEvent().getKeyCode();
-    }
+  private static int toMask(KeyEvent<? extends EventHandler> event, int code) {
     if (event.isControlKeyDown()) {
-      mask |= KeyCommand.M_CTRL;
+      code |= KeyCommand.M_CTRL;
     }
     if (event.isAltKeyDown()) {
-      mask |= KeyCommand.M_ALT;
+      code |= KeyCommand.M_ALT;
     }
     if (event.isMetaKeyDown()) {
-      mask |= KeyCommand.M_META;
+      code |= KeyCommand.M_META;
     }
     if (event.isShiftKeyDown()) {
-      mask |= KeyCommand.M_SHIFT;
+      code |= KeyCommand.M_SHIFT;
     }
-    return mask;
+    return code;
+  }
+
+  static int toMask(KeyDownEvent event) {
+    return toMask(event, event.getNativeKeyCode());
+  }
+
+  static int toMask(KeyPressEvent event) {
+    int code = event.getUnicodeCharCode();
+    if (code == 0) {
+      code = event.getNativeEvent().getKeyCode();
+    }
+    return toMask(event, code);
   }
 }

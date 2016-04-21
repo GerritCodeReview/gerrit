@@ -160,7 +160,7 @@ public class SideBySide extends DiffScreen {
         new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_LEFT, PatchUtil.C.focusSideA()),
         new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_RIGHT, PatchUtil.C.focusSideB()));
     getKeysAction().add(new KeyCommand(
-        KeyCommand.M_SHIFT, 'a', PatchUtil.C.toggleSideA()) {
+        KeyCommand.M_SHIFT, 'A', PatchUtil.C.toggleSideA()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         diffTable.toggleA().run();

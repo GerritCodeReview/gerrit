@@ -504,7 +504,7 @@ abstract class DiffScreen extends Screen {
           'e', Gerrit.C.keyEditor()));
     }
     keysAction.add(new KeyCommand(
-        KeyCommand.M_SHIFT, 'm', PatchUtil.C.markAsReviewedAndGoToNext()) {
+        KeyCommand.M_SHIFT, 'M', PatchUtil.C.markAsReviewedAndGoToNext()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         header.reviewedAndNext().run();

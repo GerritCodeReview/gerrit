@@ -42,6 +42,7 @@ public class Module extends RestApiModule {
     put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
     get(PROJECT_KIND, "description").to(GetDescription.class);
+    get(PROJECT_KIND, "access").to(GetAccess.class);
     put(PROJECT_KIND, "description").to(PutDescription.class);
     delete(PROJECT_KIND, "description").to(PutDescription.class);
 

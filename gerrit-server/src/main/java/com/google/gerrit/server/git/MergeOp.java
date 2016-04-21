@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
@@ -54,7 +53,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
-import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.MergeOpRepoManager.OpenBranch;
+import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
@@ -62,8 +62,6 @@ import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -72,17 +70,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevSort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +88,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -116,88 +106,6 @@ import java.util.Set;
  */
 public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
-
-  private class OpenRepo {
-    final Repository repo;
-    final CodeReviewRevWalk rw;
-    final RevFlag canMergeFlag;
-    final ObjectInserter ins;
-
-    ProjectState project;
-    BatchUpdate update;
-
-    private final ObjectReader reader;
-    private final Map<Branch.NameKey, OpenBranch> branches;
-
-    OpenRepo(Repository repo, ProjectState project) {
-      this.repo = repo;
-      this.project = project;
-      ins = repo.newObjectInserter();
-      reader = ins.newReader();
-      rw = CodeReviewCommit.newRevWalk(reader);
-      rw.sort(RevSort.TOPO);
-      rw.sort(RevSort.COMMIT_TIME_DESC, true);
-      rw.setRetainBody(false);
-      canMergeFlag = rw.newFlag("CAN_MERGE");
-      rw.retainOnReset(canMergeFlag);
-
-      branches = Maps.newHashMapWithExpectedSize(1);
-    }
-
-    OpenBranch getBranch(Branch.NameKey branch) throws IntegrationException {
-      OpenBranch ob = branches.get(branch);
-      if (ob == null) {
-        ob = new OpenBranch(this, branch);
-        branches.put(branch, ob);
-      }
-      return ob;
-    }
-
-    Project.NameKey getProjectName() {
-      return project.getProject().getNameKey();
-    }
-
-    BatchUpdate getUpdate() {
-      if (update == null) {
-        update = batchUpdateFactory.create(db, getProjectName(), caller, ts);
-        update.setRepository(repo, rw, ins);
-      }
-      return update;
-    }
-
-    void close() {
-      if (update != null) {
-        update.close();
-      }
-      rw.close();
-      reader.close();
-      ins.close();
-      repo.close();
-    }
-  }
-
-  private static class OpenBranch {
-    final RefUpdate update;
-    final CodeReviewCommit oldTip;
-    MergeTip mergeTip;
-
-    OpenBranch(OpenRepo or, Branch.NameKey name) throws IntegrationException {
-      try {
-        update = or.repo.updateRef(name.get());
-        if (update.getOldObjectId() != null) {
-          oldTip = or.rw.parseCommit(update.getOldObjectId());
-        } else if (Objects.equals(or.repo.getFullBranch(), name.get())) {
-          oldTip = null;
-          update.setExpectedOldObjectId(ObjectId.zeroId());
-        } else {
-          throw new IntegrationException("The destination branch "
-              + name + " does not exist anymore.");
-        }
-      } catch (IOException e) {
-        throw new IntegrationException("Cannot open branch " + name, e);
-      }
-    }
-  }
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -307,16 +215,13 @@ public class MergeOp implements AutoCloseable {
 
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final GitRepositoryManager repoManager;
   private final InternalUser.Factory internalUserFactory;
   private final MergeSuperSet mergeSuperSet;
   private final MergeValidators.Factory mergeValidatorsFactory;
-  private final ProjectCache projectCache;
   private final InternalChangeQuery internalChangeQuery;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
-
-  private final Map<Project.NameKey, OpenRepo> openRepos;
+  private final MergeOpRepoManager orm;
 
   private static final String MACHINE_ID;
   static {
@@ -339,56 +244,27 @@ public class MergeOp implements AutoCloseable {
   @Inject
   MergeOp(ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
-      GitRepositoryManager repoManager,
       InternalUser.Factory internalUserFactory,
       MergeSuperSet mergeSuperSet,
       MergeValidators.Factory mergeValidatorsFactory,
-      ProjectCache projectCache,
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
-      Provider<SubmoduleOp> subOpProvider) {
+      Provider<SubmoduleOp> subOpProvider,
+      MergeOpRepoManager orm) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.repoManager = repoManager;
     this.internalUserFactory = internalUserFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
-    this.projectCache = projectCache;
     this.internalChangeQuery = internalChangeQuery;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
-
-    openRepos = new HashMap<>();
-  }
-
-  private OpenRepo getRepo(Project.NameKey project) {
-    OpenRepo or = openRepos.get(project);
-    checkState(or != null, "repo not yet opened: %s", project);
-    return or;
-  }
-
-  private void openRepo(Project.NameKey project)
-      throws NoSuchProjectException, IOException {
-    checkState(!openRepos.containsKey(project),
-        "repo already opened: %s", project);
-    ProjectState projectState = projectCache.get(project);
-    if (projectState == null) {
-      throw new NoSuchProjectException(project);
-    }
-    try {
-      OpenRepo or =
-          new OpenRepo(repoManager.openRepository(project), projectState);
-      openRepos.put(project, or);
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchProjectException(project);
-    }
+    this.orm = orm;
   }
 
   @Override
   public void close() {
-    for (OpenRepo repo : openRepos.values()) {
-      repo.close();
-    }
+    orm.close();
   }
 
   private static Optional<SubmitRecord> findOkRecord(
@@ -544,6 +420,8 @@ public class MergeOp implements AutoCloseable {
     this.caller = caller;
     updateSubmissionId(change);
     this.db = db;
+    orm.setContext(db, ts, caller);
+
     logDebug("Beginning integration of {}", change);
     try {
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, change, caller);
@@ -605,14 +483,14 @@ public class MergeOp implements AutoCloseable {
     openRepos(projects);
 
     for (Branch.NameKey branch : branches) {
-      OpenRepo or = getRepo(branch.getParentKey());
+      OpenRepo or = orm.getRepo(branch.getParentKey());
       toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
     }
     failFast(cs); // Done checks that don't involve running submit strategies.
 
     List<SubmitStrategy> strategies = new ArrayList<>(branches.size());
     for (Branch.NameKey branch : branches) {
-      OpenRepo or = getRepo(branch.getParentKey());
+      OpenRepo or = orm.getRepo(branch.getParentKey());
       OpenBranch ob = or.getBranch(branch);
       BranchBatch submitting = toSubmit.get(branch);
       checkNotNull(submitting.submitType(),
@@ -647,14 +525,13 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException(msg, e);
     }
 
-    SubmoduleOp subOp = subOpProvider.get();
-    updateSuperProjects(subOp, br.values());
+    updateSuperProjects(br.values());
   }
 
   private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
     List<BatchUpdate> updates = new ArrayList<>(projects.size());
     for (Project.NameKey project : projects) {
-      updates.add(getRepo(project).getUpdate());
+      updates.add(orm.getRepo(project).getUpdate());
     }
     return updates;
   }
@@ -848,11 +725,11 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void updateSuperProjects(SubmoduleOp subOp,
-      Collection<Branch.NameKey> branches) {
+  private void updateSuperProjects(Collection<Branch.NameKey> branches) {
     logDebug("Updating superprojects");
+    SubmoduleOp subOp = subOpProvider.get();
     try {
-      subOp.updateSuperProjects(db, branches, submissionId);
+      subOp.updateSuperProjects(db, branches, submissionId, orm);
       logDebug("Updating superprojects done");
     } catch (SubmoduleException e) {
       logError("The gitlinks were not updated according to the "
@@ -864,7 +741,7 @@ public class MergeOp implements AutoCloseable {
       throws IntegrationException {
     for (Project.NameKey project : projects) {
       try {
-        openRepo(project);
+        orm.openRepo(project, true);
       } catch (NoSuchProjectException noProject) {
         logWarn("Project " + noProject.project() + " no longer exists, "
             + "abandoning open changes");

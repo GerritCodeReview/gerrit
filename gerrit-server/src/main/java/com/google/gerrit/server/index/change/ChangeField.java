@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
@@ -237,14 +238,29 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.notes().load()
-              .getHashtags(), new Function<String, String>() {
-
+          return ImmutableSet.copyOf(Iterables.transform(input.hashtags(),
+              new Function<String, String>() {
             @Override
             public String apply(String input) {
               return input.toLowerCase();
             }
+          }));
+        }
+      };
 
+  /** Hashtags with original case. */
+  public static final FieldDef<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE =
+      new FieldDef.Repeatable<ChangeData, byte[]>(
+          "_hashtag", FieldType.STORED_ONLY, true) {
+        @Override
+        public Iterable<byte[]> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return ImmutableSet.copyOf(Iterables.transform(input.hashtags(),
+              new Function<String, byte[]>() {
+            @Override
+            public byte[] apply(String hashtag) {
+              return hashtag.getBytes(UTF_8);
+            }
           }));
         }
       };

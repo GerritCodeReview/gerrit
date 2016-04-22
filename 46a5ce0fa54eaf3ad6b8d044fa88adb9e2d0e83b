@@ -70,6 +70,24 @@
       "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b6aec8c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T08:55:40Z",
+      "side": 1,
+      "message": "But why do you need to mess around with SSH session for normal user in the first place? Since create change online feature, you could use the API to create a empty change (DRAFT per default) and try with SSH admin session to query this change with or without the \"view draft\" ACL granted.",
+      "parentUuid": "a8e30849_c183828c",
+      "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

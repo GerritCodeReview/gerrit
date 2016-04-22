@@ -233,18 +233,16 @@ public class ChangeField {
   /** Hashtags tied to a change */
   public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
       new FieldDef.Repeatable<ChangeData, String>(
-          "hashtag", FieldType.EXACT, false) {
+          "hashtag", FieldType.EXACT, true) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.notes().load()
-              .getHashtags(), new Function<String, String>() {
-
+          return ImmutableSet.copyOf(Iterables.transform(input.hashtags(),
+              new Function<String, String>() {
             @Override
             public String apply(String input) {
               return input.toLowerCase();
             }
-
           }));
         }
       };

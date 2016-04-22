@@ -283,6 +283,33 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+  public void remove(AccessSection section, Permission permission) {
+    if (section != null) {
+      AccessSection a = accessSections.get(section.getName());
+      a.remove(permission);
+      if (a.getPermissions().size() == 0) {
+        remove(a);
+      }
+    }
+  }
+
+  public void remove(AccessSection section,
+      Permission permission, PermissionRule rule) {
+    if (section != null && permission != null) {
+      AccessSection a = accessSections.get(section.getName());
+      if (a == null) { return; }
+      Permission p = a.getPermission(permission.getName());
+      if (p == null) { return; }
+      p.remove(rule);
+      if (p.getRules().size() == 0) {
+        a.remove(permission);
+      }
+      if (a.getPermissions().size() == 0) {
+        remove(a);
+      }
+    }
+  }
+
   public void replace(AccessSection section) {
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
 
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.GetAccess;
+import com.google.gerrit.server.project.SetAccess;
 import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -74,6 +76,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final GetAccess getAccess;
   private final ListBranches listBranches;
   private final ListTags listTags;
+  private final SetAccess setAccess;
 
   @AssistedInject
   ProjectApiImpl(CurrentUser user,
@@ -88,12 +91,13 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
+      SetAccess setAccess,
       ListBranches listBranches,
       ListTags listTags,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, getAccess, listBranches, listTags,
+        tagApiFactory, getAccess, setAccess, listBranches, listTags,
         project, null);
   }
 
@@ -110,12 +114,13 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
+      SetAccess setAccess,
       ListBranches listBranches,
       ListTags listTags,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, getAccess, listBranches, listTags,
+        tagApiFactory, getAccess, setAccess, listBranches, listTags,
         null, name);
   }
 
@@ -131,6 +136,7 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
+      SetAccess setAccess,
       ListBranches listBranches,
       ListTags listTags,
       ProjectResource project,
@@ -149,6 +155,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.branchApi = branchApiFactory;
     this.tagApi = tagApiFactory;
     this.getAccess = getAccess;
+    this.setAccess = setAccess;
     this.listBranches = listBranches;
     this.listTags = listTags;
   }
@@ -195,6 +202,16 @@ public class ProjectApiImpl implements ProjectApi {
       return getAccess.apply(checkExists());
     } catch (IOException e) {
       throw new RestApiException("Cannot get access rights", e);
+    }
+  }
+
+  @Override
+  public ProjectAccessInfo access(ProjectAccessInput p)
+      throws RestApiException {
+    try {
+      return setAccess.apply(checkExists(), p);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot put project description", e);
     }
   }
 
@@ -260,7 +277,8 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public List<ProjectInfo> children(boolean recursive) throws RestApiException {
+  public List<ProjectInfo> children(boolean recursive)
+    throws RestApiException {
     ListChildProjects list = children.list();
     list.setRecursive(recursive);
     return list.apply(checkExists());

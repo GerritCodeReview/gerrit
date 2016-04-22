@@ -14,22 +14,10 @@
 package com.google.gerrit.extensions.api.access;
 
 import java.util.Map;
-import java.util.Objects;
 
-public class AccessSectionInfo {
-
-  public Map<String, PermissionInfo> permissions;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof AccessSectionInfo) {
-      return Objects.equals(permissions, ((AccessSectionInfo) obj).permissions);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(permissions);
-  }
+public class ProjectAccessInput {
+  public Map<String, AccessSectionInfo> deduction;
+  public Map<String, AccessSectionInfo> addition;
+  public String parent;
+  public String message;
 }

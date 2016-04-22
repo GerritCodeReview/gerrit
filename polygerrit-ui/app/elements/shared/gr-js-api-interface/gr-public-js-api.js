@@ -26,6 +26,10 @@
 
   Plugin.prototype._name = '';
 
+  Plugin.prototype.getPluginName = function() {
+    return this._name;
+  };
+
   Plugin.prototype.on = function(eventName, callback) {
     document.createElement('gr-js-api-interface').addEventCallback(eventName,
         callback);
@@ -37,6 +41,11 @@
 
   var Gerrit = window.Gerrit || {};
 
+  Gerrit.getPluginName = function() {
+    console.warn('Gerrit.getPluginName is not supported in PolyGerrit.',
+        'Please use self.getPluginName() instead.');
+  };
+
   Gerrit.css = function(rulesStr) {
     if (!Gerrit._customStyleSheet) {
       var styleEl = document.createElement('style');
@@ -47,7 +56,7 @@
     var name = '__pg_js_api_class_' + Gerrit._customStyleSheet.cssRules.length;
     Gerrit._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
     return name;
-  },
+  };
 
   Gerrit.install = function(callback, opt_src) {
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_95e4e456",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T05:29:33Z",
+      "side": 1,
+      "message": "Nit: indentation is not correct.",
+      "revId": "ce84830445c2d2a6c68fd24ef83e2c49fc232358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

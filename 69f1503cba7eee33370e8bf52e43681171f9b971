@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_5562cc81",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2503,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "Better make an example where actually access rights are returned.",
+      "range": {
+        "startLine": 2503,
+        "startChar": 0,
+        "endLine": 2503,
+        "endChar": 16
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_561414d5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_155c54c1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "It\u0027s better to use the extension API for creating the project as well:\n\n  gApi.projects().create(projectInput);\n\nBut in AbstractDaemonTest there are even helper methods for creating projects. Then it\u0027s even easier:\n\n  createProject(\"project\");",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_355f50ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "nit: wrap this line, generally lines should not exceed 80 characters",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_f5f9d8de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "nit: put ProjectJson projectJson on a new line, it\u0027s our convention that for constructors that are annotated with @Inject each parameter should be placed in a new line",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d5fedcc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_160e9cc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "Remove this? If you need it, you should get it injected below in the constructor.",
+      "range": {
+        "startLine": 28,
+        "startChar": 48,
+        "endLine": 28,
+        "endChar": 73
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_b50360ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "nit: put this into a new line",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_f6cb209b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:21:43Z",
+      "side": 1,
+      "message": "Name this \u0027rsrc\u0027 to be consistent with the naming in other REST endpoint implementations.",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 57
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

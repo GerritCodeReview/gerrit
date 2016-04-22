@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8e30849_e1e4c657",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-04-22T14:08:29Z",
+      "side": 1,
+      "message": "nit: move to using diamond operator?",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 69
+      },
+      "revId": "6233d1fa15c4a5ebec1060e4f162306f6b4e335e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e30849_c15a62fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
         "patchSetId": 2

@@ -51,7 +51,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
-    RestResponse r = deletePatchSet(changeId, ps, adminSession);
+    RestResponse r = deletePatchSet(changeId, ps, adminRestSession);
     assertThat(r.getEntityContent()).isEqualTo("Patch set is not a draft");
     r.assertConflict();
   }
@@ -64,7 +64,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    RestResponse r = deletePatchSet(changeId, ps, userSession);
+    RestResponse r = deletePatchSet(changeId, ps, userRestSession);
     assertThat(r.getEntityContent()).isEqualTo("Not found: " + changeId);
     r.assertNotFound();
   }
@@ -87,14 +87,14 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(cd.patchSets()).hasSize(2);
     assertThat(cd.change().currentPatchSetId().get()).isEqualTo(2);
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.DRAFT);
-    deletePatchSet(changeId, ps, adminSession).assertNoContent();
+    deletePatchSet(changeId, ps, adminRestSession).assertNoContent();
 
     cd = getChange(changeId);
     assertThat(cd.patchSets()).hasSize(1);
     assertThat(cd.change().currentPatchSetId().get()).isEqualTo(1);
 
     ps = getCurrentPatchSet(changeId);
-    deletePatchSet(changeId, ps, adminSession).assertNoContent();
+    deletePatchSet(changeId, ps, adminRestSession).assertNoContent();
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
 
     if (notesMigration.writeChanges()) {

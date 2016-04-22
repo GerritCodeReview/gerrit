@@ -38,9 +38,9 @@ public class BanCommitIT extends AbstractDaemonTest {
         .create();
 
     String response =
-        sshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+        adminSshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
 
     RemoteRefUpdate u = pushHead(testRepo, "refs/heads/master", false)

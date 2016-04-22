@@ -28,12 +28,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void withValidGroupName() throws Exception {
     String newGroupName = "newGroup";
-    adminSession.put("/groups/" + newGroupName);
+    adminRestSession.put("/groups/" + newGroupName);
     String newProjectName = "newProject";
-    sshSession.exec("gerrit create-project --branch master --owner "
+    adminSshSession.exec("gerrit create-project --branch master --owner "
         + newGroupName + " " + newProjectName);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     ProjectState projectState =
         projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
@@ -42,13 +42,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void withInvalidGroupName() throws Exception {
     String newGroupName = "newGroup";
-    adminSession.put("/groups/" + newGroupName);
+    adminRestSession.put("/groups/" + newGroupName);
     String wrongGroupName = "newG";
     String newProjectName = "newProject";
-    sshSession.exec("gerrit create-project --branch master --owner "
+    adminSshSession.exec("gerrit create-project --branch master --owner "
         + wrongGroupName + " " + newProjectName);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isTrue();
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isTrue();
     ProjectState projectState =
         projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNull();

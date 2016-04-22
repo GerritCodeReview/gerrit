@@ -66,10 +66,10 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     if (message != null) {
       command.append(" --message ").append(message);
     }
-    String response = sshSession.exec(command.toString());
+    String response = adminSshSession.exec(command.toString());
     assert_()
-      .withFailureMessage(sshSession.getError())
-      .that(sshSession.hasError())
+      .withFailureMessage(adminSshSession.getError())
+      .that(adminSshSession.hasError())
       .isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
   }

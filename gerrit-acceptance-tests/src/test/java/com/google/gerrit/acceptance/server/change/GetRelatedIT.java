@@ -654,7 +654,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       throws Exception {
     String url = String.format("/changes/%d/revisions/%d/related",
         changeId.get(), ps);
-    return newGson().fromJson(adminSession.get(url).getReader(),
+    return newGson().fromJson(adminRestSession.get(url).getReader(),
         RelatedInfo.class).changes;
   }
 

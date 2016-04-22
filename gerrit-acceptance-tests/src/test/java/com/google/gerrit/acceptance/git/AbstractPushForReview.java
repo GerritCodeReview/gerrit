@@ -75,7 +75,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    sshUrl = sshSession.getUrl();
+    sshUrl = adminSshSession.getUrl();
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     patchSetLock = Util.patchSetLock();
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);

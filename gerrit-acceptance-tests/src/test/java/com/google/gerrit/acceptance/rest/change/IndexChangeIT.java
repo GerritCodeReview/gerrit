@@ -22,7 +22,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
   @Test
   public void indexChange() throws Exception {
     String changeId = createChange().getChangeId();
-    adminSession
+    adminRestSession
         .post("/changes/" + changeId + "/index/")
         .assertNoContent();
   }
@@ -31,7 +31,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
   public void indexChangeOnNonVisibleBranch() throws Exception {
     String changeId = createChange().getChangeId();
     blockRead("refs/heads/master");
-    userSession
+    userRestSession
         .post("/changes/" + changeId + "/index/")
         .assertNotFound();
   }

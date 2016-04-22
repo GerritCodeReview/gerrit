@@ -355,6 +355,9 @@
     },
 
     _handleCopy: function(e) {
+      if (!e.target.classList.contains('content')) {
+        return;
+      }
       var text = this._getSelectedText(this._selectionSide);
       e.clipboardData.setData('Text', text);
       e.preventDefault();

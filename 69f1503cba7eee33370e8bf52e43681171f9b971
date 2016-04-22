@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_b8b23508",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T12:11:12Z",
+      "side": 1,
+      "message": "Ah, I see, it was actually consistent with the rest of this code. We once changed our opinion about this and hence there is still old code that doesn\u0027t follow this rule. In this case we adapt it to the new format whenever we touch this code.",
+      "parentUuid": "48d52c29_b9eb5bc6",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_d5fedcc4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
         "patchSetId": 5

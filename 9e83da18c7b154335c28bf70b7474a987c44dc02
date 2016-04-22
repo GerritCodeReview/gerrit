@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_81adfaf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-22T15:20:53Z",
+      "side": 1,
+      "message": "This is just a cosmetic change, right? The values will always be the same as before?\n\nThe reason I want to double-check is changing the \"stored\" bit for a field is a valid change to a field, but if we are changing the actual contents, then we need to give the field a new name.",
+      "range": {
+        "startLine": 240,
+        "startChar": 63,
+        "endLine": 240,
+        "endChar": 74
+      },
+      "revId": "9e83da18c7b154335c28bf70b7474a987c44dc02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

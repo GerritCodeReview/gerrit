@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_763cb071",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T06:02:14Z",
+      "side": 1,
+      "message": "Would be nice to add a test for that. Could be done on master, though.",
+      "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

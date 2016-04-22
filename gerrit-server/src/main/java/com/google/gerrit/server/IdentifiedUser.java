@@ -146,7 +146,7 @@ public class IdentifiedUser extends CurrentUser {
     @Inject
     RequestFactory(
         CapabilityControl.Factory capabilityControlFactory,
-        StarredChangesUtil starredChangesUtil,
+        @Nullable StarredChangesUtil starredChangesUtil,
         final AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName final String anonymousCowardName,

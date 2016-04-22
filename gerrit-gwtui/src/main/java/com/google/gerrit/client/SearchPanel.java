@@ -21,8 +21,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -33,10 +36,13 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class SearchPanel extends Composite {
   private final HintTextBox searchBox;
   private final ListBox dropdown;
-  private HandlerRegistration regFocus;
+  private final List<HandlerRegistration> regFocus;
 
   SearchPanel() {
     final FlowPanel body = new FlowPanel();
@@ -88,6 +94,8 @@ class SearchPanel extends Composite {
       body.add(dropdown);
     }
     body.add(searchButton);
+
+    regFocus = new ArrayList<>();
   }
 
   void setText(final String query) {
@@ -97,26 +105,42 @@ class SearchPanel extends Composite {
   @Override
   protected void onLoad() {
     super.onLoad();
-    if (regFocus == null) {
-      regFocus =
-          GlobalKey.addApplication(this, new KeyCommand(0, '/', Gerrit.C
-              .keySearch()) {
+    if (regFocus.isEmpty()) {
+      regFocus.add(GlobalKey.addApplication(this,
+          new KeyCommand(0, '/', Gerrit.C.keySearch()) {
             @Override
             public void onKeyPress(final KeyPressEvent event) {
-              event.preventDefault();
-              searchBox.setFocus(true);
-              searchBox.selectAll();
+              focus(event);
             }
-          });
+          }));
+      regFocus.add(GlobalKey.addApplication(this,
+          new KeyCommand(KeyCommand.M_CTRL, 191 /* slash */, '/',
+              Gerrit.C.keySearch()) {
+            @Override
+            public void onKeyDown(final KeyDownEvent event) {
+              focus(event);
+            }
+
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+            }
+          }));
     }
   }
 
   @Override
   protected void onUnload() {
-    if (regFocus != null) {
-      regFocus.removeHandler();
-      regFocus = null;
+    if (!regFocus.isEmpty()) {
+      for (HandlerRegistration h : regFocus) {
+        h.removeHandler();
+      }
     }
+  }
+
+  private void focus(KeyEvent<? extends EventHandler> event) {
+    event.preventDefault();
+    searchBox.setFocus(true);
+    searchBox.selectAll();
   }
 
   private void doSearch() {

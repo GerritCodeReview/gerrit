@@ -57,10 +57,10 @@ public class GetAccess implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public ProjectAccessInfo apply(ProjectResource resource) {
+  public ProjectAccessInfo apply(ProjectResource rsrc) {
     ProjectAccessInfo info = new ProjectAccessInfo();
-    ProjectConfig config = resource.getControl().getProjectState().getConfig();
-    ProjectControl pc = resource.getControl();
+    ProjectConfig config = rsrc.getControl().getProjectState().getConfig();
+    ProjectControl pc = rsrc.getControl();
     RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
 
     info.local = Maps.newHashMap();

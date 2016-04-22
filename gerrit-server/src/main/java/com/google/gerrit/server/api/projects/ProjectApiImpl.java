@@ -191,7 +191,7 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ProjectAccessInfo access() throws RestApiException {
-    return accessApi.create(checkExists(), projectJson).get();
+    return accessApi.create(checkExists()).get();
   }
 
   @Override

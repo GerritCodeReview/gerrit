@@ -23,8 +23,9 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void testGetDefaultInheritance() throws Exception {
     String newProjectName = name("newProjectAccess");
-    adminSession.put("/projects/" + newProjectName);
-    String inheritedName = gApi.projects().name(newProjectName).access().inheritsFrom.name;
+    createProject(newProjectName);
+    String inheritedName = gApi.projects()
+      .name(newProjectName).access().inheritsFrom.name;
     assertThat(inheritedName).isEqualTo(AllProjectsNameProvider.DEFAULT);
   }
 }

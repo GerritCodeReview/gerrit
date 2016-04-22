@@ -2500,7 +2500,24 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
       "name": "All-Projects",
       "description": "Access inherited by all other projects."
     },
-    "local": {},
+    "local": {
+        "refs/*": {
+          "permissions": {
+            "read": {
+              "rules": {
+                "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
+                  "action": "ALLOW",
+                  "force": false
+                },
+                "global:Anonymous-Users": {
+                  "action": "ALLOW",
+                  "force": false
+                }
+              }
+            }
+          }
+        }
+    },
     "is_owner": true,
     "owner_of": [
       "refs/*"
@@ -2508,7 +2525,6 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
     "can_upload": true,
     "can_add": true,
     "config_visible": true
-
   }
 ----
 

@@ -63,9 +63,12 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   @Inject
   public ListAccess(Provider<CurrentUser> self,
       ProjectControl.GenericFactory projectControlFactory,
-      ProjectCache projectCache, MetaDataUpdate.Server metaDataUpdateFactory,
-      GroupControl.Factory groupControlFactory, GroupBackend groupBackend,
-      AllProjectsName allProjectsName, ProjectJson projectJson) {
+      ProjectCache projectCache,
+      MetaDataUpdate.Server metaDataUpdateFactory,
+      GroupControl.Factory groupControlFactory,
+      GroupBackend groupBackend,
+      AllProjectsName allProjectsName,
+      ProjectJson projectJson) {
     this.self = self;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;

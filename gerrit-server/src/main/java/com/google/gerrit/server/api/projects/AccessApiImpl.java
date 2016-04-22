@@ -25,14 +25,15 @@ import com.google.inject.assistedinject.Assisted;
 
 public class AccessApiImpl implements AccessApi {
   interface Factory {
-    AccessApiImpl create(ProjectResource project, ProjectJson projectJson);
+    AccessApiImpl create(ProjectResource project);
   }
 
   private final ProjectResource project;
   private final GetAccess getAccess;
 
   @Inject
-  AccessApiImpl(GetAccess getAccess, @Assisted ProjectResource project) {
+  AccessApiImpl(GetAccess getAccess,
+    @Assisted ProjectResource project) {
     this.project = project;
     this.getAccess = getAccess;
   }

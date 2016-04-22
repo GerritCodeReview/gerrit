@@ -40,6 +40,7 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -53,6 +54,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -195,9 +197,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change.getProject(), change).load();
     }
 
-    public ChangeNotes createWithAutoRebuildingDisabled(Change change)
-        throws OrmException {
-      return new ChangeNotes(args, change.getProject(), change, false).load();
+    public ChangeNotes createWithAutoRebuildingDisabled(Change change,
+        ChainedReceiveCommands cmds) throws OrmException {
+      return new ChangeNotes(args, change.getProject(), change, false, cmds)
+          .load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -370,6 +373,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private final Project.NameKey project;
   private final Change change;
   private final boolean autoRebuild;
+  private final ChainedReceiveCommands cmds;
+
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
@@ -388,15 +393,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(Args args, Project.NameKey project, Change change) {
-    this(args, project, change, true);
+    this(args, project, change, true, null);
   }
 
   private ChangeNotes(Args args, Project.NameKey project, Change change,
-      boolean autoRebuild) {
+      boolean autoRebuild, @Nullable ChainedReceiveCommands cmds) {
     super(args, change != null ? change.getId() : null);
     this.project = project;
     this.change = change != null ? new Change(change) : null;
     this.autoRebuild = autoRebuild;
+    this.cmds = cmds;
   }
 
   public Change getChange() {
@@ -604,6 +610,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return project;
+  }
+
+  @Override
+  protected ObjectId readRef(Repository repo) throws IOException {
+    return cmds != null
+        ? cmds.getObjectId(repo, getRefName())
+        : super.readRef(repo);
   }
 
   @Override

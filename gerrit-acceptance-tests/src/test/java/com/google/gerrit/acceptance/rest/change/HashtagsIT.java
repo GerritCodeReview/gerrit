@@ -237,6 +237,14 @@ public class HashtagsIT extends AbstractDaemonTest {
     assertMessage(r, "Hashtag removed: tag3");
   }
 
+  @Test
+  public void testHashtagWithMixedCase() throws Exception {
+    PushOneCommit.Result r = createChange();
+    addHashtags(r, "MyHashtag");
+    assertThatGet(r).containsExactly("MyHashtag");
+    assertMessage(r, "Hashtag added: MyHashtag");
+  }
+
   private IterableSubject<
         ? extends IterableSubject<?, String, Iterable<String>>,
         String, Iterable<String>>

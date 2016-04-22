@@ -394,7 +394,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
-    out.hashtags = ctl.getNotes().load().getHashtags();
+    out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
     if (in.getStatus() != Change.Status.MERGED) {
       SubmitTypeRecord str = cd.submitTypeRecord();

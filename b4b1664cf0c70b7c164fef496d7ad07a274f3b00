@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_78fffd76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T15:40:00Z",
+      "side": 1,
+      "message": "Can this TODO be removed now, as IllegalStateException will be thrown above?",
+      "revId": "b4b1664cf0c70b7c164fef496d7ad07a274f3b00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

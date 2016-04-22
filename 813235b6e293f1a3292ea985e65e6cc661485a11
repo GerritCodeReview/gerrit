@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_b88fd51d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T19:37:18Z",
+      "side": 1,
+      "message": "Not needed?",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 9
+      },
+      "revId": "813235b6e293f1a3292ea985e65e6cc661485a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d88a910f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T19:37:18Z",
+      "side": 1,
+      "message": "Here you always overwrite the baseContent with the content of edited file in change edit that you have retrieved on line 221 above. Create an edit, change a file in edit, store, exit edit screen, re-enter edit screen for the same file, expected: merge view shows the diff; actually: no diff is shown because base content was overriden.\n\nOne way to fix it, is only to set the base content for non edits here:\n\n  if (revision.get() \u003e 0) {\n    baseContent \u003d fc;\n  }\n\nIn ps 10 of this change you had correct if statement here:\n\n  if (revision.get() \u003e 0 \u0026\u0026 ...) {",
+      "range": {
+        "startLine": 259,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 29
+      },
+      "revId": "813235b6e293f1a3292ea985e65e6cc661485a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

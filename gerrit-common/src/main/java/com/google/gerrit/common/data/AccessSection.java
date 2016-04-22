@@ -75,6 +75,10 @@ public class AccessSection extends RefConfigSection implements
     }
   }
 
+  public void addPermission(Permission p) {
+    getPermissions().add(p);
+  }
+
   public void remove(Permission permission) {
     if (permission != null) {
       removePermission(permission.getName());

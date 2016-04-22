@@ -28,43 +28,43 @@ public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/groups");
+    RestResponse r = adminRestSession.get("/config/server/caches/groups");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isGreaterThan((long)0);
 
-    r = adminSession.post("/config/server/caches/groups/flush");
+    r = adminRestSession.post("/config/server/caches/groups/flush");
     r.assertOK();
     r.consume();
 
-    r = adminSession.get("/config/server/caches/groups");
+    r = adminRestSession.get("/config/server/caches/groups");
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isNull();
   }
 
   @Test
   public void flushCache_Forbidden() throws Exception {
-    userSession
+    userRestSession
         .post("/config/server/caches/accounts/flush")
         .assertForbidden();
   }
 
   @Test
   public void flushCache_NotFound() throws Exception {
-    adminSession
+    adminRestSession
         .post("/config/server/caches/nonExisting/flush")
         .assertNotFound();
   }
 
   @Test
   public void flushCacheWithGerritPrefix() throws Exception {
-    adminSession
+    adminRestSession
         .post("/config/server/caches/gerrit-accounts/flush")
         .assertOK();
   }
 
   @Test
   public void flushWebSessionsCache() throws Exception {
-    adminSession
+    adminRestSession
         .post("/config/server/caches/web_sessions/flush")
         .assertOK();
   }
@@ -74,11 +74,11 @@ public class FlushCacheIT extends AbstractDaemonTest {
     allowGlobalCapabilities(REGISTERED_USERS,
         GlobalCapability.VIEW_CACHES, GlobalCapability.FLUSH_CACHES);
     try {
-      RestResponse r = userSession.post("/config/server/caches/accounts/flush");
+      RestResponse r = userRestSession.post("/config/server/caches/accounts/flush");
       r.assertOK();
       r.consume();
 
-      userSession
+      userRestSession
           .post("/config/server/caches/web_sessions/flush")
           .assertForbidden();
     } finally {

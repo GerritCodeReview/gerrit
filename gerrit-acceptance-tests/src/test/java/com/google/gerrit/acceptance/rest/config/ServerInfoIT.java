@@ -73,7 +73,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User"),
   })
   public void serverConfig() throws Exception {
-    RestResponse r = adminSession.get("/config/server/info/");
+    RestResponse r = adminRestSession.get("/config/server/info/");
     ServerInfo i = newGson().fromJson(r.getReader(), ServerInfo.class);
 
     // auth
@@ -129,9 +129,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     Path plugins = tempSiteDir.newFolder("plugins").toPath();
     Path jsplugin = plugins.resolve("js-plugin-1.js");
     Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
-    sshSession.exec("gerrit plugin reload");
+    adminSshSession.exec("gerrit plugin reload");
 
-    RestResponse r = adminSession.get("/config/server/info/");
+    RestResponse r = adminRestSession.get("/config/server/info/");
     ServerInfo i = newGson().fromJson(r.getReader(), ServerInfo.class);
 
     // plugin
@@ -140,7 +140,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
   @Test
   public void serverConfigWithDefaults() throws Exception {
-    RestResponse r = adminSession.get("/config/server/info/");
+    RestResponse r = adminRestSession.get("/config/server/info/");
     ServerInfo i = newGson().fromJson(r.getReader(), ServerInfo.class);
 
     // auth

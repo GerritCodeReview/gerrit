@@ -178,14 +178,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   // TODO(davido): Expose setting of account preferences in the API
   private void setSignedOffByFooter() throws Exception {
-    RestResponse r = adminSession.get("/accounts/" + admin.email
+    RestResponse r = adminRestSession.get("/accounts/" + admin.email
         + "/preferences");
     r.assertOK();
     GeneralPreferencesInfo i =
         newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
     i.signedOffBy = true;
 
-    r = adminSession.put("/accounts/" + admin.email + "/preferences", i);
+    r = adminRestSession.put("/accounts/" + admin.email + "/preferences", i);
     r.assertOK();
     GeneralPreferencesInfo o = newGson().fromJson(r.getReader(),
         GeneralPreferencesInfo.class);

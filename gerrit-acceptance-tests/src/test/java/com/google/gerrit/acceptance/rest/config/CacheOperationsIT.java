@@ -33,28 +33,28 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flushAll() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/project_list");
+    RestResponse r = adminRestSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long) 0);
 
-    r = adminSession.post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL));
+    r = adminRestSession.post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL));
     r.assertOK();
     r.consume();
 
-    r = adminSession.get("/config/server/caches/project_list");
+    r = adminRestSession.get("/config/server/caches/project_list");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isNull();
   }
 
   @Test
   public void flushAll_Forbidden() throws Exception {
-    userSession.post("/config/server/caches/",
+    userRestSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL)).assertForbidden();
   }
 
   @Test
   public void flushAll_BadRequest() throws Exception {
-    adminSession
+    adminRestSession
         .post("/config/server/caches/",
             new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects")))
         .assertBadRequest();
@@ -62,31 +62,31 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flush() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/project_list");
+    RestResponse r = adminRestSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
 
-    r = adminSession.get("/config/server/caches/projects");
+    r = adminRestSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
 
-    r = adminSession.post("/config/server/caches/",
+    r = adminRestSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("accounts", "project_list")));
     r.assertOK();
     r.consume();
 
-    r = adminSession.get("/config/server/caches/project_list");
+    r = adminRestSession.get("/config/server/caches/project_list");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isNull();
 
-    r = adminSession.get("/config/server/caches/projects");
+    r = adminRestSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
   }
 
   @Test
   public void flush_Forbidden() throws Exception {
-    userSession
+    userRestSession
         .post("/config/server/caches/",
             new PostCaches.Input(FLUSH, Arrays.asList("projects")))
         .assertForbidden();
@@ -94,7 +94,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flush_BadRequest() throws Exception {
-    adminSession
+    adminRestSession
         .post("/config/server/caches/",
             new PostCaches.Input(FLUSH))
         .assertBadRequest();
@@ -102,16 +102,16 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flush_UnprocessableEntity() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/projects");
+    RestResponse r = adminRestSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
 
-    r = adminSession.post("/config/server/caches/",
+    r = adminRestSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects", "unprocessable")));
     r.assertUnprocessableEntity();
     r.consume();
 
-    r = adminSession.get("/config/server/caches/projects");
+    r = adminRestSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
   }
@@ -121,12 +121,12 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     allowGlobalCapabilities(REGISTERED_USERS,
         GlobalCapability.FLUSH_CACHES, GlobalCapability.VIEW_CACHES);
     try {
-      RestResponse r = userSession.post("/config/server/caches/",
+      RestResponse r = userRestSession.post("/config/server/caches/",
           new PostCaches.Input(FLUSH, Arrays.asList("projects")));
       r.assertOK();
       r.consume();
 
-      userSession
+      userRestSession
           .post("/config/server/caches/",
               new PostCaches.Input(FLUSH, Arrays.asList("web_sessions")))
           .assertForbidden();

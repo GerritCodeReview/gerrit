@@ -51,7 +51,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     allowGlobalCapabilities(REGISTERED_USERS, all);
     try {
       RestResponse r =
-          userSession.get("/accounts/self/capabilities");
+          userRestSession.get("/accounts/self/capabilities");
       r.assertOK();
       CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
           new TypeToken<CapabilityInfo>() {}.getType());
@@ -79,7 +79,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   @Test
   public void testCapabilitiesAdmin() throws Exception {
     RestResponse r =
-        adminSession.get("/accounts/self/capabilities");
+        adminRestSession.get("/accounts/self/capabilities");
     r.assertOK();
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());

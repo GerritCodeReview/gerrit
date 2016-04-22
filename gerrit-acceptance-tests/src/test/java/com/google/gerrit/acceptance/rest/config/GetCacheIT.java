@@ -27,7 +27,7 @@ public class GetCacheIT extends AbstractDaemonTest {
 
   @Test
   public void getCache() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/accounts");
+    RestResponse r = adminRestSession.get("/config/server/caches/accounts");
     r.assertOK();
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
 
@@ -42,8 +42,8 @@ public class GetCacheIT extends AbstractDaemonTest {
     assertThat(result.hitRatio.mem).isAtMost(100);
     assertThat(result.hitRatio.disk).isNull();
 
-    userSession.get("/config/server/version").consume();
-    r = adminSession.get("/config/server/caches/accounts");
+    userRestSession.get("/config/server/version").consume();
+    r = adminRestSession.get("/config/server/caches/accounts");
     r.assertOK();
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isEqualTo(2);
@@ -51,21 +51,21 @@ public class GetCacheIT extends AbstractDaemonTest {
 
   @Test
   public void getCache_Forbidden() throws Exception {
-    userSession
+    userRestSession
         .get("/config/server/caches/accounts")
         .assertForbidden();
   }
 
   @Test
   public void getCache_NotFound() throws Exception {
-    adminSession
+    adminRestSession
         .get("/config/server/caches/nonExisting")
         .assertNotFound();
   }
 
   @Test
   public void getCacheWithGerritPrefix() throws Exception {
-    adminSession
+    adminRestSession
         .get("/config/server/caches/gerrit-accounts")
         .assertOK();
   }

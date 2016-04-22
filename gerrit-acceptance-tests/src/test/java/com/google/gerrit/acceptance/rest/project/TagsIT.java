@@ -41,7 +41,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
-    adminSession
+    adminRestSession
         .get("/projects/non-existing/tags")
         .assertNotFound();
   }
@@ -61,7 +61,7 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonVisibleProject() throws Exception {
     blockRead("refs/*");
-    userSession
+    userRestSession
         .get("/projects/" + project.get() + "/tags")
         .assertNotFound();
   }

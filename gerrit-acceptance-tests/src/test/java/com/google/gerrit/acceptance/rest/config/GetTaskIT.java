@@ -30,7 +30,7 @@ public class GetTaskIT extends AbstractDaemonTest {
   @Test
   public void getTask() throws Exception {
     RestResponse r =
-        adminSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
+        adminRestSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
     r.assertOK();
     TaskInfo info =
         newGson().fromJson(r.getReader(),
@@ -43,13 +43,13 @@ public class GetTaskIT extends AbstractDaemonTest {
 
   @Test
   public void getTask_NotFound() throws Exception {
-    userSession
+    userRestSession
         .get("/config/server/tasks/" + getLogFileCompressorTaskId())
         .assertNotFound();
   }
 
   private String getLogFileCompressorTaskId() throws Exception {
-    RestResponse r = adminSession.get("/config/server/tasks/");
+    RestResponse r = adminRestSession.get("/config/server/tasks/");
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<TaskInfo>>() {}.getType());

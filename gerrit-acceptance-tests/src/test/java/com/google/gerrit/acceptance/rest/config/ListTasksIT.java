@@ -29,7 +29,7 @@ public class ListTasksIT extends AbstractDaemonTest {
 
   @Test
   public void listTasks() throws Exception {
-    RestResponse r = adminSession.get("/config/server/tasks/");
+    RestResponse r = adminRestSession.get("/config/server/tasks/");
     r.assertOK();
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),
@@ -50,7 +50,7 @@ public class ListTasksIT extends AbstractDaemonTest {
 
   @Test
   public void listTasksWithoutViewQueueCapability() throws Exception {
-    RestResponse r = userSession.get("/config/server/tasks/");
+    RestResponse r = userRestSession.get("/config/server/tasks/");
     r.assertOK();
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),

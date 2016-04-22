@@ -40,7 +40,7 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirm() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(admin.getId(), "new.mail@example.com");
-    adminSession
+    adminRestSession
         .put("/config/server/email.confirm", in)
         .assertNoContent();
   }
@@ -49,7 +49,7 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirmForOtherUser_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(user.getId(), "new.mail@example.com");
-    adminSession
+    adminRestSession
         .put("/config/server/email.confirm", in)
         .assertUnprocessableEntity();
   }
@@ -58,7 +58,7 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirmInvalidToken_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = "invalidToken";
-    adminSession
+    adminRestSession
         .put("/config/server/email.confirm", in)
         .assertUnprocessableEntity();
   }

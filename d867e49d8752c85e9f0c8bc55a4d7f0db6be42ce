@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "a8e30849_21c7cebd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-22T14:34:02Z",
+      "side": 1,
+      "message": "This might be a bug, but it\u0027s not a regression. On the LHS the \"what happened to this?\" comment has Side.PARENT, but it never mentioned \"base\" in the commit message.\n\nI wouldn\u0027t be surprised if the only place we actually did this correctly was in the reply box in the UI...",
+      "parentUuid": "48d52c29_96daac62",
+      "range": {
+        "startLine": 470,
+        "startChar": 10,
+        "endLine": 475,
+        "endChar": 31
+      },
+      "revId": "d867e49d8752c85e9f0c8bc55a4d7f0db6be42ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_d52c9c48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2

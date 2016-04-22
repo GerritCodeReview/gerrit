@@ -124,6 +124,24 @@
       "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b9991b9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T10:05:25Z",
+      "side": 1,
+      "message": "After thinking about it: this is a missing feature: publish a change ed as draft and not consistent with: there is a way to create a DRAFT change in browser, but there is no way to create a DRAFT patch set. All what would be needed is to add DRAFT flag to POST publish on change edit.\n\nThat would make a lot of sense, because that way reviewer could be added to draft fact set, while there is no way to add a reviewers to change edit, because it is only seen by ref owner.",
+      "parentUuid": "28d0f83a_351190e5",
+      "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_9909bf83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T12:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_b8b23508",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_d5fedcc4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
         "patchSetId": 5

@@ -1,0 +1,308 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_f91c33b3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/PermissionRuleActionInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "Maybe put this into the access package too?\n\nEven better: Put the definition of this enum into PermissionRuleInfo. There are already examples for this, e.g. DiffPreferencesInfo contains the Whitespace enum.",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_194fefb2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/PermissionRuleActionInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "No need to use the \u0027Info\u0027 addon for enums. Just remove it here.",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_78481dac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: Try to keep the order of the member variables the same as the  order of the constructor arguments and the order of the assignments in the constructor below.",
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_58456192",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: one space too much",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_3852a55a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "I think this code should be moved into GetAccess as well.",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 9
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_9842d98d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "You can get GetAccess injected into this class, no need to invoke the constructor explicitly. Then you don\u0027t need to inject all classes that are needed by GetAccess into this class.",
+      "range": {
+        "startLine": 107,
+        "startChar": 23,
+        "endLine": 107,
+        "endChar": 37
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_78313d32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "Use: new HashMap\u003c\u003e() \nSince we upgraded to Java 7 we prefer this way to instantiate a HashMap.\n\nThere are more occurrences of this below. Please fix them too.",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_184fe9b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: We never import UUID (and ID) classes directly, there are just too many of them. Just write \u0027AccountGroup.UUID\u0027 here.",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_981bf9b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "Use the toBoolean method for this?",
+      "range": {
+        "startLine": 168,
+        "startChar": 64,
+        "endLine": 168,
+        "endChar": 99
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d82171e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_582e81d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: missing space after comma",
+      "range": {
+        "startLine": 172,
+        "startChar": 68,
+        "endLine": 172,
+        "endChar": 69
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_b816b58f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_382bc5c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "For the conversion of the internal enum to the enum in the extension package you may define an ImmutableMap similar to how it is done for ChangeType enum in GetDiff.",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 172,
+        "endChar": 68
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d92177e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T19:28:42Z",
+      "side": 1,
+      "message": "nit: missing space after if",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 173,
+        "endChar": 12
+      },
+      "revId": "43e97dcfc75954a166b5d96c8c9174abea2c4fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

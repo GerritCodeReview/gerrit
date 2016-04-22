@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_55ebec03",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_f622003d",
+      "revId": "8c47106008d7c57ced506bf4ce3015c5d6358995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_154334f0",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-22T08:22:24Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "8c47106008d7c57ced506bf4ce3015c5d6358995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_35f870d3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_154334f0",
       "revId": "8c47106008d7c57ced506bf4ce3015c5d6358995",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

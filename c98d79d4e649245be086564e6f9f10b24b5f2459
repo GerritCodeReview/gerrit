@@ -1,4 +1,141 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1461268734 -0700\npushee rpc://gerrit/gerrit\nnonce AB8gjyWBqhp1wYH66vCLlPquN6YtRCn682yRHOVxMl/E62bgA0INyrmAtZNXYDpNBl6Vi33SYZs4\n\n0000000000000000000000000000000000000000 c85e8770c5317670c5b6e7bab5bb67b992ab2509 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXGTD+AAoJELOGKwXbr+wPuXkQAMFAHDNCxR2lc5zJlw/E/NZd\ntNFbsv9cmRcr9EQlpRDAq6Epv9Qpr22I75ERCwGwpc0hAjxMJ91GCDa/Sou1GDtx\ngeoPY8GskCo87oE0mgfE3V/c7wm0hXoJNi9f6R2Y9IV7cTGAq7R35ycMvAFi4EhB\nZKtWUG5naQF8I+9Jlywk2vUoTFwH+SA4UK6vP0RibOhA7nnJv6toPecT1raANR2p\nsK5G8uNDV2Qbyf1GfSQVdMHqZX1/O0lAZDVD3W1qRmk36HxxuPiDOFnhgyoumsAn\nFl10ikmKEZEuUMynvy6e8wmYj8GlT9aPPhR8Caixlgc2AALMk6Lsd2g1GpUR3wp9\nOGsYIEn2w1u2weH7T/8WXLKbJyz9Vt0gcdOEfHSeoFPddP6SVFB/2e3V7rfw+9Af\nUStgjUpP9s47/LrfQMQDpSdGF1jhjk3pUC8yfrgB88n5Mh6XQu8CA8uP2OmSbKVc\n05kas2pvuFH7LRKQ6J4dyzJcVlQQKBnxkfHmGxg8U8vUlcxB9YzPhZ+xqqPWkuxk\nu3FCjVQ9qLdQYnYM1kk4L5aJfcP1TH2WA0vwba/14eMkbCxz4vN08j97SSGW2v8h\nE5wKQwgYLewLD1barG9zfMNbCkEWN+jKlLmkS+pTikUxFRVfkcQU+RYeCx7qxgZW\ni56NywTxQgl/Un2nU3QB\n\u003diXLg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_39c74b65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "Do we need this method?\n\nEventUtil.approvals is the only caller of this method outside of this class. However, EventUtil.approvals itself is not used at all.",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_b5800028",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_95850438",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_757b88fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b9b23b08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_55788cfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_99b77ff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_35751005",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-22T11:19:09Z",
+      "side": 1,
+      "message": "this method is not used anywhere in this change",
+      "revId": "c98d79d4e649245be086564e6f9f10b24b5f2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

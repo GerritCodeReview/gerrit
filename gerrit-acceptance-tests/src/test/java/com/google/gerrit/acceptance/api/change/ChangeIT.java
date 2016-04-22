@@ -31,6 +31,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -983,16 +984,20 @@ public class ChangeIT extends AbstractDaemonTest {
     createChange();
 
     setApiUserAnonymous(); // Identified user may async get stars from DB.
-    atrScope.disableDb();
-    assertThat(gApi.changes().query()
-          .withQuery(
-            "project:{" + project.get() + "} (status:open OR status:closed)")
-          // Options should match defaults in AccountDashboardScreen.
-          .withOption(ListChangesOption.LABELS)
-          .withOption(ListChangesOption.DETAILED_ACCOUNTS)
-          .withOption(ListChangesOption.REVIEWED)
-          .get())
-        .hasSize(2);
+    AcceptanceTestRequestScope.Context ctx = disableDb();
+    try {
+      assertThat(gApi.changes().query()
+            .withQuery(
+              "project:{" + project.get() + "} (status:open OR status:closed)")
+            // Options should match defaults in AccountDashboardScreen.
+            .withOption(ListChangesOption.LABELS)
+            .withOption(ListChangesOption.DETAILED_ACCOUNTS)
+            .withOption(ListChangesOption.REVIEWED)
+            .get())
+          .hasSize(2);
+    } finally {
+      enableDb(ctx);
+    }
   }
 
   @Test

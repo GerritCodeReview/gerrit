@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
@@ -77,7 +78,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         .getGroupUUID();
     setUpPermissions();
     setUpChanges();
-    atrScope.disableDb();
   }
 
   private void setUpPermissions() throws Exception {
@@ -269,6 +269,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       }
     }
 
+    AcceptanceTestRequestScope.Context ctx = disableDb();
     try (Repository repo = repoManager.openRepository(project)) {
       ProjectControl ctl = projectControlFactory.controlFor(project,
           identifiedUserFactory.create(Providers.of(db), user.getId()));
@@ -277,6 +278,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       Map<String, Ref> all = repo.getAllRefs();
       assertThat(filter.filter(all, false).keySet())
           .containsExactlyElementsIn(expected);
+    } finally {
+      enableDb(ctx);
     }
   }
 }

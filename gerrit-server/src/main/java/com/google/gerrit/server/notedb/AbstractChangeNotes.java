@@ -124,6 +124,9 @@ public abstract class AbstractChangeNotes<T> {
       loadDefaults();
       return self();
     }
+    if (args.migration.failOnLoad()) {
+      throw new OrmException("Reading from NoteDb is disabled");
+    }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
         Repository repo = args.repoManager.openRepository(getProjectName());
         LoadHandle handle = openHandle(repo)) {

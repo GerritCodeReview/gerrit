@@ -22,6 +22,7 @@ import com.google.inject.Singleton;
 public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
   private volatile boolean writeChanges;
+  private volatile boolean failOnLoad;
 
   @Override
   public boolean readChanges() {
@@ -43,6 +44,11 @@ public class TestNotesMigration extends NotesMigration {
     return false;
   }
 
+  @Override
+  public boolean failOnLoad() {
+    return failOnLoad;
+  }
+
   public TestNotesMigration setReadChanges(boolean readChanges) {
     this.readChanges = readChanges;
     return this;
@@ -50,6 +56,11 @@ public class TestNotesMigration extends NotesMigration {
 
   public TestNotesMigration setWriteChanges(boolean writeChanges) {
     this.writeChanges = writeChanges;
+    return this;
+  }
+
+  public TestNotesMigration setFailOnLoad(boolean failOnLoad) {
+    this.failOnLoad = failOnLoad;
     return this;
   }
 

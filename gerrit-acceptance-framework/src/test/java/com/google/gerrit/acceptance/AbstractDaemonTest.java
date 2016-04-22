@@ -529,6 +529,16 @@ public abstract class AbstractDaemonTest {
         atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
   }
 
+  protected Context disableDb() {
+    notesMigration.setFailOnLoad(true);
+    return atrScope.disableDb();
+  }
+
+  protected void enableDb(Context preDisableContext) {
+    notesMigration.setFailOnLoad(false);
+    atrScope.set(preDisableContext);
+  }
+
   protected static Gson newGson() {
     return OutputFormat.JSON_COMPACT.newGson();
   }

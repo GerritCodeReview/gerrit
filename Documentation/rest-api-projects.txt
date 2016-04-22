@@ -923,6 +923,144 @@ As response a link:#ban-result-info[BanResultInfo] entity is returned.
   }
 ----
 
+[[get-access]]
+=== List Access Rights for Project
+--
+'GET /projects/link:rest-api-projects.html#project-name[\{project-name\}]/access'
+--
+
+Lists the access rights for a single project.
+
+As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
+
+.Request
+----
+  GET /projects/MyProject/access HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "revision": "61157ed63e14d261b6dca40650472a9b0bd88474",
+    "inherits_from": {
+      "id": "All-Projects",
+      "name": "All-Projects",
+      "description": "Access inherited by all other projects."
+    },
+    "local": {
+        "refs/*": {
+          "permissions": {
+            "read": {
+              "rules": {
+                "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
+                  "action": "ALLOW",
+                  "force": false
+                },
+                "global:Anonymous-Users": {
+                  "action": "ALLOW",
+                  "force": false
+                }
+              }
+            }
+          }
+        }
+    },
+    "is_owner": true,
+    "owner_of": [
+      "refs/*"
+    ],
+    "can_upload": true,
+    "can_add": true,
+    "config_visible": true
+  }
+----
+
+[[set-access]]
+=== Add, Update and Delete Access Rights for Project
+--
+'POST /projects/link:rest-api-projects.html#project-name[\{project-name\}]/access'
+--
+
+Sets access rights for the project using the diff schema provided by
+link:#project-access-input[ProjectAccessInput]. Deductions are used to
+remove access sections, permissions or permission rules. The backend will remove
+the entity with the finest granularity in the request, meaning that if an
+access section without permissions is posted, the access section will be removed;
+if an access section with a permission but no permission rules is posted, the
+permission will be removed; if an access section with a permission and a permission
+rule is posted, the permission rule will be removed.
+
+Additionally, access sections and permissions will be cleaned up after applying the
+deductions by removing items that have no child elements.
+
+After deductions have been applied, additions will be applied.
+
+As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
+
+.Request
+----
+  POST /projects/MyProject/access HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "deductions": [
+      "refs/*": {
+        "permissions": {
+          "read": {
+            "rules": {
+              "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
+                "action": "ALLOW"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "additions": []
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "revision": "61157ed63e14d261b6dca40650472a9b0bd88474",
+    "inherits_from": {
+      "id": "All-Projects",
+      "name": "All-Projects",
+      "description": "Access inherited by all other projects."
+    },
+    "local": {
+        "refs/*": {
+          "permissions": {
+            "read": {
+              "rules": {
+                "global:Anonymous-Users": {
+                  "action": "ALLOW",
+                  "force": false
+                }
+              }
+            }
+          }
+        }
+    },
+    "is_owner": true,
+    "owner_of": [
+      "refs/*"
+    ],
+    "can_upload": true,
+    "can_add": true,
+    "config_visible": true
+  }
+----
+
 [[branch-endpoints]]
 == Branch Endpoints
 
@@ -2293,6 +2431,26 @@ The max object size limit that is inherited as a formatted string. +
 Not set if there is no global limit for the object size.
 |===============================
 
+[[project-access-input]]
+=== ProjectAccessInput
+The `ProjectAccessInput` describes changes that should be applied to a project
+access config.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name          |        |Description
+|`deductions`        |optional|
+A list of deductions to be applied to the project access as
+link:rest-api-access.html#project-access-info[ProjectAccessInfo] entities.
+|`additions`         |optional|
+A list of additions to be applied to the project access as
+link:rest-api-access.html#project-access-info[ProjectAccessInfo] entities.
+|`message`           |optional|
+A commit message for this change.
+|`parent`            |optional|
+A new parent for the project to inherit from.
+|=============================
+
 [[project-description-input]]
 === ProjectDescriptionInput
 The `ProjectDescriptionInput` entity contains information for setting a
@@ -2472,60 +2630,6 @@ The path to the `GerritSiteHeader.html` file.
 The path to the `GerritSiteFooter.html` file.
 |=============================
 
-[[get-access]]
-=== List Access Rights for Project
---
-'GET //projects/link:rest-api-projects.html#project-name[\{project-name\}]/access'
---
-
-Lists the access rights for a single project.
-
-As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
-
-.Request
-----
-  GET /projects/MyProject/access HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "revision": "61157ed63e14d261b6dca40650472a9b0bd88474",
-    "inherits_from": {
-      "id": "All-Projects",
-      "name": "All-Projects",
-      "description": "Access inherited by all other projects."
-    },
-    "local": {
-        "refs/*": {
-          "permissions": {
-            "read": {
-              "rules": {
-                "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
-                  "action": "ALLOW",
-                  "force": false
-                },
-                "global:Anonymous-Users": {
-                  "action": "ALLOW",
-                  "force": false
-                }
-              }
-            }
-          }
-        }
-    },
-    "is_owner": true,
-    "owner_of": [
-      "refs/*"
-    ],
-    "can_upload": true,
-    "can_add": true,
-    "config_visible": true
-  }
 ----
 
 GERRIT

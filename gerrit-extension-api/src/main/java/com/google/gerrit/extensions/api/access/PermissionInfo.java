@@ -14,6 +14,7 @@
 package com.google.gerrit.extensions.api.access;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class PermissionInfo {
   public String label;
@@ -23,5 +24,21 @@ public class PermissionInfo {
   public PermissionInfo(String label, Boolean exclusive) {
     this.label = label;
     this.exclusive = exclusive;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof PermissionInfo) {
+      PermissionInfo p = (PermissionInfo) obj;
+      return Objects.equals(label, p.label)
+          && Objects.equals(exclusive, p.exclusive)
+          && Objects.equals(rules, p.rules);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(label, exclusive, rules);
   }
 }

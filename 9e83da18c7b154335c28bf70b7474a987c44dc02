@@ -46,6 +46,30 @@
       "revId": "9e83da18c7b154335c28bf70b7474a987c44dc02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bba4f1_781701dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-22T15:26:10Z",
+      "side": 1,
+      "message": "Oops. Not a big deal, that\u0027s what STORED_ONLY is for.",
+      "parentUuid": "28d0f83a_d80f3186",
+      "range": {
+        "startLine": 240,
+        "startChar": 63,
+        "endLine": 240,
+        "endChar": 74
+      },
+      "revId": "9e83da18c7b154335c28bf70b7474a987c44dc02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

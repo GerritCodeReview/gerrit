@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.api.projects;
 
+import com.google.gerrit.common.errors.UpdateParentFailedException;
+import com.google.gerrit.extensions.api.access.ProjectAccessChangeInfo;
 import com.google.gerrit.extensions.api.projects.AccessApi;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.GetAccess;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.SetAccess;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -31,12 +34,15 @@ public class AccessApiImpl implements AccessApi {
 
   private final ProjectResource project;
   private final GetAccess getAccess;
+  private final SetAccess setAccess;
 
   @Inject
   AccessApiImpl(GetAccess getAccess,
-    @Assisted ProjectResource project) {
+      SetAccess setAccess,
+      @Assisted ProjectResource project) {
     this.project = project;
     this.getAccess = getAccess;
+    this.setAccess = setAccess;
   }
 
   @Override
@@ -47,4 +53,16 @@ public class AccessApiImpl implements AccessApi {
       throw new RestApiException("Cannot get access rights", e);
     }
   }
+
+  @Override
+  public ProjectAccessInfo set(ProjectAccessChangeInfo p) throws RestApiException {
+    try {
+      return setAccess.apply(project, p);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot set access rights", e);
+    } catch (UpdateParentFailedException e) {
+      throw new RestApiException(e.toString());
+    }
+  }
+
 }

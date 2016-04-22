@@ -1,0 +1,263 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.project;
+
+import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.errors.UpdateParentFailedException;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessChangeInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.GroupsCollection;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+
+@Singleton
+public class SetAccess implements
+    RestModifyView<ProjectResource, ProjectAccessChangeInfo> {
+  protected final GroupBackend groupBackend;
+  private final GroupsCollection groupsCollection;
+  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final AllProjectsName allProjects;
+  private final Provider<SetParent> setParent;
+  private final ChangeHooks hooks;
+  private final GitReferenceUpdated gitRefUpdated;
+  private final GetAccess getAccess;
+  private final ProjectCache projectCache;
+  private ObjectId base;
+
+  @Inject
+  public SetAccess(GroupBackend groupBackend,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      AllProjectsName allProjects,
+      Provider<SetParent> setParent,
+      ChangeHooks hooks,
+      GitReferenceUpdated gitRefUpdated,
+      GroupsCollection groupsCollection,
+      ProjectCache projectCache,
+      GetAccess getAccess) {
+    this.groupBackend = groupBackend;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.allProjects = allProjects;
+    this.setParent = setParent;
+    this.groupsCollection = groupsCollection;
+    this.hooks = hooks;
+    this.gitRefUpdated = gitRefUpdated;
+    this.getAccess = getAccess;
+    this.projectCache = projectCache;
+  }
+
+  @Override
+  public ProjectAccessInfo apply(ProjectResource rsrc,
+      ProjectAccessChangeInfo input)
+      throws ResourceNotFoundException, ResourceConflictException,
+      IOException, UpdateParentFailedException {
+    List<AccessSection> deductions = getAccessSections(input.deduction);
+    List<AccessSection> additions = getAccessSections(input.addition);
+    ProjectControl projectControl = rsrc.getControl();
+    ProjectConfig config;
+
+    Project.NameKey newParentProjectName = input.parent == null ?
+        null : new Project.NameKey(input.parent);
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(rsrc.getNameKey())) {
+      config = ProjectConfig.read(md);
+      base = config.getRevision();
+
+      // Apply deductions
+      for (AccessSection section : deductions) {
+        if (AccessSection.GLOBAL_CAPABILITIES.equals(section.getName())
+            && projectControl.isOwner()
+            || projectControl.controlForRef(section.getName()).isOwner()) {
+          if (section.getPermissions().size() == 0) {
+            // Remove entire section
+            config.remove(config.getAccessSection(section.getName()));
+          }
+          // Remove specific permissions
+          for (Permission p : section.getPermissions()) {
+            if (p.getRules().size() == 0) {
+              config.remove(config.getAccessSection(section.getName()), p);
+            } else {
+              for (PermissionRule r : p.getRules()) {
+                config.remove(config.getAccessSection(section.getName()), p, r);
+              }
+            }
+          }
+        }
+      }
+
+      // Apply additions
+      for (AccessSection section : additions) {
+        String name = section.getName();
+
+        if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
+          if (!projectControl.isOwner()) {
+            continue;
+          }
+
+        } else if (AccessSection.isValid(name)) {
+          if (!projectControl.controlForRef(name).isOwner()) {
+            continue;
+          }
+          RefControl.validateRefPattern(name);
+        }
+
+        AccessSection currentAccessSection =
+            config.getAccessSection(section.getName());
+        if (currentAccessSection == null) {
+          // Add AccessSection
+          config.replace(section);
+        } else {
+          for (Permission p : section.getPermissions()) {
+            Permission currentPermission =
+                currentAccessSection.getPermission(p.getName());
+            if (currentPermission == null) {
+              // Add Permission
+              currentAccessSection.addPermission(p);
+            } else {
+              for (PermissionRule r : p.getRules()) {
+                // AddPermissionRule
+                currentPermission.add(r);
+              }
+            }
+          }
+
+        }
+      }
+
+      if (newParentProjectName != null &&
+          !config.getProject().getNameKey().equals(allProjects) &&
+          !config.getProject().getParent(allProjects)
+              .equals(newParentProjectName)) {
+        try {
+          setParent.get().validateParentUpdate(projectControl,
+              MoreObjects.firstNonNull(newParentProjectName, allProjects).get(),
+              true);
+        } catch (AuthException e) {
+          throw new UpdateParentFailedException(
+              "You are not allowed to change the parent project since you are "
+                  + "not an administrator. You may save the modifications "
+                  + "for review so that an administrator can approve them.", e);
+        } catch (ResourceConflictException | UnprocessableEntityException e) {
+          throw new UpdateParentFailedException(e.getMessage(), e);
+        }
+        config.getProject().setParentName(newParentProjectName);
+      }
+
+      if (input.message != null && !input.message.isEmpty()) {
+        if (!input.message.endsWith("\n")) {
+          input.message += "\n";
+        }
+        md.setMessage(input.message);
+      } else {
+        md.setMessage("Modify access rules\n");
+      }
+
+      updateProjectConfig(projectControl.getUser(), config, md);
+    } catch (Exception e) {
+      System.out.println(e);
+      e.printStackTrace();
+      throw new ResourceNotFoundException(rsrc.getName());
+    }
+
+    return getAccess.apply(rsrc.getNameKey());
+  }
+
+  private List<AccessSection> getAccessSections(
+      Map<String, AccessSectionInfo> sectionInfos) {
+    List<AccessSection> sections = new LinkedList<>();
+    if (sectionInfos == null) {
+      return sections;
+    }
+    for (Map.Entry<String, AccessSectionInfo> entry : sectionInfos.entrySet()) {
+      AccessSection accessSection = new AccessSection(entry.getKey());
+
+      for (Map.Entry<String, PermissionInfo> permissionEntry : entry
+          .getValue().permissions
+          .entrySet()) {
+        Permission p = new Permission(permissionEntry.getKey());
+
+        for (Map.Entry<String, PermissionRuleInfo> permissionRuleInfoEntry : permissionEntry
+            .getValue().rules.entrySet()) {
+          PermissionRuleInfo pri = permissionRuleInfoEntry.getValue();
+
+          GroupDescription.Basic group = groupsCollection
+              .parseId(permissionRuleInfoEntry.getKey());
+          //add null check on groups
+          PermissionRule r = new PermissionRule(GroupReference.forGroup(group));
+          if (pri.max != null) {
+            r.setMax(pri.max);
+          }
+          if (pri.min != null) {
+            r.setMin(pri.min);
+          }
+          r.setAction(PermissionRule.Action.values()[pri.action.ordinal()]);
+          r.setForce(pri.force);
+          p.add(r);
+        }
+        accessSection.getPermissions().add(p);
+      }
+      sections.add(accessSection);
+    }
+    return sections;
+  }
+
+  protected void updateProjectConfig(CurrentUser user,
+      ProjectConfig config, MetaDataUpdate md)
+      throws IOException, NoSuchProjectException, ConfigInvalidException {
+    RevCommit commit = config.commit(md);
+
+    gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
+        base, commit.getId());
+    hooks.doRefUpdatedHook(
+        new Branch.NameKey(config.getProject().getNameKey(),
+            RefNames.REFS_CONFIG),
+        base, commit.getId(), user.asIdentifiedUser().getAccount());
+
+    projectCache.evict(config.getProject());
+  }
+}

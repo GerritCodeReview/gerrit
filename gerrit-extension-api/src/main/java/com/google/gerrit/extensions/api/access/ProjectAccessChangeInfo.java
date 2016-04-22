@@ -15,15 +15,9 @@ package com.google.gerrit.extensions.api.access;
 
 import java.util.Map;
 
-public class AccessSectionInfo {
-
-  public Map<String, PermissionInfo> permissions;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof AccessSectionInfo) {
-      return permissions.equals(((AccessSectionInfo) obj).permissions);
-    }
-    return false;
-  }
+public class ProjectAccessChangeInfo {
+  public Map<String, AccessSectionInfo> deduction;
+  public Map<String, AccessSectionInfo> addition;
+  public String parent;
+  public String message;
 }

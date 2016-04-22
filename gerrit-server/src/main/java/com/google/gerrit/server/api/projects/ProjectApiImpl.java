@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
 
+import com.google.gerrit.extensions.api.access.ProjectAccessChangeInfo;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
@@ -192,6 +193,11 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public ProjectAccessInfo access() throws RestApiException {
     return accessApi.create(checkExists()).get();
+  }
+
+  @Override
+  public ProjectAccessInfo access(ProjectAccessChangeInfo p) throws RestApiException {
+    return accessApi.create(checkExists()).set(p);
   }
 
   @Override

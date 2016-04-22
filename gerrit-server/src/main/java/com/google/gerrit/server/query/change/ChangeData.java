@@ -337,6 +337,7 @@ public class ChangeData {
   private ChangedLines changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
+  private Set<String> hashtags;
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
   private Set<Account.Id> draftsByUser;
@@ -1016,6 +1017,17 @@ public class ChangeData {
 
   public void setReviewedBy(Set<Account.Id> reviewedBy) {
     this.reviewedBy = reviewedBy;
+  }
+
+  public Set<String> hashtags() throws OrmException {
+    if (hashtags == null) {
+      hashtags = notes().getHashtags();
+    }
+    return hashtags;
+  }
+
+  public void setHashtags(Set<String> hashtags) {
+    this.hashtags = hashtags;
   }
 
   public Set<Account.Id> starredBy() throws OrmException {

@@ -19,6 +19,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     RESTORE: 'restore',
+    REVERT: 'revert',
   };
 
   // TODO(andybons): Add the rest of the revision actions.
@@ -37,6 +38,7 @@
     'publish': 'Publishing...',
     'rebase': 'Rebasing...',
     'restore': 'Restoring...',
+    'revert': 'Reverting...',
     'submit': 'Submitting...',
   };
 
@@ -60,7 +62,11 @@
       },
       changeNum: String,
       patchNum: String,
-      commitMessage: String,
+      commitInfo: {
+        type: Object,
+        observer: '_commitInfoObserver'
+      },
+      revertMessage: String,
       _loading: {
         type: Boolean,
         value: true,
@@ -160,6 +166,9 @@
         }
         this._fireAction(this._prependSlash(key),
             this._revisionActions[key], true);
+      } else if (key === ChangeActions.REVERT) {
+          this._showActionDialog(this.$.confirmRevertDialog);
+          return;
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -205,7 +214,7 @@
         return;
       }
       if (!el.message) {
-        alert('The commit message can’t be empty.');
+        alert('The revert commit message can’t be empty.');
         return;
       }
       this.$.overlay.close();
@@ -216,6 +225,26 @@
           true,
           {
             destination: el.branch,
+            message: el.message,
+          }
+      );
+    },
+
+    _handleRevertDialogConfirm: function() {
+      var el = this.$.confirmRevertDialog;
+      if (!el.message) {
+        // TODO (viktard): Fix validation.
+        alert('The commit message can’t be empty.');
+        return;
+      }
+      this.$.overlay.close();
+      el.hidden = false;
+      debugger
+      this._fireAction(
+          '/revert',
+          this.actions.revert,
+          false,
+          {
             message: el.message,
           }
       );
@@ -246,6 +275,7 @@
     _handleResponse: function(action, response) {
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
+          case ChangeActions.REVERT:
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;
@@ -279,6 +309,19 @@
         cleanupFn.call(this);
         return response;
       }.bind(this)).then(this._handleResponseError.bind(this));
+    },
+
+    _commitInfoObserver: function(commitInfo) {
+      // Strip 'Change-Id: xxx'
+      var commitMessage = commitInfo.message.replace(
+        /\n{1,2}\nChange-Id: \w+\n/gm, '');
+      var revertCommitText = 'This reverts commit ';
+      // Selector for previous revert text and commit.
+      var previousRevertText =
+          new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm')
+      commitMessage = commitMessage.replace(previousRevertText, '');
+      this.revertMessage = 'Revert "' + commitMessage + '"\n\n' +
+        revertCommitText + commitInfo.commit + '.';
     },
   });
 })();

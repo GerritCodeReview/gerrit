@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -53,16 +55,14 @@ import java.util.Map;
 @Singleton
 public class GetAccess implements RestReadView<ProjectResource> {
 
-  private static final ImmutableMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
-      Maps.immutableEnumMap(
-          new ImmutableMap.Builder<PermissionRule.Action, PermissionRuleInfo.Action>()
-              .put(PermissionRule.Action.ALLOW, PermissionRuleInfo.Action.ALLOW)
-              .put(PermissionRule.Action.BATCH, PermissionRuleInfo.Action.BATCH)
-              .put(PermissionRule.Action.BLOCK, PermissionRuleInfo.Action.BLOCK)
-              .put(PermissionRule.Action.DENY, PermissionRuleInfo.Action.DENY)
-              .put(PermissionRule.Action.INTERACTIVE,
-                  PermissionRuleInfo.Action.INTERACTIVE)
-              .build());
+  public static final BiMap<PermissionRule.Action,
+      PermissionRuleInfo.Action> ACTION_TYPE = ImmutableBiMap.of(
+          PermissionRule.Action.ALLOW, PermissionRuleInfo.Action.ALLOW,
+          PermissionRule.Action.BATCH, PermissionRuleInfo.Action.BATCH,
+          PermissionRule.Action.BLOCK, PermissionRuleInfo.Action.BLOCK,
+          PermissionRule.Action.DENY, PermissionRuleInfo.Action.DENY,
+          PermissionRule.Action.INTERACTIVE,
+          PermissionRuleInfo.Action.INTERACTIVE);
 
   private final Provider<CurrentUser> self;
   private final GroupControl.Factory groupControlFactory;

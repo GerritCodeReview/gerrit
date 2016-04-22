@@ -14,12 +14,14 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.api.access.ProjectAccessChangeInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface AccessApi {
   ProjectAccessInfo get() throws RestApiException;
+  ProjectAccessInfo set(ProjectAccessChangeInfo p) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -28,6 +30,11 @@ public interface AccessApi {
   class NotImplemented implements AccessApi {
     @Override
     public ProjectAccessInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    public ProjectAccessInfo set(ProjectAccessChangeInfo p)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

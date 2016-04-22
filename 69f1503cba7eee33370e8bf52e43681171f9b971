@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_59d3271f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2503,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_5562cc81",
+      "range": {
+        "startLine": 2503,
+        "startChar": 0,
+        "endLine": 2503,
+        "endChar": 16
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_561414d5",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2016-04-22T08:21:43Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_78a49dcc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_561414d5",
       "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_99f09fb1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_155c54c1",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_355f50ba",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 5
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_79d6e310",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_355f50ba",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_f5f9d8de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
         "patchSetId": 5
@@ -87,6 +165,24 @@
       "writtenOn": "2016-04-22T08:21:43Z",
       "side": 1,
       "message": "nit: put ProjectJson projectJson on a new line, it\u0027s our convention that for constructors that are annotated with @Inject each parameter should be placed in a new line",
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b9eb5bc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_f5f9d8de",
       "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +229,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_b899159a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_160e9cc5",
+      "range": {
+        "startLine": 28,
+        "startChar": 48,
+        "endLine": 28,
+        "endChar": 73
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_b50360ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
         "patchSetId": 5
@@ -156,6 +276,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_989e597e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_b50360ab",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_f6cb209b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
         "patchSetId": 5
@@ -167,6 +311,30 @@
       "writtenOn": "2016-04-22T08:21:43Z",
       "side": 1,
       "message": "Name this \u0027rsrc\u0027 to be consistent with the naming in other REST endpoint implementations.",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 57
+      },
+      "revId": "69f1503cba7eee33370e8bf52e43681171f9b971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d9e61700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-22T11:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_f6cb209b",
       "range": {
         "startLine": 60,
         "startChar": 49,

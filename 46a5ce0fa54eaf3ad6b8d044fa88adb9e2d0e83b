@@ -88,6 +88,24 @@
       "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_018e0ab2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-22T09:08:35Z",
+      "side": 1,
+      "message": "The new change needs to be created as not-draft, so the steps would be:\n\n- create a new change (draft by default)\n- publish the change\n- upload a new patch set as draft\n\nI don\u0027t see this being any less complicated using the API than with SSH.  And it\u0027s the SSH query that I want to test anyway, so I still need to use a different SSH session.",
+      "parentUuid": "48d52c29_b6aec8c4",
+      "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_954f440d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T08:01:38Z",
+      "side": 1,
+      "message": "Hmm, but in the corresponding change message I would see something like this:\n\nPatch Set 2:\n(3 comments)\na.txt\n  PS1, Line 1: Comment on patch set 1\n  Base, Line 1: Comment on base for patch set 2\n  Line 1: Comment for patch set 2\n\nSo here comments on the base are explicitly marked by the word \u0027Base\u0027.",
+      "parentUuid": "28d0f83a_b54a40fd",
+      "range": {
+        "startLine": 470,
+        "startChar": 10,
+        "endLine": 475,
+        "endChar": 31
+      },
+      "revId": "d867e49d8752c85e9f0c8bc55a4d7f0db6be42ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_d52c9c48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2

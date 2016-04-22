@@ -280,27 +280,9 @@ public class EditPreferencesBox extends Composite {
   }
 
   private void initTheme() {
-    theme.addItem(
-        Theme.DEFAULT.name().toLowerCase(),
-        Theme.DEFAULT.name());
-    theme.addItem(
-        Theme.ECLIPSE.name().toLowerCase(),
-        Theme.ECLIPSE.name());
-    theme.addItem(
-        Theme.ELEGANT.name().toLowerCase(),
-        Theme.ELEGANT.name());
-    theme.addItem(
-        Theme.NEAT.name().toLowerCase(),
-        Theme.NEAT.name());
-    theme.addItem(
-        Theme.MIDNIGHT.name().toLowerCase(),
-        Theme.MIDNIGHT.name());
-    theme.addItem(
-        Theme.NIGHT.name().toLowerCase(),
-        Theme.NIGHT.name());
-    theme.addItem(
-        Theme.TWILIGHT.name().toLowerCase(),
-        Theme.TWILIGHT.name());
+    for (Theme t : Theme.values()) {
+      theme.addItem(t.name().toLowerCase(), t.name());
+    }
   }
 
   private void setKeyMapType(KeyMapType v) {

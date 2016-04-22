@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e30849_419812f2",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-22T09:19:29Z",
+      "side": 1,
+      "message": "\"in upper case\"",
+      "range": {
+        "startLine": 1698,
+        "startChar": 26,
+        "endLine": 1698,
+        "endChar": 48
+      },
+      "revId": "453cb53f1e3ed0e3595b060fd67636d366fc2506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_21950eba",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-22T09:19:29Z",
+      "side": 1,
+      "message": "\", for example\"",
+      "range": {
+        "startLine": 1698,
+        "startChar": 49,
+        "endLine": 1698,
+        "endChar": 53
+      },
+      "revId": "453cb53f1e3ed0e3595b060fd67636d366fc2506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_81a21a1e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-22T09:19:29Z",
+      "side": 1,
+      "message": "This was useful when only the subset was available, but I don\u0027t think we need to list them any more.",
+      "range": {
+        "startLine": 1698,
+        "startChar": 65,
+        "endLine": 1700,
+        "endChar": 43
+      },
+      "revId": "453cb53f1e3ed0e3595b060fd67636d366fc2506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_c16c229a",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-22T09:19:29Z",
+      "side": 1,
+      "message": "This might be misleading if upstream CodeMirror adds more, but they\u0027re not in the version that Gerrit is using.",
+      "range": {
+        "startLine": 1700,
+        "startChar": 44,
+        "endLine": 1701,
+        "endChar": 32
+      },
+      "revId": "453cb53f1e3ed0e3595b060fd67636d366fc2506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

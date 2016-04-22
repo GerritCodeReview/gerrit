@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_18dda926",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-22T15:14:36Z",
+      "side": 1,
+      "message": "Yes, it\u0027s definitely not relevant for this change.",
+      "parentUuid": "a8e30849_21c7cebd",
+      "range": {
+        "startLine": 470,
+        "startChar": 10,
+        "endLine": 475,
+        "endChar": 31
+      },
+      "revId": "d867e49d8752c85e9f0c8bc55a4d7f0db6be42ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_d52c9c48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2

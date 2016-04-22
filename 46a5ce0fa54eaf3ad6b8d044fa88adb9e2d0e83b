@@ -52,6 +52,24 @@
       "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e30849_c183828c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-22T07:15:44Z",
+      "side": 1,
+      "message": "Correct, view draft is not set by default for admins.\n\nMy point was that the change is being created by the admin user, so the draft is visible.\n\nIn the next patch set I\u0027ve worked around it by setting up a separate ssh session for the regular user, who can\u0027t see drafts.\n\nNote that there is some possibility to clean up ssh session handling in the tests, but I will defer that to the master branch.",
+      "parentUuid": "48d52c29_16433cf0",
+      "revId": "46a5ce0fa54eaf3ad6b8d044fa88adb9e2d0e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

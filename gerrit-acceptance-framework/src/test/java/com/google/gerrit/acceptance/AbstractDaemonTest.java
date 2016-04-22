@@ -516,7 +516,7 @@ public abstract class AbstractDaemonTest {
   }
 
   private Context newRequestContext(TestAccount account) {
-    return atrScope.newContext(reviewDbProvider, new SshSession(server, admin),
+    return atrScope.newContext(reviewDbProvider, new SshSession(server, account),
         identifiedUserFactory.create(Providers.of(db), account.getId()));
   }
 

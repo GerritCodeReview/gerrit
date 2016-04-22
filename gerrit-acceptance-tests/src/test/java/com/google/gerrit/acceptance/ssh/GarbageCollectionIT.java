@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assert_;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
@@ -59,10 +58,10 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGc() throws Exception {
     String response =
-        sshSession.exec("gerrit gc \"" + project.get() + "\" \""
+        adminSshSession.exec("gerrit gc \"" + project.get() + "\" \""
             + project2.get() + "\"");
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(project, project2);
     gcAssert.assertHasNoPackFile(allProjects, project3);
@@ -71,23 +70,21 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   public void testGcAll() throws Exception {
-    String response = sshSession.exec("gerrit gc --all");
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+    String response = adminSshSession.exec("gerrit gc --all");
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(allProjects, project, project2, project3);
   }
 
   @Test
   public void testGcWithoutCapability_Error() throws Exception {
-    SshSession s = new SshSession(server, user);
-    s.exec("gerrit gc --all");
-    assertThat(s.hasError()).isTrue();
-    String error = s.getError();
+    userSshSession.exec("gerrit gc --all");
+    assertThat(userSshSession.hasError()).isTrue();
+    String error = userSshSession.getError();
     assertThat(error).isNotNull();
     assertError("One of the following capabilities is required to access this"
         + " resource: [runGC, maintainServer]", error);
-    s.close();
   }
 
   @Test

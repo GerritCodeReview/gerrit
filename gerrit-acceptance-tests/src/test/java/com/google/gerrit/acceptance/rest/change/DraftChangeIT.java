@@ -53,7 +53,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
-    RestResponse response = deleteChange(changeId, adminSession);
+    RestResponse response = deleteChange(changeId, adminRestSession);
     assertThat(response.getEntityContent())
         .isEqualTo("Change is not a draft: " + c._number);
     response.assertConflict();
@@ -69,7 +69,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    deleteChange(changeId, adminSession).assertNoContent();
+    deleteChange(changeId, adminRestSession).assertNoContent();
 
     exception.expect(ResourceNotFoundException.class);
     get(triplet);
@@ -151,13 +151,13 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   private RestResponse publishChange(String changeId) throws Exception {
-    return adminSession.post("/changes/" + changeId + "/publish");
+    return adminRestSession.post("/changes/" + changeId + "/publish");
   }
 
   private RestResponse publishPatchSet(String changeId) throws Exception {
     PatchSet patchSet = Iterables.getOnlyElement(
         queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
-    return adminSession.post("/changes/"
+    return adminRestSession.post("/changes/"
         + changeId
         + "/revisions/"
         + patchSet.getRevision().get()

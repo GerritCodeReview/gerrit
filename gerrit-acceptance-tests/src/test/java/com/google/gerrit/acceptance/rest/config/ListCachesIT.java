@@ -35,7 +35,7 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCaches() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/");
+    RestResponse r = adminRestSession.get("/config/server/caches/");
     r.assertOK();
     Map<String, CacheInfo> result =
         newGson().fromJson(r.getReader(),
@@ -53,8 +53,8 @@ public class ListCachesIT extends AbstractDaemonTest {
     assertThat(accountsCacheInfo.hitRatio.mem).isAtMost(100);
     assertThat(accountsCacheInfo.hitRatio.disk).isNull();
 
-    userSession.get("/config/server/version").consume();
-    r = adminSession.get("/config/server/caches/");
+    userRestSession.get("/config/server/version").consume();
+    r = adminRestSession.get("/config/server/caches/");
     r.assertOK();
     result = newGson().fromJson(r.getReader(),
         new TypeToken<Map<String, CacheInfo>>() {}.getType());
@@ -63,14 +63,14 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCaches_Forbidden() throws Exception {
-    userSession
+    userRestSession
         .get("/config/server/caches/")
         .assertForbidden();
   }
 
   @Test
   public void listCacheNames() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
+    RestResponse r = adminRestSession.get("/config/server/caches/?format=LIST");
     r.assertOK();
     List<String> result =
         newGson().fromJson(r.getReader(),
@@ -82,7 +82,7 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCacheNamesTextList() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/?format=TEXT_LIST");
+    RestResponse r = adminRestSession.get("/config/server/caches/?format=TEXT_LIST");
     r.assertOK();
     String result = new String(Base64.decode(r.getEntityContent()), UTF_8.name());
     List<String> list = Arrays.asList(result.split("\n"));
@@ -93,7 +93,7 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCaches_BadRequest() throws Exception {
-    adminSession
+    adminRestSession
         .get("/config/server/caches/?format=NONSENSE")
         .assertBadRequest();
   }

@@ -28,10 +28,10 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void withDuplicateInternalGroupCaseSensitiveName_Conflict()
       throws Exception {
     String newGroupName = "dupGroupA";
-    adminSession.put("/groups/" + newGroupName);
-    sshSession.exec("gerrit create-group " + newGroupName);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isTrue();
+    adminRestSession.put("/groups/" + newGroupName);
+    adminSshSession.exec("gerrit create-group " + newGroupName);
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isTrue();
   }
 
   @Test
@@ -40,10 +40,10 @@ public class CreateGroupIT extends AbstractDaemonTest {
     String newGroupName = "dupGroupB";
     String newGroupNameLowerCase = newGroupName.toLowerCase();
 
-    adminSession.put("/groups/" + newGroupName);
-    sshSession.exec("gerrit create-group " + newGroupNameLowerCase);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+    adminRestSession.put("/groups/" + newGroupName);
+    adminSshSession.exec("gerrit create-group " + newGroupNameLowerCase);
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     assertThat(groupCache.get(new AccountGroup.NameKey(newGroupName)))
       .isNotNull();
     assertThat(groupCache.get(new AccountGroup.NameKey(newGroupNameLowerCase)))
@@ -54,26 +54,26 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void withDuplicateSystemGroupCaseSensitiveName_Conflict()
       throws Exception {
     String newGroupName = "Registered Users";
-    sshSession.exec("gerrit create-group " + newGroupName);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isTrue();
+    adminSshSession.exec("gerrit create-group " + newGroupName);
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isTrue();
   }
 
   @Test
   public void withDuplicateSystemGroupCaseInsensitiveName_Conflict()
       throws Exception {
     String newGroupName = "Registered Users";
-    sshSession.exec("gerrit create-group " + newGroupName);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isTrue();
+    adminSshSession.exec("gerrit create-group " + newGroupName);
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isTrue();
   }
 
   @Test
   public void withNonDuplicateGroupName() throws Exception {
     String newGroupName = "newGroupB";
-    sshSession.exec("gerrit create-group " + newGroupName);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+    adminSshSession.exec("gerrit create-group " + newGroupName);
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     AccountGroup accountGroup =
         groupCache.get(new AccountGroup.NameKey(newGroupName));
     assertThat(accountGroup).isNotNull();

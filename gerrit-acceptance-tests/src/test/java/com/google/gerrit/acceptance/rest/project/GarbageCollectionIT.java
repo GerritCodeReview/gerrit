@@ -43,7 +43,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   public void testGcNotAllowed_Forbidden() throws Exception {
-    userSession
+    userRestSession
         .post("/projects/" + allProjects.get() + "/gc")
         .assertForbidden();
   }
@@ -57,7 +57,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   private RestResponse POST(String endPoint) throws Exception {
-    RestResponse r = adminSession.post(endPoint);
+    RestResponse r = adminRestSession.post(endPoint);
     r.consume();
     return r;
   }

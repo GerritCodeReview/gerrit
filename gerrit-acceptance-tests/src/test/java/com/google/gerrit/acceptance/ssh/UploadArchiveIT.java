@@ -58,7 +58,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     String c = command(r, abbreviated);
 
     InputStream out =
-        sshSession.exec2("git-upload-archive " + project.get(),
+        adminSshSession.exec2("git-upload-archive " + project.get(),
             argumentsToInputStream(c));
 
     // Wrap with PacketLineIn to read ACK bytes from output stream
@@ -101,7 +101,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     String c = command(r, abbreviated);
 
     InputStream out =
-        sshSession.exec2("git-upload-archive " + project.get(),
+        adminSshSession.exec2("git-upload-archive " + project.get(),
             argumentsToInputStream(c));
 
     // Wrap with PacketLineIn to read ACK bytes from output stream

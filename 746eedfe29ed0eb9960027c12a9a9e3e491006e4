@@ -46,6 +46,30 @@
       "revId": "746eedfe29ed0eb9960027c12a9a9e3e491006e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d6c384ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-22T04:05:02Z",
+      "side": 1,
+      "message": "I have the same concerns. ChangeData is used also outside of the SSH commands / REST handler scope, like reindexing of secondary index and NoteDb rebuild. The filtering should take place in SSH command / REST handler instead.",
+      "parentUuid": "88bba4f1_986bf57d",
+      "range": {
+        "startLine": 541,
+        "startChar": 30,
+        "endLine": 541,
+        "endChar": 37
+      },
+      "revId": "746eedfe29ed0eb9960027c12a9a9e3e491006e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -309,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_36751805",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-22T09:46:47Z",
+      "side": 1,
+      "message": "see comments on ps21 and ps24. Maybe add the essence of these comments as a comment in code as well for later reference.",
+      "parentUuid": "28d0f83a_d53b7cc4",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_7590280b",
         "filename": "lib/BUCK",
         "patchSetId": 45

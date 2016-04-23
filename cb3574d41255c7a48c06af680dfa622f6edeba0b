@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_19f36f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 46
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T09:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_f9d793dd",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_b9e11bb9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 46
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_98ff7947",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T09:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_b9e11bb9",
+      "range": {
+        "startLine": 62,
+        "startChar": 45,
+        "endLine": 62,
+        "endChar": 61
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_d9dcd702",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 46
@@ -59,6 +107,30 @@
       "writtenOn": "2016-04-23T08:23:51Z",
       "side": 1,
       "message": "Havn\u0027t we agreed to go with:\n\n  @Option(name \u003d \"--base\", ...)\n  private boolean base;\n\ninstead? See the discussion in the ps 21.",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d905f738",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T09:12:59Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure if we actually agreed.\n\nAlso when I do a search for similar cases in the project I find the current way is a common solution for boolean options. So I prefer keeping the setter to be consistent with the rest of the codebase.\n\nPlease let me know if you still want to change this and then I can update the review.",
+      "parentUuid": "48d52c29_d9dcd702",
       "range": {
         "startLine": 65,
         "startChar": 2,

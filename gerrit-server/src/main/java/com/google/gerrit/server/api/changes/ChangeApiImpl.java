@@ -59,7 +59,6 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
@@ -73,13 +72,13 @@ class ChangeApiImpl implements ChangeApi {
     ChangeApiImpl create(ChangeResource change);
   }
 
-  private final Provider<CurrentUser> user;
+  private final CurrentUser user;
   private final Changes changeApi;
   private final Reviewers reviewers;
   private final Revisions revisions;
   private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
-  private final Provider<SuggestChangeReviewers> suggestReviewers;
+  private final SuggestChangeReviewers suggestReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
   private final Revert revert;
@@ -101,13 +100,13 @@ class ChangeApiImpl implements ChangeApi {
   private final Move move;
 
   @Inject
-  ChangeApiImpl(Provider<CurrentUser> user,
+  ChangeApiImpl(CurrentUser user,
       Changes changeApi,
       Reviewers reviewers,
       Revisions revisions,
       ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
-      Provider<SuggestChangeReviewers> suggestReviewers,
+      SuggestChangeReviewers suggestReviewers,
       Abandon abandon,
       Revert revert,
       Restore restore,
@@ -325,10 +324,9 @@ class ChangeApiImpl implements ChangeApi {
   private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)
       throws RestApiException {
     try {
-      SuggestChangeReviewers mySuggestReviewers = suggestReviewers.get();
-      mySuggestReviewers.setQuery(r.getQuery());
-      mySuggestReviewers.setLimit(r.getLimit());
-      return mySuggestReviewers.apply(change);
+      suggestReviewers.setQuery(r.getQuery());
+      suggestReviewers.setLimit(r.getLimit());
+      return suggestReviewers.apply(change);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot retrieve suggested reviewers", e);
     }
@@ -338,9 +336,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo get(EnumSet<ListChangesOption> s)
       throws RestApiException {
     try {
-      CurrentUser u = user.get();
-      if (u.isIdentifiedUser()) {
-        u.asIdentifiedUser().clearStarredChanges();
+      if (user.isIdentifiedUser()) {
+        user.asIdentifiedUser().clearStarredChanges();
       }
       return changeJson.create(s).format(change);
     } catch (OrmException e) {

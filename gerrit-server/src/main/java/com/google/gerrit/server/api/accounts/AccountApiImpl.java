@@ -46,7 +46,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -63,7 +62,7 @@ public class AccountApiImpl implements AccountApi {
   private final AccountResource account;
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
-  private final Provider<GetAvatar> getAvatar;
+  private final GetAvatar getAvatar;
   private final GetPreferences getPreferences;
   private final SetPreferences setPreferences;
   private final GetDiffPreferences getDiffPreferences;
@@ -80,7 +79,7 @@ public class AccountApiImpl implements AccountApi {
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
       ChangesCollection changes,
-      Provider<GetAvatar> getAvatar,
+      GetAvatar getAvatar,
       GetPreferences getPreferences,
       SetPreferences setPreferences,
       GetDiffPreferences getDiffPreferences,
@@ -127,9 +126,8 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public String getAvatarUrl(int size) throws RestApiException {
-    GetAvatar myGetAvatar = getAvatar.get();
-    myGetAvatar.setSize(size);
-    return myGetAvatar.apply(account).location();
+    getAvatar.setSize(size);
+    return getAvatar.apply(account).location();
   }
 
   @Override

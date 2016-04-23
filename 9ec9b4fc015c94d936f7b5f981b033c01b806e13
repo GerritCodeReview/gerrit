@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4827ec98_a694a662",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-23T08:36:11Z",
+      "side": 1,
+      "message": "I find this phrase confusing. \"Published\" and \"Draft\" are kind of the opposite.\n\nInstead of having two buttons, what about making it a preference?",
+      "range": {
+        "startLine": 399,
+        "startChar": 25,
+        "endLine": 399,
+        "endChar": 43
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

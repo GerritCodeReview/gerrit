@@ -22,6 +22,30 @@
       "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_39f62b7a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T09:05:01Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not happy with this name, but button name: \"Publish Edit As Draft Patch Set\" is way to long. That why I added tooltip to explain what it\u0027s about. I also considered to add a label here:\n\n  \"Publish Edit as: \" \n\nfollowing by two buttons\n\n  \"Regular Patch Set\" | \"Draft Patch Set\"\n\nI also considered to rename \"Publish Draft\" button to \"Publish Draft ...\" and offer a popup dialog when it\u0027s clicked and render the checkbox: \"Publish as draft patch set\" that would be unchecked per default.\n\nI\u0027m not sure that a user option is right thing here, because it\u0027s something that should be easy changed per change edit base.",
+      "parentUuid": "4827ec98_a694a662",
+      "range": {
+        "startLine": 399,
+        "startChar": 25,
+        "endLine": 399,
+        "endChar": 43
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

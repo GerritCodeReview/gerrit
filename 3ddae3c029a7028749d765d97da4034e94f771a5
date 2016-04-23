@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_f8d78ddd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T05:24:29Z",
+      "side": 1,
+      "message": "This is a big object:\n\n  public class CommitInfo {\n    public String commit;\n    public List\u003cCommitInfo\u003e parents;\n    public GitPerson author;\n    public GitPerson committer;\n    public String subject;\n    public String message;\n    public List\u003cWebLinkInfo\u003e webLinks;\n  }\n\nAll you need here is message and commit. See also comment below to my suggestion to prepare revert message in revert confirmation dialog.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 8
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_385d0550",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T05:24:29Z",
+      "side": 1,
+      "message": "This else branch on key is slightly confusing as it\u0027s added to if statement on action type. There are exactly two action types: change|revision and different REST handler keys. With the current code I would expect the statement to be:\n\n  if (type \u003d\u003d\u003d ActionType.REVISION) {\n    if (key \u003d\u003d\u003d RevisionActions.REBASE) {\n    [...]\n  } else {\n    // change action type\n    if (key \u003d\u003d\u003d ChangeActions.REVERT) {\n      this._showActionDialog(this.$.confirmRevertDialog);\n      return;\n    } else {\n      this._fireAction(this._prependSlash(key), this.actions[key], false);\n    }\n  }",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_5977a7d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T05:24:29Z",
+      "side": 1,
+      "message": "This is wrong place to change the commit message to revert commit message. This is cherry-pick commit message.",
+      "range": {
+        "startLine": 217,
+        "startChar": 19,
+        "endLine": 217,
+        "endChar": 25
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_185a4958",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T05:24:29Z",
+      "side": 1,
+      "message": "Here you could change to revert commit message.",
+      "range": {
+        "startLine": 237,
+        "startChar": 19,
+        "endLine": 237,
+        "endChar": 25
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_19812fee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T05:24:29Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 14
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_3984ebfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T05:24:29Z",
+      "side": 1,
+      "message": "It\u0027s done for every change that is opened in the change screen, even though only tiny number of changes are going to be reverted. Why not to pass in the original commit message and revision to the confirm dialog and do it there?",
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

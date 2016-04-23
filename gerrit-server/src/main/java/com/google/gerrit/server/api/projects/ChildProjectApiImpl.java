@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ChildProjectResource;
 import com.google.gerrit.server.project.GetChildProject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -28,14 +27,14 @@ public class ChildProjectApiImpl implements ChildProjectApi {
     ChildProjectApiImpl create(ChildProjectResource rsrc);
   }
 
-  private final Provider<GetChildProject> getProvider;
+  private final GetChildProject getChildProject;
   private final ChildProjectResource rsrc;
 
   @AssistedInject
   ChildProjectApiImpl(
-      Provider<GetChildProject> getProvider,
+      GetChildProject getChildProject,
       @Assisted ChildProjectResource rsrc) {
-    this.getProvider = getProvider;
+    this.getChildProject = getChildProject;
     this.rsrc = rsrc;
   }
 
@@ -46,8 +45,7 @@ public class ChildProjectApiImpl implements ChildProjectApi {
 
   @Override
   public ProjectInfo get(boolean recursive) throws RestApiException {
-    GetChildProject get = getProvider.get();
-    get.setRecursive(recursive);
-    return get.apply(rsrc);
+    getChildProject.setRecursive(recursive);
+    return getChildProject.apply(rsrc);
   }
 }

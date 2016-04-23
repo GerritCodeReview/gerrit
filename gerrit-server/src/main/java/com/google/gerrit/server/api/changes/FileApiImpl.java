@@ -25,7 +25,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
@@ -36,12 +35,12 @@ class FileApiImpl implements FileApi {
   }
 
   private final GetContent getContent;
-  private final Provider<GetDiff> getDiff;
+  private final GetDiff getDiff;
   private final FileResource file;
 
   @Inject
   FileApiImpl(GetContent getContent,
-      Provider<GetDiff> getDiff,
+      GetDiff getDiff,
       @Assisted FileResource file) {
     this.getContent = getContent;
     this.getDiff = getDiff;
@@ -60,7 +59,7 @@ class FileApiImpl implements FileApi {
   @Override
   public DiffInfo diff() throws RestApiException {
     try {
-      return getDiff.get().apply(file).value();
+      return getDiff.apply(file).value();
     } catch (IOException | InvalidChangeOperationException | OrmException e) {
       throw new RestApiException("Cannot retrieve diff", e);
     }
@@ -69,7 +68,7 @@ class FileApiImpl implements FileApi {
   @Override
   public DiffInfo diff(String base) throws RestApiException {
     try {
-      return getDiff.get().setBase(base).apply(file).value();
+      return getDiff.setBase(base).apply(file).value();
     } catch (IOException | InvalidChangeOperationException | OrmException e) {
       throw new RestApiException("Cannot retrieve diff", e);
     }
@@ -86,21 +85,20 @@ class FileApiImpl implements FileApi {
   }
 
   private DiffInfo get(DiffRequest r) throws RestApiException {
-    GetDiff diff = getDiff.get();
     if (r.getBase() != null) {
-      diff.setBase(r.getBase());
+      getDiff.setBase(r.getBase());
     }
     if (r.getContext() != null) {
-      diff.setContext(r.getContext());
+      getDiff.setContext(r.getContext());
     }
     if (r.getIntraline() != null) {
-      diff.setIntraline(r.getIntraline());
+      getDiff.setIntraline(r.getIntraline());
     }
     if (r.getWhitespace() != null) {
-      diff.setWhitespace(r.getWhitespace());
+      getDiff.setWhitespace(r.getWhitespace());
     }
     try {
-      return diff.apply(file).value();
+      return getDiff.apply(file).value();
     } catch (IOException | InvalidChangeOperationException | OrmException e) {
       throw new RestApiException("Cannot retrieve diff", e);
     }

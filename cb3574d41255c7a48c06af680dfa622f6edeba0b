@@ -140,6 +140,30 @@
       "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_5912077c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T10:18:59Z",
+      "side": 1,
+      "message": "\u003e Also when I do a search for similar cases in the project I find the current way is a common solution for boolean options.\n\nI don\u0027t see that the majority of places in the code base use this pattern: \n\n  $ git grep -1 @Option | grep boolean | wc -l\n  101\n  $ git grep -1 @Option | grep boolean | grep SuppressWarnings | wc -l\n  15\n\nAnd if the search is restricted to gerrit-server project where this REST handler is added, then there is exactly 0 suppress warning places (from 26 boolean options) related to boolean @Option pattern:\n\n  $ git grep -1 @Option gerrit-server | grep boolean | wc -l\n  26\n  $ git grep -1 @Option gerrit-server | grep boolean | grep SuppressWarnings  | wc -l\n  0\n\nAs discussed in ps 21, the most cases with this pattern are in SSH command code where both --foo and --non-foo options are offered. This doesn\u0027t apply here.\n\nSee for example very recent added REST handler with the same approach for boolean args4j @Option: [1].\n\n \u003e Please let me know if you still want to change this and then I can update the review.\n\nI would still prefer to simplify the code and reduce the visual noise here.\n\n* [1] https://gerrit-review.googlesource.com/#/c/72312/4/gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/GetMetric.java@28",
+      "parentUuid": "48d52c29_d905f738",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

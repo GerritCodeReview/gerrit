@@ -42,7 +42,6 @@ import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.PutDescription;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -57,8 +56,8 @@ public class ProjectApiImpl implements ProjectApi {
     ProjectApiImpl create(String name);
   }
 
-  private final Provider<CurrentUser> user;
-  private final Provider<CreateProject.Factory> createProjectFactory;
+  private final CurrentUser user;
+  private final CreateProject.Factory createProjectFactory;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
   private final GetDescription getDescription;
@@ -70,12 +69,12 @@ public class ProjectApiImpl implements ProjectApi {
   private final String name;
   private final BranchApiImpl.Factory branchApi;
   private final TagApiImpl.Factory tagApi;
-  private final Provider<ListBranches> listBranchesProvider;
-  private final Provider<ListTags> listTagsProvider;
+  private final ListBranches listBranches;
+  private final ListTags listTags;
 
   @AssistedInject
-  ProjectApiImpl(Provider<CurrentUser> user,
-      Provider<CreateProject.Factory> createProjectFactory,
+  ProjectApiImpl(CurrentUser user,
+      CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -85,17 +84,17 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
-      Provider<ListBranches> listBranchesProvider,
-      Provider<ListTags> listTagsProvider,
+      ListBranches listBranches,
+      ListTags listTags,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, listBranchesProvider, listTagsProvider, project, null);
+        tagApiFactory, listBranches, listTags, project, null);
   }
 
   @AssistedInject
-  ProjectApiImpl(Provider<CurrentUser> user,
-      Provider<CreateProject.Factory> createProjectFactory,
+  ProjectApiImpl(CurrentUser user,
+      CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -105,16 +104,16 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
-      Provider<ListBranches> listBranchesProvider,
-      Provider<ListTags> listTagsProvider,
+      ListBranches listBranches,
+      ListTags listTags,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, listBranchesProvider, listTagsProvider, null, name);
+        tagApiFactory, listBranches, listTags, null, name);
   }
 
-  private ProjectApiImpl(Provider<CurrentUser> user,
-      Provider<CreateProject.Factory> createProjectFactory,
+  private ProjectApiImpl(CurrentUser user,
+      CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -124,8 +123,8 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
-      Provider<ListBranches> listBranchesProvider,
-      Provider<ListTags> listTagsProvider,
+      ListBranches listBranches,
+      ListTags listTags,
       ProjectResource project,
       String name) {
     this.user = user;
@@ -141,8 +140,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.name = name;
     this.branchApi = branchApiFactory;
     this.tagApi = tagApiFactory;
-    this.listBranchesProvider = listBranchesProvider;
-    this.listTagsProvider = listTagsProvider;
+    this.listBranches = listBranches;
+    this.listTags = listTags;
   }
 
   @Override
@@ -160,7 +159,7 @@ public class ProjectApiImpl implements ProjectApi {
         throw new BadRequestException("name must match input.name");
       }
       checkRequiresCapability(user, null, CreateProject.class);
-      createProjectFactory.get().create(name)
+      createProjectFactory.create(name)
           .apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
     } catch (IOException | ConfigInvalidException e) {
@@ -203,13 +202,12 @@ public class ProjectApiImpl implements ProjectApi {
 
   private List<BranchInfo> listBranches(ListRefsRequest<BranchInfo> request)
       throws RestApiException {
-    ListBranches list = listBranchesProvider.get();
-    list.setLimit(request.getLimit());
-    list.setStart(request.getStart());
-    list.setMatchSubstring(request.getSubstring());
-    list.setMatchRegex(request.getRegex());
+    listBranches.setLimit(request.getLimit());
+    listBranches.setStart(request.getStart());
+    listBranches.setMatchSubstring(request.getSubstring());
+    listBranches.setMatchRegex(request.getRegex());
     try {
-      return list.apply(checkExists());
+      return listBranches.apply(checkExists());
     } catch (IOException e) {
       throw new RestApiException("Cannot list branches", e);
     }
@@ -227,13 +225,12 @@ public class ProjectApiImpl implements ProjectApi {
 
   private List<TagInfo> listTags(ListRefsRequest<TagInfo> request)
       throws RestApiException {
-    ListTags list = listTagsProvider.get();
-    list.setLimit(request.getLimit());
-    list.setStart(request.getStart());
-    list.setMatchSubstring(request.getSubstring());
-    list.setMatchRegex(request.getRegex());
+    listTags.setLimit(request.getLimit());
+    listTags.setStart(request.getStart());
+    listTags.setMatchSubstring(request.getSubstring());
+    listTags.setMatchRegex(request.getRegex());
     try {
-      return list.apply(checkExists());
+      return listTags.apply(checkExists());
     } catch (IOException e) {
       throw new RestApiException("Cannot list tags", e);
     }

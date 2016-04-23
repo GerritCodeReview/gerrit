@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "c833dcd5_0ad65b0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-23T09:45:11Z",
+      "side": 1,
+      "message": "Could you explain the current behavior more clearly? Is it true that \"Publish Edit\" creates a published patch set for a NEW change, but draft patch set for a DRAFT change?",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_e69e9e7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-23T09:45:11Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand this sentence. What is a \"change edit message\", and what was the workflow?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_06a49acb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-23T09:45:11Z",
+      "side": 1,
+      "message": "This phrase might be well understood by a Gerrit developer, but I suspect it will sound unfamiliar to a regular Gerrit user. I think the title can just be \"Publish change edit as a new patch set\".",
+      "range": {
+        "startLine": 391,
+        "startChar": 44,
+        "endLine": 391,
+        "endChar": 61
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4827ec98_a694a662",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
         "patchSetId": 1
@@ -37,6 +106,30 @@
       "side": 1,
       "message": "Yeah, I\u0027m not happy with this name, but button name: \"Publish Edit As Draft Patch Set\" is way to long. That why I added tooltip to explain what it\u0027s about. I also considered to add a label here:\n\n  \"Publish Edit as: \" \n\nfollowing by two buttons\n\n  \"Regular Patch Set\" | \"Draft Patch Set\"\n\nI also considered to rename \"Publish Draft\" button to \"Publish Draft ...\" and offer a popup dialog when it\u0027s clicked and render the checkbox: \"Publish as draft patch set\" that would be unchecked per default.\n\nI\u0027m not sure that a user option is right thing here, because it\u0027s something that should be easy changed per change edit base.",
       "parentUuid": "4827ec98_a694a662",
+      "range": {
+        "startLine": 399,
+        "startChar": 25,
+        "endLine": 399,
+        "endChar": 43
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c833dcd5_eaf027b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-23T09:45:11Z",
+      "side": 1,
+      "message": "I think having two buttons is fine, as long as the text is clear and different enough.\n\nWhat about \"Save Draft\", and change the title to \"Save change edit as a draft patch set\"?\n\nWhen I said \"making it a preference\", I was thinking of adding a CheckBox next to the \"Publish Edit\" button with the text \"As Draft\" and making the default value optional. On second thought that\u0027s not as clean as having two buttons.",
+      "parentUuid": "48d52c29_39f62b7a",
       "range": {
         "startLine": 399,
         "startChar": 25,

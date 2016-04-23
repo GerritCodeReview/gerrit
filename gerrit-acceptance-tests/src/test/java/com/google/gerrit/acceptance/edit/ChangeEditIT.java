@@ -153,13 +153,33 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
             RawInputUtil.create(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
-    editUtil.publish(editUtil.byChange(change).get());
+    editUtil.publish(editUtil.byChange(change).get(), false);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
             "Patch Set 3: Published edit on patch set 2."));
+    PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId);
+    assertThat(newCurrentPatchSet.isDraft()).isFalse();
+  }
+
+  @Test
+  public void publishEditAsDraft() throws Exception {
+    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+        .isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RawInputUtil.create(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
+    editUtil.publish(editUtil.byChange(change).get(), true);
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertThat(edit.isPresent()).isFalse();
+    assertChangeMessages(change,
+        ImmutableList.of("Uploaded patch set 1.",
+            "Uploaded patch set 2.",
+            "Patch Set 3: Published edit on patch set 2."));
+    PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId);
+    assertThat(newCurrentPatchSet.isDraft()).isTrue();
   }
 
   @Test
@@ -346,7 +366,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
 
-    editUtil.publish(edit.get());
+    editUtil.publish(edit.get(), false);
     assertThat(editUtil.byChange(change).isPresent()).isFalse();
 
     ChangeInfo info = get(changeId, ListChangesOption.CURRENT_COMMIT,
@@ -380,7 +400,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
-    editUtil.publish(edit.get());
+    editUtil.publish(edit.get(), false);
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
@@ -678,7 +698,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.modifyMessage(edit.get(), newMsg))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    editUtil.publish(edit.get());
+    editUtil.publish(edit.get(), false);
 
     ChangeInfo info = get(changeId);
     assertThat(info.subject).isEqualTo(newSubj);
@@ -705,7 +725,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(editUtil.byChange(change).get());
     assertThat(queryEdits()).hasSize(1);
 
-    editUtil.publish(editUtil.byChange(change2).get());
+    editUtil.publish(editUtil.byChange(change2).get(), false);
     assertThat(queryEdits()).hasSize(0);
 
     setApiUser(user);

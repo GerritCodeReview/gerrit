@@ -205,6 +205,7 @@ public class ChangeScreen extends Screen {
   @UiField Button download;
   @UiField Button reply;
   @UiField Button publishEdit;
+  @UiField Button publishEditDraft;
   @UiField Button rebaseEdit;
   @UiField Button deleteEdit;
   @UiField Button publish;
@@ -580,6 +581,9 @@ public class ChangeScreen extends Screen {
       if (rev.isEdit()) {
         if (info.hasEditBasedOnCurrentPatchSet()) {
           publishEdit.setVisible(true);
+          if (Gerrit.info().change().allowDrafts()) {
+            publishEditDraft.setVisible(true);
+          }
         } else {
           rebaseEdit.setVisible(true);
         }
@@ -601,7 +605,12 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publishEdit")
   void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.publishEdit(changeId);
+    EditActions.publishEdit(changeId, false);
+  }
+
+  @UiHandler("publishEditDraft")
+  void publishEditDraft(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.publishEdit(changeId, true);
   }
 
   @UiHandler("rebaseEdit")

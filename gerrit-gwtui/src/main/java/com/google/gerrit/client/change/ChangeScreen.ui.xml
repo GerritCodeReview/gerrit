@@ -387,8 +387,16 @@ limitations under the License.
             <ui:attribute name='title'/>
           </c:QuickApprove>
           <g:Button ui:field='publishEdit'
-              styleName='{style.highlight}' visible='false'>
+              styleName='{style.highlight}' visible='false'
+              title='Publish change edit as regular patch set'>
+              <ui:attribute name='title'/>
             <div><ui:msg>Publish Edit</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='publishEditDraft'
+              styleName='{style.highlight}' visible='false'
+              title='Publish change edit as draft patch set'>
+              <ui:attribute name='title'/>
+            <div><ui:msg>Publish Edit Draft</ui:msg></div>
           </g:Button>
           <g:Button ui:field='rebaseEdit'
               styleName='{style.highlight}' visible='false'>

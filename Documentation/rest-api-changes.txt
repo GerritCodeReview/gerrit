@@ -2052,11 +2052,19 @@ Alternatively, if the only value of the Accept request header is
 'POST /changes/link:#change-id[\{change-id\}]/edit:publish
 --
 
-Promotes change edit to a regular patch set.
+Promotes change edit to a regular or draft patch set.
+
+The draft flag is provided in the request body as a
+link:#publish-edit-input[PublishEditInput] entity.
 
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:publish HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "draft": false
+  }
 ----
 
 As response "`204 No Content`" is returned.
@@ -4000,6 +4008,18 @@ the commit message within a change edit.
 |===========================
 |Field Name    ||Description
 |`message`     ||New commit message.
+|===========================
+
+[[publish-edit-input]]
+=== PublishEditInput
+The `PublishEditInput` entity contains information for publishing a
+change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`draft`       |`false` if not set|
+Whether edit is published as a regular or draft patch set.
 |===========================
 
 [[change-info]]

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_f96e73ff",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4433,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T08:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_56609407",
+      "range": {
+        "startLine": 4433,
+        "startChar": 0,
+        "endLine": 4433,
+        "endChar": 13
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_9594e430",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 45
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-20T11:35:23Z",
       "side": 1,
       "message": "All current entity names end with \u0027Info\u0027. The new names should be consistent with this naming pattern. Also the difference between \u0027Blame\u0027 and \u0027BlameInfo\u0027 is not clear when you just look at the names.",
+      "range": {
+        "startLine": 4443,
+        "startChar": 4,
+        "endLine": 4443,
+        "endChar": 9
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d973b7e5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4443,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T08:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_9594e430",
       "range": {
         "startLine": 4443,
         "startChar": 4,
@@ -191,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_b968fbf2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4456,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T08:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_3517502b",
+      "range": {
+        "startLine": 4456,
+        "startChar": 4,
+        "endLine": 4456,
+        "endChar": 8
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_76639016",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 45
@@ -250,6 +322,30 @@
       "side": 1,
       "message": "I would prefer RangeInfo, this entity contains nothing which is specific to blame and it could be reused in other contexts.",
       "parentUuid": "28d0f83a_f5a9d858",
+      "range": {
+        "startLine": 4469,
+        "startChar": 4,
+        "endLine": 4469,
+        "endChar": 10
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_78ec9dab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 4469,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T08:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_b6e92860",
       "range": {
         "startLine": 4469,
         "startChar": 4,
@@ -333,6 +429,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_395d0b50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T08:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_36751805",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_7590280b",
         "filename": "lib/BUCK",
         "patchSetId": 45
@@ -344,6 +464,30 @@
       "writtenOn": "2016-04-20T21:54:10Z",
       "side": 1,
       "message": "Why are we adding the wrong dependency here and causing breakage of gitiles-plugin with this commit? I would prefer to use blame-cache already in this change. At very least, this should be mentioned in the commit message: \"We are doing it wrong, because ...\".",
+      "range": {
+        "startLine": 266,
+        "startChar": 10,
+        "endLine": 266,
+        "endChar": 25
+      },
+      "revId": "fac9d12bc1a50db842fa52771ce012dd9adaf69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_18f3698a",
+        "filename": "lib/BUCK",
+        "patchSetId": 45
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T08:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_7590280b",
       "range": {
         "startLine": 266,
         "startChar": 10,

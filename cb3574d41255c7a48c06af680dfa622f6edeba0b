@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_f9d793dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 46
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T08:23:51Z",
+      "side": 1,
+      "message": "Latest patch set added dependency on blame-cache.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_b9e11bb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T08:23:51Z",
+      "side": 1,
+      "message": "This wasn\u0027t adressed yet. See my comment on ps 21: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/72798/21/gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java@79",
+      "range": {
+        "startLine": 62,
+        "startChar": 45,
+        "endLine": 62,
+        "endChar": 61
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d9dcd702",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-23T08:23:51Z",
+      "side": 1,
+      "message": "Havn\u0027t we agreed to go with:\n\n  @Option(name \u003d \"--base\", ...)\n  private boolean base;\n\ninstead? See the discussion in the ps 21.",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

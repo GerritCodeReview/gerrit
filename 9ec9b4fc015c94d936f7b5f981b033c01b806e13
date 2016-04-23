@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c833dcd5_4ae053df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-23T21:20:31Z",
+      "side": 1,
+      "message": "Thanks for the explanation.",
+      "parentUuid": "28d0f83a_f8a9cd58",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "9ec9b4fc015c94d936f7b5f981b033c01b806e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4827ec98_06a49acb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
         "patchSetId": 1

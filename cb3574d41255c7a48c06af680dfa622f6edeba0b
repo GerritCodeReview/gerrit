@@ -164,6 +164,30 @@
       "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_99b89fa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-23T19:39:54Z",
+      "side": 1,
+      "message": "I\u0027ve pushed a patch to fix this but I think your referenced stats is not correct.",
+      "parentUuid": "48d52c29_5912077c",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "cb3574d41255c7a48c06af680dfa622f6edeba0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

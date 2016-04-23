@@ -168,14 +168,14 @@ public class ChangeEditUtil {
    * its parent.
    *
    * @param edit change edit to publish
+   * @param draft publish edit as draft patch set
    * @throws NoSuchProjectException
    * @throws IOException
-   * @throws OrmException
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(ChangeEdit edit) throws NoSuchProjectException,
-      IOException, OrmException, RestApiException, UpdateException {
+  public void publish(ChangeEdit edit, boolean draft) throws NoSuchProjectException,
+      IOException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
@@ -187,7 +187,7 @@ public class ChangeEditUtil {
       }
 
       Change updatedChange =
-          insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
+          insertPatchSet(edit, draft, change, repo, rw, inserter, basePatchSet,
               squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
       // TODO(davido): This should happen in the same BatchRefUpdate.
       deleteRef(repo, edit);
@@ -235,7 +235,7 @@ public class ChangeEditUtil {
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
 
-  private Change insertPatchSet(ChangeEdit edit, Change change,
+  private Change insertPatchSet(ChangeEdit edit, boolean draft, Change change,
       Repository repo, RevWalk rw, ObjectInserter oi, PatchSet basePatchSet,
       RevCommit squashed) throws NoSuchProjectException, RestApiException,
       UpdateException, IOException {
@@ -269,7 +269,7 @@ public class ChangeEditUtil {
       bu.setRepository(repo, rw, oi);
       bu.addOp(change.getId(), inserter
         .setDraft(change.getStatus() == Status.DRAFT ||
-            basePatchSet.isDraft())
+            basePatchSet.isDraft() || draft)
         .setMessage(message.toString()));
       bu.execute();
     }

@@ -73,6 +73,7 @@ public class PublishChangeEdit implements
   @Singleton
   public static class Publish implements RestModifyView<ChangeResource, Publish.Input> {
     public static class Input {
+      boolean draft;
     }
 
     private final ChangeEditUtil editUtil;
@@ -98,7 +99,7 @@ public class PublishChangeEdit implements
             "no edit exists for change %s",
             rsrc.getChange().getChangeId()));
       }
-      editUtil.publish(edit.get());
+      editUtil.publish(edit.get(), in.draft);
       return Response.none();
     }
   }

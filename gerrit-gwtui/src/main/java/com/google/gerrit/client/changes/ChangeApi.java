@@ -218,8 +218,10 @@ public class ChangeApi {
   }
 
   /** Publish change edit. */
-  public static void publishEdit(int id, AsyncCallback<JavaScriptObject> cb) {
-    JavaScriptObject in = JavaScriptObject.createObject();
+  public static void publishEdit(int id, boolean draft,
+      AsyncCallback<JavaScriptObject> cb) {
+    PublishEditInput in = PublishEditInput.create();
+    in.setDraft(draft);
     change(id).view("edit:publish").post(in, cb);
   }
 
@@ -283,6 +285,17 @@ public class ChangeApi {
     }
 
     protected RebaseInput() {
+    }
+  }
+
+  private static class PublishEditInput extends JavaScriptObject {
+    final native void setDraft(boolean d) /*-{ this.draft = d; }-*/;
+
+    static PublishEditInput create() {
+      return (PublishEditInput) createObject();
+    }
+
+    protected PublishEditInput() {
     }
   }
 

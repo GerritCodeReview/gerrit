@@ -27,8 +27,8 @@ public class EditActions {
     ChangeApi.deleteEdit(id.get(), cs(id));
   }
 
-  static void publishEdit(Change.Id id) {
-    ChangeApi.publishEdit(id.get(), cs(id));
+  static void publishEdit(Change.Id id, boolean draft) {
+    ChangeApi.publishEdit(id.get(), draft, cs(id));
   }
 
   static void rebaseEdit(Change.Id id) {

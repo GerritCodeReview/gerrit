@@ -116,11 +116,14 @@ button.
 [[publish-change-edit]]
 
 When a change edit is based on the current patch set, it can be published. By
-publishing a change edit it is promoted to a regular patch set. The special ref
-that represents the change edit is deleted on publish. To publish a change edit
-click on the "Publish Edit" button. This button is only shown when the change
-edit is based on the current patch set. Otherwise the change edit must first be
-rebased onto the current patch set.
+publishing a change edit it is promoted to a regular patch set. Alternatively
+change edit can be published as draft patch set. This way reviewers can be
+added to draft patch set. The special ref that represents the change edit is
+deleted on publish. To publish a change edit as regular patch set click on the
+"Publish Edit" button. To publish a change edit as draft patch set, click on
+the "Publish Edit Draft" button. These buttons are only shown when the change
+edit is based on the current patch set. Otherwise the change edit must first
+be rebased onto the current patch set.
 
 [[rebase-change-edit]]
 

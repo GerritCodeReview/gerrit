@@ -62,7 +62,6 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Repository;
@@ -89,11 +88,11 @@ class RevisionApiImpl implements RevisionApi {
   private final Reviewed.PutReviewed putReviewed;
   private final Reviewed.DeleteReviewed deleteReviewed;
   private final RevisionResource revision;
-  private final Provider<Files> files;
-  private final Provider<Files.ListFiles> listFiles;
-  private final Provider<GetPatch> getPatch;
-  private final Provider<PostReview> review;
-  private final Provider<Mergeable> mergeable;
+  private final Files files;
+  private final Files.ListFiles listFiles;
+  private final GetPatch getPatch;
+  private final PostReview review;
+  private final Mergeable mergeable;
   private final FileApiImpl.Factory fileApi;
   private final ListRevisionComments listComments;
   private final ListRevisionDrafts listDrafts;
@@ -103,7 +102,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Comments comments;
   private final CommentApiImpl.Factory commentFactory;
   private final GetRevisionActions revisionActions;
-  private final Provider<TestSubmitType> testSubmitType;
+  private final TestSubmitType testSubmitType;
   private final TestSubmitType.Get getSubmitType;
 
   @Inject
@@ -117,11 +116,11 @@ class RevisionApiImpl implements RevisionApi {
       PublishDraftPatchSet publish,
       Reviewed.PutReviewed putReviewed,
       Reviewed.DeleteReviewed deleteReviewed,
-      Provider<Files> files,
-      Provider<Files.ListFiles> listFiles,
-      Provider<GetPatch> getPatch,
-      Provider<PostReview> review,
-      Provider<Mergeable> mergeable,
+      Files files,
+      Files.ListFiles listFiles,
+      GetPatch getPatch,
+      PostReview review,
+      Mergeable mergeable,
       FileApiImpl.Factory fileApi,
       ListRevisionComments listComments,
       ListRevisionDrafts listDrafts,
@@ -131,7 +130,7 @@ class RevisionApiImpl implements RevisionApi {
       Comments comments,
       CommentApiImpl.Factory commentFactory,
       GetRevisionActions revisionActions,
-      Provider<TestSubmitType> testSubmitType,
+      TestSubmitType testSubmitType,
       TestSubmitType.Get getSubmitType,
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
@@ -166,7 +165,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public void review(ReviewInput in) throws RestApiException {
     try {
-      review.get().apply(revision, in);
+      review.apply(revision, in);
     } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot post review", e);
     }
@@ -251,7 +250,7 @@ class RevisionApiImpl implements RevisionApi {
         view = deleteReviewed;
       }
       view.apply(
-          files.get().parse(revision, IdString.fromDecoded(path)),
+          files.parse(revision, IdString.fromDecoded(path)),
           new Reviewed.Input());
     } catch (Exception e) {
       throw new RestApiException("Cannot update reviewed flag", e);
@@ -263,7 +262,7 @@ class RevisionApiImpl implements RevisionApi {
   public Set<String> reviewed() throws RestApiException {
     try {
       return ImmutableSet.copyOf((Iterable<String>) listFiles
-          .get().setReviewed(true)
+          .setReviewed(true)
           .apply(revision).value());
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot list reviewed files", e);
@@ -273,7 +272,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public MergeableInfo mergeable() throws RestApiException {
     try {
-      return mergeable.get().apply(revision);
+      return mergeable.apply(revision);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot check mergeability", e);
     }
@@ -282,9 +281,8 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public MergeableInfo mergeableOtherBranches() throws RestApiException {
     try {
-      Mergeable m = mergeable.get();
-      m.setOtherBranches(true);
-      return m.apply(revision);
+      mergeable.setOtherBranches(true);
+      return mergeable.apply(revision);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot check mergeability", e);
     }
@@ -294,7 +292,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, FileInfo> files() throws RestApiException {
     try {
-      return (Map<String, FileInfo>)listFiles.get().apply(revision).value();
+      return (Map<String, FileInfo>)listFiles.apply(revision).value();
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
@@ -304,7 +302,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, FileInfo> files(String base) throws RestApiException {
     try {
-      return (Map<String, FileInfo>) listFiles.get().setBase(base)
+      return (Map<String, FileInfo>) listFiles.setBase(base)
           .apply(revision).value();
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot retrieve files", e);
@@ -313,7 +311,7 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public FileApi file(String path) {
-    return fileApi.create(files.get().parse(revision,
+    return fileApi.create(files.parse(revision,
         IdString.fromDecoded(path)));
   }
 
@@ -389,7 +387,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public BinaryResult patch() throws RestApiException {
     try {
-      return getPatch.get().apply(revision);
+      return getPatch.apply(revision);
     } catch (IOException e) {
       throw new RestApiException("Cannot get patch", e);
     }
@@ -413,7 +411,7 @@ class RevisionApiImpl implements RevisionApi {
   public SubmitType testSubmitType(TestSubmitRuleInput in)
       throws RestApiException {
     try {
-      return testSubmitType.get().apply(revision, in);
+      return testSubmitType.apply(revision, in);
     } catch (OrmException e) {
       throw new RestApiException("Cannot test submit type", e);
     }

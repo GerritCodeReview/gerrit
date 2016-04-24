@@ -57,7 +57,7 @@ abstract class CommentBox extends Composite {
   CommentBox(CommentGroup group, CommentRange range) {
     this.group = group;
     if (range != null) {
-      DiffScreen screen = group.getManager().getDiffScreen();
+      DiffScreen screen = group.getManager().host;
       int startCmLine =
           screen.getCmLine(range.startLine() - 1, group.getSide());
       int endCmLine = screen.getCmLine(range.endLine() - 1, group.getSide());

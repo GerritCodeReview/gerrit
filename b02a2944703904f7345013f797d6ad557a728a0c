@@ -163,6 +163,30 @@
       "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_9963ffe6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-24T07:29:20Z",
+      "side": 1,
+      "message": "OK, but when we duplicate this way distinguishing between side-by-side and unified, dedicated method in DiffScreen would be cleaner.",
+      "parentUuid": "c833dcd5_aa38ef21",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 74
+      },
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

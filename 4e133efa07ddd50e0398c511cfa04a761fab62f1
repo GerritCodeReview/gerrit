@@ -46,6 +46,30 @@
       "revId": "4e133efa07ddd50e0398c511cfa04a761fab62f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_c6eb62c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T13:31:44Z",
+      "side": 1,
+      "message": "Actually getSkipManager() / setSkipManager() isn\u0027t needed any more. I just removed them in PS9.",
+      "parentUuid": "28d0f83a_d83bb1c4",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 55
+      },
+      "revId": "4e133efa07ddd50e0398c511cfa04a761fab62f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

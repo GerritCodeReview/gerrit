@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "c833dcd5_8a332b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T07:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_399aab29",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_e6b77ef6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T07:05:38Z",
+      "side": 1,
+      "message": "If you prefer to merge this, the other change can be abandoned. That one has only adds six cm.refresh() lines, and the files are to be removed in this change.",
+      "parentUuid": "28d0f83a_9863f9e6",
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_598d67f1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
         "patchSetId": 4
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "4827ec98_06cd7a83",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T07:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_598d67f1",
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_b85eb51e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
         "patchSetId": 4
@@ -70,6 +130,30 @@
       "writtenOn": "2016-04-24T06:40:54Z",
       "side": 1,
       "message": "Optional: Add a method to DiffScreen isSideBySide().",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 74
+      },
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c833dcd5_aa38ef21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T07:05:38Z",
+      "side": 1,
+      "message": "I feel that will be too much code (one abstract method in DiffScreen, and two implementations in Unified / SideBySide). I\u0027d like to keep it the current way.",
+      "parentUuid": "28d0f83a_b85eb51e",
       "range": {
         "startLine": 78,
         "startChar": 29,

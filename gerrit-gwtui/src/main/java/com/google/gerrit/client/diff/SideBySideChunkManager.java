@@ -105,8 +105,6 @@ class SideBySideChunkManager extends ChunkManager {
   void render(DiffInfo diff) {
     super.render();
 
-    LineMapper mapper = getLineMapper();
-
     chunks = new ArrayList<>();
     padding = new ArrayList<>();
     paddingDivs = new ArrayList<>();
@@ -117,11 +115,11 @@ class SideBySideChunkManager extends ChunkManager {
 
     for (Region current : Natives.asList(diff.content())) {
       if (current.ab() != null) {
-        mapper.appendCommon(current.ab().length());
+        lineMapper.appendCommon(current.ab().length());
       } else if (current.skip() > 0) {
-        mapper.appendCommon(current.skip());
+        lineMapper.appendCommon(current.skip());
       } else if (current.common()) {
-        mapper.appendCommon(current.b().length());
+        lineMapper.appendCommon(current.b().length());
       } else {
         render(current, diffColor);
       }
@@ -148,10 +146,8 @@ class SideBySideChunkManager extends ChunkManager {
   }
 
   private void render(Region region, String diffColor) {
-    LineMapper mapper = getLineMapper();
-
-    int startA = mapper.getLineA();
-    int startB = mapper.getLineB();
+    int startA = lineMapper.getLineA();
+    int startB = lineMapper.getLineB();
 
     JsArrayString a = region.a();
     JsArrayString b = region.b();
@@ -169,10 +165,10 @@ class SideBySideChunkManager extends ChunkManager {
     addPadding(cmA, startA + aLen - 1, bLen - aLen);
     addPadding(cmB, startB + bLen - 1, aLen - bLen);
     addGutterTag(region, startA, startB);
-    mapper.appendReplace(aLen, bLen);
+    lineMapper.appendReplace(aLen, bLen);
 
-    int endA = mapper.getLineA() - 1;
-    int endB = mapper.getLineB() - 1;
+    int endA = lineMapper.getLineA() - 1;
+    int endB = lineMapper.getLineB() - 1;
     if (aLen > 0) {
       addDiffChunk(cmB, endB, endA, aLen, bLen > 0);
     }
@@ -182,7 +178,6 @@ class SideBySideChunkManager extends ChunkManager {
   }
 
   private void addGutterTag(Region region, int startA, int startB) {
-    Scrollbar scrollbar = getScrollbar();
     if (region.a() == null) {
       scrollbar.insert(cmB, startB, region.b().length());
     } else if (region.b() == null) {

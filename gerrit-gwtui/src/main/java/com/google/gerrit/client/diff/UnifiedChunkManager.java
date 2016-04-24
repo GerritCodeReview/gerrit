@@ -83,29 +83,27 @@ class UnifiedChunkManager extends ChunkManager {
   void render(DiffInfo diff) {
     super.render();
 
-    LineMapper mapper = getLineMapper();
-
     chunks = new ArrayList<>();
 
     int cmLine = 0;
     boolean useIntralineBg = diff.metaA() == null || diff.metaB() == null;
 
     for (Region current : Natives.asList(diff.content())) {
-      int origLineA = mapper.getLineA();
-      int origLineB = mapper.getLineB();
+      int origLineA = lineMapper.getLineA();
+      int origLineB = lineMapper.getLineB();
       if (current.ab() != null) {
         int length = current.ab().length();
-        mapper.appendCommon(length);
+        lineMapper.appendCommon(length);
         for (int i = 0; i < length; i++) {
           host.setLineNumber(DisplaySide.A, cmLine + i, origLineA + i + 1);
           host.setLineNumber(DisplaySide.B, cmLine + i, origLineB + i + 1);
         }
         cmLine += length;
       } else if (current.skip() > 0) {
-        mapper.appendCommon(current.skip());
+        lineMapper.appendCommon(current.skip());
         cmLine += current.skip(); // Maybe current.ab().length();
       } else if (current.common()) {
-        mapper.appendCommon(current.b().length());
+        lineMapper.appendCommon(current.b().length());
         cmLine += current.b().length();
       } else {
         cmLine += render(current, cmLine, useIntralineBg);
@@ -114,10 +112,8 @@ class UnifiedChunkManager extends ChunkManager {
   }
 
   private int render(Region region, int cmLine, boolean useIntralineBg) {
-    LineMapper mapper = getLineMapper();
-
-    int startA = mapper.getLineA();
-    int startB = mapper.getLineB();
+    int startA = lineMapper.getLineA();
+    int startB = lineMapper.getLineB();
 
     JsArrayString a = region.a();
     JsArrayString b = region.b();
@@ -137,10 +133,10 @@ class UnifiedChunkManager extends ChunkManager {
     markEdit(DisplaySide.A, cmLine, a, region.editA());
     markEdit(DisplaySide.B, cmLine + aLen, b, region.editB());
     addGutterTag(region, cmLine); // TODO: verify addGutterTag
-    mapper.appendReplace(aLen, bLen);
+    lineMapper.appendReplace(aLen, bLen);
 
-    int endA = mapper.getLineA() - 1;
-    int endB = mapper.getLineB() - 1;
+    int endA = lineMapper.getLineA() - 1;
+    int endB = lineMapper.getLineB() - 1;
     if (aLen > 0) {
       addDiffChunk(DisplaySide.A, endA, endB, aLen, cmLine, bLen > 0);
       for (int j = 0; j < aLen; j++) {
@@ -157,7 +153,6 @@ class UnifiedChunkManager extends ChunkManager {
   }
 
   private void addGutterTag(Region region, int cmLine) {
-    Scrollbar scrollbar = getScrollbar();
     if (region.a() == null) {
       scrollbar.insert(cm, cmLine, region.b().length());
     } else if (region.b() == null) {
@@ -269,7 +264,7 @@ class UnifiedChunkManager extends ChunkManager {
           return info.cmLine + line - info.start;
         } else {
           return info.cmLine
-              + getLineMapper().lineOnOther(side, line).getLine()
+              + lineMapper.lineOnOther(side, line).getLine()
               - info.start;
         }
       } else {
@@ -298,7 +293,7 @@ class UnifiedChunkManager extends ChunkManager {
             // For the common region after a deletion chunk, associate the line
             // on side B with a common region.
             return new LineRegionInfo(
-                getLineMapper().lineOnOther(DisplaySide.A, lineOnInfoSide)
+                lineMapper.lineOnOther(DisplaySide.A, lineOnInfoSide)
                     .getLine(), RegionType.COMMON);
           } else {
             return new LineRegionInfo(lineOnInfoSide, RegionType.COMMON);

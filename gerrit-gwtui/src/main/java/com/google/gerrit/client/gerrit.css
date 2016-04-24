@@ -148,57 +148,6 @@ a:hover {
   background: selectionColor;
 }
 
-/** CommentPanel **/
-.commentPanelHeader {
-  cursor: pointer;
-  width: 100%;
-}
-.commentPanelSummary {
-  color: #777777;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.commentPanelAuthorCell {
-  font-weight: bold;
-  white-space: nowrap;
-}
-.commentPanelSummaryCell {
-  width: 100%;
-}
-.commentPanelDateCell {
-  white-space: nowrap;
-}
-.commentPanelContent {
-  padding-bottom: 1px;
-}
-.commentPanelMessage {
-  font-size: small;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
-.commentPanelMessage p {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  max-height: 100000px;
-}
-.commentPanelButtons {
-  margin-left: 0.5em;
-}
-.commentPanelButtons .gwt-Button {
-  margin-right: 2em;
-  font-size: 7pt;
-  padding: 1px;
-}
-
-.commentEditorPanel textarea {
-  margin-left: 0.5em;
-  font-size: small;
-  font-family: norm-font;
-}
-
-
 /** Menu **/
 .linkMenuBar {
   font-size: 9pt;
@@ -442,55 +391,8 @@ a:hover {
   border-bottom: 1px solid trimColor;
 }
 
-.changeTable .changeTypeCell {
-  width: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-right: 1px solid trimColor;
-  border-bottom: 1px solid trimColor;
-  vertical-align: top;
-}
-
-.changeTable .commentCell {
-  text-align: right;
-  font-weight: bold;
-  white-space: nowrap;
-}
-.changeTable .commentCell span.drafts {
-  color: #ff5555;
-}
-
-.changeTable .patchCellReverseDiff {
-  color: red;
-}
-
-.changeTable .patchSizeCell {
-  text-align: right;
-  white-space: nowrap;
-}
-.changeTable td.noborder {
-  border: none;
-}
-
-.changeTable .filePathCell {
-  white-space: nowrap;
-}
-
-.changeTable .sourceFilePath {
-  font-style: italic;
-  font-size: 9pt;
-}
-
-.changeTable .diffLinkCell {
-  white-space: nowrap;
-}
-
 .changeTable .leftMostCell {
   border-left: 1px solid trimColor;
-}
-
-.changeTable .topMostCell {
-  border-top: 1px solid trimColor;
 }
 
 .changeTable .dataCell {
@@ -627,205 +529,7 @@ a:hover {
   color: #2a5db0;
 }
 
-
-/** PatchScreen **/
-.reviewedPanelBottom {
-  float: right;
-  font-size: small;
-}
-
-.linkPanel img {
-  padding-right: 3px;
-}
-
-.nowrap {
-  white-space: nowrap;
-}
-
-
-/** PatchContentTable **/
-.patchContentTable {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: white;
-  color: black;
-}
-.patchContentTable td {
-  padding-top: 0;
-  padding-bottom: 0;
-  font-size: 9pt;
-  font-family: mono-font;
-}
-
-.patchContentTable .iconCell {
-  width: 1px;
-  padding: 0px;
-  vertical-align: middle;
-}
-
-.patchContentTable .diffText {
-  white-space: pre;
-  padding-left: 0.2em;
-  border-left: thin solid #b0bdcc;
-}
-
-.patchContentTable .diffTextFileHeader {
-  color: grey;
-  font-weight: bold;
-}
-.patchContentTable .diffTextNoLF {
-  color: grey;
-  font-weight: bold;
-}
-.patchContentTable .diffTextHunkHeader {
-  color: blue;
-}
-.patchContentTable .diffTextDELETE {
-  color: #a00000;
-}
-.patchContentTable .diffTextCONTEXT {
-  color: grey;
-}
-.patchContentTable .diffTextINSERT {
-  color: #006000;
-}
-
-.patchContentTable tr.commentHolder {
-  background: #E5ECF9;
-}
-.patchContentTable tr.commentHolder .iconCell {
-  background: white;
-}
-.patchContentTable tr.commentHolder .iconCellOfFileCommentRow {
-  background: trimColor;
-}
-.patchContentTable td.commentHolder {
-  padding-left: 0;
-  padding-right: 0;
-  border-top: 1px solid black;
-  border-right: 1px solid black;
-}
-.patchContentTable td.commentHolderLeftmost {
-  border-left: 1px solid black;
-}
-.patchContentTable td.commentHolder.commentPanelLast {
-  border-bottom: 1px solid black;
-}
-.patchContentTable .commentPanel {
-  font-family: norm-font;
-}
-.patchContentTable .commentPanel td {
-  font-family: norm-font;
-}
-.patchContentTable .commentPanelMessage {
-  padding-left: 1px;
-  padding-right: 1px;
-  white-space: normal;
-}
-.patchContentTable .commentPanelButtons,
-.patchContentTable .commentPanel textarea {
-  margin-left: 1px;
-}
-
-.lineNumber {
-  padding-left: 0.2em;
-  white-space: pre;
-  width: 1.5em;
-  text-align: center;
-  padding-right: 0.2em;
-  background: white;
-  border-bottom: 1px solid white;
-}
-.lineNumber.rightBorder {
-  border-right: thin solid #b0bdcc;
-}
-.lineNumber a {
-  color: #888;
-  text-decoration: none;
-}
-.patchContentTable td.fileColumnHeader {
-  background: trimColor;
-  font-family: norm-font;
-  font-weight: bold;
-  text-align: center;
-}
-.patchContentTable td.fileColumnHeader.unifiedTableHeader {
-  text-align: left;
-}
-.lineNumber.fileColumnHeader {
-  border-bottom: 1px solid trimColor;
-}
-
-.fileLine {
-  padding-left: 0;
-  padding-right: 0;
-  white-space: pre;
-  border-left: thin solid #b0bdcc;
-}
-.fileLineDELETE,
-.fileLineDELETE .wdc {
-  background: #ffeeee;
-  border-bottom: 1px solid #ffeeee;
-}
-.fileLineINSERT,
-.fileLineINSERT .wdc {
-  background: #ddffdd;
-  border-bottom: 1px solid #ddffdd;
-}
-.patchContentTable .wdd {
-  border-bottom: 1px solid #FAA;
-}
-.patchContentTable .wdi {
-  border-bottom: 1px solid #9F9;
-}
-
-.patchContentTable td.cellsNextToFileComment {
-  background: trimColor;
-  border-top: trimColor;
-  border-bottom: trimColor;
-}
-.patchContentTable .activeRow .iconCell,
-.patchContentTable .activeRow .lineNumber {
-  background: selectionColor;
-}
-.patchContentTable .activeRow .iconCell,
-.patchContentTable .activeRow .lineNumber,
-.patchContentTable .activeRow .fileLine,
-.patchContentTable .activeRow .diffText,
-.patchContentTable .activeRow td.commentHolder,
-.patchContentTable .activeRow .wdc,
-.patchContentTable .activeRow .wdd,
-.patchContentTable .activeRow .wdi,
-.patchContentTable .activeRow .iconCellOfFileCommentRow,
-.patchContentTable .activeRow td.commentHolder.commentPanelLast  {
-  border-bottom: 1px solid blue;
-}
-
-.patchContentTable .fileCommentBorder .iconCellOfFileCommentRow,
-.patchContentTable .fileCommentBorder .lineNumber,
-.patchContentTable .fileCommentBorder .diffText {
-  height: 20px;
-  background: trimColor;
-  border-bottom: 1px solid trimColor;
-}
-
 /** Change **/
-.changeScreenStarIcon {
-  margin-right: 5px;
-}
-
-.changeScreenDescription,
-.changeScreenDescription textarea {
-  white-space: pre;
-  font-family: mono-font;
-  font-size: 9pt;
-}
-.changeScreenDescription p {
-  margin-top: 0px;
-  padding-top: 0.5em;
-}
-
 .avatarInfoPanel {
   margin-right: 10px;
 }
@@ -859,10 +563,6 @@ a:hover {
   background-color: trimColor;
   font-style: italic;
   text-align: right;
-}
-
-.infoBlock td.noborder {
-  border-right: none;
 }
 
 .infoBlock td.bottomheader {
@@ -967,45 +667,6 @@ a:hover.downloadLink {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/** UnifiedScreen **/
-.unifiedTable {
-  width: 100%;
-  border: 1px solid #B0BDCC;
-  display: table;
-}
-
-.sideBySideScreenLinkTable {
-  width: 100%;
-}
-.sideBySideScreenLinkTable td {
-  width: 33%;
-}
-
-.patchNoDifference {
-  margin-top: 1em;
-  margin-bottom: 2em;
-  margin-left: 1em;
-  margin-right: 5em;
-  font-weight: bold;
-  font-size: medium;
-  font-family: norm-font;
-}
-
-/** Patch History Table **/
-.patchHistoryTable {
-  width: auto;
-  margin-bottom: 10px;
-}
-
-.patchHistoryTable .dataCell {
-  white-space: nowrap;
-}
-
-.patchHistoryTablePatchSetHeader {
-  text-align: right;
-}
-
 
 /** AccountSettings  **/
 .usernameField {
@@ -1200,17 +861,6 @@ a:hover.downloadLink {
   font-size: small;
   width: 100%;
 }
-
-/** PatchBrowserPopup **/
-.patchBrowserPopup {
-  opacity: 0.90;
-}
-.patchBrowserPopupBody {
-  background: backgroundColor;
-  margin: 4px;
-  opacity: 0.90;
-}
-
 
 /** AccountGroupInfoScreen **/
 .groupUUIDPanel {

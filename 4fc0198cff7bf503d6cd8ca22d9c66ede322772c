@@ -16,6 +16,24 @@
       "revId": "4fc0198cff7bf503d6cd8ca22d9c66ede322772c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c833dcd5_ca04436d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T05:26:10Z",
+      "side": 1,
+      "message": "I tried (see PS1), but KeyPressEvent doesn\u0027t have this shortcut :(",
+      "parentUuid": "48d52c29_19becf7f",
+      "revId": "4fc0198cff7bf503d6cd8ca22d9c66ede322772c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

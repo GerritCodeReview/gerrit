@@ -1135,6 +1135,18 @@ any account.
         "url": "#/groups/self",
         "name": "Groups"
       }
+    ],
+    "email_types": [
+      "NEW_CHANGE",
+      "NEW_PATCHSET",
+      "CHANGE_COMMENT",
+      "ADD_REVIEWER",
+      "DELETE_VOTE",
+      "CHANGE_MERGED",
+      "MERGE_FAILED",
+      "CHANGE_ABANDONED",
+      "CHANGE_RESTORED",
+      "CHANGE_REVERTED"
     ]
   }
 ----
@@ -1189,6 +1201,18 @@ link:#preferences-input[PreferencesInput] entity.
         "url": "#/groups/self",
         "name": "Groups"
       }
+    ],
+    "email_types": [
+      "NEW_CHANGE",
+      "NEW_PATCHSET",
+      "CHANGE_COMMENT",
+      "ADD_REVIEWER",
+      "DELETE_VOTE",
+      "CHANGE_MERGED",
+      "MERGE_FAILED",
+      "CHANGE_ABANDONED",
+      "CHANGE_RESTORED",
+      "CHANGE_REVERTED"
     ]
   }
 ----
@@ -1237,6 +1261,18 @@ link:#preferences-info[PreferencesInfo] entity.
         "url": "#/groups/self",
         "name": "Groups"
       }
+    ],
+    "email_types": [
+      "NEW_CHANGE",
+      "NEW_PATCHSET",
+      "CHANGE_COMMENT",
+      "ADD_REVIEWER",
+      "DELETE_VOTE",
+      "CHANGE_MERGED",
+      "MERGE_FAILED",
+      "CHANGE_ABANDONED",
+      "CHANGE_RESTORED",
+      "CHANGE_REVERTED"
     ]
   }
 ----
@@ -1950,8 +1986,6 @@ the `schemes` map in
 link:rest-api-config.html#download-info[DownloadInfo].
 |`download_command`             ||
 The type of download command the user prefers to use.
-|`copy_self_on_email`           |not set if `false`|
-Whether to CC me on comments I write.
 |`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -1981,12 +2015,17 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`url_aliases`                  |optional|
 A map of URL path pairs, where the first URL path is an alias for the
 second URL path.
-|`email_notifications`          ||
-The type of email strategy to use. On `ENABLED`, the user will receive emails
-from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
-their own comments. On `DISABLED` the user will not receive any email
-notifications from Gerrit.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
+|`email_types`          ||
+List of email types to send.  Individual types may be enabled or disabled,
+and an empty array will be treated as disabling all review emails.  Note that
+system emails (such as new email confirmations and key added notifications)
+cannot be disabled.
+The current types of emails that can be enabled or disabled are `NEW_CHANGE`,
+`NEW_PATCHSET`, `CHANGE_COMMENT`, `ADD_REVIEWER`, `DELETE_VOTE`,
+`CHANGE_MERGED`, `MERGE_FAILED`, `CHANGE_ABANDONED`, `CHANGE_RESTORED`,
+`CHANGE_REVERTED`, `CC_ON_OWN_COMMENTS`, and `TRIVIAL_REBASE`.
+The default setting for new users are all types except for `CC_ON_OWN_COMMENTS`
+and `TRIVIAL_REBASE`.
 |============================================
 
 [[preferences-input]]
@@ -2008,8 +2047,6 @@ Whether to use the flash clipboard widget.
 The type of download URL the user prefers to use.
 |`download_command`             |optional|
 The type of download command the user prefers to use.
-|`copy_self_on_email`           |optional|
-Whether to CC me on comments I write.
 |`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2039,6 +2076,17 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`url_aliases`                  |optional|
 A map of URL path pairs, where the first URL path is an alias for the
 second URL path.
+|`email_types`                  |optional|
+List of email types to send.  Individual types may be enabled or disabled,
+and an empty array will be treated as disabling all review emails.  Note that
+system emails (such as new email confirmations and key added notifications)
+cannot be disabled.
+The current types of emails that can be enabled or disabled are `NEW_CHANGE`,
+`NEW_PATCHSET`, `CHANGE_COMMENT`, `ADD_REVIEWER`, `DELETE_VOTE`,
+`CHANGE_MERGED`, `MERGE_FAILED`, `CHANGE_ABANDONED`, `CHANGE_RESTORED`,
+`CHANGE_REVERTED`, `CC_ON_OWN_COMMENTS`, and `TRIVIAL_REBASE`.
+The default setting for new users are all types except for `CC_ON_OWN_COMMENTS`
+and `TRIVIAL_REBASE`.
 |============================================
 
 [[query-limit-info]]

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.reviewdb.client.Account;
@@ -70,6 +69,12 @@ public class Schema_119 extends SchemaVersion {
           "SSH", SSH,
           "REPO_DOWNLOAD", REPO_DOWNLOAD);
 
+  public enum EmailStrategy {
+    ENABLED,
+    CC_ON_OWN_COMMENTS,
+    DISABLED
+  }
+
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
@@ -95,6 +100,7 @@ public class Schema_119 extends SchemaVersion {
     Set<String> columns =
         schema.getDialect().listColumns(connection, tableName);
     Map<Account.Id, GeneralPreferencesInfo> imports = new HashMap<>();
+    Map<Account.Id, EmailStrategy> userEmailStrategy = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(
           "select "
@@ -125,8 +131,8 @@ public class Schema_119 extends SchemaVersion {
           p.useFlashClipboard = toBoolean(rs.getString(4));
           p.downloadScheme = convertToModernNames(rs.getString(5));
           p.downloadCommand = toDownloadCommand(rs.getString(6));
-          p.emailStrategy = toEmailStrategy(rs.getString(7),
-              columns.contains(emailStrategy));
+          userEmailStrategy.put(accountId, toEmailStrategy(rs.getString(7),
+              columns.contains(emailStrategy)));
           p.dateFormat = toDateFormat(rs.getString(8));
           p.timeFormat = toTimeFormat(rs.getString(9));
           p.relativeDateInChangeTable = toBoolean(rs.getString(10));
@@ -158,6 +164,12 @@ public class Schema_119 extends SchemaVersion {
           p.load(md);
           storeSection(p.getConfig(), UserConfigSections.GENERAL, null,
               e.getValue(), GeneralPreferencesInfo.defaults());
+          EmailStrategy strategy = userEmailStrategy.get(e.getKey());
+          if (strategy == null) {
+            strategy = EmailStrategy.ENABLED;
+          }
+          p.getConfig().setEnum(UserConfigSections.GENERAL, null,
+              "emailStrategy", strategy);
           p.commit(md);
         }
       }

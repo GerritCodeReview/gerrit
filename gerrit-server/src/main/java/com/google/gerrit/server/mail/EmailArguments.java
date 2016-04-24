@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -49,6 +50,7 @@ import java.util.List;
 
 public class EmailArguments {
   final GitRepositoryManager server;
+  final ChangeKindCache changeKindCache;
   final ProjectCache projectCache;
   final GroupBackend groupBackend;
   final GroupIncludeCache groupIncludes;
@@ -79,6 +81,7 @@ public class EmailArguments {
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
       GroupBackend groupBackend, GroupIncludeCache groupIncludes,
+      ChangeKindCache changeKindCache,
       AccountCache accountCache,
       PatchListCache patchListCache,
       ApprovalsUtil approvalsUtil,
@@ -101,6 +104,7 @@ public class EmailArguments {
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       StarredChangesUtil starredChangesUtil) {
     this.server = server;
+    this.changeKindCache = changeKindCache;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
     this.groupIncludes = groupIncludes;

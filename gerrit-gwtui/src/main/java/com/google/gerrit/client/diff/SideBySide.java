@@ -215,7 +215,7 @@ public class SideBySide extends DiffScreen {
     registerCmEvents(cmA);
     registerCmEvents(cmB);
     scrollSynchronizer = new ScrollSynchronizer(diffTable, cmA, cmB,
-            chunkManager.getLineMapper());
+            chunkManager.lineMapper);
 
     setPrefsAction(new PreferencesAction(this, prefs));
     header.init(getPrefsAction(), getUnifiedDiffLink(), diff.sideBySideWebLinks());

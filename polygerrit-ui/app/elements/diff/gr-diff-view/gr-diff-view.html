@@ -18,8 +18,11 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff/gr-diff.html">
+<link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
 
 <dom-module id="gr-diff-view">
   <template>
@@ -88,6 +91,18 @@ limitations under the License.
         padding: .3em 0;
         text-decoration: none;
       }
+      .loading {
+        padding: 0 var(--default-horizontal-margin) 1em;
+        color: #666;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .prefsButton {
+        text-align: right;
+      }
       @media screen and (max-width: 50em) {
         .dash {
           display: none;
@@ -144,14 +159,36 @@ limitations under the License.
         </select>
       </div>
     </h3>
-    <gr-diff id="diff"
-        change-num="[[_changeNum]]"
-        patch-range="[[_patchRange]]"
-        path="[[_path]]"
-        project-config="[[_projectConfig]]"
-        available-patches="[[_computeAvailablePatches(_change.revisions)]]"
-        on-render="_handleDiffRender">
-    </gr-diff>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <div class="header">
+        <gr-patch-range-select
+            path="[[_path]]"
+            change-num="[[_changeNum]]"
+            patch-range="[[_patchRange]]"
+            available-patches="[[_computeAvailablePatches(_change.revisions)]]">
+        </gr-patch-range-select>
+        <gr-button link
+           class="prefsButton"
+           on-tap="_handlePrefsTap"
+           hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
+           hidden>Diff View Preferences</gr-button>
+      </div>
+      <gr-overlay id="prefsOverlay" with-backdrop>
+        <gr-diff-preferences
+            prefs="{{_prefs}}"
+            on-save="_handlePrefsSave"
+            on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+      </gr-overlay>
+      <gr-diff id="diff"
+          change-num="[[_changeNum]]"
+          patch-range="[[_patchRange]]"
+          path="[[_path]]"
+          prefs="[[_prefs]]"
+          project-config="[[_projectConfig]]"
+          on-render="_handleDiffRender">
+      </gr-diff>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-diff-view.js"></script>

@@ -34,11 +34,10 @@
      */
 
     properties: {
-      availablePatches: Array,
       changeNum: String,
       patchRange: Object,
       path: String,
-
+      prefs: Object,
       projectConfig: {
         type: Object,
         observer: '_projectConfigChanged',
@@ -48,17 +47,12 @@
         type: Boolean,
         value: false,
       },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
       _viewMode: {
         type: String,
         value: DiffViewMode.SIDE_BY_SIDE,
       },
       _diff: Object,
       _diffBuilder: Object,
-      _prefs: Object,
       _selectionSide: {
         type: String,
         observer: '_selectionSideChanged',
@@ -75,7 +69,7 @@
     },
 
     observers: [
-      '_prefsChanged(_prefs.*)',
+      '_prefsChanged(prefs.*)',
     ],
 
     attached: function() {
@@ -91,7 +85,6 @@
 
     reload: function() {
       this._clearDiffContent();
-      this._loading = true;
 
       var promises = [];
 
@@ -102,10 +95,6 @@
 
       promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
         this._comments = comments;
-      }.bind(this)));
-
-      promises.push(this._getDiffPreferences().then(function(prefs) {
-        this._prefs = prefs;
       }.bind(this)));
 
       return Promise.all(promises).then(function() {
@@ -200,41 +189,6 @@
         classes.push('canComment');
       }
       return classes.join(' ');
-    },
-
-    _computePrefsButtonHidden: function(prefs, loggedIn) {
-      return !loggedIn || !prefs;
-    },
-
-    _handlePrefsTap: function(e) {
-      e.preventDefault();
-      this.$.prefsOverlay.open();
-    },
-
-    _handlePrefsSave: function(e) {
-      e.stopPropagation();
-      var el = Polymer.dom(e).rootTarget;
-      el.disabled = true;
-      this._saveDiffPreferences().then(function(response) {
-        el.disabled = false;
-        if (!response.ok) {
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          return response.text().then(function(text) {
-            console.error(text);
-          });
-        }
-        this.$.prefsOverlay.close();
-      }.bind(this));
-    },
-
-    _saveDiffPreferences: function() {
-      return this.$.restAPI.saveDiffPreferences(this._prefs);
-    },
-
-    _handlePrefsCancel: function(e) {
-      e.stopPropagation();
-      this.$.prefsOverlay.close();
     },
 
     _handleTap: function(e) {
@@ -402,7 +356,7 @@
     _render: function() {
       this._clearDiffContent();
       this._builder = this._getDiffBuilder(this._diff, this._comments,
-          this._prefs);
+          this.prefs);
       this._builder.emitDiff(this._diff.content);
 
       this.async(function() {
@@ -458,32 +412,6 @@
           drafts: results[1],
         });
       }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
-    },
-
-    _getDiffPreferences: function() {
-      return this._getLoggedIn().then(function(loggedIn) {
-        if (!loggedIn) {
-          // These defaults should match the defaults in
-          // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
-          // NOTE: There are some settings that don't apply to PolyGerrit
-          // (Render mode being at least one of them).
-          return Promise.resolve({
-            auto_hide_diff_table_header: true,
-            context: 10,
-            cursor_blink_rate: 0,
-            ignore_whitespace: 'IGNORE_NONE',
-            intraline_difference: true,
-            line_length: 100,
-            show_line_endings: true,
-            show_tabs: true,
-            show_whitespace_errors: true,
-            syntax_highlighting: true,
-            tab_size: 8,
-            theme: 'DEFAULT',
-          });
-        }
-        return this.$.restAPI.getDiffPreferences();
-      }.bind(this));
     },
 
     _normalizeDiffCommentsAndDrafts: function(results) {

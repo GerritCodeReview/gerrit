@@ -160,8 +160,17 @@ public interface AccountConstants extends Constants {
   String welcomeAgreementLater();
   String welcomeContinue();
 
-  String messageEnabled();
-  String messageCCMeOnMyComments();
-  String messageDisabled();
   String emailFieldLabel();
+  String emailNewChange();
+  String emailNewPatchset();
+  String emailChangeComment();
+  String emailAddReviewer();
+  String emailDeleteVote();
+  String emailChangeMerged();
+  String emailMergeFailed();
+  String emailChangeAbandoned();
+  String emailChangeRestored();
+  String emailChangeReverted();
+  String emailCcOnOwnComments();
+  String emailTrivialRebase();
 }

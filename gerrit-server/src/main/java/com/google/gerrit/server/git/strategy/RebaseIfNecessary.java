@@ -122,6 +122,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
       rebaseOp = args.rebaseFactory.create(
             toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
           .setRunHooks(false)
+          .setSendEmail(false)
           // Bypass approval copier since SubmitStrategyOp copy all approvals
           // later anyway.
           .setCopyApprovals(false)

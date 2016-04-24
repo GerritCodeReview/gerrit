@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
@@ -58,7 +57,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.downloadCommand).isEqualTo(d.downloadCommand);
     assertThat(o.dateFormat).isEqualTo(d.getDateFormat());
     assertThat(o.timeFormat).isEqualTo(d.getTimeFormat());
-    assertThat(o.emailStrategy).isEqualTo(d.getEmailStrategy());
+    assertThat(o.emailTypes).isEqualTo(d.getEmailTypes());
     assertThat(o.relativeDateInChangeTable).isNull();
     assertThat(o.sizeBarInChangeTable).isEqualTo(d.sizeBarInChangeTable);
     assertThat(o.legacycidInChangeTable).isNull();
@@ -81,7 +80,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.downloadCommand = DownloadCommand.REPO_DOWNLOAD;
     i.dateFormat = DateFormat.US;
     i.timeFormat = TimeFormat.HHMM_24;
-    i.emailStrategy = EmailStrategy.DISABLED;
+    i.emailTypes = new ArrayList<>();
     i.relativeDateInChangeTable ^= true;
     i.sizeBarInChangeTable ^= true;
     i.legacycidInChangeTable ^= true;
@@ -105,7 +104,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.downloadCommand).isEqualTo(i.downloadCommand);
     assertThat(o.dateFormat).isEqualTo(i.getDateFormat());
     assertThat(o.timeFormat).isEqualTo(i.getTimeFormat());
-    assertThat(o.emailStrategy).isEqualTo(i.emailStrategy);
+    assertThat(o.emailTypes).isEqualTo(i.emailTypes);
     assertThat(o.relativeDateInChangeTable).isEqualTo(
         i.relativeDateInChangeTable);
     assertThat(o.sizeBarInChangeTable).isNull();

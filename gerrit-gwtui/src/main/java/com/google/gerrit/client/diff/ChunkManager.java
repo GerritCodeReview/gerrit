@@ -32,8 +32,8 @@ abstract class ChunkManager {
   static final native void onClick(Element e, JavaScriptObject f)
   /*-{ e.onclick = f }-*/;
 
-  private final Scrollbar scrollbar;
-  private final LineMapper mapper;
+  final Scrollbar scrollbar;
+  final LineMapper mapper;
 
   private List<TextMarker> markers;
   private List<Runnable> undo;
@@ -41,14 +41,6 @@ abstract class ChunkManager {
   ChunkManager(Scrollbar scrollbar) {
     this.scrollbar = scrollbar;
     this.mapper = new LineMapper();
-  }
-
-  LineMapper getLineMapper() {
-    return mapper;
-  }
-
-  Scrollbar getScrollbar() {
-    return scrollbar;
   }
 
   abstract DiffChunkInfo getFirst();

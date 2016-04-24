@@ -105,8 +105,6 @@ class SideBySideChunkManager extends ChunkManager {
   void render(DiffInfo diff) {
     super.render();
 
-    LineMapper mapper = getLineMapper();
-
     chunks = new ArrayList<>();
     padding = new ArrayList<>();
     paddingDivs = new ArrayList<>();
@@ -148,8 +146,6 @@ class SideBySideChunkManager extends ChunkManager {
   }
 
   private void render(Region region, String diffColor) {
-    LineMapper mapper = getLineMapper();
-
     int startA = mapper.getLineA();
     int startB = mapper.getLineB();
 
@@ -182,7 +178,6 @@ class SideBySideChunkManager extends ChunkManager {
   }
 
   private void addGutterTag(Region region, int startA, int startB) {
-    Scrollbar scrollbar = getScrollbar();
     if (region.a() == null) {
       scrollbar.insert(cmB, startB, region.b().length());
     } else if (region.b() == null) {

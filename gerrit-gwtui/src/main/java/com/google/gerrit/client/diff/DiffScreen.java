@@ -935,7 +935,7 @@ abstract class DiffScreen extends Screen {
   abstract int getCmLine(int line, DisplaySide side);
 
   LineOnOtherInfo lineOnOther(DisplaySide side, int line) {
-    return getChunkManager().getLineMapper().lineOnOther(side, line);
+    return getChunkManager().mapper.lineOnOther(side, line);
   }
 
   abstract ScreenLoadCallback<ConfigInfoCache.Entry> getScreenLoadCallback(

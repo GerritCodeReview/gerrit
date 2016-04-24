@@ -18,53 +18,28 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface ChangeMessages extends Messages {
   String accountDashboardTitle(String fullName);
-  String changesOpenInProject(String string);
-  String changesMergedInProject(String string);
-  String changesAbandonedInProject(String string);
 
   String revertChangeDefaultMessage(String commitMsg, String commitId);
 
   String cherryPickedChangeDefaultMessage(String commitMsg, String commitId);
   String changeScreenTitleId(String changeId);
-  String outdatedHeader(int outdated);
-  String patchSetHeader(int id);
   String loadingPatchSet(int id);
-  String submitPatchSet(int id);
 
-  String patchTableComments(@PluralCount int count);
-  String patchTableDrafts(@PluralCount int count);
   String patchTableSize_Modify(int insertions, int deletions);
   String patchTableSize_ModifyBinaryFiles(String bytesInserted,
       String bytesDeleted);
   String patchTableSize_ModifyBinaryFilesWithPercentages(String bytesInserted,
       String percentageInserted, String bytesDeleted, String percentageDeleted);
   String patchTableSize_LongModify(int insertions, int deletions);
-  String patchTableSize_Lines(@PluralCount int insertions);
 
-  String removeHashtag(String name);
   String removeReviewer(String fullName);
   String removeVote(String label);
-  String messageWrittenOn(String date);
-
-  String renamedFrom(String sourcePath);
-  String copiedFrom(String sourcePath);
-  String otherFrom(String sourcePath);
 
   String blockedOn(String labelName);
   String needs(String labelName);
-  String publishComments(String changeId, int ps);
-  String lineHeader(int line);
 
   String changeQueryWindowTitle(String query);
   String changeQueryPageTitle(String query);
-
-  String reviewerNotFound(String who);
-  String accountInactive(String who);
-  String changeNotVisibleTo(String who);
-  String groupIsEmpty(String group);
-  String groupIsNotAllowed(String group);
-  String groupHasTooManyMembers(String group);
-  String groupManyMembersConfirmation(String group, int memberCount);
 
   String insertionsAndDeletions(int insertions, int deletions);
 }

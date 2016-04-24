@@ -62,25 +62,17 @@ public interface ChangeConstants extends Constants {
   String patchTableColumnName();
   String patchTableColumnComments();
   String patchTableColumnSize();
-  String patchTableColumnDiff();
-  String patchTableDiffSideBySide();
-  String patchTableDiffUnified();
   String commitMessage();
 
   String patchTablePrev();
   String patchTableNext();
   String patchTableOpenDiff();
-  String patchTableOpenUnifiedDiff();
-  String upToChangeIconLink();
-  String prevPatchLinkIcon();
-  String nextPatchLinkIcon();
 
   String approvalTableAddReviewerHint();
   String approvalTableAddManyReviewersConfirmationDialogTitle();
 
   String changeInfoBlockUploaded();
   String changeInfoBlockUpdated();
-  String changePermalink();
 
   String messageNoAuthor();
 
@@ -108,7 +100,6 @@ public interface ChangeConstants extends Constants {
   String pagedChangeListPrev();
   String pagedChangeListNext();
 
-  String reviewed();
   String submitFailed();
 
   String votable();

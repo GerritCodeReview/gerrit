@@ -114,9 +114,9 @@ public class Hashtags extends Composite {
     hashtagTextBox.addKeyDownHandler(new KeyDownHandler() {
       @Override
       public void onKeyDown(KeyDownEvent e) {
-        if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+        if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
           onCancel(null);
-        } else if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           onAdd(null);
         }
       }

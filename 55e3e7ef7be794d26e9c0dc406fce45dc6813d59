@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_39174b2b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 49
+      },
+      "lineNbr": 3788,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-24T20:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_791dc348",
+      "range": {
+        "startLine": 3787,
+        "startChar": 14,
+        "endLine": 3788,
+        "endChar": 31
+      },
+      "revId": "55e3e7ef7be794d26e9c0dc406fce45dc6813d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_b85475d1",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 49
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-24T20:34:52Z",
       "side": 1,
       "message": "The response was refactored in ps 46: [1], blames and meta were squashed and from_to renamed to ranges. This should be reflected here.\n\n* [1] http://paste.openstack.org/show/495251",
+      "range": {
+        "startLine": 3780,
+        "startChar": 6,
+        "endLine": 3799,
+        "endChar": 7
+      },
+      "revId": "55e3e7ef7be794d26e9c0dc406fce45dc6813d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_591a0753",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 49
+      },
+      "lineNbr": 3799,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-24T20:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_b85475d1",
       "range": {
         "startLine": 3780,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_19148f22",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 49
+      },
+      "lineNbr": 4042,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-24T20:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_3873c5b3",
+      "range": {
+        "startLine": 4042,
+        "startChar": 2,
+        "endLine": 4042,
+        "endChar": 11
+      },
+      "revId": "55e3e7ef7be794d26e9c0dc406fce45dc6813d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_f85aedfd",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
         "patchSetId": 49
@@ -82,6 +154,30 @@
       "writtenOn": "2016-04-24T20:34:52Z",
       "side": 1,
       "message": "Nit: wrong indentation.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "55e3e7ef7be794d26e9c0dc406fce45dc6813d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_584c4146",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2016-04-24T20:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_f85aedfd",
       "range": {
         "startLine": 41,
         "startChar": 2,

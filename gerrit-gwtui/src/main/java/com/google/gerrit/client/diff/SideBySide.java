@@ -117,12 +117,12 @@ public class SideBySide extends DiffScreen {
     if (getStartLine() == 0) {
       DiffChunkInfo d = chunkManager.getFirst();
       if (d != null) {
-        if (d.isEdit() && d.getSide() == DisplaySide.A) {
+        if (d.edit && d.side == DisplaySide.A) {
           setStartSide(DisplaySide.B);
-          setStartLine(lineOnOther(d.getSide(), d.getStart()).getLine() + 1);
+          setStartLine(lineOnOther(d.side, d.start).getLine() + 1);
         } else {
-          setStartSide(d.getSide());
-          setStartLine(d.getStart() + 1);
+          setStartSide(d.side);
+          setStartLine(d.start + 1);
         }
       }
     }

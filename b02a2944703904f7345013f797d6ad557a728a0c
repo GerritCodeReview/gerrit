@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_9863f9e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-24T06:40:54Z",
+      "side": 1,
+      "message": "It would be nice to merge this refactoring ASAP. Can\u0027t this change be rebased out of this series?",
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_399aab29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-24T06:40:54Z",
+      "side": 1,
+      "message": "Please provide more context here: add a link to the change where UnifiedScreen base on CodeMirror was introduced with too much code duplication.",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_598d67f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-24T06:40:54Z",
+      "side": 1,
+      "message": "Base version method was shorter. Consider to extract rendering of skips lines 75-109 in its own method, e.g.\n\n  renderSkips(context, skips, lineA, lineB);",
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_b85eb51e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-24T06:40:54Z",
+      "side": 1,
+      "message": "Optional: Add a method to DiffScreen isSideBySide().",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 74
+      },
+      "revId": "b02a2944703904f7345013f797d6ad557a728a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

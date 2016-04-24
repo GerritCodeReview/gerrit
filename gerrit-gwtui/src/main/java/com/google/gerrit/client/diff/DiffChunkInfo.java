@@ -15,32 +15,38 @@
 package com.google.gerrit.client.diff;
 
 /** Object recording the position of a diff chunk and whether it's an edit */
-class DiffChunkInfo {
-  private DisplaySide side;
-  private int start;
-  private int end;
-  private boolean edit;
+class DiffChunkInfo implements Comparable<DiffChunkInfo> {
+  final DisplaySide side;
+  final int start;
+  final int otherStart;
+  final int end;
+  final boolean edit;
 
-  DiffChunkInfo(DisplaySide side, int start, int end, boolean edit) {
+  DiffChunkInfo(DisplaySide side, int start, int otherStart, int end,
+      boolean edit) {
     this.side = side;
     this.start = start;
+    this.otherStart = otherStart;
     this.end = end;
     this.edit = edit;
   }
 
-  DisplaySide getSide() {
-    return side;
-  }
-
-  int getStart() {
-    return start;
-  }
-
-  int getEnd() {
-    return end;
-  }
-
-  boolean isEdit() {
-    return edit;
+  /**
+   * Chunks are ordered by their starting line. If it's a deletion, use its
+   * corresponding line on the revision side for comparison. In the edit case,
+   * put the deletion chunk right before the insertion chunk. This placement
+   * guarantees well-ordering.
+   */
+  @Override
+  public int compareTo(DiffChunkInfo o) {
+    if (side == o.side) {
+      return start - o.start;
+    } else if (side == DisplaySide.A) {
+      int comp = otherStart - o.start;
+      return comp == 0 ? -1 : comp;
+    } else {
+      int comp = start - o.otherStart;
+      return comp == 0 ? 1 : comp;
+    }
   }
 }

@@ -29,8 +29,10 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailTypes;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -55,12 +57,25 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox legacycidInChangeTable;
   private CheckBox muteCommonPathPrefixes;
   private CheckBox signedOffBy;
+  // Email types
+  private CheckBox newChange;
+  private CheckBox newPatchset;
+  private CheckBox changeComment;
+  private CheckBox addReviewer;
+  private CheckBox deleteVote;
+  private CheckBox changeMerged;
+  private CheckBox mergeFailed;
+  private CheckBox changeAbandoned;
+  private CheckBox changeRestored;
+  private CheckBox changeReverted;
+  private CheckBox ccOnOwnComments;
+  private CheckBox trivialRebase;
+
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
   private ListBox reviewCategoryStrategy;
   private ListBox diffView;
-  private ListBox emailStrategy;
   private StringListPanel myMenus;
   private Button save;
 
@@ -91,20 +106,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryAbbrev(),
         GeneralPreferencesInfo.ReviewCategoryStrategy.ABBREV.name());
-
-    emailStrategy = new ListBox();
-    emailStrategy.addItem(Util.C.messageEnabled(),
-        GeneralPreferencesInfo.EmailStrategy.ENABLED.name());
-    emailStrategy
-        .addItem(
-            Util.C.messageCCMeOnMyComments(),
-            GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS
-                .name());
-    emailStrategy
-        .addItem(
-            Util.C.messageDisabled(),
-            GeneralPreferencesInfo.EmailStrategy.DISABLED
-                .name());
 
     diffView = new ListBox();
     diffView.addItem(
@@ -154,9 +155,21 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
     signedOffBy = new CheckBox(Util.C.signedOffBy());
+    newChange = new CheckBox(Util.C.emailNewChange());
+    newPatchset = new CheckBox(Util.C.emailNewPatchset());
+    changeComment = new CheckBox(Util.C.emailChangeComment());
+    addReviewer = new CheckBox(Util.C.emailAddReviewer());
+    deleteVote = new CheckBox(Util.C.emailDeleteVote());
+    changeMerged = new CheckBox(Util.C.emailChangeMerged());
+    mergeFailed = new CheckBox(Util.C.emailMergeFailed());
+    changeAbandoned = new CheckBox(Util.C.emailChangeAbandoned());
+    changeRestored = new CheckBox(Util.C.emailChangeRestored());
+    changeReverted = new CheckBox(Util.C.emailChangeReverted());
+    ccOnOwnComments = new CheckBox(Util.C.emailCcOnOwnComments());
+    trivialRebase = new CheckBox(Util.C.emailTrivialRebase());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(12 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(22 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
 
@@ -172,8 +185,42 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
 
+    // Email Settings
     formGrid.setText(row, labelIdx, Util.C.emailFieldLabel());
-    formGrid.setWidget(row, fieldIdx, emailStrategy);
+    formGrid.setWidget(row, fieldIdx, newChange);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, newPatchset);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, changeComment);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, addReviewer);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, deleteVote);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, changeMerged);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, mergeFailed);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, changeAbandoned);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, changeRestored);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, changeReverted);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, ccOnOwnComments);
+    row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, trivialRebase);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
@@ -238,7 +285,19 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(signedOffBy);
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
-    e.listenTo(emailStrategy);
+
+    e.listenTo(newChange);
+    e.listenTo(newPatchset);
+    e.listenTo(changeComment);
+    e.listenTo(addReviewer);
+    e.listenTo(deleteVote);
+    e.listenTo(changeMerged);
+    e.listenTo(mergeFailed);
+    e.listenTo(changeAbandoned);
+    e.listenTo(changeRestored);
+    e.listenTo(changeReverted);
+    e.listenTo(ccOnOwnComments);
+    e.listenTo(trivialRebase);
   }
 
   @Override
@@ -271,7 +330,18 @@ public class MyPreferencesScreen extends SettingsScreen {
     signedOffBy.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
-    emailStrategy.setEnabled(on);
+    newChange.setEnabled(on);
+    newPatchset.setEnabled(on);
+    changeComment.setEnabled(on);
+    addReviewer.setEnabled(on);
+    deleteVote.setEnabled(on);
+    changeMerged.setEnabled(on);
+    mergeFailed.setEnabled(on);
+    changeAbandoned.setEnabled(on);
+    changeRestored.setEnabled(on);
+    changeReverted.setEnabled(on);
+    ccOnOwnComments.setEnabled(on);
+    trivialRebase.setEnabled(on);
   }
 
   private void display(GeneralPreferences p) {
@@ -293,9 +363,48 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
         p.diffView());
-    setListBox(emailStrategy,
-        GeneralPreferencesInfo.EmailStrategy.ENABLED,
-        p.emailStrategy());
+    JsArrayString types = p.emailTypes();
+    newChange.setValue(false);
+    newPatchset.setValue(false);
+    changeComment.setValue(false);
+    addReviewer.setValue(false);
+    deleteVote.setValue(false);
+    changeMerged.setValue(false);
+    mergeFailed.setValue(false);
+    changeAbandoned.setValue(false);
+    changeRestored.setValue(false);
+    changeReverted.setValue(false);
+    ccOnOwnComments.setValue(false);
+    trivialRebase.setValue(false);
+    for (int i = 0; i < types.length(); i++) {
+      String type = types.get(i);
+      if (type == EmailTypes.NEW_CHANGE.name()) {
+        newChange.setValue(true);
+      } else if (type == EmailTypes.NEW_PATCHSET.name()) {
+        newPatchset.setValue(true);
+      } else if (type == EmailTypes.CHANGE_COMMENT.name()) {
+        changeComment.setValue(true);
+      } else if (type == EmailTypes.ADD_REVIEWER.name()) {
+        addReviewer.setValue(true);
+      } else if (type == EmailTypes.DELETE_VOTE.name()) {
+        deleteVote.setValue(true);
+      } else if (type == EmailTypes.CHANGE_MERGED.name()) {
+        changeMerged.setValue(true);
+      } else if (type == EmailTypes.MERGE_FAILED.name()) {
+        mergeFailed.setValue(true);
+      } else if (type == EmailTypes.CHANGE_ABANDONED.name()) {
+        changeAbandoned.setValue(true);
+      } else if (type == EmailTypes.CHANGE_RESTORED.name()) {
+        changeRestored.setValue(true);
+      } else if (type == EmailTypes.CHANGE_REVERTED.name()) {
+        changeReverted.setValue(true);
+      } else if (type == EmailTypes.CC_ON_OWN_COMMENTS.name()) {
+        ccOnOwnComments.setValue(true);
+      } else if (type == EmailTypes.TRIVIAL_REBASE.name()) {
+        trivialRebase.setValue(true);
+      }
+    }
+
     display(p.my());
   }
 
@@ -381,9 +490,48 @@ public class MyPreferencesScreen extends SettingsScreen {
         GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
         GeneralPreferencesInfo.DiffView.values()));
 
-    p.emailStrategy(getListBox(emailStrategy,
-        GeneralPreferencesInfo.EmailStrategy.ENABLED,
-        GeneralPreferencesInfo.EmailStrategy.values()));
+    ArrayList<EmailTypes> types = new ArrayList<>();
+    if (newChange.getValue()) {
+      types.add(EmailTypes.NEW_CHANGE);
+    }
+    if (newPatchset.getValue()) {
+      types.add(EmailTypes.NEW_PATCHSET);
+    }
+    if (changeComment.getValue()) {
+      types.add(EmailTypes.CHANGE_COMMENT);
+    }
+    if (addReviewer.getValue()) {
+      types.add(EmailTypes.ADD_REVIEWER);
+    }
+    if (deleteVote.getValue()) {
+      types.add(EmailTypes.DELETE_VOTE);
+    }
+    if (changeMerged.getValue()) {
+      types.add(EmailTypes.CHANGE_MERGED);
+    }
+    if (mergeFailed.getValue()) {
+      types.add(EmailTypes.MERGE_FAILED);
+    }
+    if (changeAbandoned.getValue()) {
+      types.add(EmailTypes.CHANGE_ABANDONED);
+    }
+    if (changeRestored.getValue()) {
+      types.add(EmailTypes.CHANGE_RESTORED);
+    }
+    if (changeReverted.getValue()) {
+      types.add(EmailTypes.CHANGE_REVERTED);
+    }
+    if (ccOnOwnComments.getValue()) {
+      types.add(EmailTypes.CC_ON_OWN_COMMENTS);
+    }
+    if (trivialRebase.getValue()) {
+      types.add(EmailTypes.TRIVIAL_REBASE);
+    }
+    JsArrayString jsTypes = JsArrayString.createArray().cast();
+    for (EmailTypes type : types) {
+      jsTypes.push(type.name());
+    }
+    p.emailTypes(jsTypes);
 
     List<TopMenuItem> items = new ArrayList<>();
     for (List<String> v : myMenus.getValues()) {

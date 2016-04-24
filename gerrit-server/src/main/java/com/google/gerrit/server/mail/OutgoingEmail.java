@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.mail;
 
-import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
-import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
@@ -50,6 +49,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -111,7 +111,7 @@ public abstract class OutgoingEmail {
         GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferencesInfo();
 
         if (senderPrefs != null
-            && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
+            && senderPrefs.getEmailTypes().contains(EmailTypes.CC_ON_OWN_COMMENTS)) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.
@@ -129,7 +129,32 @@ public abstract class OutgoingEmail {
         for (Account.Id id : rcptTo) {
           Account thisUser = args.accountCache.get(id).getAccount();
           GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
-          if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
+          List<EmailTypes> types;
+          if (prefs == null) {
+            types = GeneralPreferencesInfo.getDefaultEmailTypes();
+          } else {
+            types = prefs.getEmailTypes();
+          }
+          if ((this instanceof NewChangeSender &&
+              !types.contains(EmailTypes.NEW_CHANGE)) ||
+              (this instanceof ReplacePatchSetSender &&
+              !types.contains(EmailTypes.NEW_PATCHSET)) ||
+              (this instanceof CommentSender &&
+              !types.contains(EmailTypes.CHANGE_COMMENT)) ||
+              (this instanceof AddReviewerSender &&
+              !types.contains(EmailTypes.ADD_REVIEWER)) ||
+              (this instanceof DeleteVoteSender &&
+              !types.contains(EmailTypes.DELETE_VOTE)) ||
+              (this instanceof MergedSender &&
+              !types.contains(EmailTypes.CHANGE_MERGED)) ||
+              (this instanceof MergeFailSender &&
+              !types.contains(EmailTypes.MERGE_FAILED)) ||
+              (this instanceof AbandonedSender &&
+              !types.contains(EmailTypes.CHANGE_ABANDONED)) ||
+              (this instanceof RestoredSender &&
+              !types.contains(EmailTypes.CHANGE_RESTORED)) ||
+              (this instanceof RevertedSender &&
+              !types.contains(EmailTypes.CHANGE_REVERTED))) {
             removeUser(thisUser);
           }
           if (smtpRcptTo.isEmpty()) {

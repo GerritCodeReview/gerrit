@@ -21,9 +21,11 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+import static com.google.gerrit.server.git.UserConfigSections.EMAIL;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailTypes;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AllUsersName;
@@ -113,6 +115,9 @@ public class GeneralPreferencesLoader {
     }
 
     r.urlAliases = urlAliases(v);
+
+    r.emailTypes = emailSettings(v);
+
     return r;
   }
 
@@ -144,5 +149,18 @@ public class GeneralPreferencesLoader {
          cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
     }
     return !urlAliases.isEmpty() ? urlAliases : null;
+  }
+
+  private static List<EmailTypes> emailSettings(VersionedAccountPreferences v) {
+    ArrayList<EmailTypes> emailTypes = new ArrayList<>();
+    Config cfg = v.getConfig();
+    if (!cfg.getSections().contains(EMAIL)) {
+      return GeneralPreferencesInfo.getDefaultEmailTypes();
+    }
+    String[] types = cfg.getStringList(EMAIL, null, EMAIL);
+    for (int i = 0; i < types.length; i++) {
+      emailTypes.add(EmailTypes.valueOf(types[i]));
+    }
+    return emailTypes;
   }
 }

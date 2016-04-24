@@ -354,7 +354,7 @@ class UnifiedCommentManager extends CommentManager {
       if ((fromInfo.type == RegionType.INSERT
           || fromInfo.type == RegionType.COMMON)
           && toInfo.type == RegionType.DELETE) {
-        LineOnOtherInfo infoOnSideA = manager.getLineMapper()
+        LineOnOtherInfo infoOnSideA = manager.mapper
             .lineOnOther(DisplaySide.B, fromInfo.line);
         int startLineOnSideA = infoOnSideA.getLine();
         if (infoOnSideA.isAligned()) {
@@ -366,7 +366,7 @@ class UnifiedCommentManager extends CommentManager {
         to.line(toInfo.line);
       } else if (fromInfo.type == RegionType.DELETE
           && toInfo.type == RegionType.INSERT) {
-        LineOnOtherInfo infoOnSideB = manager.getLineMapper()
+        LineOnOtherInfo infoOnSideB = manager.mapper
             .lineOnOther(DisplaySide.A, fromInfo.line);
         int startLineOnSideB = infoOnSideB.getLine();
         if (infoOnSideB.isAligned()) {
@@ -378,7 +378,7 @@ class UnifiedCommentManager extends CommentManager {
         to.line(toInfo.line);
       } else if (fromInfo.type == RegionType.DELETE
           && toInfo.type == RegionType.COMMON) {
-        int toLineOnSideA = manager.getLineMapper()
+        int toLineOnSideA = manager.mapper
             .lineOnOther(DisplaySide.B, toInfo.line).getLine();
         from.line(fromInfo.line);
         // Force the end line to be on the same side as the start line.

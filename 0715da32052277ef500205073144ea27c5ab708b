@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c833dcd5_8a1c0bb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T10:09:28Z",
+      "side": 1,
+      "message": "Can you provide more context for this change, like mentioning the one that added the option to ignore all emails [1]?\n\n[1]: https://gerrit-review.googlesource.com/#/c/58322/",
+      "revId": "0715da32052277ef500205073144ea27c5ab708b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

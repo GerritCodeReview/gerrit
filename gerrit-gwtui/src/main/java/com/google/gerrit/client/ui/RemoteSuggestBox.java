@@ -50,9 +50,9 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
       public void onKeyDown(KeyDownEvent e) {
         submitOnSelection = false;
 
-        if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+        if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
           CloseEvent.fire(RemoteSuggestBox.this, RemoteSuggestBox.this);
-        } else if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           if (display.isSuggestionListShowing()) {
             if (textBox.getValue().equals(remoteSuggestOracle.getLast())) {
               submitOnSelection = true;

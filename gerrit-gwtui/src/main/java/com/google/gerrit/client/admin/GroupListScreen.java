@@ -126,7 +126,7 @@ public class GroupListScreen extends Screen {
       @Override
       public void onKeyUp(KeyUpEvent event) {
         Query q = new Query(filterTxt.getValue())
-          .open(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
+          .open(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
         if (match.equals(q.qMatch)) {
           q.start(start);
         }

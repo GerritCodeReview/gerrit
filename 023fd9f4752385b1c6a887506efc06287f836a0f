@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4827ec98_86b88aeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T05:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_b9859bd0",
+      "revId": "023fd9f4752385b1c6a887506efc06287f836a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_f87b0d95",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
         "patchSetId": 48
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-24T05:38:24Z",
       "side": 1,
       "message": "This variable is used on line 104.",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 29
+      },
+      "revId": "023fd9f4752385b1c6a887506efc06287f836a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_a6bd86da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-24T05:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_f87b0d95",
       "range": {
         "startLine": 63,
         "startChar": 2,

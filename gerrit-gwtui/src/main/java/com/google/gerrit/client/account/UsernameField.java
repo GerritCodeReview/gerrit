@@ -61,7 +61,7 @@ class UsernameField extends Composite {
       userNameTxt.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(KeyPressEvent event) {
-          if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+          if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
             confirmSetUserName();
           }
         }
@@ -146,7 +146,7 @@ class UsernameField extends Composite {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       final char code = event.getCharCode();
-      final int nativeCode = event.getNativeEvent().getKeyCode();
+      final int nativeCode = event.getNativeKeyCode();
       switch (nativeCode) {
         case KeyCodes.KEY_ALT:
         case KeyCodes.KEY_BACKSPACE:

@@ -152,7 +152,7 @@ public class CreateProjectScreen extends Screen {
     project.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           doCreateProject();
         }
       }

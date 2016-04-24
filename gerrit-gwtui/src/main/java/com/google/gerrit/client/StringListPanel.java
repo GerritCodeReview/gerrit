@@ -128,7 +128,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
         input.addKeyPressHandler(new KeyPressHandler() {
           @Override
           public void onKeyPress(KeyPressEvent event) {
-            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
               widget.setEnabled(true);
               add();
             }

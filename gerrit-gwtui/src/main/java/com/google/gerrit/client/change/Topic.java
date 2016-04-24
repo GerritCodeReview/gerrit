@@ -138,7 +138,7 @@ class Topic extends Composite {
 
   @UiHandler("save")
   void onSaveKeyPress(KeyPressEvent e) {
-    if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+    if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
       e.stopPropagation();
     }
   }

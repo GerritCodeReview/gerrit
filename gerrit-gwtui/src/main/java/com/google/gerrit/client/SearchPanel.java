@@ -48,7 +48,7 @@ class SearchPanel extends Composite {
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           if (!suggestionDisplay.isSuggestionSelected) {
             doSearch();
           }

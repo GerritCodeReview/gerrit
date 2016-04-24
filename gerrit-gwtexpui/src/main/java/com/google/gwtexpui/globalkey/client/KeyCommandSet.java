@@ -134,7 +134,7 @@ public class KeyCommandSet implements KeyPressHandler {
   static int toMask(final KeyPressEvent event) {
     int mask = event.getUnicodeCharCode();
     if (mask == 0) {
-      mask = event.getNativeEvent().getKeyCode();
+      mask = event.getNativeKeyCode();
     }
     if (event.isControlKeyDown()) {
       mask |= KeyCommand.M_CTRL;

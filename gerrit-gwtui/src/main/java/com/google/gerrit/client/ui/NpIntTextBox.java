@@ -48,7 +48,7 @@ public class NpIntTextBox extends NpTextBox {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         int charCode = event.getCharCode();
-        int keyCode = event.getNativeEvent().getKeyCode();
+        int keyCode = event.getNativeKeyCode();
         onKey(event, charCode, keyCode);
       }
     });

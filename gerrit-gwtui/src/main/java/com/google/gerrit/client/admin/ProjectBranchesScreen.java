@@ -140,7 +140,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           doAddNewBranch();
         }
       }
@@ -154,7 +154,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     irevTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           doAddNewBranch();
         }
       }

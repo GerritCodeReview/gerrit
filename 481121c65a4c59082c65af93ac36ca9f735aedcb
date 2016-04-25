@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_b866b5b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T03:58:53Z",
+      "side": 1,
+      "message": "Now, that this map is using shorter types:\n\n  ListMultimap\u003cBlameInfo.Meta, BlameInfo.Blame.FromTo\u003e\n\nthe creation line can be on the same line.",
+      "revId": "481121c65a4c59082c65af93ac36ca9f735aedcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_986bf97d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T03:58:53Z",
+      "side": 1,
+      "message": "Same here, after renaming of RangeInfo this statement fits on one line.",
+      "revId": "481121c65a4c59082c65af93ac36ca9f735aedcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_78813d78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 51
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T03:58:53Z",
+      "side": 1,
+      "message": "Nit: Put this parameter on the previous line.",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 23
+      },
+      "revId": "481121c65a4c59082c65af93ac36ca9f735aedcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -4474,11 +4474,11 @@ The `EditInfo` entity contains information about a change edit.
 
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name    ||Description
-|`commit`      ||The commit of change edit as
+|Field Name     ||Description
+|`commit`       ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
-|`baseRevision`||The revision of the patch set change edit is based on.
-|`fetch`       ||
+|`base_revision`||The revision of the patch set the change edit is based on.
+|`fetch`        ||
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.

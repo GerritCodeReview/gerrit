@@ -97,7 +97,7 @@ public class Schema_120 extends SchemaVersion {
             + "super_project_branch_name, "
             + "submodule_project_name, "
             + "submodule_branch_name "
-            + "FROM submodule_subscriptions");) {
+            + "FROM submodule_subscriptions")) {
       while (rs.next()) {
         Project.NameKey superproject = new Project.NameKey(rs.getString(1));
         Branch.NameKey superbranch = new Branch.NameKey(superproject,

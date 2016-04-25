@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_b8aeb5c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-25T09:05:12Z",
+      "side": 1,
+      "message": "Issue: 983",
+      "revId": "8f3a895394f6124dc928e49c1f4778cab6b13da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

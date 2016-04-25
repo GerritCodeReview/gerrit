@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0825f5a8_0decd1d6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T21:36:46Z",
+      "side": 1,
+      "message": "I try to understand what system are you using to place absatract methods? After usage (like group method above) or beforethe usage, like the method getLinesWithCommentGroups). Would it make sense to place all abstract methods as first block above in this file?",
+      "revId": "a93b6ea4371598367858ab95a37ad1117847e0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

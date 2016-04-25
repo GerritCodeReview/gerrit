@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "e83341f3_2cb0b3ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T20:00:25Z",
+      "side": 1,
+      "message": "... which actually seems like a good idea to me, if that would be possible. But since changeNum and patchNum are not part of a commit, they should be threaded separately.\n\nClearly, I\u0027m not trying to pass whole world here, just a best attempt for nearest common ancestor. \nMy main point here is that the commit message only makes sense with commit number, so separating them would reduce integrity. I agree that this is a slightly over ideal, but still sane.",
+      "parentUuid": "282ab97a_0e9e0b67",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 8
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_385d0550",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1

@@ -25,6 +25,10 @@ import com.google.gwtorm.client.KeyUtil;
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
+  private static final String ID_PATTERN = "[iI][0-9a-f]{4,}$";
+  private static final String CHANGE_ID_PATTERN = "^" + ID_PATTERN;
+  private static final String UNIQUE_CHANGE_ID_PATTERN = "^(.)+~(.)+~" + ID_PATTERN;
+
   public static QueryScreen forQuery(String query) {
     return forQuery(query, 0);
   }
@@ -86,9 +90,9 @@ public class QueryScreen extends PagedSingleListScreen implements
       return true;
     }
 
-    if (query.matches("^[iI][0-9a-f]{4,}$")) {
-      // Newer style Change-Id.
-      //
+    if (query.matches(CHANGE_ID_PATTERN)
+        || query.matches(UNIQUE_CHANGE_ID_PATTERN)) {
+      // Newer style Change-Id and Unique Change Id in format [project]~[ref]~[changeId]
       return true;
     }
 

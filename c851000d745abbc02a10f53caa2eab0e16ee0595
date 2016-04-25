@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_5ba1dbba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T11:29:36Z",
+      "side": 1,
+      "message": "Why another method? Can\u0027t we define the method above as non abstract with the body from setShowLineNumberStyle and call super.setShowLineNumbers(b) in derived classes?",
+      "revId": "c851000d745abbc02a10f53caa2eab0e16ee0595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

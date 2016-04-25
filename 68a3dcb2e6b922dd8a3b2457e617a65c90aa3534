@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_d8a291d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T11:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_59620782",
+      "revId": "68a3dcb2e6b922dd8a3b2457e617a65c90aa3534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_395f4bba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
         "patchSetId": 9
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_f9f9d3de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T11:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_395f4bba",
+      "revId": "68a3dcb2e6b922dd8a3b2457e617a65c90aa3534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_7965c387",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
         "patchSetId": 9
@@ -65,6 +101,30 @@
       "writtenOn": "2016-04-25T09:25:23Z",
       "side": 1,
       "message": "Since this is now done in the other apply method, we no longer need to do it here.",
+      "range": {
+        "startLine": 96,
+        "startChar": 42,
+        "endLine": 96,
+        "endChar": 47
+      },
+      "revId": "68a3dcb2e6b922dd8a3b2457e617a65c90aa3534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d9fe17c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T11:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_7965c387",
       "range": {
         "startLine": 96,
         "startChar": 42,

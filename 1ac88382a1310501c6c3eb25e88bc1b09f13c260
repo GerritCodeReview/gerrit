@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c82e7d90_6bb6a1ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T21:04:17Z",
+      "side": 1,
+      "message": "Updated screenshot.",
+      "parentUuid": "282ab97a_6e046f6e",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 27,
+        "endChar": 42
+      },
+      "revId": "1ac88382a1310501c6c3eb25e88bc1b09f13c260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "282ab97a_8ed79bfd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 28
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e83341f3_ecc98b6b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 28
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T21:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282ab97a_8ed79bfd",
+      "range": {
+        "startLine": 158,
+        "startChar": 29,
+        "endLine": 158,
+        "endChar": 37
+      },
+      "revId": "1ac88382a1310501c6c3eb25e88bc1b09f13c260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0825f5a8_0db5f1dc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 28
@@ -59,6 +107,30 @@
       "writtenOn": "2016-04-25T20:53:17Z",
       "side": 1,
       "message": "Base Version?",
+      "range": {
+        "startLine": 160,
+        "startChar": 25,
+        "endLine": 160,
+        "endChar": 38
+      },
+      "revId": "1ac88382a1310501c6c3eb25e88bc1b09f13c260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e83341f3_ccc6cf59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 28
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T21:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0825f5a8_0db5f1dc",
       "range": {
         "startLine": 160,
         "startChar": 25,

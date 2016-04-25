@@ -33,8 +33,8 @@ abstract class CommentGroup extends Composite {
 
   private final CommentManager manager;
   private final CodeMirror cm;
-  private final DisplaySide side;
-  private final int line;
+  final DisplaySide side;
+  final int line;
   private final FlowPanel comments;
   private LineWidget lineWidget;
   private Timer resizeTimer;

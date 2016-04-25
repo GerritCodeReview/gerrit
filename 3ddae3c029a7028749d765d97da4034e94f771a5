@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "282ab97a_0e9e0b67",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:00:42Z",
+      "side": 1,
+      "message": "The rule of thumb is to only persist in a component the data that is actualy needed by this component and not the whole world. Why are we storing here only actions, changeNum and patchNum? We could just pass in everywhere root ChangeInfo, because (almost) everything can be reached from there.",
+      "parentUuid": "68403143_708fb034",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 8
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_385d0550",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "I see your point, but decided to make it a bit cleaner by moving a part of decision making into a separate function.\nLet me know if that helps.",
       "parentUuid": "28d0f83a_385d0550",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_eea29fa9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:00:42Z",
+      "side": 1,
+      "message": "The proposed version is fine. Thanks.",
+      "parentUuid": "68403143_f0a280a9",
       "range": {
         "startLine": 169,
         "startChar": 0,

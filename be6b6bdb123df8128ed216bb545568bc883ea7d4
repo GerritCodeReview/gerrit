@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_793ca371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-25T08:59:16Z",
+      "side": 1,
+      "message": "i read the comments on PS12, and i don\u0027t get it. this seems plain wrong to me. the whole point of the feature is - as far as i\u0027m concerned - to let reviewers know (by whatever notification mechanism they prefer) that they have been removed, vote or not.",
+      "revId": "be6b6bdb123df8128ed216bb545568bc883ea7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

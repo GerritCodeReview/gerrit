@@ -54,7 +54,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectHttp() throws Exception {
     String newProjectName = name("newProject");
-    RestResponse r = adminSession.put("/projects/" + newProjectName);
+    RestResponse r = adminRestSession.put("/projects/" + newProjectName);
     r.assertCreated();
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertThat(p.name).isEqualTo(newProjectName);
@@ -67,7 +67,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectHttpWhenProjectAlreadyExists_Conflict()
       throws Exception {
-    adminSession
+    adminRestSession
         .put("/projects/" + allProjects.get())
         .assertConflict();
   }
@@ -75,7 +75,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectHttpWhenProjectAlreadyExists_PreconditionFailed()
       throws Exception {
-    adminSession
+    adminRestSession
         .putWithHeader("/projects/" + allProjects.get(),
             new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
         .assertPreconditionFailed();
@@ -85,7 +85,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testCreateProjectHttpWithUnreasonableName_BadRequest()
       throws Exception {
-    adminSession
+    adminRestSession
         .put("/projects/" + Url.encode(name("invalid/../name")))
         .assertBadRequest();
   }
@@ -94,7 +94,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectHttpWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("otherName");
-    adminSession
+    adminRestSession
         .put("/projects/" + name("someName"), in)
         .assertBadRequest();
   }
@@ -104,7 +104,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws Exception {
     ProjectInput in = new ProjectInput();
     in.branches = Collections.singletonList(name("invalid ref name"));
-    adminSession
+    adminRestSession
         .put("/projects/" + name("newProject"), in)
         .assertBadRequest();
   }

@@ -150,9 +150,9 @@ public class QueryIT extends AbstractDaemonTest {
   public void shouldFailWithFilesWithoutPatchSetsOrCurrentPatchSetsOption()
       throws Exception {
     String changeId = createChange().getChangeId();
-    sshSession.exec("gerrit query --files " + changeId);
-    assertThat(sshSession.hasError()).isTrue();
-    assertThat(sshSession.getError()).contains(
+    adminSshSession.exec("gerrit query --files " + changeId);
+    assertThat(adminSshSession.hasError()).isTrue();
+    assertThat(adminSshSession.getError()).contains(
         "needs --patch-sets or --current-patch-set");
   }
 
@@ -303,9 +303,9 @@ public class QueryIT extends AbstractDaemonTest {
   private List<ChangeAttribute> executeSuccessfulQuery(String params)
       throws Exception {
     String rawResponse =
-        sshSession.exec("gerrit query --format=JSON " + params);
-    assert_().withFailureMessage(sshSession.getError())
-        .that(sshSession.hasError()).isFalse();
+        adminSshSession.exec("gerrit query --format=JSON " + params);
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     return getChanges(rawResponse);
   }
 

@@ -129,13 +129,13 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private void assertNotFound(ObjectId id) throws Exception {
-    userSession
+    userRestSession
         .get("/projects/" + project.get() + "/commits/" + id.name())
         .assertNotFound();
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {
-    RestResponse r = userSession.get(
+    RestResponse r = userRestSession.get(
         "/projects/" + project.get() + "/commits/" + id.name());
     r.assertOK();
     CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);

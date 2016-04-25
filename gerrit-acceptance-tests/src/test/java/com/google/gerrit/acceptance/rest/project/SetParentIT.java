@@ -29,7 +29,7 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParent_Forbidden() throws Exception {
     String parent = createProject("parent", null, true).get();
     RestResponse r =
-        userSession.put("/projects/" + project.get() + "/parent",
+        userRestSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
     r.assertForbidden();
     r.consume();
@@ -39,12 +39,12 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParent() throws Exception {
     String parent = createProject("parent", null, true).get();
     RestResponse r =
-        adminSession.put("/projects/" + project.get() + "/parent",
+        adminRestSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
     r.assertOK();
     r.consume();
 
-    r = adminSession.get("/projects/" + project.get() + "/parent");
+    r = adminRestSession.get("/projects/" + project.get() + "/parent");
     r.assertOK();
     String newParent =
         newGson().fromJson(r.getReader(), String.class);
@@ -53,12 +53,12 @@ public class SetParentIT extends AbstractDaemonTest {
 
     // When the parent name is not explicitly set, it should be
     // set to "All-Projects".
-    r = adminSession.put("/projects/" + project.get() + "/parent",
+    r = adminRestSession.put("/projects/" + project.get() + "/parent",
           newParentInput(null));
     r.assertOK();
     r.consume();
 
-    r = adminSession.get("/projects/" + project.get() + "/parent");
+    r = adminRestSession.get("/projects/" + project.get() + "/parent");
     r.assertOK();
     newParent = newGson().fromJson(r.getReader(), String.class);
     assertThat(newParent).isEqualTo(AllProjectsNameProvider.DEFAULT);
@@ -68,7 +68,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParentForAllProjects_Conflict() throws Exception {
     RestResponse r =
-        adminSession.put("/projects/" + allProjects.get() + "/parent",
+        adminRestSession.put("/projects/" + allProjects.get() + "/parent",
             newParentInput(project.get()));
     r.assertConflict();
     r.consume();
@@ -77,19 +77,19 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setInvalidParent_Conflict() throws Exception {
     RestResponse r =
-        adminSession.put("/projects/" + project.get() + "/parent",
+        adminRestSession.put("/projects/" + project.get() + "/parent",
             newParentInput(project.get()));
     r.assertConflict();
     r.consume();
 
     Project.NameKey child = createProject("child", project, true);
-    r = adminSession.put("/projects/" + project.get() + "/parent",
+    r = adminRestSession.put("/projects/" + project.get() + "/parent",
            newParentInput(child.get()));
     r.assertConflict();
     r.consume();
 
     String grandchild = createProject("grandchild", child, true).get();
-    r = adminSession.put("/projects/" + project.get() + "/parent",
+    r = adminRestSession.put("/projects/" + project.get() + "/parent",
            newParentInput(grandchild));
     r.assertConflict();
     r.consume();
@@ -98,7 +98,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setNonExistingParent_UnprocessibleEntity() throws Exception {
     RestResponse r =
-        adminSession.put("/projects/" + project.get() + "/parent",
+        adminRestSession.put("/projects/" + project.get() + "/parent",
             newParentInput("non-existing"));
     r.assertUnprocessableEntity();
     r.consume();

@@ -32,9 +32,6 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -48,7 +45,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.Pos;
@@ -255,36 +251,8 @@ public class Unified extends DiffScreen {
     // TODO: Implement this
   }
 
-  private GutterClickHandler onGutterClick(final int cmLine) {
-    return new GutterClickHandler() {
-      @Override
-      public void handle(CodeMirror instance, int line, String gutter,
-          NativeEvent clickEvent) {
-        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
-            && !clickEvent.getMetaKey()
-            && !clickEvent.getAltKey()
-            && !clickEvent.getCtrlKey()
-            && !clickEvent.getShiftKey()) {
-          cm.setCursor(Pos.create(cmLine));
-          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-              commentManager.newDraftCallback(cm).run();
-            }
-          });
-        }
-      }
-    };
-  }
-
   LineHandle setLineNumber(DisplaySide side, final int cmLine, int line) {
     Label gutter = new Label(String.valueOf(line));
-    gutter.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        onGutterClick(cmLine);
-      }
-    });
     diffTable.add(gutter);
     gutter.setStyleName(UnifiedTable.style.unifiedLineNumber());
     return cm.setGutterMarker(cmLine,

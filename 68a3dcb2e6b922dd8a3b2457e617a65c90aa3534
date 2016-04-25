@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_588fa15b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-25T09:46:00Z",
+      "side": 1,
+      "message": "Please also fix this formatting in the rest of this file :-)",
+      "parentUuid": "48d52c29_395f4bba",
+      "revId": "68a3dcb2e6b922dd8a3b2457e617a65c90aa3534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_7965c387",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
         "patchSetId": 9

@@ -16,6 +16,24 @@
       "revId": "be6b6bdb123df8128ed216bb545568bc883ea7d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_18c00969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T09:18:09Z",
+      "side": 1,
+      "message": "Havn\u0027t I made my point clear? I would like to prevent increasing the notification firehose even more. When someone add me as a reviewer and someone else removed me, I don\u0027t care unless I gave a vote on this change. The same applies to the change message table. Add and remove yourself as reviewer to a change. See, that no spam is added to the change message table.",
+      "parentUuid": "48d52c29_793ca371",
+      "revId": "be6b6bdb123df8128ed216bb545568bc883ea7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

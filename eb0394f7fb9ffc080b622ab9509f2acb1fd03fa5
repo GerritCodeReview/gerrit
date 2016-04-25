@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_19f5afdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-25T10:32:32Z",
+      "side": 1,
+      "message": "i don\u0027t think this is a terribly good idea. the inconsistency may be surprising, esp. because the reason is not exactly obvious.\n\nthe better approach would be to make the user not miss the browser\u0027s search, ever.\n\nand one can still force usage of the browser\u0027s search by unfocusing the codemirror widget, right?",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

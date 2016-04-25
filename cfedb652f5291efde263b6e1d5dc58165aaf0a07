@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4827ec98_c6e1a2b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2329,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-25T12:20:49Z",
+      "side": 1,
+      "message": "This isn\u0027t a new functionality added by this change; it would be better to make this clarification in a separate commit.\n\nAlso, the Gerrit documentation tends to use \u0027their\u0027 rather than gender-specific pronouns.",
+      "range": {
+        "startLine": 2329,
+        "startChar": 19,
+        "endLine": 2329,
+        "endChar": 41
+      },
+      "revId": "cfedb652f5291efde263b6e1d5dc58165aaf0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_a6dca601",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-25T12:20:49Z",
+      "side": 1,
+      "message": "Add an assertion that user is in the list of removable reviewers?",
+      "revId": "cfedb652f5291efde263b6e1d5dc58165aaf0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

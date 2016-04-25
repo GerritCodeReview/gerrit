@@ -46,6 +46,30 @@
       "revId": "e37ff102720cd70662f30d6594a3442264843d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_a62106ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T07:28:52Z",
+      "side": 0,
+      "message": "Done. \"baseContent\" now loads conditionally.",
+      "parentUuid": "48d52c29_39a2ab20",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 18
+      },
+      "revId": "e37ff102720cd70662f30d6594a3442264843d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "a93b6ea4371598367858ab95a37ad1117847e0d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c82e7d90_6bdd8124",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T22:29:46Z",
+      "side": 1,
+      "message": "I intended to use \"before usage\". I\u0027ll fix it.",
+      "parentUuid": "0825f5a8_0decd1d6",
+      "revId": "a93b6ea4371598367858ab95a37ad1117847e0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

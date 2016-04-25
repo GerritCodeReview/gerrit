@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_ee3e1f19",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T22:35:19Z",
+      "side": 1,
+      "message": "It can be simplified here and below.\n\nYou don\u0027t need to extend the response with the ref name and you don\u0027t need to reconstruct PatchSet.Id from the ref. You have already base_revision (without depending on the previous change). Just use it in combinatin with change id from revision member and this helper method:\n\n  /** Get file from specific revision. */\n  public static void getFileContent(int id, String revision, String path,\n      HttpCallback\u003cNativeString\u003e cb) {\n    RestApi api \u003d ChangeApi\n        .revision(id, revision)\n        .view(\"files\")\n        .id(path)\n        .view(\"content\");\n    api.get(cb);\n  }\n\nAnd now you can re-use base_revision:\n\n  ChangeApi.edit(revision.getParentKey().get(),\n            group.addFinal(new AsyncCallback\u003cEditInfo\u003e() {\n              @Override\n              public void onSuccess(final EditInfo result) {\n                ChangeEditApi.getFileContent(revision.getParentKey().get(),\n                    result.baseRevision(), path,\n                    new HttpCallback\u003cNativeString\u003e() {\n                    [...]",
+      "range": {
+        "startLine": 220,
+        "startChar": 34,
+        "endLine": 220,
+        "endChar": 67
+      },
+      "revId": "df2411b5ad1be9e8af6f7e291fe70fca11559129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c82e7d90_4b940547",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-25T20:07:57Z",
+      "side": 1,
+      "message": "In early development, I would see flickering in the case where a property was used to hide an element since the element would be displayed before the property value caused it to be hidden. It may be a moot point now. Do you know when this would occur?",
+      "parentUuid": "88148534_798f8734",
+      "revId": "c80291ca05dcdac6c56cea9bd1976282d85769ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "680bd118_788f8134",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-25T14:54:45Z",
       "side": 1,
       "message": "My personal pref would be to throw here, and catch at the bottom of this block (or even outside of it and closer to the call site). The motivation being to not intermix the .then() functionality and the .catch() (error case) handling, however this is not blocking, just something to noodle on.",
+      "revId": "c80291ca05dcdac6c56cea9bd1976282d85769ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48436d50_efa2a1a9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-25T20:07:57Z",
+      "side": 1,
+      "message": "Agree. I’m trying to figure out a better way of handling the if (!response.ok) scenarios in a way that does’t require a cray amount of code repetition.",
+      "parentUuid": "680bd118_788f8134",
       "revId": "c80291ca05dcdac6c56cea9bd1976282d85769ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -222,5 +222,20 @@ limitations under the License.
               element._specialFilePathCompare),
           ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']);
     });
+
+    test('rebase always enabled', function(done) {
+      var resolveFetchJSON;
+      var fetchJSONStub = sinon.stub(element, 'fetchJSON').returns(
+          new Promise(function(resolve) {
+            resolveFetchJSON = resolve;
+          }));
+      element.getChangeRevisionActions('42', '1337').then(
+          function(response) {
+            assert.isTrue(response.rebase.enabled);
+            fetchJSONStub.restore();
+            done();
+          });
+      resolveFetchJSON({rebase:{}});
+    });
   });
 </script>

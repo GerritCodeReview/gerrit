@@ -174,10 +174,10 @@ class SideBySideChunkManager extends ChunkManager {
     int endA = mapper.getLineA() - 1;
     int endB = mapper.getLineB() - 1;
     if (aLen > 0) {
-      addDiffChunk(cmB, endA, aLen, bLen > 0);
+      addDiffChunk(cmB, endB, endA, aLen, bLen > 0);
     }
     if (bLen > 0) {
-      addDiffChunk(cmA, endB, bLen, aLen > 0);
+      addDiffChunk(cmA, endA, endB, bLen, aLen > 0);
     }
   }
 
@@ -250,10 +250,10 @@ class SideBySideChunkManager extends ChunkManager {
     }
   }
 
-  private void addDiffChunk(CodeMirror cmToPad, int lineOnOther,
+  private void addDiffChunk(CodeMirror cmToPad, int line, int lineOnOther,
       int chunkSize, boolean edit) {
     chunks.add(new DiffChunkInfo(host.otherCm(cmToPad).side(),
-        lineOnOther - chunkSize + 1, lineOnOther, edit));
+        lineOnOther - chunkSize + 1, line - chunkSize + 1, lineOnOther, edit));
   }
 
   @Override
@@ -266,8 +266,7 @@ class SideBySideChunkManager extends ChunkManager {
             : 0;
         int res = Collections.binarySearch(
                 chunks,
-                new DiffChunkInfo(cm.side(), line, 0, false),
-                getDiffChunkComparator());
+                new DiffChunkInfo(cm.side(), line, 0, 0, false));
         diffChunkNavHelper(chunks, host, res, dir);
       }
     };

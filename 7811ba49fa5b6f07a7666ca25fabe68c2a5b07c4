@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_78c93d97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T09:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_180ec9c5",
+      "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_f8cb0d9b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/AccessApi.java",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-25T08:53:19Z",
       "side": 1,
       "message": "Don\u0027t throw IOException from the extension API, but wrap it in the implementation class in a RestApiException.",
+      "range": {
+        "startLine": 24,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_38eaa5ef",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/AccessApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T09:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_f8cb0d9b",
       "range": {
         "startLine": 24,
         "startChar": 51,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "48d52c29_5939e77f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T09:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_d8d05148",
+      "range": {
+        "startLine": 33,
+        "startChar": 54,
+        "endLine": 33,
+        "endChar": 65
+      },
+      "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_19aa4fde",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
         "patchSetId": 8
@@ -76,6 +142,24 @@
       "writtenOn": "2016-04-25T08:53:19Z",
       "side": 1,
       "message": "unintended modification of the indention?",
+      "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d8b9710e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T09:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_19aa4fde",
       "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "28d0f83a_f8b42d18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/AccessApiImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T09:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_39ad0bf6",
+      "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_78e01d11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
         "patchSetId": 8
@@ -110,6 +212,24 @@
       "writtenOn": "2016-04-25T08:53:19Z",
       "side": 1,
       "message": "Also for this apply method you should check the access rights for the project of the ProjectResource (as it is done by the open method in the other case).",
+      "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_98b3f92c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-25T09:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_78e01d11",
       "revId": "7811ba49fa5b6f07a7666ca25fabe68c2a5b07c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

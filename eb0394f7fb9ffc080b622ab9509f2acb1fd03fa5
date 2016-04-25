@@ -16,6 +16,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_462bf2c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T10:38:33Z",
+      "side": 1,
+      "message": "I don\u0027t like this either, but some users would for some reason like to search on both screens without unfocusing the CodeMirror widget.\n\nIMHO setting Render \u003d Slow is just a bad idea itself. Now that the Ctrl-F search has been improved, this should be discouraged in the documentation.",
+      "parentUuid": "48d52c29_19f5afdb",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68403143_d09f7c5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e86966_c2ac629f",
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_f8d78ddd",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-23T05:24:29Z",
       "side": 1,
       "message": "This is a big object:\n\n  public class CommitInfo {\n    public String commit;\n    public List\u003cCommitInfo\u003e parents;\n    public GitPerson author;\n    public GitPerson committer;\n    public String subject;\n    public String message;\n    public List\u003cWebLinkInfo\u003e webLinks;\n  }\n\nAll you need here is message and commit. See also comment below to my suggestion to prepare revert message in revert confirmation dialog.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 8
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68403143_708fb034",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "tl;dr: Unless there is a compelling reason, I\u0027d rather use commitInfo as a pass-around-model, because consistency and integrity.\n\nIt\u0027s not small, that\u0027s true, but I\u0027m not sure I fully understand your concern here.\nThere is no significant difference performance-wise either way, and commit info and message only make sense together, so separating them is debatable.\nCould you elaborate?",
+      "parentUuid": "28d0f83a_f8d78ddd",
       "range": {
         "startLine": 65,
         "startChar": 6,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "68403143_f0a280a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "I see your point, but decided to make it a bit cleaner by moving a part of decision making into a separate function.\nLet me know if that helps.",
+      "parentUuid": "28d0f83a_385d0550",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_5977a7d6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2016-04-23T05:24:29Z",
       "side": 1,
       "message": "This is wrong place to change the commit message to revert commit message. This is cherry-pick commit message.",
+      "range": {
+        "startLine": 217,
+        "startChar": 19,
+        "endLine": 217,
+        "endChar": 25
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680bd118_18b525dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_5977a7d6",
       "range": {
         "startLine": 217,
         "startChar": 19,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "680bd118_d8c68d59",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d0f83a_185a4958",
+      "range": {
+        "startLine": 237,
+        "startChar": 19,
+        "endLine": 237,
+        "endChar": 25
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_19812fee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "88148534_39b0efec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_19812fee",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 14
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48d52c29_3984ebfd",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -145,6 +283,24 @@
       "writtenOn": "2016-04-23T05:24:29Z",
       "side": 1,
       "message": "It\u0027s done for every change that is opened in the change screen, even though only tiny number of changes are going to be reverted. Why not to pass in the original commit message and revision to the confirm dialog and do it there?",
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e83341f3_6c8fdb34",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-25T18:31:59Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\nSeems the gain is marginal, but I agree this logic is more appropriate for the dialog itself.\nUpdated cherry-pick dialog to be consistent.",
+      "parentUuid": "48d52c29_3984ebfd",
       "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

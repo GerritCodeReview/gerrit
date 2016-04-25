@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461567025 +0200\nnonce AB8gjyVL4NIdVOQG9kr5jmj+loFqM9ufn+vuxaVEshG0+mXqTe2u6nqtCjssk2boe9TnbMSD61nE\n\n0000000000000000000000000000000000000000 2d83d20a3d4caeb84cb040680d20cd39bb02ba67 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXHb4xAAoJEFG1/Zeg0O9RayAIALeuEkNy8FKTyWXnHPlcnMow\nPWyZ5fuikfHRUjbqOWJOrfwk59ZEgNwhG/oRg58R2/YW5f3mE2noAu5JY5nlSD0h\nYWl/5/Lf6B570vErj0PJ9g+eWqtGHUT27U7ree57OKmKua6Ua6rX402LOWO9Nekw\n5Gbnv2n9KyyzSJlfEeaJBezw+QPvhSg0ABa0vU+SjiT+ZRMpOaFOw6trgDnkXWpn\nKI12oizoXWhRa/XKhn938tgMbYQJsiaFd3YHjFnmVbGFTkn1Vas7NbVUCjrGTzLV\nARZiypiw7Kq6GxVGyHge/NEIXST6nxpHd96gKm//lo27H7gMkKWniSC5O9o4fto\u003d\n\u003dKom6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "680bd118_3899097f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-25T15:33:50Z",
+      "side": 1,
+      "message": "super is redundant here, since removeUser is not overridden in this class. (super.add above is not redundant because add is overriddent, not that I pretend to understand the logic).",
+      "revId": "2d83d20a3d4caeb84cb040680d20cd39bb02ba67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

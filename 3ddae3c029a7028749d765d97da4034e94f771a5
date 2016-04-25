@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8e86966_c2ac629f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-25T12:41:29Z",
+      "side": 1,
+      "message": "Naming convention for property observers is _\u003cpropName\u003eChanged, so in this case it should be _commitInfoChanged",
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_f8d78ddd",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1

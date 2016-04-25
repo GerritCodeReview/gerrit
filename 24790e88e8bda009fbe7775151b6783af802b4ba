@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_eec97f6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "This is a major enhancement to inline edit feature. We maintain user manual how to use inline edit feature. Consider  to add a new section to this documentation about CodeMirror merge view support: [1] and how to use is. Bonus points for updating the inline-edit trainig documentation as well: [2].\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/Documentation/user-inline-edit.txt\n* [2] https://gerrit.googlesource.com/training/gerrit/+/master/presentations/gerrit-inline-edit/gerrit-inline-edit.txt",
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_4ebbf3d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "two words: patch set.",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_6eb6afee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "This is not accurate because change edit can be created on latest patch set at the creation time, but then further path set can be uploaded for the same change, without rebasing change edit on the latest patch set. The correct statement here is compared against the patch set change edit is based on.",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_2eb0a7ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "I don\u0027t feel strongly, but could we consider to not enable it per default at this point but consider to do it later? Say next release?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0825f5a8_eda2a5a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "Mention here, that the loading of content of base version is optimized and is only loaded when merge view is actually used.",
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_cec6c359",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EditPreferencesInfo.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "Optional: May be use Base instead? It\u0027s used in change screen patch set selection drop down.",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0825f5a8_cd9fe95f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesBox.ui.xml",
+        "patchSetId": 25
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "Optional: Base Version?",
+      "range": {
+        "startLine": 248,
+        "startChar": 25,
+        "endLine": 248,
+        "endChar": 33
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_aec37747",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "Optional: Base.",
+      "range": {
+        "startLine": 99,
+        "startChar": 15,
+        "endLine": 99,
+        "endChar": 19
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_8ec0bb3b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "Optional: Base.",
+      "range": {
+        "startLine": 109,
+        "startChar": 23,
+        "endLine": 109,
+        "endChar": 27
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0825f5a8_adac9d9d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "You use here baseContent as well and not origContent ;)",
+      "range": {
+        "startLine": 433,
+        "startChar": 10,
+        "endLine": 433,
+        "endChar": 21
+      },
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0825f5a8_8da9e18d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T19:35:39Z",
+      "side": 1,
+      "message": "Same here: OrigValue, cmOrig, but baseContent. Harmonite it all and ue consequently base?",
+      "revId": "24790e88e8bda009fbe7775151b6783af802b4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

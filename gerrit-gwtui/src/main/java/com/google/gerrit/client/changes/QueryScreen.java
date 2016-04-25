@@ -34,6 +34,8 @@ public class QueryScreen extends PagedSingleListScreen implements
   // Change-Id
   private static final String ID_PATTERN = "[iI][0-9a-f]{4,}$";
   private static final RegExp CHANGE_ID = RegExp.compile("^" + ID_PATTERN);
+  private static final RegExp CHANGE_ID_TRIPLET =
+      RegExp.compile("^(.)+~(.)+~" + ID_PATTERN);
 
   public static QueryScreen forQuery(String query) {
     return forQuery(query, 0);
@@ -92,6 +94,7 @@ public class QueryScreen extends PagedSingleListScreen implements
   private static boolean isSingleQuery(String query) {
     return NUMERIC_ID.test(query)
         || CHANGE_ID.test(query)
+        || CHANGE_ID_TRIPLET.test(query)
         || COMMIT_SHA1.test(query);
   }
 }

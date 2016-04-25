@@ -69,10 +69,11 @@ public class ActionJson {
       return out;
     }
 
+    ChangeResource changeResource = changeResourceFactory.create(ctl);
     Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
     for (UiAction.Description d : UiActions.from(
         changeViews,
-        changeResourceFactory.create(ctl),
+        changeResource,
         userProvider)) {
       out.put(d.getId(), new ActionInfo(d));
     }

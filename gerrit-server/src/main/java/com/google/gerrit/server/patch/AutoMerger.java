@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.Sequence;
@@ -25,6 +26,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -52,9 +54,13 @@ public class AutoMerger {
   private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
 
   private final PersonIdent gerritIdent;
+  private final boolean save;
 
   @Inject
-  AutoMerger(@GerritPersonIdent PersonIdent gerritIdent) {
+  AutoMerger(
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent PersonIdent gerritIdent) {
+    save = cfg.getBoolean("change", null, "cacheAutomerge", true);
     this.gerritIdent = gerritIdent;
   }
 
@@ -64,8 +70,9 @@ public class AutoMerger {
    * @return auto-merge commit or {@code null} if an auto-merge commit
    *     couldn't be created. Headers of the returned RevCommit are parsed.
    */
-  public RevCommit merge(Repository repo, RevWalk rw, RevCommit merge,
-      ThreeWayMergeStrategy mergeStrategy) throws IOException {
+  public RevCommit merge(Repository repo, RevWalk rw, final ObjectInserter ins,
+      RevCommit merge, ThreeWayMergeStrategy mergeStrategy)
+      throws IOException {
     rw.parseHeaders(merge);
     String hash = merge.name();
     String refName = RefNames.REFS_CACHE_AUTOMERGE
@@ -78,128 +85,126 @@ public class AutoMerger {
       if (obj instanceof RevCommit) {
         return (RevCommit) obj;
       }
-      return commit(repo, rw, refName, obj, merge);
+      return commit(repo, rw, ins, refName, obj, merge);
     }
 
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
-    try (ObjectInserter ins = repo.newObjectInserter()) {
-      DirCache dc = DirCache.newInCore();
-      m.setDirCache(dc);
-      m.setObjectInserter(new ObjectInserter.Filter() {
-        @Override
-        protected ObjectInserter delegate() {
-          return ins;
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void close() {
-        }
-      });
-
-      boolean couldMerge;
-      try {
-        couldMerge = m.merge(merge.getParents());
-      } catch (IOException e) {
-        // It is not safe to continue further down in this method as throwing
-        // an exception most likely means that the merge tree was not created
-        // and m.getMergeResults() is empty. This would mean that all paths are
-        // unmerged and Gerrit UI would show all paths in the patch list.
-        log.warn("Error attempting automerge " + refName, e);
-        return null;
+    DirCache dc = DirCache.newInCore();
+    m.setDirCache(dc);
+    m.setObjectInserter(new ObjectInserter.Filter() {
+      @Override
+      protected ObjectInserter delegate() {
+        return ins;
       }
 
-      ObjectId treeId;
-      if (couldMerge) {
-        treeId = m.getResultTreeId();
-
-      } else {
-        RevCommit ours = merge.getParent(0);
-        RevCommit theirs = merge.getParent(1);
-        rw.parseBody(ours);
-        rw.parseBody(theirs);
-        String oursMsg = ours.getShortMessage();
-        String theirsMsg = theirs.getShortMessage();
-
-        String oursName = String.format("HEAD   (%s %s)",
-            ours.abbreviate(6).name(),
-            oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
-        String theirsName = String.format("BRANCH (%s %s)",
-            theirs.abbreviate(6).name(),
-            theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
-
-        MergeFormatter fmt = new MergeFormatter();
-        Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
-        Map<String, ObjectId> resolved = new HashMap<>();
-        for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
-          MergeResult<? extends Sequence> p = entry.getValue();
-          try (TemporaryBuffer buf =
-              new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
-            fmt.formatMerge(buf, p, "BASE", oursName, theirsName, UTF_8.name());
-            buf.close();
-
-            try (InputStream in = buf.openInputStream()) {
-              resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
-            }
-          }
-        }
-
-        DirCacheBuilder builder = dc.builder();
-        int cnt = dc.getEntryCount();
-        for (int i = 0; i < cnt;) {
-          DirCacheEntry entry = dc.getEntry(i);
-          if (entry.getStage() == 0) {
-            builder.add(entry);
-            i++;
-            continue;
-          }
-
-          int next = dc.nextEntry(i);
-          String path = entry.getPathString();
-          DirCacheEntry res = new DirCacheEntry(path);
-          if (resolved.containsKey(path)) {
-            // For a file with content merge conflict that we produced a result
-            // above on, collapse the file down to a single stage 0 with just
-            // the blob content, and a randomly selected mode (the lowest stage,
-            // which should be the merge base, or ours).
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(resolved.get(path));
-
-          } else if (next == i + 1) {
-            // If there is exactly one stage present, shouldn't be a conflict...
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(entry.getObjectId());
-
-          } else if (next == i + 2) {
-            // Two stages suggests a delete/modify conflict. Pick the higher
-            // stage as the automatic result.
-            entry = dc.getEntry(i + 1);
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(entry.getObjectId());
-
-          } else {
-            // 3 stage conflict, no resolve above
-            // Punt on the 3-stage conflict and show the base, for now.
-            res.setFileMode(entry.getFileMode());
-            res.setObjectId(entry.getObjectId());
-          }
-          builder.add(res);
-          i = next;
-        }
-        builder.finish();
-        treeId = dc.writeTree(ins);
+      @Override
+      public void flush() {
       }
-      ins.flush();
 
-      return commit(repo, rw, refName, treeId, merge);
+      @Override
+      public void close() {
+      }
+    });
+
+    boolean couldMerge;
+    try {
+      couldMerge = m.merge(merge.getParents());
+    } catch (IOException e) {
+      // It is not safe to continue further down in this method as throwing
+      // an exception most likely means that the merge tree was not created
+      // and m.getMergeResults() is empty. This would mean that all paths are
+      // unmerged and Gerrit UI would show all paths in the patch list.
+      log.warn("Error attempting automerge " + refName, e);
+      return null;
     }
+
+    ObjectId treeId;
+    if (couldMerge) {
+      treeId = m.getResultTreeId();
+
+    } else {
+      RevCommit ours = merge.getParent(0);
+      RevCommit theirs = merge.getParent(1);
+      rw.parseBody(ours);
+      rw.parseBody(theirs);
+      String oursMsg = ours.getShortMessage();
+      String theirsMsg = theirs.getShortMessage();
+
+      String oursName = String.format("HEAD   (%s %s)",
+          ours.abbreviate(6).name(),
+          oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
+      String theirsName = String.format("BRANCH (%s %s)",
+          theirs.abbreviate(6).name(),
+          theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
+
+      MergeFormatter fmt = new MergeFormatter();
+      Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
+      Map<String, ObjectId> resolved = new HashMap<>();
+      for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
+        MergeResult<? extends Sequence> p = entry.getValue();
+        try (TemporaryBuffer buf =
+            new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
+          fmt.formatMerge(buf, p, "BASE", oursName, theirsName, UTF_8.name());
+          buf.close();
+
+          try (InputStream in = buf.openInputStream()) {
+            resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+          }
+        }
+      }
+
+      DirCacheBuilder builder = dc.builder();
+      int cnt = dc.getEntryCount();
+      for (int i = 0; i < cnt;) {
+        DirCacheEntry entry = dc.getEntry(i);
+        if (entry.getStage() == 0) {
+          builder.add(entry);
+          i++;
+          continue;
+        }
+
+        int next = dc.nextEntry(i);
+        String path = entry.getPathString();
+        DirCacheEntry res = new DirCacheEntry(path);
+        if (resolved.containsKey(path)) {
+          // For a file with content merge conflict that we produced a result
+          // above on, collapse the file down to a single stage 0 with just
+          // the blob content, and a randomly selected mode (the lowest stage,
+          // which should be the merge base, or ours).
+          res.setFileMode(entry.getFileMode());
+          res.setObjectId(resolved.get(path));
+
+        } else if (next == i + 1) {
+          // If there is exactly one stage present, shouldn't be a conflict...
+          res.setFileMode(entry.getFileMode());
+          res.setObjectId(entry.getObjectId());
+
+        } else if (next == i + 2) {
+          // Two stages suggests a delete/modify conflict. Pick the higher
+          // stage as the automatic result.
+          entry = dc.getEntry(i + 1);
+          res.setFileMode(entry.getFileMode());
+          res.setObjectId(entry.getObjectId());
+
+        } else {
+          // 3 stage conflict, no resolve above
+          // Punt on the 3-stage conflict and show the base, for now.
+          res.setFileMode(entry.getFileMode());
+          res.setObjectId(entry.getObjectId());
+        }
+        builder.add(res);
+        i = next;
+      }
+      builder.finish();
+      treeId = dc.writeTree(ins);
+    }
+    ins.flush();
+
+    return commit(repo, rw, ins, refName, treeId, merge);
   }
 
-  private RevCommit commit(Repository repo, RevWalk rw, String refName,
-      ObjectId tree, RevCommit merge) throws IOException {
+  private RevCommit commit(Repository repo, RevWalk rw, ObjectInserter ins,
+      String refName, ObjectId tree, RevCommit merge) throws IOException {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
@@ -216,16 +221,15 @@ public class AutoMerger {
       cb.addParentId(p);
     }
     ObjectId commitId;
-    try (ObjectInserter ins = repo.newObjectInserter()) {
-      commitId = ins.insert(cb);
+    commitId = ins.insert(cb);
+    if (save) {
       ins.flush();
+
+      RefUpdate ru = repo.updateRef(refName);
+      ru.setNewObjectId(commitId);
+      ru.disableRefLog();
+      ru.forceUpdate();
     }
-
-    RefUpdate ru = repo.updateRef(refName);
-    ru.setNewObjectId(commitId);
-    ru.disableRefLog();
-    ru.forceUpdate();
-
     return rw.parseCommit(commitId);
   }
 }

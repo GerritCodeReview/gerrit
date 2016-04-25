@@ -31,10 +31,11 @@ import net.codemirror.lib.TextMarker.FromTo;
  */
 abstract class CommentGroup extends Composite {
 
+  final DisplaySide side;
+  final int line;
+
   private final CommentManager manager;
   private final CodeMirror cm;
-  private final DisplaySide side;
-  private final int line;
   private final FlowPanel comments;
   private LineWidget lineWidget;
   private Timer resizeTimer;

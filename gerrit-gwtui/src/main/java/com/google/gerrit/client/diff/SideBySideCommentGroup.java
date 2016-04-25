@@ -21,6 +21,8 @@ import com.google.gwt.user.client.Timer;
 
 import net.codemirror.lib.CodeMirror;
 
+import java.util.PriorityQueue;
+
 /**
  * LineWidget attached to a CodeMirror container.
  *
@@ -28,14 +30,15 @@ import net.codemirror.lib.CodeMirror;
  * The group tracks all comment boxes on that same line, and also includes an
  * empty padding element to keep subsequent lines vertically aligned.
  */
-class SideBySideCommentGroup extends CommentGroup {
+class SideBySideCommentGroup extends CommentGroup
+    implements Comparable<SideBySideCommentGroup> {
   static void pair(SideBySideCommentGroup a, SideBySideCommentGroup b) {
-    a.peer = b;
-    b.peer = a;
+    a.peers.add(b);
+    b.peers.add(a);
   }
 
   private final Element padding;
-  private SideBySideCommentGroup peer;
+  private final PriorityQueue<SideBySideCommentGroup> peers;
 
   SideBySideCommentGroup(SideBySideCommentManager manager, CodeMirror cm, DisplaySide side,
       int line) {
@@ -45,29 +48,42 @@ class SideBySideCommentGroup extends CommentGroup {
     padding.setClassName(SideBySideTable.style.padding());
     SideBySideChunkManager.focusOnClick(padding, cm.side());
     getElement().appendChild(padding);
+    peers = new PriorityQueue<>();
   }
 
   SideBySideCommentGroup getPeer() {
-    return peer;
+    return peers.peek();
   }
 
   @Override
   void remove(DraftBox box) {
     super.remove(box);
 
-    if (0 < getBoxCount() || 0 < peer.getBoxCount()) {
-      resize();
-    } else {
+    if (getBoxCount() == 0 && peers.size() == 1
+        && peers.peek().peers.size() > 1) {
+      SideBySideCommentGroup peer = peers.peek();
+      peer.peers.remove(this);
       detach();
-      peer.detach();
+      if (peer.getBoxCount() == 0 && peer.peers.size() == 1
+          && peer.peers.peek().getBoxCount() == 0) {
+        peer.detach();
+      } else {
+        peer.resize();
+      }
+    } else {
+      resize();
     }
   }
 
   @Override
   void init(DiffTable parent) {
-    if (getLineWidget() == null && peer.getLineWidget() == null) {
-      this.attach(parent);
-      peer.attach(parent);
+    if (getLineWidget() == null) {
+      attach(parent);
+    }
+    for (CommentGroup peer : peers) {
+      if (peer.getLineWidget() == null) {
+        peer.attach(parent);
+      }
     }
   }
 
@@ -76,20 +92,20 @@ class SideBySideCommentGroup extends CommentGroup {
     getLineWidget().onRedraw(new Runnable() {
       @Override
       public void run() {
-        if (canComputeHeight() && peer.canComputeHeight()) {
+        if (canComputeHeight() && peers.peek().canComputeHeight()) {
           if (getResizeTimer() != null) {
             getResizeTimer().cancel();
             setResizeTimer(null);
           }
-          adjustPadding(SideBySideCommentGroup.this, peer);
+          adjustPadding(SideBySideCommentGroup.this, peers.peek());
         } else if (getResizeTimer() == null) {
           setResizeTimer(new Timer() {
             @Override
             public void run() {
-              if (canComputeHeight() && peer.canComputeHeight()) {
+              if (canComputeHeight() && peers.peek().canComputeHeight()) {
                 cancel();
                 setResizeTimer(null);
-                adjustPadding(SideBySideCommentGroup.this, peer);
+                adjustPadding(SideBySideCommentGroup.this, peers.peek());
               }
             }
           });
@@ -102,7 +118,7 @@ class SideBySideCommentGroup extends CommentGroup {
   @Override
   void resize() {
     if (getLineWidget() != null) {
-      adjustPadding(this, peer);
+      adjustPadding(this, peers.peek());
     }
   }
 
@@ -117,6 +133,16 @@ class SideBySideCommentGroup extends CommentGroup {
   private static void adjustPadding(SideBySideCommentGroup a, SideBySideCommentGroup b) {
     int apx = a.computeHeight();
     int bpx = b.computeHeight();
+    for (SideBySideCommentGroup otherPeer : a.peers) {
+      if (otherPeer != b) {
+        bpx += otherPeer.computeHeight();
+      }
+    }
+    for (SideBySideCommentGroup otherPeer : b.peers) {
+      if (otherPeer != a) {
+        apx += otherPeer.computeHeight();
+      }
+    }
     int h = Math.max(apx, bpx);
     a.padding.getStyle().setHeight(Math.max(0, h - apx), Unit.PX);
     b.padding.getStyle().setHeight(Math.max(0, h - bpx), Unit.PX);
@@ -124,5 +150,15 @@ class SideBySideCommentGroup extends CommentGroup {
     b.getLineWidget().changed();
     a.updateSelection();
     b.updateSelection();
+  }
+
+  @Override
+  public int compareTo(SideBySideCommentGroup o) {
+    if (side == o.side) {
+      return line - o.line;
+    } else {
+      throw new IllegalStateException(
+          "Cannot compare SideBySideCommentGroup with different sides");
+    }
   }
 }

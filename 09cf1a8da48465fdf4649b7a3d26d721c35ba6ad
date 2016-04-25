@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48436d50_6f8fd134",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-04-25T17:36:23Z",
+      "side": 1,
+      "message": "Try with resources since both ins \u0026 walk are AutoCloseables.",
+      "range": {
+        "startLine": 295,
+        "startChar": 6,
+        "endLine": 295,
+        "endChar": 9
+      },
+      "revId": "09cf1a8da48465fdf4649b7a3d26d721c35ba6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68403143_5094ac46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-04-25T17:36:23Z",
+      "side": 1,
+      "message": "Treat \"walk\" and \"ins\" consistently. Here walk is explicitly passed in but ins is not. My preference would be to not have them be member variables and explicitly pass them where needed.",
+      "range": {
+        "startLine": 370,
+        "startChar": 46,
+        "endLine": 370,
+        "endChar": 50
+      },
+      "revId": "09cf1a8da48465fdf4649b7a3d26d721c35ba6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

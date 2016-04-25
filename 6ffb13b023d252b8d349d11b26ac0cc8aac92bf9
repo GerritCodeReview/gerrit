@@ -23,6 +23,30 @@
       "revId": "6ffb13b023d252b8d349d11b26ac0cc8aac92bf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_db0f2b86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-25T13:52:20Z",
+      "side": 1,
+      "message": "No, not really. Should I fix it in this change or should it rather be a separate change?",
+      "parentUuid": "a8e86966_02a36aaf",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 41
+      },
+      "revId": "6ffb13b023d252b8d349d11b26ac0cc8aac92bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

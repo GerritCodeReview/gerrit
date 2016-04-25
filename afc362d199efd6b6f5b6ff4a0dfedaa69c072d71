@@ -22,6 +22,30 @@
       "revId": "afc362d199efd6b6f5b6ff4a0dfedaa69c072d71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4827ec98_86332a47",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ChunkManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-25T06:07:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d52c29_f983138c",
+      "range": {
+        "startLine": 36,
+        "startChar": 19,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "afc362d199efd6b6f5b6ff4a0dfedaa69c072d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

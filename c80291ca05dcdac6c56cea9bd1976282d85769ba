@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88148534_798f8734",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-25T14:54:45Z",
+      "side": 1,
+      "message": "Why the double hidden?",
+      "revId": "c80291ca05dcdac6c56cea9bd1976282d85769ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680bd118_788f8134",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-04-25T14:54:45Z",
+      "side": 1,
+      "message": "My personal pref would be to throw here, and catch at the bottom of this block (or even outside of it and closer to the call site). The motivation being to not intermix the .then() functionality and the .catch() (error case) handling, however this is not blocking, just something to noodle on.",
+      "revId": "c80291ca05dcdac6c56cea9bd1976282d85769ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

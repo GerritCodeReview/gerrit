@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d0f83a_f8866d44",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T09:57:58Z",
+      "side": 1,
+      "message": "This part seems to be common to both: unified and side-by-side views. Move it to the method of the base class and call it here.",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 270,
+        "endChar": 5
+      },
+      "revId": "fcc03fe9ca53fb6d8a1566b833b6b263b7741efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d0f83a_d88bb14a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T09:57:58Z",
+      "side": 1,
+      "message": "Same comment here.",
+      "range": {
+        "startLine": 253,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 5
+      },
+      "revId": "fcc03fe9ca53fb6d8a1566b833b6b263b7741efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_99089fc6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T09:57:58Z",
+      "side": 1,
+      "message": "Why refresh is missing in side-by-side view here?",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 259,
+        "endChar": 17
+      },
+      "revId": "fcc03fe9ca53fb6d8a1566b833b6b263b7741efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

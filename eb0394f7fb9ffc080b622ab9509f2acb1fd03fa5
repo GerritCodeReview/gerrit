@@ -34,6 +34,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_791703dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-25T11:10:15Z",
+      "side": 1,
+      "message": "well, i would like that, too - ideally skipping dupes in unmodified code in the side-by-side view.\ni also want to search inside both already posted comments and my drafts.\nbut in neither case do i want to have to fall back to the browser search - it\u0027s a kludge in every case.",
+      "parentUuid": "4827ec98_462bf2c2",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

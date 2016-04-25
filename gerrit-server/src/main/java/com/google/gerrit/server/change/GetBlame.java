@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -85,7 +86,8 @@ public class GetBlame implements RestReadView<FileResource> {
 
     Project.NameKey project = resource.getRevision().getChange().getProject();
     try (Repository repository = repoManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(repository)) {
+        ObjectInserter ins = repository.newObjectInserter();
+        RevWalk revWalk = new RevWalk(ins.newReader())) {
       String refName = resource.getRevision().getEdit().isPresent()
           ? resource.getRevision().getEdit().get().getRefName()
           : resource.getRevision().getPatchSet().getRefName();
@@ -111,8 +113,8 @@ public class GetBlame implements RestReadView<FileResource> {
         result = blame(parents[0], path, repository, revWalk);
 
       } else if (parents.length == 2) {
-        ObjectId automerge = autoMerger.merge(repository, revWalk, revCommit,
-            mergeStrategy);
+        ObjectId automerge = autoMerger.merge(repository, revWalk, ins,
+            revCommit, mergeStrategy);
         result = blame(automerge, path, repository, revWalk);
 
       } else {

@@ -267,7 +267,6 @@ public class AllChangesIndexer
     private final ProgressMonitor failed;
     private final PrintWriter verboseWriter;
     private final Repository repo;
-    private RevWalk walk;
 
     private ProjectIndexer(ChangeIndexer indexer,
         ThreeWayMergeStrategy mergeStrategy,
@@ -289,8 +288,8 @@ public class AllChangesIndexer
 
     @Override
     public Void call() throws Exception {
-      walk = new RevWalk(repo);
-      try {
+      try (ObjectInserter ins = repo.newObjectInserter();
+          RevWalk walk = new RevWalk(ins.newReader())) {
         // Walk only refs first to cover as many changes as we can without having
         // to mark every single change.
         for (Ref ref : repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
@@ -303,26 +302,25 @@ public class AllChangesIndexer
         RevCommit bCommit;
         while ((bCommit = walk.next()) != null && !byId.isEmpty()) {
           if (byId.containsKey(bCommit)) {
-            getPathsAndIndex(bCommit);
+            getPathsAndIndex(walk, ins, bCommit);
             byId.removeAll(bCommit);
           }
         }
 
         for (ObjectId id : byId.keySet()) {
-          getPathsAndIndex(id);
+          getPathsAndIndex(walk, ins, id);
         }
-      } finally {
-        walk.close();
       }
       return null;
     }
 
-    private void getPathsAndIndex(ObjectId b) throws Exception {
+    private void getPathsAndIndex(RevWalk walk, ObjectInserter ins, ObjectId b)
+        throws Exception {
       List<ChangeData> cds = Lists.newArrayList(byId.get(b));
       try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
         RevCommit bCommit = walk.parseCommit(b);
         RevTree bTree = bCommit.getTree();
-        RevTree aTree = aFor(bCommit, walk);
+        RevTree aTree = aFor(bCommit, walk, ins);
         df.setRepository(repo);
         if (!cds.isEmpty()) {
           List<String> paths = (aTree != null)
@@ -364,7 +362,8 @@ public class AllChangesIndexer
       return ImmutableList.copyOf(paths);
     }
 
-    private RevTree aFor(RevCommit b, RevWalk walk) throws IOException {
+    private RevTree aFor(RevCommit b, RevWalk walk, ObjectInserter ins)
+        throws IOException {
       switch (b.getParentCount()) {
         case 0:
           return walk.parseTree(emptyTree());
@@ -373,7 +372,7 @@ public class AllChangesIndexer
           walk.parseBody(a);
           return walk.parseTree(a.getTree());
         case 2:
-          RevCommit am = autoMerger.merge(repo, walk, b, mergeStrategy);
+          RevCommit am = autoMerger.merge(repo, walk, ins, b, mergeStrategy);
           return am == null ? null : am.getTree();
         default:
           return null;

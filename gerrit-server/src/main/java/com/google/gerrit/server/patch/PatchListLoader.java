@@ -136,11 +136,12 @@ public class PatchListLoader implements Callable<PatchList> {
   private PatchList readPatchList(final PatchListKey key, final Repository repo)
       throws IOException, PatchListNotAvailableException {
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
-    try (ObjectReader reader = repo.newObjectReader();
+    try (ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader);
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
       final RevCommit b = rw.parseCommit(key.getNewId());
-      final RevObject a = aFor(key, repo, rw, b);
+      final RevObject a = aFor(key, repo, rw, ins, b);
 
       if (a == null) {
         // TODO(sop) Remove this case.
@@ -317,8 +318,8 @@ public class PatchListLoader implements Callable<PatchList> {
     }
   }
 
-  private RevObject aFor(final PatchListKey key,
-      final Repository repo, final RevWalk rw, final RevCommit b)
+  private RevObject aFor(PatchListKey key,
+      Repository repo, RevWalk rw, ObjectInserter ins, RevCommit b)
       throws IOException {
     if (key.getOldId() != null) {
       return rw.parseAny(key.getOldId());
@@ -333,7 +334,7 @@ public class PatchListLoader implements Callable<PatchList> {
         return r;
       }
       case 2:
-        return autoMerger.merge(repo, rw, b, mergeStrategy);
+        return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
       default:
         // TODO(sop) handle an octopus merge.
         return null;

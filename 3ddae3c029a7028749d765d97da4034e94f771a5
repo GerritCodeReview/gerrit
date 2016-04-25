@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "282ab97a_cecda36f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T20:48:27Z",
+      "side": 1,
+      "message": "\u003e ... which actually seems like a good idea to me, if that would be possible.\n\n\nI think we almost agree. I\u0027m fine with passing in the commitInfo instance into this component. All I\u0027m saying, we shouldn\u0027t persist in component more data that is actually needed. We need two attributes from there, fine, let\u0027s just persist them and not more. \n\nHave a look to the corresponding Actions.java component in GWT UI (yes, I know we are building here completely new UI, so there is no point to compare it to GWT based UI, but still): [1]. We are passing ChangeInfo (root) entity in display method and current revision we are on. So the argumentation commit message belongs togther with SHA1 is correct, but we don\u0027t actually care where it comes from (we don\u0027t touch SHA1 attribute from the commitInfo entity). Now what happens with CommitInfo? We are retrieving it from ChangeInfo: [2], but only persist revision, subject (construct revert commit message) and the whole message (construct the cherry-pick message).\n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java#L76\n* [2] https://github.com/gerrit-review/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java#L85-L86",
+      "parentUuid": "e83341f3_2cb0b3ec",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 8
+      },
+      "revId": "3ddae3c029a7028749d765d97da4034e94f771a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d0f83a_385d0550",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1

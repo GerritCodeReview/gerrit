@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_0e03ab64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DisplaySide.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T21:12:59Z",
+      "side": 1,
+      "message": "Bad rebase: This method is required in another change.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 3
+      },
+      "revId": "1934618e9b4bbf80fbdf65d430b4014a8ae7d9e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

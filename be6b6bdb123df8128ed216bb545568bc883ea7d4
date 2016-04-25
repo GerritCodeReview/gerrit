@@ -34,6 +34,24 @@
       "revId": "be6b6bdb123df8128ed216bb545568bc883ea7d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48d52c29_d927374b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-25T10:58:33Z",
+      "side": 1,
+      "message": "the \"notification firehose\" argument makes no sense - this change is inherently opposed to it.\n\nas i already said, i positively *do* want to be notified if somebody removes me, even if i didn\u0027t vote yet (i really don\u0027t like preemptively giving a negative vote while i haven\u0027t actually made up my mind).\n\nthe case of (accidentally) adding someone and removing them instantly could be handled more elegantly by delaying message sending by half a minute or so - this allows for batching of notifications, up to complete cancellation.\nof course, this is a somewhat major change for pretty much a corner case, so i don\u0027t think it\u0027s worth spending effort on it.\n\nand as a matter of fact, as the one receiving the faulty invitation, i actually want to get the removal notification as well, so i know that i don\u0027t need to bother opening the review (and then wondering wth has just happened, because there is no trace of it in the message log).\n\nthe argument about the change message table is invalid for the same reasons. also, filtering of status update messages was recently or is currently being implemented, no?",
+      "parentUuid": "28d0f83a_18c00969",
+      "revId": "be6b6bdb123df8128ed216bb545568bc883ea7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

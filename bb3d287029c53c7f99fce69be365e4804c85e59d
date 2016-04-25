@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_2efe677c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T21:02:20Z",
+      "side": 1,
+      "message": "Optional: Unrelated addition (fix) in this change and could be extacted in its own change (together with wrong base_revision case, see my comment below).",
+      "range": {
+        "startLine": 1813,
+        "startChar": 4,
+        "endLine": 1813,
+        "endChar": 62
+      },
+      "revId": "bb3d287029c53c7f99fce69be365e4804c85e59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_4e09b384",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 4483,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-25T21:02:20Z",
+      "side": 1,
+      "message": "Unrelated to this change, but this camel case is wrong. This should be base_revision.",
+      "range": {
+        "startLine": 4483,
+        "startChar": 2,
+        "endLine": 4483,
+        "endChar": 14
+      },
+      "revId": "bb3d287029c53c7f99fce69be365e4804c85e59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

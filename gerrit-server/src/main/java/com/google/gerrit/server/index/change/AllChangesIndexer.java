@@ -267,6 +267,7 @@ public class AllChangesIndexer
     private final ProgressMonitor failed;
     private final PrintWriter verboseWriter;
     private final Repository repo;
+    private ObjectInserter ins;
     private RevWalk walk;
 
     private ProjectIndexer(ChangeIndexer indexer,
@@ -289,7 +290,8 @@ public class AllChangesIndexer
 
     @Override
     public Void call() throws Exception {
-      walk = new RevWalk(repo);
+      ins = repo.newObjectInserter();
+      walk = new RevWalk(ins.newReader());
       try {
         // Walk only refs first to cover as many changes as we can without having
         // to mark every single change.
@@ -313,6 +315,7 @@ public class AllChangesIndexer
         }
       } finally {
         walk.close();
+        ins.close();
       }
       return null;
     }
@@ -373,7 +376,7 @@ public class AllChangesIndexer
           walk.parseBody(a);
           return walk.parseTree(a.getTree());
         case 2:
-          RevCommit am = autoMerger.merge(repo, walk, b, mergeStrategy);
+          RevCommit am = autoMerger.merge(repo, walk, ins, b, mergeStrategy);
           return am == null ? null : am.getTree();
         default:
           return null;

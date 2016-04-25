@@ -29,6 +29,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -347,36 +348,33 @@ class SideBySideCommentManager extends CommentManager {
   }
 
   private SideBySideCommentGroup group(DisplaySide side, int line) {
-    SideBySideCommentGroup w = map(side).get(line);
-    if (w != null) {
-      return w;
+    SideBySideCommentGroup existing = map(side).get(line);
+    if (existing != null) {
+      return existing;
     }
 
-    int lineA;
-    int lineB;
-    if (line == 0) {
-      lineA = lineB = 0;
-    } else if (side == DisplaySide.A) {
-      lineA = line;
-      lineB = host.lineOnOther(side, line - 1).getLine() + 1;
+    SideBySideCommentGroup newGroup = newGroup(side, line);
+    Map<Integer, SideBySideCommentGroup> map =
+        side == DisplaySide.A ? sideA : sideB;
+    Map<Integer, SideBySideCommentGroup> otherMap =
+        side == DisplaySide.A ? sideB : sideA;
+    map.put(line, newGroup);
+    int otherLine = host.lineOnOther(side, line - 1).getLine() + 1;
+    existing = map(side.otherSide()).get(otherLine);
+    SideBySideCommentGroup otherGroup;
+    if (existing != null) {
+      otherGroup = existing;
     } else {
-      lineA = host.lineOnOther(side, line - 1).getLine() + 1;
-      lineB = line;
+      otherGroup = newGroup(side.otherSide(), otherLine);
+      otherMap.put(otherLine, otherGroup);
     }
-
-    SideBySideCommentGroup a = newGroup(DisplaySide.A, lineA);
-    SideBySideCommentGroup b = newGroup(DisplaySide.B, lineB);
-    SideBySideCommentGroup.pair(a, b);
-
-    sideA.put(lineA, a);
-    sideB.put(lineB, b);
+    SideBySideCommentGroup.pair(newGroup, otherGroup);
 
     if (isAttached()) {
-      a.init(host.getDiffTable());
-      b.handleRedraw();
+      newGroup.init(host.getDiffTable());
+      otherGroup.handleRedraw();
     }
-
-    return side == DisplaySide.A ? a : b;
+    return newGroup;
   }
 
   private SideBySideCommentGroup newGroup(DisplaySide side, int line) {

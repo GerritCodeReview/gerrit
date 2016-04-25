@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ProjectApi {

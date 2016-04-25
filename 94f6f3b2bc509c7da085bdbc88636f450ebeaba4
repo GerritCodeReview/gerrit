@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d52c29_397bcb4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-25T07:08:49Z",
+      "side": 1,
+      "message": "Better use Index.Input here instead of importing the Input class.",
+      "range": {
+        "startLine": 433,
+        "startChar": 30,
+        "endLine": 433,
+        "endChar": 35
+      },
+      "revId": "94f6f3b2bc509c7da085bdbc88636f450ebeaba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

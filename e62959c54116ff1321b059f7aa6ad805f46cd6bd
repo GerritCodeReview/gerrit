@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68591145_c8210fa6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-26T14:46:20Z",
+      "side": 1,
+      "message": "it is checking if branch ends with autoclose and not checking if it is magic one therefore I propose to either rename it to isEndingWithAutoClose or add check if it is also magic branch",
+      "range": {
+        "startLine": 56,
+        "startChar": 24,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "e62959c54116ff1321b059f7aa6ad805f46cd6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

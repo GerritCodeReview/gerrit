@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_8e731b05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T03:43:57Z",
+      "side": 1,
+      "message": "On second thought we could eliminate GET /changes/\u003cid\u003e/edit request altogether. We retrieve the content of a file for change edit with:\n\n  GET /changes/\u003cid\u003e/edit/foo\n\nThe idea is to do the query for the base revision and the content of the base in the same request. Justification: we don\u0027t want to call the GET /changes/\u003cid\u003e/edit to retrieve the base revision and to retrieve the content of the base in second request. This UI needs this shortcut, so the probability is high, that every UI would need it. So the way to go is to extend the current get chenge edit content request and accept base parameter:\n\n  GET /changes/\u003cid\u003e/edit/foo\u0026base\n\nSomething like that (untested):\n\n  http://paste.openstack.org/show/495379\n\nThen we would just pass this argument to the existing method:\n\n  ChangeEditApi.get(revision, path, true /*base*/,\n  [...]\n\nThe change to the existing request should be done in its own change.",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 217,
+        "endChar": 57
+      },
+      "revId": "a4ce42e76e137708544e9657f30e4ef03e29b4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

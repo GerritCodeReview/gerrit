@@ -32,6 +32,7 @@ public final class MagicBranch {
   public static final String NEW_CHANGE = "refs/for/";
   public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
   public static final String NEW_PUBLISH_CHANGE = "refs/publish/";
+  public static final String AUTO_CLOSE_SUFIX = "%submit";
 
   /** Extracts the destination from a ref name */
   public static String getDestBranchName(String refName) {
@@ -49,6 +50,11 @@ public final class MagicBranch {
     return refName.startsWith(NEW_DRAFT_CHANGE)
         || refName.startsWith(NEW_PUBLISH_CHANGE)
         || refName.startsWith(NEW_CHANGE);
+  }
+
+  /** Checks if the supplied ref name ends with auto-close parameter */
+  public static boolean isEndingWithAutoClose(String refName) {
+    return refName.endsWith(AUTO_CLOSE_SUFIX);
   }
 
   /** Returns the ref name prefix for a magic branch, {@code null} if the branch is not magic */

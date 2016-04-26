@@ -17,6 +17,24 @@
       "revId": "1c6e43e897e2e80038beb9e4b5af8e45f1edf9bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68591145_68ffc312",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T17:07:39Z",
+      "side": 1,
+      "message": "\u003e If only either of subIndex or name is used, should we just have one parameter for it and let callers decide what to pass in?\n\nWe need both names here. I explained in the commit message why.\n\n \u003e Alternatively, having both parameters would make sense if the index name is composed out of both parameters.\n\nGood point. Done.",
+      "parentUuid": "282ab97a_0ea4cb65",
+      "revId": "1c6e43e897e2e80038beb9e4b5af8e45f1edf9bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

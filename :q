@@ -1,0 +1,1465 @@
+[33mcommit d17068b735907b95076649577a156e55733b9256[m
+Author: Edwin Kempin <ekempin@google.com>
+Date:   Tue Apr 26 13:25:07 2016 +0200
+
+    Migrate project watches to git (part 1)
+    
+    In git the project watch configuration of a user is stored in a
+    'watch.config' file in the refs/users/<sharded-id> user branch in the
+    All-Users repository.
+    
+    The 'watch.config' file is a git config file that has one 'project'
+    section for all project watches of a project. This means if we ever
+    want to watch other entities we can add further sections in this file
+    (e.g. 'group' sections if we want to support watching of group
+    modifications).
+    
+    The project name is used as subsection name and the filters with the
+    notify types that decide for which events email notifications should
+    be sent are represented as 'notify' values in the subsection. A
+    'notify' value is formatted as
+    "<filter> [<comma-separated-list-of-notify-types>]":
+    
+      [project "foo"]
+        notify = * [ALL_COMMENTS]
+        notify = branch:master [ALL_COMMENTS, NEW_PATCHSETS]
+        notify = branch:master owner:self [SUBMITTED_CHANGES]
+    
+    For a change event a notification will be send if any 'notify' value
+    of the corresponding project has both, a filter that matches the
+    change and a notify type that matches the event.
+    
+    If two notify values in the same subsection have the same filter they
+    are merged on the next save, taking the union of the notify types.
+    
+    For watch configurations that notify on no event the list of notify
+    types is empty:
+    
+      [project "foo"]
+        notify = branch:master []
+    
+    Unknown notify types are ignored and removed on save.
+    
+    To support a live migration on a multi-master Gerrit installation, the
+    upgrade is done in 2 steps:
+    
+    - part 1 (this change):
+      * always write to both backends (database and git)
+      * a configuration option (user.readProjectWatchesFromGit) decides if
+        the project watches are read from database or git (default:
+        database)
+      * upgraded instances write to both backends, old instances only
+        read/write from/to the database
+      * after upgrading all instances (all still read from the database)
+        run a batch to copy all project watches from the database to git
+      * update all instances to read from git
+      * make sure all instances use the new schema version of the account
+        index
+    - part 2 (next change):
+      * bump the database schema version
+      * migrate the project watches from database to git (for single
+        instance Gerrit servers)
+      * delete the database table
+      * delete the user.readProjectWatchesFromGit config option
+    
+    This change requires that the account cache is manually evicted.
+    
+    Change-Id: I4f8d4e8a762aeb4b46e27bb3bf9e58f91611145d
+    Signed-off-by: Edwin Kempin <ekempin@google.com>
+
+[1mdiff --git a/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java b/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java[m
+[1mindex 5dfae50..32cfc9b 100644[m
+[1m--- a/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java[m
+[1m+++ b/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java[m
+[36m@@ -119,6 +119,22 @@[m [mpublic class WatchedProjectsIT extends AbstractDaemonTest {[m
+   }[m
+ [m
+   @Test[m
+[32m+[m[32m  public void setAndGetEmptyWatch() throws Exception {[m
+[32m+[m[32m    String projectName = createProject(NEW_PROJECT_NAME).get();[m
+[32m+[m
+[32m+[m[32m    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();[m
+[32m+[m
+[32m+[m[32m    ProjectWatchInfo pwi = new ProjectWatchInfo();[m
+[32m+[m[32m    pwi.project = projectName;[m
+[32m+[m[32m    projectsToWatch.add(pwi);[m
+[32m+[m
+[32m+[m[32m    gApi.accounts().self().setWatchedProjects(projectsToWatch);[m
+[32m+[m[32m    List<ProjectWatchInfo> persistedWatchedProjects =[m
+[32m+[m[32m        gApi.accounts().self().getWatchedProjects();[m
+[32m+[m[32m    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Test[m
+   public void watchNonExistingProject() throws Exception {[m
+     String projectName = NEW_PROJECT_NAME + "3";[m
+ [m
+[1mdiff --git a/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java b/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java[m
+[1mindex beb869e..556dddc 100644[m
+[1m--- a/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java[m
+[1m+++ b/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java[m
+[36m@@ -47,4 +47,30 @@[m [mpublic class ProjectWatchInfo {[m
+         .hash(project, filter, notifyNewChanges, notifyNewPatchSets,[m
+             notifyAllComments, notifySubmittedChanges, notifyAbandonedChanges);[m
+   }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public String toString() {[m
+[32m+[m[32m    StringBuilder b = new StringBuilder();[m
+[32m+[m[32m    b.append(project);[m
+[32m+[m[32m    if (filter != null) {[m
+[32m+[m[32m      b.append("%filter=")[m
+[32m+[m[32m          .append(filter);[m
+[32m+[m[32m    }[m
+[32m+[m[32m    b.append("(notifyAbandonedChanges=")[m
+[32m+[m[32m        .append(toBoolean(notifyAbandonedChanges))[m
+[32m+[m[32m        .append(", notifyAllComments=")[m
+[32m+[m[32m        .append(toBoolean(notifyAllComments))[m
+[32m+[m[32m        .append(", notifyNewChanges=")[m
+[32m+[m[32m        .append(toBoolean(notifyNewChanges))[m
+[32m+[m[32m        .append(", notifyNewPatchSets=")[m
+[32m+[m[32m        .append(toBoolean(notifyNewPatchSets))[m
+[32m+[m[32m        .append(", notifySubmittedChanges=")[m
+[32m+[m[32m        .append(toBoolean(notifySubmittedChanges))[m
+[32m+[m[32m        .append(")");[m
+[32m+[m[32m    return b.toString();[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private boolean toBoolean(Boolean b) {[m
+[32m+[m[32m    return b == null ? false : b;[m
+[32m+[m[32m  }[m
+ }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java[m
+[1mindex af0ee4c..526901f 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java[m
+[36m@@ -24,9 +24,11 @@[m [mimport com.google.gerrit.reviewdb.client.Account;[m
+ import com.google.gerrit.reviewdb.client.AccountExternalId;[m
+ import com.google.gerrit.reviewdb.client.AccountGroup;[m
+ import com.google.gerrit.reviewdb.client.AccountGroupMember;[m
+[31m-import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+ import com.google.gerrit.reviewdb.server.ReviewDb;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ import com.google.gerrit.server.cache.CacheModule;[m
+[32m+[m[32mimport com.google.gerrit.server.config.GerritServerConfig;[m
+ import com.google.gerrit.server.index.account.AccountIndexer;[m
+ import com.google.gwtorm.server.OrmException;[m
+ import com.google.gwtorm.server.SchemaFactory;[m
+[36m@@ -38,13 +40,16 @@[m [mimport com.google.inject.TypeLiteral;[m
+ import com.google.inject.name.Named;[m
+ [m
+ import org.eclipse.jgit.errors.ConfigInvalidException;[m
+[32m+[m[32mimport org.eclipse.jgit.lib.Config;[m
+ import org.slf4j.Logger;[m
+ import org.slf4j.LoggerFactory;[m
+ [m
+ import java.io.IOException;[m
+ import java.util.Collection;[m
+ import java.util.Collections;[m
+[32m+[m[32mimport java.util.HashMap;[m
+ import java.util.HashSet;[m
+[32m+[m[32mimport java.util.Map;[m
+ import java.util.Set;[m
+ import java.util.concurrent.ExecutionException;[m
+ [m
+[36m@@ -133,9 +138,9 @@[m [mpublic class AccountCacheImpl implements AccountCache {[m
+     Account account = new Account(accountId, TimeUtil.nowTs());[m
+     account.setActive(false);[m
+     Collection<AccountExternalId> ids = Collections.emptySet();[m
+[31m-    Collection<AccountProjectWatch> projectWatches = Collections.emptySet();[m
+     Set<AccountGroup.UUID> anon = ImmutableSet.of();[m
+[31m-    return new AccountState(account, anon, ids, projectWatches);[m
+[32m+[m[32m    return new AccountState(account, anon, ids,[m
+[32m+[m[32m        new HashMap<ProjectWatchKey, Set<NotifyType>>());[m
+   }[m
+ [m
+   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {[m
+[36m@@ -143,17 +148,24 @@[m [mpublic class AccountCacheImpl implements AccountCache {[m
+     private final GroupCache groupCache;[m
+     private final GeneralPreferencesLoader loader;[m
+     private final LoadingCache<String, Optional<Account.Id>> byName;[m
+[32m+[m[32m    private final boolean readFromGit;[m
+[32m+[m[32m    private final Provider<WatchConfig.Accessor> watchConfig;[m
+ [m
+     @Inject[m
+     ByIdLoader(SchemaFactory<ReviewDb> sf,[m
+         GroupCache groupCache,[m
+         GeneralPreferencesLoader loader,[m
+         @Named(BYUSER_NAME) LoadingCache<String,[m
+[31m-        Optional<Account.Id>> byUsername) {[m
+[32m+[m[32m            Optional<Account.Id>> byUsername,[m
+[32m+[m[32m        @GerritServerConfig Config cfg,[m
+[32m+[m[32m        Provider<WatchConfig.Accessor> watchConfig) {[m
+       this.schema = sf;[m
+       this.groupCache = groupCache;[m
+       this.loader = loader;[m
+       this.byName = byUsername;[m
+[32m+[m[32m      this.readFromGit =[m
+[32m+[m[32m          cfg.getBoolean("user", null, "readProjectWatchesFromGit", true);[m
+[32m+[m[32m      this.watchConfig = watchConfig;[m
+     }[m
+ [m
+     @Override[m
+[36m@@ -169,7 +181,7 @@[m [mpublic class AccountCacheImpl implements AccountCache {[m
+     }[m
+ [m
+     private AccountState load(final ReviewDb db, final Account.Id who)[m
+[31m-        throws OrmException {[m
+[32m+[m[32m        throws OrmException, IOException, ConfigInvalidException {[m
+       Account account = db.accounts().get(who);[m
+       if (account == null) {[m
+         // Account no longer exists? They are anonymous.[m
+[36m@@ -198,9 +210,10 @@[m [mpublic class AccountCacheImpl implements AccountCache {[m
+         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());[m
+       }[m
+ [m
+[31m-      Collection<AccountProjectWatch> projectWatches =[m
+[31m-          Collections.unmodifiableCollection([m
+[31m-              db.accountProjectWatches().byAccount(who).toList());[m
+[32m+[m[32m      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =[m
+[32m+[m[32m          readFromGit[m
+[32m+[m[32m              ? watchConfig.get().getProjectWatches(who)[m
+[32m+[m[32m              : GetWatchedProjects.readProjectWatchesFromDb(db, who);[m
+ [m
+       return new AccountState(account, internalGroups, externalIds,[m
+           projectWatches);[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java[m
+[1mindex 145f34b..14c75f8 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java[m
+[36m@@ -23,25 +23,27 @@[m [mimport com.google.gerrit.common.Nullable;[m
+ import com.google.gerrit.reviewdb.client.Account;[m
+ import com.google.gerrit.reviewdb.client.AccountExternalId;[m
+ import com.google.gerrit.reviewdb.client.AccountGroup;[m
+[31m-import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+ import com.google.gerrit.server.CurrentUser.PropertyKey;[m
+ import com.google.gerrit.server.IdentifiedUser;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ [m
+ import java.util.Collection;[m
+ import java.util.HashSet;[m
+[32m+[m[32mimport java.util.Map;[m
+ import java.util.Set;[m
+ [m
+ public class AccountState {[m
+   private final Account account;[m
+   private final Set<AccountGroup.UUID> internalGroups;[m
+   private final Collection<AccountExternalId> externalIds;[m
+[31m-  private final Collection<AccountProjectWatch> projectWatches;[m
+[32m+[m[32m  private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;[m
+   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;[m
+ [m
+   public AccountState(Account account,[m
+       Set<AccountGroup.UUID> actualGroups,[m
+       Collection<AccountExternalId> externalIds,[m
+[31m-      Collection<AccountProjectWatch> projectWatches) {[m
+[32m+[m[32m      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {[m
+     this.account = account;[m
+     this.internalGroups = actualGroups;[m
+     this.externalIds = externalIds;[m
+[36m@@ -81,7 +83,7 @@[m [mpublic class AccountState {[m
+   }[m
+ [m
+   /** The project watches of the account. */[m
+[31m-  public Collection<AccountProjectWatch> getProjectWatches() {[m
+[32m+[m[32m  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {[m
+     return projectWatches;[m
+   }[m
+ [m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java[m
+[1mindex 2c66846..e2fbc3c 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java[m
+[36m@@ -14,6 +14,8 @@[m
+ [m
+ package com.google.gerrit.server.account;[m
+ [m
+[32m+[m[32mimport com.google.common.base.Function;[m
+[32m+[m[32mimport com.google.common.collect.Lists;[m
+ import com.google.gerrit.extensions.client.ProjectWatchInfo;[m
+ import com.google.gerrit.extensions.restapi.AuthException;[m
+ import com.google.gerrit.extensions.restapi.Response;[m
+[36m@@ -24,12 +26,15 @@[m [mimport com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+ import com.google.gerrit.reviewdb.client.Project;[m
+ import com.google.gerrit.reviewdb.server.ReviewDb;[m
+ import com.google.gerrit.server.IdentifiedUser;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ import com.google.gwtorm.server.OrmException;[m
+ import com.google.gwtorm.server.ResultSet;[m
+ import com.google.inject.Inject;[m
+ import com.google.inject.Provider;[m
+ import com.google.inject.Singleton;[m
+ [m
+[32m+[m[32mimport org.eclipse.jgit.errors.ConfigInvalidException;[m
+[32m+[m
+ import java.io.IOException;[m
+ import java.util.HashMap;[m
+ import java.util.LinkedList;[m
+[36m@@ -38,52 +43,75 @@[m [mimport java.util.List;[m
+ @Singleton[m
+ public class DeleteWatchedProjects[m
+     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {[m
+[31m-[m
+   private final Provider<ReviewDb> dbProvider;[m
+   private final Provider<IdentifiedUser> self;[m
+   private final AccountCache accountCache;[m
+[32m+[m[32m  private final WatchConfig.Accessor watchConfig;[m
+ [m
+   @Inject[m
+   DeleteWatchedProjects(Provider<ReviewDb> dbProvider,[m
+       Provider<IdentifiedUser> self,[m
+[31m-      AccountCache accountCache) {[m
+[32m+[m[32m      AccountCache accountCache,[m
+[32m+[m[32m      WatchConfig.Accessor watchConfig) {[m
+     this.dbProvider = dbProvider;[m
+     this.self = self;[m
+     this.accountCache = accountCache;[m
+[32m+[m[32m    this.watchConfig = watchConfig;[m
+   }[m
+ [m
+   @Override[m
+   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)[m
+       throws AuthException, UnprocessableEntityException, OrmException,[m
+[31m-      IOException {[m
+[31m-  if (self.get() != rsrc.getUser()[m
+[31m-      && !self.get().getCapabilities().canAdministrateServer()) {[m
+[32m+[m[32m      IOException, ConfigInvalidException {[m
+[32m+[m[32m    if (self.get() != rsrc.getUser()[m
+[32m+[m[32m        && !self.get().getCapabilities().canAdministrateServer()) {[m
+       throw new AuthException("It is not allowed to edit project watches "[m
+           + "of other users");[m
+     }[m
+[32m+[m[32m    if (input == null) {[m
+[32m+[m[32m      return Response.none();[m
+[32m+[m[32m    }[m
+[32m+[m
+     Account.Id accountId = rsrc.getUser().getAccountId();[m
+[32m+[m[32m    deleteFromDb(accountId, input);[m
+[32m+[m[32m    deleteFromGit(accountId, input);[m
+[32m+[m[32m    accountCache.evict(accountId);[m
+[32m+[m[32m    return Response.none();[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private void deleteFromDb(Account.Id accountId, List<ProjectWatchInfo> input)[m
+[32m+[m[32m      throws OrmException, IOException {[m
+     ResultSet<AccountProjectWatch> watchedProjects =[m
+         dbProvider.get().accountProjectWatches().byAccount(accountId);[m
+[31m-    HashMap<AccountProjectWatch.Key, AccountProjectWatch>[m
+[31m-        watchedProjectsMap = new HashMap<>();[m
+[32m+[m[32m    HashMap<AccountProjectWatch.Key, AccountProjectWatch> watchedProjectsMap =[m
+[32m+[m[32m        new HashMap<>();[m
+     for (AccountProjectWatch watchedProject : watchedProjects) {[m
+       watchedProjectsMap.put(watchedProject.getKey(), watchedProject);[m
+     }[m
+ [m
+[31m-    if (input != null) {[m
+[31m-      List<AccountProjectWatch> watchesToDelete = new LinkedList<>();[m
+[31m-      for (ProjectWatchInfo projectInfo : input) {[m
+[31m-        AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,[m
+[31m-            new Project.NameKey(projectInfo.project), projectInfo.filter);[m
+[31m-        if (watchedProjectsMap.containsKey(key)) {[m
+[31m-          watchesToDelete.add(watchedProjectsMap.get(key));[m
+[31m-        }[m
+[31m-      }[m
+[31m-      if (!watchesToDelete.isEmpty()) {[m
+[31m-        dbProvider.get().accountProjectWatches().delete(watchesToDelete);[m
+[31m-        accountCache.evict(accountId);[m
+[32m+[m[32m    List<AccountProjectWatch> watchesToDelete = new LinkedList<>();[m
+[32m+[m[32m    for (ProjectWatchInfo projectInfo : input) {[m
+[32m+[m[32m      AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,[m
+[32m+[m[32m          new Project.NameKey(projectInfo.project), projectInfo.filter);[m
+[32m+[m[32m      if (watchedProjectsMap.containsKey(key)) {[m
+[32m+[m[32m        watchesToDelete.add(watchedProjectsMap.get(key));[m
+       }[m
+     }[m
+[31m-    return Response.none();[m
+[32m+[m[32m    if (!watchesToDelete.isEmpty()) {[m
+[32m+[m[32m      dbProvider.get().accountProjectWatches().delete(watchesToDelete);[m
+[32m+[m[32m      accountCache.evict(accountId);[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private void deleteFromGit(Account.Id accountId, List<ProjectWatchInfo> input)[m
+[32m+[m[32m      throws IOException, ConfigInvalidException {[m
+[32m+[m[32m    watchConfig.deleteProjectWatches(accountId, Lists.transform(input,[m
+[32m+[m[32m        new Function<ProjectWatchInfo, ProjectWatchKey>() {[m
+[32m+[m[32m          @Override[m
+[32m+[m[32m          public ProjectWatchKey apply(ProjectWatchInfo info) {[m
+[32m+[m[32m            return ProjectWatchKey.create(new Project.NameKey(info.project),[m
+[32m+[m[32m                info.filter);[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }));[m
+   }[m
+ }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java[m
+[1mindex 0c81b38..7cda472 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java[m
+[36m@@ -14,67 +14,120 @@[m
+ [m
+ package com.google.gerrit.server.account;[m
+ [m
+[32m+[m[32mimport com.google.common.base.Strings;[m
+[32m+[m[32mimport com.google.common.collect.ComparisonChain;[m
+ import com.google.gerrit.extensions.client.ProjectWatchInfo;[m
+ import com.google.gerrit.extensions.restapi.AuthException;[m
+ import com.google.gerrit.extensions.restapi.RestReadView;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.Account;[m
+ import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+ import com.google.gerrit.reviewdb.server.ReviewDb;[m
+ import com.google.gerrit.server.IdentifiedUser;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+[32m+[m[32mimport com.google.gerrit.server.config.GerritServerConfig;[m
+ import com.google.gwtorm.server.OrmException;[m
+ import com.google.inject.Inject;[m
+ import com.google.inject.Provider;[m
+ import com.google.inject.Singleton;[m
+ [m
+[32m+[m[32mimport org.eclipse.jgit.errors.ConfigInvalidException;[m
+[32m+[m[32mimport org.eclipse.jgit.lib.Config;[m
+[32m+[m
+[32m+[m[32mimport java.io.IOException;[m
+[32m+[m[32mimport java.util.Collections;[m
+[32m+[m[32mimport java.util.Comparator;[m
+[32m+[m[32mimport java.util.EnumSet;[m
+[32m+[m[32mimport java.util.HashMap;[m
+ import java.util.LinkedList;[m
+ import java.util.List;[m
+[32m+[m[32mimport java.util.Map;[m
+[32m+[m[32mimport java.util.Set;[m
+ [m
+ @Singleton[m
+ public class GetWatchedProjects implements RestReadView<AccountResource> {[m
+ [m
+   private final Provider<ReviewDb> dbProvider;[m
+   private final Provider<IdentifiedUser> self;[m
+[32m+[m[32m  private final boolean readFromGit;[m
+[32m+[m[32m  private final WatchConfig.Accessor watchConfig;[m
+ [m
+   @Inject[m
+   public GetWatchedProjects(Provider<ReviewDb> dbProvider,[m
+[31m-      Provider<IdentifiedUser> self) {[m
+[32m+[m[32m      Provider<IdentifiedUser> self,[m
+[32m+[m[32m      @GerritServerConfig Config cfg,[m
+[32m+[m[32m      WatchConfig.Accessor watchConfig) {[m
+     this.dbProvider = dbProvider;[m
+     this.self = self;[m
+[32m+[m[32m    this.readFromGit =[m
+[32m+[m[32m        cfg.getBoolean("user", null, "readProjectWatchesFromGit", true);[m
+[32m+[m[32m    this.watchConfig = watchConfig;[m
+   }[m
+ [m
+   @Override[m
+   public List<ProjectWatchInfo> apply(AccountResource rsrc)[m
+[31m-      throws OrmException, AuthException {[m
+[32m+[m[32m      throws OrmException, AuthException, IOException, ConfigInvalidException {[m
+     if (self.get() != rsrc.getUser()[m
+[31m-      && !self.get().getCapabilities().canAdministrateServer()) {[m
+[32m+[m[32m        && !self.get().getCapabilities().canAdministrateServer()) {[m
+       throw new AuthException("It is not allowed to list project watches "[m
+           + "of other users");[m
+     }[m
+[32m+[m[32m    Account.Id accountId = rsrc.getUser().getAccountId();[m
+[32m+[m[32m    Map<ProjectWatchKey, Set<NotifyType>> projectWatches =[m
+[32m+[m[32m        readFromGit[m
+[32m+[m[32m            ? watchConfig.getProjectWatches(accountId)[m
+[32m+[m[32m            : readProjectWatchesFromDb(dbProvider.get(), accountId);[m
+[32m+[m
+     List<ProjectWatchInfo> projectWatchInfos = new LinkedList<>();[m
+[31m-    Iterable<AccountProjectWatch> projectWatches =[m
+[31m-        dbProvider.get().accountProjectWatches()[m
+[31m-            .byAccount(rsrc.getUser().getAccountId());[m
+[31m-    for (AccountProjectWatch a : projectWatches) {[m
+[32m+[m[32m    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches[m
+[32m+[m[32m        .entrySet()) {[m
+       ProjectWatchInfo pwi = new ProjectWatchInfo();[m
+[31m-      pwi.filter = a.getFilter();[m
+[31m-      pwi.project = a.getProjectNameKey().get();[m
+[32m+[m[32m      pwi.filter = e.getKey().filter();[m
+[32m+[m[32m      pwi.project = e.getKey().project().get();[m
+       pwi.notifyAbandonedChanges =[m
+[31m-          toBoolean([m
+[31m-              a.isNotify(AccountProjectWatch.NotifyType.ABANDONED_CHANGES));[m
+[32m+[m[32m          toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));[m
+       pwi.notifyNewChanges =[m
+[31m-          toBoolean(a.isNotify(AccountProjectWatch.NotifyType.NEW_CHANGES));[m
+[32m+[m[32m          toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));[m
+       pwi.notifyNewPatchSets =[m
+[31m-          toBoolean(a.isNotify(AccountProjectWatch.NotifyType.NEW_PATCHSETS));[m
+[32m+[m[32m          toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));[m
+       pwi.notifySubmittedChanges =[m
+[31m-          toBoolean([m
+[31m-              a.isNotify(AccountProjectWatch.NotifyType.SUBMITTED_CHANGES));[m
+[32m+[m[32m          toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));[m
+       pwi.notifyAllComments =[m
+[31m-          toBoolean(a.isNotify(AccountProjectWatch.NotifyType.ALL_COMMENTS));[m
+[32m+[m[32m          toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));[m
+       projectWatchInfos.add(pwi);[m
+     }[m
+[32m+[m[32m    Collections.sort(projectWatchInfos, new Comparator<ProjectWatchInfo>() {[m
+[32m+[m[32m      @Override[m
+[32m+[m[32m      public int compare(ProjectWatchInfo pwi1, ProjectWatchInfo pwi2) {[m
+[32m+[m[32m        return ComparisonChain.start()[m
+[32m+[m[32m            .compare(pwi1.project, pwi2.project)[m
+[32m+[m[32m            .compare(Strings.nullToEmpty(pwi1.filter),[m
+[32m+[m[32m                Strings.nullToEmpty(pwi2.filter))[m
+[32m+[m[32m            .result();[m
+[32m+[m[32m      }[m
+[32m+[m[32m    });[m
+     return projectWatchInfos;[m
+   }[m
+ [m
+   private static Boolean toBoolean(boolean value) {[m
+     return value ? true : null;[m
+   }[m
+[32m+[m
+[32m+[m[32m  public static Map<ProjectWatchKey, Set<NotifyType>> readProjectWatchesFromDb([m
+[32m+[m[32m      ReviewDb db, Account.Id who) throws OrmException {[m
+[32m+[m[32m    Map<ProjectWatchKey, Set<NotifyType>> projectWatches =[m
+[32m+[m[32m        new HashMap<>();[m
+[32m+[m[32m    for (AccountProjectWatch apw : db.accountProjectWatches().byAccount(who)) {[m
+[32m+[m[32m      ProjectWatchKey key =[m
+[32m+[m[32m          ProjectWatchKey.create(apw.getProjectNameKey(), apw.getFilter());[m
+[32m+[m[32m      Set<NotifyType> notifyValues = EnumSet.noneOf(NotifyType.class);[m
+[32m+[m[32m      for (NotifyType notifyType : NotifyType.values()) {[m
+[32m+[m[32m        if (apw.isNotify(notifyType)) {[m
+[32m+[m[32m          notifyValues.add(notifyType);[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m      projectWatches.put(key, notifyValues);[m
+[32m+[m[32m    }[m
+[32m+[m[32m    return projectWatches;[m
+[32m+[m[32m  }[m
+ }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java[m
+[1mindex 863a1e4..d54ec50 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java[m
+[36m@@ -22,19 +22,26 @@[m [mimport com.google.gerrit.extensions.restapi.RestModifyView;[m
+ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;[m
+ import com.google.gerrit.reviewdb.client.Account;[m
+ import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+ import com.google.gerrit.reviewdb.client.Project;[m
+ import com.google.gerrit.reviewdb.server.ReviewDb;[m
+ import com.google.gerrit.server.IdentifiedUser;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ import com.google.gerrit.server.project.ProjectsCollection;[m
+ import com.google.gwtorm.server.OrmException;[m
+ import com.google.inject.Inject;[m
+ import com.google.inject.Provider;[m
+ import com.google.inject.Singleton;[m
+ [m
+[32m+[m[32mimport org.eclipse.jgit.errors.ConfigInvalidException;[m
+[32m+[m
+ import java.io.IOException;[m
+[32m+[m[32mimport java.util.EnumSet;[m
+[32m+[m[32mimport java.util.HashMap;[m
+ import java.util.HashSet;[m
+ import java.util.LinkedList;[m
+ import java.util.List;[m
+[32m+[m[32mimport java.util.Map;[m
+ import java.util.Set;[m
+ [m
+ @Singleton[m
+[36m@@ -45,39 +52,41 @@[m [mpublic class PostWatchedProjects[m
+   private final GetWatchedProjects getWatchedProjects;[m
+   private final ProjectsCollection projectsCollection;[m
+   private final AccountCache accountCache;[m
+[32m+[m[32m  private final WatchConfig.Accessor watchConfig;[m
+ [m
+   @Inject[m
+   public PostWatchedProjects(Provider<ReviewDb> dbProvider,[m
+       Provider<IdentifiedUser> self,[m
+       GetWatchedProjects getWatchedProjects,[m
+       ProjectsCollection projectsCollection,[m
+[31m-      AccountCache accountCache) {[m
+[32m+[m[32m      AccountCache accountCache,[m
+[32m+[m[32m      WatchConfig.Accessor watchConfig) {[m
+     this.dbProvider = dbProvider;[m
+     this.self = self;[m
+     this.getWatchedProjects = getWatchedProjects;[m
+     this.projectsCollection = projectsCollection;[m
+     this.accountCache = accountCache;[m
+[32m+[m[32m    this.watchConfig = watchConfig;[m
+   }[m
+ [m
+   @Override[m
+   public List<ProjectWatchInfo> apply(AccountResource rsrc,[m
+[31m-      List<ProjectWatchInfo> input)[m
+[31m-      throws OrmException, RestApiException, IOException {[m
+[32m+[m[32m      List<ProjectWatchInfo> input) throws OrmException, RestApiException,[m
+[32m+[m[32m          IOException, ConfigInvalidException {[m
+     if (self.get() != rsrc.getUser()[m
+[31m-      && !self.get().getCapabilities().canAdministrateServer()) {[m
+[32m+[m[32m        && !self.get().getCapabilities().canAdministrateServer()) {[m
+       throw new AuthException("not allowed to edit project watches");[m
+     }[m
+     Account.Id accountId = rsrc.getUser().getAccountId();[m
+[31m-    List<AccountProjectWatch> accountProjectWatchList =[m
+[31m-        getAccountProjectWatchList(input, accountId);[m
+[31m-    dbProvider.get().accountProjectWatches().upsert(accountProjectWatchList);[m
+[32m+[m[32m    updateInDb(accountId, input);[m
+[32m+[m[32m    updateInGit(accountId, input);[m
+     accountCache.evict(accountId);[m
+     return getWatchedProjects.apply(rsrc);[m
+   }[m
+ [m
+[31m-  private List<AccountProjectWatch> getAccountProjectWatchList([m
+[31m-      List<ProjectWatchInfo> input, Account.Id accountId)[m
+[31m-      throws UnprocessableEntityException, BadRequestException, IOException {[m
+[32m+[m[32m  private void updateInDb(Account.Id accountId, List<ProjectWatchInfo> input)[m
+[32m+[m[32m      throws BadRequestException, UnprocessableEntityException, IOException,[m
+[32m+[m[32m      OrmException {[m
+     Set<AccountProjectWatch.Key> keys = new HashSet<>();[m
+     List<AccountProjectWatch> watchedProjects = new LinkedList<>();[m
+     for (ProjectWatchInfo a : input) {[m
+[36m@@ -87,15 +96,11 @@[m [mpublic class PostWatchedProjects[m
+ [m
+       Project.NameKey projectKey =[m
+           projectsCollection.parse(a.project).getNameKey();[m
+[31m-[m
+       AccountProjectWatch.Key key =[m
+           new AccountProjectWatch.Key(accountId, projectKey, a.filter);[m
+       if (!keys.add(key)) {[m
+[31m-        throw new BadRequestException([m
+[31m-            "duplicate entry for project " + key.getProjectName().get()[m
+[31m-                + (!AccountProjectWatch.FILTER_ALL.equals(key.getFilter().get())[m
+[31m-                    ? " and filter " + key.getFilter().get()[m
+[31m-                    : ""));[m
+[32m+[m[32m        throw new BadRequestException("duplicate entry for project "[m
+[32m+[m[32m            + format(key.getProjectName().get(), key.getFilter().get()));[m
+       }[m
+       AccountProjectWatch apw = new AccountProjectWatch(key);[m
+       apw.setNotify(AccountProjectWatch.NotifyType.ABANDONED_CHANGES,[m
+[36m@@ -110,10 +115,61 @@[m [mpublic class PostWatchedProjects[m
+           toBoolean(a.notifySubmittedChanges));[m
+       watchedProjects.add(apw);[m
+     }[m
+[31m-    return watchedProjects;[m
+[32m+[m[32m    dbProvider.get().accountProjectWatches().upsert(watchedProjects);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private void updateInGit(Account.Id accountId, List<ProjectWatchInfo> input)[m
+[32m+[m[32m      throws BadRequestException, UnprocessableEntityException, IOException,[m
+[32m+[m[32m      ConfigInvalidException {[m
+[32m+[m[32m    watchConfig.upsertProjectWatches(accountId, asMap(input));[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private Map<ProjectWatchKey, Set<NotifyType>> asMap([m
+[32m+[m[32m      List<ProjectWatchInfo> input) throws BadRequestException,[m
+[32m+[m[32m          UnprocessableEntityException, IOException {[m
+[32m+[m[32m    Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();[m
+[32m+[m[32m    for (ProjectWatchInfo info : input) {[m
+[32m+[m[32m      if (info.project == null) {[m
+[32m+[m[32m        throw new BadRequestException("project name must be specified");[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      ProjectWatchKey key = ProjectWatchKey.create([m
+[32m+[m[32m          projectsCollection.parse(info.project).getNameKey(), info.filter);[m
+[32m+[m[32m      if (m.containsKey(key)) {[m
+[32m+[m[32m        throw new BadRequestException([m
+[32m+[m[32m            "duplicate entry for project " + format(info.project, info.filter));[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      Set<NotifyType> notifyValues = EnumSet.noneOf(NotifyType.class);[m
+[32m+[m[32m      if (toBoolean(info.notifyAbandonedChanges)) {[m
+[32m+[m[32m        notifyValues.add(NotifyType.ABANDONED_CHANGES);[m
+[32m+[m[32m      }[m
+[32m+[m[32m      if (toBoolean(info.notifyAllComments)) {[m
+[32m+[m[32m        notifyValues.add(NotifyType.ALL_COMMENTS);[m
+[32m+[m[32m      }[m
+[32m+[m[32m      if (toBoolean(info.notifyNewChanges)) {[m
+[32m+[m[32m        notifyValues.add(NotifyType.NEW_CHANGES);[m
+[32m+[m[32m      }[m
+[32m+[m[32m      if (toBoolean(info.notifyNewPatchSets)) {[m
+[32m+[m[32m        notifyValues.add(NotifyType.NEW_PATCHSETS);[m
+[32m+[m[32m      }[m
+[32m+[m[32m      if (toBoolean(info.notifySubmittedChanges)) {[m
+[32m+[m[32m        notifyValues.add(NotifyType.SUBMITTED_CHANGES);[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      m.put(key, notifyValues);[m
+[32m+[m[32m    }[m
+[32m+[m[32m    return m;[m
+   }[m
+ [m
+   private boolean toBoolean(Boolean b) {[m
+     return b == null ? false : b;[m
+   }[m
+[32m+[m
+[32m+[m[32m  private static String format(String project, String filter) {[m
+[32m+[m[32m    return project[m
+[32m+[m[32m        + (filter != null && !AccountProjectWatch.FILTER_ALL.equals(filter)[m
+[32m+[m[32m            ? " and filter " + filter[m
+[32m+[m[32m            : "");[m
+[32m+[m[32m  }[m
+ }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java[m
+[1mindex dc96d49..befccb6 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java[m
+[36m@@ -14,7 +14,6 @@[m
+ [m
+ package com.google.gerrit.server.account;[m
+ [m
+[31m-import static com.google.common.base.Preconditions.checkNotNull;[m
+ import static com.google.common.base.Preconditions.checkState;[m
+ [m
+ import com.google.common.base.Function;[m
+[36m@@ -322,6 +321,6 @@[m [mpublic class VersionedAuthorizedKeys extends VersionedMetaData[m
+   }[m
+ [m
+   private void checkLoaded() {[m
+[31m-    checkNotNull(keys, "SSH keys not loaded yet");[m
+[32m+[m[32m    checkState(keys != null, "SSH keys not loaded yet");[m
+   }[m
+ }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java b/gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..9355ee3[m
+[1m--- /dev/null[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java[m
+[36m@@ -0,0 +1,341 @@[m
+[32m+[m[32m// Copyright (C) 2016 The Android Open Source Project[m
+[32m+[m[32m//[m
+[32m+[m[32m// Licensed under the Apache License, Version 2.0 (the "License");[m
+[32m+[m[32m// you may not use this file except in compliance with the License.[m
+[32m+[m[32m// You may obtain a copy of the License at[m
+[32m+[m[32m//[m
+[32m+[m[32m// http://www.apache.org/licenses/LICENSE-2.0[m
+[32m+[m[32m//[m
+[32m+[m[32m// Unless required by applicable law or agreed to in writing, software[m
+[32m+[m[32m// distributed under the License is distributed on an "AS IS" BASIS,[m
+[32m+[m[32m// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.[m
+[32m+[m[32m// See the License for the specific language governing permissions and[m
+[32m+[m[32m// limitations under the License.[m
+[32m+[m
+[32m+[m[32mpackage com.google.gerrit.server.account;[m
+[32m+[m
+[32m+[m[32mimport static com.google.common.base.MoreObjects.firstNonNull;[m
+[32m+[m[32mimport static com.google.common.base.Preconditions.checkState;[m
+[32m+[m
+[32m+[m[32mimport com.google.auto.value.AutoValue;[m
+[32m+[m[32mimport com.google.common.annotations.VisibleForTesting;[m
+[32m+[m[32mimport com.google.common.base.Enums;[m
+[32m+[m[32mimport com.google.common.base.Joiner;[m
+[32m+[m[32mimport com.google.common.base.Optional;[m
+[32m+[m[32mimport com.google.common.base.Splitter;[m
+[32m+[m[32mimport com.google.common.base.Strings;[m
+[32m+[m[32mimport com.google.common.collect.ArrayListMultimap;[m
+[32m+[m[32mimport com.google.common.collect.Multimap;[m
+[32m+[m[32mimport com.google.gerrit.common.Nullable;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.Account;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.Project;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.RefNames;[m
+[32m+[m[32mimport com.google.gerrit.server.IdentifiedUser;[m
+[32m+[m[32mimport com.google.gerrit.server.config.AllUsersName;[m
+[32m+[m[32mimport com.google.gerrit.server.git.GitRepositoryManager;[m
+[32m+[m[32mimport com.google.gerrit.server.git.MetaDataUpdate;[m
+[32m+[m[32mimport com.google.gerrit.server.git.VersionedMetaData;[m
+[32m+[m[32mimport com.google.inject.Inject;[m
+[32m+[m[32mimport com.google.inject.Provider;[m
+[32m+[m[32mimport com.google.inject.Singleton;[m
+[32m+[m
+[32m+[m[32mimport org.eclipse.jgit.errors.ConfigInvalidException;[m
+[32m+[m[32mimport org.eclipse.jgit.lib.CommitBuilder;[m
+[32m+[m[32mimport org.eclipse.jgit.lib.Config;[m
+[32m+[m[32mimport org.eclipse.jgit.lib.Repository;[m
+[32m+[m
+[32m+[m[32mimport java.io.IOException;[m
+[32m+[m[32mimport java.util.ArrayList;[m
+[32m+[m[32mimport java.util.Collection;[m
+[32m+[m[32mimport java.util.Collections;[m
+[32m+[m[32mimport java.util.Comparator;[m
+[32m+[m[32mimport java.util.EnumSet;[m
+[32m+[m[32mimport java.util.HashMap;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Map;[m
+[32m+[m[32mimport java.util.Set;[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m * ‘watch.config’ file in the user branch in the All-Users repository that[m
+[32m+[m[32m * contains the watch configuration of the user.[m
+[32m+[m[32m * <p>[m
+[32m+[m[32m * The 'watch.config' file is a git config file that has one 'project' section[m
+[32m+[m[32m * for all project watches of a project.[m
+[32m+[m[32m * <p>[m
+[32m+[m[32m * The project name is used as subsection name and the filters with the notify[m
+[32m+[m[32m * types that decide for which events email notifications should be sent are[m
+[32m+[m[32m * represented as 'notify' values in the subsection. A 'notify' value is[m
+[32m+[m[32m * formatted as '<filter> [<comma-separated-list-of-notify-types>]':[m
+[32m+[m[32m *[m
+[32m+[m[32m * <pre>[m
+[32m+[m[32m *   [project "foo"][m
+[32m+[m[32m *     notify = * [ALL_COMMENTS][m
+[32m+[m[32m *     notify = branch:master [ALL_COMMENTS, NEW_PATCHSETS][m
+[32m+[m[32m *     notify = branch:master owner:self [SUBMITTED_CHANGES][m
+[32m+[m[32m * </pre>[m
+[32m+[m[32m * <p>[m
+[32m+[m[32m * If two notify values in the same subsection have the same filter they are[m
+[32m+[m[32m * merged on the next save, taking the union of the notify types.[m
+[32m+[m[32m * <p>[m
+[32m+[m[32m * For watch configurations that notify on no event the list of notify types is[m
+[32m+[m[32m * empty:[m
+[32m+[m[32m *[m
+[32m+[m[32m * <pre>[m
+[32m+[m[32m *   [project "foo"][m
+[32m+[m[32m *     notify = branch:master [][m
+[32m+[m[32m * </pre>[m
+[32m+[m[32m * <p>[m
+[32m+[m[32m * Unknown notify types are ignored and removed on save.[m
+[32m+[m[32m */[m
+[32m+[m[32mpublic class WatchConfig extends VersionedMetaData implements AutoCloseable {[m
+[32m+[m[32m  @Singleton[m
+[32m+[m[32m  public static class Accessor {[m
+[32m+[m[32m    private final GitRepositoryManager repoManager;[m
+[32m+[m[32m    private final AllUsersName allUsersName;[m
+[32m+[m[32m    private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;[m
+[32m+[m[32m    private final IdentifiedUser.GenericFactory userFactory;[m
+[32m+[m
+[32m+[m[32m    @Inject[m
+[32m+[m[32m    Accessor([m
+[32m+[m[32m        GitRepositoryManager repoManager,[m
+[32m+[m[32m        AllUsersName allUsersName,[m
+[32m+[m[32m        Provider<MetaDataUpdate.User> metaDataUpdateFactory,[m
+[32m+[m[32m        IdentifiedUser.GenericFactory userFactory) {[m
+[32m+[m[32m      this.repoManager = repoManager;[m
+[32m+[m[32m      this.allUsersName = allUsersName;[m
+[32m+[m[32m      this.metaDataUpdateFactory = metaDataUpdateFactory;[m
+[32m+[m[32m      this.userFactory = userFactory;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches([m
+[32m+[m[32m        Account.Id accountId) throws IOException, ConfigInvalidException {[m
+[32m+[m[32m      try (Repository git = repoManager.openRepository(allUsersName);[m
+[32m+[m[32m          WatchConfig watchConfig = new WatchConfig(accountId)) {[m
+[32m+[m[32m        watchConfig.load(git);[m
+[32m+[m[32m        return watchConfig.getProjectWatches();[m
+[32m+[m[32m      }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void upsertProjectWatches(Account.Id accountId,[m
+[32m+[m[32m        Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)[m
+[32m+[m[32m            throws IOException, ConfigInvalidException {[m
+[32m+[m[32m      try (WatchConfig watchConfig = open(accountId)) {[m
+[32m+[m[32m        Map<ProjectWatchKey, Set<NotifyType>> projectWatches =[m
+[32m+[m[32m            watchConfig.getProjectWatches();[m
+[32m+[m[32m        projectWatches.putAll(newProjectWatches);[m
+[32m+[m[32m        commit(watchConfig);[m
+[32m+[m[32m      }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void deleteProjectWatches(Account.Id accountId,[m
+[32m+[m[32m        Collection<ProjectWatchKey> projectWatchKeys)[m
+[32m+[m[32m            throws IOException, ConfigInvalidException {[m
+[32m+[m[32m      try (WatchConfig watchConfig = open(accountId)) {[m
+[32m+[m[32m        Map<ProjectWatchKey, Set<NotifyType>> projectWatches =[m
+[32m+[m[32m            watchConfig.getProjectWatches();[m
+[32m+[m[32m        boolean commit = false;[m
+[32m+[m[32m        for (ProjectWatchKey key : projectWatchKeys) {[m
+[32m+[m[32m          if (projectWatches.remove(key) != null) {[m
+[32m+[m[32m            commit = true;[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        if (commit) {[m
+[32m+[m[32m          commit(watchConfig);[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private WatchConfig open(Account.Id accountId)[m
+[32m+[m[32m        throws IOException, ConfigInvalidException {[m
+[32m+[m[32m      Repository git = repoManager.openRepository(allUsersName);[m
+[32m+[m[32m      WatchConfig watchConfig = new WatchConfig(accountId);[m
+[32m+[m[32m      watchConfig.load(git);[m
+[32m+[m[32m      return watchConfig;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private void commit(WatchConfig watchConfig)[m
+[32m+[m[32m        throws IOException {[m
+[32m+[m[32m      try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName,[m
+[32m+[m[32m          userFactory.create(watchConfig.accountId))) {[m
+[32m+[m[32m        watchConfig.commit(md);[m
+[32m+[m[32m      }[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @AutoValue[m
+[32m+[m[32m  public abstract static class ProjectWatchKey {[m
+[32m+[m[32m    public static ProjectWatchKey create(Project.NameKey project,[m
+[32m+[m[32m        @Nullable String filter) {[m
+[32m+[m[32m      return new AutoValue_WatchConfig_ProjectWatchKey(project,[m
+[32m+[m[32m          Strings.emptyToNull(filter));[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public abstract Project.NameKey project();[m
+[32m+[m[32m    public abstract @Nullable String filter();[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private static final String WATCH_CONFIG = "watch.config";[m
+[32m+[m[32m  private static final String PROJECT = "project";[m
+[32m+[m[32m  private static final String KEY_NOTIFY = "notify";[m
+[32m+[m
+[32m+[m[32m  private final Account.Id accountId;[m
+[32m+[m[32m  private final String ref;[m
+[32m+[m
+[32m+[m[32m  private Repository git;[m
+[32m+[m[32m  private Map<ProjectWatchKey, Set<NotifyType>> projectWatches;[m
+[32m+[m
+[32m+[m[32m  public WatchConfig(Account.Id accountId) {[m
+[32m+[m[32m    this.accountId = accountId;[m
+[32m+[m[32m    this.ref = RefNames.refsUsers(accountId);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  protected String getRefName() {[m
+[32m+[m[32m    return ref;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public void load(Repository git) throws IOException, ConfigInvalidException {[m
+[32m+[m[32m    checkState(this.git == null);[m
+[32m+[m[32m    this.git = git;[m
+[32m+[m[32m    super.load(git);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  protected void onLoad() throws IOException, ConfigInvalidException {[m
+[32m+[m[32m    Config cfg = readConfig(WATCH_CONFIG);[m
+[32m+[m[32m    projectWatches = parse(accountId, cfg);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @VisibleForTesting[m
+[32m+[m[32m  public static Map<ProjectWatchKey, Set<NotifyType>> parse([m
+[32m+[m[32m      Account.Id accountId, Config cfg) throws ConfigInvalidException {[m
+[32m+[m[32m    Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();[m
+[32m+[m[32m    for (String projectName : cfg.getSubsections(PROJECT)) {[m
+[32m+[m[32m      String[] notifyValues =[m
+[32m+[m[32m          cfg.getStringList(PROJECT, projectName, KEY_NOTIFY);[m
+[32m+[m[32m      for (String nv : notifyValues) {[m
+[32m+[m[32m        NotifyValue notifyValue = NotifyValue.parse(accountId, projectName, nv);[m
+[32m+[m[32m        ProjectWatchKey key = ProjectWatchKey[m
+[32m+[m[32m            .create(new Project.NameKey(projectName), notifyValue.filter());[m
+[32m+[m[32m        if (!projectWatches.containsKey(key)) {[m
+[32m+[m[32m          projectWatches.put(key, EnumSet.noneOf(NotifyType.class));[m
+[32m+[m[32m        }[m
+[32m+[m[32m        projectWatches.get(key).addAll(notifyValue.notifyTypes());[m
+[32m+[m[32m      }[m
+[32m+[m[32m    }[m
+[32m+[m[32m    return projectWatches;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {[m
+[32m+[m[32m    checkLoaded();[m
+[32m+[m[32m    return projectWatches;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  protected boolean onSave(CommitBuilder commit)[m
+[32m+[m[32m      throws IOException, ConfigInvalidException {[m
+[32m+[m[32m    checkLoaded();[m
+[32m+[m
+[32m+[m[32m    if (Strings.isNullOrEmpty(commit.getMessage())) {[m
+[32m+[m[32m      commit.setMessage("Updated watch configuration\n");[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    Config cfg = readConfig(WATCH_CONFIG);[m
+[32m+[m
+[32m+[m[32m    for (String projectName : cfg.getSubsections(PROJECT)) {[m
+[32m+[m[32m      cfg.unset(PROJECT, projectName, KEY_NOTIFY);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    Multimap<String, String> notifyValuesByProject = ArrayListMultimap.create();[m
+[32m+[m[32m    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches[m
+[32m+[m[32m        .entrySet()) {[m
+[32m+[m[32m      NotifyValue notifyValue =[m
+[32m+[m[32m          NotifyValue.create(e.getKey().filter(), e.getValue());[m
+[32m+[m[32m      notifyValuesByProject.put(e.getKey().project().get(),[m
+[32m+[m[32m          notifyValue.toString());[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    for (Map.Entry<String, Collection<String>> e : notifyValuesByProject.asMap()[m
+[32m+[m[32m        .entrySet()) {[m
+[32m+[m[32m      cfg.setStringList(PROJECT, e.getKey(), KEY_NOTIFY,[m
+[32m+[m[32m          new ArrayList<>(e.getValue()));[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    saveConfig(WATCH_CONFIG, cfg);[m
+[32m+[m[32m    return true;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public void close() {[m
+[32m+[m[32m    if (git != null) {[m
+[32m+[m[32m      git.close();[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private void checkLoaded() {[m
+[32m+[m[32m    checkState(projectWatches != null, "project watches not loaded yet");[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @AutoValue[m
+[32m+[m[32m  abstract static class NotifyValue {[m
+[32m+[m[32m    public static NotifyValue parse(Account.Id accountId, String project,[m
+[32m+[m[32m        String notifyValue) throws ConfigInvalidException {[m
+[32m+[m[32m      notifyValue = notifyValue.trim();[m
+[32m+[m[32m      int i = notifyValue.lastIndexOf('[');[m
+[32m+[m[32m      if (i < 0 || notifyValue.charAt(notifyValue.length() - 1) != ']') {[m
+[32m+[m[32m        throw new ConfigInvalidException(String.format([m
+[32m+[m[32m            "Invalid project watch of account %d for project %s: %s",[m
+[32m+[m[32m            accountId.get(), project, notifyValue));[m
+[32m+[m[32m      }[m
+[32m+[m[32m      String filter = notifyValue.substring(0, i).trim();[m
+[32m+[m[32m      if (filter.isEmpty() || AccountProjectWatch.FILTER_ALL.equals(filter)) {[m
+[32m+[m[32m        filter = null;[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      Set<NotifyType> notifyTypes = EnumSet.noneOf(NotifyType.class);[m
+[32m+[m[32m      if (i + 1 < notifyValue.length() - 2) {[m
+[32m+[m[32m        for (String nt : Splitter.on(',').trimResults().splitToList([m
+[32m+[m[32m            notifyValue.substring(i + 1, notifyValue.length() - 1))) {[m
+[32m+[m[32m          Optional<NotifyType> notifyType =[m
+[32m+[m[32m              Enums.getIfPresent(NotifyType.class, nt);[m
+[32m+[m[32m          if (!notifyType.isPresent()) {[m
+[32m+[m[32m            throw new ConfigInvalidException(String.format([m
+[32m+[m[32m                "Invalid notify type %s in watch project watch "[m
+[32m+[m[32m                    + "of account %d for project %s: %s",[m
+[32m+[m[32m                nt, accountId.get(), project, notifyValue));[m
+[32m+[m[32m          }[m
+[32m+[m[32m          notifyTypes.add(notifyType.get());[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m      return create(filter, notifyTypes);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public static NotifyValue create(@Nullable String filter,[m
+[32m+[m[32m        Set<NotifyType> notifyTypes) {[m
+[32m+[m[32m      return new AutoValue_WatchConfig_NotifyValue(Strings.emptyToNull(filter),[m
+[32m+[m[32m          notifyTypes);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public abstract @Nullable String filter();[m
+[32m+[m[32m    public abstract Set<NotifyType> notifyTypes();[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public String toString() {[m
+[32m+[m[32m      List<NotifyType> notifyTypes = new ArrayList<>(notifyTypes());[m
+[32m+[m[32m      Collections.sort(notifyTypes, new Comparator<NotifyType>() {[m
+[32m+[m[32m        @Override[m
+[32m+[m[32m        public int compare(NotifyType nt1, NotifyType nt2) {[m
+[32m+[m[32m          return nt1.name().compareTo(nt2.name());[m
+[32m+[m[32m        }});[m
+[32m+[m[32m      StringBuilder notifyValue = new StringBuilder();[m
+[32m+[m[32m      notifyValue.append(firstNonNull(filter(), AccountProjectWatch.FILTER_ALL))[m
+[32m+[m[32m          .append(" [");[m
+[32m+[m[32m      Joiner.on(", ").appendTo(notifyValue, notifyTypes);[m
+[32m+[m[32m      notifyValue.append("]");[m
+[32m+[m[32m      return notifyValue.toString();[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java b/gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java[m
+[1mindex c678a2b..78e31a9 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java[m
+[36m@@ -221,7 +221,7 @@[m [mpublic class AccountApiImpl implements AccountApi {[m
+   public List<ProjectWatchInfo> getWatchedProjects() throws RestApiException {[m
+     try {[m
+       return getWatchedProjects.apply(account);[m
+[31m-    } catch (OrmException e) {[m
+[32m+[m[32m    } catch (OrmException | IOException | ConfigInvalidException e) {[m
+       throw new RestApiException("Cannot get watched projects", e);[m
+     }[m
+   }[m
+[36m@@ -231,7 +231,7 @@[m [mpublic class AccountApiImpl implements AccountApi {[m
+       List<ProjectWatchInfo> in) throws RestApiException {[m
+     try {[m
+       return postWatchedProjects.apply(account, in);[m
+[31m-    } catch (OrmException | IOException e) {[m
+[32m+[m[32m    } catch (OrmException | IOException | ConfigInvalidException e) {[m
+       throw new RestApiException("Cannot update watched projects", e);[m
+     }[m
+   }[m
+[36m@@ -241,7 +241,7 @@[m [mpublic class AccountApiImpl implements AccountApi {[m
+       throws RestApiException {[m
+     try {[m
+       deleteWatchedProjects.apply(account, in);[m
+[31m-    } catch (OrmException | IOException e) {[m
+[32m+[m[32m    } catch (OrmException | IOException | ConfigInvalidException e) {[m
+       throw new RestApiException("Cannot delete watched projects", e);[m
+     }[m
+   }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java b/gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java[m
+[1mindex 9e52ef1..6bb918b 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java[m
+[36m@@ -20,8 +20,8 @@[m [mimport com.google.common.base.Strings;[m
+ import com.google.common.collect.FluentIterable;[m
+ import com.google.common.collect.Iterables;[m
+ import com.google.gerrit.reviewdb.client.AccountExternalId;[m
+[31m-import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+ import com.google.gerrit.server.account.AccountState;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ import com.google.gerrit.server.index.FieldDef;[m
+ import com.google.gerrit.server.index.FieldType;[m
+ import com.google.gerrit.server.index.SchemaUtil;[m
+[36m@@ -143,11 +143,11 @@[m [mpublic class AccountField {[m
+           "watchedproject", FieldType.EXACT, false) {[m
+         @Override[m
+         public Iterable<String> get(AccountState input, FillArgs args) {[m
+[31m-          return FluentIterable.from(input.getProjectWatches())[m
+[31m-              .transform(new Function<AccountProjectWatch, String>() {[m
+[32m+[m[32m          return FluentIterable.from(input.getProjectWatches().keySet())[m
+[32m+[m[32m              .transform(new Function<ProjectWatchKey, String>() {[m
+             @Override[m
+[31m-            public String apply(AccountProjectWatch in) {[m
+[31m-              return in.getProjectNameKey().get();[m
+[32m+[m[32m            public String apply(ProjectWatchKey in) {[m
+[32m+[m[32m              return in.project().get();[m
+             }[m
+           }).toSet();[m
+         }[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java b/gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java[m
+[1mindex c558422..c1ead9f 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java[m
+[36m@@ -28,6 +28,7 @@[m [mimport com.google.gerrit.reviewdb.server.ReviewDb;[m
+ import com.google.gerrit.server.CurrentUser;[m
+ import com.google.gerrit.server.IdentifiedUser;[m
+ import com.google.gerrit.server.account.AccountState;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ import com.google.gerrit.server.git.NotifyConfig;[m
+ import com.google.gerrit.server.project.ProjectState;[m
+ import com.google.gerrit.server.query.Predicate;[m
+[36m@@ -43,6 +44,7 @@[m [mimport org.slf4j.LoggerFactory;[m
+ import java.util.ArrayList;[m
+ import java.util.HashSet;[m
+ import java.util.List;[m
+[32m+[m[32mimport java.util.Map;[m
+ import java.util.Set;[m
+ [m
+ public class ProjectWatch {[m
+[36m@@ -94,19 +96,23 @@[m [mpublic class ProjectWatch {[m
+ [m
+     for (AccountState a : args.accountQueryProvider.get()[m
+         .byWatchedProject(project)) {[m
+[31m-      for (AccountProjectWatch w : a.getProjectWatches()) {[m
+[31m-        if (add(matching, w, type)) {[m
+[32m+[m[32m      Account.Id accountId = a.getAccount().getId();[m
+[32m+[m[32m      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :[m
+[32m+[m[32m          a.getProjectWatches().entrySet()) {[m
+[32m+[m[32m        if (add(matching, accountId, e.getKey(), e.getValue(), type)) {[m
+           // We only want to prevent matching All-Projects if this filter hits[m
+[31m-          projectWatchers.add(w.getAccountId());[m
+[32m+[m[32m          projectWatchers.add(accountId);[m
+         }[m
+       }[m
+     }[m
+ [m
+     for (AccountState a : args.accountQueryProvider.get()[m
+         .byWatchedProject(args.allProjectsName)) {[m
+[31m-      for (AccountProjectWatch w : a.getProjectWatches()) {[m
+[31m-        if (!projectWatchers.contains(w.getAccountId())) {[m
+[31m-          add(matching, w, type);[m
+[32m+[m[32m      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :[m
+[32m+[m[32m        a.getProjectWatches().entrySet()) {[m
+[32m+[m[32m        Account.Id accountId = a.getAccount().getId();[m
+[32m+[m[32m        if (!projectWatchers.contains(accountId)) {[m
+[32m+[m[32m          add(matching, accountId, e.getKey(), e.getValue(), type);[m
+         }[m
+       }[m
+     }[m
+[36m@@ -210,6 +216,26 @@[m [mpublic class ProjectWatch {[m
+     }[m
+   }[m
+ [m
+[32m+[m[32m  private boolean add(Watchers matching, Account.Id accountId,[m
+[32m+[m[32m      ProjectWatchKey key, Set<NotifyType> watchedTypes, NotifyType type)[m
+[32m+[m[32m      throws OrmException {[m
+[32m+[m[32m    IdentifiedUser user = args.identifiedUserFactory.create(accountId);[m
+[32m+[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      if (filterMatch(user, key.filter())) {[m
+[32m+[m[32m        // If we are set to notify on this type, add the user.[m
+[32m+[m[32m        // Otherwise, still return true to stop notifications for this user.[m
+[32m+[m[32m        if (watchedTypes.contains(type)) {[m
+[32m+[m[32m          matching.bcc.accounts.add(accountId);[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return true;[m
+[32m+[m[32m      }[m
+[32m+[m[32m    } catch (QueryParseException e) {[m
+[32m+[m[32m      // Ignore broken filter expressions.[m
+[32m+[m[32m    }[m
+[32m+[m[32m    return false;[m
+[32m+[m[32m  }[m
+[32m+[m
+   private boolean add(Watchers matching, AccountProjectWatch w, NotifyType type)[m
+       throws OrmException {[m
+     IdentifiedUser user = args.identifiedUserFactory.create(w.getAccountId());[m
+[1mdiff --git a/gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java b/gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java[m
+[1mindex 0090cf4..0b7a2f0 100644[m
+[1m--- a/gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java[m
+[1m+++ b/gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java[m
+[36m@@ -15,8 +15,8 @@[m
+ package com.google.gerrit.server.query.change;[m
+ [m
+ import com.google.common.collect.ImmutableList;[m
+[31m-import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+ import com.google.gerrit.server.CurrentUser;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ import com.google.gerrit.server.query.AndPredicate;[m
+ import com.google.gerrit.server.query.Predicate;[m
+ import com.google.gerrit.server.query.QueryBuilder;[m
+[36m@@ -48,11 +48,11 @@[m [mclass IsWatchedByPredicate extends AndPredicate<ChangeData> {[m
+       boolean checkIsVisible) throws QueryParseException {[m
+     List<Predicate<ChangeData>> r = new ArrayList<>();[m
+     ChangeQueryBuilder builder = new ChangeQueryBuilder(args);[m
+[31m-    for (AccountProjectWatch w : getWatches(args)) {[m
+[32m+[m[32m    for (ProjectWatchKey w : getWatches(args)) {[m
+       Predicate<ChangeData> f = null;[m
+[31m-      if (w.getFilter() != null) {[m
+[32m+[m[32m      if (w.filter() != null) {[m
+         try {[m
+[31m-          f = builder.parse(w.getFilter());[m
+[32m+[m[32m          f = builder.parse(w.filter());[m
+           if (QueryBuilder.find(f, IsWatchedByPredicate.class) != null) {[m
+             // If the query is going to infinite loop, assume it[m
+             // will never match and return null. Yes this test[m
+[36m@@ -66,10 +66,10 @@[m [mclass IsWatchedByPredicate extends AndPredicate<ChangeData> {[m
+       }[m
+ [m
+       Predicate<ChangeData> p;[m
+[31m-      if (w.getProjectNameKey().equals(args.allProjectsName)) {[m
+[32m+[m[32m      if (w.project().equals(args.allProjectsName)) {[m
+         p = null;[m
+       } else {[m
+[31m-        p = builder.project(w.getProjectNameKey().get());[m
+[32m+[m[32m        p = builder.project(w.project().get());[m
+       }[m
+ [m
+       if (p != null && f != null) {[m
+[36m@@ -91,14 +91,14 @@[m [mclass IsWatchedByPredicate extends AndPredicate<ChangeData> {[m
+     }[m
+   }[m
+ [m
+[31m-  private static Collection<AccountProjectWatch> getWatches([m
+[32m+[m[32m  private static Collection<ProjectWatchKey> getWatches([m
+       ChangeQueryBuilder.Arguments args) throws QueryParseException {[m
+     CurrentUser user = args.getUser();[m
+     if (user.isIdentifiedUser()) {[m
+       return args.accountCache.get(args.getUser().getAccountId())[m
+[31m-          .getProjectWatches();[m
+[32m+[m[32m          .getProjectWatches().keySet();[m
+     }[m
+[31m-    return Collections.<AccountProjectWatch> emptySet();[m
+[32m+[m[32m    return Collections.<ProjectWatchKey> emptySet();[m
+   }[m
+ [m
+   private static List<Predicate<ChangeData>> none() {[m
+[1mdiff --git a/gerrit-server/src/test/java/com/google/gerrit/server/account/WatchConfigTest.java b/gerrit-server/src/test/java/com/google/gerrit/server/account/WatchConfigTest.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..5795369[m
+[1m--- /dev/null[m
+[1m+++ b/gerrit-server/src/test/java/com/google/gerrit/server/account/WatchConfigTest.java[m
+[36m@@ -0,0 +1,133 @@[m
+[32m+[m[32m// Copyright (C) 2016 The Android Open Source Project[m
+[32m+[m[32m//[m
+[32m+[m[32m// Licensed under the Apache License, Version 2.0 (the "License");[m
+[32m+[m[32m// you may not use this file except in compliance with the License.[m
+[32m+[m[32m// You may obtain a copy of the License at[m
+[32m+[m[32m//[m
+[32m+[m[32m// http://www.apache.org/licenses/LICENSE-2.0[m
+[32m+[m[32m//[m
+[32m+[m[32m// Unless required by applicable law or agreed to in writing, software[m
+[32m+[m[32m// distributed under the License is distributed on an "AS IS" BASIS,[m
+[32m+[m[32m// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.[m
+[32m+[m[32m// See the License for the specific language governing permissions and[m
+[32m+[m[32m// limitations under the License.[m
+[32m+[m
+[32m+[m[32mpackage com.google.gerrit.server.account;[m
+[32m+[m
+[32m+[m[32mimport static com.google.common.truth.Truth.assertThat;[m
+[32m+[m[32mimport static org.junit.Assert.fail;[m
+[32m+[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.Account;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.Project;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.NotifyValue;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+[32m+[m
+[32m+[m[32mimport org.eclipse.jgit.errors.ConfigInvalidException;[m
+[32m+[m[32mimport org.eclipse.jgit.lib.Config;[m
+[32m+[m[32mimport org.junit.Rule;[m
+[32m+[m[32mimport org.junit.Test;[m
+[32m+[m[32mimport org.junit.rules.ExpectedException;[m
+[32m+[m
+[32m+[m[32mimport java.util.EnumSet;[m
+[32m+[m[32mimport java.util.HashMap;[m
+[32m+[m[32mimport java.util.Map;[m
+[32m+[m[32mimport java.util.Set;[m
+[32m+[m
+[32m+[m[32mpublic class WatchConfigTest {[m
+[32m+[m[32m  @Rule[m
+[32m+[m[32m  public ExpectedException exception = ExpectedException.none();[m
+[32m+[m
+[32m+[m[32m  @Test[m
+[32m+[m[32m  public void parseWatchConfig() throws Exception {[m
+[32m+[m[32m    Config cfg = new Config();[m
+[32m+[m[32m    cfg.fromText("[project \"myProject\"]\n"[m
+[32m+[m[32m        + "  notify = * [ALL_COMMENTS, NEW_PATCHSETS]\n"[m
+[32m+[m[32m        + "  notify = branch:master [NEW_CHANGES]\n"[m
+[32m+[m[32m        + "  notify = branch:master [NEW_PATCHSETS]\n"[m
+[32m+[m[32m        + "  notify = branch:foo []\n"[m
+[32m+[m[32m        + "[project \"otherProject\"]\n"[m
+[32m+[m[32m        + "  notify = [NEW_PATCHSETS]\n");[m
+[32m+[m[32m    Map<ProjectWatchKey, Set<NotifyType>> projectWatches =[m
+[32m+[m[32m        WatchConfig.parse(new Account.Id(1000000), cfg);[m
+[32m+[m
+[32m+[m[32m    Project.NameKey myProject = new Project.NameKey("myProject");[m
+[32m+[m[32m    Project.NameKey otherProject = new Project.NameKey("otherProject");[m
+[32m+[m[32m    Map<ProjectWatchKey, Set<NotifyType>> expectedProjectWatches =[m
+[32m+[m[32m        new HashMap<>();[m
+[32m+[m[32m    expectedProjectWatches.put(ProjectWatchKey.create(myProject, null),[m
+[32m+[m[32m        EnumSet.of(NotifyType.ALL_COMMENTS, NotifyType.NEW_PATCHSETS));[m
+[32m+[m[32m    expectedProjectWatches.put([m
+[32m+[m[32m        ProjectWatchKey.create(myProject, "branch:master"),[m
+[32m+[m[32m        EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS));[m
+[32m+[m[32m    expectedProjectWatches.put(ProjectWatchKey.create(myProject, "branch:foo"),[m
+[32m+[m[32m        EnumSet.noneOf(NotifyType.class));[m
+[32m+[m[32m    expectedProjectWatches.put(ProjectWatchKey.create(otherProject, null),[m
+[32m+[m[32m        EnumSet.of(NotifyType.NEW_PATCHSETS));[m
+[32m+[m[32m    assertThat(projectWatches).containsExactlyEntriesIn(expectedProjectWatches);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Test[m
+[32m+[m[32m  public void parseInvalidWatchConfig() throws Exception {[m
+[32m+[m[32m    Config cfg = new Config();[m
+[32m+[m[32m    cfg.fromText("[project \"myProject\"]\n"[m
+[32m+[m[32m        + "  notify = * [ALL_COMMENTS, NEW_PATCHSETS]\n"[m
+[32m+[m[32m        + "  notify = branch:master [INVALID, NEW_CHANGES]\n"[m
+[32m+[m[32m        + "[project \"otherProject\"]\n"[m
+[32m+[m[32m        + "  notify = [NEW_PATCHSETS]\n");[m
+[32m+[m
+[32m+[m[32m    exception.expect(ConfigInvalidException.class);[m
+[32m+[m[32m    exception.expectMessage([m
+[32m+[m[32m        "Invalid notify type INVALID in watch project watch of account 1000000"[m
+[32m+[m[32m            + " for project myProject: branch:master [INVALID, NEW_CHANGES]");[m
+[32m+[m[32m    WatchConfig.parse(new Account.Id(1000000), cfg);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Test[m
+[32m+[m[32m  public void parseNotifyValue() throws Exception {[m
+[32m+[m[32m    assertParseNotifyValue("* []", null, EnumSet.noneOf(NotifyType.class));[m
+[32m+[m[32m    assertParseNotifyValue("* [ALL_COMMENTS]", null,[m
+[32m+[m[32m        EnumSet.of(NotifyType.ALL_COMMENTS));[m
+[32m+[m[32m    assertParseNotifyValue("[]", null, EnumSet.noneOf(NotifyType.class));[m
+[32m+[m[32m    assertParseNotifyValue("[ALL_COMMENTS, NEW_PATCHSETS]", null,[m
+[32m+[m[32m        EnumSet.of(NotifyType.ALL_COMMENTS, NotifyType.NEW_PATCHSETS));[m
+[32m+[m[32m    assertParseNotifyValue("branch:master []", "branch:master",[m
+[32m+[m[32m        EnumSet.noneOf(NotifyType.class));[m
+[32m+[m[32m    assertParseNotifyValue("branch:master || branch:stable []",[m
+[32m+[m[32m        "branch:master || branch:stable", EnumSet.noneOf(NotifyType.class));[m
+[32m+[m[32m    assertParseNotifyValue("branch:master [ALL_COMMENTS]", "branch:master",[m
+[32m+[m[32m        EnumSet.of(NotifyType.ALL_COMMENTS));[m
+[32m+[m[32m    assertParseNotifyValue("branch:master [ALL_COMMENTS, NEW_PATCHSETS]",[m
+[32m+[m[32m        "branch:master",[m
+[32m+[m[32m        EnumSet.of(NotifyType.ALL_COMMENTS, NotifyType.NEW_PATCHSETS));[m
+[32m+[m
+[32m+[m[32m    assertParseNotifyValueFails("* [] illegal-characters-at-the-end");[m
+[32m+[m[32m    assertParseNotifyValueFails("* [INVALID]");[m
+[32m+[m[32m    assertParseNotifyValueFails("* [ALL_COMMENTS, UNKNOWN]");[m
+[32m+[m[32m    assertParseNotifyValueFails("* [ALL_COMMENTS NEW_CHANGES]");[m
+[32m+[m[32m    assertParseNotifyValueFails("* [ALL_COMMENTS, NEW_CHANGES");[m
+[32m+[m[32m    assertParseNotifyValueFails("* ALL_COMMENTS, NEW_CHANGES]");[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private static void assertParseNotifyValue(String notifyValue,[m
+[32m+[m[32m      String expectedFilter, Set<NotifyType> expectedNotifyTypes)[m
+[32m+[m[32m          throws ConfigInvalidException {[m
+[32m+[m[32m    NotifyValue nv = parseNotifyValue(notifyValue);[m
+[32m+[m[32m    assertThat(nv.filter()).isEqualTo(expectedFilter);[m
+[32m+[m[32m    assertThat(nv.notifyTypes()).containsExactlyElementsIn(expectedNotifyTypes);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private static void assertParseNotifyValueFails(String notifyValue) {[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      parseNotifyValue(notifyValue);[m
+[32m+[m[32m      fail("expected ConfigInvalidException for notifyValue: " + notifyValue);[m
+[32m+[m[32m    } catch (ConfigInvalidException e) {[m
+[32m+[m[32m      // Expected.[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  private static NotifyValue parseNotifyValue(String notifyValue)[m
+[32m+[m[32m      throws ConfigInvalidException {[m
+[32m+[m[32m    return NotifyValue.parse(new Account.Id(1000000), "project", notifyValue);[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[1mdiff --git a/gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java b/gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java[m
+[1mindex fab21ab..11f1d54 100644[m
+[1m--- a/gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java[m
+[1m+++ b/gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java[m
+[36m@@ -25,9 +25,10 @@[m [mimport com.google.gerrit.common.TimeUtil;[m
+ import com.google.gerrit.reviewdb.client.Account;[m
+ import com.google.gerrit.reviewdb.client.AccountExternalId;[m
+ import com.google.gerrit.reviewdb.client.AccountGroup;[m
+[31m-import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+ import com.google.gerrit.server.account.AccountCache;[m
+ import com.google.gerrit.server.account.AccountState;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ [m
+ import org.eclipse.jgit.lib.Config;[m
+ import org.eclipse.jgit.lib.PersonIdent;[m
+[36m@@ -35,6 +36,8 @@[m [mimport org.junit.Before;[m
+ import org.junit.Test;[m
+ [m
+ import java.util.Collections;[m
+[32m+[m[32mimport java.util.HashMap;[m
+[32m+[m[32mimport java.util.Set;[m
+ [m
+ public class FromAddressGeneratorProviderTest {[m
+   private Config config;[m
+[36m@@ -300,6 +303,6 @@[m [mpublic class FromAddressGeneratorProviderTest {[m
+     account.setPreferredEmail(email);[m
+     return new AccountState(account, Collections.<AccountGroup.UUID> emptySet(),[m
+         Collections.<AccountExternalId> emptySet(),[m
+[31m-        Collections.<AccountProjectWatch> emptySet());[m
+[32m+[m[32m        new HashMap<ProjectWatchKey, Set<NotifyType>>());[m
+   }[m
+ }[m
+[1mdiff --git a/gerrit-server/src/test/java/com/google/gerrit/testutil/FakeAccountCache.java b/gerrit-server/src/test/java/com/google/gerrit/testutil/FakeAccountCache.java[m
+[1mindex ca322a7..f809d11 100644[m
+[1m--- a/gerrit-server/src/test/java/com/google/gerrit/testutil/FakeAccountCache.java[m
+[1m+++ b/gerrit-server/src/test/java/com/google/gerrit/testutil/FakeAccountCache.java[m
+[36m@@ -19,12 +19,14 @@[m [mimport com.google.gerrit.common.TimeUtil;[m
+ import com.google.gerrit.reviewdb.client.Account;[m
+ import com.google.gerrit.reviewdb.client.AccountExternalId;[m
+ import com.google.gerrit.reviewdb.client.AccountGroup;[m
+[31m-import com.google.gerrit.reviewdb.client.AccountProjectWatch;[m
+[32m+[m[32mimport com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;[m
+ import com.google.gerrit.server.account.AccountCache;[m
+ import com.google.gerrit.server.account.AccountState;[m
+[32m+[m[32mimport com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;[m
+ [m
+ import java.util.HashMap;[m
+ import java.util.Map;[m
+[32m+[m[32mimport java.util.Set;[m
+ [m
+ /** Fake implementation of {@link AccountCache} for testing. */[m
+ public class FakeAccountCache implements AccountCache {[m
+[36m@@ -76,6 +78,6 @@[m [mpublic class FakeAccountCache implements AccountCache {[m
+   private static AccountState newState(Account account) {[m
+     return new AccountState(account, ImmutableSet.<AccountGroup.UUID> of(),[m
+         ImmutableSet.<AccountExternalId> of(),[m
+[31m-        ImmutableSet.<AccountProjectWatch> of());[m
+[32m+[m[32m        new HashMap<ProjectWatchKey, Set<NotifyType>>());[m
+   }[m
+ }[m

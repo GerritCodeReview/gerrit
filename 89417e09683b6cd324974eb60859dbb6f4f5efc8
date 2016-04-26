@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_4ef3f383",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T06:26:57Z",
+      "side": 1,
+      "message": "May be swap these branches. Sorry, my suggestion was wrong. It was too late and was untested. The good news is that this breakage was catched by unit test. This change should also extend the test, something like: [1].\n\n* [1] http://paste.openstack.org/show/495386",
+      "range": {
+        "startLine": 463,
+        "startChar": 18,
+        "endLine": 465,
+        "endChar": 65
+      },
+      "revId": "89417e09683b6cd324974eb60859dbb6f4f5efc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

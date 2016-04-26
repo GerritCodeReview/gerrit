@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48436d50_cfcd9d6f",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 38
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-26T17:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48436d50_4fe2cde6",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 10
+      },
+      "revId": "7da23b2c17020238c5800632c23147c581e6207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48436d50_2fe789f6",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 38
@@ -36,6 +60,24 @@
       "writtenOn": "2016-04-26T17:34:23Z",
       "side": 1,
       "message": "A more direct permalink would be better.",
+      "revId": "7da23b2c17020238c5800632c23147c581e6207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68403143_b0dab825",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 38
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-26T17:41:35Z",
+      "side": 1,
+      "message": "Done. It\u0027s unfortunate that it\u0027s still on code site....",
+      "parentUuid": "48436d50_2fe789f6",
       "revId": "7da23b2c17020238c5800632c23147c581e6207d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

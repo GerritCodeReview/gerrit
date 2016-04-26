@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "282ab97a_4e9ad325",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-26T09:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e83341f3_4c09bf84",
+      "revId": "4ad8cf61f101b835c4aeb345bbfd24e437969b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82e7d90_abda4925",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-26T02:12:05Z",
       "side": 1,
       "message": "nit: Line too long.",
+      "revId": "4ad8cf61f101b835c4aeb345bbfd24e437969b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_2e9f8715",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-26T09:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c82e7d90_abda4925",
       "revId": "4ad8cf61f101b835c4aeb345bbfd24e437969b2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,10 @@ public class MergeIfNecessary extends SubmitStrategy {
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     CodeReviewCommit firstFastForward;
     if (args.mergeTip.getInitialTip() == null) {
+      if (sorted.isEmpty()) {
+        throw new IntegrationException(
+            "nothing to merge, probably caused by missing dependencies");
+      }
       firstFastForward = sorted.remove(0);
     } else {
       firstFastForward = args.mergeUtil.getFirstFastForward(

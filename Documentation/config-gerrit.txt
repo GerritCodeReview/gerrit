@@ -938,8 +938,9 @@ cached in the persistent `diff` cache.
 If true, automerge results are stored in the repository under
 `refs/cache-automerge/*`; the results of diffing the change against its
 automerge base are stored in the diff cache. If false, no extra data is
-stored in the repository, only the diff cache. This can result in slight
-performance improvements by reducing the number of refs in the repo.
+stored in the repository, only the diff cache. The main advantage of not
+storing automerge refs is a slight performance improvement from reducing
+the number of refs in each repo.
 +
 Default is true.
 

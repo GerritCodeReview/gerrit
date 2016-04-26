@@ -17,8 +17,11 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
-  <ui:style gss='false'>
+  <ui:style gss='false' type='com.google.gerrit.client.editor.EditScreen.Style'>
     @external .CodeMirror, .CodeMirror-cursor;
+    @external .CodeMirror-merge-2pane, .CodeMirror-merge-pane;
+    @external .CodeMirror-merge-gap;
+    @external .CodeMirror-scroll, .CodeMirror-overlayscroll-vertical;
 
     .header {
       position: relative;
@@ -123,12 +126,28 @@ limitations under the License.
       cursor: pointer;
       outline: none;
     }
+
+    .hideBase.CodeMirror-merge-pane {
+      display: none;
+    }
+
+    .hideBase.CodeMirror-merge-gap {
+      display: none;
+    }
+
+    .CodeMirror-merge-2pane .fullWidth.CodeMirror-merge-pane {
+      width: 100%;
+    }
+
+    /* Hide the vertical scrollbar on the base side. The edit side controls
+       both views */
+    .base .CodeMirror-scroll { margin-right: -42px; }
+    .base .CodeMirror-overlayscroll-vertical { display: none !important; }
   </ui:style>
   <g:HTMLPanel styleName='{style.header}'>
     <div class='{style.headerLine}' ui:field='header'>
        <div class='{style.headerButtons}'>
          <g:Button ui:field='close'
-             styleName=''
              title='Close file and return to change'>
            <ui:attribute name='title'/>
            <div><ui:msg>Close</ui:msg></div>
@@ -142,6 +161,11 @@ limitations under the License.
        </div>
        <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
        <div class='{style.navigation}'>
+         <g:Label text='Show Base' styleName='{style.linkPanel}'></g:Label>
+         <g:CheckBox ui:field='showBase' checked='true' styleName='{style.linkPanel}'
+             title='Show Base Version'>
+           <ui:attribute name='title'/>
+         </g:CheckBox>
          <g:FlowPanel ui:field='linkPanel' styleName='{style.linkPanel}'/>
          <g:Image
              ui:field='editSettings'

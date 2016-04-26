@@ -23,6 +23,18 @@ maven_jar(
   visibility = [],
 )
 
+DIFF_MATCH_PATCH_VERSION = '20121119-1'
+DIFF_MATCH_PATCH_TOP = ('META-INF/resources/webjars/google-diff-match-patch/%s'
+    % DIFF_MATCH_PATCH_VERSION)
+
+maven_jar(
+  name = 'diff-match-patch',
+  id = 'org.webjars:google-diff-match-patch:' + DIFF_MATCH_PATCH_VERSION,
+  sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
 for archive, suffix, top in [('codemirror-original', '', TOP), ('codemirror-minified', '_r', TOP_MINIFIED)]:
   # Main JavaScript and addons
   genrule(
@@ -58,11 +70,12 @@ for archive, suffix, top in [('codemirror-original', '', TOP), ('codemirror-mini
     genrule (
       name = 'mode_%s%s' % (n, suffix),
       cmd = ';'.join([
-        "echo '/** @license' >$OUT",
-        'unzip -p $(location :%s) %s/LICENSE >>$OUT' % (archive, top),
-        "echo '*/' >>$OUT",
-        'unzip -p $(location :%s) %s/mode/%s/%s.js >>$OUT' % (archive, top, n, n),
-        ]),
+          "echo '/** @license' >$OUT",
+          'unzip -p $(location :%s) %s/LICENSE >>$OUT' % (archive, top),
+          "echo '*/' >>$OUT",
+          'unzip -p $(location :%s) %s/mode/%s/%s.js >>$OUT' % (archive, top, n, n),
+        ]
+      ),
       out = 'mode_%s%s.js' % (n, suffix),
     )
 
@@ -80,19 +93,39 @@ for archive, suffix, top in [('codemirror-original', '', TOP), ('codemirror-mini
       out = 'theme_%s%s.css' % (n, suffix),
     )
 
+  # Merge Addon bundled with diff-match-patch
+  genrule(
+    name = 'addon_merge%s' % suffix,
+    cmd = ';'.join([
+        "echo '/** @license' >$OUT",
+        'unzip -p $(location :%s) %s/LICENSE >>$OUT' % (archive, top),
+        "echo '*/\n' >>$OUT",
+        "echo '// The google-diff-match-patch library is from https://google-diff-match-patch.googlecode.com/svn-history/r106/trunk/javascript/diff_match_patch.js\n' >> $OUT",
+        "echo '/** @license' >>$OUT",
+        'cat $(location //lib:LICENSE-Apache2.0) >>$OUT',
+        "echo '*/' >>$OUT",
+        'unzip -p $(location :diff-match-patch) %s/diff_match_patch.js >>$OUT' % DIFF_MATCH_PATCH_TOP,
+        "echo ';' >> $OUT",
+        'unzip -p $(location :%s) %s/addon/merge/merge.js >>$OUT' % (archive, top)
+      ]
+    ),
+    out = 'addon_merge%s.js' % suffix,
+  )
+
   # Jar packaging
   genrule(
     name = 'jar' + suffix,
     cmd = ';'.join([
       'cd $TMP',
-      'mkdir -p net/codemirror/{lib,mode,theme}',
+      'mkdir -p net/codemirror/{addon,lib,mode,theme}',
       'cp $(location :css%s) net/codemirror/lib/cm.css' % suffix,
       'cp $(location :cm%s) net/codemirror/lib/cm.js' % suffix]
       + ['cp $(location :mode_%s%s) net/codemirror/mode/%s.js' % (n, suffix, n)
          for n in CM_MODES]
       + ['cp $(location :theme_%s%s) net/codemirror/theme/%s.css' % (n, suffix, n)
          for n in CM_THEMES]
-      + ['zip -qr $OUT net/codemirror/{lib,mode,theme}']),
+      + ['cp $(location :addon_merge%s) net/codemirror/addon/merge_bundled.js' % suffix]
+      + ['zip -qr $OUT net/codemirror/{addon,lib,mode,theme}']),
     out = 'codemirror%s.jar' % suffix,
   )
 

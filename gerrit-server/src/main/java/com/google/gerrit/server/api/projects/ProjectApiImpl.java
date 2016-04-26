@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.GetAccess;
 import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -71,7 +72,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final String name;
   private final BranchApiImpl.Factory branchApi;
   private final TagApiImpl.Factory tagApi;
-  private final AccessApiImpl.Factory accessApi;
+  private final GetAccess getAccess;
   private final Provider<ListBranches> listBranchesProvider;
   private final Provider<ListTags> listTagsProvider;
 
@@ -87,13 +88,13 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
-      AccessApiImpl.Factory accessApiFactory,
+      GetAccess getAccess,
       Provider<ListBranches> listBranchesProvider,
       Provider<ListTags> listTagsProvider,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, accessApiFactory, listBranchesProvider, listTagsProvider,
+        tagApiFactory, getAccess, listBranchesProvider, listTagsProvider,
         project, null);
   }
 
@@ -109,13 +110,13 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
-      AccessApiImpl.Factory accessApiFactory,
+      GetAccess getAccess,
       Provider<ListBranches> listBranchesProvider,
       Provider<ListTags> listTagsProvider,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, accessApiFactory, listBranchesProvider, listTagsProvider,
+        tagApiFactory, getAccess, listBranchesProvider, listTagsProvider,
         null, name);
   }
 
@@ -130,7 +131,7 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
-      AccessApiImpl.Factory accessApiFactory,
+      GetAccess getAccess,
       Provider<ListBranches> listBranchesProvider,
       Provider<ListTags> listTagsProvider,
       ProjectResource project,
@@ -148,7 +149,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.name = name;
     this.branchApi = branchApiFactory;
     this.tagApi = tagApiFactory;
-    this.accessApi = accessApiFactory;
+    this.getAccess = getAccess;
     this.listBranchesProvider = listBranchesProvider;
     this.listTagsProvider = listTagsProvider;
   }
@@ -191,7 +192,11 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ProjectAccessInfo access() throws RestApiException {
-    return accessApi.create(checkExists()).get();
+    try {
+      return getAccess.apply(checkExists());
+    } catch (IOException e) {
+      throw new RestApiException("Cannot get access rights", e);
+    }
   }
 
   @Override

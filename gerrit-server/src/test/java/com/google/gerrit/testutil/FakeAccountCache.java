@@ -19,10 +19,12 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,6 +78,6 @@ public class FakeAccountCache implements AccountCache {
   private static AccountState newState(Account account) {
     return new AccountState(account, ImmutableSet.<AccountGroup.UUID> of(),
         ImmutableSet.<AccountExternalId> of(),
-        ImmutableSet.<AccountProjectWatch> of());
+        new HashMap<ProjectWatchKey, Collection<NotifyType>>());
   }
 }

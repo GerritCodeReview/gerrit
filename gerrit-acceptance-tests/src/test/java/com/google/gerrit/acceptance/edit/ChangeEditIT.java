@@ -602,6 +602,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     r.assertOK();
     assertThat(readContentFromJson(r)).isEqualTo(
         StringUtils.newStringUtf8(CONTENT_NEW2));
+
+    r = adminRestSession.getJsonAccept(urlEditFile(true));
+    r.assertOK();
+    assertThat(readContentFromJson(r)).isEqualTo(
+        StringUtils.newStringUtf8(CONTENT_OLD));
   }
 
   @Test
@@ -811,9 +816,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   private String urlEditFile() {
+    return urlEditFile(false);
+  }
+
+  private String urlEditFile(boolean base) {
     return urlEdit()
         + "/"
-        + FILE_NAME;
+        + FILE_NAME
+        + (base ? "?base" : "");
   }
 
   private String urlGetFiles() {

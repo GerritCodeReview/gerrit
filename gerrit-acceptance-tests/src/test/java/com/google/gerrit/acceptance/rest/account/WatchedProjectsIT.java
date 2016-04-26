@@ -119,6 +119,22 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setAndGetEmptyWatch() throws Exception {
+    String projectName = createProject(NEW_PROJECT_NAME).get();
+
+    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    projectsToWatch.add(pwi);
+
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+    List<ProjectWatchInfo> persistedWatchedProjects =
+        gApi.accounts().self().getWatchedProjects();
+    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
+  }
+
+  @Test
   public void watchNonExistingProject() throws Exception {
     String projectName = NEW_PROJECT_NAME + "3";
 

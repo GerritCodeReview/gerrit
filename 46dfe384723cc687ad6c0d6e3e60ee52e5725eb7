@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461658089 +0200\nnonce AB8gjyVIXZRDU6SVDfUlK3z8Fbw0FSMKu7D0msW5FpmvUik2ZlwKAwGjDJxR/seDjTKEGg5RQi2d\n\n0000000000000000000000000000000000000000 e5464ebfb6010f641defe90fc0176fdd14cecc38 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXHyHpAAoJEFG1/Zeg0O9R5RgH+wXkBfRQwJQGTv9fHpuOt0X/\nwPlxEzvuNTfvaFgDkdiaC8BAMHEP7n+/FwgfCuIMRorBopvPibXDwLgF4UlMERLU\nF8nd/jqZ8tbou00Iu/zMeEBn6COBNOdxRU077+c0nK2CSxRxKoJK6v/m6YPxO6qh\nZyty9JQZ8SRALRpHy5/TrYeeddqvSxuwWrGvXxZkvmBbNh8db0Tm9Ptad4H9/204\nGXqL5Oyx2KknHWH1CiMt+KgtoE3zrfb/P3Q3aTYy/70Vp6TNB7fLkGAwF5rO0SPO\njYbzjVUrf/hLFQ9079StiY+UKwk1XVasS7L551BA/w14sSUxZcKSXIoB6uMObF0\u003d\n\u003dL+cq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_0ebbab83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T08:09:30Z",
+      "side": 1,
+      "message": "What\u0027s missing to make this change ready?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "46dfe384723cc687ad6c0d6e3e60ee52e5725eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

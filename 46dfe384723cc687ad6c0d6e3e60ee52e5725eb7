@@ -47,6 +47,30 @@
       "revId": "46dfe384723cc687ad6c0d6e3e60ee52e5725eb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_8ea67b62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T08:14:04Z",
+      "side": 1,
+      "message": "Yeah, that is missing for sure...\nBut then it\u0027s getting time for us to work on this.",
+      "parentUuid": "68591145_687903ec",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "46dfe384723cc687ad6c0d6e3e60ee52e5725eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,4 +47,30 @@ public class ProjectWatchInfo {
         .hash(project, filter, notifyNewChanges, notifyNewPatchSets,
             notifyAllComments, notifySubmittedChanges, notifyAbandonedChanges);
   }
+
+  @Override
+  public String toString() {
+    StringBuilder b = new StringBuilder();
+    b.append(project);
+    if (filter != null) {
+      b.append("%filter=")
+          .append(filter);
+    }
+    b.append("(notifyAbandonedChanges=")
+        .append(toBoolean(notifyAbandonedChanges))
+        .append(", notifyAllComments=")
+        .append(toBoolean(notifyAllComments))
+        .append(", notifyNewChanges=")
+        .append(toBoolean(notifyNewChanges))
+        .append(", notifyNewPatchSets=")
+        .append(toBoolean(notifyNewPatchSets))
+        .append(", notifySubmittedChanges=")
+        .append(toBoolean(notifySubmittedChanges))
+        .append(")");
+    return b.toString();
+  }
+
+  private boolean toBoolean(Boolean b) {
+    return b == null ? false : b;
+  }
 }

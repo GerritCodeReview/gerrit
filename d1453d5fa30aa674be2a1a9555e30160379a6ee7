@@ -22,6 +22,30 @@
       "revId": "d1453d5fa30aa674be2a1a9555e30160379a6ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e83341f3_ac4823bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-26T09:08:02Z",
+      "side": 1,
+      "message": "I\u0027ve added it in a separate change, but note that group1.done() is still needed and needs to be in an else branch, because the previous callback won\u0027t be the final one if prefs.showBase() is false.",
+      "parentUuid": "c82e7d90_2b353936",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 20
+      },
+      "revId": "d1453d5fa30aa674be2a1a9555e30160379a6ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

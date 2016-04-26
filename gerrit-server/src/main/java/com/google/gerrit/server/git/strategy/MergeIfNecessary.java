@@ -31,6 +31,11 @@ public class MergeIfNecessary extends SubmitStrategy {
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+
+    if (sorted == null || sorted.size() == 0) {
+      throw new IntegrationException("nothing to merge!");
+    }
+
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     CodeReviewCommit firstFastForward;
     if (args.mergeTip.getInitialTip() == null) {

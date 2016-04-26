@@ -115,6 +115,11 @@ public interface Groups {
       return this;
     }
 
+    public ListRequest withOwned(boolean owned) {
+      this.owned = owned;
+      return this;
+    }
+
     public ListRequest withLimit(int limit) {
       this.limit = limit;
       return this;

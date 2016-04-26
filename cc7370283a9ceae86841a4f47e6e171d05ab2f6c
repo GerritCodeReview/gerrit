@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "c82e7d90_eb3e1119",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-26T12:54:14Z",
+      "side": 1,
+      "message": "Use Constants.R_HEADS?",
+      "range": {
+        "startLine": 36,
+        "startChar": 23,
+        "endLine": 36,
+        "endChar": 50
+      },
+      "revId": "cc7370283a9ceae86841a4f47e6e171d05ab2f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68591145_28d1cbdd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 3

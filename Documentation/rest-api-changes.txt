@@ -1953,6 +1953,9 @@ When the specified file was deleted in the change edit
 If only the content type is required, callers should use HEAD to
 avoid downloading the encoded file contents.
 
+If the `base` parameter is set to true, the returned content is from the
+revision that the edit is based on.
+
 .Response
 ----
   HTTP/1.1 200 OK

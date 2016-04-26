@@ -78,26 +78,16 @@ public class CallbackGroup {
 
   public <T> HttpCallback<T> add(HttpCallback<T> cb) {
     checkFinalAdded();
-    if (failed) {
-      cb.onFailure(failedThrowable);
-      return new HttpCallback<T>() {
-        @Override
-        public void onSuccess(HttpResponse<T> result) {
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      };
-    }
-
-    HttpCallbackImpl<T> w = new HttpCallbackImpl<>(cb);
-    callbacks.add(w);
-    remaining.add(w);
-    return w;
+    return handleAdd(cb);
   }
 
   public <T> Callback<T> addFinal(final AsyncCallback<T> cb) {
+    checkFinalAdded();
+    finalAdded = true;
+    return handleAdd(cb);
+  }
+
+  public <T> HttpCallback<T> addFinal(final HttpCallback<T> cb) {
     checkFinalAdded();
     finalAdded = true;
     return handleAdd(cb);
@@ -159,6 +149,27 @@ public class CallbackGroup {
     callbacks.add(wrapper);
     remaining.add(wrapper);
     return wrapper;
+  }
+
+  private <T> HttpCallback<T> handleAdd(HttpCallback<T> cb) {
+    checkFinalAdded();
+    if (failed) {
+      cb.onFailure(failedThrowable);
+      return new HttpCallback<T>() {
+        @Override
+        public void onSuccess(HttpResponse<T> result) {
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      };
+    }
+
+    HttpCallbackImpl<T> w = new HttpCallbackImpl<>(cb);
+    callbacks.add(w);
+    remaining.add(w);
+    return w;
   }
 
   private void checkFinalAdded() {

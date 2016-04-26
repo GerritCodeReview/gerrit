@@ -660,6 +660,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.or(p);
   }
 
+  @SuppressWarnings("deprecation")
   private Predicate<ChangeData> starredby(Account.Id who)
       throws QueryParseException {
     return args.getSchema().hasField(ChangeField.STARREDBY)

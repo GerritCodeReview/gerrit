@@ -441,9 +441,11 @@ public class ChangeEdits implements
     }
   }
 
-  @Singleton
   public static class Get implements RestReadView<ChangeEditResource> {
     private final FileContentUtil fileContentUtil;
+
+    @Option(name = "--base", usage = "content of the base")
+    boolean base;
 
     @Inject
     Get(FileContentUtil fileContentUtil) {
@@ -454,9 +456,13 @@ public class ChangeEdits implements
     public Response<?> apply(ChangeEditResource rsrc)
         throws IOException {
       try {
+        ChangeEdit edit = rsrc.getChangeEdit();
         return Response.ok(fileContentUtil.getContent(
               rsrc.getControl().getProjectControl().getProjectState(),
-              ObjectId.fromString(rsrc.getChangeEdit().getRevision().get()),
+              base
+                  ? ObjectId.fromString(
+                      edit.getBasePatchSet().getRevision().get())
+                  : ObjectId.fromString(edit.getRevision().get()),
               rsrc.getPath()));
       } catch (ResourceNotFoundException rnfe) {
         return Response.none();

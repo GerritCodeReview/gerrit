@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -24,11 +26,14 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,52 +43,75 @@ import java.util.List;
 @Singleton
 public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
-
   private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
   private final AccountCache accountCache;
+  private final WatchConfig.Accessor watchConfig;
 
   @Inject
   DeleteWatchedProjects(Provider<ReviewDb> dbProvider,
       Provider<IdentifiedUser> self,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      WatchConfig.Accessor watchConfig) {
     this.dbProvider = dbProvider;
     this.self = self;
     this.accountCache = accountCache;
+    this.watchConfig = watchConfig;
   }
 
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
       throws AuthException, UnprocessableEntityException, OrmException,
-      IOException {
-  if (self.get() != rsrc.getUser()
-      && !self.get().getCapabilities().canAdministrateServer()) {
+      IOException, ConfigInvalidException {
+    if (self.get() != rsrc.getUser()
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("It is not allowed to edit project watches "
           + "of other users");
     }
+    if (input == null) {
+      return Response.none();
+    }
+
     Account.Id accountId = rsrc.getUser().getAccountId();
+    deleteFromDb(accountId, input);
+    deleteFromGit(accountId, input);
+    accountCache.evict(accountId);
+    return Response.none();
+  }
+
+  private void deleteFromDb(Account.Id accountId, List<ProjectWatchInfo> input)
+      throws OrmException, IOException {
     ResultSet<AccountProjectWatch> watchedProjects =
         dbProvider.get().accountProjectWatches().byAccount(accountId);
-    HashMap<AccountProjectWatch.Key, AccountProjectWatch>
-        watchedProjectsMap = new HashMap<>();
+    HashMap<AccountProjectWatch.Key, AccountProjectWatch> watchedProjectsMap =
+        new HashMap<>();
     for (AccountProjectWatch watchedProject : watchedProjects) {
       watchedProjectsMap.put(watchedProject.getKey(), watchedProject);
     }
 
-    if (input != null) {
-      List<AccountProjectWatch> watchesToDelete = new LinkedList<>();
-      for (ProjectWatchInfo projectInfo : input) {
-        AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,
-            new Project.NameKey(projectInfo.project), projectInfo.filter);
-        if (watchedProjectsMap.containsKey(key)) {
-          watchesToDelete.add(watchedProjectsMap.get(key));
-        }
-      }
-      if (!watchesToDelete.isEmpty()) {
-        dbProvider.get().accountProjectWatches().delete(watchesToDelete);
-        accountCache.evict(accountId);
+    List<AccountProjectWatch> watchesToDelete = new LinkedList<>();
+    for (ProjectWatchInfo projectInfo : input) {
+      AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,
+          new Project.NameKey(projectInfo.project), projectInfo.filter);
+      if (watchedProjectsMap.containsKey(key)) {
+        watchesToDelete.add(watchedProjectsMap.get(key));
       }
     }
-    return Response.none();
+    if (!watchesToDelete.isEmpty()) {
+      dbProvider.get().accountProjectWatches().delete(watchesToDelete);
+      accountCache.evict(accountId);
+    }
+  }
+
+  private void deleteFromGit(Account.Id accountId, List<ProjectWatchInfo> input)
+      throws IOException, ConfigInvalidException {
+    watchConfig.deleteProjectWatches(accountId, Lists.transform(input,
+        new Function<ProjectWatchInfo, ProjectWatchKey>() {
+          @Override
+          public ProjectWatchKey apply(ProjectWatchInfo info) {
+            return ProjectWatchKey.create(new Project.NameKey(info.project),
+                info.filter);
+          }
+        }));
   }
 }

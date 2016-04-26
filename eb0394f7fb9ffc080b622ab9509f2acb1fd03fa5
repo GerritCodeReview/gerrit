@@ -142,6 +142,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68591145_c83d8fad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-26T19:28:24Z",
+      "side": 1,
+      "message": "well, it\u0027s an extra step you need to make, and the unaware will fail to do so, leading to frustration. that\u0027s suboptimal usability.\n\ni\u0027ll note that the column cursor in the diff view is a really weird thing to start with. a line cursor that spans both sides is the natural thing.\n\nbut anyway, this discussion clearly exceeds the scope of this change, so i\u0027ll relent.\n\nwithin the context of the original comment i\u0027d argue that the \"some reason\" is exactly the unawareness - i sure didn\u0027t know (but then, i didn\u0027t use the new diff views much, and even less the side-by-side diff).",
+      "parentUuid": "68403143_1003c464",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

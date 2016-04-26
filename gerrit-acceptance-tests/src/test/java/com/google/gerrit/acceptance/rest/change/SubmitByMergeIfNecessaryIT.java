@@ -4,11 +4,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -413,5 +416,22 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n" +
         "Change " + change3.getPatchSetId().getParentKey().get() +
         ": depends on change that was not submitted");
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void mergeWithMissingChange() throws Exception {
+    // create a draft change
+    PushOneCommit.Result draftResult = createDraftChange();
+
+    // create a new change based on the draft change
+    PushOneCommit.Result changeResult = createChange();
+
+    // delete the draft change
+    gApi.changes().id(draftResult.getChangeId()).delete();
+
+    // approve and submit the change
+    submit(changeResult.getChangeId(), new SubmitInput(),
+        ResourceConflictException.class, "nothing to merge", false);
   }
 }

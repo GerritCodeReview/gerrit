@@ -658,7 +658,8 @@ public class ReceiveCommits {
                 ps.getProject().getDescription());
           }
 
-          if (!MagicBranch.isMagicBranch(c.getRefName())) {
+        if (!MagicBranch.isMagicBranch(c.getRefName())
+            || MagicBranch.isMagicBranchWithAutoClose(c.getRefName())) {
             // We only fire gitRefUpdated for direct refs updates.
             // Events for change refs are fired when they are created.
             //

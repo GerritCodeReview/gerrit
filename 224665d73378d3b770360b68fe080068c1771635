@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_ce85a3be",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T07:53:45Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "224665d73378d3b770360b68fe080068c1771635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

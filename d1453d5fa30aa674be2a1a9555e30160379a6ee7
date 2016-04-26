@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c82e7d90_2b353936",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T08:45:27Z",
+      "side": 1,
+      "message": "I know that CallbackGroup#addFinal(HttpCallback\u003c?\u003e) is not implemented. Would it be hard to implement it and get rid of group1.done() and heave the same way like on line 236 below?",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 20
+      },
+      "revId": "d1453d5fa30aa674be2a1a9555e30160379a6ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

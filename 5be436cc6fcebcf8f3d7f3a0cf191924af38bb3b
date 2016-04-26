@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48436d50_efc9816b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-26T16:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e83341f3_cc692f17",
+      "revId": "5be436cc6fcebcf8f3d7f3a0cf191924af38bb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82e7d90_ab1fe9a6",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "68403143_f0c9606b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-26T16:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c82e7d90_ab1fe9a6",
+      "revId": "5be436cc6fcebcf8f3d7f3a0cf191924af38bb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82e7d90_8b1c2db3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-26T15:45:37Z",
       "side": 1,
       "message": "I’d put a comment in saying why you’re copying to the message property instead of using commitInfo.message directly in the view. This way if someone tries to “clean up” later on they don’t end up mutating the commitInfo.message property.",
+      "revId": "5be436cc6fcebcf8f3d7f3a0cf191924af38bb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48436d50_cfc6bd59",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-04-26T16:38:53Z",
+      "side": 1,
+      "message": "Good point. I took an extra step and marked commtInfo as readonly to indicate that it\u0027s not intended to be updated here, same for gr-actions and revert dialog.",
+      "parentUuid": "c82e7d90_8b1c2db3",
       "revId": "5be436cc6fcebcf8f3d7f3a0cf191924af38bb3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

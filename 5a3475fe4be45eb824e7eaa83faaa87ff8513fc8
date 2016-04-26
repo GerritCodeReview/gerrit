@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68591145_c8feaf48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T11:21:39Z",
+      "side": 1,
+      "message": "Looking at this again, do we actually need the AccessApi class at all? Why not inject GetAccess into this class directly and then invoke\n\n  getAccess.apply(checkExists)\n\nhere (similar to how it is done with getDescription)?",
+      "revId": "5a3475fe4be45eb824e7eaa83faaa87ff8513fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

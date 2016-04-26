@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461656666 +0200\nnonce AB8gjyW5q+SKhfXWS8NiredU48T2P+sp+jG8kzwOIWrOfDkR+vK/8UlkhiyM55AcyEfNsa7yyXrE\n\n0000000000000000000000000000000000000000 1c6e43e897e2e80038beb9e4b5af8e45f1edf9bb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXHxxaAAoJEFG1/Zeg0O9R1jQIAIj918Dan9VHcktrDhpLHVIs\nZ1JLXhZ3ZvPh1SWfrj6qLAO13CJ45FtcI3GZKwajKpzELvJfX+iAWevhSKEYdaId\n0K7dNvLHmcchtlQv35XNp3rWPfgmARDzp9Kb7m1SIA3No1vYBbeJLRQdmfynTN72\nJhrxTLJXESqzQk8ZeriRnCkIXtS/dAEAVU+L0TMACrQsQB17YPgdoEKbua5QC9YO\njt2WTKKw6qHA228YbgNJveHgWgQr1Ih4kvq4a2G9Wc7nqX3eaTvxanp9gCi66CQz\nEF7XBQN9IQREcI3zgwflxE75oJOxkYkhWXcPPBD6hH4XpTx5n3T9hV97WtsgGmI\u003d\n\u003dSKrB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_0ea4cb65",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T07:45:05Z",
+      "side": 1,
+      "message": "If only either of subIndex or name is used, should we just have one parameter for it and let callers decide what to pass in?\n\nAlternatively, having both parameters would make sense if the index name is composed out of both parameters.",
+      "revId": "1c6e43e897e2e80038beb9e4b5af8e45f1edf9bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

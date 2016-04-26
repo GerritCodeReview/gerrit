@@ -34,6 +34,24 @@
       "revId": "5a3475fe4be45eb824e7eaa83faaa87ff8513fc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_2e20a78a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T12:13:37Z",
+      "side": 1,
+      "message": "Yes, this was also my line of thinking.",
+      "parentUuid": "282ab97a_6e26afac",
+      "revId": "5a3475fe4be45eb824e7eaa83faaa87ff8513fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

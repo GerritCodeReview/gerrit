@@ -124,6 +124,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68403143_1003c464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-26T17:58:10Z",
+      "side": 1,
+      "message": "It would still be hard. The base and revision are on two different CodeMirror instances which doesn\u0027t really know the existence of each other.\n\nWhy is it that the search results should include both sides at the same time? I feel that only searching one side is better. You can always Shift-Left and search on the base side.",
+      "parentUuid": "282ab97a_2ef3071c",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

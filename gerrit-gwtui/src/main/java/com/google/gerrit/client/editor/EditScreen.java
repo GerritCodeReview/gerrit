@@ -381,7 +381,7 @@ public class EditScreen extends Screen {
 
   void setSyntaxHighlighting(boolean b) {
     ModeInfo modeInfo = ModeInfo.findMode(content.getContentType(), path);
-    final String mode = modeInfo != null ? modeInfo.mode() : null;
+    final String mode = modeInfo != null ? modeInfo.mime() : null;
     if (b && mode != null && !mode.isEmpty()) {
       injectMode(mode, new AsyncCallback<Void>() {
         @Override
@@ -421,7 +421,7 @@ public class EditScreen extends Screen {
         .set("lineNumbers", prefs.hideLineNumbers())
         .set("lineWrapping", false)
         .set("matchBrackets", prefs.matchBrackets())
-        .set("mode", mode != null ? mode.mode() : null)
+        .set("mode", mode != null ? mode.mime() : null)
         .set("readOnly", false)
         .set("scrollbarStyle", "overlay")
         .set("showTrailingSpace", prefs.showWhitespaceErrors())

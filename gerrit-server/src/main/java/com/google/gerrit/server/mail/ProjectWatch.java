@@ -21,13 +21,13 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
@@ -41,8 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ProjectWatch {
@@ -68,19 +70,23 @@ public class ProjectWatch {
 
     for (AccountState a : args.accountQueryProvider.get()
         .byWatchedProject(project)) {
-      for (AccountProjectWatch w : a.getProjectWatches()) {
-        if (add(matching, w, type)) {
+      Account.Id accountId = a.getAccount().getId();
+      for (Map.Entry<ProjectWatchKey, Collection<NotifyType>> e :
+          a.getProjectWatches().entrySet()) {
+        if (add(matching, accountId, e.getKey(), e.getValue(), type)) {
           // We only want to prevent matching All-Projects if this filter hits
-          projectWatchers.add(w.getAccountId());
+          projectWatchers.add(accountId);
         }
       }
     }
 
     for (AccountState a : args.accountQueryProvider.get()
         .byWatchedProject(args.allProjectsName)) {
-      for (AccountProjectWatch w : a.getProjectWatches()) {
-        if (!projectWatchers.contains(w.getAccountId())) {
-          add(matching, w, type);
+      for (Map.Entry<ProjectWatchKey, Collection<NotifyType>> e :
+        a.getProjectWatches().entrySet()) {
+        Account.Id accountId = a.getAccount().getId();
+        if (!projectWatchers.contains(accountId)) {
+          add(matching, accountId, e.getKey(), e.getValue(), type);
         }
       }
     }
@@ -177,16 +183,17 @@ public class ProjectWatch {
     }
   }
 
-  private boolean add(Watchers matching, AccountProjectWatch w, NotifyType type)
+  private boolean add(Watchers matching, Account.Id accountId,
+      ProjectWatchKey key, Collection<NotifyType> watchedTypes, NotifyType type)
       throws OrmException {
-    IdentifiedUser user = args.identifiedUserFactory.create(w.getAccountId());
+    IdentifiedUser user = args.identifiedUserFactory.create(accountId);
 
     try {
-      if (filterMatch(user, w.getFilter())) {
+      if (filterMatch(user, key.filter())) {
         // If we are set to notify on this type, add the user.
         // Otherwise, still return true to stop notifications for this user.
-        if (w.isNotify(type)) {
-          matching.bcc.accounts.add(w.getAccountId());
+        if (watchedTypes.contains(type)) {
+          matching.bcc.accounts.add(accountId);
         }
         return true;
       }

@@ -17,58 +17,81 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class GetWatchedProjects implements RestReadView<AccountResource> {
 
   private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
+  private final boolean readFromGit;
+  private final WatchConfig.Accessor watchConfig;
 
   @Inject
   public GetWatchedProjects(Provider<ReviewDb> dbProvider,
-      Provider<IdentifiedUser> self) {
+      Provider<IdentifiedUser> self,
+      @GerritServerConfig Config cfg,
+      WatchConfig.Accessor watchConfig) {
     this.dbProvider = dbProvider;
     this.self = self;
+    this.readFromGit =
+        cfg.getBoolean("user", null, "readProjectWatchesFromGit", true);
+    this.watchConfig = watchConfig;
   }
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
-      throws OrmException, AuthException {
+      throws OrmException, AuthException, IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
-      && !self.get().getCapabilities().canAdministrateServer()) {
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("It is not allowed to list project watches "
           + "of other users");
     }
+    Account.Id accountId = rsrc.getUser().getAccountId();
+    Map<ProjectWatchKey, Collection<NotifyType>> projectWatches =
+        readFromGit
+            ? watchConfig.getProjectWatches(accountId)
+            : readProjectWatchesFromDb(dbProvider.get(), accountId);
+
     List<ProjectWatchInfo> projectWatchInfos = new LinkedList<>();
-    Iterable<AccountProjectWatch> projectWatches =
-        dbProvider.get().accountProjectWatches()
-            .byAccount(rsrc.getUser().getAccountId());
-    for (AccountProjectWatch a : projectWatches) {
+    for (Map.Entry<ProjectWatchKey, Collection<NotifyType>> e : projectWatches
+        .entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
-      pwi.filter = a.getFilter();
-      pwi.project = a.getProjectNameKey().get();
+      pwi.filter = e.getKey().filter();
+      pwi.project = e.getKey().project().get();
       pwi.notifyAbandonedChanges =
-          toBoolean(
-              a.isNotify(AccountProjectWatch.NotifyType.ABANDONED_CHANGES));
+          toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));
       pwi.notifyNewChanges =
-          toBoolean(a.isNotify(AccountProjectWatch.NotifyType.NEW_CHANGES));
+          toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));
       pwi.notifyNewPatchSets =
-          toBoolean(a.isNotify(AccountProjectWatch.NotifyType.NEW_PATCHSETS));
+          toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
       pwi.notifySubmittedChanges =
-          toBoolean(
-              a.isNotify(AccountProjectWatch.NotifyType.SUBMITTED_CHANGES));
+          toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));
       pwi.notifyAllComments =
-          toBoolean(a.isNotify(AccountProjectWatch.NotifyType.ALL_COMMENTS));
+          toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));
       projectWatchInfos.add(pwi);
     }
     return projectWatchInfos;
@@ -76,5 +99,36 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
   private static Boolean toBoolean(boolean value) {
     return value ? true : null;
+  }
+
+  public static Map<ProjectWatchKey, Collection<NotifyType>> readProjectWatchesFromDb(
+      ReviewDb db, Account.Id who) throws OrmException {
+    Map<ProjectWatchKey, Collection<NotifyType>> projectWatches =
+        new HashMap<>();
+    Collection<AccountProjectWatch> accountProjectWatches =
+        Collections.unmodifiableCollection(
+            db.accountProjectWatches().byAccount(who).toList());
+    for (AccountProjectWatch apw : accountProjectWatches) {
+      ProjectWatchKey key =
+          ProjectWatchKey.create(apw.getProjectNameKey(), apw.getFilter());
+      Set<NotifyType> notifyValues = new HashSet<>();
+      if (apw.isNotify(NotifyType.ABANDONED_CHANGES)) {
+        notifyValues.add(NotifyType.ABANDONED_CHANGES);
+      }
+      if (apw.isNotify(NotifyType.ALL_COMMENTS)) {
+        notifyValues.add(NotifyType.ALL_COMMENTS);
+      }
+      if (apw.isNotify(NotifyType.NEW_CHANGES)) {
+        notifyValues.add(NotifyType.NEW_CHANGES);
+      }
+      if (apw.isNotify(NotifyType.NEW_PATCHSETS)) {
+        notifyValues.add(NotifyType.NEW_PATCHSETS);
+      }
+      if (apw.isNotify(NotifyType.SUBMITTED_CHANGES)) {
+        notifyValues.add(NotifyType.SUBMITTED_CHANGES);
+      }
+      projectWatches.put(key, notifyValues);
+    }
+    return projectWatches;
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c82e7d90_4b176594",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-26T14:17:44Z",
+      "side": 1,
+      "message": "FYI this is a purely in-memory cache, and the default binding will give you a hard-coded size of 10M blame regions. I suspect for a large, active server that is probably too small; we get pretty low blame cache hit rates\n\nI would encourage you to consider implementing a persistent blame cache. One of the reasons I had not previously exposed Gitiles\u0027 BlameCache as a library is I kind of wanted to do that within Gitiles using the Gerrit H2-based cache implementation. But you could do it entirely within Gerrit, using a separate implementation using the Gerrit persistent cache framework that delegates to BlameCacheImpl for its Loader/Weigher. That is what we do for googlesource.com and that\u0027s why all those classes are public.",
+      "revId": "b72d4c6d8f5df501d568d9fb4dcdb6d1185b4add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -35,7 +35,6 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
@@ -169,7 +168,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       }
       ObjectId draftsId = newState.getDraftIds().get(author);
       repo.scanForRepoChanges();
-      return LoadHandle.create(new RevWalk(repo), draftsId);
+      return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId);
     } catch (NoSuchChangeException e) {
       return super.openHandle(repo);
     } catch (OrmException | ConfigInvalidException e) {

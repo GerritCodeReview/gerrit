@@ -18,6 +18,7 @@ import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -27,19 +28,18 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private TestRepository<InMemoryRepository> testRepo;
-  private RevWalk walk;
+  private ChangeNotesRevWalk walk;
 
   @Before
   public void setUpTestRepo() throws Exception {
     testRepo = new TestRepository<>(repo);
-    walk = new RevWalk(repo);
+    walk = ChangeNotesCommit.newRevWalk(repo);
   }
 
   @After
@@ -53,16 +53,16 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n");
     assertParseFails(writeCommit("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n",
+        + "Patch-set: 1\n",
         new PersonIdent("Change Owner", "owner@example.com",
           serverIdent.getWhen(), serverIdent.getTimeZone())));
     assertParseFails(writeCommit("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n",
+        + "Patch-set: 1\n",
         new PersonIdent("Change Owner", "x@gerrit",
           serverIdent.getWhen(), serverIdent.getTimeZone())));
   }
@@ -73,23 +73,23 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Status: NEW\n"
         + "Subject: This is a test change\n");
     assertParseSucceeds("Update change\n"
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Status: new\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Status: OOPS\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Status: NEW\n"
         + "Status: NEW\n");
   }
@@ -100,23 +100,23 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
-        + "Patch-Set: 1\n");
+        + "Patch-set: 1\n"
+        + "Patch-set: 1\n");
     assertParseSucceeds("Update change\n"
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: x\n");
+        + "Patch-set: x\n");
   }
 
   @Test
@@ -125,7 +125,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: Label1=+1\n"
         + "Label: Label2=1\n"
         + "Label: Label3=0\n"
@@ -135,33 +135,33 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: -Label1\n"
         + "Label: -Label1 Other Account <2@gerrit>\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: Label1=X\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: Label1 = 1\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: X+Y\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: Label1 Other Account <2@gerrit>\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: -Label!1\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Label: -Label!1 Other Account <2@gerrit>\n");
   }
 
@@ -171,7 +171,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n"
         + "Submitted-with: NOT_READY\n"
         + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
@@ -181,19 +181,19 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Submitted-with: NEED: Alternative-Code-Review\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Submitted-with: OOPS\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Submitted-with: NEED: X+Y\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Submitted-with: OK: X+Y: Change Owner <1@gerrit>\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Submitted-with: OK: Code-Review: 1@gerrit\n");
   }
 
@@ -203,12 +203,12 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n"
         + "Submission-id: 1-1453387607626-96fabc25");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Submission-id: 1-1453387607626-96fabc25\n"
         + "Submission-id: 1-1453387901516-5d1e2450");
   }
@@ -219,13 +219,13 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Reviewer: Change Owner <1@gerrit>\n"
         + "CC: Other Account <2@gerrit>\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Reviewer: 1@gerrit\n");
   }
 
@@ -235,19 +235,19 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Topic: Some Topic\n"
         + "Subject: This is a test change\n");
     assertParseSucceeds("Update change\n"
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Topic:\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Topic: Some Topic\n"
         + "Topic: Other Topic");
   }
@@ -258,17 +258,17 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n");
     assertParseSucceeds("Update change\n"
         + "\n"
         + "Branch: master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Branch: refs/heads/master\n"
         + "Branch: refs/heads/stable");
   }
@@ -279,11 +279,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: This is a test change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Change-id: I159532ef4844d7c18f7f3fd37a0b275590d41b1b");
   }
@@ -292,13 +292,13 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseSubject() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Subject: Some subject of a change\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Subject: Some subject of a change\n"
         + "Subject: Some other subject\n");
   }
@@ -418,26 +418,36 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseTag() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Subject: Change subject\n"
         + "Tag:\n");
     assertParseSucceeds("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Subject: Change subject\n"
         + "Tag: jenkins\n");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-Set: 1\n"
+        + "Patch-set: 1\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Subject: Change subject\n"
         + "Tag: ci\n"
         + "Tag: jenkins\n");
+  }
+
+  @Test
+  public void caseInsensitiveFooters() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "BRaNch: refs/heads/master\n"
+        + "Change-ID: I577fb248e474018276351785930358ec0450e9f7\n"
+        + "patcH-set: 1\n"
+        + "subject: This is a test change\n");
   }
 
   private RevCommit writeCommit(String body) throws Exception {

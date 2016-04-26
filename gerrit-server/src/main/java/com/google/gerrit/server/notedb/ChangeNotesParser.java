@@ -62,6 +62,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -73,8 +74,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.IOException;
@@ -123,7 +122,7 @@ class ChangeNotesParser implements AutoCloseable {
   private final NoteDbMetrics metrics;
   private final Change.Id id;
   private final ObjectId tip;
-  private final RevWalk walk;
+  private final ChangeNotesRevWalk walk;
   private final Repository repo;
   private final Map<PatchSet.Id,
       Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>> approvals;
@@ -131,7 +130,7 @@ class ChangeNotesParser implements AutoCloseable {
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
   ChangeNotesParser(Project.NameKey project, Change.Id changeId, ObjectId tip,
-      RevWalk walk, GitRepositoryManager repoManager,
+      ChangeNotesRevWalk walk, GitRepositoryManager repoManager,
       ChangeNoteUtil noteUtil, NoteDbMetrics metrics)
       throws RepositoryNotFoundException, IOException {
     this.id = changeId;
@@ -163,7 +162,8 @@ class ChangeNotesParser implements AutoCloseable {
     walk.markStart(walk.parseCommit(tip));
 
     try (Timer1.Context timer = metrics.parseLatency.start(CHANGES)) {
-      for (RevCommit commit : walk) {
+      ChangeNotesCommit commit;
+      while ((commit = walk.next()) != null) {
         parse(commit);
       }
       parseNotes();
@@ -203,7 +203,7 @@ class ChangeNotesParser implements AutoCloseable {
     return ImmutableListMultimap.copyOf(changeMessagesByPatchSet);
   }
 
-  private void parse(RevCommit commit) throws ConfigInvalidException {
+  private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
     Timestamp ts =
         new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
@@ -275,17 +275,17 @@ class ChangeNotesParser implements AutoCloseable {
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
       // still there, but not currently used.
-      parseSubmitRecords(commit.getFooterLines(FOOTER_SUBMITTED_WITH));
+      parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
       updateTs |= !submitRecords.isEmpty();
     }
 
-    for (String line : commit.getFooterLines(FOOTER_LABEL)) {
+    for (String line : commit.getFooterLineValues(FOOTER_LABEL)) {
       parseApproval(psId, accountId, ts, line);
       updateTs = true;
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
-      for (String line : commit.getFooterLines(state.getFooterKey())) {
+      for (String line : commit.getFooterLineValues(state.getFooterKey())) {
         parseReviewer(state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
@@ -299,31 +299,35 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private String parseSubmissionId(RevCommit commit)
+  private String parseSubmissionId(ChangeNotesCommit commit)
       throws ConfigInvalidException {
     return parseOneFooter(commit, FOOTER_SUBMISSION_ID);
   }
 
-  private String parseBranch(RevCommit commit) throws ConfigInvalidException {
+  private String parseBranch(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     String branch = parseOneFooter(commit, FOOTER_BRANCH);
     return branch != null ? RefNames.fullName(branch) : null;
   }
 
-  private String parseChangeId(RevCommit commit) throws ConfigInvalidException {
+  private String parseChangeId(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     return parseOneFooter(commit, FOOTER_CHANGE_ID);
   }
 
-  private String parseSubject(RevCommit commit) throws ConfigInvalidException {
+  private String parseSubject(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     return parseOneFooter(commit, FOOTER_SUBJECT);
   }
 
-  private String parseTopic(RevCommit commit) throws ConfigInvalidException {
+  private String parseTopic(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     return parseOneFooter(commit, FOOTER_TOPIC);
   }
 
-  private String parseOneFooter(RevCommit commit, FooterKey footerKey)
+  private String parseOneFooter(ChangeNotesCommit commit, FooterKey footerKey)
       throws ConfigInvalidException {
-    List<String> footerLines = commit.getFooterLines(footerKey);
+    List<String> footerLines = commit.getFooterLineValues(footerKey);
     if (footerLines.isEmpty()) {
       return null;
     } else if (footerLines.size() > 1) {
@@ -332,8 +336,8 @@ class ChangeNotesParser implements AutoCloseable {
     return footerLines.get(0);
   }
 
-  private String parseExactlyOneFooter(RevCommit commit, FooterKey footerKey)
-      throws ConfigInvalidException {
+  private String parseExactlyOneFooter(ChangeNotesCommit commit,
+      FooterKey footerKey) throws ConfigInvalidException {
     String line = parseOneFooter(commit, footerKey);
     if (line == null) {
       throw expectedOneFooter(footerKey, Collections.<String> emptyList());
@@ -341,7 +345,7 @@ class ChangeNotesParser implements AutoCloseable {
     return line;
   }
 
-  private ObjectId parseRevision(RevCommit commit)
+  private ObjectId parseRevision(ChangeNotesCommit commit)
       throws ConfigInvalidException {
     String sha = parseOneFooter(commit, FOOTER_COMMIT);
     if (sha == null) {
@@ -377,7 +381,7 @@ class ChangeNotesParser implements AutoCloseable {
     ps.setCreatedOn(ts);
   }
 
-  private void parseGroups(PatchSet.Id psId, RevCommit commit)
+  private void parseGroups(PatchSet.Id psId, ChangeNotesCommit commit)
       throws ConfigInvalidException {
     String groupsStr = parseOneFooter(commit, FOOTER_GROUPS);
     if (groupsStr == null) {
@@ -394,12 +398,14 @@ class ChangeNotesParser implements AutoCloseable {
     ps.setGroups(PatchSet.splitGroups(groupsStr));
   }
 
-  private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
-    // Commits are parsed in reverse order and only the last set of hashtags should be used.
+  private void parseHashtags(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    // Commits are parsed in reverse order and only the last set of hashtags
+    // should be used.
     if (hashtags != null) {
       return;
     }
-    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    List<String> hashtagsLines = commit.getFooterLineValues(FOOTER_HASHTAGS);
     if (hashtagsLines.isEmpty()) {
       return;
     } else if (hashtagsLines.size() > 1) {
@@ -411,9 +417,10 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private void parseTag(RevCommit commit) throws ConfigInvalidException {
+  private void parseTag(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     tag = null;
-    List<String> tagLines = commit.getFooterLines(FOOTER_TAG);
+    List<String> tagLines = commit.getFooterLineValues(FOOTER_TAG);
     if (tagLines.isEmpty()) {
       return;
     } else if (tagLines.size() == 1) {
@@ -423,9 +430,9 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private Change.Status parseStatus(RevCommit commit)
+  private Change.Status parseStatus(ChangeNotesCommit commit)
       throws ConfigInvalidException {
-    List<String> statusLines = commit.getFooterLines(FOOTER_STATUS);
+    List<String> statusLines = commit.getFooterLineValues(FOOTER_STATUS);
     if (statusLines.isEmpty()) {
       return null;
     } else if (statusLines.size() > 1) {
@@ -439,7 +446,7 @@ class ChangeNotesParser implements AutoCloseable {
     return status.get();
   }
 
-  private PatchSet.Id parsePatchSetId(RevCommit commit)
+  private PatchSet.Id parsePatchSetId(ChangeNotesCommit commit)
       throws ConfigInvalidException {
     String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
     int s = psIdLine.indexOf(' ');
@@ -451,7 +458,7 @@ class ChangeNotesParser implements AutoCloseable {
     return new PatchSet.Id(id, psId);
   }
 
-  private PatchSetState parsePatchSetState(RevCommit commit)
+  private PatchSetState parsePatchSetState(ChangeNotesCommit commit)
       throws ConfigInvalidException {
     String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
     int s = psIdLine.indexOf(' ');
@@ -470,7 +477,7 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private ChangeMessage parseChangeMessage(PatchSet.Id psId,
-      Account.Id accountId, RevCommit commit, Timestamp ts) {
+      Account.Id accountId, ChangeNotesCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
     Charset enc = RawParseUtils.parseEncoding(raw);
@@ -532,7 +539,7 @@ class ChangeNotesParser implements AutoCloseable {
   private void parseNotes()
       throws IOException, ConfigInvalidException {
     ObjectReader reader = walk.getObjectReader();
-    RevCommit tipCommit = walk.parseCommit(tip);
+    ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap = RevisionNoteMap.parse(
         noteUtil, id, reader, NoteMap.read(reader, tipCommit), false);
     Map<RevId, RevisionNote> rns = revisionNoteMap.revisionNotes;
@@ -705,7 +712,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private Account.Id parseIdent(RevCommit commit)
+  private Account.Id parseIdent(ChangeNotesCommit commit)
       throws ConfigInvalidException {
     // Check if the author name/email is the same as the committer name/email,
     // i.e. was the server ident at the time this commit was made.

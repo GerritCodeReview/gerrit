@@ -43,6 +43,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineHandle;
@@ -255,8 +256,9 @@ public class Unified extends DiffScreen {
     cm.refresh();
   }
 
-  private void setLineNumber(DisplaySide side, int cmLine, String html,
+  private void setLineNumber(DisplaySide side, int cmLine, Integer line,
       String styleName) {
+    SafeHtml html = SafeHtml.asis(line != null ? line.toString() : "&nbsp;");
     InlineHTML gutter = new InlineHTML(html);
     diffTable.add(gutter);
     gutter.setStyleName(styleName);
@@ -266,12 +268,11 @@ public class Unified extends DiffScreen {
   }
 
   void setLineNumber(DisplaySide side, int cmLine, int line) {
-    setLineNumber(side, cmLine, String.valueOf(line),
-        UnifiedTable.style.unifiedLineNumber());
+    setLineNumber(side, cmLine, line, UnifiedTable.style.unifiedLineNumber());
   }
 
   void setLineNumberEmpty(DisplaySide side, int cmLine) {
-    setLineNumber(side, cmLine, "&nbsp;",
+    setLineNumber(side, cmLine, null,
         UnifiedTable.style.unifiedLineNumberEmpty());
   }
 

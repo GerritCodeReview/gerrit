@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68403143_30e7e8f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-26T17:30:10Z",
+      "side": 1,
+      "message": "four-space indent.",
+      "revId": "d1bb128b8b8ebd4e33315ffd1eb5e267a9bc22f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68403143_10ece4d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-26T17:30:10Z",
+      "side": 1,
+      "message": "four-space indent",
+      "revId": "d1bb128b8b8ebd4e33315ffd1eb5e267a9bc22f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "282ab97a_ae8ff784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T17:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282ab97a_ae80179c",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68591145_285aeb73",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2016-04-26T08:43:34Z",
       "side": 1,
       "message": "Do we need to reindex here too (preferred email is changed)?",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_8e8c3b91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T17:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68591145_285aeb73",
       "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "68591145_080e0725",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T17:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68591145_48651f34",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "282ab97a_8e7d5ba4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 3
@@ -65,6 +119,24 @@
       "writtenOn": "2016-04-26T08:43:34Z",
       "side": 1,
       "message": "Reindex the account here too (preferred email may have been changed)?",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68591145_e8129347",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T17:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282ab97a_8e7d5ba4",
       "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

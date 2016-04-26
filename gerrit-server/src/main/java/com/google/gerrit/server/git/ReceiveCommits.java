@@ -665,12 +665,7 @@ public class ReceiveCommits {
             // We only fire gitRefUpdated for direct refs updates.
             // Events for change refs are fired when they are created.
             //
-            gitRefUpdated.fire(project.getNameKey(), c);
-            hooks.doRefUpdatedHook(
-                new Branch.NameKey(project.getNameKey(), c.getRefName()),
-                c.getOldId(),
-                c.getNewId(),
-                user.getAccount());
+            fireRefUpdatedEvent(c);
           }
         }
     }
@@ -687,6 +682,15 @@ public class ReceiveCommits {
     commandProgress.end();
     progress.end();
     reportMessages();
+  }
+
+  private void fireRefUpdatedEvent(ReceiveCommand cmd) {
+    gitRefUpdated.fire(project.getNameKey(), cmd);
+    hooks.doRefUpdatedHook(
+        new Branch.NameKey(project.getNameKey(), cmd.getRefName()),
+        cmd.getOldId(),
+        cmd.getNewId(),
+        user.getAccount());
   }
 
   private void reportMessages() {
@@ -2448,6 +2452,8 @@ public class ReceiveCommits {
           closeProgress.update(1);
         }
       }
+
+      fireRefUpdatedEvent(cmd);
     } catch (RestApiException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException | OrmException | UpdateException e) {

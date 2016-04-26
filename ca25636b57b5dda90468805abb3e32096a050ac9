@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461658539 +0200\nnonce AB8gjyX6dGxrpqHSa4NXDw9PjCtZs/Bn0ba57daJf5rRdew9JeOrbylBHFeaXIf0Xp/ld3vtq/8b\n\n0000000000000000000000000000000000000000 ca25636b57b5dda90468805abb3e32096a050ac9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXHyOrAAoJEFG1/Zeg0O9R0tcH/jY9Tdlv7vDZVRMLZcyE/5Wb\nHY8aRPo8hXCbdN/y2dMlebAUbep+J2D5AKo5AAs8nNzt/7IkVlJECrwETb0bdV3w\nXgHrxQ3SM3m/nkHhdnlCZ3uSMLX/a/eTqqXCLG8B2tQRbvbDsgFUX/QzAll2RaDZ\nTHQkK9ODpyG5zmycAtgyz+L/e+p+VzFxNVBQoUJ/lCXtAcoXuIg0LvalIHI8zV25\nra7sGBlN3w2sDgcLMmBs+P6PNzua/0ymfqpmU0CftwISVWGozZWHXrk7JHZQ7+A5\nhCcJK23hZ9HoxGfBZTxJPvwpJ0u+H3pklN2VzVkEfKMLbk+PSVB8TSMmWgNlntA\u003d\n\u003drejp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ab97a_ae80179c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T08:43:34Z",
+      "side": 1,
+      "message": "Don\u0027t we need to reindex the account in this case as well (full name may have been changed)?",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68591145_285aeb73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T08:43:34Z",
+      "side": 1,
+      "message": "Do we need to reindex here too (preferred email is changed)?",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68591145_48651f34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T08:43:34Z",
+      "side": 1,
+      "message": "Reindex the account here too (external IDs are deleted)?",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_8e7d5ba4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-26T08:43:34Z",
+      "side": 1,
+      "message": "Reindex the account here too (preferred email may have been changed)?",
+      "revId": "ca25636b57b5dda90468805abb3e32096a050ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

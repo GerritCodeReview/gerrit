@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
@@ -26,6 +27,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -360,7 +362,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
-      StarredChangesUtil starredChangesUtil,
+      @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id) {
@@ -398,7 +400,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
-      StarredChangesUtil starredChangesUtil,
+      @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -436,7 +438,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
-      StarredChangesUtil starredChangesUtil,
+      @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted ChangeNotes cn) {
     this.db = db;
@@ -475,7 +477,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
-      StarredChangesUtil starredChangesUtil,
+      @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -515,7 +517,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
-      StarredChangesUtil starredChangesUtil,
+      @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     checkState(!notesMigration.readChanges(),
@@ -1032,7 +1034,7 @@ public class ChangeData {
 
   public Set<Account.Id> starredBy() throws OrmException {
     if (starredByUser == null) {
-      starredByUser = starredChangesUtil.byChange(legacyId);
+      starredByUser = checkNotNull(starredChangesUtil).byChange(legacyId);
     }
     return starredByUser;
   }

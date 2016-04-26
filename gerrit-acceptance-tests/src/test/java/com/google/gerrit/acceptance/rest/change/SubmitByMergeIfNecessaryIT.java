@@ -4,14 +4,18 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
@@ -413,5 +417,30 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n" +
         "Change " + change3.getPatchSetId().getParentKey().get() +
         ": depends on change that was not submitted");
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void mergeFromDeleteBranch() throws Exception {
+    // push a change for random branch
+    pushFactory.create(db, user.getIdent(), testRepo).to("refs/heads/random");
+
+    // push a change for review
+    PushOneCommit change2 =
+        pushFactory
+            .create(db, user.getIdent(), testRepo, "small fix", "a.txt", "2");
+    PushOneCommit.Result change2result = change2.to("refs/for/master");
+
+    // delete the remote random branch
+    gApi.projects()
+        .name(project.get())
+        .branch("random")
+        .delete();
+
+    // approve and submit the change
+    submit(change2result.getChangeId(), new SubmitInput(),
+        ResourceConflictException.class,
+        "nothing to merge, probably caused by missing dependencies", false);
+
   }
 }

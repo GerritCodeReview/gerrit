@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -48,11 +48,11 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       boolean checkIsVisible) throws QueryParseException {
     List<Predicate<ChangeData>> r = new ArrayList<>();
     ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
-    for (AccountProjectWatch w : getWatches(args)) {
+    for (ProjectWatchKey w : getWatches(args)) {
       Predicate<ChangeData> f = null;
-      if (w.getFilter() != null) {
+      if (w.filter() != null) {
         try {
-          f = builder.parse(w.getFilter());
+          f = builder.parse(w.filter());
           if (QueryBuilder.find(f, IsWatchedByPredicate.class) != null) {
             // If the query is going to infinite loop, assume it
             // will never match and return null. Yes this test
@@ -66,10 +66,10 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       }
 
       Predicate<ChangeData> p;
-      if (w.getProjectNameKey().equals(args.allProjectsName)) {
+      if (w.project().equals(args.allProjectsName)) {
         p = null;
       } else {
-        p = builder.project(w.getProjectNameKey().get());
+        p = builder.project(w.project().get());
       }
 
       if (p != null && f != null) {
@@ -91,14 +91,14 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     }
   }
 
-  private static Collection<AccountProjectWatch> getWatches(
+  private static Collection<ProjectWatchKey> getWatches(
       ChangeQueryBuilder.Arguments args) throws QueryParseException {
     CurrentUser user = args.getUser();
     if (user.isIdentifiedUser()) {
       return args.accountCache.get(args.getUser().getAccountId())
-          .getProjectWatches();
+          .getProjectWatches().keySet();
     }
-    return Collections.<AccountProjectWatch> emptySet();
+    return Collections.<ProjectWatchKey> emptySet();
   }
 
   private static List<Predicate<ChangeData>> none() {

@@ -28,7 +28,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** REST API helpers to remotely edit a change. */
 public class ChangeEditApi {
   /** Get file (or commit message) contents. */
-  public static void get(PatchSet.Id id, String path,
+  public static void get(PatchSet.Id id, String path, boolean base,
       HttpCallback<NativeString> cb) {
     RestApi api;
     if (id.get() != 0) {
@@ -40,7 +40,13 @@ public class ChangeEditApi {
     } else {
       api = editFile(id.getParentKey().get(), path);
     }
-    api.get(cb);
+    api.addParameter("base", base).get(cb);
+  }
+
+  /** Get file (or commit message) contents of the edit. */
+  public static void get(PatchSet.Id id, String path,
+      HttpCallback<NativeString> cb) {
+    get(id, path, false, cb);
   }
 
   /** Get meta info for change edit. */

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48436d50_4fe2cde6",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 38
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-26T17:34:23Z",
+      "side": 1,
+      "message": "Nit: no space",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 10
+      },
+      "revId": "7da23b2c17020238c5800632c23147c581e6207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48436d50_2fe789f6",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 38
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-26T17:34:23Z",
+      "side": 1,
+      "message": "A more direct permalink would be better.",
+      "revId": "7da23b2c17020238c5800632c23147c581e6207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

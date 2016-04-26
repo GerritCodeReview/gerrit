@@ -18,6 +18,7 @@ import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -27,19 +28,18 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private TestRepository<InMemoryRepository> testRepo;
-  private RevWalk walk;
+  private ChangeNotesRevWalk walk;
 
   @Before
   public void setUpTestRepo() throws Exception {
     testRepo = new TestRepository<>(repo);
-    walk = new RevWalk(repo);
+    walk = ChangeNotesCommit.newRevWalk(repo);
   }
 
   @After

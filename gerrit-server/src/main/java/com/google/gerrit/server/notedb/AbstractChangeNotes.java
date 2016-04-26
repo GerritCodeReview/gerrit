@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,7 +36,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
@@ -76,7 +76,7 @@ public abstract class AbstractChangeNotes<T> {
 
   @AutoValue
   public abstract static class LoadHandle implements AutoCloseable {
-    public static LoadHandle create(RevWalk walk, ObjectId id) {
+    public static LoadHandle create(ChangeNotesRevWalk walk, ObjectId id) {
       return new AutoValue_AbstractChangeNotes_LoadHandle(
           checkNotNull(walk), id != null ? id.copy() : null);
     }
@@ -85,7 +85,7 @@ public abstract class AbstractChangeNotes<T> {
       return new AutoValue_AbstractChangeNotes_LoadHandle(null, null);
     }
 
-    @Nullable public abstract RevWalk walk();
+    @Nullable public abstract ChangeNotesRevWalk walk();
     @Nullable public abstract ObjectId id();
 
     @Override
@@ -145,7 +145,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected LoadHandle openHandle(Repository repo) throws IOException {
-    return LoadHandle.create(new RevWalk(repo), readRef(repo));
+    return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), readRef(repo));
   }
 
   public T reload() throws OrmException {

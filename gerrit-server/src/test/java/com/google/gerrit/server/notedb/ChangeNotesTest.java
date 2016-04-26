@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -1020,7 +1021,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commitWithComments = commitWithApprovals.getParent(0);
     assertThat(commitWithComments).isNotNull();
 
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       try (ChangeNotesParser notesWithComments = new ChangeNotesParser(
           project, c.getId(), commitWithComments.copy(), rw, repoManager,
           noteUtil, args.metrics)) {
@@ -1032,7 +1033,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       }
     }
 
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       try (ChangeNotesParser notesWithApprovals = new ChangeNotesParser(project,
           c.getId(), commitWithApprovals.copy(), rw, repoManager,
           noteUtil, args.metrics)) {

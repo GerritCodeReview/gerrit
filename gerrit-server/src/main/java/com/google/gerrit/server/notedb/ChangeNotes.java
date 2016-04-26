@@ -69,7 +69,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -642,7 +641,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return super.openHandle(repo); // May be null in tests.
       }
       repo.scanForRepoChanges();
-      return LoadHandle.create(new RevWalk(repo), newState.getChangeMetaId());
+      return LoadHandle.create(
+          ChangeNotesCommit.newRevWalk(repo), newState.getChangeMetaId());
     } catch (NoSuchChangeException e) {
       return super.openHandle(repo);
     } catch (OrmException | ConfigInvalidException e) {

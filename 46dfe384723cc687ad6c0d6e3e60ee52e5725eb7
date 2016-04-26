@@ -23,6 +23,30 @@
       "revId": "46dfe384723cc687ad6c0d6e3e60ee52e5725eb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68591145_687903ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T08:11:32Z",
+      "side": 1,
+      "message": "Google\u0027s \"thing\" should support new index implementation.",
+      "parentUuid": "282ab97a_0ebbab83",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "46dfe384723cc687ad6c0d6e3e60ee52e5725eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

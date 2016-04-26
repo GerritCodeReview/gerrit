@@ -19,6 +19,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     RESTORE: 'restore',
+    REVERT: 'revert',
   };
 
   // TODO(andybons): Add the rest of the revision actions.
@@ -37,6 +38,7 @@
     'publish': 'Publishing...',
     'rebase': 'Rebasing...',
     'restore': 'Restoring...',
+    'revert': 'Reverting...',
     'submit': 'Submitting...',
   };
 
@@ -60,7 +62,10 @@
       },
       changeNum: String,
       patchNum: String,
-      commitMessage: String,
+      commitInfo: {
+        type: Object,
+        readOnly: true,
+      },
       _loading: {
         type: Boolean,
         value: true,
@@ -145,23 +150,32 @@
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
       var key = el.getAttribute('data-action-key');
-      if (key === RevisionActions.SUBMIT &&
-          this._canSubmitChange() === false) {
-        return;
-      }
       var type = el.getAttribute('data-action-type');
       if (type === ActionType.REVISION) {
-        if (key === RevisionActions.REBASE) {
-          this._showActionDialog(this.$.confirmRebase);
-          return;
-        } else if (key === RevisionActions.CHERRYPICK) {
-          this._showActionDialog(this.$.confirmCherrypick);
-          return;
-        }
-        this._fireAction(this._prependSlash(key),
-            this._revisionActions[key], true);
+        this._handleRevisionAction(key);
+      } else if (key === ChangeActions.REVERT) {
+        this._showActionDialog(this.$.confirmRevertDialog);
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
+      }
+    },
+
+    _handleRevisionAction: function(key) {
+      switch (key) {
+        case RevisionActions.REBASE:
+          this._showActionDialog(this.$.confirmRebase);
+          break;
+        case RevisionActions.CHERRYPICK:
+          this._showActionDialog(this.$.confirmCherrypick);
+          break;
+        case RevisionActions.SUBMIT:
+          if (!this._canSubmitChange()) {
+            return;
+          }
+          // no break here, fallthrough.
+        default:
+          this._fireAction(this._prependSlash(key),
+              this._revisionActions[key], true);
       }
     },
 
@@ -221,6 +235,25 @@
       );
     },
 
+    _handleRevertDialogConfirm: function() {
+      var el = this.$.confirmRevertDialog;
+      if (!el.message) {
+        // TODO(viktard): Fix validation.
+        alert('The revert commit message can’t be empty.');
+        return;
+      }
+      this.$.overlay.close();
+      el.hidden = false;
+      this._fireAction(
+          '/revert',
+          this.actions.revert,
+          false,
+          {
+            message: el.message,
+          }
+      );
+    },
+
     _setLoadingOnButtonWithKey: function(key) {
       var buttonEl = this.$$('[data-action-key="' + key + '"]');
       buttonEl.setAttribute('loading', true);
@@ -246,6 +279,7 @@
     _handleResponse: function(action, response) {
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
+          case ChangeActions.REVERT:
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

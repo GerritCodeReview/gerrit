@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-confirm-cherrypick-dialog',
+    is: 'gr-confirm-revert-dialog',
 
     /**
      * Fired when the confirm button is pressed.
@@ -40,8 +40,16 @@
     },
 
     _commitInfoChanged: function(commitInfo) {
-      // Pre-populate cherry-pick message for editing from commit info.
-      this.message = commitInfo.message;
+      // Strip 'Change-Id: xxx'
+      var commitMessage = commitInfo.message.replace(
+          /\n{1,2}\nChange-Id: \w+\n/gm, '');
+      var revertCommitText = 'This reverts commit ';
+      // Selector for previous revert text and commit.
+      var previousRevertText =
+          new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm')
+      commitMessage = commitMessage.replace(previousRevertText, '');
+      this.message = 'Revert "' + commitMessage + '"\n\n' +
+          revertCommitText + commitInfo.commit + '.';
     },
 
     _handleConfirmTap: function(e) {

@@ -37,7 +37,7 @@ limitations under the License.
     var response = {
       ok: true,
     };
-    setup(function(done) {
+    setup(function() {
       stub('gr-rest-api-interface', {
         getChangeRevisionActions: function() {
           return Promise.resolve({
@@ -82,7 +82,7 @@ limitations under the License.
       element = fixture('basic');
       element.changeNum = '42';
       element.patchNum = '2';
-      element.reload().then(function() { done(); });
+      return element.reload();
     });
 
     test('submit, rebase, and cherry-pick buttons show', function(done) {
@@ -156,11 +156,21 @@ limitations under the License.
       });
     });
 
-    test('cherry-pick change', function(done) {
-      var fireActionStub = sinon.stub(element, '_fireAction');
-      var alertStub = sinon.stub(window, 'alert');
+    suite('cherry-pick', function() {
+      var fireActionStub;
+      var alertStub;
 
-      flush(function() {
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
+      });
+
+      teardown(function() {
+        alertStub.restore();
+        fireActionStub.restore();
+      });
+
+      test('works', function() {
         var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
         var action = {
@@ -188,13 +198,58 @@ limitations under the License.
             message: 'foo message',
           }
         ]);
-
-        fireActionStub.restore();
-        alertStub.restore();
-        done();
       });
     });
 
+    suite('revert change', function() {
+      var alertStub, fireActionStub;
 
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
+        element.actions = {
+          revert: {
+            method: 'POST',
+            label: 'Revert',
+            title: 'Revert the change',
+            enabled: true
+          }
+        };
+        return element.reload();
+      });
+
+      teardown(function() {
+        alertStub.restore();
+        fireActionStub.restore();
+      });
+
+      test('validation', function() {
+        element._handleRevertDialogConfirm();
+        assert.notOk(fireActionStub.called);
+        assert.ok(alertStub.called);
+      });
+
+      test('works', function() {
+        var revertButton = element.$$('gr-button[data-action-key="revert"]');
+        MockInteractions.tap(revertButton);
+
+        element.$.confirmRevertDialog.message = 'foo message';
+        element._handleRevertDialogConfirm();
+        assert.notOk(alertStub.called);
+
+        var action = {
+          __key: 'revert',
+          __type: 'change',
+          enabled: true,
+          label: 'Revert',
+          method: 'POST',
+          title: 'Revert the change',
+        };
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/revert', action, false, {
+            message: 'foo message',
+          }]);
+      });
+    });
   });
 </script>

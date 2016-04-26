@@ -16,6 +16,24 @@
       "revId": "5a3475fe4be45eb824e7eaa83faaa87ff8513fc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_6e26afac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-26T12:12:36Z",
+      "side": 1,
+      "message": "Done\n\nI think both ways are fine. It looks like having a class for that logic is too much overhead. At first I wasn\u0027t sure how many endpoints we will get, but for the 2 we have now I guess it is better to have this logic in here.",
+      "parentUuid": "68591145_c8feaf48",
+      "revId": "5a3475fe4be45eb824e7eaa83faaa87ff8513fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

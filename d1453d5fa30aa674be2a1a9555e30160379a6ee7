@@ -46,6 +46,30 @@
       "revId": "d1453d5fa30aa674be2a1a9555e30160379a6ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "282ab97a_ce5a4340",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-26T09:24:46Z",
+      "side": 1,
+      "message": "Thanks. Yeah, that\u0027s clear my point was that group1.done() invocation can be eliminated when  prefs.showBase() evaluates to true and could call group1.addFinal(new HttpCallback\u003cNativeString\u003e() ...",
+      "parentUuid": "e83341f3_ac4823bd",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 20
+      },
+      "revId": "d1453d5fa30aa674be2a1a9555e30160379a6ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

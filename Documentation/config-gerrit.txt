@@ -928,6 +928,21 @@ deleted or published.
 +
 Default is true.
 
+[[change.cacheAutomerge]]change.cacheAutomerge::
++
+When reviewing diff commits, the left-hand side shows the output of the
+result of JGit's automatic merge algorithm. This option controls whether
+this output is cached in the change repository, or if only the diff is
+cached in the persistent `diff` cache.
++
+If true, automerge results are stored in the repository under
+`refs/cache-automerge/*`; the results of diffing the change against its
+automerge base are stored in the diff cache. If false, no extra data is
+stored in the repository, only the diff cache. This can result in slight
+performance improvements by reducing the number of refs in the repo.
++
+Default is true.
+
 [[change.submitLabel]]change.submitLabel::
 +
 Label name for the submit button.

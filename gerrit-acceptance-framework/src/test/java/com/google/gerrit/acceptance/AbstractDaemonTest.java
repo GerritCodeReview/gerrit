@@ -440,6 +440,11 @@ public abstract class AbstractDaemonTest {
     return push.to(ref);
   }
 
+  protected PushOneCommit.Result amendChangeAsDraft(String changeId)
+      throws Exception {
+    return amendChange(changeId, "refs/drafts/master");
+  }
+
   protected ChangeInfo info(String id)
       throws RestApiException {
     return gApi.changes().id(id).info();

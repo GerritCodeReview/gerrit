@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "08db353a_3dbbcfd5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 42
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-27T07:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e981d0_5cb09ded",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 4
+      },
+      "revId": "ab4189ce93ddf37ceb841b37a0198722410f456b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08db353a_ddacab9f",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/addon/AddonInjector.java",
         "patchSetId": 42
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "e8e981d0_bcc60158",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/addon/AddonInjector.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-27T07:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08db353a_ddacab9f",
+      "revId": "ab4189ce93ddf37ceb841b37a0198722410f456b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08db353a_fda9678c",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 42
@@ -53,6 +95,24 @@
       "writtenOn": "2016-04-27T06:25:03Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "ab4189ce93ddf37ceb841b37a0198722410f456b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08db353a_1db613ed",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 42
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-27T07:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08db353a_fda9678c",
       "revId": "ab4189ce93ddf37ceb841b37a0198722410f456b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

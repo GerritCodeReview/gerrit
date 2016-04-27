@@ -178,6 +178,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e866e135_3412f0a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-27T08:44:52Z",
+      "side": 1,
+      "message": "yes.\nthe code review is line oriented, so a \"cursor\" that spans the entire line (both panels in case of side by side) is the natural choice - just like it was in the old diff screen, in fact.",
+      "parentUuid": "68403143_3035a836",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

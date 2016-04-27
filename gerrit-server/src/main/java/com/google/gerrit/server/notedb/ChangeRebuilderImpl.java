@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -239,8 +240,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // Delete ref only after hashtags have been read
     deleteRef(change, changeMetaRepo, manager.getChangeRepo().cmds);
 
+    Integer minPsNum = null;
     for (PatchSet ps : bundle.getPatchSets()) {
-      events.add(new PatchSetEvent(change, ps, manager.getChangeRepo().rw));
+      int n = ps.getId().get();
+      if (minPsNum == null || n < minPsNum) {
+        minPsNum = n;
+      }
+    }
+    for (PatchSet ps : bundle.getPatchSets()) {
+      events.add(new PatchSetEvent(
+          change, ps, checkNotNull(minPsNum), manager.getChangeRepo().rw));
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);
@@ -262,7 +271,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
     }
 
-    sortEvents(change.getId(), events);
+    sortEvents(change.getId(), events, minPsNum);
 
     events.add(new FinalUpdatesEvent(change, noteDbChange));
 
@@ -301,13 +310,21 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         }).toSortedList(PatchLineCommentsUtil.PLC_ORDER);
   }
 
-  private void sortEvents(Change.Id changeId, List<Event> events) {
+  private void sortEvents(Change.Id changeId, List<Event> events,
+      Integer minPsNum) {
     Collections.sort(events, EVENT_ORDER);
 
     // Fill in any missing patch set IDs using the latest patch set of the
-    // change at the time of the event. This is as if a user added a
+    // change at the time of the event, because NoteDb can't represent actions
+    // with no associated patch set ID. This workaround is as if a user added a
     // ChangeMessage on the change by replying from the latest patch set.
-    int ps = 1;
+    //
+    // Start with the first patch set that actually exists. If there are no
+    // patch sets at all, minPsNum will be null, so just bail and use 1 as the
+    // patch set ID. The corresponding patch set won't exist, but this change is
+    // probably corrupt anyway, as deleting the last draft patch set should have
+    // deleted the whole change.
+    int ps = firstNonNull(minPsNum, 1);
     for (Event e : events) {
       if (e.psId == null) {
         e.psId = new PatchSet.Id(changeId, ps);
@@ -613,14 +630,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private static class PatchSetEvent extends Event {
     private final Change change;
     private final PatchSet ps;
+    private final boolean createChange;
     private final RevWalk rw;
 
-    PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
+    PatchSetEvent(Change change, PatchSet ps, int minPsNum, RevWalk rw) {
       super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
           change.getCreatedOn(), null);
       this.change = change;
       this.ps = ps;
       this.rw = rw;
+      this.createChange = ps.getPatchSetId() == minPsNum;
     }
 
     @Override
@@ -632,7 +651,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     void apply(ChangeUpdate update) throws IOException, OrmException {
       checkUpdate(update);
       update.setSubject(change.getSubject());
-      if (ps.getPatchSetId() == 1) {
+      if (createChange) {
         update.setSubjectForCommit("Create change");
         update.setChangeId(change.getKey().get());
         update.setBranch(change.getDest().get());

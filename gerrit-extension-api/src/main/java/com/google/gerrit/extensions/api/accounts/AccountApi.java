@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.accounts;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -42,6 +43,8 @@ public interface AccountApi {
   EditPreferencesInfo getEditPreferences() throws RestApiException;
   EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
       throws RestApiException;
+
+  List<ProjectWatchInfo> getWatchedProjects() throws RestApiException;
 
   void starChange(String id) throws RestApiException;
   void unstarChange(String id) throws RestApiException;
@@ -99,6 +102,12 @@ public interface AccountApi {
 
     @Override
     public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ProjectWatchInfo> getWatchedProjects()
         throws RestApiException {
       throw new NotImplementedException();
     }

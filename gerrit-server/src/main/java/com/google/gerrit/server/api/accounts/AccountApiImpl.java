@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
+import com.google.gerrit.server.account.GetWatchedProjects;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
@@ -69,6 +71,7 @@ public class AccountApiImpl implements AccountApi {
   private final SetDiffPreferences setDiffPreferences;
   private final GetEditPreferences getEditPreferences;
   private final SetEditPreferences setEditPreferences;
+  private final GetWatchedProjects getWatchedProjects;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
@@ -86,6 +89,7 @@ public class AccountApiImpl implements AccountApi {
       SetDiffPreferences setDiffPreferences,
       GetEditPreferences getEditPreferences,
       SetEditPreferences setEditPreferences,
+      GetWatchedProjects getWatchedProjects,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
@@ -103,6 +107,7 @@ public class AccountApiImpl implements AccountApi {
     this.setDiffPreferences = setDiffPreferences;
     this.getEditPreferences = getEditPreferences;
     this.setEditPreferences = setEditPreferences;
+    this.getWatchedProjects = getWatchedProjects;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
@@ -180,6 +185,15 @@ public class AccountApiImpl implements AccountApi {
       return setEditPreferences.apply(account, in);
     } catch (IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot set edit preferences", e);
+    }
+  }
+
+  @Override
+  public List<ProjectWatchInfo> getWatchedProjects() throws RestApiException {
+    try {
+      return getWatchedProjects.apply(account);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get watched projects", e);
     }
   }
 

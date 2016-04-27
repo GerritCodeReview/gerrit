@@ -17,6 +17,24 @@
       "revId": "7d1bd4eec003b8b7cd4725b3d157bfa448ac5e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_6cecdbd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-27T20:27:20Z",
+      "side": 1,
+      "message": "That\u0027s covered if you run with GERRIT_NOTEDB\u003dcheck, which I\u0027ve done.",
+      "parentUuid": "0889753a_adc6bd57",
+      "revId": "7d1bd4eec003b8b7cd4725b3d157bfa448ac5e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

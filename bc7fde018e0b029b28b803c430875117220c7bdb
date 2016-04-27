@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e8e981d0_9cd06509",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-27T13:20:53Z",
+      "side": 1,
+      "message": "Thanks.  That fixed it.",
+      "parentUuid": "e8e981d0_5ce7bdf4",
+      "range": {
+        "startLine": 576,
+        "startChar": 5,
+        "endLine": 576,
+        "endChar": 34
+      },
+      "revId": "bc7fde018e0b029b28b803c430875117220c7bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e981d0_3ce2f1e5",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 3

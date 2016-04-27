@@ -275,14 +275,14 @@ public class OutputStreamQuery {
     }
 
     if (includePatchSets) {
-      eventFactory.addPatchSets(db, rw, c, d.patchSets(),
+      eventFactory.addPatchSets(db, rw, c, d.visiblePatchSets(),
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles, d.change(), labelTypes);
     }
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
-      if (current != null) {
+      if (current != null && cc.isPatchVisible(current, d.db())) {
         c.currentPatchSet =
             eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet,
@@ -302,7 +302,7 @@ public class OutputStreamQuery {
     if (includeComments) {
       eventFactory.addComments(c, d.messages());
       if (includePatchSets) {
-        eventFactory.addPatchSets(db, rw, c, d.patchSets(),
+        eventFactory.addPatchSets(db, rw, c, d.visiblePatchSets(),
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles, d.change(), labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {

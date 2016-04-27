@@ -5,7 +5,7 @@ gerrit index start - Start the online indexer
 
 == SYNOPSIS
 --
-'ssh' -p @SSH_PORT@ @SSH_HOST@ 'gerrit index start <index>'
+'ssh' -p <port> <host> 'gerrit index start <index>'
 --
 
 == DESCRIPTION

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1461787862 -0400\nnonce AB8gjyWPncwKqsLF0X46CM2ovqt5FFlFJmAmyrZFlw2L06L9G9QmeRUz688zx/+AKcDBupNLR2eA\n\n0000000000000000000000000000000000000000 7d1bd4eec003b8b7cd4725b3d157bfa448ac5e90 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXIRzWAAoJEF/XxZqaEoiMxuQQALgO3l6+El+fVxoaEq0W2GDS\nf18NtWAYNHtiZvr+bHQupH/kfmgL9hqzhdkb0u8O95WRf/AHRIrDP/6qKEsEclB0\nbLb+mWJQAnR3MhOhSt17ykjkDMz4jCjoUQuUX/akSscOR2irRz/3Z+D70GFnXbTC\nXiueDTJlS/xF2rrjfHOdpw04eOYdriVVAT8qk6cFDu+k0vkaVVpaP9iRUTzHe5th\nGRNve09LD7uTem8clcZd5Aluigmlu9H9txWqKplIO12b1wEVII0l6jylvcHx3eKU\nnaybb4eAmvi5RkQer5YPuF8fwfyTbrHYLDPJNiVmw2txXo/xALotCz99KmLQMBEn\nn8cDQQr7hNIQmFl8YbtVsCdAcWNXEP8hDzYQ4E09vrrSGnBEiN3QrcmZ9zEPN3cu\nfeFoueyRgUfgAHJ5ZJztfQ5g3pQvmhI2xW1aPMnIajruKOVnnW+GH3gQ21wpG62e\nscdznYBs073s68X2dv7A4SKidcSNEResLx7S4Y8z+62vfwe9mVBmjTeaIkVCR0n6\nxITB+0uI6EhWRcAol8AHmVTUqyyL60uGo6nScJBFVTYC3tVKR9A+Mf06H8AFgDvM\nF0dsOEI8n8Og2ZX8oVCGm3USk5GMgsWyWVXdGlzRRWDABRjMpPgpBuS9eeuAA9yx\nBB5iy8tJ6jk48i4bt2GW\n\u003dveC+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0889753a_adc6bd57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-27T20:26:32Z",
+      "side": 1,
+      "message": "Clarify, that \"some coverage\" here means testing the deletion of patch sets and not rebuilding changes with missing ranges of patch sets?",
+      "revId": "7d1bd4eec003b8b7cd4725b3d157bfa448ac5e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

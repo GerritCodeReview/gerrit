@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "288e3942_6e9e8f68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-04-27T17:55:27Z",
+      "side": 1,
+      "message": "Hm. Why is it marked as disabled, then? :-/",
+      "revId": "f9584e28cbc7a2580c042856f69a85f19cdf8e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e981d0_3ce2f1e5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-27T12:37:53Z",
+      "side": 1,
+      "message": "This test is failing.\n\nhttp://paste.openstack.org/show/495515/",
+      "revId": "bc7fde018e0b029b28b803c430875117220c7bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

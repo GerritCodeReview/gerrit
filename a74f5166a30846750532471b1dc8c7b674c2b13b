@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e814218a_c4d77efc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-27T07:44:19Z",
+      "side": 1,
+      "message": "Actually not, this change will deprecate even more methods. My plan is to get I25d8af5a merged for 2.13 and then to fix all the deprecations as soon as stable-2.13 is branched off.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "a74f5166a30846750532471b1dc8c7b674c2b13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e866e135_74358835",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-27T07:44:19Z",
+      "side": 1,
+      "message": "Unrelated update?",
+      "range": {
+        "startLine": 941,
+        "startChar": 0,
+        "endLine": 943,
+        "endChar": 32
+      },
+      "revId": "a74f5166a30846750532471b1dc8c7b674c2b13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

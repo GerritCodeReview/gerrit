@@ -214,6 +214,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_2f948946",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-04-27T16:39:42Z",
+      "side": 1,
+      "message": "hmm, ok, then i guess we just have to accept that the additional power comes at the cost of usability in the simple case.\n\nso we\u0027re back to the original point, that adding the exception for render\u003dslow is probably ... pointless.",
+      "parentUuid": "e8e981d0_fcc0893c",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

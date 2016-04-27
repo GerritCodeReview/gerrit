@@ -2127,12 +2127,12 @@ for a user.
 |=======================
 |Field Name ||Description
 |`project_name` ||The name of the project.
-|`filter` |optional|A filter string to be applied to the project.
-|`notify_new_changes` |optional|Notify on new changes.
-|`notify_new_patch_sets` |optional|Notify on new patch sets.
-|`notify_all_comments` |optional|Notify on comments.
-|`notify_submitted_changes` |optional|Notify on submitted changes.
-|`notify_abandoned_changes` |optional|Notify on abandoned changes.
+|`filter` |optional|The name of the project.
+|`notify_new_changes` |optional|The name of the project.
+|`notify_new_patch_sets` |optional|The name of the project.
+|`notify_all_comments` |optional|The name of the project.
+|`notify_submitted_changes` |optional|The name of the project.
+|`notify_abandoned_changes` |optional|The name of the project.
 |=======================
 
 GERRIT

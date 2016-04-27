@@ -139,6 +139,9 @@ public class KeyCommandSet implements KeyPressHandler {
     if (event.isControlKeyDown()) {
       mask |= KeyCommand.M_CTRL;
     }
+    if (event.isAltKeyDown()) {
+      mask |= KeyCommand.M_ALT;
+    }
     if (event.isMetaKeyDown()) {
       mask |= KeyCommand.M_META;
     }

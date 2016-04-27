@@ -232,6 +232,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_0c8fd734",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-27T17:36:06Z",
+      "side": 1,
+      "message": "\"Render\u003dSlow\" was added just to provide an escape hatch for people who want to use native browser search. I don\u0027t use it, but some might still find it useful.\n\nI will see if I can document it better in the preference box in a following change.",
+      "parentUuid": "48a7edbf_2f948946",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

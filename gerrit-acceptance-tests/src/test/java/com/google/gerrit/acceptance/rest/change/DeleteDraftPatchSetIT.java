@@ -18,14 +18,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -38,6 +38,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
+@NoHttpd
 public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
   @Inject
@@ -51,9 +52,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
-    RestResponse r = deletePatchSet(changeId, ps, adminRestSession);
-    assertThat(r.getEntityContent()).isEqualTo("Patch set is not a draft");
-    r.assertConflict();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Patch set is not a draft");
+    setApiUser(admin);
+    deletePatchSet(changeId, ps);
   }
 
   @Test
@@ -64,9 +67,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    RestResponse r = deletePatchSet(changeId, ps, userRestSession);
-    assertThat(r.getEntityContent()).isEqualTo("Not found: " + changeId);
-    r.assertNotFound();
+
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Not found: " + changeId);
+    setApiUser(user);
+    deletePatchSet(changeId, ps);
   }
 
   @Test
@@ -87,14 +92,14 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(cd.patchSets()).hasSize(2);
     assertThat(cd.change().currentPatchSetId().get()).isEqualTo(2);
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.DRAFT);
-    deletePatchSet(changeId, ps, adminRestSession).assertNoContent();
+    deletePatchSet(changeId, ps);
 
     cd = getChange(changeId);
     assertThat(cd.patchSets()).hasSize(1);
     assertThat(cd.change().currentPatchSetId().get()).isEqualTo(1);
 
     ps = getCurrentPatchSet(changeId);
-    deletePatchSet(changeId, ps, adminRestSession).assertNoContent();
+    deletePatchSet(changeId, ps);
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
 
     if (notesMigration.writeChanges()) {
@@ -128,11 +133,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     return Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
   }
 
-  private static RestResponse deletePatchSet(String changeId,
-      PatchSet ps, RestSession s) throws Exception {
-    return s.delete("/changes/"
-        + changeId
-        + "/revisions/"
-        + ps.getRevision().get());
+  private void deletePatchSet(String changeId, PatchSet ps) throws Exception {
+    gApi.changes().id(changeId).revision(ps.getId().get()).delete();
   }
 }

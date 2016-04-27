@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e866e135_745aa874",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-04-27T15:07:00Z",
+      "side": 1,
+      "message": "s/is a magic branch/ends/",
+      "range": {
+        "startLine": 55,
+        "startChar": 38,
+        "endLine": 55,
+        "endChar": 55
+      },
+      "revId": "cac3425cecf32381b4e7be43ee07582f72bbfbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

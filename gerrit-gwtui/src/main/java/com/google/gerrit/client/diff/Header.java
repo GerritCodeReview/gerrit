@@ -44,6 +44,7 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -273,6 +274,18 @@ public class Header extends Composite {
         : Dispatcher.toSideBySide(base, patchSetId, info.path());
   }
 
+  private KeyCommand addNavKeyCommand(int mask, int key, String help,
+      final String url) {
+    KeyCommand k = new KeyCommand(mask, key, help) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        Gerrit.display(url);
+      }
+    };
+    keys.add(k);
+    return k;
+  }
+
   private KeyCommand setupNav(InlineHyperlink link, char key, String help, FileInfo info) {
     if (info != null) {
       final String url = url(info);
@@ -280,13 +293,7 @@ public class Header extends Composite {
       link.setTitle(PatchUtil.M.fileNameWithShortcutKey(
           FileInfo.getFileName(info.path()),
           Character.toString(key)));
-      KeyCommand k = new KeyCommand(0, key, help) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          Gerrit.display(url);
-        }
-      };
-      keys.add(k);
+      KeyCommand k = addNavKeyCommand(0, key, help, url);
       if (link == prev) {
         hasPrev = true;
       } else {
@@ -332,8 +339,33 @@ public class Header extends Composite {
         prevInfo);
     KeyCommand n = setupNav(next, ']', PatchUtil.C.nextFileHelp(),
         nextInfo);
+
+    // On German keyboards, '[' and ']' are entered with AltGr+8 and AltGr+9,
+    // which are translated to Ctrl+Alt+8 and Ctrl+Alt+9 by most modern
+    // browsers.
+    KeyCommand pAlternative = null;
+    if (p != null) {
+      pAlternative = addNavKeyCommand(
+          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_EIGHT,
+          PatchUtil.C.previousFileHelp(), url(prevInfo));
+    } else {
+      keys.add(new UpToChangeCommand(patchSetId,
+          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_EIGHT));
+    }
+
+    KeyCommand nAlternative = null;
+    if (n != null) {
+      nAlternative = addNavKeyCommand(
+          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_NINE,
+          PatchUtil.C.previousFileHelp(), url(nextInfo));
+    } else {
+      keys.add(new UpToChangeCommand(patchSetId,
+          KeyCommand.M_CTRL | KeyCommand.M_ALT, KeyCodes.KEY_NINE));
+    }
+
     if (p != null && n != null) {
       keys.pair(p, n);
+      keys.pair(pAlternative, nAlternative);
     }
     nextPath = nextInfo != null ? nextInfo.path() : null;
   }

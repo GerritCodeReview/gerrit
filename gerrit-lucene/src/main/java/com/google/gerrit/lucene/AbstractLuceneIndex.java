@@ -48,7 +48,6 @@ import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,13 +69,11 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return f.getName() + "_SORT";
   }
 
-  public static void setReady(SitePaths sitePaths, int version, boolean ready)
-      throws IOException {
+  public static void setReady(SitePaths sitePaths, String name, int version,
+      boolean ready) throws IOException {
     try {
-      // TODO(dborowitz): Totally broken for non-change indexes.
-      FileBasedConfig cfg =
-          LuceneVersionManager.loadGerritIndexConfig(sitePaths);
-      LuceneVersionManager.setReady(cfg, version, ready);
+      GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
+      cfg.setReady(name, version, ready);
       cfg.save();
     } catch (ConfigInvalidException e) {
       throw new IOException(e);
@@ -86,6 +83,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final Directory dir;
+  private final String name;
   private final TrackingIndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
@@ -102,6 +100,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.schema = schema;
     this.sitePaths = sitePaths;
     this.dir = dir;
+    this.name = name;
     final String index = Joiner.on('_').skipNulls().join(name, subIndex);
     IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
@@ -184,7 +183,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    setReady(sitePaths, schema.getVersion(), ready);
+    setReady(sitePaths, name, schema.getVersion(), ready);
   }
 
   @Override

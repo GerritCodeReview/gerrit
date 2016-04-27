@@ -34,8 +34,6 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,23 +74,6 @@ public class LuceneVersionManager implements LifecycleListener {
         prefix, schema.getVersion()));
   }
 
-  static FileBasedConfig loadGerritIndexConfig(SitePaths sitePaths)
-      throws ConfigInvalidException, IOException {
-    FileBasedConfig cfg = new FileBasedConfig(
-        sitePaths.index_dir.resolve("gerrit_index.config").toFile(),
-        FS.detect());
-    cfg.load();
-    return cfg;
-  }
-
-  static void setReady(Config cfg, int version, boolean ready) {
-    cfg.setBoolean("index", Integer.toString(version), "ready", ready);
-  }
-
-  private static boolean getReady(Config cfg, int version) {
-    return cfg.getBoolean("index", Integer.toString(version), "ready", false);
-  }
-
   private final SitePaths sitePaths;
   private final Map<String, IndexDefinition<?, ?, ?>> defs;
   private final Map<String, OnlineReindexer<?, ?, ?>> reindexers;
@@ -120,9 +101,9 @@ public class LuceneVersionManager implements LifecycleListener {
 
   @Override
   public void start() {
-    FileBasedConfig cfg;
+    GerritIndexStatus cfg;
     try {
-      cfg = loadGerritIndexConfig(sitePaths);
+      cfg = new GerritIndexStatus(sitePaths);
     } catch (ConfigInvalidException | IOException e) {
       throw fail(e);
     }
@@ -140,7 +121,7 @@ public class LuceneVersionManager implements LifecycleListener {
   }
 
   private <K, V, I extends Index<K, V>> void initIndex(
-      IndexDefinition<K, V, I> def, FileBasedConfig cfg) {
+      IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = scanVersions(def, cfg);
     // Search from the most recent ready version.
     // Write to the most recent ready version and the most recent version.
@@ -179,8 +160,7 @@ public class LuceneVersionManager implements LifecycleListener {
       }
     }
 
-    // TODO: include index name.
-    markNotReady(cfg, versions.values(), write);
+    markNotReady(cfg, def.getName(), versions.values(), write);
 
     int latest = write.get(0).version;
     if (onlineUpgrade && latest != search.version) {
@@ -245,7 +225,7 @@ public class LuceneVersionManager implements LifecycleListener {
   }
 
   private <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>>
-      scanVersions(IndexDefinition<K, V, I> def, Config cfg) {
+      scanVersions(IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = Maps.newTreeMap();
     for (Schema<V> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
@@ -255,7 +235,8 @@ public class LuceneVersionManager implements LifecycleListener {
         log.warn("Not a directory: %s", p.toAbsolutePath());
       }
       int v = schema.getVersion();
-      versions.put(v, new Version<>(schema, v, isDir, getReady(cfg, v)));
+      versions.put(v, new Version<>(
+          schema, v, isDir, cfg.getReady(def.getName(), v)));
     }
 
     String prefix = def.getName() + "_";
@@ -274,7 +255,8 @@ public class LuceneVersionManager implements LifecycleListener {
           continue;
         }
         if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(null, v, true, getReady(cfg, v)));
+          versions.put(v, new Version<V>(
+              null, v, true, cfg.getReady(def.getName(), v)));
         }
       }
     } catch (IOException e) {
@@ -283,12 +265,12 @@ public class LuceneVersionManager implements LifecycleListener {
     return versions;
   }
 
-  private <V> void markNotReady(FileBasedConfig cfg, Iterable<Version<V>> versions,
-      Collection<Version<V>> inUse) {
+  private <V> void markNotReady(GerritIndexStatus cfg, String name,
+      Iterable<Version<V>> versions, Collection<Version<V>> inUse) {
     boolean dirty = false;
     for (Version<V> v : versions) {
       if (!inUse.contains(v) && v.exists) {
-        setReady(cfg, v.version, false);
+        cfg.setReady(name, v.version, false);
         dirty = true;
       }
     }

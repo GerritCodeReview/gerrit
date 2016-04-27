@@ -70,6 +70,30 @@
       "revId": "81ea86f5dd8646c4d75d03adb645d2d8c3b6102f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e814218a_a43ec217",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-27T09:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e866e135_54116c9b",
+      "range": {
+        "startLine": 315,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 27
+      },
+      "revId": "81ea86f5dd8646c4d75d03adb645d2d8c3b6102f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,10 +70,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V29 =
       schema(V28, ChangeField.HASHTAG_CASE_AWARE);
 
+  public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE =
       new ChangeSchemaDefinitions();
 
   private ChangeSchemaDefinitions() {
-    super("changes", ChangeData.class);
+    super(NAME, ChangeData.class);
   }
 }

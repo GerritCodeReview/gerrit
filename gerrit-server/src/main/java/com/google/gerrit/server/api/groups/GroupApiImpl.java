@@ -41,7 +41,6 @@ import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -63,7 +62,7 @@ class GroupApiImpl implements GroupApi {
   private final PutDescription putDescription;
   private final GetOptions getOptions;
   private final PutOptions putOptions;
-  private final Provider<ListMembers> listMembers;
+  private final ListMembers listMembers;
   private final AddMembers addMembers;
   private final DeleteMembers deleteMembers;
   private final ListIncludedGroups listGroups;
@@ -84,7 +83,7 @@ class GroupApiImpl implements GroupApi {
       PutDescription putDescription,
       GetOptions getOptions,
       PutOptions putOptions,
-      Provider<ListMembers> listMembers,
+      ListMembers listMembers,
       AddMembers addMembers,
       DeleteMembers deleteMembers,
       ListIncludedGroups listGroups,
@@ -205,10 +204,9 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public List<AccountInfo> members(boolean recursive) throws RestApiException {
-    ListMembers list = listMembers.get();
-    list.setRecursive(recursive);
+    listMembers.setRecursive(recursive);
     try {
-      return list.apply(rsrc);
+      return listMembers.apply(rsrc);
     } catch (OrmException e) {
       throw new RestApiException("Cannot list group members", e);
     }

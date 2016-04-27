@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "288e3942_4ee713f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "If40d0d34 (would ease commit message readability IMHO)",
+      "range": {
+        "startLine": 16,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_8cd02709",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "I7b61ae84 (same as above)",
+      "range": {
+        "startLine": 30,
+        "startChar": 11,
+        "endLine": 30,
+        "endChar": 52
+      },
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_accde36f",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "How the above 3 diffs relate to this change?",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e3942_6eeccfd8",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "Same question as above for these 2 diffs.",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_ccda2f27",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1244,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "Same question again for these 2.",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e3942_eed7dffb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "Move this closer to where it is used (above line 379)?",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_0c04376d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "Would not add blank lines above; up to you still.",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_6c03fb63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-27T21:33:23Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

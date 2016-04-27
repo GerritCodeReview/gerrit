@@ -778,7 +778,7 @@ abstract class DiffScreen extends Screen {
       @Override
       public void run() {
         if (cm.vim().hasSearchHighlight()) {
-          cm.vim().handleKey("n");
+          cm.vim().handleKey("N");
         } else {
           getChunkManager().diffChunkNav(cm, Direction.NEXT).run();
         }

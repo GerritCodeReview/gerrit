@@ -196,6 +196,24 @@
       "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e981d0_fcc0893c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-27T08:54:20Z",
+      "side": 1,
+      "message": "Initially we did highlight the active line on both panels, but users found that line visually noisy, so we changed to highlight just the line numbers.\n\nThe new diff screen is not necessarily line-oriented like the old one - it is \"region oriented\". The user can select any word, line, or region and put a comment on that. IMHO this is far more expressive than the old screen. Of course, traditional line comments are still easy to make by clicking on the line number gutter or pressing \"c\". The only real difference in user interaction is that double clicking on a line selects the word underneath, instead of opening a line comment.",
+      "parentUuid": "e866e135_3412f0a4",
+      "revId": "eb0394f7fb9ffc080b622ab9509f2acb1fd03fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

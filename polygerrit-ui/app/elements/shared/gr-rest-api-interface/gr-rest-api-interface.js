@@ -301,7 +301,14 @@
 
     getChangeRevisionActions: function(changeNum, patchNum) {
       return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchNum, '/actions'));
+          this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
+              function(revisionActions) {
+                // The rebase button on change screen is always enabled.
+                if (revisionActions.rebase) {
+                  revisionActions.rebase.enabled = true;
+                }
+                return revisionActions;
+              });
     },
 
     getReviewedFiles: function(changeNum, patchNum) {

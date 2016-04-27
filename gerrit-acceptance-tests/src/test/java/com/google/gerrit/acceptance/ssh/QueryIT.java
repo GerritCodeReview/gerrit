@@ -16,11 +16,13 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.Side;
@@ -300,13 +302,39 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).submitRecords.size()).isEqualTo(1);
   }
 
+  @Test
+  public void testQueryWithNonVisibleCurrentPatchSet() throws Exception {
+    String changeId = createChange().getChangeId();
+    amendChangeAsDraft(changeId);
+    String query = "--current-patch-set --patch-sets " + changeId;
+    List<ChangeAttribute> changes = executeSuccessfulQuery(query);
+    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets).isNotNull();
+    assertThat(changes.get(0).patchSets).hasSize(2);
+    assertThat(changes.get(0).currentPatchSet).isNotNull();
+
+    SshSession userSession = new SshSession(server, user);
+    initSsh(user);
+    userSession.open();
+    changes = executeSuccessfulQuery(query, userSession);
+    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets).hasSize(1);
+    assertThat(changes.get(0).currentPatchSet).isNull();
+    userSession.close();
+  }
+
+  private List<ChangeAttribute> executeSuccessfulQuery(String params,
+      SshSession session) throws Exception {
+    String rawResponse =
+        session.exec("gerrit query --format=JSON " + params);
+    assert_().withFailureMessage(session.getError())
+        .that(session.hasError()).isFalse();
+    return getChanges(rawResponse);
+  }
+
   private List<ChangeAttribute> executeSuccessfulQuery(String params)
       throws Exception {
-    String rawResponse =
-        adminSshSession.exec("gerrit query --format=JSON " + params);
-    assert_().withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError()).isFalse();
-    return getChanges(rawResponse);
+    return executeSuccessfulQuery(params, adminSshSession);
   }
 
   private static List<ChangeAttribute> getChanges(String rawResponse) {

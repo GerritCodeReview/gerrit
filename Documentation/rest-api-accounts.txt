@@ -1428,6 +1428,47 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   }
 ----
 
+[[get-watched-projects]]
+=== Get Watched Projects
+--
+'GET /accounts/link:#account-id[\{account-id\}]/watched.projects'
+--
+
+Retrieves all projects a user is watching.
+
+.Request
+----
+  GET /a/accounts/self/watchedprojects HTTP/1.0
+----
+
+As result the watched projects of the user are returned as a list of
+link:#project-watch-info[ProjectWatchInfo] entities. 
+The result is sorted by project name ins ascending order.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "project": "Test Project 1",
+      "notify_new_changes": true,
+      "notify_new_patch_sets": true,
+      "notify_all_comments": true,
+    },
+    {
+      "project": "Test Project 2",
+      "filter": "branch:experimental",
+      "notify_all_comments": true,
+      "notify_submitted_changes": true,
+      "notify_abandoned_changes": true
+    }
+  ]
+----
+
 [[get-starred-changes]]
 === Get Starred Changes
 --
@@ -2080,6 +2121,22 @@ username for an account.
 |`username` |The new username of the account.
 |=======================
 
+[[project-watch-info]]
+=== ProjectWatchInfo
+The `WatchedProjectsInfo` entity contains information about a project watch
+for a user.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name                 |        |Description
+|`project`                  |        |The name of the project.
+|`filter`                   |optional|A filter string to be applied to the project.
+|`notify_new_changes`       |optional|Notify on new changes.
+|`notify_new_patch_sets`    |optional|Notify on new patch sets.
+|`notify_all_comments`      |optional|Notify on comments.
+|`notify_submitted_changes` |optional|Notify on submitted changes.
+|`notify_abandoned_changes` |optional|Notify on abandoned changes.
+|=======================
 
 GERRIT
 ------

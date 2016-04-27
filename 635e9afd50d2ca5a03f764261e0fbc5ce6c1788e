@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0889753a_0ddd1125",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-27T21:07:10Z",
+      "side": 1,
+      "message": "I\u0027m concerned, that this is hard to remember and would be annoying to always check the documentation what and how to do. Note that for plugin development the most often used Buck command is to deploy Gerrit plugin API into local Maven repository: `buck build api_install`.\n\nWe should do this workflow as easy as possible. One option is to offer new tools/maven/api.py script that would check, if buck-out/gen/tools/maven/gen_api_install/api_install.sh already there and execute it. If not, it would call `buck build gen_api_install` and execute buck-out/gen/tools/maven/gen_api_install/api_install.sh.",
+      "revId": "635e9afd50d2ca5a03f764261e0fbc5ce6c1788e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

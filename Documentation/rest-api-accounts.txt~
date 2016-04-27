@@ -1442,8 +1442,8 @@ Retrieves all projects a user is watching.
 ----
 
 As result the watched projects of the user are returned as a list of
-link:#project-watch-info[ProjectWatchInfo] entities.
-The result is sorted by project name in ascending order.
+link:#project-watch-info[ProjectWatchInfo] entities. 
+The result is sorted by project name ins ascending order.
 
 .Response
 ----

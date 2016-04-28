@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -55,6 +56,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -303,6 +306,63 @@ public class AccountIT extends AbstractDaemonTest {
         allUsersRepo.getRepository().getRefDatabase().exactRef("userSelfRef");
     assertThat(userSelfRef).isNotNull();
     assertThat(userSelfRef.getObjectId()).isEqualTo(userRef.getObjectId());
+  }
+
+  @Test
+  public void pushToUserBranch() throws Exception {
+    // change something in the user preferences to ensure that the user branch
+    // is created
+    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+    input.changesPerPage =
+        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    gApi.accounts().self().setPreferences(input);
+
+    removeExclusiveReadPermissionOnAllUsers();
+    String userRefName = RefNames.refsUsers(admin.id);
+    grant(Permission.PUSH, allUsers, userRefName);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(userRefName).assertOkStatus();
+
+    push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
+  }
+
+  @Test
+  public void pushToUserBranchForReview() throws Exception {
+    // change something in the user preferences to ensure that the user branch
+    // is created
+    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+    input.changesPerPage =
+        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    gApi.accounts().self().setPreferences(input);
+
+    removeExclusiveReadPermissionOnAllUsers();
+    String userRefName = RefNames.refsUsers(admin.id);
+    grant(Permission.PUSH, allUsers, MagicBranch.NEW_CHANGE + userRefName);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    PushOneCommit.Result r = push.to(MagicBranch.NEW_CHANGE + userRefName);
+    r.assertOkStatus();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+
+    push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    r = push.to(MagicBranch.NEW_CHANGE + RefNames.REFS_USERS_SELF);
+    r.assertOkStatus();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+  }
+
+  private void removeExclusiveReadPermissionOnAllUsers() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
+    cfg.getAccessSection(RefNames.REFS_USERS + "*", true)
+        .remove(new Permission(Permission.READ));
+    saveProjectConfig(allUsers, cfg);
   }
 
   @Test

@@ -632,7 +632,7 @@ public class ReceiveCommits {
     }
 
     Set<Branch.NameKey> branches = new HashSet<>();
-    for (ReceiveCommand c : commands) {
+    for (ReceiveCommand c : batch.getCommands()) {
         if (c.getResult() == OK) {
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
               tagCache.updateFastForward(project.getNameKey(),
@@ -888,6 +888,19 @@ public class ReceiveCommits {
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseMagicBranch(cmd);
         continue;
+      }
+
+      if (projectControl.getProjectState().isAllUsers()
+          && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+        final ReceiveCommand orgCmd = cmd;
+        cmd = new ReceiveCommand(cmd.getOldId(), cmd.getNewId(),
+            RefNames.refsUsers(user.getAccountId()), cmd.getType()) {
+          @Override
+          public void setResult(Result s, String m) {
+            super.setResult(s, m);
+            orgCmd.setResult(s, m);
+          }
+        };
       }
 
       Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());
@@ -1302,6 +1315,10 @@ public class ReceiveCommits {
       addMessage(w.toString());
       reject(cmd, "see help");
       return;
+    }
+    if (projectControl.getProjectState().isAllUsers()
+        && RefNames.REFS_USERS_SELF.equals(ref)) {
+      ref = RefNames.refsUsers(user.getAccountId());
     }
     if (!rp.getAdvertisedRefs().containsKey(ref) && !ref.equals(readHEAD(repo))) {
       if (ref.startsWith(Constants.R_HEADS)) {

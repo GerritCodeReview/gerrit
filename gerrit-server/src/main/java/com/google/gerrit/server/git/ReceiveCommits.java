@@ -629,7 +629,7 @@ public class ReceiveCommits {
     }
 
     Set<Branch.NameKey> branches = Sets.newHashSet();
-    for (ReceiveCommand c : commands) {
+    for (ReceiveCommand c : batch.getCommands()) {
         if (c.getResult() == OK) {
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
               tagCache.updateFastForward(project.getNameKey(),
@@ -884,6 +884,19 @@ public class ReceiveCommits {
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseMagicBranch(cmd);
         continue;
+      }
+
+      if (projectControl.getProjectState().isAllUsers()
+          && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+        final ReceiveCommand orgCmd = cmd;
+        cmd = new ReceiveCommand(cmd.getOldId(), cmd.getNewId(),
+            RefNames.refsUsers(user.getAccountId()), cmd.getType()) {
+          @Override
+          public void setResult(Result s, String m) {
+            super.setResult(s, m);
+            orgCmd.setResult(s, m);
+          }
+        };
       }
 
       Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());

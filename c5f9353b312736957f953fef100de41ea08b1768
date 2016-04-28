@@ -94,6 +94,30 @@
       "revId": "c5f9353b312736957f953fef100de41ea08b1768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_ef8fe1da",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024297
+      },
+      "writtenOn": "2016-04-28T10:54:26Z",
+      "side": 1,
+      "message": "Ah okay in https://gerrit-review.googlesource.com/#/c/75987/3 I wrote that removing ALT was necessary.\n\nI think this was because navigation in CodeMirror was working with ALT, but for navigation in tab Changes removing of ALT was necessary.",
+      "parentUuid": "e897c152_0c60b724",
+      "range": {
+        "startLine": 142,
+        "startChar": 3,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "c5f9353b312736957f953fef100de41ea08b1768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

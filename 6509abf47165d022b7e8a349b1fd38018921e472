@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e897c152_ac2243ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2358,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-28T05:26:50Z",
+      "side": 1,
+      "message": "Maybe in a follow-up commit we can factor all this out into AccountManager?",
+      "range": {
+        "startLine": 2354,
+        "startChar": 14,
+        "endLine": 2358,
+        "endChar": 46
+      },
+      "revId": "6509abf47165d022b7e8a349b1fd38018921e472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

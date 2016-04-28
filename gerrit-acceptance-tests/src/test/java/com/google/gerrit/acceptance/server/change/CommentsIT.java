@@ -231,6 +231,8 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
+      Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
+
       ReviewInput input = new ReviewInput();
       CommentInput comment = newComment(file, Side.REVISION, line, "comment 1");
       comment.updated = timestamp;
@@ -248,6 +250,10 @@ public class CommentsIT extends AbstractDaemonTest {
       assertCommentInfo(comment, actual);
       assertThat(actual.updated)
           .isEqualTo(gApi.changes().id(r.getChangeId()).info().created);
+
+      // Updating historic comments doesn't cause lastUpdatedOn to regress.
+      assertThat(r.getChange().change().getLastUpdatedOn())
+          .isEqualTo(origLastUpdated);
     }
   }
 

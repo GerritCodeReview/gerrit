@@ -27,6 +27,7 @@ limitations under the License.
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
 
+<link rel="import" href="./shared/gr-alert/gr-alert.html">
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -81,6 +82,28 @@ limitations under the License.
       }
       .feedback {
         color: #b71c1c;
+      }
+      .alert {
+        background-color: #333;
+        bottom: 1.25rem;
+        border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        color: #fff;
+        left: 1.25rem;
+        padding: 1em 1.5em;
+        position: fixed;
+        transform: translateY(5rem);
+        transition: transform 80ms ease-out;
+      }
+      .alert.shown {
+        transform: translateY(0);
+      }
+      .alert gr-button {
+        margin-left: 1em;
+        text-decoration: none;
+      }
+      .reloadPage {
+        color: #a1c2fa;
       }
     </style>
     <gr-main-header search-query="{{params.query}}"></gr-main-header>

@@ -2,6 +2,213 @@
   "comments": [
     {
       "key": {
+        "uuid": "0889753a_ede1a5ab",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1434,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "Make this \"watched.projects\". This follows the pattern of \"starred.changes\".",
+      "range": {
+        "startLine": 1434,
+        "startChar": 48,
+        "endLine": 1434,
+        "endChar": 63
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_6fedb19b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "is watching",
+      "range": {
+        "startLine": 1437,
+        "startChar": 30,
+        "endLine": 1437,
+        "endChar": 41
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_2df3ad84",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "Also mention how the result is sorted.",
+      "range": {
+        "startLine": 1444,
+        "startChar": 0,
+        "endLine": 1445,
+        "endChar": 56
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_8f01f52b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "a list of ... entities.",
+      "range": {
+        "startLine": 1444,
+        "startChar": 59,
+        "endLine": 1445,
+        "endChar": 56
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4de8f98c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "[\n  {\n    \"project_name\": \"Test Project 1\",\n    \"notify_new_changes\": true,\n    \"notify_new_patch_sets\": true,\n    \"notify_all_comments\": true,\n  },\n  {\n    \"project_name\": \"Test Project 2\",\n    \"filter\": \"branch:experimental\",\n    \"notify_all_comments\": true,\n    \"notify_submitted_changes\": true,\n    \"notify_abandoned_changes\": true\n  }\n]",
+      "range": {
+        "startLine": 1454,
+        "startChar": 2,
+        "endLine": 1466,
+        "endChar": 3
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_0deef19b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "ProjectWatchInfo",
+      "range": {
+        "startLine": 2122,
+        "startChar": 4,
+        "endLine": 2122,
+        "endChar": 23
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_eff8c15b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "Just \u0027project\u0027 to be consistent with other JSON entities that contain a project name.",
+      "range": {
+        "startLine": 2129,
+        "startChar": 2,
+        "endLine": 2129,
+        "endChar": 14
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_6dedb59b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "Format this table so that the columns are aligned. This doesn\u0027t have any effect on the rendered documentation but does improve readability of this txt file.",
+      "range": {
+        "startLine": 2128,
+        "startChar": 0,
+        "endLine": 2135,
+        "endChar": 66
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_8d01012c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "remove this?",
+      "range": {
+        "startLine": 2143,
+        "startChar": 9,
+        "endLine": 2143,
+        "endChar": 43
+      },
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_0fc7c523",
         "filename": "Documentation/rest-api-accounts.txt~",
         "patchSetId": 1
@@ -13,6 +220,63 @@
       "writtenOn": "2016-04-28T07:46:29Z",
       "side": 1,
       "message": "This looks like a backupfile, should get removed.",
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_cdfb0956",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_0d9511f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "I think we want to show the project watches only the to the owner of that account, and not to any user who can see the account.\n\nAdd a check like:\n\n  if (self.get() !\u003d rsrc.getUser()) {\n    throw new AuthException(\"not allowed to list project watches of another user\");\n  }",
+      "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_0f9505f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T09:17:23Z",
+      "side": 1,
+      "message": "ABANDONED_CHANGES",
+      "range": {
+        "startLine": 35,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 73
+      },
       "revId": "7860be5e301c128dac9139da99eeeceecfedc754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

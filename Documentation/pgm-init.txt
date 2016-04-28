@@ -13,6 +13,7 @@ init - Initialize a new Gerrit server installation
 	[--list-plugins]
 	[--install-plugin=<PLUGIN_NAME>]
 	[--install-all-plugins]
+	[--secure-store-lib]
 	[--dev]
 	[--skip-all-downloads]
 	[--skip-download=<LIBRARY_NAME>]
@@ -62,6 +63,12 @@ as necessary.
 	Automatically install all plugins from gerrit.war without asking.
 	This option also works in batch mode. This option cannot be supplied
 	alongside --install-plugin.
+
+--secure-store-lib::
+	Path to the jar providing the chosen
+	link:dev-plugins.html#secure-store[SecureStore] implementation class.
+	This option is used the same way as the --new-secure-store-lib option
+	documented in link:pgm-SwitchSecureStore.html[SwitchSecureStore].
 
 --install-plugin::
 	Automatically install plugin with given name without asking.

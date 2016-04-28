@@ -37,7 +37,7 @@ class RevisionNote {
       "certificate version ".getBytes(UTF_8);
   // See org.eclipse.jgit.transport.PushCertificateParser.END_SIGNATURE
   private static final byte[] END_SIGNATURE =
-      "-----END PGP SIGNATURE-----".getBytes(UTF_8);
+      "-----END PGP SIGNATURE-----\n".getBytes(UTF_8);
 
   private static void trimLeadingEmptyLines(byte[] bytes, MutableInteger p) {
     while (p.value < bytes.length && bytes[p.value] == '\n') {

@@ -1,0 +1,601 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48a7edbf_ef4521a4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_ad223def",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_cf485dbf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "[optional] since the type was renamed, I would rather name it \u0027accessInput\u0027 now",
+      "range": {
+        "startLine": 63,
+        "startChar": 23,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_6d11359c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: missing space after \u0027+\u0027\n\nThis nit occurs a few more times below. I guess it was pasted like this everywhere. Please fix below as well.",
+      "range": {
+        "startLine": 94,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 34
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_8d2581fc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: long line",
+      "range": {
+        "startLine": 127,
+        "startChar": 73,
+        "endLine": 127,
+        "endChar": 74
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4d8399dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "createDefaultAccessSectionInfo() creates some default permisisons (Push, Label-Code-Review) but these make no sense for the global capabilities section. Rather make an example where existing capabilities are set.",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 253,
+        "endChar": 27
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_0d7991ec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Assuming this test should check whether a normal non-admin user can modify the global capabilities, this operation should rather fail with \u0027403 Forbidden\u0027 [1], rather than \u0027400 Bad Request\u0027 [2].\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_403_forbidden\n\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_400_bad_request",
+      "range": {
+        "startLine": 256,
+        "startChar": 21,
+        "endLine": 256,
+        "endChar": 40
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_4f0c6d85",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Same here and for the global capability tests that follow, make an example where existing capabilities are set.",
+      "range": {
+        "startLine": 263,
+        "startChar": 1,
+        "endLine": 266,
+        "endChar": 27
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_2d7e4dd5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "updatedProjectAccessInfo?",
+      "range": {
+        "startLine": 269,
+        "startChar": 22,
+        "endLine": 269,
+        "endChar": 46
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_af2239ef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Why \u0027read\u0027?",
+      "range": {
+        "startLine": 313,
+        "startChar": 19,
+        "endLine": 313,
+        "endChar": 23
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_cf1f7da6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "That\u0027s not a global capability, rather use something from com.google.gerrit.common.data.GlobalCapability.",
+      "range": {
+        "startLine": 316,
+        "startChar": 38,
+        "endLine": 316,
+        "endChar": 65
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_8d6ca128",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "If adding Permission.PUSH_SIGNED_TAG in the global capabilities section works, then this is a bug. Only adding valid global capabilities to the global capabilities section should work.",
+      "range": {
+        "startLine": 325,
+        "startChar": 4,
+        "endLine": 329,
+        "endChar": 63
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_cd1f89a6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Rename this method to \u0027newProjectAccessInput\u0027",
+      "range": {
+        "startLine": 343,
+        "startChar": 29,
+        "endLine": 343,
+        "endChar": 55
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_ef1c41b4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_ad695d17",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Sorry, I should have been more precise in my comment, this should be formatted like this:\n\n\n  if (!Objects.equals(label, p.label)) {\n    return false;\n  }\n  if (!Objects.equals(exclusive, p.exclusive)) {\n    return false;\n  }\n  if (!Objects.equals(rules, p.rules)) {\n    return false;\n  }",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 60
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_4f838ddc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionRuleInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Use Objects.equals here too, since force is a Boolean object",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_cd76a9f6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionRuleInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: formatting, format the blocks like\n\n  if (!Objects.equals(action, p.action)) {\n    return false;\n  }",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 56
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_ed736503",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "access rights",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 64
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_6f5f7163",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Move this into checkGlobalCapabilityPermissions and rename the method to something like \u0027checkSectionUpdate\u0027?\n\nAlready now, it\u0027s not only checking permissions so the current name of this method may be misleading.",
+      "range": {
+        "startLine": 117,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 35
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_2d656d35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "I think BadRequestException is more appropriate here, since InvalidNameException is only thrown if the user specified an invalid section name in the input.",
+      "range": {
+        "startLine": 207,
+        "startChar": 16,
+        "endLine": 207,
+        "endChar": 41
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4d5ab974",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "nit: format this as\n\n  if (entry.getValue().permissions \u003d\u003d null) {\n    continue;\n  }",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_af50794f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Should be UnprocessableEntityException [1]. Not Found is only returned if the resource that is specified in the URL is not found, but this group was specified somewhere in the request body.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity",
+      "range": {
+        "startLine": 245,
+        "startChar": 22,
+        "endLine": 245,
+        "endChar": 47
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_4f5aad74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "[optional] inline this",
+      "range": {
+        "startLine": 286,
+        "startChar": 6,
+        "endLine": 286,
+        "endChar": 68
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_cf769df6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "Don\u0027t hard-code the name here, but use allProjects.get()",
+      "range": {
+        "startLine": 290,
+        "startChar": 35,
+        "endLine": 290,
+        "endChar": 47
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_ef736103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "than",
+      "range": {
+        "startLine": 290,
+        "startChar": 30,
+        "endLine": 290,
+        "endChar": 34
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_8f6c9528",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "AuthException",
+      "range": {
+        "startLine": 294,
+        "startChar": 16,
+        "endLine": 294,
+        "endChar": 35
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_0f60a524",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T07:12:13Z",
+      "side": 1,
+      "message": "capability GlobalCapability.ADMINISTRATE_SERVER",
+      "range": {
+        "startLine": 295,
+        "startChar": 20,
+        "endLine": 295,
+        "endChar": 45
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

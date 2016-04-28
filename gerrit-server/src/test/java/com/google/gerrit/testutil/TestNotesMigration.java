@@ -81,6 +81,8 @@ public class TestNotesMigration extends NotesMigration {
       case CHECK:
       case OFF:
       default:
+        setWriteChanges(false);
+        setReadChanges(false);
         break;
     }
     return this;

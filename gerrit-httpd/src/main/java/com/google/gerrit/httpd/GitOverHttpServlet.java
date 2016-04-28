@@ -24,6 +24,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.AdvertiseRefsUsersSelfRefFilter;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -199,14 +200,17 @@ public class GitOverHttpServlet extends GitServlet {
     private final TransferConfig config;
     private final UploadPackMetricsHook uploadMetrics;
     private final DynamicSet<PreUploadHook> preUploadHooks;
+    private final AdvertiseRefsUsersSelfRefFilter advertiseRefsUsersSelfRefFilter;
 
     @Inject
     UploadFactory(TransferConfig tc,
         UploadPackMetricsHook uploadMetrics,
-        DynamicSet<PreUploadHook> preUploadHooks) {
+        DynamicSet<PreUploadHook> preUploadHooks,
+        AdvertiseRefsUsersSelfRefFilter advertiseRefsUsersSelfRefFilter) {
       this.config = tc;
       this.uploadMetrics = uploadMetrics;
       this.preUploadHooks = preUploadHooks;
+      this.advertiseRefsUsersSelfRefFilter = advertiseRefsUsersSelfRefFilter;
     }
 
     @Override
@@ -217,6 +221,7 @@ public class GitOverHttpServlet extends GitServlet {
       up.setPreUploadHook(PreUploadHookChain.newChain(
           Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(uploadMetrics);
+      up.setRefFilter(advertiseRefsUsersSelfRefFilter);
       return up;
     }
   }

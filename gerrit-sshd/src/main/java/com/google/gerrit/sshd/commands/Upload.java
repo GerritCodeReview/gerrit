@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.AdvertiseRefsUsersSelfRefFilter;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
@@ -61,6 +62,9 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private UploadPackMetricsHook uploadMetrics;
 
+  @Inject
+  private AdvertiseRefsUsersSelfRefFilter advertiseRefsUsersSelfRefFilter;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -80,6 +84,7 @@ final class Upload extends AbstractGitCommand {
     allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,
         session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
+    up.setRefFilter(advertiseRefsUsersSelfRefFilter);
     try {
       up.upload(in, out, err);
       session.setPeerAgent(up.getPeerUserAgent());

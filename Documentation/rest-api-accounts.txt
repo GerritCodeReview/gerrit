@@ -1438,7 +1438,7 @@ Retrieves all projects a user is watching.
 
 .Request
 ----
-  GET /a/accounts/self/watchedprojects HTTP/1.0
+  GET /a/accounts/self/watched.projects HTTP/1.0
 ----
 
 As result the watched projects of the user are returned as a list of
@@ -1465,6 +1465,98 @@ The result is sorted by project name in ascending order.
       "notify_all_comments": true,
       "notify_submitted_changes": true,
       "notify_abandoned_changes": true
+    }
+  ]
+----
+
+[[set-watched-projects]]
+=== Add/Update Watched Projects
+--
+'POST /accounts/link:#account-id[\{account-id\}]/watched.projects'
+--
+
+Add new projects to watch or update existing watched projects.
+Projects that are already watched by a user will be updated with
+the provided configuration. All other projects in the request
+will be watched using the provided configuration. The posted body
+can contain link:#project-watch-info[ProjectWatchInfo] entities.
+
+.Request
+----
+  POST /a/accounts/self/watched.projects HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+      "project": "Test Project 1",
+      "notify_new_changes": true,
+      "notify_new_patch_sets": true,
+      "notify_all_comments": true,
+  }
+----
+
+As result the watched projects of the user are returned as a list of
+link:#project-watch-info[ProjectWatchInfo] entities.
+The result is sorted by project name in ascending order.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "project": "Test Project 1",
+      "notify_new_changes": true,
+      "notify_new_patch_sets": true,
+      "notify_all_comments": true,
+    },
+    {
+      "project": "Test Project 2",
+      "notify_new_changes": true,
+      "notify_new_patch_sets": true,
+      "notify_all_comments": true,
+    }
+  ]
+----
+
+[[delete-watched-projects]]
+=== Delete Watched Projects
+--
+'POST /accounts/link:#account-id[\{account-id\}]/watched.projects:delete'
+--
+
+Projects posted to this endpoint will no longer be watched. The posted body
+can contain an array of project names as strings.
+
+.Request
+----
+  POST /a/accounts/self/watched.projects:delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  [
+    "Test Project 1"
+  ]
+----
+
+As result the watched projects of the user are returned as a list of
+link:#project-watch-info[ProjectWatchInfo] entities.
+The result is sorted by project name in ascending order.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "project": "Test Project 2",
+      "notify_new_changes": true,
+      "notify_new_patch_sets": true,
+      "notify_all_comments": true,
     }
   ]
 ----

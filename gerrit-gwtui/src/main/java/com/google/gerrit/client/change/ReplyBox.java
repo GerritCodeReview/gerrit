@@ -46,6 +46,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -139,6 +141,14 @@ public class ReplyBox extends Composite {
         }
       },
       KeyDownEvent.getType());
+    addDomHandler(
+      new KeyPressHandler() {
+        @Override
+        public void onKeyPress(KeyPressEvent e) {
+          e.stopPropagation();
+        }
+      },
+      KeyPressEvent.getType());
   }
 
   @Override

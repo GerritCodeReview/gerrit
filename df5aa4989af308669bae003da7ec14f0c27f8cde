@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8986990_c298627d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1954,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-28T17:20:52Z",
+      "side": 0,
+      "message": "Should also be removed from PreferencesInput section.",
+      "revId": "df5aa4989af308669bae003da7ec14f0c27f8cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

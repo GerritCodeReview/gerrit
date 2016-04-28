@@ -69,7 +69,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -314,7 +313,7 @@ public class MergeOp implements AutoCloseable {
   private final ProjectCache projectCache;
   private final InternalChangeQuery internalChangeQuery;
   private final SubmitStrategyFactory submitStrategyFactory;
-  private final Provider<SubmoduleOp> subOpProvider;
+  private final SubmoduleOp submoduleOp;
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
 
@@ -346,7 +345,7 @@ public class MergeOp implements AutoCloseable {
       ProjectCache projectCache,
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
-      Provider<SubmoduleOp> subOpProvider) {
+      SubmoduleOp submoduleOp) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.repoManager = repoManager;
@@ -356,7 +355,7 @@ public class MergeOp implements AutoCloseable {
     this.projectCache = projectCache;
     this.internalChangeQuery = internalChangeQuery;
     this.submitStrategyFactory = submitStrategyFactory;
-    this.subOpProvider = subOpProvider;
+    this.submoduleOp = submoduleOp;
 
     openRepos = new HashMap<>();
   }
@@ -647,8 +646,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException(msg, e);
     }
 
-    SubmoduleOp subOp = subOpProvider.get();
-    updateSuperProjects(subOp, br.values());
+    updateSuperProjects(submoduleOp, br.values());
   }
 
   private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {

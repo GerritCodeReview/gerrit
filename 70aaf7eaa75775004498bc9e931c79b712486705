@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0889753a_4d6d59f4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-28T13:35:30Z",
+      "side": 1,
+      "message": "This will wrap the provided reader into another reader every time it is called from:\n\nWrappableSearcherManager.refreshIfNeeded \u003e getSearcher:\n\n  searcher \u003d searcherFactory.newSearcher(reader)\n\nWhat is the purpose of this wrapping here?",
+      "revId": "70aaf7eaa75775004498bc9e931c79b712486705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_cf805d9e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/WrappableSearcherManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-04-28T13:35:30Z",
+      "side": 1,
+      "message": "The returned searcher has a reader which wraps the given reader (see the comment in the LuceneChangeIndex file).\n\nDoes this mean that every time the refreshIfNeeded (line 144) is called we will wrap once more (at least under *some* conditions)?\n\nWhat we observe in the \"NRT open\" thread is ever growing stack trace as I reported here [1].\nLooks like an extremely long list of nested IndexReaders which, after some time (2-3 times a day),\nleads to a StackOverflowError and the NRT thread dies.\n\n[1] http://mail-archives.apache.org/mod_mbox/lucene-java-user/201604.mbox/%3CCACrmCOT35EYsVZuoxYEej9n2NsUZ7OJSRFP59v13TT29YwDupw%40mail.gmail.com%3E",
+      "revId": "70aaf7eaa75775004498bc9e931c79b712486705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

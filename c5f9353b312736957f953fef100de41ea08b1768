@@ -166,6 +166,30 @@
       "revId": "c5f9353b312736957f953fef100de41ea08b1768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e3942_8e257bfc",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-04-28T11:15:52Z",
+      "side": 1,
+      "message": "Ah Ok, which is what I\u0027m trying to address in https://gerrit-review.googlesource.com/#/c/76973/\n\nIf you are still using a German keyboard, can you help verify that change? Thanks!",
+      "parentUuid": "48a7edbf_4fb62d9c",
+      "range": {
+        "startLine": 142,
+        "startChar": 3,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "c5f9353b312736957f953fef100de41ea08b1768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

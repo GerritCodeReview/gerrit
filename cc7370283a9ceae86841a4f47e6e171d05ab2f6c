@@ -927,6 +927,30 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_4f12ad53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_6f8851f8",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 48
+      },
+      "revId": "cc7370283a9ceae86841a4f47e6e171d05ab2f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68591145_489abf25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 3
@@ -974,6 +998,24 @@
       "side": 1,
       "message": "Same here, I meant something like:\n\n  public void remove(AccessSection section,\n      Permission permission, PermissionRule rule) {\n  if (rule \u003d\u003d null) {\n    remove(section, permission);\n  } else if (permission \u003d\u003d null) {\n    remove(section);\n  } else if (section !\u003d null) {\n    ...\n  }",
       "parentUuid": "282ab97a_8e5e7b01",
+      "revId": "cc7370283a9ceae86841a4f47e6e171d05ab2f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4d12b953",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_0d60b124",
       "revId": "cc7370283a9ceae86841a4f47e6e171d05ab2f6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1426,6 +1468,30 @@
       "side": 1,
       "message": "What about \u0027label\u0027 that is contain in PermissionInfo. I think it\u0027s still not handled?",
       "parentUuid": "68591145_08172743",
+      "range": {
+        "startLine": 219,
+        "startChar": 45,
+        "endLine": 219,
+        "endChar": 60
+      },
+      "revId": "cc7370283a9ceae86841a4f47e6e171d05ab2f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_ad087d1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "I think the label does not have to be set here explicitly. It is derived from the name when calling the constructor.\n\nWe are using PermissionInfo for GET/POST and I think label is only relevant for GET.",
+      "parentUuid": "0889753a_6d5f7563",
       "range": {
         "startLine": 219,
         "startChar": 45,

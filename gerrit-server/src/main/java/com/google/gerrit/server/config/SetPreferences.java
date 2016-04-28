@@ -60,6 +60,8 @@ public class SetPreferences implements
         || i.legacycidInChangeTable != null
         || i.muteCommonPathPrefixes != null
         || i.reviewCategoryStrategy != null
+        || i.signedOffBy != null
+        || i.urlAliases != null
         || i.emailTypes != null) {
       throw new BadRequestException("unsupported option");
     }

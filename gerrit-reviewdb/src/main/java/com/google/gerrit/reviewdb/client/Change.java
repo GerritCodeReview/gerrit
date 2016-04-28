@@ -572,6 +572,10 @@ public final class Change {
     return originalSubject != null ? originalSubject : subject;
   }
 
+  public String getOriginalSubjectOrNull() {
+    return originalSubject;
+  }
+
   /** Get the id of the most current {@link PatchSet} in this change. */
   public PatchSet.Id currentPatchSetId() {
     if (currentPatchSetId > 0) {

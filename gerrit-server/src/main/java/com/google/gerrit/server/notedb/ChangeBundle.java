@@ -312,8 +312,24 @@ public class ChangeBundle {
     Change a = bundleA.change;
     Change b = bundleB.change;
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
+
+    boolean excludeOrigSubj = false;
+    // Ignore null original subject on the ReviewDb side, as this field is
+    // always set in NoteDb.
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB
+        && a.getOriginalSubjectOrNull() == null) {
+      excludeOrigSubj = true;
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB
+        && b.getOriginalSubjectOrNull() == null) {
+      excludeOrigSubj = true;
+    }
+
+    List<String> exclude = Lists.newArrayList("rowVersion", "noteDbState");
+    if (excludeOrigSubj) {
+      exclude.add("originalSubject");
+    }
     diffColumnsExcluding(diffs, Change.class, desc, bundleA, a, bundleB, b,
-        "rowVersion", "noteDbState");
+        exclude);
   }
 
   private static void diffChangeMessages(List<String> diffs,

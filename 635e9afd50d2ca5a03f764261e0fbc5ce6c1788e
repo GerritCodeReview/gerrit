@@ -16,6 +16,24 @@
       "revId": "635e9afd50d2ca5a03f764261e0fbc5ce6c1788e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_0d63510b",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-04-28T13:17:25Z",
+      "side": 1,
+      "message": "we can make a script instead,\n\n  tools/api-install.sh\n\nwhich runs the above commands, or maybe\n\n  tools/maven.sh api_install",
+      "parentUuid": "0889753a_0ddd1125",
+      "revId": "635e9afd50d2ca5a03f764261e0fbc5ce6c1788e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

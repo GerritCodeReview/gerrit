@@ -355,48 +355,48 @@ public class ReceiveCommits {
   private BatchRefUpdate batch;
 
   @Inject
-  ReceiveCommits(final ReviewDb db,
-      final Sequences seq,
-      final Provider<InternalChangeQuery> queryProvider,
-      final SchemaFactory<ReviewDb> schemaFactory,
-      final ChangeNotes.Factory notesFactory,
-      final AccountResolver accountResolver,
-      final CmdLineParser.Factory optionParserFactory,
-      final MergedSender.Factory mergedSenderFactory,
-      final GitReferenceUpdated gitRefUpdated,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final ChangeHooks hooks,
-      final ChangeMessagesUtil cmUtil,
-      final PatchSetUtil psUtil,
-      final ProjectCache projectCache,
-      final GitRepositoryManager repoManager,
-      final TagCache tagCache,
-      final AccountCache accountCache,
-      final ChangeCache changeCache,
-      final ChangesCollection changes,
-      final ChangeInserter.Factory changeInserterFactory,
-      final CommitValidators.Factory commitValidatorsFactory,
-      @CanonicalWebUrl final String canonicalWebUrl,
-      @SendEmailExecutor final ExecutorService sendEmailExecutor,
+  ReceiveCommits(ReviewDb db,
+      Sequences seq,
+      Provider<InternalChangeQuery> queryProvider,
+      SchemaFactory<ReviewDb> schemaFactory,
+      ChangeNotes.Factory notesFactory,
+      AccountResolver accountResolver,
+      CmdLineParser.Factory optionParserFactory,
+      MergedSender.Factory mergedSenderFactory,
+      GitReferenceUpdated gitRefUpdated,
+      PatchSetInfoFactory patchSetInfoFactory,
+      ChangeHooks hooks,
+      ChangeMessagesUtil cmUtil,
+      PatchSetUtil psUtil,
+      ProjectCache projectCache,
+      GitRepositoryManager repoManager,
+      TagCache tagCache,
+      AccountCache accountCache,
+      ChangeCache changeCache,
+      ChangesCollection changes,
+      ChangeInserter.Factory changeInserterFactory,
+      CommitValidators.Factory commitValidatorsFactory,
+      @CanonicalWebUrl String canonicalWebUrl,
+      @SendEmailExecutor ExecutorService sendEmailExecutor,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
-      final RequestScopePropagator requestScopePropagator,
-      final SshInfo sshInfo,
-      final AllProjectsName allProjectsName,
+      RequestScopePropagator requestScopePropagator,
+      SshInfo sshInfo,
+      AllProjectsName allProjectsName,
       ReceiveConfig receiveConfig,
       TransferConfig transferConfig,
       DynamicSet<ReceivePackInitializer> initializers,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
-      @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo,
-      final Provider<SubmoduleOp> subOpProvider,
-      final Provider<Submit> submitProvider,
-      final Provider<MergeOp> mergeOpProvider,
-      final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      final NotesMigration notesMigration,
-      final ChangeEditUtil editUtil,
-      final BatchUpdate.Factory batchUpdateFactory,
-      final SetHashtagsOp.Factory hashtagsFactory,
-      final ReplaceOp.Factory replaceOpFactory) throws IOException {
+      @Assisted ProjectControl projectControl,
+      @Assisted Repository repo,
+      Provider<SubmoduleOp> subOpProvider,
+      Provider<Submit> submitProvider,
+      Provider<MergeOp> mergeOpProvider,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      NotesMigration notesMigration,
+      ChangeEditUtil editUtil,
+      BatchUpdate.Factory batchUpdateFactory,
+      SetHashtagsOp.Factory hashtagsFactory,
+      ReplaceOp.Factory replaceOpFactory) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -526,7 +526,7 @@ public class ReceiveCommits {
   }
 
   /** Set a message sender for this operation. */
-  public void setMessageSender(final MessageSender ms) {
+  public void setMessageSender(MessageSender ms) {
     messageSender = ms != null ? ms : new ReceivePackMessageSender();
   }
 
@@ -576,8 +576,8 @@ public class ReceiveCommits {
     }
   }
 
-  void processCommands(final Collection<ReceiveCommand> commands,
-      final MultiProgressMonitor progress) {
+  void processCommands(Collection<ReceiveCommand> commands,
+      MultiProgressMonitor progress) {
     newProgress = progress.beginSubTask("new", UNKNOWN);
     replaceProgress = progress.beginSubTask("updated", UNKNOWN);
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
@@ -627,7 +627,7 @@ public class ReceiveCommits {
     }
 
     Set<Branch.NameKey> branches = Sets.newHashSet();
-    for (final ReceiveCommand c : commands) {
+    for (ReceiveCommand c : commands) {
         if (c.getResult() == OK) {
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
               tagCache.updateFastForward(project.getNameKey(),
@@ -865,8 +865,8 @@ public class ReceiveCommits {
     return displayName;
   }
 
-  private void parseCommands(final Collection<ReceiveCommand> commands) {
-    for (final ReceiveCommand cmd : commands) {
+  private void parseCommands(Collection<ReceiveCommand> commands) {
+    for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() != NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
         //
@@ -884,11 +884,11 @@ public class ReceiveCommits {
         continue;
       }
 
-      final Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());
+      Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());
       if (m.matches()) {
         // The referenced change must exist and must still be open.
         //
-        final Change.Id changeId = Change.Id.parse(m.group(1));
+        Change.Id changeId = Change.Id.parse(m.group(1));
         parseReplaceCommand(cmd, changeId);
         continue;
       }
@@ -1017,7 +1017,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseCreate(final ReceiveCommand cmd) {
+  private void parseCreate(ReceiveCommand cmd) {
     RevObject obj;
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
@@ -1042,7 +1042,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseUpdate(final ReceiveCommand cmd) {
+  private void parseUpdate(ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canUpdate()) {
       if (isHead(cmd) && !isCommit(cmd)) {
@@ -1061,7 +1061,7 @@ public class ReceiveCommits {
     }
   }
 
-  private boolean isCommit(final ReceiveCommand cmd) {
+  private boolean isCommit(ReceiveCommand cmd) {
     RevObject obj;
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
@@ -1080,7 +1080,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseDelete(final ReceiveCommand cmd) {
+  private void parseDelete(ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.getRefName().startsWith(REFS_CHANGES)) {
       errors.put(Error.DELETE_CHANGES, ctl.getRefName());
@@ -1097,7 +1097,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseRewind(final ReceiveCommand cmd) {
+  private void parseRewind(ReceiveCommand cmd) {
     RevCommit newObject;
     try {
       newObject = rp.getRevWalk().parseCommit(cmd.getNewId());
@@ -1181,7 +1181,7 @@ public class ReceiveCommits {
 
     @Option(name = "--label", aliases = {"-l"}, metaVar = "LABEL+VALUE",
         usage = "label(s) to assign (defaults to +1 if no value provided")
-    void addLabel(final String token) throws CmdLineException {
+    void addLabel(String token) throws CmdLineException {
       LabelVote v = LabelVote.parse(token);
       try {
         LabelType.checkName(v.label());
@@ -1267,7 +1267,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseMagicBranch(final ReceiveCommand cmd) {
+  private void parseMagicBranch(ReceiveCommand cmd) {
     // Permit exactly one new change request per push.
     if (magicBranch != null) {
       reject(cmd, "duplicate request");
@@ -1416,8 +1416,8 @@ public class ReceiveCommits {
         // is "connected" to the branch.
         return;
       }
-      final RevCommit h = walk.parseCommit(targetRef.getObjectId());
-      final RevFilter oldRevFilter = walk.getRevFilter();
+      RevCommit h = walk.parseCommit(targetRef.getObjectId());
+      RevFilter oldRevFilter = walk.getRevFilter();
       try {
         walk.reset();
         walk.setRevFilter(RevFilter.MERGE_BASE);
@@ -1445,14 +1445,13 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseReplaceCommand(final ReceiveCommand cmd,
-      final Change.Id changeId) {
+  private void parseReplaceCommand(ReceiveCommand cmd, Change.Id changeId) {
     if (cmd.getType() != ReceiveCommand.Type.CREATE) {
       reject(cmd, "invalid usage");
       return;
     }
 
-    final RevCommit newCommit;
+    RevCommit newCommit;
     try {
       newCommit = rp.getRevWalk().parseCommit(cmd.getNewId());
     } catch (IOException e) {
@@ -1461,7 +1460,7 @@ public class ReceiveCommits {
       return;
     }
 
-    final Change changeEnt;
+    Change changeEnt;
     try {
       changeEnt = notesFactory.createChecked(db, project.getNameKey(), changeId)
           .getChange();
@@ -1482,15 +1481,14 @@ public class ReceiveCommits {
     requestReplace(cmd, true, changeEnt, newCommit);
   }
 
-  private boolean requestReplace(final ReceiveCommand cmd,
-      final boolean checkMergedInto, final Change change,
-      final RevCommit newCommit) {
+  private boolean requestReplace(ReceiveCommand cmd, boolean checkMergedInto,
+      Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
       reject(cmd, "change " + canonicalWebUrl + change.getId() + " closed");
       return false;
     }
 
-    final ReplaceRequest req =
+    ReplaceRequest req =
         new ReplaceRequest(change.getId(), newCommit, cmd, checkMergedInto);
     if (replaceByChange.containsKey(req.ontoChange)) {
       reject(cmd, "duplicate request");
@@ -1529,11 +1527,11 @@ public class ReceiveCommits {
       }
 
       List<ChangeLookup> pending = Lists.newArrayList();
-      final Set<Change.Key> newChangeIds = new HashSet<>();
-      final int maxBatchChanges =
+      Set<Change.Key> newChangeIds = new HashSet<>();
+      int maxBatchChanges =
           receiveConfig.getEffectiveMaxBatchChangesLimit(user);
       for (;;) {
-        final RevCommit c = rp.getRevWalk().next();
+        RevCommit c = rp.getRevWalk().next();
         if (c == null) {
           break;
         }
@@ -1571,13 +1569,13 @@ public class ReceiveCommits {
             + "to override please set the base manually");
         }
 
-        final List<String> idList = c.getFooterLines(CHANGE_ID);
+        List<String> idList = c.getFooterLines(CHANGE_ID);
         if (idList.isEmpty()) {
           newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
           continue;
         }
 
-        final String idStr = idList.get(idList.size() - 1).trim();
+        String idStr = idList.get(idList.size() - 1).trim();
         if (idStr.matches("^I00*$")) {
           // Reject this invalid line from EGit.
           reject(magicBranch.cmd, "invalid Change-Id");
@@ -1755,10 +1753,10 @@ public class ReceiveCommits {
         IOException, RestApiException, UpdateException, NoSuchChangeException {
       RevCommit commit = state.rw.parseCommit(commitId);
       state.rw.parseBody(commit);
-      final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
-      final Account.Id me = user.getAccountId();
-      final List<FooterLine> footerLines = commit.getFooterLines();
-      final MailRecipients recipients = new MailRecipients();
+      PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
+      Account.Id me = user.getAccountId();
+      List<FooterLine> footerLines = commit.getFooterLines();
+      MailRecipients recipients = new MailRecipients();
       Map<String, Short> approvals = new HashMap<>();
       checkNotNull(magicBranch);
       recipients.add(magicBranch.getMailRecipients());
@@ -1926,8 +1924,8 @@ public class ReceiveCommits {
     private PatchSet.Id priorPatchSet;
     List<String> groups = ImmutableList.of();
 
-    ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
-        final ReceiveCommand cmd, final boolean checkMergedInto) {
+    ReplaceRequest(Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd,
+        boolean checkMergedInto) {
       this.ontoChange = toChange;
       this.newCommitId = newCommit.copy();
       this.inputCommand = cmd;
@@ -1986,7 +1984,7 @@ public class ReceiveCommits {
         return false;
       }
 
-      for (final Ref r : rp.getRepository().getRefDatabase()
+      for (Ref r : rp.getRepository().getRefDatabase()
           .getRefs("refs/changes").values()) {
         if (r.getObjectId().equals(newCommit)) {
           reject(inputCommand, "commit already exists (in the project)");
@@ -2014,11 +2012,11 @@ public class ReceiveCommits {
       // or no parents were updated (rebase), else warn that only part
       // of the commit was modified.
       if (newCommit.getTree().equals(priorCommit.getTree())) {
-        final boolean messageEq =
+        boolean messageEq =
             eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
-        final boolean parentsEq = parentsEqual(newCommit, priorCommit);
-        final boolean authorEq = authorEqual(newCommit, priorCommit);
-        final ObjectReader reader = rp.getRevWalk().getObjectReader();
+        boolean parentsEq = parentsEqual(newCommit, priorCommit);
+        boolean authorEq = authorEqual(newCommit, priorCommit);
+        ObjectReader reader = rp.getRevWalk().getObjectReader();
 
         if (messageEq && parentsEq && authorEq && !autoClose) {
           addMessage(String.format(
@@ -2324,7 +2322,7 @@ public class ReceiveCommits {
     }
 
     boolean defaultName = Strings.isNullOrEmpty(user.getAccount().getFullName());
-    final RevWalk walk = rp.getRevWalk();
+    RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
@@ -2392,7 +2390,7 @@ public class ReceiveCommits {
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {
-    final RevWalk rw = rp.getRevWalk();
+    RevWalk rw = rp.getRevWalk();
     try {
       RevCommit newTip = rw.parseCommit(cmd.getNewId());
       Branch.NameKey branch =
@@ -2404,9 +2402,9 @@ public class ReceiveCommits {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
-      final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
+      SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       Map<Change.Key, Change> byKey = null;
-      final List<ReplaceRequest> toClose = new ArrayList<>();
+      List<ReplaceRequest> toClose = new ArrayList<>();
       for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
 
@@ -2422,14 +2420,14 @@ public class ReceiveCommits {
           }
         }
 
-        for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+        for (String changeId : c.getFooterLines(CHANGE_ID)) {
           if (byKey == null) {
             byKey = openChangesByBranch(branch);
           }
 
-          final Change onto = byKey.get(new Change.Key(changeId.trim()));
+          Change onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            final ReplaceRequest req =
+           ReplaceRequest req =
                 new ReplaceRequest(onto.getId(), c, cmd, false);
             req.change = onto;
             toClose.add(req);
@@ -2438,8 +2436,8 @@ public class ReceiveCommits {
         }
       }
 
-      for (final ReplaceRequest req : toClose) {
-        final PatchSet.Id psi = req.validate(true)
+      for (ReplaceRequest req : toClose) {
+        PatchSet.Id psi = req.validate(true)
             ? req.insertPatchSet().checkedGet()
             : null;
         if (psi != null) {
@@ -2496,7 +2494,7 @@ public class ReceiveCommits {
 
   private Map<Change.Key, Change> openChangesByBranch(Branch.NameKey branch)
       throws OrmException {
-    final Map<Change.Key, Change> r = new HashMap<>();
+    Map<Change.Key, Change> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       r.put(cd.change().getKey(), cd.change());
     }
@@ -2582,20 +2580,20 @@ public class ReceiveCommits {
     }));
   }
 
-  private void reject(final ReceiveCommand cmd) {
+  private void reject(ReceiveCommand cmd) {
     reject(cmd, "prohibited by Gerrit");
   }
 
-  private void reject(final ReceiveCommand cmd, final String why) {
+  private void reject(ReceiveCommand cmd, String why) {
     cmd.setResult(REJECTED_OTHER_REASON, why);
     commandProgress.update(1);
   }
 
-  private static boolean isHead(final ReceiveCommand cmd) {
+  private static boolean isHead(ReceiveCommand cmd) {
     return cmd.getRefName().startsWith(Constants.R_HEADS);
   }
 
-  private static boolean isConfig(final ReceiveCommand cmd) {
+  private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
   }
 

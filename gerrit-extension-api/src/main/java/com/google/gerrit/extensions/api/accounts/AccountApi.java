@@ -45,6 +45,10 @@ public interface AccountApi {
       throws RestApiException;
 
   List<ProjectWatchInfo> getWatchedProjects() throws RestApiException;
+  List<ProjectWatchInfo> setWatchedProjects(List<ProjectWatchInfo> in)
+      throws RestApiException;
+  void deleteWatchedProjects(DeleteWatchedProjectsInput in)
+      throws RestApiException;
 
   void starChange(String id) throws RestApiException;
   void unstarChange(String id) throws RestApiException;
@@ -108,6 +112,18 @@ public interface AccountApi {
 
     @Override
     public List<ProjectWatchInfo> getWatchedProjects()
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ProjectWatchInfo> setWatchedProjects(
+        List<ProjectWatchInfo> in) throws RestApiException {
+      throw new NotImplementedException();
+    };
+
+    @Override
+    public void deleteWatchedProjects(DeleteWatchedProjectsInput in)
         throws RestApiException {
       throw new NotImplementedException();
     }

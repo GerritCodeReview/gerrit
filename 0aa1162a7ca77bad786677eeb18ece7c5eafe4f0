@@ -1,0 +1,342 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48a7edbf_cf05bd05",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "Add some tests for invalid input, e.g. try to watch a project that doesn\u0027t exist.",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_8f0bb51a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "unneeded blank line",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_6f177142",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "Maybe it would be better to have only a single method for this and have an Input object with deductions and additions (similar to how you did it for the access rights)?\n\nThis would also solve the problem comment on [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/77016/2/gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_6d177542",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/DeleteWatchedProjectsInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "It\u0027s used as input, hence it should be named ...Input.",
+      "range": {
+        "startLine": 18,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_4f3b8ddb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_8d0bc11a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "Write this as\n\n  return Objects.equals(project, w.project)\n      \u0026\u0026 Objects.equals(filter, w.filter)\n      \u0026\u0026 ...;",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_2f1d6964",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "We cannot solely rely on a DELETE request with a request body, since some proxies prohibit request bodies for DELETE requests. Hence if we do this we need an alternative way for deleting watches that works with such proxies. E.g. see note on [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#delete-project-description",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 48,
+        "endChar": 59
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_0fffc512",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "Add a user check so that the calling user can only delete his own project watches.\n\nAlso add a test case for this.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 54
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_2f048904",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "may be null",
+      "range": {
+        "startLine": 60,
+        "startChar": 37,
+        "endLine": 60,
+        "endChar": 58
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_ed0285fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "skip these calls if keysToDelete is empty",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 54
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_0dffd112",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "I think we might not need to flush this cache since AccountState doesn\u0027t contain the watches.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 22
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_8f2495b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "wrong import, it should be \n  com.google.common.collect.Sets\n\nlike this it doesn\u0027t compile with Buck",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_ef0281fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "Add a user check so that the calling user can only modify his own project watches.\n\nAlso add a test case for this.",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_0f26e5aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "Rather get ProjectsCollection injected and use it\u0027s parse method to parse a.project (find an example for this in CreateChange).\n\nThis gives you 2 things:\n\n- It throws the exception for you if the project doesn\u0027t exist.\n\n- It checks that the user can see the project. Without the read permission check you could use this REST endpoint to probe if a project with a given name exists on the server or not.",
+      "range": {
+        "startLine": 67,
+        "startChar": 55,
+        "endLine": 67,
+        "endChar": 73
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_6d0e9526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "BadRequestException",
+      "range": {
+        "startLine": 70,
+        "startChar": 18,
+        "endLine": 70,
+        "endChar": 43
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_6f0e9126",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T14:53:20Z",
+      "side": 1,
+      "message": "UnprocessableEntityException, Not Found is only returned if the resource that is specified in the URL is not found, but this is about user input from the request body.",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

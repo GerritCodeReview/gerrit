@@ -46,6 +46,54 @@
       "revId": "634363df14fab4d596c17a7156b9c206f8f0cd80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_6f11319c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-28T06:38:36Z",
+      "side": 1,
+      "message": "It was mistake to remove it. It\u0027s needed as this instance is used on line 1796.",
+      "parentUuid": "288e3942_ce4863bf",
+      "range": {
+        "startLine": 1757,
+        "startChar": 6,
+        "endLine": 1757,
+        "endChar": 11
+      },
+      "revId": "634363df14fab4d596c17a7156b9c206f8f0cd80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_0f7985ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-28T06:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e897c152_ec736b03",
+      "range": {
+        "startLine": 1757,
+        "startChar": 6,
+        "endLine": 1757,
+        "endChar": 11
+      },
+      "revId": "634363df14fab4d596c17a7156b9c206f8f0cd80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

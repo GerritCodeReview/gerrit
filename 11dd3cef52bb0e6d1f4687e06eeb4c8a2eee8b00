@@ -34,6 +34,24 @@
       "revId": "11dd3cef52bb0e6d1f4687e06eeb4c8a2eee8b00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_8c6ca728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-28T06:33:11Z",
+      "side": 1,
+      "message": "If it\u0027s broken on stable-2.11 we should fix it there too.  I intend to release 2.11.9 in a couple of weeks.",
+      "parentUuid": "288e3942_0edd0b25",
+      "revId": "11dd3cef52bb0e6d1f4687e06eeb4c8a2eee8b00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

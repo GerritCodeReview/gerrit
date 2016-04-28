@@ -395,6 +395,26 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     checker.rebuildAndCheckChanges(id);
   }
 
+  @Test
+  public void emptyTopic() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    Change c = db.changes().get(id);
+    assertThat(c.getTopic()).isNull();
+    c.setTopic("");
+    db.changes().update(Collections.singleton(c));
+
+    checker.rebuildAndCheckChanges(id);
+
+    notesMigration.setWriteChanges(true);
+    notesMigration.setReadChanges(true);
+
+    // Rebuild and check was successful, but NoteDb doesn't support storing an
+    // empty topic, so it comes out as null.
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getChange().getTopic()).isNull();
+  }
+
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
     ReviewDb db = unwrapDb();
     Change c = db.changes().get(id);

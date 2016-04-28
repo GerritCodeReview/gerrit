@@ -314,19 +314,25 @@ public class ChangeBundle {
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
 
     boolean excludeOrigSubj = false;
+    boolean excludeTopic = false;
     // Ignore null original subject on the ReviewDb side, as this field is
     // always set in NoteDb.
-    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB
-        && a.getOriginalSubjectOrNull() == null) {
-      excludeOrigSubj = true;
-    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB
-        && b.getOriginalSubjectOrNull() == null) {
-      excludeOrigSubj = true;
+    //
+    // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludeOrigSubj = a.getOriginalSubjectOrNull() == null;
+      excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludeOrigSubj = b.getOriginalSubjectOrNull() == null;
+      excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
     }
 
     List<String> exclude = Lists.newArrayList("rowVersion", "noteDbState");
     if (excludeOrigSubj) {
       exclude.add("originalSubject");
+    }
+    if (excludeTopic) {
+      exclude.add("topic");
     }
     diffColumnsExcluding(diffs, Change.class, desc, bundleA, a, bundleB, b,
         exclude);

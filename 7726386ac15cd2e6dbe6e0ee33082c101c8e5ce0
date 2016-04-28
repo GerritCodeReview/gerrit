@@ -22,6 +22,30 @@
       "revId": "7726386ac15cd2e6dbe6e0ee33082c101c8e5ce0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_cc76aff6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-28T06:34:35Z",
+      "side": 0,
+      "message": "The CI failure shows that it is in fact needed.\n\n error: local variable psId is accessed from within inner class; needs to be declared final",
+      "parentUuid": "e897c152_ec1c4bb4",
+      "range": {
+        "startLine": 1758,
+        "startChar": 6,
+        "endLine": 1758,
+        "endChar": 11
+      },
+      "revId": "7726386ac15cd2e6dbe6e0ee33082c101c8e5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

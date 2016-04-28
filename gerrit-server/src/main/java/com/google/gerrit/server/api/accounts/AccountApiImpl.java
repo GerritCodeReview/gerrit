@@ -41,10 +41,12 @@ import com.google.gerrit.server.account.GetEditPreferences;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
+import com.google.gerrit.server.account.DeleteWatchedProjects;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
 import com.google.gerrit.server.account.SshKeys;
+import com.google.gerrit.server.account.SetWatchedProjects;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -74,6 +76,8 @@ public class AccountApiImpl implements AccountApi {
   private final GetEditPreferences getEditPreferences;
   private final SetEditPreferences setEditPreferences;
   private final GetWatchedProjects getWatchedProjects;
+  private final SetWatchedProjects setWatchedProjects;
+  private final DeleteWatchedProjects deleteWatchedProjects;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
@@ -94,6 +98,8 @@ public class AccountApiImpl implements AccountApi {
       GetEditPreferences getEditPreferences,
       SetEditPreferences setEditPreferences,
       GetWatchedProjects getWatchedProjects,
+      SetWatchedProjects setWatchedProjects,
+      DeleteWatchedProjects deleteWatchedProjects,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
@@ -114,6 +120,8 @@ public class AccountApiImpl implements AccountApi {
     this.getEditPreferences = getEditPreferences;
     this.setEditPreferences = setEditPreferences;
     this.getWatchedProjects = getWatchedProjects;
+    this.setWatchedProjects = setWatchedProjects;
+    this.deleteWatchedProjects = deleteWatchedProjects;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
@@ -202,6 +210,26 @@ public class AccountApiImpl implements AccountApi {
       return getWatchedProjects.apply(account);
     } catch (OrmException e) {
       throw new RestApiException("Cannot get watched projects", e);
+    }
+  }
+
+  @Override
+  public List<ProjectWatchInfo> setWatchedProjects(
+      List<ProjectWatchInfo> in) throws RestApiException {
+    try {
+      return setWatchedProjects.apply(account, in);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot update watched projects", e);
+    }
+  }
+
+  @Override
+  public void deleteWatchedProjects(List<String> in)
+      throws RestApiException {
+    try {
+      deleteWatchedProjects.apply(account, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot delete watched projects", e);
     }
   }
 

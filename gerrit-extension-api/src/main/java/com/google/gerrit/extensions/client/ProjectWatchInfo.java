@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.google.gerrit.extensions.client;
 
+import java.util.Objects;
+
 public class ProjectWatchInfo {
   public String project;
   public String filter;
@@ -22,4 +24,26 @@ public class ProjectWatchInfo {
   public Boolean notifyAllComments;
   public Boolean notifySubmittedChanges;
   public Boolean notifyAbandonedChanges;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ProjectWatchInfo) {
+      ProjectWatchInfo w = (ProjectWatchInfo) obj;
+      return Objects.equals(project, w.project)
+          && Objects.equals(filter, w.filter)
+          && Objects.equals(notifyNewChanges, w.notifyNewChanges)
+          && Objects.equals(notifyNewPatchSets, w.notifyNewPatchSets)
+          && Objects.equals(notifyAllComments, w.notifyAllComments)
+          && Objects.equals(notifySubmittedChanges, w.notifySubmittedChanges)
+          && Objects.equals(notifyAbandonedChanges, w.notifyAbandonedChanges);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects
+        .hash(project, filter, notifyNewChanges, notifyNewPatchSets,
+            notifyAllComments, notifySubmittedChanges, notifyAbandonedChanges);
+  }
 }

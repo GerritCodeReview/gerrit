@@ -250,6 +250,29 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(userSelfRef.getObjectId()).isEqualTo(userRef.getObjectId());
   }
 
+  @Test
+  public void pushToUserBranch() throws Exception {
+    // change something in the user preferences to ensure that the user branch
+    // is created
+    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+    input.changesPerPage =
+        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    gApi.accounts().self().setPreferences(input);
+
+    removeExclusiveReadPermissionOnAllUsers();
+    String userRefName = RefNames.refsUsers(admin.id);
+    grant(Permission.PUSH, allProjects, userRefName);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(userRefName).assertOkStatus();
+
+    push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
+  }
+
   private void removeExclusiveReadPermissionOnAllUsers() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
     cfg.getAccessSection(RefNames.REFS_USERS + "*", true)

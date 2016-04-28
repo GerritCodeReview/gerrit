@@ -95,6 +95,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -313,6 +314,7 @@ public class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
+  private final AllUsersName allUsersName;
   private final ReceiveConfig receiveConfig;
   private final DynamicSet<ReceivePackInitializer> initializers;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -382,6 +384,7 @@ public class ReceiveCommits {
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
+      final AllUsersName allUsersName,
       ReceiveConfig receiveConfig,
       TransferConfig transferConfig,
       DynamicSet<ReceivePackInitializer> initializers,
@@ -424,6 +427,7 @@ public class ReceiveCommits {
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
+    this.allUsersName = allUsersName;
     this.receiveConfig = receiveConfig;
     this.initializers = initializers;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -627,7 +631,7 @@ public class ReceiveCommits {
     }
 
     Set<Branch.NameKey> branches = Sets.newHashSet();
-    for (final ReceiveCommand c : commands) {
+    for (final ReceiveCommand c : batch.getCommands()) {
         if (c.getResult() == OK) {
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
               tagCache.updateFastForward(project.getNameKey(),
@@ -866,7 +870,7 @@ public class ReceiveCommits {
   }
 
   private void parseCommands(final Collection<ReceiveCommand> commands) {
-    for (final ReceiveCommand cmd : commands) {
+    for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() != NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
         //
@@ -882,6 +886,43 @@ public class ReceiveCommits {
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseMagicBranch(cmd);
         continue;
+      }
+
+      if (allUsersName.equals(projectControl.getProject().getNameKey())
+          && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+        cmd.setResult(OK);
+        String userRefName = RefNames.refsUsers(user.getAccountId());
+        try {
+          Ref userRef =
+              rp.getRepository().getRefDatabase().exactRef(userRefName);
+          ObjectId oldId = userRef != null
+              ? userRef.getObjectId()
+              : ObjectId.zeroId();
+
+          ReceiveCommand.Type type;
+          switch (cmd.getType()) {
+            case CREATE:
+            case UPDATE:
+              type = userRef != null
+                  ? ReceiveCommand.Type.UPDATE
+                  : ReceiveCommand.Type.CREATE;
+              break;
+
+            case DELETE:
+            case UPDATE_NONFASTFORWARD:
+              type = cmd.getType();
+              break;
+
+            default:
+              reject(cmd);
+              continue;
+          }
+          cmd = new ReceiveCommand(oldId, cmd.getNewId(), userRefName, type);
+        } catch (IOException e) {
+          log.error(String.format("Failed to lookup %s refs in %s", userRefName,
+              project.getName()));
+          reject(cmd);
+        }
       }
 
       final Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());

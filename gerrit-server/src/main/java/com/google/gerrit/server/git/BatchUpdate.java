@@ -620,7 +620,9 @@ public class BatchUpdate implements AutoCloseable {
 
   private static Iterable<Change> bumpLastUpdatedOn(ChangeContext ctx) {
     Change c = ctx.getChange();
-    c.setLastUpdatedOn(ctx.getWhen());
+    if (c.getLastUpdatedOn().before(ctx.getWhen())) {
+      c.setLastUpdatedOn(ctx.getWhen());
+    }
     return Collections.singleton(c);
   }
 

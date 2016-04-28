@@ -141,7 +141,10 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       // Reload change, as some time may have passed since GetChanges.
       ReviewDb db = ctx.getReviewDbProvider().get();
       Change c = db.changes().get(id);
-      indexerFactory.create(executor, indexes).index(db, c);
+      // The change might have been a draft and got deleted
+      if (c != null) {
+        indexerFactory.create(executor, indexes).index(db, c);
+      }
       return null;
     }
 

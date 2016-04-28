@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0889753a_8d24a1b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_ef4521a4",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_ad223def",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0889753a_6d405547",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_ad223def",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_cf485dbf",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "[optional] since the type was renamed, I would rather name it \u0027accessInput\u0027 now",
+      "range": {
+        "startLine": 63,
+        "startChar": 23,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4d3b99db",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_cf485dbf",
       "range": {
         "startLine": 63,
         "startChar": 23,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_ef544113",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_6d11359c",
+      "range": {
+        "startLine": 94,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 34
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_8d2581fc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -93,6 +177,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "nit: long line",
+      "range": {
+        "startLine": 127,
+        "startChar": 73,
+        "endLine": 127,
+        "endChar": 74
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_0f3185fb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_8d2581fc",
       "range": {
         "startLine": 127,
         "startChar": 73,
@@ -128,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_0f4d0563",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_4d8399dc",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_0d7991ec",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -145,6 +271,24 @@
         "endLine": 256,
         "endChar": 40
       },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4d20f98b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_0d7991ec",
       "revId": "5261abac678a4afdee9bb8265b01c230229db222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_ef30c1da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_4f0c6d85",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_2d7e4dd5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -185,6 +347,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "updatedProjectAccessInfo?",
+      "range": {
+        "startLine": 269,
+        "startChar": 22,
+        "endLine": 269,
+        "endChar": 46
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_2f3649f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_2d7e4dd5",
       "range": {
         "startLine": 269,
         "startChar": 22,
@@ -220,6 +406,30 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_ef19a16a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_af2239ef",
+      "range": {
+        "startLine": 313,
+        "startChar": 19,
+        "endLine": 313,
+        "endChar": 23
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_cf1f7da6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -237,6 +447,24 @@
         "endLine": 316,
         "endChar": 65
       },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_6d25b59a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_cf1f7da6",
       "revId": "5261abac678a4afdee9bb8265b01c230229db222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +494,24 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_8f39f5ca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_8d6ca128",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_cd1f89a6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 4
@@ -277,6 +523,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "Rename this method to \u0027newProjectAccessInput\u0027",
+      "range": {
+        "startLine": 343,
+        "startChar": 29,
+        "endLine": 343,
+        "endChar": 55
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_0d26f1aa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_cd1f89a6",
       "range": {
         "startLine": 343,
         "startChar": 29,
@@ -306,6 +576,24 @@
     },
     {
       "key": {
+        "uuid": "0889753a_ed19a56a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_ef1c41b4",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_ad695d17",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionInfo.java",
         "patchSetId": 4
@@ -317,6 +605,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "Sorry, I should have been more precise in my comment, this should be formatted like this:\n\n\n  if (!Objects.equals(label, p.label)) {\n    return false;\n  }\n  if (!Objects.equals(exclusive, p.exclusive)) {\n    return false;\n  }\n  if (!Objects.equals(rules, p.rules)) {\n    return false;\n  }",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 60
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_cd2ea995",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_ad695d17",
       "range": {
         "startLine": 33,
         "startChar": 6,
@@ -352,6 +664,30 @@
     },
     {
       "key": {
+        "uuid": "0889753a_ed2b6582",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionRuleInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_4f838ddc",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_cd76a9f6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionRuleInfo.java",
         "patchSetId": 4
@@ -363,6 +699,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "nit: formatting, format the blocks like\n\n  if (!Objects.equals(action, p.action)) {\n    return false;\n  }",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 56
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_6f405147",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionRuleInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_cd76a9f6",
       "range": {
         "startLine": 41,
         "startChar": 5,
@@ -398,6 +758,30 @@
     },
     {
       "key": {
+        "uuid": "0889753a_0d18b173",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_ed736503",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 64
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_6f5f7163",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 4
@@ -409,6 +793,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "Move this into checkGlobalCapabilityPermissions and rename the method to something like \u0027checkSectionUpdate\u0027?\n\nAlready now, it\u0027s not only checking permissions so the current name of this method may be misleading.",
+      "range": {
+        "startLine": 117,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 35
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_8f12d546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "I would not move this in there as it is need in line 124. I could move the logic from L125 in that method also but then the method is not versatile anymore so I can\u0027t reuse it for the checks in L153. We could rename it though.",
+      "parentUuid": "48a7edbf_6f5f7163",
       "range": {
         "startLine": 117,
         "startChar": 8,
@@ -444,6 +852,30 @@
     },
     {
       "key": {
+        "uuid": "0889753a_2d048d04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_2d656d35",
+      "range": {
+        "startLine": 207,
+        "startChar": 16,
+        "endLine": 207,
+        "endChar": 41
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_4d5ab974",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 4
@@ -455,6 +887,24 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "nit: format this as\n\n  if (entry.getValue().permissions \u003d\u003d null) {\n    continue;\n  }",
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0889753a_4d09d91b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_4d5ab974",
       "revId": "5261abac678a4afdee9bb8265b01c230229db222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -484,6 +934,30 @@
     },
     {
       "key": {
+        "uuid": "48a7edbf_4f09cd1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_af50794f",
+      "range": {
+        "startLine": 245,
+        "startChar": 22,
+        "endLine": 245,
+        "endChar": 47
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_4f5aad74",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 4
@@ -495,6 +969,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "[optional] inline this",
+      "range": {
+        "startLine": 286,
+        "startChar": 6,
+        "endLine": 286,
+        "endChar": 68
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_af0f991d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_4f5aad74",
       "range": {
         "startLine": 286,
         "startChar": 6,
@@ -553,6 +1051,30 @@
     },
     {
       "key": {
+        "uuid": "0889753a_ad0f9d1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_cf769df6",
+      "range": {
+        "startLine": 290,
+        "startChar": 35,
+        "endLine": 290,
+        "endChar": 47
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_8f6c9528",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 4
@@ -576,6 +1098,30 @@
     },
     {
       "key": {
+        "uuid": "0889753a_cd1ce95d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_8f6c9528",
+      "range": {
+        "startLine": 294,
+        "startChar": 16,
+        "endLine": 294,
+        "endChar": 35
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_0f60a524",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 4
@@ -587,6 +1133,30 @@
       "writtenOn": "2016-04-28T07:12:13Z",
       "side": 1,
       "message": "capability GlobalCapability.ADMINISTRATE_SERVER",
+      "range": {
+        "startLine": 295,
+        "startChar": 20,
+        "endLine": 295,
+        "endChar": 45
+      },
+      "revId": "5261abac678a4afdee9bb8265b01c230229db222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_cf1cdd5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-28T15:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_0f60a524",
       "range": {
         "startLine": 295,
         "startChar": 20,

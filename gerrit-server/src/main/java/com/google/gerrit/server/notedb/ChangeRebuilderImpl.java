@@ -240,16 +240,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // Delete ref only after hashtags have been read
     deleteRef(change, changeMetaRepo, manager.getChangeRepo().cmds);
 
-    Integer minPsNum = null;
-    for (PatchSet ps : bundle.getPatchSets()) {
-      int n = ps.getId().get();
-      if (minPsNum == null || n < minPsNum) {
-        minPsNum = n;
-      }
-    }
+    Integer minPsNum = getMinPatchSetNum(bundle);
+
     for (PatchSet ps : bundle.getPatchSets()) {
       events.add(new PatchSetEvent(
-          change, ps, checkNotNull(minPsNum), manager.getChangeRepo().rw));
+          change, ps, manager.getChangeRepo().rw));
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);
@@ -271,9 +266,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
     }
 
-    sortEvents(change.getId(), events, minPsNum);
-
-    events.add(new FinalUpdatesEvent(change, noteDbChange));
+    sortAndFillEvents(change, noteDbChange, events, minPsNum);
 
     EventList<Event> el = new EventList<>();
     for (Event e : events) {
@@ -299,6 +292,17 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
+  private static Integer getMinPatchSetNum(ChangeBundle bundle) {
+    Integer minPsNum = null;
+    for (PatchSet ps : bundle.getPatchSets()) {
+      int n = ps.getId().get();
+      if (minPsNum == null || n < minPsNum) {
+        minPsNum = n;
+      }
+    }
+    return minPsNum;
+  }
+
   private static List<PatchLineComment> getPatchLineComments(ChangeBundle bundle,
       final PatchSet ps) {
     return FluentIterable.from(bundle.getPatchLineComments())
@@ -310,9 +314,19 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         }).toSortedList(PatchLineCommentsUtil.PLC_ORDER);
   }
 
-  private void sortEvents(Change.Id changeId, List<Event> events,
-      Integer minPsNum) {
+  private void sortAndFillEvents(Change change, Change noteDbChange,
+      List<Event> events, Integer minPsNum) {
     Collections.sort(events, EVENT_ORDER);
+    events.add(new FinalUpdatesEvent(change, noteDbChange));
+
+    // Ensure the first event in the list creates the change, setting the author
+    // and any required footers.
+    Event first = events.get(0);
+    if (first instanceof PatchSetEvent && change.getOwner().equals(first.who)) {
+      ((PatchSetEvent) first).createChange = true;
+    } else {
+      events.add(0, new CreateChangeEvent(change, minPsNum));
+    }
 
     // Fill in any missing patch set IDs using the latest patch set of the
     // change at the time of the event, because NoteDb can't represent actions
@@ -327,7 +341,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     int ps = firstNonNull(minPsNum, 1);
     for (Event e : events) {
       if (e.psId == null) {
-        e.psId = new PatchSet.Id(changeId, ps);
+        e.psId = new PatchSet.Id(change.getId(), ps);
       } else {
         ps = Math.max(ps, e.psId.get());
       }
@@ -457,11 +471,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     @Override
     public int compare(Event a, Event b) {
       return ComparisonChain.start()
-          .compareTrueFirst(a.predatesChange, b.predatesChange)
           .compare(a.when, b.when)
+          .compareTrueFirst(isPatchSet(a), isPatchSet(b))
+          .compareTrueFirst(a.predatesChange, b.predatesChange)
           .compare(a.who, b.who, ReviewDbUtil.intKeyOrdering())
           .compare(a.psId, b.psId, ReviewDbUtil.intKeyOrdering().nullsLast())
           .result();
+    }
+
+    private boolean isPatchSet(Event e) {
+      return e instanceof PatchSetEvent;
     }
   };
 
@@ -606,6 +625,46 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
+  private static void createChange(ChangeUpdate update, Change change) {
+    update.setSubjectForCommit("Create change");
+    update.setChangeId(change.getKey().get());
+    update.setBranch(change.getDest().get());
+    update.setSubject(change.getOriginalSubject());
+  }
+
+  private static class CreateChangeEvent extends Event {
+    private final Change change;
+
+    private static PatchSet.Id psId(Change change, Integer minPsNum) {
+      int n;
+      if (minPsNum == null) {
+        // There were no patch sets for the change at all, so something is very
+        // wrong. Bail and use 1 as the patch set.
+        n = 1;
+      } else {
+        n = minPsNum;
+      }
+      return new PatchSet.Id(change.getId(), n);
+    }
+
+    CreateChangeEvent(Change change, Integer minPsNum) {
+      super(psId(change, minPsNum), change.getOwner(), change.getCreatedOn(),
+          change.getCreatedOn(), null);
+      this.change = change;
+    }
+
+    @Override
+    boolean uniquePerUpdate() {
+      return true;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws IOException, OrmException {
+      checkUpdate(update);
+      createChange(update, change);
+    }
+  }
+
   private static class ApprovalEvent extends Event {
     private PatchSetApproval psa;
 
@@ -630,16 +689,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private static class PatchSetEvent extends Event {
     private final Change change;
     private final PatchSet ps;
-    private final boolean createChange;
     private final RevWalk rw;
+    private boolean createChange;
 
-    PatchSetEvent(Change change, PatchSet ps, int minPsNum, RevWalk rw) {
+    PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
       super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
           change.getCreatedOn(), null);
       this.change = change;
       this.ps = ps;
       this.rw = rw;
-      this.createChange = ps.getPatchSetId() == minPsNum;
     }
 
     @Override
@@ -650,12 +708,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     @Override
     void apply(ChangeUpdate update) throws IOException, OrmException {
       checkUpdate(update);
-      update.setSubject(change.getSubject());
       if (createChange) {
-        update.setSubjectForCommit("Create change");
-        update.setChangeId(change.getKey().get());
-        update.setBranch(change.getDest().get());
+        createChange(update, change);
       } else {
+        update.setSubject(change.getSubject());
         update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
       }
       setRevision(update, ps);

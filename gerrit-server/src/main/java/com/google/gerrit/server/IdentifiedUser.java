@@ -327,6 +327,7 @@ public class IdentifiedUser extends CurrentUser {
     return effectiveGroups;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public Set<Change.Id> getStarredChanges() {
     if (starredChanges == null) {
@@ -354,6 +355,7 @@ public class IdentifiedUser extends CurrentUser {
     starredChanges = null;
   }
 
+  @SuppressWarnings("deprecation")
   public void asyncStarredChanges() {
     if (starredChanges == null && starredChangesUtil != null) {
       starredQuery = starredChangesUtil.queryFromIndex(accountId);

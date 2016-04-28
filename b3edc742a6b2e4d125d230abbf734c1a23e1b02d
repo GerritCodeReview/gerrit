@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "288e3942_ce1f83a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "Yeah; partly did that to get the link to the change, but if shorter links works fine, hooray!",
+      "parentUuid": "288e3942_4ee713f5",
+      "range": {
+        "startLine": 16,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_ac50834f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "I meant email here, I think.",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e897c152_8cd02709",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -65,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "e897c152_cc4dcfb6",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "They don\u0027t (directly), other than making sure what we document here is in sync with what the server replies with.\n\nI think David Pursehouse had the same comment, so it will probably get spun into another patch.",
+      "parentUuid": "e897c152_accde36f",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288e3942_6eeccfd8",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 4
@@ -76,6 +141,24 @@
       "writtenOn": "2016-04-27T21:33:23Z",
       "side": 1,
       "message": "Same question as above for these 2 diffs.",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_ec4a8b9b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "288e3942_6eeccfd8",
       "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "e897c152_0cc7d723",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1244,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e897c152_ccda2f27",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288e3942_eed7dffb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 4
@@ -110,6 +211,24 @@
       "writtenOn": "2016-04-27T21:33:23Z",
       "side": 1,
       "message": "Move this closer to where it is used (above line 379)?",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e897c152_2ccc9345",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "Done -- I was thinking of structuring this a different way, but this felt most readable to me, but I agree, there\u0027s no reason to define types this soon.",
+      "parentUuid": "288e3942_eed7dffb",
       "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +252,24 @@
     },
     {
       "key": {
+        "uuid": "e897c152_4cd1dfdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "I agree; the whitespace here doesn\u0027t add anything to readability.",
+      "parentUuid": "e897c152_0c04376d",
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e897c152_6c03fb63",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 4
@@ -144,6 +281,30 @@
       "writtenOn": "2016-04-27T21:33:23Z",
       "side": 1,
       "message": "private?",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "b3edc742a6b2e4d125d230abbf734c1a23e1b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e3942_ee1c3fb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T14:58:21Z",
+      "side": 1,
+      "message": "Good question.  storeMyMenus and storeUrlAliases are both public, though I can\u0027t see any reason for this or storeUrlAliases to be... only storeMyMenus is used by the account.SetPreferences API.  Will address storeUrlAliases in a follow-up change.",
+      "parentUuid": "e897c152_6c03fb63",
       "range": {
         "startLine": 164,
         "startChar": 2,

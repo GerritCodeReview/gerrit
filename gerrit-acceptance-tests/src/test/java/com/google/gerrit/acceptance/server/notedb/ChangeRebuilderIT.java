@@ -36,7 +36,9 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -78,6 +80,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject
   private PatchLineCommentsUtil plcUtil;
+
+  @Inject
+  private Provider<PostReview> postReview;
 
   @Before
   public void setUp() {
@@ -413,6 +418,45 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // empty topic, so it comes out as null.
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getChange().getTopic()).isNull();
+  }
+
+  @Test
+  public void commentBeforeFirstPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId = r.getPatchSetId();
+    Change.Id id = psId.getParentKey();
+
+    Change c = db.changes().get(id);
+    c.setCreatedOn(new Timestamp(c.getCreatedOn().getTime() - 5000));
+    db.changes().update(Collections.singleton(c));
+    indexer.index(db, project, id);
+
+    ReviewInput rin = new ReviewInput();
+    rin.message = "comment";
+
+    Timestamp ts = new Timestamp(c.getCreatedOn().getTime() + 2000);
+    RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
+    postReview.get().apply(revRsrc, rin, ts);
+
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void commentPredatingChangeBySomeoneOtherThanOwner() throws Exception {
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId = r.getPatchSetId();
+    Change.Id id = psId.getParentKey();
+    Change c = db.changes().get(id);
+
+    ReviewInput rin = new ReviewInput();
+    rin.message = "comment";
+
+    Timestamp ts = new Timestamp(c.getCreatedOn().getTime() - 10000);
+    RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
+    setApiUser(user);
+    postReview.get().apply(revRsrc, rin, ts);
+
+    checker.rebuildAndCheckChanges(id);
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {

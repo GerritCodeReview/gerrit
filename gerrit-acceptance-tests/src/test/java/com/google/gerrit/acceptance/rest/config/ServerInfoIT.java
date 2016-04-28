@@ -28,9 +28,10 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GetServerInfo.ServerInfo;
 
-import java.nio.file.Path;
-import java.nio.file.Files;
 import org.junit.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ServerInfoIT extends AbstractDaemonTest {
 

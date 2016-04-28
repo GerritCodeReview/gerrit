@@ -16,10 +16,10 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
 
+import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
-import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;

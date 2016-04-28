@@ -14,6 +14,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 

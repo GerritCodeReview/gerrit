@@ -131,6 +131,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -289,7 +290,7 @@ public class ReceiveCommits {
   private final IdentifiedUser user;
   private final ReviewDb db;
   private final Sequences seq;
-  private final Provider<InternalChangeQuery> queryProvider;
+  private final InternalChangeQuery changeQuery;
   private final ChangeNotes.Factory notesFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
@@ -338,8 +339,8 @@ public class ReceiveCommits {
   private SetMultimap<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
-  private final Provider<SubmoduleOp> subOpProvider;
-  private final Provider<Submit> submitProvider;
+  private final SubmoduleOp submoduleOp;
+  private final Submit submit;
   private final Provider<MergeOp> mergeOpProvider;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
@@ -357,7 +358,7 @@ public class ReceiveCommits {
   @Inject
   ReceiveCommits(ReviewDb db,
       Sequences seq,
-      Provider<InternalChangeQuery> queryProvider,
+      InternalChangeQuery changeQuery,
       SchemaFactory<ReviewDb> schemaFactory,
       ChangeNotes.Factory notesFactory,
       AccountResolver accountResolver,
@@ -386,21 +387,21 @@ public class ReceiveCommits {
       TransferConfig transferConfig,
       DynamicSet<ReceivePackInitializer> initializers,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
-      @Assisted ProjectControl projectControl,
-      @Assisted Repository repo,
-      Provider<SubmoduleOp> subOpProvider,
-      Provider<Submit> submitProvider,
+      SubmoduleOp submoduleOp,
+      Submit submit,
       Provider<MergeOp> mergeOpProvider,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       NotesMigration notesMigration,
       ChangeEditUtil editUtil,
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
-      ReplaceOp.Factory replaceOpFactory) throws IOException {
+      ReplaceOp.Factory replaceOpFactory,
+      @Assisted ProjectControl projectControl,
+      @Assisted Repository repo) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
-    this.queryProvider = queryProvider;
+    this.changeQuery = changeQuery;
     this.notesFactory = notesFactory;
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
@@ -437,8 +438,8 @@ public class ReceiveCommits {
     this.rp = new ReceivePack(repo);
     this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
-    this.subOpProvider = subOpProvider;
-    this.submitProvider = submitProvider;
+    this.submoduleOp = submoduleOp;
+    this.submit = submit;
     this.mergeOpProvider = mergeOpProvider;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
@@ -503,7 +504,8 @@ public class ReceiveCommits {
     });
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(
-        queryProvider, projectControl.getProject().getNameKey()));
+        Providers.of(changeQuery),
+        projectControl.getProject().getNameKey()));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
     rp.setPostReceiveHook(lazyPostReceive.get());
@@ -672,9 +674,8 @@ public class ReceiveCommits {
         }
     }
     // Update superproject gitlinks if required.
-    SubmoduleOp op = subOpProvider.get();
     try {
-      op.updateSuperProjects(db, branches, "receiveID");
+      submoduleOp.updateSuperProjects(db, branches, "receiveID");
     } catch (SubmoduleException e) {
       log.error("Can't update the superprojects", e);
     }
@@ -1705,7 +1706,7 @@ public class ReceiveCommits {
     ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
       commit = c;
       changeKey = key;
-      destChanges = queryProvider.get().byBranchKey(magicBranch.dest, key);
+      destChanges = changeQuery.byBranchKey(magicBranch.dest, key);
     }
   }
 
@@ -1809,7 +1810,6 @@ public class ReceiveCommits {
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
       throws OrmException, RestApiException, NoSuchChangeException {
-    Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(db, rsrc.getChange(),
@@ -2495,7 +2495,7 @@ public class ReceiveCommits {
   private Map<Change.Key, Change> openChangesByBranch(Branch.NameKey branch)
       throws OrmException {
     Map<Change.Key, Change> r = new HashMap<>();
-    for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
+    for (ChangeData cd : changeQuery.byBranchOpen(branch)) {
       r.put(cd.change().getKey(), cd.change());
     }
     return r;

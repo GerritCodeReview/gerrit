@@ -1105,11 +1105,13 @@ any account.
     "changes_per_page": 25,
     "show_site_header": true,
     "use_flash_clipboard": true,
+    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
+    "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
     "review_category_strategy": "ABBREV",
-    "diff_view": "SIDE_BY_SIDE",
+    "mute_common_path_prefixes": true,
     "my": [
       {
         "url": "#/dashboard/self",
@@ -1171,11 +1173,13 @@ link:#preferences-input[PreferencesInput] entity.
     "changes_per_page": 50,
     "show_site_header": true,
     "use_flash_clipboard": true,
+    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
     "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
+    "mute_common_path_prefixes": true,
     "my": [
       {
         "url": "#/dashboard/self",
@@ -1231,11 +1235,13 @@ link:#preferences-info[PreferencesInfo] entity.
     "changes_per_page": 50,
     "show_site_header": true,
     "use_flash_clipboard": true,
+    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
     "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
+    "mute_common_path_prefixes": true,
     "my": [
       {
         "url": "#/dashboard/self",

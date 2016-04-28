@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0889753a_ad36bdd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-28T15:06:30Z",
+      "side": 1,
+      "message": "Hmm, \u0027optional\u0027 means that this field my not be set in the response and we use this term all over the REST API documentation. Instead of removing it we should rather add it for other fields of PreferencesInfo if they may be null. At least url_aliases can be null (unset).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "7b534c61998aa7d49468859d64cf1ac526e6ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

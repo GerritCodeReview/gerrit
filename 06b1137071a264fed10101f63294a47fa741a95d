@@ -22,6 +22,30 @@
       "revId": "06b1137071a264fed10101f63294a47fa741a95d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e3942_ce76a3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-04-28T16:03:47Z",
+      "side": 1,
+      "message": "Ah, okay! I got them on a brand new account when running master, which made me think they\u0027d be included in the responses regularly. :)",
+      "parentUuid": "0889753a_cd3309e5",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "06b1137071a264fed10101f63294a47fa741a95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

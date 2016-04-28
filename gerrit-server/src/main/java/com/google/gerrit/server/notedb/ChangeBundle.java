@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
@@ -379,8 +380,18 @@ public class ChangeBundle {
       PatchSet a = as.get(id);
       PatchSet b = bs.get(id);
       String desc = describe(id);
-      diffColumns(diffs, PatchSet.class, desc, bundleA, a, bundleB, b);
+      String pushCertField = "pushCertificate";
+      diffColumnsExcluding(diffs, PatchSet.class, desc, bundleA, a, bundleB, b,
+          pushCertField);
+      diffValues(diffs, desc, trimPushCert(a), trimPushCert(b), pushCertField);
     }
+  }
+
+  private static String trimPushCert(PatchSet ps) {
+    if (ps.getPushCertificate() == null) {
+      return null;
+    }
+    return CharMatcher.is('\n').trimTrailingFrom(ps.getPushCertificate());
   }
 
   private static void diffPatchSetApprovals(List<String> diffs,

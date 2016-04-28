@@ -483,6 +483,34 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffPatchSetsIgnoresTrailingNewlinesInPushCertificate()
+      throws Exception {
+    subWindowResolution();
+    Change c = TestChanges.newChange(project, accountId);
+    PatchSet ps1 = new PatchSet(c.currentPatchSetId());
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(roundToSecond(TimeUtil.nowTs()));
+    ps1.setPushCertificate("some cert");
+    PatchSet ps2 = clone(ps1);
+    ps2.setPushCertificate(ps2.getPushCertificate() + "\n\n");
+
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
+        approvals(), comments(), NOTE_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps2),
+        approvals(), comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps2), approvals(),
+        comments(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
   public void diffPatchSetApprovalKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();

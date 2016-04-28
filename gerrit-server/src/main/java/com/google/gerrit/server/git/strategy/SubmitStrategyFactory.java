@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;

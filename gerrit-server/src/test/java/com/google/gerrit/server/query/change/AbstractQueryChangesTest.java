@@ -95,6 +95,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -536,47 +537,97 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byLabel() throws Exception {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
     TestRepository<Repo> repo = createProject("repo");
-    ChangeInserter ins = newChange(repo);
-    Change change = insert(repo, ins);
+    ChangeInserter ins = newChange(repo, null, null, null, null);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    ChangeInserter ins3 = newChange(repo, null, null, null, null);
+    ChangeInserter ins4 = newChange(repo, null, null, null, null);
+    ChangeInserter ins5 = newChange(repo, null, null, null, null);
 
-    gApi.changes().id(change.getId().get()).current()
-      .review(new ReviewInput().label("Code-Review", 1));
+    Change reviewMinus2Change = insert(repo, ins);
+    gApi.changes().id(reviewMinus2Change.getId().get()).current()
+        .review(ReviewInput.reject());
+
+    Change reviewMinus1Change = insert(repo, ins2);
+    gApi.changes().id(reviewMinus1Change.getId().get()).current()
+        .review(ReviewInput.dislike());
+
+    Change noLabelChange = insert(repo, ins3);
+
+    Change reviewPlus1Change = insert(repo, ins4);
+    gApi.changes().id(reviewPlus1Change.getId().get()).current()
+        .review(ReviewInput.recommend());
+
+    Change reviewPlus2Change = insert(repo, ins5);
+    gApi.changes().id(reviewPlus2Change.getId().get()).current()
+        .review(ReviewInput.approve());
+
     Map<String, Short> m = gApi.changes()
-        .id(change.getId().get())
+        .id(reviewPlus1Change.getId().get())
         .reviewer(user.getAccountId().toString())
         .votes();
     assertThat(m).hasSize(1);
     assertThat(m).containsEntry("Code-Review", new Short((short)1));
 
-    assertQuery("label:Code-Review=-2");
-    assertQuery("label:Code-Review-2");
-    assertQuery("label:Code-Review=-1");
-    assertQuery("label:Code-Review-1");
-    assertQuery("label:Code-Review=0");
-    assertQuery("label:Code-Review=+1", change);
-    assertQuery("label:Code-Review=1", change);
-    assertQuery("label:Code-Review+1", change);
-    assertQuery("label:Code-Review=+2");
-    assertQuery("label:Code-Review=2");
-    assertQuery("label:Code-Review+2");
+    Map<Integer, Change> changes = new LinkedHashMap<>(5);
+    changes.put(2, reviewPlus2Change);
+    changes.put(1, reviewPlus1Change);
+    changes.put(0, noLabelChange);
+    changes.put(-1, reviewMinus1Change);
+    changes.put(-2, reviewMinus2Change);
 
-    assertQuery("label:Code-Review>=0", change);
-    assertQuery("label:Code-Review>0", change);
-    assertQuery("label:Code-Review>=1", change);
-    assertQuery("label:Code-Review>1");
-    assertQuery("label:Code-Review>=2");
+    assertQuery("label:Code-Review=-2", reviewMinus2Change);
+    assertQuery("label:Code-Review-2", reviewMinus2Change);
+    assertQuery("label:Code-Review=-1", reviewMinus1Change);
+    assertQuery("label:Code-Review-1", reviewMinus1Change);
+    assertQuery("label:Code-Review=0", noLabelChange);
+    assertQuery("label:Code-Review=+1", reviewPlus1Change);
+    assertQuery("label:Code-Review=1", reviewPlus1Change);
+    assertQuery("label:Code-Review+1", reviewPlus1Change);
+    assertQuery("label:Code-Review=+2", reviewPlus2Change);
+    assertQuery("label:Code-Review=2", reviewPlus2Change);
+    assertQuery("label:Code-Review+2", reviewPlus2Change);
 
-    assertQuery("label: Code-Review<=2", change);
-    assertQuery("label: Code-Review<2", change);
-    assertQuery("label: Code-Review<=1", change);
-    assertQuery("label:Code-Review<1");
-    assertQuery("label:Code-Review<=0");
+    assertQuery("label:Code-Review>-3", codeReviewInRange(changes, -2, 2));
+    assertQuery("label:Code-Review>=-2", codeReviewInRange(changes, -2, 2));
+    assertQuery("label:Code-Review>-2", codeReviewInRange(changes, -1, 2));
+    assertQuery("label:Code-Review>=-1", codeReviewInRange(changes, -1, 2));
+    assertQuery("label:Code-Review>-1", codeReviewInRange(changes, 0, 2));
+    assertQuery("label:Code-Review>=0", codeReviewInRange(changes, 0, 2));
+    assertQuery("label:Code-Review>0", codeReviewInRange(changes, 1, 2));
+    assertQuery("label:Code-Review>=1", codeReviewInRange(changes, 1, 2));
+    assertQuery("label:Code-Review>1", reviewPlus2Change);
+    assertQuery("label:Code-Review>=2", reviewPlus2Change);
+    assertQuery("label:Code-Review>2");
+
+    assertQuery("label:Code-Review<=2", codeReviewInRange(changes, -2, 2));
+    assertQuery("label:Code-Review<2", codeReviewInRange(changes, -2, 1));
+    assertQuery("label:Code-Review<=1", codeReviewInRange(changes, -2, 1));
+    assertQuery("label:Code-Review<1", codeReviewInRange(changes, -2, 0));
+    assertQuery("label:Code-Review<=0", codeReviewInRange(changes, -2, 0));
+    assertQuery("label:Code-Review<0", codeReviewInRange(changes, -2, -1));
+    assertQuery("label:Code-Review<=-1", codeReviewInRange(changes, -2, -1));
+    assertQuery("label:Code-Review<-1", reviewMinus2Change);
+    assertQuery("label:Code-Review<=-2", reviewMinus2Change);
+    assertQuery("label:Code-Review<-2");
 
     assertQuery("label:Code-Review=+1,anotheruser");
-    assertQuery("label:Code-Review=+1,user", change);
-    assertQuery("label:Code-Review=+1,user=user", change);
-    assertQuery("label:Code-Review=+1,Administrators", change);
-    assertQuery("label:Code-Review=+1,group=Administrators", change);
+    assertQuery("label:Code-Review=+1,user", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
+  }
+
+  private Change[] codeReviewInRange(Map<Integer, Change> changes, int start,
+      int end) {
+    int size = 0;
+    Change[] range = new Change[end - start + 1];
+    for (int i : changes.keySet()) {
+      if (i >= start && i <= end) {
+        range[size] = changes.get(i);
+        size++;
+      }
+    }
+    return range;
   }
 
   private String createGroup(String name, String owner) throws Exception {

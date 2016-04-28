@@ -21,6 +21,8 @@ import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -833,13 +835,29 @@ public class ChangeData {
     return patchSets;
   }
 
-  public void setPatchSets(List<PatchSet> patchSets) {
+  /**
+   * @return patches for the change visible to the current user.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Collection<PatchSet> visiblePatchSets() throws OrmException {
+    return FluentIterable.from(patchSets()).filter(new Predicate<PatchSet>() {
+      @Override
+      public boolean apply(PatchSet input) {
+        try {
+          return changeControl().isPatchVisible(input, db);
+        } catch (OrmException e) {
+          return false;
+        }
+      }}).toList();
+  }
+
+public void setPatchSets(Collection<PatchSet> patchSets) {
     this.currentPatchSet = null;
     this.patchSets = patchSets;
   }
 
   /**
-   * @return patch set with the given ID, or null if it does not exist.
+   * @return patch with the given ID, or null if it does not exist.
    * @throws OrmException an error occurred reading the database.
    */
   public PatchSet patchSet(PatchSet.Id psId) throws OrmException {

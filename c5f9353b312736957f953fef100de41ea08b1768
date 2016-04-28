@@ -190,6 +190,30 @@
       "revId": "c5f9353b312736957f953fef100de41ea08b1768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48a7edbf_8faf353b",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyCommandSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024297
+      },
+      "writtenOn": "2016-04-28T11:19:25Z",
+      "side": 1,
+      "message": "Sure, I will verify that",
+      "parentUuid": "288e3942_8e257bfc",
+      "range": {
+        "startLine": 142,
+        "startChar": 3,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "c5f9353b312736957f953fef100de41ea08b1768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

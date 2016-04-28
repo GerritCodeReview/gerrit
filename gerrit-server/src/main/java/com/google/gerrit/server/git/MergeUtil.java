@@ -41,7 +41,6 @@ import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -111,9 +110,9 @@ public class MergeUtil {
     MergeUtil create(ProjectState project, boolean useContentMerge);
   }
 
-  private final Provider<ReviewDb> db;
+  private final ReviewDb db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final Provider<String> urlProvider;
+  private final String url;
   private final ApprovalsUtil approvalsUtil;
   private final ProjectState project;
   private final boolean useContentMerge;
@@ -121,26 +120,26 @@ public class MergeUtil {
 
   @AssistedInject
   MergeUtil(@GerritServerConfig Config serverConfig,
-      final Provider<ReviewDb> db,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalsUtil approvalsUtil,
-      @Assisted final ProjectState project) {
-    this(serverConfig, db, identifiedUserFactory, urlProvider, approvalsUtil,
+      ReviewDb db,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      @CanonicalWebUrl @Nullable String url,
+      ApprovalsUtil approvalsUtil,
+      @Assisted ProjectState project) {
+    this(serverConfig, db, identifiedUserFactory, url, approvalsUtil,
         project, project.isUseContentMerge());
   }
 
   @AssistedInject
   MergeUtil(@GerritServerConfig Config serverConfig,
-      final Provider<ReviewDb> db,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalsUtil approvalsUtil,
-      @Assisted final ProjectState project,
+      ReviewDb db,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      @CanonicalWebUrl @Nullable String url,
+      ApprovalsUtil approvalsUtil,
+      @Assisted ProjectState project,
       @Assisted boolean useContentMerge) {
     this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
-    this.urlProvider = urlProvider;
+    this.url = url;
     this.approvalsUtil = approvalsUtil;
     this.project = project;
     this.useContentMerge = useContentMerge;
@@ -234,13 +233,12 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    final String siteUrl = urlProvider.get();
-    if (siteUrl != null) {
-      final String url = siteUrl + c.getId().get();
-      if (!contains(footers, FooterConstants.REVIEWED_ON, url)) {
+    if (url != null) {
+      String changeUrl = url + c.getId().get();
+      if (!contains(footers, FooterConstants.REVIEWED_ON, changeUrl)) {
         msgbuf.append(FooterConstants.REVIEWED_ON.getName());
         msgbuf.append(": ");
-        msgbuf.append(url);
+        msgbuf.append(changeUrl);
         msgbuf.append('\n');
       }
     }
@@ -328,7 +326,7 @@ public class MergeUtil {
   private Iterable<PatchSetApproval> safeGetApprovals(
       ChangeControl ctl, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), ctl, psId);
+      return approvalsUtil.byPatchSet(db, ctl, psId);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + psId, e);
       return Collections.emptyList();

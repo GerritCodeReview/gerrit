@@ -49,7 +49,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -371,10 +370,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       dirty |= insertComments(ctx);
       dirty |= updateLabels(ctx);
       dirty |= insertMessage(ctx);
-      Change c = notes.getChange();
-      if (c.getLastUpdatedOn().before(ctx.getWhen())) {
-        c.setLastUpdatedOn(ctx.getWhen());
-      }
       if (dirty) {
         ctx.saveChange();
       }

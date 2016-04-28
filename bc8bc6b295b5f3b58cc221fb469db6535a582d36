@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "288e3942_eeeeffc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-28T02:54:22Z",
+      "side": 1,
+      "message": "Do this once, before the for-loop?",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "bc8bc6b295b5f3b58cc221fb469db6535a582d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

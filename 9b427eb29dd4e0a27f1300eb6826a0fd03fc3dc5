@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48a7edbf_2f09e985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-04-28T04:06:23Z",
+      "side": 1,
+      "message": "Do we really need tripple reference here? I would only use abbreviated change id Ie9e6633497 on line 9, no SHA1 and no change URL.",
+      "revId": "9b427eb29dd4e0a27f1300eb6826a0fd03fc3dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

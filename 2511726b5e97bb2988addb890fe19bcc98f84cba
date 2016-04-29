@@ -3,6 +3,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "680911af_a8fd3b80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-04-29T18:31:38Z",
+      "side": 1,
+      "message": "Why did you choose to make a RefFilter and not fold this into the existing VisibleRefFilter class that otherwise determines what we show to a client on the network?",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "480c4dc0_074676af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-04-29T18:31:38Z",
+      "side": 1,
+      "message": "We also should short-circuit out if this is not the All-Users repository.",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680911af_c8086f84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-04-29T18:31:38Z",
+      "side": 1,
+      "message": "Implementing your own subclass of Ref is a crazy amount of work.\n\nThe easier solution is to use a SymbolicRef wrapping the user\u0027s actual ref and just expose both refs in the result map. So:\n\n  if (userRef !\u003d null) {\n    SymbolicRef sym \u003d new SymbolicRef(RefNames.REFS_USERS_SELF, userRef);\n    refs \u003d new HashMap\u003c\u003e(refs);\n    refs.put(sym.getName(), sym);\n  }\n\nDone.",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8de7d5a_ab59a980",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
         "patchSetId": 2

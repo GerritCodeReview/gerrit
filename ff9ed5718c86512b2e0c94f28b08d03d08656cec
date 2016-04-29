@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "680911af_28c4ab4e",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-04-29T13:18:17Z",
+      "side": 1,
+      "message": "\"are also\"",
+      "range": {
+        "startLine": 57,
+        "startChar": 17,
+        "endLine": 57,
+        "endChar": 25
+      },
+      "revId": "ff9ed5718c86512b2e0c94f28b08d03d08656cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

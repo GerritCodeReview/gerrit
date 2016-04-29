@@ -34,6 +34,24 @@
       "revId": "25b0e8e7abfeef569aa2020982028e476429cdd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8de7d5a_0b467daf",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-29T08:02:47Z",
+      "side": 1,
+      "message": "Sorry, my fault. I forgot that it is in 2.12 already.",
+      "parentUuid": "c8de7d5a_4b3c851f",
+      "revId": "25b0e8e7abfeef569aa2020982028e476429cdd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

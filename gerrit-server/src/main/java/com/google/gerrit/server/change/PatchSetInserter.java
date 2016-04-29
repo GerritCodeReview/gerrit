@@ -246,7 +246,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
       change.setStatus(Change.Status.NEW);
     }
     change.setCurrentPatchSet(patchSetInfo);
-    ctx.saveChange();
     if (copyApprovals) {
       approvalCopier.copy(db, ctl, patchSet);
     }

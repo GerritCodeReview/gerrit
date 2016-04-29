@@ -160,7 +160,6 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       if (c.currentPatchSetId().equals(psId)) {
         c.setCurrentPatchSet(previousPatchSetInfo(ctx));
       }
-      ctx.saveChange();
     }
 
     private boolean deletedOnlyPatchSet() {

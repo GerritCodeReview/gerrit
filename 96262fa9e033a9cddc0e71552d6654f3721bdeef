@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e3411d_0cc1f73e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-29T06:28:24Z",
+      "side": 1,
+      "message": "I think there is a misunderstanding here.\n\nIf a field is optional in the input it is not necessarily optional in the output (info). Not setting a field in the input means: \"Don\u0027t change the value for this field\", while in the output you may get default values for fields that haven\u0027t been set.\n\nE.g. for setting a new email strategy you may send a PreferenceInput object that only contain the email_strategy field, all other fields which are not set will stay unmodified. On the other hand you will always get a value for date_format if you fetch the preferences, because there is a default value for it.\n\nThis means you must really check for each field in PreferencesInfo whether it can be null or not, before marking it as optional in the documentation.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "96262fa9e033a9cddc0e71552d6654f3721bdeef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8de7d5a_2bc4994e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-29T06:28:24Z",
+      "side": 1,
+      "message": "This already says that the field is optional, it\u0027s just a little more precise in saying when it is not set.",
+      "range": {
+        "startLine": 1943,
+        "startChar": 43,
+        "endLine": 1943,
+        "endChar": 61
+      },
+      "revId": "96262fa9e033a9cddc0e71552d6654f3721bdeef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

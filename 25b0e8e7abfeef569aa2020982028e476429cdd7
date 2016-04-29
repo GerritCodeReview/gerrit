@@ -16,6 +16,24 @@
       "revId": "25b0e8e7abfeef569aa2020982028e476429cdd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8de7d5a_4b3c851f",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-04-29T08:01:10Z",
+      "side": 1,
+      "message": "Hm, why is it ok for 2.12 then as submitWholeTopic has been introduced in 2.12?",
+      "parentUuid": "e8e3411d_ac34233a",
+      "revId": "25b0e8e7abfeef569aa2020982028e476429cdd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

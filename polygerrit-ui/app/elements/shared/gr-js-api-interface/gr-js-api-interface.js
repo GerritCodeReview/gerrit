@@ -82,7 +82,7 @@
     _handleShowChange: function(detail) {
       this._getEventCallbacks(EventType.SHOW_CHANGE).forEach(function(cb) {
         var change = detail.change;
-        var patchNum = detail.patchNum
+        var patchNum = detail.patchNum;
         var revision;
         for (var rev in change.revisions) {
           if (change.revisions[rev]._number == patchNum) {

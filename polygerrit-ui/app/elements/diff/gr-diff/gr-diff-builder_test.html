@@ -283,7 +283,7 @@ limitations under the License.
       line.beforeNumber = 3;
       line.afterNumber = 5;
 
-      var comments = {left: [], right:[]};
+      var comments = {left: [], right: []};
       assert.deepEqual(builder._getCommentsForLine(comments, line), []);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
           GrDiffBuilder.Side.LEFT), []);
@@ -328,7 +328,7 @@ limitations under the License.
         ],
       };
 
-      function checkThreadProps(patchNum, side, comments) {
+      function checkThreadProps(threadEl, patchNum, side, comments) {
         assert.equal(threadEl.changeNum, '42');
         assert.equal(threadEl.patchNum, patchNum);
         assert.equal(threadEl.path, '/path/to/foo');
@@ -340,27 +340,27 @@ limitations under the License.
       var line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 5;
       line.afterNumber = 5;
-      threadEl = builder._commentThreadForLine(line);
-      checkThreadProps('3', 'REVISION',
+      var threadEl = builder._commentThreadForLine(line);
+      checkThreadProps(threadEl, '3', 'REVISION',
           [{id: 'l5', line: 5}, {id: 'r5', line: 5}]);
 
       threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadProps('3', 'REVISION', [{id: 'r5', line: 5}]);
+      checkThreadProps(threadEl, '3', 'REVISION', [{id: 'r5', line: 5}]);
 
       threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadProps('3', 'PARENT', [{id: 'l5', line: 5}]);
+      checkThreadProps(threadEl, '3', 'PARENT', [{id: 'l5', line: 5}]);
 
       builder._comments.meta.patchRange.basePatchNum = '1';
 
       threadEl = builder._commentThreadForLine(line);
-      checkThreadProps('3', 'REVISION',
+      checkThreadProps(threadEl, '3', 'REVISION',
           [{id: 'l5', line: 5}, {id: 'r5', line: 5}]);
 
       threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadProps('1', 'REVISION', [{id: 'l5', line: 5}]);
+      checkThreadProps(threadEl, '1', 'REVISION', [{id: 'l5', line: 5}]);
 
       threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadProps('3', 'REVISION', [{id: 'r5', line: 5}]);
+      checkThreadProps(threadEl, '3', 'REVISION', [{id: 'r5', line: 5}]);
 
       builder._comments.meta.patchRange.basePatchNum = 'PARENT';
 
@@ -368,14 +368,14 @@ limitations under the License.
       line.beforeNumber = 5;
       line.afterNumber = 5;
       threadEl = builder._commentThreadForLine(line);
-      checkThreadProps('3', 'PARENT',
+      checkThreadProps(threadEl, '3', 'PARENT',
           [{id: 'l5', line: 5}, {id: 'r5', line: 5}]);
 
       line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.beforeNumber = 3;
       line.afterNumber = 5;
       threadEl = builder._commentThreadForLine(line);
-      checkThreadProps('3', 'REVISION',
+      checkThreadProps(threadEl, '3', 'REVISION',
           [{id: 'l3', line: 3}, {id: 'r5', line: 5}]);
     });
 

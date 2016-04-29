@@ -58,7 +58,7 @@
 
   GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
     throw Error('Subclasses must implement emitGroup');
-  },
+  };
 
   GrDiffBuilder.prototype._processContent = function(content, groups, context) {
     this._appendFileComments(groups);
@@ -339,8 +339,8 @@
     function byLineNum(lineNum) {
       return function(c) {
         return (c.line === lineNum) ||
-               (c.line === undefined && lineNum === GrDiffLine.FILE)
-      }
+               (c.line === undefined && lineNum === GrDiffLine.FILE);
+      };
     }
     var leftComments =
         comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
@@ -373,7 +373,7 @@
     threadEl.side = side;
     threadEl.projectConfig = projectConfig;
     return threadEl;
-  },
+  };
 
   GrDiffBuilder.prototype._commentThreadForLine = function(line, opt_side) {
     var comments = this._getCommentsForLine(this._comments, line, opt_side);

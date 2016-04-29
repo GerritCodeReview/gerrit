@@ -172,7 +172,7 @@
           if (!this._canSubmitChange()) {
             return;
           }
-          // no break here, fallthrough.
+          /* falls through */ // required by JSHint
         default:
           this._fireAction(this._prependSlash(key),
               this._revisionActions[key], true);
@@ -261,7 +261,7 @@
       return function() {
         buttonEl.removeAttribute('loading');
         buttonEl.disabled = false;
-      }
+      };
     },
 
     _fireAction: function(endpoint, action, revAction, opt_payload) {

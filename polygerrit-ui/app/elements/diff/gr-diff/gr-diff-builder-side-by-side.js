@@ -30,7 +30,7 @@
           pairs[i].right));
     }
     this._outputEl.insertBefore(sectionEl, opt_beforeSection);
-  },
+  };
 
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {

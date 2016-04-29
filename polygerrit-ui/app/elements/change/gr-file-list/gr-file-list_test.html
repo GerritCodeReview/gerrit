@@ -77,6 +77,7 @@ limitations under the License.
           __path: 'tags.html',
         });
 
+        getChangeFilesStub.restore();
         done();
       });
     });
@@ -87,7 +88,7 @@ limitations under the License.
         {__path: 'file_added_in_rev2.txt'},
         {__path: 'myfile.txt'},
       ];
-      element.changeNum = '42',
+      element.changeNum = '42';
       element.patchNum = '2';
       element.selectedIndex = 0;
 

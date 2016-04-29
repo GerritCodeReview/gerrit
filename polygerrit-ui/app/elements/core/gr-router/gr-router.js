@@ -29,7 +29,7 @@
     function loadUser(ctx, next) {
       restAPI.getLoggedIn().then(function() {
         next();
-      })
+      });
     }
 
     // Routes.

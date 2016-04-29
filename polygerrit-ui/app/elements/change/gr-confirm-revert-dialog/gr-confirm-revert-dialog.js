@@ -46,7 +46,7 @@
       var revertCommitText = 'This reverts commit ';
       // Selector for previous revert text and commit.
       var previousRevertText =
-          new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm')
+          new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm');
       commitMessage = commitMessage.replace(previousRevertText, '');
       this.message = 'Revert "' + commitMessage + '"\n\n' +
           revertCommitText + commitInfo.commit + '.';

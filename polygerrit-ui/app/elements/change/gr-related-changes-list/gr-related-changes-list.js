@@ -119,7 +119,7 @@
       return {
         O: options,
         q: query
-      }
+      };
     },
 
     _computeSameTopicQueryParams: function(topic) {
@@ -179,7 +179,7 @@
       } else if (change.submittable) {
         return 'Submittable';
       }
-      return ''
+      return '';
     },
 
     _serverConfigChanged: function(config) {

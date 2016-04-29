@@ -182,7 +182,7 @@
           break;
         case DiffViewMode.SIDE_BY_SIDE:
           classes.push('sideBySide');
-          break
+          break;
         default:
           throw Error('Invalid view mode: ', viewMode);
       }

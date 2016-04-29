@@ -77,7 +77,7 @@ limitations under the License.
     });
 
     test('comment event', function(done) {
-      var testCommentNode = { foo: 'bar' };
+      var testCommentNode = {foo: 'bar'};
       plugin.on(element.EventType.COMMENT, function(commentNode) {
         assert.deepEqual(commentNode, testCommentNode);
         done();

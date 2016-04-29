@@ -34,9 +34,6 @@ limitations under the License.
 <script>
   suite('gr-change-actions tests', function() {
     var element;
-    var response = {
-      ok: true,
-    };
     setup(function() {
       stub('gr-rest-api-interface', {
         getChangeRevisionActions: function() {
@@ -202,7 +199,8 @@ limitations under the License.
     });
 
     suite('revert change', function() {
-      var alertStub, fireActionStub;
+      var alertStub;
+      var fireActionStub;
 
       setup(function() {
         fireActionStub = sinon.stub(element, '_fireAction');

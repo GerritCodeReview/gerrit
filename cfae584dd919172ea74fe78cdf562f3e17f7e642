@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8de7d5a_4bf5a591",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-29T07:39:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be rather changed here?\n\nI thought it should be\n\n n: next\n N: previous\n\nIsn\u0027t it? Now it\u0027s just the opposite.",
+      "range": {
+        "startLine": 768,
+        "startChar": 30,
+        "endLine": 768,
+        "endChar": 31
+      },
+      "revId": "cfae584dd919172ea74fe78cdf562f3e17f7e642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

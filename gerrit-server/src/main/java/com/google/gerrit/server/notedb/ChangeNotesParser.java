@@ -207,18 +207,14 @@ class ChangeNotesParser implements AutoCloseable {
     Timestamp ts =
         new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
-    boolean updateTs = commit.getParentCount() == 0;
     createdOn = ts;
     parseTag(commit);
-    updateTs |= tag != null;
 
     if (branch == null) {
       branch = parseBranch(commit);
-      updateTs |= branch != null;
     }
     if (status == null) {
       status = parseStatus(commit);
-      updateTs |= status != null;
     }
 
     PatchSet.Id psId = parsePatchSetId(commit);
@@ -238,7 +234,6 @@ class ChangeNotesParser implements AutoCloseable {
 
     if (changeId == null) {
       changeId = parseChangeId(commit);
-      updateTs |= changeId != null;
     }
 
     String currSubject = parseSubject(commit);
@@ -247,28 +242,22 @@ class ChangeNotesParser implements AutoCloseable {
         subject = currSubject;
       }
       originalSubject = currSubject;
-      updateTs = true;
     }
 
-    updateTs |= parseChangeMessage(psId, accountId, commit, ts) != null;
+    parseChangeMessage(psId, accountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
-      updateTs |= topic != null;
     }
 
-    Set<String> oldHashtags = hashtags;
     parseHashtags(commit);
-    updateTs |= hashtags != oldHashtags;
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
-      updateTs |= submissionId != null;
     }
 
     ObjectId currRev = parseRevision(commit);
     if (currRev != null) {
       parsePatchSet(psId, currRev, accountId, ts);
-      updateTs = true;
     }
     parseGroups(psId, commit);
 
@@ -276,12 +265,10 @@ class ChangeNotesParser implements AutoCloseable {
       // Only parse the most recent set of submit records; any older ones are
       // still there, but not currently used.
       parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
-      updateTs |= !submitRecords.isEmpty();
     }
 
     for (String line : commit.getFooterLineValues(FOOTER_LABEL)) {
       parseApproval(psId, accountId, ts, line);
-      updateTs = true;
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
@@ -292,10 +279,8 @@ class ChangeNotesParser implements AutoCloseable {
       // behavior.
     }
 
-    if (updateTs) {
-      if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
-        lastUpdatedOn = ts;
-      }
+    if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
+      lastUpdatedOn = ts;
     }
   }
 
@@ -476,7 +461,7 @@ class ChangeNotesParser implements AutoCloseable {
     throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
   }
 
-  private ChangeMessage parseChangeMessage(PatchSet.Id psId,
+  private void parseChangeMessage(PatchSet.Id psId,
       Account.Id accountId, ChangeNotesCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
@@ -484,12 +469,12 @@ class ChangeNotesParser implements AutoCloseable {
 
     int subjectStart = RawParseUtils.commitMessage(raw, 0);
     if (subjectStart < 0 || subjectStart >= size) {
-      return null;
+      return;
     }
 
     int subjectEnd = RawParseUtils.endOfParagraph(raw, subjectStart);
     if (subjectEnd == size) {
-      return null;
+      return;
     }
 
     int changeMessageStart;
@@ -499,7 +484,7 @@ class ChangeNotesParser implements AutoCloseable {
     } else if (raw[subjectEnd] == '\r') {
       changeMessageStart = subjectEnd + 4; //\r\n\r\n ends paragraph
     } else {
-      return null;
+      return;
     }
 
     int ptr = size - 1;
@@ -519,7 +504,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     if (ptr <= changeMessageStart) {
-      return null;
+      return;
     }
 
     String changeMsgString = RawParseUtils.decode(enc, raw,
@@ -533,7 +518,6 @@ class ChangeNotesParser implements AutoCloseable {
     changeMessage.setTag(tag);
     changeMessagesByPatchSet.put(psId, changeMessage);
     allChangeMessages.add(changeMessage);
-    return changeMessage;
   }
 
   private void parseNotes()

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1461872195 -0400\nnonce AB8gjyXXmsr4/UiZxnBWhenxejQ5vmVmZfHOEpMPSVCDmsKzkxw5exeVuPmWqj27l5NN7qtE3p8A\n\n0000000000000000000000000000000000000000 a700a155a72d63c62c630ea7a781f66efa67ee0d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXImZDAAoJEF/XxZqaEoiMBHAP/iw5QaWIfyMC69gaNTYIEkXk\nVnOm4IuutZFTAbYrteJpeTvuKCYzdVl5egHVwBjtsGDU60UF9u5mc9sBFEgW90Lz\np+23SrzwFMDAzl8weEnOSJLrHHH95/jDxXkPOo1NnrEW06d3xJqqM1W0XHQCojfq\nUouVVCTWjkKxbG5nfRDKJ4LscNXXeF7iM8Cv2z3Zox0W97Et2VtZ0HEE4NNMiF3v\ndVHbnZuXGWv0SU3EwwpptEOoQ3GgDGj2yFTp8ci1KYAr7anf5Euk8tino4A88RSm\npJB8Qnzk74hfp/3rMzT6F8oK9A2MtcRPx9W/hjkvhk39XKv2xMYOh6NjNtlq+wx0\nTh03afEnHrMwmgxCuBmIoWNXfHCBIsQXKz2ig3G0fAHLT9Vask0m9SmfKqHJnhbF\nysq+5cx4MQt9+w59cIsorezY19XeIvTwCeE58B7kdOF76xvdThHl6WBdFyky2JCy\n2HbGwdV1shwr4tKL36xN3joBFBESeJPhfIpkqpXDRGM8g5h3marnmkmFJVeFTZlv\n7qjWbAou5zHtWIfn2t09V5QjV6A4PrlYOPR6+bsJfHU/gJ/zXSV9nF2ZcIOTWtWw\nm31Acg1tmzihbQDQcpt849MlyuGv1lLpgzo4jVRb2ZIka16lo0doMSWHbvVr7u/c\nvZe/z9crsaFoU/jRb+17\n\u003dKJ3I\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8de7d5a_4ba005a1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-29T05:37:47Z",
+      "side": 1,
+      "message": "Does it make sense to compare b1 and b2 each with itself?",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 504,
+        "endChar": 26
+      },
+      "revId": "e77ab798afb7d670ab99a3d752883f3bd442f182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

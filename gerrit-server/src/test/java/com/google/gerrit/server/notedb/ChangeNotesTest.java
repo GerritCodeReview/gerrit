@@ -23,7 +23,6 @@ import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -900,7 +899,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       + "\n"
       + "Nor is this a real signature.\n"
       + "-----END PGP SIGNATURE-----\n";
-    String trimmedCert = CharMatcher.is('\n').trimTrailingFrom(pushCert);
 
     // ps2 with push cert
     Change c = newChange();
@@ -917,8 +915,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(readNote(notes, commit)).isEqualTo(pushCert);
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
-    assertThat(patchSets.get(psId2).getPushCertificate())
-        .isEqualTo(trimmedCert);
+    assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
     assertThat(notes.getComments()).isEmpty();
 
     // comment on ps2
@@ -946,8 +943,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         + "\n");
     patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
-    assertThat(patchSets.get(psId2).getPushCertificate())
-        .isEqualTo(trimmedCert);
+    assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
     assertThat(notes.getComments()).isNotEmpty();
   }
 

@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
@@ -311,8 +312,30 @@ public class ChangeBundle {
     Change a = bundleA.change;
     Change b = bundleB.change;
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
+
+    boolean excludeOrigSubj = false;
+    boolean excludeTopic = false;
+    // Ignore null original subject on the ReviewDb side, as this field is
+    // always set in NoteDb.
+    //
+    // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludeOrigSubj = a.getOriginalSubjectOrNull() == null;
+      excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludeOrigSubj = b.getOriginalSubjectOrNull() == null;
+      excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
+    }
+
+    List<String> exclude = Lists.newArrayList("rowVersion", "noteDbState");
+    if (excludeOrigSubj) {
+      exclude.add("originalSubject");
+    }
+    if (excludeTopic) {
+      exclude.add("topic");
+    }
     diffColumnsExcluding(diffs, Change.class, desc, bundleA, a, bundleB, b,
-        "rowVersion", "noteDbState");
+        exclude);
   }
 
   private static void diffChangeMessages(List<String> diffs,
@@ -379,8 +402,18 @@ public class ChangeBundle {
       PatchSet a = as.get(id);
       PatchSet b = bs.get(id);
       String desc = describe(id);
-      diffColumns(diffs, PatchSet.class, desc, bundleA, a, bundleB, b);
+      String pushCertField = "pushCertificate";
+      diffColumnsExcluding(diffs, PatchSet.class, desc, bundleA, a, bundleB, b,
+          pushCertField);
+      diffValues(diffs, desc, trimPushCert(a), trimPushCert(b), pushCertField);
     }
+  }
+
+  private static String trimPushCert(PatchSet ps) {
+    if (ps.getPushCertificate() == null) {
+      return null;
+    }
+    return CharMatcher.is('\n').trimTrailingFrom(ps.getPushCertificate());
   }
 
   private static void diffPatchSetApprovals(List<String> diffs,

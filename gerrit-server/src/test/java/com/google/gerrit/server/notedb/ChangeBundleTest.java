@@ -182,6 +182,97 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffChangesIgnoresNullOriginalSubjectInReviewDb()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    c1.setCurrentPatchSet(c1.currentPatchSetId(), "Subject", null);
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(
+        c2.currentPatchSetId(), c1.getSubject(), "Original subject");
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "originalSubject differs for Change.Id " + c1.getId() + ":"
+            + " {null} != {Original subject}");
+
+    // Both NoteDb, exact match required.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    assertDiffs(b1, b2,
+        "originalSubject differs for Change.Id " + c1.getId() + ":"
+            + " {null} != {Original subject}");
+
+    // Original subject ignored if ReviewDb has null value.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    assertNoDiffs(b1, b2);
+
+    // Exact match still required if NoteDb has null value (not realistic).
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        REVIEW_DB);
+    assertDiffs(b1, b2,
+        "originalSubject differs for Change.Id " + c1.getId() + ":"
+            + " {null} != {Original subject}");
+  }
+
+  @Test
+  public void diffChangesConsidersEmptyReviewDbTopicEquivalentToNullInNoteDb()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    c1.setTopic("");
+    Change c2 = clone(c1);
+    c2.setTopic(null);
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " {} != {null}");
+
+    // Topic ignored if ReviewDb is empty and NoteDb is null.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    assertNoDiffs(b1, b2);
+
+    // Exact match still required if NoteDb has empty value (not realistic).
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        REVIEW_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " {} != {null}");
+
+    // Null is not equal to a non-empty string.
+    Change c3 = clone(c1);
+    c3.setTopic("topic");
+    b1 = new ChangeBundle(c3, messages(), patchSets(), approvals(), comments(),
+        REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " {topic} != {null}");
+  }
+
+  @Test
   public void diffChangeMessageKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();
@@ -480,6 +571,34 @@ public class ChangeBundleTest {
         + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}";
     assertDiffs(b1, b3, msg);
     assertDiffs(b3, b1, msg);
+  }
+
+  @Test
+  public void diffPatchSetsIgnoresTrailingNewlinesInPushCertificate()
+      throws Exception {
+    subWindowResolution();
+    Change c = TestChanges.newChange(project, accountId);
+    PatchSet ps1 = new PatchSet(c.currentPatchSetId());
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(roundToSecond(TimeUtil.nowTs()));
+    ps1.setPushCertificate("some cert");
+    PatchSet ps2 = clone(ps1);
+    ps2.setPushCertificate(ps2.getPushCertificate() + "\n\n");
+
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
+        approvals(), comments(), NOTE_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps2),
+        approvals(), comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps2), approvals(),
+        comments(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
   }
 
   @Test

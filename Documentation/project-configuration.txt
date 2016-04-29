@@ -53,7 +53,9 @@ Either restart the server, or flush the `project_list` cache:
 
 The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Projects` >
-`List` > my/project.  The following methods are supported:
+`List` > my/project. In general, a submitted change is only merged if all
+its dependencies also are submitted, with exceptions documented below.
+The following submit types are supported:
 
 [[fast_forward_only]]
 * Fast Forward Only
@@ -96,10 +98,12 @@ and a URL link back to the change on the web.  The committer header
 is also set to the submitter, while the author header retains the
 original patch set author.
 +
-Note that Gerrit ignores patch set dependencies when operating in
-cherry-pick mode. Submitters must remember to submit changes in
-the right order since inter-change dependencies will not be
-enforced for them.
+Note that Gerrit ignores dependencies between changes when using this
+submit type unless
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is enabled and depending changes share the same topic. So generally
+submitters must remember to submit changes in the right order when using this
+submit type.
 
 [[rebase_if_necessary]]
 * Rebase If Necessary

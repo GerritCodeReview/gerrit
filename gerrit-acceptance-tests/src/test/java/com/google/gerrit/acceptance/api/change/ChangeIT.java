@@ -26,6 +26,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -69,12 +70,15 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -88,6 +92,18 @@ import java.util.Map;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
+  private String systemTimeZone;
+
+  @Before
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+    System.setProperty("user.timezone", systemTimeZone);
+  }
 
   @Test
   public void get() throws Exception {
@@ -503,6 +519,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewer() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
@@ -538,10 +555,10 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId)
         .isEqualTo(user.getId().get());
 
-    // Ensure ETag is updated but lastUpdatedOn isn't.
+    // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
-    assertThat(rsrc.getChange().getLastUpdatedOn()).isEqualTo(oldTs);
+    assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
   @Test

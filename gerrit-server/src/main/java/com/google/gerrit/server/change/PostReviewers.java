@@ -279,7 +279,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         return false;
       }
       patchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
-      ctx.bumpLastUpdatedOn(false);
       return true;
     }
 

@@ -16,6 +16,23 @@
       "revId": "60a40085c1ee001f31f107acd357090d0b655640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "480c4dc0_8710269a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-29T20:03:50Z",
+      "side": 1,
+      "message": "If I only select \u0027CC Me On Comments I Write\u0027, I\u0027m not cc\u0027ed on the email sent upon me posting a comment. This is because I\u0027m wrongfully removed (above), since none of the above conditions are true.\n\nFor me, sending comment-triggered emails only works here if I at least select \u0027Change Comments\u0027 in my Prefs. This can be counter-intuitive given the individual nature of those check-boxes (switches).",
+      "revId": "60a40085c1ee001f31f107acd357090d0b655640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

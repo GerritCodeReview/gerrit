@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "480c4dc0_87394634",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-29T15:49:46Z",
+      "side": 1,
+      "message": "Thx for explaining further; I think I get it now. Done",
+      "parentUuid": "e8e3411d_0cc1f73e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "96262fa9e033a9cddc0e71552d6654f3721bdeef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8de7d5a_2bc4994e",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-29T06:28:24Z",
       "side": 1,
       "message": "This already says that the field is optional, it\u0027s just a little more precise in saying when it is not set.",
+      "range": {
+        "startLine": 1943,
+        "startChar": 43,
+        "endLine": 1943,
+        "endChar": 61
+      },
+      "revId": "96262fa9e033a9cddc0e71552d6654f3721bdeef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "480c4dc0_e72a42d7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-29T15:49:46Z",
+      "side": 1,
+      "message": "Understood now; thx for clarifying. Removed",
+      "parentUuid": "c8de7d5a_2bc4994e",
       "range": {
         "startLine": 1943,
         "startChar": 43,

@@ -23,6 +23,30 @@
       "revId": "e77ab798afb7d670ab99a3d752883f3bd442f182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "480c4dc0_47c7ce55",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-04-29T13:08:52Z",
+      "side": 1,
+      "message": "Not really, what I actually meant was to swap the {ps1,ps2}\u003c-\u003e{NOTE_DB,REVIEW_DB} pairings.",
+      "parentUuid": "c8de7d5a_4ba005a1",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 504,
+        "endChar": 26
+      },
+      "revId": "e77ab798afb7d670ab99a3d752883f3bd442f182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

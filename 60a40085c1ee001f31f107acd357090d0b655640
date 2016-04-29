@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "480c4dc0_c7161e97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-04-29T19:19:15Z",
+      "side": 1,
+      "message": "Trying to verify the mail-sending parts of this change, I think this is broken. If \u0027this\u0027 is instanceof AddReviewerSender, then it is also instanceof NewChangeSender (parent of AddReviewerSender). So the case of ADD_REVIEWER selected alone leads to not sending the email (removing the user below), as the above condition becomes true.\n\nI\u0027m not clear on what exactly is supposed to trig a NEW_CHANGE email here. If a user is not yet involved in a change, how can she expect emails, beside if she is watching the project -or being added as a reviewer?",
+      "revId": "60a40085c1ee001f31f107acd357090d0b655640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

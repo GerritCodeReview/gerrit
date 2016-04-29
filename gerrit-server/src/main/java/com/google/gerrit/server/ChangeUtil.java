@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.util.IdGenerator;
@@ -28,7 +27,6 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
 @Singleton
@@ -75,15 +73,6 @@ public class ChangeUtil {
     String u = IdGenerator.format(IdGenerator.mix(SEED, p));
     String l = IdGenerator.format(IdGenerator.mix(p, s));
     return u + '_' + l;
-  }
-
-  public static void bumpRowVersionNotLastUpdatedOn(Change.Id id, ReviewDb db)
-      throws OrmException {
-    // Empty update of Change to bump rowVersion, changing its ETag.
-    Change c = db.changes().get(id);
-    if (c != null) {
-      db.changes().update(Collections.singleton(c));
-    }
   }
 
   public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,

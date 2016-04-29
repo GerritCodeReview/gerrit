@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -33,6 +32,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
@@ -175,10 +176,23 @@ public class Mergeable implements RestReadView<RevisionResource> {
     final boolean mergeable =
         cache.get(commit, ref, type, strategy, change.getDest(), git);
     if (!Objects.equals(mergeable, old)) {
-      // TODO(dborowitz): Include cache info in ETag somehow instead.
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(change.getId(), db.get());
+      invalidateETag(change.getId(), db.get());
       indexer.index(db.get(), change);
     }
     return mergeable;
   }
+
+  private static void invalidateETag(Change.Id id, ReviewDb db)
+      throws OrmException {
+    // Empty update of Change to bump rowVersion, changing its ETag.
+    // TODO(dborowitz): Include cache info in ETag somehow instead.
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    Change c = db.changes().get(id);
+    if (c != null) {
+      db.changes().update(Collections.singleton(c));
+    }
+  }
+
 }

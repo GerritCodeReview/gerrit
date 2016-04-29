@@ -17,6 +17,24 @@
       "revId": "06288fa31519730ce9504571b8f1900e1f7a65ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8de7d5a_abfd2980",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-04-29T07:24:53Z",
+      "side": 1,
+      "message": "Uh, you are right! Funny that nobody spotted this before.\n\nI guess I will rather abandon this change then.",
+      "parentUuid": "e8e3411d_ec034b65",
+      "revId": "06288fa31519730ce9504571b8f1900e1f7a65ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

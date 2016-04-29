@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e3411d_ac34233a",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-04-29T07:58:00Z",
+      "side": 1,
+      "message": "This is not  fully correct for master (for  2.12 it is ok):\n\nIf submitWholeTopic is set and the changes have a topic assigned, then the order is preserved.",
+      "revId": "25b0e8e7abfeef569aa2020982028e476429cdd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

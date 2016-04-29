@@ -1212,7 +1212,6 @@ public class ReceiveCommits {
       //TODO(dpursehouse): validate hashtags
     }
 
-    @Inject
     MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes,
         NotesMigration notesMigration) {
       this.cmd = cmd;

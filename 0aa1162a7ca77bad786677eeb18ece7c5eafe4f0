@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_eb2a11d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_cf05bd05",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_8f0bb51a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e8e3411d_4cf5bf91",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_8f0bb51a",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_6f177142",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2016-04-28T14:53:20Z",
       "side": 1,
       "message": "Maybe it would be better to have only a single method for this and have an Input object with deductions and additions (similar to how you did it for the access rights)?\n\nThis would also solve the problem comment on [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/77016/2/gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e3411d_cc2f6fe5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "I though about this but actually prefer it this way for different reasons:\n- Delete/Add/Modify are separate operations in our UI. Hence having this as deductions/additions would not add any additional value. (it would be separate requests anyway)\n- Access was a complicated endpoint that required a tailored solution for different reasons. This endpoint is pretty standard so we should follow the rest conventions of using DELETE for removal, POST or PUT for adding and updating.",
+      "parentUuid": "48a7edbf_6f177142",
       "range": {
         "startLine": 48,
         "startChar": 2,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_cb2f55e5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/DeleteWatchedProjectsInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_6d177542",
+      "range": {
+        "startLine": 18,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_4f3b8ddb",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
         "patchSetId": 2
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_6b3f4116",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_4f3b8ddb",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_8d0bc11a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
         "patchSetId": 2
@@ -110,6 +212,30 @@
       "writtenOn": "2016-04-28T14:53:20Z",
       "side": 1,
       "message": "Write this as\n\n  return Objects.equals(project, w.project)\n      \u0026\u0026 Objects.equals(filter, w.filter)\n      \u0026\u0026 ...;",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8de7d5a_8b394d34",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_8d0bc11a",
       "range": {
         "startLine": 33,
         "startChar": 6,
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_2b4939c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Yes, we could do that, but in this case I would prefer sticking with existing solutions such as DeleteBranches:\n\npost(PROJECT_KIND, \"branches:delete\").to(DeleteBranches.class);\n\nHere we make the operation part of the URL instead. As stated before, Access was a much more complicated endpoint. Having the additions/deductions pattern here would complicate the work on the client since for updates you have to include your existing entity in the deductions section as well. Therefore I think the :delete pattern is a better fit here.",
+      "parentUuid": "48a7edbf_2f1d6964",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 48,
+        "endChar": 59
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_0fffc512",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
         "patchSetId": 2
@@ -168,6 +318,54 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_cb163597",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_0fffc512",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 54
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e3411d_8c10479a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_0fffc512",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 54
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_2f048904",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
         "patchSetId": 2
@@ -179,6 +377,30 @@
       "writtenOn": "2016-04-28T14:53:20Z",
       "side": 1,
       "message": "may be null",
+      "range": {
+        "startLine": 60,
+        "startChar": 37,
+        "endLine": 60,
+        "endChar": 58
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8de7d5a_ab0be96c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_2f048904",
       "range": {
         "startLine": 60,
         "startChar": 37,
@@ -237,6 +459,54 @@
     },
     {
       "key": {
+        "uuid": "e8e3411d_0c4697af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_0dffd112",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 22
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e3411d_ec110ba1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "I\u0027ve skipped them if input.watchedProjects is null which should cover 99% of the cases you mentioned.",
+      "parentUuid": "0889753a_ed0285fa",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 54
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_8f2495b7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
         "patchSetId": 2
@@ -248,6 +518,24 @@
       "writtenOn": "2016-04-28T14:53:20Z",
       "side": 1,
       "message": "wrong import, it should be \n  com.google.common.collect.Sets\n\nlike this it doesn\u0027t compile with Buck",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e3411d_cc164f97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_8f2495b7",
       "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -271,6 +559,24 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_8b102d9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_ef0281fa",
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_0f26e5aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
         "patchSetId": 2
@@ -282,6 +588,30 @@
       "writtenOn": "2016-04-28T14:53:20Z",
       "side": 1,
       "message": "Rather get ProjectsCollection injected and use it\u0027s parse method to parse a.project (find an example for this in CreateChange).\n\nThis gives you 2 things:\n\n- It throws the exception for you if the project doesn\u0027t exist.\n\n- It checks that the user can see the project. Without the read permission check you could use this REST endpoint to probe if a project with a given name exists on the server or not.",
+      "range": {
+        "startLine": 67,
+        "startChar": 55,
+        "endLine": 67,
+        "endChar": 73
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e3411d_6c263b08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "N I C E !",
+      "parentUuid": "48a7edbf_0f26e5aa",
       "range": {
         "startLine": 67,
         "startChar": 55,
@@ -317,6 +647,30 @@
     },
     {
       "key": {
+        "uuid": "c8de7d5a_6b262108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0889753a_6d0e9526",
+      "range": {
+        "startLine": 70,
+        "startChar": 18,
+        "endLine": 70,
+        "endChar": 43
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48a7edbf_6f0e9126",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
         "patchSetId": 2
@@ -328,6 +682,30 @@
       "writtenOn": "2016-04-28T14:53:20Z",
       "side": 1,
       "message": "UnprocessableEntityException, Not Found is only returned if the resource that is specified in the URL is not found, but this is about user input from the request body.",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e3411d_ac0b036d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T08:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a7edbf_6f0e9126",
       "range": {
         "startLine": 74,
         "startChar": 18,

@@ -49,13 +49,6 @@ genlicenses(
   out = 'js_licenses.txt',
 )
 
-genrule(
-  name = 'doc.css',
-  srcs = ['doc.css.in'],
-  cmd = 'cp $SRCS $OUT',
-  out = 'doc.css',
-)
-
 python_binary(
   name = 'gen_licenses',
   main = 'gen_licenses.py',

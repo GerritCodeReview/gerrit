@@ -28,6 +28,7 @@ import org.kohsuke.args4j.Option;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -147,6 +148,15 @@ public class AsciiDoctor {
         Options options = createOptions(out);
         renderInput(options, new File(inputFile));
         zipFile(out, outName, zip);
+      }
+
+      File[] cssFiles = tmpdir.listFiles(new FilenameFilter() {
+        public boolean accept(File dir, String name) {
+          return name.endsWith(".css");
+        }
+      });
+      for (File css : cssFiles) {
+        zipFile(css, css.getName(), zip);
       }
     }
   }

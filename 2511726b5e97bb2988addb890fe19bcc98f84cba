@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1461915040 +0200\nnonce AB8gjyWG04/ym29pMGKpVu6h6PPgM1tCe3YlC65j8AIIxxkPIsBU49PEp6OgKoAPp6fbsfy9O6DO\n\n0000000000000000000000000000000000000000 516d30d5c3073a383435b08927eda2784502deac refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXIw2gAAoJEFG1/Zeg0O9RlS0IAIdQuehHCLsBHT+KqdSwbT8i\nBNc5vKGp3ytkwDz8Ucm+GPkCt37RGbuXIyIQexIyl1498yb6TXI+y1f4UAjMBUPD\n9RbaU4AP3XKKieLn8bt2rRG1LGGaPYK/6BpCy1zUmpg/Uxigm9t2rL5iz/G9ZY2p\n8drd8/ZdOfnGbL5bfBrqUuB8LWB0ixylpWGLjK53gPAu5Chi2DvLkIRzdIQVg6pq\nTKW45OaUpGcdNLsof1MEs+O7Dbzoh2ptc7DOqA0UGffRFG7OgX0ydHfTe/HXhdrN\nxxCzbcEv01eusgWPdYw5UpYnrXlLKnUDELqwed7F4sZnfR6VZJxJy1UxBdngkig\u003d\n\u003dRD/f\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8de7d5a_ab59a980",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-04-29T09:57:58Z",
+      "side": 1,
+      "message": "Isn\u0027t a magic ref always symbolic? At least in this case you should return true I think.",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

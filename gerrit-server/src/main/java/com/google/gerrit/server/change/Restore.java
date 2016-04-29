@@ -117,7 +117,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       change.setStatus(Status.NEW);
       change.setLastUpdatedOn(ctx.getWhen());
-      ctx.saveChange();
       update.setStatus(change.getStatus());
 
       message = newMessage(ctx);

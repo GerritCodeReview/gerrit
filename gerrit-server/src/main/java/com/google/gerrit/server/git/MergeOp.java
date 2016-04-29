@@ -776,7 +776,6 @@ public class MergeOp implements AutoCloseable {
               cmUtil.addChangeMessage(ctx.getDb(),
                   ctx.getUpdate(change.currentPatchSetId()), msg);
 
-              ctx.saveChange();
               return true;
             }
           });

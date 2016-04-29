@@ -117,7 +117,7 @@ public class ChangeBundleTest {
         "changeId differs for Changes: {" + id1 + "} != {" + id2 + "}",
         "createdOn differs for Changes:"
             + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}",
-        "lastUpdatedOn differs for Changes:"
+        "effective last updated time differs for Changes:"
             + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}");
   }
 
@@ -155,7 +155,7 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "createdOn differs for Change.Id " + c1.getId() + ":"
             + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:02.0}",
-        "lastUpdatedOn differs for Change.Id " + c1.getId() + ":"
+        "effective last updated time differs for Change.Id " + c1.getId() + ":"
             + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:03.0}");
 
     // One NoteDb, slop is allowed.
@@ -174,8 +174,8 @@ public class ChangeBundleTest {
         comments(), NOTE_DB);
     ChangeBundle b3 = new ChangeBundle(c3, messages(), patchSets(), approvals(),
         comments(), REVIEW_DB);
-    String msg = "lastUpdatedOn differs for Change.Id " + c1.getId()
-        + " in NoteDb vs. ReviewDb:"
+    String msg = "effective last updated time differs for Change.Id "
+        + c1.getId() + " in NoteDb vs. ReviewDb:"
         + " {2009-09-30 17:00:01.0} != {2009-09-30 17:00:10.0}";
     assertDiffs(b1, b3, msg);
     assertDiffs(b3, b1, msg);
@@ -270,6 +270,35 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "topic differs for Change.Id " + c1.getId() + ":"
             + " {topic} != {null}");
+  }
+
+  @Test
+  public void diffChangesTakesMaxEntityTimestampFromReviewDb()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    PatchSetApproval a = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            c1.currentPatchSetId(), accountId, new LabelId("Code-Review")),
+        (short) 1,
+        TimeUtil.nowTs());
+
+    Change c2 = clone(c1);
+    c2.setLastUpdatedOn(a.getGranted());
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(),
+        approvals(a), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(),
+        approvals(a), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "effective last updated time differs for Change.Id " + c1.getId() + ":"
+            + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}");
+
+    // NoteDb allows latest timestamp from all entities in bundle.
+    b2 = new ChangeBundle(c2, messages(), patchSets(),
+        approvals(a), comments(), NOTE_DB);
+    assertNoDiffs(b1, b2);
   }
 
   @Test

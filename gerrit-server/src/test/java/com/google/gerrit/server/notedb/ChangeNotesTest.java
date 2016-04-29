@@ -728,18 +728,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp ts7 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts7).isGreaterThan(ts6);
 
-    // Updates that should not touch the timestamp.
     update = newUpdate(c, changeOwner);
     update.putReviewer(otherUser.getAccountId(), ReviewerStateInternal.REVIEWER);
     update.commit();
     Timestamp ts8 = newNotes(c).getChange().getLastUpdatedOn();
-    assertThat(ts8).isEqualTo(ts7);
+    assertThat(ts8).isGreaterThan(ts7);
 
     update = newUpdate(c, changeOwner);
     update.setGroups(ImmutableList.of("a", "b"));
     update.commit();
     Timestamp ts9 = newNotes(c).getChange().getLastUpdatedOn();
-    assertThat(ts9).isEqualTo(ts8);
+    assertThat(ts9).isGreaterThan(ts8);
 
     // Finish off by merging the change.
     update = newUpdate(c, changeOwner);

@@ -538,10 +538,10 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId)
         .isEqualTo(user.getId().get());
 
-    // Ensure ETag is updated but lastUpdatedOn isn't.
+    // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
-    assertThat(rsrc.getChange().getLastUpdatedOn()).isEqualTo(oldTs);
+    assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
   @Test

@@ -307,6 +307,24 @@ public class ChangeBundle {
     return ImmutableList.copyOf(diffs);
   }
 
+  private Timestamp getLatestTimestamp() {
+    Ordering<Timestamp> o = Ordering.natural();
+    Timestamp ts = change.getLastUpdatedOn();
+    for (ChangeMessage cm : getChangeMessages()) {
+      ts = o.max(ts, cm.getWrittenOn());
+    }
+    for (PatchSet ps : getPatchSets()) {
+      ts = o.max(ts, ps.getCreatedOn());
+    }
+    for (PatchSetApproval psa : getPatchSetApprovals()) {
+      ts = o.max(ts, psa.getGranted());
+    }
+    for (PatchLineComment plc : getPatchLineComments()) {
+      ts = o.max(ts, plc.getWrittenOn());
+    }
+    return ts;
+  }
+
   private static void diffChanges(List<String> diffs, ChangeBundle bundleA,
       ChangeBundle bundleB) {
     Change a = bundleA.change;
@@ -315,19 +333,28 @@ public class ChangeBundle {
 
     boolean excludeOrigSubj = false;
     boolean excludeTopic = false;
+    Timestamp aUpdated = a.getLastUpdatedOn();
+    Timestamp bUpdated = b.getLastUpdatedOn();
+
     // Ignore null original subject on the ReviewDb side, as this field is
     // always set in NoteDb.
     //
     // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
+    //
+    // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludeOrigSubj = a.getOriginalSubjectOrNull() == null;
       excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
+      aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeOrigSubj = b.getOriginalSubjectOrNull() == null;
       excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
+      bUpdated = bundleB.getLatestTimestamp();
     }
 
-    List<String> exclude = Lists.newArrayList("rowVersion", "noteDbState");
+    String updatedField = "lastUpdatedOn";
+    List<String> exclude =
+        Lists.newArrayList(updatedField, "noteDbState", "rowVersion");
     if (excludeOrigSubj) {
       exclude.add("originalSubject");
     }
@@ -336,6 +363,15 @@ public class ChangeBundle {
     }
     diffColumnsExcluding(diffs, Change.class, desc, bundleA, a, bundleB, b,
         exclude);
+
+    // Allow timestamps to either be exactly equal (within slop), or the NoteDb
+    // timestamp to be equal to the latest entity timestamp in the whole
+    // ReviewDb bundle (within slop).
+    if (timestampsDiffer(bundleA, a.getLastUpdatedOn(),
+          bundleB, b.getLastUpdatedOn())) {
+      diffTimestamps(diffs, desc, bundleA, aUpdated, bundleB, bUpdated,
+          "effective last updated time");
+    }
   }
 
   private static void diffChangeMessages(List<String> diffs,
@@ -516,13 +552,26 @@ public class ChangeBundle {
         | SecurityException e) {
       throw new IllegalArgumentException(e);
     }
+    diffTimestamps(diffs, desc, bundleA, ta, bundleB, tb, field);
+  }
+
+  private static void diffTimestamps(List<String> diffs, String desc,
+      ChangeBundle bundleA, Timestamp ta, ChangeBundle bundleB, Timestamp tb,
+      String fieldDesc) {
     if (bundleA.source == bundleB.source || ta == null || tb == null) {
-      diffValues(diffs, desc, ta, tb, field);
+      diffValues(diffs, desc, ta, tb, fieldDesc);
     } else if (bundleA.source == NOTE_DB) {
-      diffTimestamps(diffs, desc, ta, tb, field);
+      diffTimestamps(diffs, desc, ta, tb, fieldDesc);
     } else {
-      diffTimestamps(diffs, desc, tb, ta, field);
+      diffTimestamps(diffs, desc, tb, ta, fieldDesc);
     }
+  }
+
+  private static boolean timestampsDiffer(ChangeBundle bundleA, Timestamp ta,
+      ChangeBundle bundleB, Timestamp tb) {
+    List<String> tempDiffs = new ArrayList<>(1);
+    diffTimestamps(tempDiffs, "temp", bundleA, ta, bundleB, tb, "temp");
+    return !tempDiffs.isEmpty();
   }
 
   private static void diffTimestamps(List<String> diffs, String desc,

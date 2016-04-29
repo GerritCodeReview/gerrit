@@ -370,9 +370,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       dirty |= insertComments(ctx);
       dirty |= updateLabels(ctx);
       dirty |= insertMessage(ctx);
-      if (dirty) {
-        ctx.saveChange();
-      }
       return dirty;
     }
 

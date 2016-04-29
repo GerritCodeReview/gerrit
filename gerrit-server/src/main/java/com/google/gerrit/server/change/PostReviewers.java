@@ -275,10 +275,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
               rsrc.getChange(),
               reviewers.keySet());
 
-      if (!added.isEmpty()) {
-        patchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
+      if (added.isEmpty()) {
+        return false;
       }
-      return !added.isEmpty();
+      patchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
+      return true;
     }
 
     @Override

@@ -40,7 +40,8 @@ limitations under the License.
       }
       .reviewed,
       .status {
-        justify-content: center;
+        display: inline-block;
+        text-align: center;
         width: 1.5em;
       }
       .positionIndicator {
@@ -61,12 +62,19 @@ limitations under the License.
         flex: 1;
         overflow: hidden;
         padding-left: .35em;
-        text-decoration: none;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .row:not(.header) .path:hover {
+      .path a {
+        text-decoration: none;
+      }
+      .path a:hover {
         text-decoration: underline;
+      }
+      .oldPath {
+        color: #999;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .comments,
       .stats {
@@ -89,9 +97,6 @@ limitations under the License.
       }
       .removed {
         color: #D32F2F;
-      }
-      .reviewed input[type="checkbox"] {
-        display: inline-block;
       }
       .drafts {
         color: #C62828;
@@ -132,9 +137,16 @@ limitations under the License.
         <div class$="[[_computeClass('status', file.__path)]]">
           [[_computeFileStatus(file.status)]]
         </div>
-        <a class="path" href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">
-          [[_computeFileDisplayName(file.__path)]]
-        </a>
+        <div class="path">
+          <a href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]"
+              title="[[_computeFileDisplayName(file.__path)]]">
+            [[_computeFileDisplayName(file.__path)]]
+          </a>
+          <div class="oldPath" hidden$="[[!file.old_path]]" hidden
+              title="[[file.old_path]]">
+            [[file.old_path]]
+          </div>
+        </div>
         <div class="comments">
           <span class="drafts">[[_computeDraftsString(drafts, patchNum, file.__path)]]</span>
           [[_computeCommentsString(comments, patchNum, file.__path)]]

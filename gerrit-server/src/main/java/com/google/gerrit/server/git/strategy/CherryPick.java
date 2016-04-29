@@ -160,7 +160,6 @@ public class CherryPick extends SubmitStrategy {
           prevPs != null ? prevPs.getGroups() : ImmutableList.<String> of(),
           null);
       ctx.getChange().setCurrentPatchSet(patchSetInfo);
-      ctx.saveChange();
 
       // Don't copy approvals, as this is already taken care of by
       // SubmitStrategyOp.

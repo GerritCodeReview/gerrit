@@ -132,7 +132,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       change.setStatus(Change.Status.ABANDONED);
       change.setLastUpdatedOn(ctx.getWhen());
-      ctx.saveChange();
 
       update.setStatus(change.getStatus());
       message = newMessage(ctx);

@@ -263,7 +263,6 @@ public class ReplaceOp extends BatchUpdate.Op {
     if (mergedIntoRef == null) {
       resetChange(ctx, msg);
     }
-    ctx.saveChange();
 
     return true;
   }

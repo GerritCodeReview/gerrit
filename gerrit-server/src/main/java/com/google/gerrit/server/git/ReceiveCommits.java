@@ -2521,7 +2521,6 @@ public class ReceiveCommits {
           if (change.getStatus().isOpen()) {
             change.setCurrentPatchSet(info);
             change.setStatus(Change.Status.MERGED);
-            ctx.saveChange();
 
             // we cannot reconstruct the submit records for when this change was
             // submitted, this is why we must fix the status

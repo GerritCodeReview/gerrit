@@ -332,7 +332,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     }
     patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), update, psId,
         commit, draft, newGroups, null);
-    ctx.saveChange();
 
     /* TODO: fixStatus is used here because the tests
      * (byStatusClosed() in AbstractQueryChangesTest)

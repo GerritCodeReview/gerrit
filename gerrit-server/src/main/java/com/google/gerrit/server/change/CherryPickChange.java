@@ -286,7 +286,6 @@ public class CherryPickChange {
       changeMessage.setMessage(sb.toString());
 
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
-      ctx.saveChange(); // Bump lastUpdatedOn to match message.
       return true;
     }
   }

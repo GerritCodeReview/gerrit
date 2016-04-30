@@ -144,8 +144,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
           if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
             oldApprovals.put(a.getLabel(), a.getValue());
             if (msg.length() == 0) {
-              msg.append("Removed reviewer ").append(reviewer.getFullName())
-                  .append(" with the following votes:\n\n");
+              msg.append("Removed the following votes:\n\n");
             }
             msg.append("* ").append(a.getLabel())
                 .append(formatLabelValue(a.getValue())).append(" by ")
@@ -159,28 +158,24 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       if (del.isEmpty()) {
         throw new ResourceNotFoundException();
       }
+      msg.insert(0,
+          "Removed the following reviewer: " + reviewer.getFullName() + "\n");
       ctx.getDb().patchSetApprovals().delete(del);
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
-      if (msg.length() > 0) {
-        changeMessage = new ChangeMessage(
-            new ChangeMessage.Key(currChange.getId(),
-                ChangeUtil.messageUUID(ctx.getDb())),
-            ctx.getUser().getAccountId(), ctx.getWhen(), currPs.getId());
-        changeMessage.setMessage(msg.toString());
-        cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
-      }
+      changeMessage = new ChangeMessage(
+          new ChangeMessage.Key(currChange.getId(),
+              ChangeUtil.messageUUID(ctx.getDb())),
+          ctx.getUser().getAccountId(), ctx.getWhen(), currPs.getId());
+      changeMessage.setMessage(msg.toString());
+      cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
 
       return true;
     }
 
     @Override
     public void postUpdate(Context ctx) {
-      if (changeMessage == null) {
-        return;
-      }
-
       emailReviewers(ctx.getProject(), currChange, del, changeMessage);
       try {
         hooks.doReviewerDeletedHook(currChange, reviewer, currPs,

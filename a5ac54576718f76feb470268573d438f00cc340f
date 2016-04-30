@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a80949df_1aa03da0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-04-30T16:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "880c85ef_9993bb5f",
+      "revId": "a5ac54576718f76feb470268573d438f00cc340f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "880c85ef_b98e7f35",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-30T16:08:12Z",
       "side": 1,
       "message": "since long paths are likely to be cut off, let’s give this a title attribute with the old path so that the user can hover over it to see the whole thing",
+      "revId": "a5ac54576718f76feb470268573d438f00cc340f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_1ba03ba0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-04-30T16:21:08Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "880c85ef_b98e7f35",
       "revId": "a5ac54576718f76feb470268573d438f00cc340f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

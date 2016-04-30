@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
 
 <dom-module id="gr-change-list">
@@ -31,7 +32,8 @@ limitations under the License.
     <style include="gr-change-list-styles"></style>
     <div class="headerRow">
       <span class="topHeader keyboard"></span> <!-- keyboard position indicator -->
-      <span class="topHeader star" hidden$="[[!showStar]]"></span>
+      <span class="topHeader star" hidden$="[[!showStar]]" hidden></span>
+      <span class="topHeader number" hidden$="[[!showNumber]]" hidden>#</span>
       <span class="topHeader subject">Subject</span>
       <span class="topHeader status">Status</span>
       <span class="topHeader owner">Owner</span>
@@ -57,10 +59,12 @@ limitations under the License.
             selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
             needs-review="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
             change="[[change]]"
+            show-number="[[showNumber]]"
             show-star="[[showStar]]"
             label-names="[[labelNames]]"></gr-change-list-item>
       </template>
     </template>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-list.js"></script>
 </dom-module>

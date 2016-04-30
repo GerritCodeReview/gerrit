@@ -68,9 +68,12 @@ limitations under the License.
     <span class="cell keyboard">
       <span class="positionIndicator">&#x25b6;</span>
     </span>
-    <span class="cell star" hidden$="[[!showStar]]">
+    <span class="cell star" hidden$="[[!showStar]]" hidden>
       <gr-change-star change="{{change}}"></gr-change-star>
     </span>
+    <a class="cell number" href$="[[changeURL]]" hidden$="[[!showNumber]]" hidden>
+      [[change._number]]
+    </a>
     <a class="cell subject" href$="[[changeURL]]">[[change.subject]]</a>
     <span class="cell status">[[_computeChangeStatusString(change)]]</span>
     <span class="cell owner">

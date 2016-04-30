@@ -46,6 +46,60 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    function stubRestAPI(preferences) {
+      var loggedInPromise = Promise.resolve(preferences !== null);
+      var preferencesPromise = Promise.resolve(preferences);
+      stub('gr-rest-api-interface', {
+        getLoggedIn: sinon.stub().returns(loggedInPromise),
+        getPreferences: sinon.stub().returns(preferencesPromise),
+      });
+      return Promise.all([loggedInPromise, preferencesPromise]);
+    }
+
+    suite('test show change number not logged in', function() {
+      setup(function(done) {
+        return stubRestAPI(null).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('show number disabled', function() {
+        assert.isFalse(element.showNumber);
+      });
+    });
+
+    suite('test show change number preference enabled', function() {
+      setup(function(done) {
+        return stubRestAPI(
+          {legacycid_in_change_table: true, time_format: 'HHMM_12'}
+        ).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('show number enabled', function() {
+        assert.isTrue(element.showNumber);
+      });
+    });
+
+    suite('test show change number preference disabled', function() {
+      setup(function(done) {
+        // legacycid_in_change_table is not set when false.
+        return stubRestAPI(
+          {time_format: 'HHMM_12'}
+        ).then(function() {
+          element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
+        });
+      });
+
+      test('show number disabled', function() {
+        assert.isFalse(element.showNumber);
+      });
+    });
+
     test('computed fields', function() {
       assert.equal(element._computeLabelNames(
           [[{_number: 0, labels: {}}]]).length, 0);

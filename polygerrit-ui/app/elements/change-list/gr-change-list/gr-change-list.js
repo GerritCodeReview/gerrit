@@ -58,6 +58,7 @@
         type: Number,
         notify: true,
       },
+      showNumber: Boolean, // No default value to prevent flickering.
       showStar: {
         type: Boolean,
         value: false,
@@ -76,6 +77,31 @@
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
     ],
+
+    attached: function() {
+      this._loadPreferences();
+    },
+
+    _loadPreferences: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          this.showNumber = false;
+          return;
+        }
+        return this._getPreferences().then(function(preferences) {
+          this.showNumber = !!(preferences &&
+              preferences.legacycid_in_change_table);
+        }.bind(this));
+      }.bind(this));
+    },
+
+    _getLoggedIn: function() {
+      return this.$.restAPI.getLoggedIn();
+    },
+
+    _getPreferences: function() {
+      return this.$.restAPI.getPreferences();
+    },
 
     _computeLabelNames: function(groups) {
       if (!groups) { return []; }

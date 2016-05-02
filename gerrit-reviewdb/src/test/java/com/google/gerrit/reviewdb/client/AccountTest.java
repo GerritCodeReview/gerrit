@@ -45,24 +45,7 @@ public class AccountTest {
   @Test
   public void parseRefNameParts() {
     assertThat(fromRefPart("01/1")).isEqualTo(id(1));
-    assertThat(fromRefPart("01/1-drafts")).isEqualTo(id(1));
-    assertThat(fromRefPart("01/1-drafts/2")).isEqualTo(id(1));
-
-    assertThat(fromRefPart(null)).isNull();
-    assertThat(fromRefPart("")).isNull();
-
-    // This method assumes that the common prefix "refs/users/" will be removed.
-    assertThat(fromRefPart("refs/users/01/1")).isNull();
-
-    // Invalid characters.
-    assertThat(fromRefPart("01a/1")).isNull();
-    assertThat(fromRefPart("01/a1")).isNull();
-
-    // Mismatched shard.
-    assertThat(fromRefPart("01/23")).isNull();
-
-    // Shard too short.
-    assertThat(fromRefPart("1/1")).isNull();
+    assertThat(fromRefPart("ab/cd")).isNull();
   }
 
   private Account.Id id(int n) {

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.GetAgreements;
 import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
@@ -75,6 +77,7 @@ public class AccountApiImpl implements AccountApi {
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
   private final AddSshKey addSshKey;
+  private final GetAgreements getAgreements;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -92,6 +95,7 @@ public class AccountApiImpl implements AccountApi {
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
       AddSshKey addSshKey,
+      GetAgreements getAgreements,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -109,6 +113,7 @@ public class AccountApiImpl implements AccountApi {
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
     this.gpgApiAdapter = gpgApiAdapter;
+    this.getAgreements = getAgreements;
   }
 
   @Override
@@ -268,4 +273,10 @@ public class AccountApiImpl implements AccountApi {
       throw new RestApiException("Cannot get PGP key", e);
     }
   }
+
+  @Override
+  public List<AgreementInfo> listAgreements() throws RestApiException {
+    return getAgreements.apply(account);
+  }
+
 }

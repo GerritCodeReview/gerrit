@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,16 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+//
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.SubmitType;
+public class MergeInput {
+  // sourceRef could be any git object references expression
+  // @see org.eclipse.jgit.lib.Repository#resolve(String)
+  public String sourceRef;
 
-import java.util.List;
-
-public class MergeableInfo {
-  public SubmitType submitType;
+  // merge-strategy name of the merge strategy (optional)
+  // @see org.eclipse.jgit.merge.MergeStrategy
   public String mergeStrategy;
-  public boolean mergeable;
-  public List<String> mergeableInto;
 }

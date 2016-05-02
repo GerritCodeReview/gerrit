@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="1.8" jdk_type="JavaSDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/bin"/>
+		<excludeFolder url="file://$MODULE_DIR$/buck-out"/>
+		<excludeFolder url="file://$MODULE_DIR$/eclipse-out"/>
+	</contentEntry>
+	<lib name="index_lib.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/Documentation/index_lib.jar!/"/>
+	</lib>
+	<lib name="query_parser.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/gerrit-antlr/query_parser.jar!/"/>
+	</lib>
+	<lib name="diffy_logo.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/gerrit-gwtui-common/diffy_logo.jar!/"/>
+	</lib>
+	<lib name="edit_src.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/gerrit-patch-jgit/edit_src.jar!/"/>
+	</lib>
+	<lib name="common.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/gerrit-server/src/main/prolog/common.jar!/"/>
+	</lib>
+	<lib name="log4j-config.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/gerrit-war/log4j-config.jar!/"/>
+	</lib>
+	<lib name="java_runtime.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/antlr/java_runtime_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/antlr/java_runtime_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/antlr/java_runtime.jar!/"/>
+	</lib>
+	<lib name="args4j.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/args4j_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/args4j_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/args4j.jar!/"/>
+	</lib>
+	<lib name="asciidoctor.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/asciidoctor/asciidoctor.jar!/"/>
+	</lib>
+	<lib name="jruby.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/asciidoctor/jruby.jar!/"/>
+	</lib>
+	<lib name="auto-value.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/auto/auto-value_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/auto/auto-value_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/auto/auto-value.jar!/"/>
+	</lib>
+	<lib name="automaton.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/automaton_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/automaton_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/automaton.jar!/"/>
+	</lib>
+	<lib name="blame-cache.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/blame-cache_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/blame-cache_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/blame-cache.jar!/"/>
+	</lib>
+	<lib name="bcpg.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/bouncycastle/bcpg_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/bouncycastle/bcpg_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/bouncycastle/bcpg.jar!/"/>
+	</lib>
+	<lib name="bcpkix.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/bouncycastle/bcpkix_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/bouncycastle/bcpkix_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/bouncycastle/bcpkix.jar!/"/>
+	</lib>
+	<lib name="bcprov.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/bouncycastle/bcprov_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/bouncycastle/bcprov_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/bouncycastle/bcprov.jar!/"/>
+	</lib>
+	<lib name="codemirror.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/codemirror/codemirror.jar!/"/>
+	</lib>
+	<lib name="codec.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/commons/codec_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/codec_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/codec.jar!/"/>
+	</lib>
+	<lib name="collections.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/collections.jar!/"/>
+	</lib>
+	<lib name="compress.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/commons/compress_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/compress_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/compress.jar!/"/>
+	</lib>
+	<lib name="dbcp.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/commons/dbcp_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/dbcp_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/dbcp.jar!/"/>
+	</lib>
+	<lib name="lang.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/commons/lang_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/lang_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/lang.jar!/"/>
+	</lib>
+	<lib name="net.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/commons/net_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/net_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/net.jar!/"/>
+	</lib>
+	<lib name="oro.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/oro.jar!/"/>
+	</lib>
+	<lib name="pool.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/pool.jar!/"/>
+	</lib>
+	<lib name="validator.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/commons/validator_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/validator_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/commons/validator.jar!/"/>
+	</lib>
+	<lib name="derby.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/derby.jar!/"/>
+	</lib>
+	<lib name="dropwizard-core.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/dropwizard/dropwizard-core_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/dropwizard/dropwizard-core_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/dropwizard/dropwizard-core.jar!/"/>
+	</lib>
+	<lib name="cglib-2_2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/easymock/cglib-2_2.jar!/"/>
+	</lib>
+	<lib name="easymock.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/easymock/easymock_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/easymock/easymock_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/easymock/easymock.jar!/"/>
+	</lib>
+	<lib name="objenesis.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/easymock/objenesis.jar!/"/>
+	</lib>
+	<lib name="grappa.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/grappa_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/grappa_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/grappa.jar!/"/>
+	</lib>
+	<lib name="gson.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/gson_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gson_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gson.jar!/"/>
+	</lib>
+	<lib name="guava-retrying.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guava-retrying_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guava-retrying_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guava-retrying.jar!/"/>
+	</lib>
+	<lib name="guava.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guava_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guava_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guava.jar!/"/>
+	</lib>
+	<lib name="aopalliance.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guice/aopalliance_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/aopalliance_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/aopalliance.jar!/"/>
+	</lib>
+	<lib name="guice-assistedinject.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guice/guice-assistedinject_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/guice-assistedinject_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/guice-assistedinject.jar!/"/>
+	</lib>
+	<lib name="guice-servlet.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guice/guice-servlet_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/guice-servlet_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/guice-servlet.jar!/"/>
+	</lib>
+	<lib name="guice_library.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guice/guice_library_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/guice_library_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/guice_library.jar!/"/>
+	</lib>
+	<lib name="javax-inject.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/guice/javax-inject_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/javax-inject_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/guice/javax-inject.jar!/"/>
+	</lib>
+	<lib name="gwtjsonrpc.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/gwtjsonrpc_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwtjsonrpc_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwtjsonrpc.jar!/"/>
+	</lib>
+	<lib name="gwtjsonrpc_src.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwtjsonrpc_src.jar!/"/>
+	</lib>
+	<lib name="gwtorm_client.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/gwtorm_client_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwtorm_client_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwtorm_client.jar!/"/>
+	</lib>
+	<lib name="gwtorm_client_src.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwtorm_client_src.jar!/"/>
+	</lib>
+	<lib name="h2.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/h2_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/h2_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/h2.jar!/"/>
+	</lib>
+	<lib name="hamcrest-core.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/hamcrest-core_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/hamcrest-core_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/hamcrest-core.jar!/"/>
+	</lib>
+	<lib name="fluent-hc.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/httpcomponents/fluent-hc_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/httpcomponents/fluent-hc_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/httpcomponents/fluent-hc.jar!/"/>
+	</lib>
+	<lib name="httpclient.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/httpcomponents/httpclient_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/httpcomponents/httpclient_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/httpcomponents/httpclient.jar!/"/>
+	</lib>
+	<lib name="httpcore.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/httpcomponents/httpcore_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/httpcomponents/httpcore_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/httpcomponents/httpcore.jar!/"/>
+	</lib>
+	<lib name="javassist.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/javassist_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/javassist_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/javassist.jar!/"/>
+	</lib>
+	<lib name="continuation.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jetty/continuation_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/continuation_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/continuation.jar!/"/>
+	</lib>
+	<lib name="http__jar.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/http__jar.jar!/"/>
+	</lib>
+	<lib name="io__jar.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/io__jar.jar!/"/>
+	</lib>
+	<lib name="jmx__jar.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/jmx__jar.jar!/"/>
+	</lib>
+	<lib name="security.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jetty/security_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/security_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/security.jar!/"/>
+	</lib>
+	<lib name="server__jar.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/server__jar.jar!/"/>
+	</lib>
+	<lib name="servlet.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jetty/servlet_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/servlet_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/servlet.jar!/"/>
+	</lib>
+	<lib name="servlets.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jetty/servlets_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/servlets_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/servlets.jar!/"/>
+	</lib>
+	<lib name="util.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jetty/util_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/util_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jetty/util.jar!/"/>
+	</lib>
+	<lib name="jgit-archive.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.archive/jgit-archive_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.archive/jgit-archive_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.archive/jgit-archive.jar!/"/>
+	</lib>
+	<lib name="jgit-servlet.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.http.server/jgit-servlet_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.http.server/jgit-servlet_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.http.server/jgit-servlet.jar!/"/>
+	</lib>
+	<lib name="junit.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.junit/junit_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.junit/junit_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit.junit/junit.jar!/"/>
+	</lib>
+	<lib name="ewah.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit/ewah_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit/ewah_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit/ewah.jar!/"/>
+	</lib>
+	<lib name="jgit.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit/jgit_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit/jgit_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jgit/org.eclipse.jgit/jgit.jar!/"/>
+	</lib>
+	<lib name="jimfs.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jimfs_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jimfs_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jimfs.jar!/"/>
+	</lib>
+	<lib name="jitescript.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jitescript_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jitescript_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jitescript.jar!/"/>
+	</lib>
+	<lib name="joda-convert.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/joda/joda-convert_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/joda/joda-convert_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/joda/joda-convert.jar!/"/>
+	</lib>
+	<lib name="joda-time.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/joda/joda-time_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/joda/joda-time_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/joda/joda-time.jar!/"/>
+	</lib>
+	<lib name="jsch.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/jsch_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jsch_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jsch.jar!/"/>
+	</lib>
+	<lib name="jsr305.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/jsr305.jar!/"/>
+	</lib>
+	<lib name="junit__jar.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/junit__jar.jar!/"/>
+	</lib>
+	<lib name="juniversalchardet.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/juniversalchardet_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/juniversalchardet_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/juniversalchardet.jar!/"/>
+	</lib>
+	<lib name="api.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/api_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/api_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/api.jar!/"/>
+	</lib>
+	<lib name="impl_log4j.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/impl_log4j_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/impl_log4j_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/impl_log4j.jar!/"/>
+	</lib>
+	<lib name="jcl-over-slf4j.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/jcl-over-slf4j_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/jcl-over-slf4j_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/jcl-over-slf4j.jar!/"/>
+	</lib>
+	<lib name="json-smart.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/json-smart_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/json-smart_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/json-smart.jar!/"/>
+	</lib>
+	<lib name="jsonevent-layout.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/jsonevent-layout_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/jsonevent-layout_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/jsonevent-layout.jar!/"/>
+	</lib>
+	<lib name="log4j.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/log4j_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/log4j_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/log4j.jar!/"/>
+	</lib>
+	<lib name="nop.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/log/nop_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/nop_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/log/nop.jar!/"/>
+	</lib>
+	<lib name="lucene-analyzers-common.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/lucene/lucene-analyzers-common_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-analyzers-common_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-analyzers-common.jar!/"/>
+	</lib>
+	<lib name="lucene-core-and-backward-codecs.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-core-and-backward-codecs.jar!/"/>
+	</lib>
+	<lib name="lucene-misc.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/lucene/lucene-misc_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-misc_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-misc.jar!/"/>
+	</lib>
+	<lib name="lucene-queryparser.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/lucene/lucene-queryparser_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-queryparser_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/lucene/lucene-queryparser.jar!/"/>
+	</lib>
+	<lib name="mime-util.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/mime-util.jar!/"/>
+	</lib>
+	<lib name="core.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/mina/core_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/mina/core_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/mina/core.jar!/"/>
+	</lib>
+	<lib name="sshd.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/mina/sshd_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/mina/sshd_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/mina/sshd.jar!/"/>
+	</lib>
+	<lib name="consumer.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/openid/consumer_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/openid/consumer_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/openid/consumer.jar!/"/>
+	</lib>
+	<lib name="nekohtml.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/openid/nekohtml.jar!/"/>
+	</lib>
+	<lib name="xerces.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/openid/xerces.jar!/"/>
+	</lib>
+	<lib name="ow2-asm-analysis.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/ow2/ow2-asm-analysis_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm-analysis_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm-analysis.jar!/"/>
+	</lib>
+	<lib name="ow2-asm-tree.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/ow2/ow2-asm-tree_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm-tree_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm-tree.jar!/"/>
+	</lib>
+	<lib name="ow2-asm-util.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/ow2/ow2-asm-util_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm-util_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm-util.jar!/"/>
+	</lib>
+	<lib name="ow2-asm.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/ow2/ow2-asm_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/ow2/ow2-asm.jar!/"/>
+	</lib>
+	<lib name="pegdown.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/pegdown_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/pegdown_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/pegdown.jar!/"/>
+	</lib>
+	<lib name="postgresql.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/postgresql.jar!/"/>
+	</lib>
+	<lib name="powermock-api-easymock.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/powermock/powermock-api-easymock_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-api-easymock_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-api-easymock.jar!/"/>
+	</lib>
+	<lib name="powermock-api-support.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/powermock/powermock-api-support_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-api-support_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-api-support.jar!/"/>
+	</lib>
+	<lib name="powermock-core.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/powermock/powermock-core_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-core_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-core.jar!/"/>
+	</lib>
+	<lib name="powermock-module-junit4-common.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/powermock/powermock-module-junit4-common_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-module-junit4-common_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-module-junit4-common.jar!/"/>
+	</lib>
+	<lib name="powermock-module-junit4.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/powermock/powermock-module-junit4_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-module-junit4_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-module-junit4.jar!/"/>
+	</lib>
+	<lib name="powermock-reflect.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/powermock/powermock-reflect_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-reflect_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/powermock/powermock-reflect.jar!/"/>
+	</lib>
+	<lib name="cafeteria.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/prolog/cafeteria_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/cafeteria_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/cafeteria.jar!/"/>
+	</lib>
+	<lib name="compiler.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/prolog/compiler_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/compiler_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/compiler.jar!/"/>
+	</lib>
+	<lib name="io.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/prolog/io_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/io_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/io.jar!/"/>
+	</lib>
+	<lib name="runtime.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/prolog/runtime_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/runtime_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/prolog/runtime.jar!/"/>
+	</lib>
+	<lib name="protobuf.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/protobuf_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/protobuf_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/protobuf.jar!/"/>
+	</lib>
+	<lib name="servlet-api-3_1.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/servlet-api-3_1_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/servlet-api-3_1_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/servlet-api-3_1.jar!/"/>
+	</lib>
+	<lib name="truth__jar.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/truth__jar.jar!/"/>
+	</lib>
+	<lib name="tukaani-xz.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/tukaani-xz.jar!/"/>
+	</lib>
+	<lib name="velocity.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/velocity_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/velocity_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/velocity.jar!/"/>
+	</lib>
+	<lib name="dev.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwt/dev.jar!/"/>
+	</lib>
+	<lib name="javax-validation.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/buck-out/gen/lib/gwt/javax-validation_src.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwt/javax-validation_src.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwt/javax-validation.jar!/"/>
+	</lib>
+	<lib name="javax-validation_src.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwt/javax-validation_src.jar!/"/>
+	</lib>
+	<lib name="user.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/buck-out/gen/lib/gwt/user.jar!/"/>
+	</lib>
+	<lib name="java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-common/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-extension-api/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-extension-api/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-gwtexpui/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-gwtexpui/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-gwtui/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-gwtui/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-gwtui-common/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-gwtui-common/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-patch-jgit/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-patch-jgit/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-prettify/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-prettify/src/main/java"/>
+	</lib>
+	<lib name="$MODULE_DIR$/gerrit-reviewdb/src/main/java" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/gerrit-reviewdb/src/main/java"/>
+	</lib>
+</component>

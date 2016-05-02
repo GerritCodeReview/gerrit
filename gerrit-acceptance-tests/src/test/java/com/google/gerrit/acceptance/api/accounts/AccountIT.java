@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testutil.TestKeys.allValidKeys;
@@ -39,6 +40,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -53,6 +55,7 @@ import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -62,6 +65,8 @@ import com.google.inject.Provider;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -352,6 +357,27 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("invalid email address");
     gApi.accounts().self().addEmail(input);
+  }
+
+  @Test
+  public void fetchUserBranch() throws Exception {
+    // change something in the user preferences to ensure that the user branch
+    // is created
+    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+    input.changesPerPage =
+        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    gApi.accounts().self().setPreferences(input);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    Ref userRef = allUsersRepo.getRepository().exactRef("userRef");
+    assertThat(userRef).isNotNull();
+
+    fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userSelfRef");
+    Ref userSelfRef =
+        allUsersRepo.getRepository().getRefDatabase().exactRef("userSelfRef");
+    assertThat(userSelfRef).isNotNull();
+    assertThat(userSelfRef.getObjectId()).isEqualTo(userRef.getObjectId());
   }
 
   @Test

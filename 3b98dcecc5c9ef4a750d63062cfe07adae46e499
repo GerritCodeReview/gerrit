@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a80949df_1af5dd92",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "Remove this line? The force flag doesn\u0027t make any difference for deductions, does it?.",
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_7af219ac",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2615,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "The sections that describe the JSON entities are sorted alphabetically. This means this section must be moved further up.",
+      "range": {
+        "startLine": 2614,
+        "startChar": 0,
+        "endLine": 2615,
+        "endChar": 22
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_9b2f2be6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "[optional] maybe even better formatted as\n\n  return Objects.equals(label, p.label)\n      \u0026\u0026 Objects.equals(exclusive, p.exclusive)\n      \u0026\u0026 Objects.equals(rules, p.rules);",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_5aef55c0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/PermissionRuleInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "[optional] same here, maybe better format this as\n\n  return Objects.equals(...)\n      \u0026\u0026 Objects.equals(...)\n      \u0026\u0026 ...;",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_7b497fc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "Consider removing this member variable and instead just pass it as argument into the updateProjectConfig method. This way this class can be turned into a singleton (but then MetaDataUpdate.User must become a provider).",
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_3a3f0117",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "Should we fail with an AuthException when this is a normal access section but the calling user is not allowed to change it?",
+      "range": {
+        "startLine": 127,
+        "startChar": 12,
+        "endLine": 127,
+        "endChar": 73
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_1a3cbd1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "Should we fail with BadRequestException if the access section is invalid.",
+      "range": {
+        "startLine": 155,
+        "startChar": 37,
+        "endLine": 155,
+        "endChar": 64
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_bb1147a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "Should we fail with an AuthException in the else case?",
+      "range": {
+        "startLine": 156,
+        "startChar": 10,
+        "endLine": 158,
+        "endChar": 11
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_9b160b96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "Don\u0027t we need to do this check also in case where currentAccessSection \u003d\u003d null?",
+      "range": {
+        "startLine": 172,
+        "startChar": 19,
+        "endLine": 172,
+        "endChar": 62
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_9a2f2de6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "This exception cannot be thrown and should be removed from the method declaration.",
+      "range": {
+        "startLine": 224,
+        "startChar": 11,
+        "endLine": 224,
+        "endChar": 36
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_7a4979c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "format this as:\n\n  if (permissionEntry.getValue().rules \u003d\u003d null) {\n      continue;\n  }",
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_fa34693b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T09:56:34Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 278,
+        "startChar": 2,
+        "endLine": 278,
+        "endChar": 11
+      },
+      "revId": "3b98dcecc5c9ef4a750d63062cfe07adae46e499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_19232bf7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T17:38:58Z",
+      "side": 0,
+      "message": "Worse, testCreateNewChangeForAllNotInTarget also passes if I just add it on top of master:\n\nhttps://gerrit-review.googlesource.com/77120\n\nSo I don\u0027t think we have an accurate reproduction of the problem here.",
+      "parentUuid": "e8fd01ea_bcc66124",
+      "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -155,6 +155,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         plcUtil.putComments(ctx.getDb(), update,
             Collections.singleton(update(comment, in, ctx.getWhen())));
       }
+      ctx.bumpLastUpdatedOn(false);
       return true;
     }
   }

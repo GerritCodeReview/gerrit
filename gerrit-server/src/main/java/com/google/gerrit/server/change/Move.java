@@ -186,7 +186,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       cmsg.setMessage(msgBuf.toString());
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
 
-      ctx.saveChange();
       return true;
     }
   }

@@ -192,7 +192,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       if (wasDraftChange) {
         change.setStatus(Change.Status.NEW);
         update.setStatus(change.getStatus());
-        ctx.saveChange();
       }
     }
 
@@ -202,10 +201,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         throw new ResourceConflictException("Patch set is not a draft");
       }
       psUtil.publish(ctx.getDb(), ctx.getUpdate(psId), patchSet);
-      // Force ETag invalidation if not done already
-      if (!wasDraftChange) {
-        ctx.saveChange();
-      }
     }
 
     private void addReviewers(ChangeContext ctx)

@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1462210566 +0200\nnonce AD0XjTUj74rbXBTqYMBRtiNAXp5roTs1y0r2WjlbwuIMVuOb6UeCixF6HHmEhZbsHQcpapbHlaxH\n\n0000000000000000000000000000000000000000 2bef40060b512bab8f2aca8804fdbadbf09ca667 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXJ5AGAAoJEHFVO370GiZW0EgH/0Vxeax/oOFjm/tbtTe76d8j\nv4R4qVEa6vdDbpYoltA/oI184vxyOvQ9Qx6L+H9Yn3Y/n79ntvCBYSzTWIrS3gB+\n1Ibbus/sNvHq9dK88OH8ie55xSDXuGtsYhr9/1VofWynOHV7mE4eTIj3Vf4cDJyi\nqVe69C4lGdOh/4M5AzuCZi2MCcUM9mQ/7UEzNJPV0z0JizQQTZT5uhZTjEd+J6dF\noQ2XgW4fQlpNYVluGrQwgpJK1+pbri00i+g2UQPF4AIOV2QJdxpVYdFjjTGV3/Ce\n+j/S+EVtsxykOQaRNvv6hg8vuG2eMVjYZ24Nn1jikuptTbdaEzL16IJvSKUFGtA\u003d\n\u003dwT1W\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83309d6_4aadb397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:41:48Z",
+      "side": 1,
+      "message": "specific",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_8ab5ebe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:41:48Z",
+      "side": 1,
+      "message": "Is this only used for iteration above on line 112?  If so the older List version will be more efficient than HashSet.\n\nMaybe make this just return Iterable\u003cString\u003e and then the implementation can be a bit more aggressive about avoiding unnecessary copies:\n\n  if (user.isIdentifiedUser()) {\n    Set\u003cString\u003e emails \u003d user.asIdentifiedUser().getEmailAddresses();\n    if (user.getUserName() \u003d\u003d null) {\n      return emails;\n    } else if (emails.isEmpty()) {\n      return ImmutableSet.of(user.getUserName());\n    }\n    Iterables.concat(emails, ImmutableSet.of(user.getUserName());\n  }\n  if (user.getUserName() !\u003d null) {\n    return ImmutableSet.of(user.getUserName());\n  }\n  return ImmutableSet.of();",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_47adae97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:41:48Z",
+      "side": 1,
+      "message": "Use Guava to make a HashSet with a size target:\n\n  r \u003d Sets.newHashSetWithExpectedSize(emails.size() + 1)\n\nThe java.util.HashSet constructor is \"funny\" and Guava does some correction for you to prevent setting up the HashSet with the wrong table size.",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_6aaa7782",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:41:48Z",
+      "side": 1,
+      "message": "Same as above",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

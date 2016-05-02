@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f83dfd_9b08cb83",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T07:21:44Z",
+      "side": 1,
+      "message": "Wrong import.",
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_fbfd8f7f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T07:21:44Z",
+      "side": 1,
+      "message": "I think the result is sorted. If yes, add an .inOrder() call to verify the order.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 51
+      },
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_7adb392c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T07:21:44Z",
+      "side": 1,
+      "message": "better check that the result contains exactly the watch for project 1",
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_5ad8f52d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T07:21:44Z",
+      "side": 1,
+      "message": "UnprocessableEntityException, use Not Found only when it\u0027s about a resource specified in the URL.",
+      "range": {
+        "startLine": 69,
+        "startChar": 20,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

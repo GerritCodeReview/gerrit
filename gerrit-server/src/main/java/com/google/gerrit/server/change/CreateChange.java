@@ -50,6 +50,8 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeIdenticalTreeException;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
@@ -99,6 +101,7 @@ public class CreateChange implements
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
   CreateChange(@AnonymousCowardName String anonymousCowardName,
@@ -114,7 +117,8 @@ public class CreateChange implements
       ChangeFinder changeFinder,
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      MergeUtil.Factory mergeUtilFactory) {
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
@@ -129,6 +133,7 @@ public class CreateChange implements
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.mergeUtilFactory = mergeUtilFactory;
   }
 
   @Override
@@ -232,7 +237,21 @@ public class CreateChange implements
               account.getAccount().getNameEmail(anonymousCowardName));
         }
 
-        RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
+        RevCommit c;
+        if (!Strings.isNullOrEmpty(input.merge)) {
+          // create a merge commit
+          try {
+            RevCommit sourceCommit = resolveCommitFromString(input.merge, git, rw);
+            MergeUtil mergeUtil = mergeUtilFactory.create(rsrc.getControl().getProjectState());
+            c = mergeUtil
+                .createMergeCommit(git, oi, mergeTip, sourceCommit, author, commitMessage, rw);
+          } catch (MergeIdenticalTreeException e) {
+            throw new UpdateException("merge failed: " + e.getMessage());
+          }
+        } else {
+          // create an empty commit
+          c = newCommit(oi, rw, author, mergeTip, commitMessage);
+        }
 
         Change.Id changeId = new Change.Id(seq.nextChangeId());
         ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
@@ -286,5 +305,34 @@ public class CreateChange implements
   private static ObjectId emptyTreeId(ObjectInserter inserter)
       throws IOException {
     return inserter.insert(new TreeFormatter());
+  }
+
+  /**
+   * Resolve a commit reference from a string
+   *
+   * @param mergePoint a SHA1 string literal or a branch name
+   * @param git the git repository
+   * @return A commit reference of the input
+   * @throws IOException a pack file or loose object could not be read.
+   * @throws BadRequestException merge point can not be resolved to a commit
+   */
+  private RevCommit resolveCommitFromString(String mergePoint, Repository git, RevWalk rw)
+      throws IOException, BadRequestException {
+    RevCommit c;
+    if (ObjectId.isId(mergePoint)) {
+      // merge point is a SHA1
+      c = rw.parseCommit(ObjectId.fromString(mergePoint));
+    } else {
+      String sourceRefName = RefNames.fullName(mergePoint);
+      Ref sourceRef = git.getRefDatabase().exactRef(sourceRefName);
+      if (sourceRef != null) {
+        // merge point is a branch
+        c = rw.parseCommit(sourceRef.getObjectId());
+      } else {
+        throw new BadRequestException("merge must be from a SHA1 or a branch name");
+      }
+    }
+
+    return c;
   }
 }

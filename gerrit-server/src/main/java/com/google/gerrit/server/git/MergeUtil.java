@@ -205,6 +205,29 @@ public class MergeUtil {
     }
   }
 
+  public RevCommit createMergeCommit(Repository repo, ObjectInserter inserter, RevCommit mergeTip,
+      RevCommit originalCommit, PersonIdent committerIndent, String commitMsg, RevWalk rw)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+
+    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
+    if (m.merge(mergeTip, originalCommit)) {
+      ObjectId tree = m.getResultTreeId();
+      if (tree.equals(mergeTip.getTree())) {
+        throw new MergeIdenticalTreeException("identical tree");
+      }
+
+      CommitBuilder mergeCommit = new CommitBuilder();
+      mergeCommit.setTreeId(tree);
+      mergeCommit.setParentIds(mergeTip, originalCommit);
+      mergeCommit.setAuthor(originalCommit.getAuthorIdent());
+      mergeCommit.setCommitter(committerIndent);
+      mergeCommit.setMessage(commitMsg);
+      return rw.parseCommit(inserter.insert(mergeCommit));
+    } else {
+      throw new MergeConflictException("merge conflict");
+    }
+  }
+
   public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
       PatchSet.Id psId) {
     Change c = ctl.getChange();

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a80949df_fa0bc96b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T12:01:55Z",
+      "side": 1,
+      "message": "VisibleRefFilter was not always invoked (if a user can see all refs of the project). However this optimization seems unneeded and I propose to remove it:\n\n  https://gerrit-review.googlesource.com/77074",
+      "parentUuid": "680911af_a8fd3b80",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "480c4dc0_074676af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2016-04-29T18:31:38Z",
       "side": 1,
       "message": "We also should short-circuit out if this is not the All-Users repository.",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_1b6afb0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T12:01:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "480c4dc0_074676af",
       "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "a80949df_3a542143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T12:01:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "680911af_c8086f84",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8de7d5a_ab59a980",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2016-04-29T09:57:58Z",
       "side": 1,
       "message": "Isn\u0027t a magic ref always symbolic? At least in this case you should return true I think.",
+      "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_1a515d53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AdvertiseRefsUsersSelfRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T12:01:55Z",
+      "side": 1,
+      "message": "As comment by Shawn, I made it a SymbolicRef now :-)",
+      "parentUuid": "c8de7d5a_ab59a980",
       "revId": "2511726b5e97bb2988addb890fe19bcc98f84cba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

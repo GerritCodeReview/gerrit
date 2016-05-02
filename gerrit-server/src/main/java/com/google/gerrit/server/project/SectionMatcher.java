@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 
 /**
  * Matches an AccessSection against a reference name.
@@ -45,7 +46,7 @@ class SectionMatcher extends RefPatternMatcher {
   }
 
   @Override
-  public boolean match(String ref, String username) {
-    return this.matcher.match(ref, username);
+  public boolean match(String ref, CurrentUser user) {
+    return this.matcher.match(ref, user);
   }
 }

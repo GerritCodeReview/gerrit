@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_db39b333",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T11:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f83dfd_9b08cb83",
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8f83dfd_fbfd8f7f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2016-05-02T07:21:44Z",
       "side": 1,
       "message": "I think the result is sorted. If yes, add an .inOrder() call to verify the order.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 51
+      },
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_ba2af1d5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T11:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f83dfd_fbfd8f7f",
       "range": {
         "startLine": 59,
         "startChar": 4,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_3b3ff716",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T11:04:35Z",
+      "side": 1,
+      "message": "Well, that\u0027s hard for the tests, as we usually do not clean up after the individual test cases, so other tests left some watches behind. Therefore I just check that it does not contain my deleted object and does contain my persisted object.",
+      "parentUuid": "a80949df_7adb392c",
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a80949df_5ad8f52d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
         "patchSetId": 3
@@ -70,6 +130,30 @@
       "writtenOn": "2016-05-02T07:21:44Z",
       "side": 1,
       "message": "UnprocessableEntityException, use Not Found only when it\u0027s about a resource specified in the URL.",
+      "range": {
+        "startLine": 69,
+        "startChar": 20,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_5b4643b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T11:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a80949df_5ad8f52d",
       "range": {
         "startLine": 69,
         "startChar": 20,

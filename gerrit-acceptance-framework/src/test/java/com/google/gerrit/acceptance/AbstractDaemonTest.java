@@ -276,6 +276,10 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
+  protected boolean isContributorAgreementsEnabled() {
+    return cfg.getBoolean("auth", null, "contributorAgreements", false);
+  }
+
   protected void beforeTest(Description description) throws Exception {
     GerritServer.Description classDesc =
       GerritServer.Description.forTestClass(description, configName);

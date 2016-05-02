@@ -25,6 +25,8 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -38,6 +40,7 @@ import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.DeleteWatchedProjects;
+import com.google.gerrit.server.account.GetAgreements;
 import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
@@ -45,6 +48,7 @@ import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
 import com.google.gerrit.server.account.PostWatchedProjects;
+import com.google.gerrit.server.account.PutAgreement;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
@@ -93,6 +97,8 @@ public class AccountApiImpl implements AccountApi {
   private final AddSshKey addSshKey;
   private final DeleteSshKey deleteSshKey;
   private final SshKeys sshKeys;
+  private final GetAgreements getAgreements;
+  private final PutAgreement putAgreement;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -118,6 +124,8 @@ public class AccountApiImpl implements AccountApi {
       AddSshKey addSshKey,
       DeleteSshKey deleteSshKey,
       SshKeys sshKeys,
+      GetAgreements getAgreements,
+      PutAgreement putAgreement,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -143,6 +151,8 @@ public class AccountApiImpl implements AccountApi {
     this.deleteSshKey = deleteSshKey;
     this.sshKeys = sshKeys;
     this.gpgApiAdapter = gpgApiAdapter;
+    this.getAgreements = getAgreements;
+    this.putAgreement = putAgreement;
   }
 
   @Override
@@ -374,4 +384,21 @@ public class AccountApiImpl implements AccountApi {
       throw new RestApiException("Cannot get PGP key", e);
     }
   }
+
+  @Override
+  public List<AgreementInfo> listAgreements() throws RestApiException {
+    return getAgreements.apply(account);
+  }
+
+  @Override
+  public void signAgreement(String agreementName) throws RestApiException {
+    try {
+      AgreementInput input = new AgreementInput();
+      input.name = agreementName;
+      putAgreement.apply(account, input);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot sign agreement", e);
+    }
+  }
+
 }

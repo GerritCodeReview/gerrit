@@ -15,8 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.changeRefName;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
@@ -525,7 +525,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void emptyChangeUpdate() throws Exception {
     Change c = newChange();
-    Ref initial = repo.exactRef(changeRefName(c.getId()));
+    Ref initial = repo.exactRef(changeMetaRef(c.getId()));
     assertThat(initial).isNotNull();
 
     // Empty update doesn't create a new commit.
@@ -533,7 +533,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     assertThat(update.getResult()).isNull();
 
-    Ref updated = repo.exactRef(changeRefName(c.getId()));
+    Ref updated = repo.exactRef(changeMetaRef(c.getId()));
     assertThat(updated.getObjectId()).isEqualTo(initial.getObjectId());
   }
 
@@ -1877,7 +1877,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(comment);
     update.commit();
 
-    assertThat(repo.exactRef(changeRefName(c.getId()))).isNotNull();
+    assertThat(repo.exactRef(changeMetaRef(c.getId()))).isNotNull();
     String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
     assertThat(exactRefAllUsers(draftRef)).isNull();
   }

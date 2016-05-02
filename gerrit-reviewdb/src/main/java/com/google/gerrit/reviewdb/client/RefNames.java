@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-
 /** Constants and utilities for Gerrit-specific ref names. */
 public class RefNames {
   public static final String REFS = "refs/";
@@ -77,6 +76,21 @@ public class RefNames {
       return ref.substring(REFS_TAGS.length());
     }
     return ref;
+  }
+
+  public static String changeMetaRef(Change.Id id) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_CHANGES);
+    int n = id.get();
+    int m = n % 100;
+    if (m < 10) {
+      r.append('0');
+    }
+    r.append(m);
+    r.append('/');
+    r.append(n);
+    r.append(META_SUFFIX);
+    return r.toString();
   }
 
   public static String refsUsers(Account.Id accountId) {

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
@@ -31,7 +32,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 
@@ -122,8 +122,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(
-          repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))
-              .getObjectId());
+          repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
 
       assertThat(commit.getShortMessage()).isEqualTo("Create change");
 

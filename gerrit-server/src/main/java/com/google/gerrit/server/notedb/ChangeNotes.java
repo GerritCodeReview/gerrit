@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -530,7 +531,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   protected String getRefName() {
-    return ChangeNoteUtil.changeRefName(getChangeId());
+    return changeMetaRef(getChangeId());
   }
 
   public PatchSet getCurrentPatchSet() {

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.notedb.ChangeBundle;
-import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
@@ -283,8 +283,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
 
-    ObjectId changeMetaId = getMetaRef(
-        project, ChangeNoteUtil.changeRefName(id));
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name());
 

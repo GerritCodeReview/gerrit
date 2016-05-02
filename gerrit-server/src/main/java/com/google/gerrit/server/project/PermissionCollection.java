@@ -26,12 +26,11 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -65,22 +64,21 @@ public class PermissionCollection {
      *        priority order (project specific definitions must appear before
      *        inherited ones).
      * @param ref reference being accessed.
-     * @param usernameProvider if the reference is a per-user reference, access
-     *        sections using the parameter variable "${username}" will first
-     *        have each of {@code usernames} inserted into them before seeing if
-     *        they apply to the reference named by {@code ref}.
+     * @param user if the reference is a per-user reference, e.g. access
+     *        sections using the parameter variable "${username}" will have
+     *        each username inserted into them to see if they apply to the
+     *        reference named by {@code ref}.
      * @return map of permissions that apply to this reference, keyed by
      *         permission name.
      */
     PermissionCollection filter(Iterable<SectionMatcher> matcherList,
-        String ref, Provider<? extends Collection<String>> usernameProvider) {
+        String ref, CurrentUser user) {
       if (isRE(ref)) {
         ref = RefControl.shortestExample(ref);
       } else if (ref.endsWith("/*")) {
         ref = ref.substring(0, ref.length() - 1);
       }
 
-      Collection<String> usernames = null;
       boolean perUser = false;
       Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
       for (SectionMatcher sm : matcherList) {
@@ -101,14 +99,9 @@ public class PermissionCollection {
             continue;
           }
           perUser = true;
-          if (usernames == null) {
-            usernames = usernameProvider.get();
-          }
-          for (String username : usernames) {
-            if (sm.match(ref, username)) {
-              sectionToProject.put(sm.section, sm.project);
-              break;
-            }
+          if (sm.match(ref, user)) {
+            sectionToProject.put(sm.section, sm.project);
+            break;
           }
         } else if (sm.match(ref, null)) {
           sectionToProject.put(sm.section, sm.project);

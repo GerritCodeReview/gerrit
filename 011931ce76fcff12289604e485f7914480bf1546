@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a865c9c5_9a8e2d36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-02T20:01:38Z",
+      "side": 1,
+      "message": "do you care about the webkit and o prefix stuff for this event listener?",
+      "revId": "011931ce76fcff12289604e485f7914480bf1546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

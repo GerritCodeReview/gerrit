@@ -144,11 +144,8 @@
       this._xhrPromise =
           this._removeReviewer(accountID).then(function(response) {
         this.disabled = false;
-        if (!response.ok) {
-          return response.text().then(function(text) {
-            alert(text);
-          });
-        }
+        if (!response.ok) { return response; }
+
         var reviewers = this.change.reviewers;
         ['REVIEWER', 'CC'].forEach(function(type) {
           reviewers[type] = reviewers[type] || [];
@@ -159,6 +156,9 @@
             }
           }
         }, this);
+      }.bind(this)).catch(function(err) {
+        this.disabled = false;
+        throw err;
       }.bind(this));
     },
 
@@ -304,11 +304,8 @@
       this._xhrPromise = this._addReviewer(reviewerID).then(function(response) {
         this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
         this.disabled = false;
-        if (!response.ok) {
-          return response.text().then(function(text) {
-            alert(text);
-          });
-        }
+        if (!response.ok) { return response; }
+
         return this.$.restAPI.getResponseObject(response).then(function(obj) {
           obj.reviewers.forEach(function(r) {
             this.push('change.removable_reviewers', r);
@@ -317,6 +314,9 @@
           this._inputVal = '';
           this.$.input.focus();
         }.bind(this));
+      }.bind(this)).catch(function(err) {
+        this.disabled = false;
+        throw err;
       }.bind(this));
     },
 

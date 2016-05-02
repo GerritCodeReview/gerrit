@@ -68,6 +68,18 @@
   Polymer({
     is: 'gr-rest-api-interface',
 
+    /**
+     * Fired when an server error occurs.
+     *
+     * @event server-error
+     */
+
+    /**
+     * Fired when a network error occurs.
+     *
+     * @event network-error
+     */
+
     properties: {
       _cache: {
         type: Object,
@@ -95,14 +107,24 @@
           return;
         }
 
-        if (!response.ok && opt_errFn) {
-          opt_errFn.call(null, response);
-          return undefined;
+        if (!response.ok) {
+          if (opt_errFn) {
+            opt_errFn.call(null, response);
+            return undefined;
+          }
+          this.fire('server-error', {response: response});
         }
+
         return this.getResponseObject(response);
       }.bind(this)).catch(function(err) {
+        if (opt_errFn) {
+          opt_errFn.call(null, null, err);
+        } else {
+          this.fire('network-error', {error: err});
+          throw err;
+        }
         throw err;
-      });
+      }.bind(this));
     },
 
     _urlWithParams: function(url, opt_params) {
@@ -503,13 +525,24 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).catch(function(err) {
+      return fetch(url, options).then(function(response) {
+        if (!response.ok) {
+          if (opt_errFn) {
+            opt_errFn.call(null, response);
+            return undefined;
+          }
+          this.fire('server-error', {response: response});
+        }
+
+        return response;
+      }.bind(this)).catch(function(err) {
+        this.fire('network-error', {error: err});
         if (opt_errFn) {
-          opt_errFn.call(opt_ctx || this);
+          opt_errFn.call(opt_ctx, null, err);
         } else {
           throw err;
         }
-      });
+      }.bind(this));
     },
 
     getDiff: function(changeNum, basePatchNum, patchNum, path,

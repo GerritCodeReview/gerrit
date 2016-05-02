@@ -344,14 +344,11 @@
       el.disabled = true;
       this._saveDiffPreferences().then(function(response) {
         el.disabled = false;
-        if (!response.ok) {
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          return response.text().then(function(text) {
-            console.error(text);
-          });
-        }
+        if (!response.ok) { return response; }
+
         this.$.prefsOverlay.close();
+      }.bind(this)).catch(function(err) {
+        el.disabled = false;
       }.bind(this));
     },
 

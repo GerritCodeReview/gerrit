@@ -39,6 +39,14 @@ limitations under the License.
       :host([shown]) {
         transform: translateY(0);
       }
+      .text {
+        display: inline-block;
+        max-width: 25em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: bottom;
+        white-space: nowrap;
+      }
       .action {
         color: #a1c2fa;
         font-weight: bold;
@@ -46,11 +54,11 @@ limitations under the License.
         text-decoration: none;
       }
     </style>
-    [[text]]
+    <span class="text">[[text]]</span>
     <gr-button
         link
         class="action"
-        hidden$="[[!actionText]]"
+        hidden$="[[_hideActionButton]]"
         on-tap="_handleActionTap">[[actionText]]</gr-button>
   </template>
   <script src="gr-alert.js"></script>

@@ -25,6 +25,81 @@
     },
     {
       "key": {
+        "uuid": "e8fd01ea_5cef5dc0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "Agreed, \"PolyGWT\" sounds like a third UI that is neither the GWT UI nor PolyGerrit.",
+      "parentUuid": "2820f890_55db6c99",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 70
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_b9dcbf29",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "I think this method needs to be renamed. The default UI is one of the enabled UIs when switching is enabled, so it\u0027s not right to say that the UI is *disabled* in that case.",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_9c2f25e6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "I can\u0027t easily tell from the name or from reading this class, what does \"forward mode\" mean?",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_bc2ae1d5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "Nit: blank line before constructor",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_b1a300d7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 4
@@ -36,6 +111,133 @@
       "writtenOn": "2016-04-17T08:48:11Z",
       "side": 1,
       "message": "Standalone class file?",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_f9e637f7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ab4dc25b_b1a300d7",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_d9eb73bf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "Optional: you can name the ServletRequest params something longer so you get the shorter \"req\" and \"res\" for the Http variants.",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_39d1cf0c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "This list is mostly equivalent to POLYGERRIT_INDEX_PATHS minus the * suffix. You could make POLYGERRIT_INDEX_PATHS instead contain the prefixes without * and add it back where necessary.",
+      "range": {
+        "startLine": 475,
+        "startChar": 19,
+        "endLine": 481,
+        "endChar": 42
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_3c3ff116",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "Shorter: return POLYGERRIT.equals(c.getValue())",
+      "range": {
+        "startLine": 520,
+        "startChar": 12,
+        "endLine": 521,
+        "endChar": 53
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_79db472c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "Separate constant for \"gwt\"? Although for googlesource.com we just unset the cookie. Doesn\u0027t really matter though.",
+      "range": {
+        "startLine": 533,
+        "startChar": 50,
+        "endLine": 533,
+        "endChar": 55
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_19ce8b6a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T14:52:02Z",
+      "side": 1,
+      "message": "POLYGERRIT?",
+      "range": {
+        "startLine": 533,
+        "startChar": 35,
+        "endLine": 533,
+        "endChar": 47
+      },
       "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

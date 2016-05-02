@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_fb590f80",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T11:32:00Z",
+      "side": 1,
+      "message": "OK, I see.",
+      "parentUuid": "c8f83dfd_3b3ff716",
+      "revId": "99d19c58bb5156617a7299193625eb781cecd109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a80949df_5ad8f52d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
         "patchSetId": 3

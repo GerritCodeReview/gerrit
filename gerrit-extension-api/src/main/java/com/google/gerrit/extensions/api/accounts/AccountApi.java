@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -62,6 +63,9 @@ public interface AccountApi {
   Map<String, GpgKeyInfo> putGpgKeys(List<String> add, List<String> remove)
       throws RestApiException;
   GpgKeyApi gpgKey(String id) throws RestApiException;
+
+  List<AgreementInfo> listAgreements() throws RestApiException;
+  void signAgreement(String agreementName) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -172,6 +176,16 @@ public interface AccountApi {
 
     @Override
     public Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<AgreementInfo> listAgreements() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void signAgreement(String agreementName) throws RestApiException {
       throw new NotImplementedException();
     }
   }

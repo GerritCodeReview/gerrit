@@ -205,6 +205,38 @@ public class MergeUtil {
     }
   }
 
+  public ObjectId createMergeCommit(Repository repo, ObjectInserter inserter,
+      RevCommit mergeTip, RevCommit originalCommit, PersonIdent committerIndent,
+      String commitMsg)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+    return createMergeCommit(repo, inserter, mergeTip, originalCommit,
+        mergeStrategyName(), committerIndent, commitMsg);
+  }
+
+  public static ObjectId createMergeCommit(Repository repo, ObjectInserter inserter,
+      RevCommit mergeTip, RevCommit originalCommit, String mergeStrategy,
+      PersonIdent committerIndent, String commitMsg)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+
+    Merger m = newMerger(repo, inserter, mergeStrategy);
+    if (m.merge(mergeTip, originalCommit)) {
+      ObjectId tree = m.getResultTreeId();
+      if (tree.equals(mergeTip.getTree())) {
+        throw new MergeIdenticalTreeException("identical tree");
+      }
+
+      CommitBuilder mergeCommit = new CommitBuilder();
+      mergeCommit.setTreeId(tree);
+      mergeCommit.setParentIds(mergeTip, originalCommit);
+      mergeCommit.setAuthor(originalCommit.getAuthorIdent());
+      mergeCommit.setCommitter(committerIndent);
+      mergeCommit.setMessage(commitMsg);
+      return inserter.insert(mergeCommit);
+    } else {
+      throw new MergeConflictException("merge conflict");
+    }
+  }
+
   public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
       PatchSet.Id psId) {
     Change c = ctl.getChange();
@@ -637,6 +669,28 @@ public class MergeUtil {
       }
     });
     return (ThreeWayMerger) m;
+  }
+
+  public static Merger newMerger(Repository repo,
+      final ObjectInserter inserter, String strategyName) {
+    MergeStrategy strategy = MergeStrategy.get(strategyName);
+    checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
+    Merger m = strategy.newMerger(repo, true);
+    m.setObjectInserter(new ObjectInserter.Filter() {
+      @Override
+      protected ObjectInserter delegate() {
+        return inserter;
+      }
+
+      @Override
+      public void flush() {
+      }
+
+      @Override
+      public void close() {
+      }
+    });
+    return m;
   }
 
   public void markCleanMerges(final RevWalk rw,

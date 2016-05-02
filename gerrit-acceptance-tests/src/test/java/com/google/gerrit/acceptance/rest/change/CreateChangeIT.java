@@ -22,11 +22,15 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -36,10 +40,13 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -191,4 +198,82 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     assertThat(o.signedOffBy).isTrue();
   }
+
+
+  @Test
+  public void createNewChangeWithMerge() throws Exception {
+
+    // create a initial commit in master
+    Result initialCommit = pushFactory
+        .create(db, user.getIdent(), testRepo, "initial commit", "readme.txt",
+            "initial commit")
+        .to("refs/heads/master");
+    initialCommit.assertOkStatus();
+
+    // create a new branch branchA
+    BranchInfo branchInfo = gApi.projects()
+        .name(project.get())
+        .branch("refs/heads/branchA")
+        .create(new BranchInput()).get();
+    assertThat(branchInfo.ref)
+        .isEqualTo(Constants.R_HEADS + "branchA");
+
+    // create another commit in master
+    Result changeToMaster = pushFactory
+        .create(db, user.getIdent(), testRepo, "change to master", "master.txt",
+            "master content")
+        .to("refs/heads/master");
+    changeToMaster.assertOkStatus();
+
+    // create a commit in branchA
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)){
+      RevCommit branchA =
+          rw.parseCommit(repo.exactRef("refs/heads/branchA").getObjectId());
+      testRepo.git().fetch().call();
+      testRepo.git()
+          .branchCreate()
+          .setName("branchA")
+          .setStartPoint(branchA)
+          .call();
+
+      RevCommit commit = testRepo.commit()
+          .parent(branchA)
+          .add("branchA.txt", "branchA content")
+          .message("push one commit to branchA")
+          .insertChangeId()
+          .create();
+
+      testRepo.branch("refs/heads/branchA").update(commit);
+      Iterable<PushResult> results = testRepo.git()
+          .push()
+          .setRefSpecs(new RefSpec("refs/heads/branchA:refs/heads/branchA"))
+          .call();
+      assertThat(
+          Iterables.getOnlyElement(results)
+              .getRemoteUpdate("refs/heads/branchA")
+              .getNewObjectId()).isEqualTo(commit.toObjectId());
+    }
+
+    // create a merge change from branchA to master in gerrit
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = "master";
+    in.subject = "merge branchA to master";
+    in.status = ChangeStatus.NEW;
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.sourceRef = "branchA";
+    in.merge = mergeInput;
+
+    ChangeInfo out = gApi.changes().create(in).get();
+
+    assertThat(out.branch).isEqualTo(in.branch);
+    assertThat(out.subject).isEqualTo(in.subject);
+    assertThat(out.status).isEqualTo(in.status);
+    assertThat(out.revisions).hasSize(1);
+    assertThat(out.submitted).isNull();
+    Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
+    assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
+  }
+
 }

@@ -46,7 +46,6 @@
       permittedLabels: Object,
 
       _account: Object,
-      _xhrPromise: Object,  // Used for testing.
     },
 
     behaviors: [
@@ -140,26 +139,24 @@
         obj.message = this.draft;
       }
       this.disabled = true;
-      this._send(obj).then(function(req) {
-        this.fire('send', null, {bubbles: false});
-        this.draft = '';
+      this._saveReview(obj).then(function(response) {
         this.disabled = false;
-      }.bind(this)).catch(function(err) {
-        alert('Oops. Something went wrong. Check the console and bug the ' +
-            'PolyGerrit team for assistance.');
-        throw err;
+        if (!response.ok) {
+          alert('Oops. Something went wrong. Check the console and bug the ' +
+              'PolyGerrit team for assistance.');
+          return response.text().then(function(text) {
+            console.error(text);
+          });
+        }
+
+        this.draft = '';
+        this.fire('send', null, {bubbles: false});
       }.bind(this));
     },
 
-    _send: function(payload) {
-      var xhr = document.createElement('gr-request');
-      this._xhrPromise = xhr.send({
-        method: 'POST',
-        url: this.changeBaseURL(this.changeNum, this.patchNum) + '/review',
-        body: payload,
-      });
-
-      return this._xhrPromise;
+    _saveReview: function(review) {
+      return this.$.restAPI.saveChangeReview(this.changeNum, this.patchNum,
+          review);
     },
   });
 })();

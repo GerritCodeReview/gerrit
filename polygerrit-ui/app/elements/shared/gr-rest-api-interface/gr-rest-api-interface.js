@@ -325,6 +325,12 @@
       return this.send(method, url, null, opt_errFn, opt_ctx);
     },
 
+    saveChangeReview: function(changeNum, patchNum, review, opt_errFn,
+        opt_ctx) {
+      var url = this.getChangeActionURL(changeNum, patchNum, '/review');
+      return this.send('POST', url, review, opt_errFn, opt_ctx);
+    },
+
     send: function(method, url, opt_body, opt_errFn, opt_ctx) {
       var headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),

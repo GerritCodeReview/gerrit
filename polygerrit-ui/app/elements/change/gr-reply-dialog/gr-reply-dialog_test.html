@@ -34,11 +34,10 @@ limitations under the License.
 <script>
   suite('gr-reply-dialog tests', function() {
     var element;
-    var server;
 
     setup(function() {
-      stub('gr-reply-dialog', {
-        _getAccount: function() { return Promise.resolve({}); },
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
       element.changeNum = 42;
@@ -76,29 +75,8 @@ limitations under the License.
         ]
       };
 
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'POST',
-        '/changes/42/revisions/1/review',
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' +
-          '{' +
-            '"labels": {' +
-              '"Code-Review": -1,' +
-              '"Verified": -1' +
-            '}' +
-          '}'
-        ]
-      );
-
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
-    });
-
-    teardown(function() {
-      server.restore();
     });
 
     test('cancel event', function(done) {
@@ -122,32 +100,32 @@ limitations under the License.
             'iron-selector[data-label="Verified"] > ' +
             'gr-button[data-value="-1"]'));
 
+        var saveReviewStub = sinon.stub(element, '_saveReview',
+            function(review) {
+          assert.deepEqual(review, {
+            drafts: 'PUBLISH_ALL_REVISIONS',
+            labels: {
+              'Code-Review': -1,
+              'Verified': -1
+            },
+            message: 'I wholeheartedly disapprove'
+          });
+          return Promise.resolve({ok: true});
+        });
+
+        element.addEventListener('send', function() {
+          assert.isFalse(element.disabled,
+              'Element should be enabled when done sending reply.');
+          assert.equal(element.draft.length, 0);
+          saveReviewStub.restore();
+          done();
+        });
+
         // This is needed on non-Blink engines most likely due to the ways in
         // which the dom-repeat elements are stamped.
         flush(function() {
           MockInteractions.tap(element.$$('.send'));
           assert.isTrue(element.disabled);
-
-          server.respond();
-
-          element._xhrPromise.then(function(req) {
-            assert.isFalse(element.disabled,
-                'Element should be enabled when done sending reply.');
-            assert.equal(req.status, 200);
-            assert.equal(req.url, '/changes/42/revisions/1/review');
-            var reqObj = JSON.parse(req.xhr.requestBody);
-            assert.deepEqual(reqObj, {
-              drafts: 'PUBLISH_ALL_REVISIONS',
-              labels: {
-                'Code-Review': -1,
-                'Verified': -1
-              },
-              message: 'I wholeheartedly disapprove'
-            });
-            assert.equal(req.response.labels['Code-Review'], -1);
-            assert.equal(req.response.labels.Verified, -1);
-            done();
-          });
         });
       });
     });

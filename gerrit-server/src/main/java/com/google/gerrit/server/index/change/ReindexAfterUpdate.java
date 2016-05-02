@@ -155,7 +155,10 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       Change c = notesFactory
           .createChecked(db, new Project.NameKey(event.getProjectName()), id)
           .getChange();
-      indexerFactory.create(executor, indexes).index(db, c);
+      // The change might have been a draft and got deleted
+      if (c != null) {
+        indexerFactory.create(executor, indexes).index(db, c);
+      }
       return null;
     }
 

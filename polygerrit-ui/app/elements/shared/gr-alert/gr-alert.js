@@ -38,6 +38,7 @@
         reflectToAttribute: true,
       },
 
+      _hideActionButton: Boolean,
       _boundTransitionEndHandler: {
         type: Function,
         value: function() { return this._handleTransitionEnd.bind(this); },
@@ -56,6 +57,7 @@
     show: function(text, opt_actionText) {
       this.text = text;
       this.actionText = opt_actionText;
+      this._hideActionButton = !opt_actionText
       document.body.appendChild(this);
       this._setShown(true);
     },

@@ -74,13 +74,8 @@
       this.disabled = true;
       this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
         this.disabled = false;
-        if (!response.ok) {
-          alert('Your draft couldn’t be saved. Check the console and contact ' +
-              'the PolyGerrit team for assistance.');
-          return response.text().then(function(text) {
-            console.error(text);
-          });
-        }
+        if (!response.ok) { return response; }
+
         return this.$.restAPI.getResponseObject(response).then(function(obj) {
           var comment = obj;
           comment.__draft = true;
@@ -95,10 +90,8 @@
           return obj;
         }.bind(this));
       }.bind(this)).catch(function(err) {
-        alert('Your draft couldn’t be saved. Check the console and contact ' +
-            'the PolyGerrit team for assistance.');
         this.disabled = false;
-        console.error(err.message);
+        throw err;
       }.bind(this));
     },
 
@@ -198,18 +191,12 @@
       this._xhrPromise =
           this._deleteDraft(this.comment).then(function(response) {
         this.disabled = false;
-        if (!response.ok) {
-          alert('Your draft couldn’t be deleted. Check the console and ' +
-              'contact the PolyGerrit team for assistance.');
-          return response.text().then(function(text) {
-            console.error(text);
-          });
-        }
+        if (!response.ok) { return response; }
+
         this.fire('comment-discard');
       }.bind(this)).catch(function(err) {
-        alert('Your draft couldn’t be deleted. Check the console and contact ' +
-            'the PolyGerrit team for assistance.');
         this.disabled = false;
+        throw err;
       }.bind(this));;
     },
 

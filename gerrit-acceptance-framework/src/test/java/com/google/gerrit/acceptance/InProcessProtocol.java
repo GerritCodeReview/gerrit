@@ -259,11 +259,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         UploadPack up = new UploadPack(repo);
         up.setPackConfig(transferConfig.getPackConfig());
         up.setTimeout(transferConfig.getTimeout());
-
-        if (!ctl.allRefsAreVisible()) {
-          up.setAdvertiseRefsHook(new VisibleRefFilter(
-              tagCache, changeCache, repo, ctl, dbProvider.get(), true));
-        }
+        up.setAdvertiseRefsHook(new VisibleRefFilter(
+            tagCache, changeCache, repo, ctl, dbProvider.get(), true));
         List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
         hooks.add(uploadValidatorsFactory.create(
             ctl.getProject(), repo, "localhost-test"));

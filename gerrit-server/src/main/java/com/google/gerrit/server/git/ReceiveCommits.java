@@ -474,9 +474,11 @@ public class ReceiveCommits {
     });
 
     if (!projectControl.allRefsAreVisible()) {
-      rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
-      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
+      rp.setCheckReferencedObjectsAreReachable(
+          receiveConfig.checkReferencedObjectsAreReachable);
     }
+    rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
+        projectControl, db, false));
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
     advHooks.add(new AdvertiseRefsHook() {
       @Override

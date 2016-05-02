@@ -256,10 +256,8 @@ public class GitOverHttpServlet extends GitServlet {
           uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(PreUploadHookChain.newChain(
           Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      if (!pc.allRefsAreVisible()) {
-        up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache,
-            repo, pc, db.get(), true));
-      }
+      up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache,
+          repo, pc, db.get(), true));
 
       next.doFilter(request, response);
     }

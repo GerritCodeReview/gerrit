@@ -16,6 +16,24 @@
       "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_1b5b1b46",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T17:18:42Z",
+      "side": 0,
+      "message": "Sure, we should add back this test when we have a proper fix for that problem, one that doesn\u0027t break pushing of related changes. But for now this test is failing and we can\u0027t keep failing tests around as it messes up our CI votings.",
+      "parentUuid": "a80949df_5a7e359f",
+      "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

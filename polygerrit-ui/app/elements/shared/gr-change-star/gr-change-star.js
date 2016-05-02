@@ -38,18 +38,7 @@
       var newVal = !this.change.starred;
       this.set('change.starred', newVal);
       this._xhrPromise = this.$.restAPI.saveChangeStarred(this.change._number,
-          newVal).then(function(response) {
-            if (!response.ok) {
-              return response.text().then(function(text) {
-                throw Error(text);
-              });
-            }
-          }).catch(function(err) {
-            this.set('change.starred', !newVal);
-            alert('Change couldn’t be starred. Check the console and contact ' +
-                'the PolyGerrit team for assistance.');
-            throw err;
-      }.bind(this));
+          newVal);
     },
   });
 })();

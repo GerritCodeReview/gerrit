@@ -141,16 +141,13 @@
       this.disabled = true;
       this._saveReview(obj).then(function(response) {
         this.disabled = false;
-        if (!response.ok) {
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          return response.text().then(function(text) {
-            console.error(text);
-          });
-        }
+        if (!response.ok) { return response; }
 
         this.draft = '';
         this.fire('send', null, {bubbles: false});
+      }.bind(this)).catch(function(err) {
+        this.disabled = false;
+        throw err;
       }.bind(this));
     },
 

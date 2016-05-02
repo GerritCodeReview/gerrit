@@ -524,4 +524,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(c1.changeId).isEqualTo(c2.changeId);
     assertThat(c1.currentRevision).isEqualTo(c2.currentRevision);
   }
+
+  @Test
+  public void testCreateNewChangeForAllNotInTarget() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+  }
 }

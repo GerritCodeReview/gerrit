@@ -19,17 +19,12 @@ import com.google.gerrit.common.data.AccountService;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
@@ -41,9 +36,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,41 +47,17 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
   private final Provider<ChangeQueryBuilder> queryBuilder;
-  private final SetDiffPreferences setDiff;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> identifiedUser,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
-      final Provider<ChangeQueryBuilder> queryBuilder,
-      SetDiffPreferences setDiff) {
+      final Provider<ChangeQueryBuilder> queryBuilder) {
     super(schema, identifiedUser);
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
     this.queryBuilder = queryBuilder;
-    this.setDiff = setDiff;
-  }
-
-  @Override
-  public void changeDiffPreferences(final DiffPreferencesInfo diffPref,
-      AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      @Override
-      public VoidResult run(ReviewDb db) throws OrmException {
-        if (!getUser().isIdentifiedUser()) {
-          throw new IllegalArgumentException("Not authenticated");
-        }
-        IdentifiedUser me = getUser().asIdentifiedUser();
-        try {
-          setDiff.apply(new AccountResource(me), diffPref);
-        } catch (AuthException | BadRequestException | ConfigInvalidException
-            | IOException e) {
-          throw new OrmException("Cannot save diff preferences", e);
-        }
-        return VoidResult.INSTANCE;
-      }
-    });
   }
 
   @Override

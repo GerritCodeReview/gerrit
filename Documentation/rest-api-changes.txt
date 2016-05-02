@@ -4200,6 +4200,8 @@ A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation.
 |`new_branch`         |optional, default to `false`|
 Allow creating a new branch when set to `true`.
+|`merge`              |optional|
+The source reference to merge from, which could be SHA1 of a commit or a branch name.
 |==================================
 
 [[change-message-info]]

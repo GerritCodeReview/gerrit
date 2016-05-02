@@ -221,7 +221,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(accountId, getId());
+    return RefNames.refsDraftComments(getId(), accountId);
   }
 
   @Override

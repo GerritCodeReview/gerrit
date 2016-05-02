@@ -126,6 +126,22 @@ public final class Account {
       return id != null ? new Account.Id(id) : null;
     }
 
+    /**
+     * Parse an Account.Id out of the last part of a ref name.
+     * <p>
+     * The input is a ref name of the form {@code ".../1234"}, where the suffix
+     * is a non-sharded account ID. Ref names using a sharded ID should use
+     * {@link #fromRefPart(String)} instead for greater safety.
+     *
+     * @param name ref name
+     * @return account ID, or null if not numeric.
+     */
+    public static Id fromRefSuffix(String name) {
+      Integer id = RefNames.parseRefSuffix(name);
+      return id != null ? new Account.Id(id) : null;
+    }
+  }
+
   @Column(id = 1)
   protected Id accountId;
 

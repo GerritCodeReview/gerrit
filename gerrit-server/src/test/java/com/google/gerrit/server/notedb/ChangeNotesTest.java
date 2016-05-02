@@ -1878,7 +1878,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertThat(repo.exactRef(changeMetaRef(c.getId()))).isNotNull();
-    String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
+    String draftRef = refsDraftComments(c.getId(), otherUser.getAccountId());
     assertThat(exactRefAllUsers(draftRef)).isNull();
   }
 
@@ -1900,7 +1900,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(draft);
     update.commit();
 
-    String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
+    String draftRef = refsDraftComments(c.getId(), otherUser.getAccountId());
     ObjectId old = exactRefAllUsers(draftRef);
     assertThat(old).isNotNull();
 
@@ -2074,7 +2074,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(comment2);
     update.commit();
 
-    String refName = refsDraftComments(otherUserId, c.getId());
+    String refName = refsDraftComments(c.getId(), otherUserId);
     ObjectId oldDraftId = exactRefAllUsers(refName);
 
     update = newUpdate(c, otherUser);

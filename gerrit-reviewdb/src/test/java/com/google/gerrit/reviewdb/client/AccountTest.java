@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.Account.Id.fromRef;
 import static com.google.gerrit.reviewdb.client.Account.Id.fromRefPart;
+import static com.google.gerrit.reviewdb.client.Account.Id.fromRefSuffix;
 
 import org.junit.Test;
 
@@ -46,6 +47,12 @@ public class AccountTest {
   public void parseRefNameParts() {
     assertThat(fromRefPart("01/1")).isEqualTo(id(1));
     assertThat(fromRefPart("ab/cd")).isNull();
+  }
+
+  @Test
+  public void parseRefSuffix() {
+    assertThat(fromRefSuffix("12/34")).isEqualTo(id(34));
+    assertThat(fromRefSuffix("ab/cd")).isNull();
   }
 
   private Account.Id id(int n) {

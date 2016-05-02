@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8fd01ea_3c26d106",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T15:52:34Z",
+      "side": 1,
+      "message": "No need to define a class for this, just use AtomicReference. (The volatile read/write cost is not worth worrying about).\n\nAlternatively, since this method is getting kind of long anyway, you could factor out a named subclass of PathEdit that has exception as a field.",
+      "revId": "71597cf7f3af795d8c924f3c5d034d26ff277972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_f934773b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T15:52:34Z",
+      "side": 1,
+      "message": "s/ //",
+      "range": {
+        "startLine": 437,
+        "startChar": 55,
+        "endLine": 437,
+        "endChar": 56
+      },
+      "revId": "71597cf7f3af795d8c924f3c5d034d26ff277972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_d939b333",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T15:52:34Z",
+      "side": 1,
+      "message": "Curious, do these actually have any effect on what ends up in the tree?",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 439,
+        "endChar": 39
+      },
+      "revId": "71597cf7f3af795d8c924f3c5d034d26ff277972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_1c2315f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T15:52:34Z",
+      "side": 1,
+      "message": "This will throw an unchecked exception if the input is not a valid SHA-1. Maybe that verification should be moved outside of this block so we can do something more useful?",
+      "range": {
+        "startLine": 440,
+        "startChar": 32,
+        "endLine": 440,
+        "endChar": 51
+      },
+      "revId": "71597cf7f3af795d8c924f3c5d034d26ff277972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

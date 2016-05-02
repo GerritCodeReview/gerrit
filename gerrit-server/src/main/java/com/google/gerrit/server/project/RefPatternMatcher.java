@@ -17,10 +17,14 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.RefControl.isRE;
 
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.server.CurrentUser;
 
 import dk.brics.automaton.Automaton;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public abstract class RefPatternMatcher {
@@ -36,7 +40,7 @@ public abstract class RefPatternMatcher {
     }
   }
 
-  public abstract boolean match(String ref, String username);
+  public abstract boolean match(String ref, CurrentUser user);
 
   private static class Exact extends RefPatternMatcher {
     private final String expect;
@@ -46,7 +50,7 @@ public abstract class RefPatternMatcher {
     }
 
     @Override
-    public boolean match(String ref, String username) {
+    public boolean match(String ref, CurrentUser user) {
       return expect.equals(ref);
     }
   }
@@ -59,7 +63,7 @@ public abstract class RefPatternMatcher {
     }
 
     @Override
-    public boolean match(String ref, String username) {
+    public boolean match(String ref, CurrentUser user) {
       return ref.startsWith(prefix);
     }
   }
@@ -72,7 +76,7 @@ public abstract class RefPatternMatcher {
     }
 
     @Override
-    public boolean match(String ref, String username) {
+    public boolean match(String ref, CurrentUser user) {
       return pattern.matcher(ref).matches();
     }
   }
@@ -101,20 +105,40 @@ public abstract class RefPatternMatcher {
     }
 
     @Override
-    public boolean match(String ref, String username) {
-      if (!ref.startsWith(prefix) || username == null) {
+    public boolean match(String ref, CurrentUser user) {
+      if (!ref.startsWith(prefix)) {
         return false;
       }
 
-      String u;
-      if (isRE(template.getPattern())) {
-        u = Pattern.quote(username);
-      } else {
-        u = username;
-      }
+      for (String username : getUsernames(user)) {
+        String u;
+        if (isRE(template.getPattern())) {
+          u = Pattern.quote(username);
+        } else {
+          u = username;
+        }
 
-      RefPatternMatcher next = getMatcher(expand(template, u));
-      return next != null ? next.match(expand(ref, u), username) : false;
+        RefPatternMatcher next = getMatcher(expand(template, u));
+        if (next != null && next.match(expand(ref, u), user)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private List<String> getUsernames(CurrentUser user) {
+      List<String> r;
+      if (user.isIdentifiedUser()) {
+        Set<String> emails = user.asIdentifiedUser().getEmailAddresses();
+        r = new ArrayList<>(emails.size() + 1);
+        r.addAll(emails);
+      } else {
+        r = new ArrayList<>(1);
+      }
+      if (user.getUserName() != null) {
+        r.add(user.getUserName());
+      }
+      return r;
     }
 
     boolean matchPrefix(String ref) {

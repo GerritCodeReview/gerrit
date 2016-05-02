@@ -179,7 +179,7 @@ public class BatchUpdate implements AutoCloseable {
     private final ReviewDbWrapper dbWrapper;
 
     private boolean deleted;
-    private boolean saved;
+    private boolean bumpLastUpdatedOn = true;
 
     private ChangeContext(ChangeControl ctl, ReviewDbWrapper dbWrapper) {
       this.ctl = ctl;
@@ -223,13 +223,11 @@ public class BatchUpdate implements AutoCloseable {
       return c;
     }
 
-    public void saveChange() {
-      checkState(!deleted, "cannot both save and delete change");
-      saved = true;
+    public void bumpLastUpdatedOn(boolean bump) {
+      bumpLastUpdatedOn = bump;
     }
 
     public void deleteChange() {
-      checkState(!saved, "cannot both save and delete change");
       deleted = true;
     }
   }
@@ -581,14 +579,14 @@ public class BatchUpdate implements AutoCloseable {
           }
 
           // Bump lastUpdatedOn or rowVersion and commit.
+          Iterable<Change> cs = changesToUpdate(ctx);
           if (newChanges.containsKey(id)) {
-            db.changes().insert(bumpLastUpdatedOn(ctx));
-          } else if (ctx.saved) {
-            db.changes().update(bumpLastUpdatedOn(ctx));
+            // Insert rather than upsert in case of a race on change IDs.
+            db.changes().insert(cs);
           } else if (ctx.deleted) {
-            db.changes().delete(bumpLastUpdatedOn(ctx));
+            db.changes().delete(cs);
           } else {
-            db.changes().update(bumpRowVersionNotLastUpdatedOn(ctx));
+            db.changes().update(cs);
           }
           db.commit();
         } finally {
@@ -618,17 +616,12 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private static Iterable<Change> bumpLastUpdatedOn(ChangeContext ctx) {
+  private static Iterable<Change> changesToUpdate(ChangeContext ctx) {
     Change c = ctx.getChange();
-    if (c.getLastUpdatedOn().before(ctx.getWhen())) {
+    if (ctx.bumpLastUpdatedOn && c.getLastUpdatedOn().before(ctx.getWhen())) {
       c.setLastUpdatedOn(ctx.getWhen());
     }
     return Collections.singleton(c);
-  }
-
-  private static Iterable<Change> bumpRowVersionNotLastUpdatedOn(
-      ChangeContext ctx) {
-    return Collections.singleton(ctx.getChange());
   }
 
   private ChangeContext newChangeContext(Change.Id id) throws Exception {

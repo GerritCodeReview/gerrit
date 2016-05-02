@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_bb030766",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T07:21:44Z",
+      "side": 1,
+      "message": "OK :-)",
+      "parentUuid": "e8e3411d_cc2f6fe5",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0889753a_6d177542",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/DeleteWatchedProjectsInfo.java",
         "patchSetId": 2
@@ -283,6 +307,30 @@
       "side": 1,
       "message": "Yes, we could do that, but in this case I would prefer sticking with existing solutions such as DeleteBranches:\n\npost(PROJECT_KIND, \"branches:delete\").to(DeleteBranches.class);\n\nHere we make the operation part of the URL instead. As stated before, Access was a much more complicated endpoint. Having the additions/deductions pattern here would complicate the work on the client since for updates you have to include your existing entity in the deductions section as well. Therefore I think the :delete pattern is a better fit here.",
       "parentUuid": "48a7edbf_2f1d6964",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 48,
+        "endChar": 59
+      },
+      "revId": "0aa1162a7ca77bad786677eeb18ece7c5eafe4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_5bd8032e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T07:21:44Z",
+      "side": 1,
+      "message": "Good point. Makes sense to me!",
+      "parentUuid": "c8de7d5a_2b4939c1",
       "range": {
         "startLine": 48,
         "startChar": 54,

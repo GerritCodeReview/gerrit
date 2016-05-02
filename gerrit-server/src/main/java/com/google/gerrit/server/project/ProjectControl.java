@@ -227,25 +227,8 @@ public class ProjectControl {
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
-      Provider<List<String>> usernames = new Provider<List<String>>() {
-        @Override
-        public List<String> get() {
-          List<String> r;
-          if (user.isIdentifiedUser()) {
-            Set<String> emails = user.asIdentifiedUser().getEmailAddresses();
-            r = new ArrayList<>(emails.size() + 1);
-            r.addAll(emails);
-          } else {
-            r = new ArrayList<>(1);
-          }
-          if (user.getUserName() != null) {
-            r.add(user.getUserName());
-          }
-          return r;
-        }
-      };
       PermissionCollection relevant =
-          permissionFilter.filter(access(), refName, usernames);
+          permissionFilter.filter(access(), refName, user);
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }

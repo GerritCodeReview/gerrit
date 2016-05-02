@@ -50,6 +50,8 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeIdenticalTreeException;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
@@ -62,6 +64,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -99,6 +104,7 @@ public class CreateChange implements
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
   CreateChange(@AnonymousCowardName String anonymousCowardName,
@@ -114,7 +120,8 @@ public class CreateChange implements
       ChangeFinder changeFinder,
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      MergeUtil.Factory mergeUtilFactory) {
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
@@ -129,6 +136,7 @@ public class CreateChange implements
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.mergeUtilFactory = mergeUtilFactory;
   }
 
   @Override
@@ -232,7 +240,27 @@ public class CreateChange implements
               account.getAccount().getNameEmail(anonymousCowardName));
         }
 
-        RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
+        RevCommit c;
+        if (!Strings.isNullOrEmpty(input.merge)) {
+          // create a merge commit
+          try {
+            RevCommit sourceCommit = rw.parseCommit(git.resolve(input.merge));
+            MergeUtil mergeUtil = mergeUtilFactory
+                .create(rsrc.getControl().getProjectState());
+            c = mergeUtil
+                .createMergeCommit(git, oi, mergeTip, sourceCommit, author,
+                    commitMessage, rw);
+          } catch (MergeIdenticalTreeException e) {
+            throw new UpdateException("merge failed: " + e.getMessage());
+          } catch (AmbiguousObjectException | IncorrectObjectTypeException |
+              RevisionSyntaxException e) {
+            throw new BadRequestException(
+                "merge attribute should be a valid git revision string");
+          }
+        } else {
+          // create an empty commit
+          c = newCommit(oi, rw, author, mergeTip, commitMessage);
+        }
 
         Change.Id changeId = new Change.Id(seq.nextChangeId());
         ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)

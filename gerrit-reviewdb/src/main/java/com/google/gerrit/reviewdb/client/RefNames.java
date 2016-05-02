@@ -33,6 +33,9 @@ public class RefNames {
   /** Preference settings for a user {@code refs/users} */
   public static final String REFS_USERS = "refs/users/";
 
+  /** Magic user branch in All-Users {@code refs/users/self} */
+  public static final String REFS_USERS_SELF = "refs/users/self";
+
   /** Default user preference settings */
   public static final String REFS_USERS_DEFAULT = RefNames.REFS_USERS + "default";
 

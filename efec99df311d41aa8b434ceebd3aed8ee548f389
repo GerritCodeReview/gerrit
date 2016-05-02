@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "880c85ef_d910939b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T16:12:15Z",
+      "side": 1,
+      "message": "Maybe add an additional assert that there are two patch sets in r.getChange() corresponding to the two commits you pushed?",
+      "revId": "efec99df311d41aa8b434ceebd3aed8ee548f389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

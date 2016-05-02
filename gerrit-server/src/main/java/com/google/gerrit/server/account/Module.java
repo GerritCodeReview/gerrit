@@ -80,6 +80,9 @@ public class Module extends RestApiModule {
     put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
 
+    get(ACCOUNT_KIND, "agreements").to(GetAgreements.class);
+    put(ACCOUNT_KIND, "agreements").to(PutAgreement.class);
+
     child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
     put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);

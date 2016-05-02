@@ -242,6 +242,12 @@ public class AccountApi {
       .post(GpgKeysInput.delete(fingerprints), cb);
   }
 
+  /** List contributor agreements */
+  public static void getAgreements(String account,
+      AsyncCallback<JsArray<AgreementInfo>> cb) {
+    new RestApi("/accounts/").id(account).view("agreements").get(cb);
+  }
+
   private static class GpgKeysInput extends JavaScriptObject {
     static GpgKeysInput add(String key) {
       return createWithAdd(Natives.arrayOf(key));

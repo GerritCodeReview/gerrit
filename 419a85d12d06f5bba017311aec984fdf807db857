@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8fd01ea_7cfcd94e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "merge, as per [1]\u0027s language-\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-upload.html#auto_merge",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_5cf91d5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "merge",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_bc94a1f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "merge",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_9c99e532",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "If auto-merge (the actual submit) fails, are we reaching this block thus fire by mistake?",
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_196a0b0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "AUTO_MERGE_SUFFIX\n\n1. would use \u0027merge\u0027 instead of \u0027close\u0027, to fit with doc language ([1]);\n2. missing F in \u0027SUF[F]IX\u0027\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-upload.html#auto_merge",
+      "range": {
+        "startLine": 35,
+        "startChar": 29,
+        "endLine": 35,
+        "endChar": 45
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_3c02512f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "auto-merge suffix (to fit with language as proposed above)",
+      "range": {
+        "startLine": 55,
+        "startChar": 48,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_1cff9545",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-02T19:07:26Z",
+      "side": 1,
+      "message": "isAutoMerge (or so I\u0027d propose)",
+      "range": {
+        "startLine": 56,
+        "startChar": 24,
+        "endLine": 56,
+        "endChar": 45
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

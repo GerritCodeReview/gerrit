@@ -29,6 +29,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
@@ -69,6 +70,18 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
+    if (projectCtl.getProjectState().isAllUsers()
+        && projectCtl.getUser().isIdentifiedUser()) {
+      Ref userRef =
+          refs.get(RefNames.refsUsers(projectCtl.getUser().getAccountId()));
+      if (userRef != null) {
+        SymbolicRef refsUsersSelf =
+            new SymbolicRef(RefNames.REFS_USERS_SELF, userRef);
+        refs = new HashMap<>(refs);
+        refs.put(refsUsersSelf.getName(), refsUsersSelf);
+      }
+    }
+
     if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
       Map<String, Ref> r = Maps.newHashMap(refs);
       if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
@@ -97,7 +110,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       Account.Id accountId;
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
-      } else if ((accountId = Account.Id.fromRef(ref.getName())) != null) {
+      } else if ((accountId =
+          Account.Id.fromRef(ref.getLeaf().getName())) != null) {
         // Reference related to an account is visible only for the current
         // account.
         //

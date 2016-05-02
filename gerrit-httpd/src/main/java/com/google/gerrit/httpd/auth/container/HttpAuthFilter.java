@@ -137,7 +137,8 @@ class HttpAuthFilter implements Filter {
 
   String getRemoteUser(HttpServletRequest req) {
     String remoteUser = RemoteUserUtil.getRemoteUser(req, loginHeader);
-    return userNameToLowerCase ? remoteUser.toLowerCase(Locale.US) : remoteUser;
+    return (userNameToLowerCase && remoteUser != null) ?
+        remoteUser.toLowerCase(Locale.US) : remoteUser;
   }
 
   String getRemoteDisplayname(HttpServletRequest req) {

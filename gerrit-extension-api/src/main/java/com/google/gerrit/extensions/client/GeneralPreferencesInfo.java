@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -77,10 +79,19 @@ public class GeneralPreferencesInfo {
     UNIFIED_DIFF
   }
 
-  public enum EmailStrategy {
-    ENABLED,
+  public enum EmailTypes {
+    NEW_CHANGE,
+    NEW_PATCHSET,
+    CHANGE_COMMENT,
+    ADD_REVIEWER,
+    DELETE_VOTE,
+    CHANGE_MERGED,
+    MERGE_FAILED,
+    CHANGE_ABANDONED,
+    CHANGE_RESTORED,
+    CHANGE_REVERTED,
     CC_ON_OWN_COMMENTS,
-    DISABLED
+    TRIVIAL_REBASE
   }
 
   public enum TimeFormat {
@@ -122,7 +133,8 @@ public class GeneralPreferencesInfo {
   public Boolean signedOffBy;
   public List<MenuItem> my;
   public Map<String, String> urlAliases;
-  public EmailStrategy emailStrategy;
+  /** Email types to send email for */
+  public List<EmailTypes> emailTypes;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
@@ -156,11 +168,20 @@ public class GeneralPreferencesInfo {
     return diffView;
   }
 
-  public EmailStrategy getEmailStrategy() {
-    if (emailStrategy == null) {
-      return EmailStrategy.ENABLED;
+  public List<EmailTypes> getEmailTypes() {
+    if (emailTypes == null) {
+      return getDefaultEmailTypes();
     }
-    return emailStrategy;
+    return emailTypes;
+  }
+
+  public static List<EmailTypes> getDefaultEmailTypes() {
+    EnumSet<EmailTypes> defaultTypes = EnumSet.allOf(EmailTypes.class);
+    defaultTypes.removeAll(
+        EnumSet.of(EmailTypes.CC_ON_OWN_COMMENTS, EmailTypes.TRIVIAL_REBASE));
+    ArrayList<EmailTypes> ret = new ArrayList<>();
+    ret.addAll(defaultTypes);
+    return ret;
   }
 
   public static GeneralPreferencesInfo defaults() {
@@ -168,7 +189,7 @@ public class GeneralPreferencesInfo {
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.showSiteHeader = true;
     p.useFlashClipboard = true;
-    p.emailStrategy = EmailStrategy.ENABLED;
+    p.emailTypes = getDefaultEmailTypes();
     p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;
     p.downloadScheme = null;
     p.downloadCommand = DownloadCommand.CHECKOUT;

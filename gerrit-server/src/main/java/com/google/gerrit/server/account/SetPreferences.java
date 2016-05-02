@@ -25,6 +25,7 @@ import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailTypes;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -89,6 +91,7 @@ public class SetPreferences implements
 
     n.my = i.my;
     n.urlAliases = i.urlAliases;
+    n.emailTypes = i.emailTypes;
 
     writeToGit(id, n);
 
@@ -107,6 +110,7 @@ public class SetPreferences implements
 
       storeMyMenus(prefs, i.my);
       storeUrlAliases(prefs, i.urlAliases);
+      storeEmailPreferences(prefs, i.emailTypes);
       prefs.commit(md);
       cache.evict(id);
     }
@@ -155,6 +159,27 @@ public class SetPreferences implements
         i++;
       }
     }
+  }
+
+  private static void storeEmailPreferences(VersionedAccountPreferences prefs,
+      List<EmailTypes> types) {
+    Config cfg = prefs.getConfig();
+    if (types == null) {
+      if (!cfg.getSections().contains(UserConfigSections.EMAIL)) {
+        types = GeneralPreferencesInfo.getDefaultEmailTypes();
+      } else {
+        // Preferences have already been set; don't change.
+        return;
+      }
+    }
+    unsetSection(cfg, UserConfigSections.EMAIL);
+    ArrayList<String> stringTypes = new ArrayList<>();
+    for (EmailTypes t : types) {
+      stringTypes.add(t.name());
+    }
+    cfg.setStringList(UserConfigSections.EMAIL, null, UserConfigSections.EMAIL,
+        stringTypes);
+    cfg.setBoolean(UserConfigSections.EMAIL, null, "isConfigured", true);
   }
 
   private void checkDownloadScheme(String downloadScheme)

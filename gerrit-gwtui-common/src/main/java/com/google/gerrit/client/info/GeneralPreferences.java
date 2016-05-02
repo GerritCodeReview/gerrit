@@ -21,11 +21,12 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailTypes;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +55,11 @@ public class GeneralPreferences extends JavaScriptObject {
     p.signedOffBy(d.signedOffBy);
     p.reviewCategoryStrategy(d.getReviewCategoryStrategy());
     p.diffView(d.getDiffView());
-    p.emailStrategy(d.emailStrategy);
+    JsArrayString jsTypes = JsArrayString.createArray().cast();
+    for (EmailTypes type : d.emailTypes) {
+      jsTypes.push(type.name());
+    }
+    p.emailTypes(jsTypes);
     return p;
   }
 
@@ -127,13 +132,8 @@ public class GeneralPreferences extends JavaScriptObject {
   private native String diffViewRaw()
   /*-{ return this.diff_view }-*/;
 
-  public final EmailStrategy emailStrategy() {
-    String s = emailStrategyRaw();
-    return s != null ? EmailStrategy.valueOf(s) : null;
-  }
-
-  private native String emailStrategyRaw()
-  /*-{ return this.email_strategy }-*/;
+  public final native JsArrayString emailTypes()
+  /*-{ return this.email_types }-*/;
 
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
@@ -195,11 +195,8 @@ public class GeneralPreferences extends JavaScriptObject {
   private native void diffViewRaw(String d)
   /*-{ this.diff_view = d }-*/;
 
-  public final void emailStrategy(EmailStrategy s) {
-    emailStrategyRaw(s != null ? s.toString() : null);
-  }
-  private native void emailStrategyRaw(String s)
-  /*-{ this.email_strategy = s }-*/;
+  public final native void emailTypes(JsArrayString t)
+  /*-{ this.email_types = t }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

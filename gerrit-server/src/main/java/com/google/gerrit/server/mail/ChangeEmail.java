@@ -18,6 +18,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -51,6 +53,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -169,6 +172,22 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
     setChangeUrlHeader();
     setCommitIdHeader();
+  }
+
+  protected HashSet<Account.Id> filterTrivialRebase(HashSet<Account.Id> users) {
+    /* Filter recipients if this is a trivial rebase */
+    HashSet<Account.Id> toRemove = new HashSet<>();
+    if (args.changeKindCache.getChangeKind(args.db.get(), change,
+        patchSet) == ChangeKind.TRIVIAL_REBASE) {
+      for (Iterator<Account.Id> user = users.iterator(); user.hasNext();) {
+        Account.Id userId = user.next();
+        if (!args.accountCache.get(userId).getAccount().getGeneralPreferencesInfo()
+            .getEmailTypes().contains(EmailTypes.TRIVIAL_REBASE)) {
+          toRemove.add(userId);
+        }
+      }
+    }
+    return toRemove;
   }
 
   private void setChangeUrlHeader() {

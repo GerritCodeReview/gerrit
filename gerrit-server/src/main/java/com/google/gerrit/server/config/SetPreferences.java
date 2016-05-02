@@ -62,7 +62,7 @@ public class SetPreferences implements
         || i.reviewCategoryStrategy != null
         || i.signedOffBy != null
         || i.urlAliases != null
-        || i.emailStrategy != null) {
+        || i.emailTypes != null) {
       throw new BadRequestException("unsupported option");
     }
 

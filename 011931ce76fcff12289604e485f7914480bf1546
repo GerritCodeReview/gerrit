@@ -16,6 +16,24 @@
       "revId": "011931ce76fcff12289604e485f7914480bf1546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a865c9c5_da98a57d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-02T20:18:31Z",
+      "side": 1,
+      "message": "Nah. All modern browsers support it (even IE10).",
+      "parentUuid": "a865c9c5_9a8e2d36",
+      "revId": "011931ce76fcff12289604e485f7914480bf1546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

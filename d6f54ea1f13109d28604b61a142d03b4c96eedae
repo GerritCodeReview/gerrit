@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f83dfd_3bb0979b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T16:08:57Z",
+      "side": 1,
+      "message": "With this check you should clean up after other tests in this class (in regards to creating/accepting agreements) as this test would fail if the execution order changes.",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_5aa7555f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T16:08:57Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_9bc0cbf2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T16:08:57Z",
+      "side": 1,
+      "message": "Just use new ArrayList\u003c\u003e() here as we only use the library for constructing lists out of other data structures now. (e.g. Lists.newArrayList(someArray))",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

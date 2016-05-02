@@ -70,6 +70,24 @@
       "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880c85ef_591da3ac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T17:43:24Z",
+      "side": 0,
+      "message": "My mistake, I was running the wrong buck target. Let me poke around some more.",
+      "parentUuid": "880c85ef_19232bf7",
+      "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -202,6 +203,45 @@ public class MergeUtil {
       return rw.parseCommit(inserter.insert(mergeCommit));
     }
     throw new MergeConflictException("merge conflict");
+  }
+
+  public static ObjectId createMergeCommit(Repository repo, ObjectInserter inserter,
+      RevCommit mergeTip, RevCommit originalCommit, String mergeStrategy,
+      PersonIdent committerIndent, String commitMsg)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+
+    Merger m = newMerger(repo, inserter, mergeStrategy);
+    if (m.merge(false, mergeTip, originalCommit)) {
+      ObjectId tree = m.getResultTreeId();
+      if (tree.equals(mergeTip.getTree())) {
+        throw new MergeIdenticalTreeException(
+            "merge identical tree: change(s) has been already merged!");
+      }
+
+      CommitBuilder mergeCommit = new CommitBuilder();
+      mergeCommit.setTreeId(tree);
+      mergeCommit.setParentIds(mergeTip, originalCommit);
+      mergeCommit.setAuthor(originalCommit.getAuthorIdent());
+      mergeCommit.setCommitter(committerIndent);
+      mergeCommit.setMessage(commitMsg);
+      return inserter.insert(mergeCommit);
+    } else {
+      List<String> conflicts = null;
+      if (m instanceof ResolveMerger) {
+        conflicts = ((ResolveMerger) m).getUnmergedPaths();
+      }
+      throw new MergeConflictException(createConflictMessage(conflicts));
+    }
+  }
+
+  public static String createConflictMessage(List<String> conflicts) {
+    StringBuilder sb = new StringBuilder("merge conflict(s)");
+    if (conflicts != null) {
+      for (String c : conflicts) {
+        sb.append("\n" + c);
+      }
+    }
+    return sb.toString();
   }
 
   public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
@@ -633,6 +673,28 @@ public class MergeUtil {
       }
     });
     return (ThreeWayMerger) m;
+  }
+
+  public static Merger newMerger(Repository repo,
+      final ObjectInserter inserter, String strategyName) {
+    MergeStrategy strategy = MergeStrategy.get(strategyName);
+    checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
+    Merger m = strategy.newMerger(repo, true);
+    m.setObjectInserter(new ObjectInserter.Filter() {
+      @Override
+      protected ObjectInserter delegate() {
+        return inserter;
+      }
+
+      @Override
+      public void flush() {
+      }
+
+      @Override
+      public void close() {
+      }
+    });
+    return m;
   }
 
   public void markCleanMerges(final RevWalk rw,

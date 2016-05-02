@@ -3015,7 +3015,8 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
   )]}'
   {
     submit_type: "MERGE_IF_NECESSARY",
-    mergeable: true,
+    merge_strategy: "recursive",
+    mergeable: true
   }
 ----
 
@@ -4206,6 +4207,9 @@ A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation.
 |`new_branch`         |optional, default to `false`|
 Allow creating a new branch when set to `true`.
+|`merge`              |optional|
+The detail of a merge commit as a
+link:#merge-input[MergeInput] entity.
 |==================================
 
 [[change-message-info]]
@@ -4673,10 +4677,31 @@ change.
 Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.
+|`merge_strategy`     |optional|
+The strategy of the merge, can be `recursive`, `resolve`,
+`simple-two-way-in-core`, `ours` or `theirs`.
 |`mergeable`     ||
 `true` if this change is cleanly mergeable, `false` otherwise
+|`conflicts`|optional|
+A list of paths with conflicts
 |`mergeable_into`|optional|
 A list of other branch names where this change could merge cleanly
+|============================
+
+[[merge-input]]
+=== MergeInput
+The `MergeInput` entity contains information about the merge
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name      ||Description
+|`source`   ||
+The source to merge from, e.g. a complete or abbreviated commit SHA-1,
+a complete reference name, a short reference name under refs/heads, refs/tags,
+or refs/remotes namespace, etc.
+|`strategy`     |optional|
+The strategy of the merge, can be `recursive`, `resolve`,
+`simple-two-way-in-core`, `ours` or `theirs`, default will use project settings.
 |============================
 
 [[move-input]]

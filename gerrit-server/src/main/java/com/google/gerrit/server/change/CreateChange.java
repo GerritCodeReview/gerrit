@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -50,6 +51,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
@@ -62,6 +64,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -99,6 +103,7 @@ public class CreateChange implements
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
   CreateChange(@AnonymousCowardName String anonymousCowardName,
@@ -114,7 +119,8 @@ public class CreateChange implements
       ChangeFinder changeFinder,
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      MergeUtil.Factory mergeUtilFactory) {
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
@@ -129,6 +135,7 @@ public class CreateChange implements
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.mergeUtilFactory = mergeUtilFactory;
   }
 
   @Override
@@ -173,7 +180,8 @@ public class CreateChange implements
 
     Project.NameKey project = rsrc.getNameKey();
     try (Repository git = gitManager.openRepository(project);
-        RevWalk rw = new RevWalk(git)) {
+         ObjectInserter oi = git.newObjectInserter();
+         RevWalk rw = new RevWalk(oi.newReader())) {
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
@@ -219,42 +227,48 @@ public class CreateChange implements
       GeneralPreferencesInfo info =
           account.getAccount().getGeneralPreferencesInfo();
 
-      try (ObjectInserter oi = git.newObjectInserter()) {
-        ObjectId treeId =
-            mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
-        ObjectId id = ChangeIdUtil.computeChangeId(treeId,
-            mergeTip, author, author, input.subject);
-        String commitMessage = ChangeIdUtil.insertId(input.subject, id);
-        if (Boolean.TRUE.equals(info.signedOffBy)) {
-          commitMessage += String.format("%s%s",
-              SIGNED_OFF_BY_TAG,
-              account.getAccount().getNameEmail(anonymousCowardName));
-        }
-
-        RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
-
-        Change.Id changeId = new Change.Id(seq.nextChangeId());
-        ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
-            .setValidatePolicy(CommitValidators.Policy.GERRIT);
-        ins.setMessage(String.format("Uploaded patch set %s.",
-            ins.getPatchSetId().get()));
-        String topic = input.topic;
-        if (topic != null) {
-          topic = Strings.emptyToNull(topic.trim());
-        }
-        ins.setTopic(topic);
-        ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
-        ins.setGroups(groups);
-        try (BatchUpdate bu = updateFactory.create(
-            db.get(), project, me, now)) {
-          bu.setRepository(git, rw, oi);
-          bu.insertChange(ins);
-          bu.execute();
-        }
-        ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
-        return Response.created(json.format(ins.getChange()));
+      ObjectId treeId =
+          mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
+      ObjectId id = ChangeIdUtil.computeChangeId(treeId,
+          mergeTip, author, author, input.subject);
+      String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+      if (Boolean.TRUE.equals(info.signedOffBy)) {
+        commitMessage += String.format("%s%s",
+            SIGNED_OFF_BY_TAG,
+            account.getAccount().getNameEmail(anonymousCowardName));
       }
 
+      RevCommit c;
+      if (input.merge != null) {
+        // create a merge commit
+        c = newMergeCommit(git, oi, rw, mergeUtilFactory
+                .create(rsrc.getControl().getProjectState()), mergeTip, input.merge,
+            author, commitMessage);
+      } else {
+        // create an empty commit
+        c = newCommit(oi, rw, author, mergeTip, commitMessage);
+      }
+
+      Change.Id changeId = new Change.Id(seq.nextChangeId());
+      ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
+          .setValidatePolicy(CommitValidators.Policy.GERRIT);
+      ins.setMessage(String.format("Uploaded patch set %s.",
+          ins.getPatchSetId().get()));
+      String topic = input.topic;
+      if (topic != null) {
+        topic = Strings.emptyToNull(topic.trim());
+      }
+      ins.setTopic(topic);
+      ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
+      ins.setGroups(groups);
+      try (BatchUpdate bu = updateFactory.create(
+          db.get(), project, me, now)) {
+        bu.setRepository(git, rw, oi);
+        bu.insertChange(ins);
+        bu.execute();
+      }
+      ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
+      return Response.created(json.format(ins.getChange()));
     }
   }
 
@@ -272,6 +286,37 @@ public class CreateChange implements
     commit.setCommitter(authorIdent);
     commit.setMessage(commitMessage);
     return rw.parseCommit(insert(oi, commit));
+  }
+
+  private static RevCommit newMergeCommit(Repository repo, ObjectInserter oi,
+      RevWalk rw, MergeUtil mergeUtil, RevCommit mergeTip, MergeInput merge,
+      PersonIdent authorIdent, String commitMessage)
+      throws RestApiException, IOException {
+    if (Strings.isNullOrEmpty(merge.source)) {
+      throw new BadRequestException(
+          "source in merge must be non-empty");
+    }
+
+    try {
+      RevCommit sourceCommit =
+          rw.parseCommit(repo.resolve(merge.source));
+
+      // default merge strategy from project settings
+      String mergeStrategy = mergeUtil.mergeStrategyName();
+
+      if (!Strings.isNullOrEmpty(merge.strategy)) {
+        // override by user input
+        mergeStrategy = merge.strategy;
+      }
+
+      return rw.parseCommit(MergeUtil
+          .createMergeCommit(repo, oi, mergeTip, sourceCommit, mergeStrategy,
+              authorIdent, commitMessage));
+
+    } catch (AmbiguousObjectException | IncorrectObjectTypeException |
+        IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
+    }
   }
 
   private static ObjectId insert(ObjectInserter inserter,

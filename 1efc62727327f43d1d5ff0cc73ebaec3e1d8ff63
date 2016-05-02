@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f83dfd_1b74bbbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-02T16:25:21Z",
+      "side": 1,
+      "message": "Is the converstion to ArrayList really needed? Looks like the only use is for iteration in line 113. A set (and ind this case a treeset) should also be iterable. Therefore I would just add the elements you need to add here and iterate through the set in L113\n\nPerformance-wise this is probably not a big deal as a user will not have many emails but it will also reduce some code.",
+      "revId": "1efc62727327f43d1d5ff0cc73ebaec3e1d8ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

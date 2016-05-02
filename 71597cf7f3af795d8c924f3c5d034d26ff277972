@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_fbb58f8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-05-02T16:12:58Z",
+      "side": 1,
+      "message": "No idea :) \nThis just what jgit does internally for submodule handling as well. See https://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java#n227",
+      "parentUuid": "880c85ef_d939b333",
+      "range": {
+        "startLine": 438,
+        "startChar": 16,
+        "endLine": 439,
+        "endChar": 39
+      },
+      "revId": "71597cf7f3af795d8c924f3c5d034d26ff277972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8fd01ea_1c2315f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 9
@@ -76,6 +100,30 @@
       "writtenOn": "2016-05-02T15:52:34Z",
       "side": 1,
       "message": "This will throw an unchecked exception if the input is not a valid SHA-1. Maybe that verification should be moved outside of this block so we can do something more useful?",
+      "range": {
+        "startLine": 440,
+        "startChar": 32,
+        "endLine": 440,
+        "endChar": 51
+      },
+      "revId": "71597cf7f3af795d8c924f3c5d034d26ff277972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_dbba537e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-05-02T16:12:58Z",
+      "side": 1,
+      "message": "This probably a good idea, but I am not sure I can really do it. Java is not my primary language ;)",
+      "parentUuid": "e8fd01ea_1c2315f7",
       "range": {
         "startLine": 440,
         "startChar": 32,

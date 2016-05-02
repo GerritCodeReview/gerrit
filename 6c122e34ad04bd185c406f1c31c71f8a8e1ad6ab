@@ -141,6 +141,30 @@
       "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_5ce2bdb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T18:03:53Z",
+      "side": 1,
+      "message": "If the input is sequence numbers [4, 1, 3], you sort it to [1, 3, 4], then you call add() 3 times on keys, you end up with:\n\n index 0: seq 1\n index 1: seq 3\n index 2: seq 4\n\nIf you try to look up sequence number 3 by doing keys.get(3-1), you get sequence number 4, which is wrong.\n\n\nYou don\u0027t have to sort if you assign directly into the list.\n\n\n Ordering\u003cAccountSshKey\u003e o \u003d ...\n keys \u003d Collections.nCopies(Optional.absent(), o.max(newKeys));\n\n for (AccountSshKey key : newKeys) {\n   keys.set(key.getId().get() - 1, key);\n }",
+      "parentUuid": "c8f83dfd_5b55a30b",
+      "range": {
+        "startLine": 302,
+        "startChar": 13,
+        "endLine": 302,
+        "endChar": 16
+      },
+      "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

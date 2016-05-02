@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState)
           .mergeStrategyName();
+      result.mergeStrategy = strategy;
       result.mergeable =
           isMergable(git, change, commit, ref, result.submitType, strategy);
 

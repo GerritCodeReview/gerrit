@@ -18,9 +18,8 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-request/gr-request.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-reviewer-list">
   <template>
@@ -80,10 +79,6 @@ limitations under the License.
         }
       }
     </style>
-    <gr-ajax id="autocompleteXHR"
-        url="[[_computeAutocompleteURL(change)]]"
-        params="[[_computeAutocompleteParams(_inputVal)]]"
-        on-response="_handleResponse"></gr-ajax>
     <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <gr-account-chip class="reviewer" account="[[reviewer]]"
           on-remove="_handleRemove"
@@ -119,6 +114,7 @@ limitations under the License.
       <gr-button link id="addReviewer" class="addReviewer" on-tap="_handleAddTap"
           hidden$="[[_showInput]]">Add reviewer</gr-button>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-reviewer-list.js"></script>
 </dom-module>

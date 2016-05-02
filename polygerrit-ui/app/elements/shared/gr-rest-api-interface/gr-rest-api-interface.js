@@ -311,6 +311,40 @@
               });
     },
 
+    getChangeSuggestedReviewers: function(changeNum, inputVal, opt_errFn,
+        opt_ctx) {
+      var url = this.getChangeActionURL(changeNum, null, '/suggest_reviewers');
+      return this.fetchJSON(url, opt_errFn, opt_ctx, {
+        n: 10,  // Return max 10 results
+        q: inputVal,
+      });
+    },
+
+    addChangeReviewer: function(changeNum, reviewerID) {
+      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
+    },
+
+    removeChangeReviewer: function(changeNum, reviewerID) {
+      return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
+    },
+
+    _sendChangeReviewerRequest: function(method, changeNum, reviewerID) {
+      var url = this.getChangeActionURL(changeNum, null, '/reviewers');
+      var body;
+      switch(method) {
+        case 'POST':
+          body = {reviewer: reviewerID};
+          break;
+        case 'DELETE':
+          url += '/' + reviewerID;
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
+
+      return this.send(method, url, body);
+    },
+
     getReviewedFiles: function(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));

@@ -23,7 +23,6 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -52,7 +51,6 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -62,8 +60,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Utility functions to manipulate PatchLineComments.
@@ -169,8 +165,8 @@ public class PatchLineCommentsUtil {
     }
 
     List<PatchLineComment> comments = Lists.newArrayList();
-    for (String refSuffix : getDraftRefs(notes.getChangeId()).keySet()) {
-      Account.Id account = Account.Id.fromRefPart(refSuffix);
+    for (Ref ref : getDraftRefs(notes.getChangeId())) {
+      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
       if (account != null) {
         comments.addAll(draftByChangeAuthor(db, notes, account));
       }
@@ -199,8 +195,8 @@ public class PatchLineCommentsUtil {
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(publishedByPatchSet(db, notes, psId));
 
-    for (String refSuffix : getDraftRefs(notes.getChangeId()).keySet()) {
-      Account.Id account = Account.Id.fromRefPart(refSuffix);
+    for (Ref ref : getDraftRefs(notes.getChangeId())) {
+      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
       if (account != null) {
         comments.addAll(draftByPatchSetAuthor(db, psId, account, notes));
       }
@@ -278,17 +274,24 @@ public class PatchLineCommentsUtil {
       return sort(db.patchComments().draftByAuthor(author).toList());
     }
 
-    Set<String> refNames =
-        getRefNamesAllUsers(RefNames.refsDraftCommentsPrefix(author));
     List<PatchLineComment> comments = Lists.newArrayList();
-    for (String refName : refNames) {
-      Change.Id changeId = Change.Id.parse(refName);
-      // Avoid loading notes for all affected changes just to be able to auto-
-      // rebuild. This is only used in a corner case in the search codepath, so
-      // returning slightly stale values is ok.
-      DraftCommentNotes notes =
-          draftFactory.createWithAutoRebuildingDisabled(changeId, author);
-      comments.addAll(notes.load().getComments().values());
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      for (String refName : repo.getRefDatabase()
+          .getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
+        Account.Id accountId = Account.Id.fromRefSuffix(refName);
+        Change.Id changeId = Change.Id.fromRefPart(refName);
+        if (accountId == null || changeId == null) {
+          continue;
+        }
+        // Avoid loading notes for all affected changes just to be able to auto-
+        // rebuild. This is only used in a corner case in the search codepath,
+        // so returning slightly stale values is ok.
+        DraftCommentNotes notes =
+            draftFactory.createWithAutoRebuildingDisabled(changeId, author);
+        comments.addAll(notes.load().getComments().values());
+      }
+    } catch (IOException e) {
+      throw new OrmException(e);
     }
     return sort(comments);
   }
@@ -314,7 +317,7 @@ public class PatchLineCommentsUtil {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-      for (Ref ref : getDraftRefs(repo, changeId).values()) {
+      for (Ref ref : getDraftRefs(repo, changeId)) {
         bru.addCommand(new ReceiveCommand(
             ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
       }
@@ -372,16 +375,7 @@ public class PatchLineCommentsUtil {
     return c.getRevId();
   }
 
-  private Set<String> getRefNamesAllUsers(String prefix) throws OrmException {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      RefDatabase refDb = repo.getRefDatabase();
-      return refDb.getRefs(prefix).keySet();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-  }
-
-  public Map<String, Ref> getDraftRefs(Change.Id changeId)
+  public Collection<Ref> getDraftRefs(Change.Id changeId)
       throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return getDraftRefs(repo, changeId);
@@ -390,17 +384,10 @@ public class PatchLineCommentsUtil {
     }
   }
 
-  private Map<String, Ref> getDraftRefs(Repository repo,
-      final Change.Id changeId) throws IOException {
-    final String suffix = "/" + changeId.get();
-    return Maps.filterKeys(
-        repo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS),
-        new Predicate<String>() {
-          @Override
-          public boolean apply(String input) {
-            return input.endsWith(suffix);
-          }
-        });
+  private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId)
+      throws IOException {
+    return repo.getRefDatabase().getRefs(
+        RefNames.refsDraftCommentsPrefix(changeId)).values();
   }
 
   private static List<PatchLineComment> sort(List<PatchLineComment> comments) {

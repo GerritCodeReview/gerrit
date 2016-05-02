@@ -163,6 +163,11 @@ public final class Change {
       return new Change.Id(Integer.parseInt(id));
     }
 
+    public static Id fromRefPart(String ref) {
+      Integer id = RefNames.parseShardedRefPart(ref);
+      return id != null ? new Change.Id(id) : null;
+    }
+
     static int startIndex(String ref) {
       if (ref == null || !ref.startsWith(REFS_CHANGES)) {
         return -1;

@@ -191,7 +191,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   private Ref getDraftRef(TestAccount account, Change.Id changeId)
       throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return repo.exactRef(RefNames.refsDraftComments(account.id, changeId));
+      return repo.exactRef(RefNames.refsDraftComments(changeId, account.id));
     }
   }
 

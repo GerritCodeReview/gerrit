@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_9b356be9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T17:58:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fd01ea_3c6d3123",
+      "range": {
+        "startLine": 242,
+        "startChar": 14,
+        "endLine": 242,
+        "endChar": 50
+      },
+      "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8fd01ea_1c6af50a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 7
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c8f83dfd_fb3aafd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T17:58:40Z",
+      "side": 1,
+      "message": "Ah, yes.\n\nThere are no existing tests for SSH key deletion yet, likely because the method for deleting SSH keys is still missing in the extension API. I rather add the API and the tests in another change, this one is already large enough. But of course I can make this new change a predecessor of this one.",
+      "parentUuid": "e8fd01ea_1c6af50a",
+      "range": {
+        "startLine": 260,
+        "startChar": 11,
+        "endLine": 260,
+        "endChar": 14
+      },
+      "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "880c85ef_99161b96",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 7
@@ -60,6 +108,30 @@
       "writtenOn": "2016-05-02T16:01:39Z",
       "side": 1,
       "message": "I think this will do what you want, unless the caller passes in a non-dense collection. Safer (and less code) would be to call set at the exact index, then you wouldn\u0027t even have to worry about sorting.",
+      "range": {
+        "startLine": 302,
+        "startChar": 13,
+        "endLine": 302,
+        "endChar": 16
+      },
+      "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_5b55a30b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T17:58:40Z",
+      "side": 1,
+      "message": "This methods may get an unsorted and non-dense collection as input, so I guess sorting cannot be avoided? Why wouldn\u0027t it work for non-dense collection?",
+      "parentUuid": "880c85ef_99161b96",
       "range": {
         "startLine": 302,
         "startChar": 13,

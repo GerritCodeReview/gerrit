@@ -34,6 +34,24 @@
       "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fd01ea_bcc66124",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-02T17:21:11Z",
+      "side": 0,
+      "message": "I see your point, but I added this test back and it still passed for me. Maybe it was not strictly related to the original commit? Or else some other intervening commit fixed it?",
+      "parentUuid": "c8f83dfd_1b5b1b46",
+      "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

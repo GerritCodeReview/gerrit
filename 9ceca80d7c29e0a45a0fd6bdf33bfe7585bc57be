@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f83dfd_3b02572f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-02T14:24:25Z",
+      "side": 1,
+      "message": "Nit: we usually don\u0027t put point in the end of subject line.",
+      "revId": "9ceca80d7c29e0a45a0fd6bdf33bfe7585bc57be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80949df_fae749ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-02T14:24:25Z",
+      "side": 1,
+      "message": "Mention here that api.sh is provided to simplify the workflow.",
+      "revId": "9ceca80d7c29e0a45a0fd6bdf33bfe7585bc57be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

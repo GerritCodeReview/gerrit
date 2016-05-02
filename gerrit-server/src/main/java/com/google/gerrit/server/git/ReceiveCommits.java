@@ -1504,8 +1504,8 @@ public class ReceiveCommits {
   private void selectNewAndReplacedChangesFromMagicBranch() {
     newChanges = Lists.newArrayList();
 
-    SetMultimap<ObjectId, Ref> existing = HashMultimap.create();
-    GroupCollector groupCollector = GroupCollector.create(changeRefsById(), db, psUtil,
+    SetMultimap<ObjectId, Ref> existing = changeRefsById();
+    GroupCollector groupCollector = GroupCollector.create(refsById, db, psUtil,
         notesFactory, project.getNameKey());
 
     rp.getRevWalk().reset();
@@ -1526,7 +1526,6 @@ public class ReceiveCommits {
       } else {
         markHeadsAsUninteresting(
             rp.getRevWalk(),
-            existing,
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
@@ -1683,23 +1682,15 @@ public class ReceiveCommits {
     }
   }
 
-  private void markHeadsAsUninteresting(
-      final RevWalk walk,
-      SetMultimap<ObjectId, Ref> existing,
-      @Nullable String forRef) {
+  private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
     for (Ref ref : allRefs.values()) {
-      if (ref.getObjectId() == null) {
-        continue;
-      } else if (ref.getName().startsWith(REFS_CHANGES)) {
-        existing.put(ref.getObjectId(), ref);
-      } else if (ref.getName().startsWith(R_HEADS)
-          || (forRef != null && forRef.equals(ref.getName()))) {
+      if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
+          && ref.getObjectId() != null) {
         try {
-          walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
+          rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
           log.warn(String.format("Invalid ref %s in %s",
               ref.getName(), project.getName()), e);
-          continue;
         }
       }
     }
@@ -2342,11 +2333,11 @@ public class ReceiveCommits {
       if (!(parsedObject instanceof RevCommit)) {
         return;
       }
-      SetMultimap<ObjectId, Ref> existing = HashMultimap.create();
       walk.markStart((RevCommit)parsedObject);
-      markHeadsAsUninteresting(walk, existing, cmd.getRefName());
+      markHeadsAsUninteresting(walk, cmd.getRefName());
+      Set<ObjectId> existing = changeRefsById().keySet();
       for (RevCommit c; (c = walk.next()) != null;) {
-        if (existing.keySet().contains(c)) {
+        if (existing.contains(c)) {
           continue;
         } else if (!validCommit(walk, ctl, cmd, c)) {
           break;

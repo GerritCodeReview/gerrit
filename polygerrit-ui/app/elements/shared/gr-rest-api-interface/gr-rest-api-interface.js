@@ -68,6 +68,12 @@
   Polymer({
     is: 'gr-rest-api-interface',
 
+    /**
+     * Fired when an auth error (403) occurs.
+     *
+     * @event auth-error
+     */
+
     properties: {
       _cache: {
         type: Object,
@@ -111,10 +117,16 @@
           return;
         }
 
-        if (!response.ok && opt_errFn) {
-          opt_errFn.call(null, response);
-          return undefined;
+        if (!response.ok) {
+          if (response.status === 403) {
+            this.fire('auth-error', {response: response});
+          }
+          if (opt_errFn) {
+            opt_errFn.call(null, response);
+            return undefined;
+          }
         }
+
         return this.getResponseObject(response);
       }.bind(this)).catch(function(err) {
         if (opt_opts.noCredentials) {

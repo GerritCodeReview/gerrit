@@ -258,12 +258,10 @@ public class NoteDbUpdateManager {
     for (ReceiveCommand cmd : allUsersRepo.cmds.getCommands().values()) {
       String r = cmd.getRefName();
       if (r.startsWith(REFS_DRAFT_COMMENTS)) {
-        Account.Id accountId =
-            Account.Id.fromRefPart(r.substring(REFS_DRAFT_COMMENTS.length()));
-        checkDraftRef(accountId != null, r);
-        int s = r.lastIndexOf('/');
-        checkDraftRef(s >= 0 && s < r.length() - 1, r);
-        Change.Id changeId = Change.Id.parse(r.substring(s + 1));
+        Change.Id changeId =
+            Change.Id.fromRefPart(r.substring(REFS_DRAFT_COMMENTS.length()));
+        Account.Id accountId = Account.Id.fromRefSuffix(r);
+        checkDraftRef(accountId != null && changeId != null, r);
         draftIds.put(changeId, accountId, cmd.getNewId());
       }
     }

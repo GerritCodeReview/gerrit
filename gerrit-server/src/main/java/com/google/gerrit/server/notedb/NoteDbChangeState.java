@@ -177,7 +177,7 @@ public class NoteDbChangeState {
   public boolean areDraftsUpToDate(Repository draftsRepo, Account.Id accountId)
       throws IOException {
     Ref ref = draftsRepo.exactRef(
-        RefNames.refsDraftComments(accountId, changeId));
+        RefNames.refsDraftComments(changeId, accountId));
     if (ref == null) {
       return !draftIds.containsKey(accountId);
     }

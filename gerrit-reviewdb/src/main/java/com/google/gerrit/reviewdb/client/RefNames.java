@@ -107,15 +107,15 @@ public class RefNames {
     return r.toString();
   }
 
-  public static String refsDraftComments(Account.Id accountId,
-      Change.Id changeId) {
-    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId.get());
-    r.append(changeId.get());
+  public static String refsDraftComments(Change.Id changeId,
+      Account.Id accountId) {
+    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get());
+    r.append(accountId.get());
     return r.toString();
   }
 
-  public static String refsDraftCommentsPrefix(Account.Id accountId) {
-    return buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId.get()).toString();
+  public static String refsDraftCommentsPrefix(Change.Id changeId) {
+    return buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get()).toString();
   }
 
   public static String refsStarredChanges(Change.Id changeId,
@@ -215,6 +215,26 @@ public class RefNames {
       return null;
     }
     return id;
+  }
+
+  static Integer parseRefSuffix(String name) {
+    if (name == null) {
+      return null;
+    }
+    int i = name.length();
+    while (i > 0) {
+      char c = name.charAt(i - 1);
+      if (c == '/') {
+        break;
+      } else if (!Character.isDigit(c)) {
+        return null;
+      }
+      i--;
+    }
+    if (i == 0) {
+      return null;
+    }
+    return Integer.valueOf(name.substring(i, name.length()));
   }
 
   private RefNames() {

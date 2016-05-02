@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.FooterConstants;
@@ -60,6 +61,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -202,6 +204,44 @@ public class MergeUtil {
       return rw.parseCommit(inserter.insert(mergeCommit));
     }
     throw new MergeConflictException("merge conflict");
+  }
+
+  public static ObjectId createMergeCommit(Repository repo, ObjectInserter inserter,
+      RevCommit mergeTip, RevCommit originalCommit, String mergeStrategy,
+      PersonIdent committerIndent, String commitMsg, RevWalk rw)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+
+    if (rw.isMergedInto(originalCommit, mergeTip)) {
+      throw new MergeIdenticalTreeException(
+          "merge identical tree: change(s) has been already merged!");
+    }
+
+    Merger m = newMerger(repo, inserter, mergeStrategy);
+    if (m.merge(false, mergeTip, originalCommit)) {
+      ObjectId tree = m.getResultTreeId();
+
+      CommitBuilder mergeCommit = new CommitBuilder();
+      mergeCommit.setTreeId(tree);
+      mergeCommit.setParentIds(mergeTip, originalCommit);
+      mergeCommit.setAuthor(committerIndent);
+      mergeCommit.setCommitter(committerIndent);
+      mergeCommit.setMessage(commitMsg);
+      return inserter.insert(mergeCommit);
+    } else {
+      List<String> conflicts = ImmutableList.of();
+      if (m instanceof ResolveMerger) {
+        conflicts = ((ResolveMerger) m).getUnmergedPaths();
+      }
+      throw new MergeConflictException(createConflictMessage(conflicts));
+    }
+  }
+
+  public static String createConflictMessage(List<String> conflicts) {
+    StringBuilder sb = new StringBuilder("merge conflict(s)");
+    for (String c : conflicts) {
+      sb.append('\n' + c);
+    }
+    return sb.toString();
   }
 
   public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
@@ -613,11 +653,17 @@ public class MergeUtil {
 
   public static ThreeWayMerger newThreeWayMerger(Repository repo,
       final ObjectInserter inserter, String strategyName) {
+    Merger m = newMerger(repo, inserter, strategyName);
+    checkArgument(m instanceof ThreeWayMerger,
+        "merge strategy %s does not support three-way merging", strategyName);
+    return (ThreeWayMerger) m;
+  }
+
+  public static Merger newMerger(Repository repo,
+      final ObjectInserter inserter, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
     checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
     Merger m = strategy.newMerger(repo, true);
-    checkArgument(m instanceof ThreeWayMerger,
-        "merge strategy %s does not support three-way merging", strategyName);
     m.setObjectInserter(new ObjectInserter.Filter() {
       @Override
       protected ObjectInserter delegate() {
@@ -632,7 +678,7 @@ public class MergeUtil {
       public void close() {
       }
     });
-    return (ThreeWayMerger) m;
+    return m;
   }
 
   public void markCleanMerges(final RevWalk rw,

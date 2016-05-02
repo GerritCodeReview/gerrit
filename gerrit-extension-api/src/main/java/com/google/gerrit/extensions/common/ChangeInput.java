@@ -25,4 +25,5 @@ public class ChangeInput {
   public ChangeStatus status;
   public String baseChange;
   public Boolean newBranch;
+  public MergeInput merge;
 }

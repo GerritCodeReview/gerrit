@@ -22,14 +22,19 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -190,5 +195,82 @@ public class CreateChangeIT extends AbstractDaemonTest {
         GeneralPreferencesInfo.class);
 
     assertThat(o.signedOffBy).isTrue();
+  }
+
+
+  @Test
+  public void createMergeChange() throws Exception {
+    changeInTwoBranches("a.txt", "b.txt");
+    ChangeInput in =
+        newMergeChangeInput("master", "branchA", ChangeStatus.NEW);
+    assertCreateSucceeds(in);
+  }
+
+  @Test
+  public void createMergeChange_Conflicts() throws Exception {
+    changeInTwoBranches("shared.txt", "shared.txt");
+    ChangeInput in =
+        newMergeChangeInput("master", "branchA", ChangeStatus.NEW);
+    assertCreateFails(in, RestApiException.class, "merge conflict");
+  }
+
+  @Test
+  public void dryRunMerge() throws Exception {
+    changeInTwoBranches("a.txt", "b.txt");
+    RestResponse r = adminRestSession.get("/projects/" + project.get()
+        + "/branches/master/mergeable?source=branchA");
+    MergeableInfo m = newGson().fromJson(r.getReader(), MergeableInfo.class);
+    assertThat(m.mergeable).isTrue();
+  }
+
+  @Test
+  public void dryRunMerge_Conflicts() throws Exception {
+    changeInTwoBranches("a.txt", "a.txt");
+    RestResponse r = adminRestSession.get("/projects/" + project.get()
+        + "/branches/master/mergeable?source=branchA");
+    MergeableInfo m = newGson().fromJson(r.getReader(), MergeableInfo.class);
+    assertThat(m.mergeable).isFalse();
+    assertThat(m.conflicts).containsExactly("a.txt");
+  }
+
+  private ChangeInput newMergeChangeInput(String targetBranch,
+      String sourceRef, ChangeStatus status) {
+    // create a merge change from branchA to master in gerrit
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = targetBranch;
+    in.subject = "merge " + sourceRef + " to " + targetBranch;
+    in.status = status;
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = sourceRef;
+    in.merge = mergeInput;
+    return in;
+  }
+
+  private void changeInTwoBranches(String fileInMaster, String fileInBranchA)
+      throws Exception {
+    // create a initial commit in master
+    Result initialCommit = pushFactory
+        .create(db, user.getIdent(), testRepo, "initial commit", "readme.txt",
+            "initial commit")
+        .to("refs/heads/master");
+    initialCommit.assertOkStatus();
+
+    // create a new branch branchA
+    createBranch(new Branch.NameKey(project, "branchA"));
+
+    // create another commit in master
+    Result changeToMaster = pushFactory
+        .create(db, user.getIdent(), testRepo, "change to master", fileInMaster,
+            "master content")
+        .to("refs/heads/master");
+    changeToMaster.assertOkStatus();
+
+    // create a commit in branchA
+    PushOneCommit commit = pushFactory
+        .create(db, user.getIdent(), testRepo, "change to branchA",
+            fileInBranchA, "branchA content");
+    commit.setParent(initialCommit.getCommit());
+    commit.to("refs/heads/branchA");
   }
 }

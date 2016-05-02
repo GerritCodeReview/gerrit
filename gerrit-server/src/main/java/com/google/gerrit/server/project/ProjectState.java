@@ -37,6 +37,7 @@ import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -77,6 +78,7 @@ public class ProjectState {
   }
 
   private final boolean isAllProjects;
+  private final boolean isAllUsers;
   private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
@@ -110,6 +112,7 @@ public class ProjectState {
       final SitePaths sitePaths,
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
+      final AllUsersName allUsersName,
       final ProjectControl.AssistedFactory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
@@ -119,6 +122,7 @@ public class ProjectState {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
+    this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
     this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
@@ -357,6 +361,10 @@ public class ProjectState {
 
   public boolean isAllProjects() {
     return isAllProjects;
+  }
+
+  public boolean isAllUsers() {
+    return isAllUsers;
   }
 
   public boolean isUseContributorAgreements() {

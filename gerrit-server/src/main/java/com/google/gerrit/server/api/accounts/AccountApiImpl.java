@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
+import com.google.gerrit.server.account.SshKeys;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -75,6 +77,8 @@ public class AccountApiImpl implements AccountApi {
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
   private final AddSshKey addSshKey;
+  private final DeleteSshKey deleteSshKey;
+  private final SshKeys sshKeys;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -92,6 +96,8 @@ public class AccountApiImpl implements AccountApi {
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
       AddSshKey addSshKey,
+      DeleteSshKey deleteSshKey,
+      SshKeys sshKeys,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -108,6 +114,8 @@ public class AccountApiImpl implements AccountApi {
     this.createEmailFactory = createEmailFactory;
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
+    this.deleteSshKey = deleteSshKey;
+    this.sshKeys = sshKeys;
     this.gpgApiAdapter = gpgApiAdapter;
   }
 
@@ -238,6 +246,17 @@ public class AccountApiImpl implements AccountApi {
       return addSshKey.apply(account, in).value();
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot add SSH key", e);
+    }
+  }
+
+  @Override
+  public void deleteSshKey(int seq) throws RestApiException {
+    try {
+      AccountResource.SshKey sshKeyRes =
+          sshKeys.parse(account, IdString.fromDecoded(Integer.toString(seq)));
+      deleteSshKey.apply(sshKeyRes, null);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot delete SSH key", e);
     }
   }
 

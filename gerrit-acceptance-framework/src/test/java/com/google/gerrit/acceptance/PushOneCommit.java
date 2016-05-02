@@ -206,6 +206,11 @@ public class PushOneCommit {
     }
   }
 
+  public void setParent(RevCommit parent) throws Exception {
+    commitBuilder.noParents();
+    commitBuilder.parent(parent);
+  }
+
   public Result to(String ref) throws Exception {
     commitBuilder.add(fileName, content);
     return execute(ref);

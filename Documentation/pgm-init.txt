@@ -1,7 +1,7 @@
 = init
 
 == NAME
-init - Initialize a new Gerrit server installation
+init - Initialize/Upgrade a Gerrit server installation
 
 == SYNOPSIS
 --
@@ -25,13 +25,14 @@ for some basic setup prior to writing default configuration files
 into a newly created `$site_path`.
 
 If run in an existing `$site_path`, init will upgrade some resources
-as necessary.
+(e.g. DB schema, plugins) as necessary.
 
 == OPTIONS
 --batch::
-	Run in batch mode, skipping interactive prompts.  Reasonable
-	configuration defaults are chosen based on the whims of
-	the Gerrit developers.
+	Run in batch mode, skipping interactive prompts. For a fresh 
+	install reasonable configuration defaults are chosen based
+	on the whims of the Gerrit developers. On upgrades the settings
+	in gerrit.config are respected.
 +
 	If during a schema migration unused objects (e.g. tables, columns)
 	are detected they are *not* automatically dropped, but only a list of

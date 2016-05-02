@@ -121,33 +121,8 @@
       return false;
     },
 
-    _computeAutocompleteURL: function(change) {
-      return '/changes/' + change._number + '/suggest_reviewers';
-    },
-
-    _computeAutocompleteParams: function(inputVal) {
-      return {
-        n: 10,  // Return max 10 results
-        q: inputVal,
-      };
-    },
-
     _computeSelected: function(index, selectedIndex) {
       return index == selectedIndex;
-    },
-
-    _handleResponse: function(e) {
-      this._autocompleteData = e.detail.response.filter(function(reviewer) {
-        var account = reviewer.account;
-        if (!account) { return true; }
-        for (var i = 0; i < this._reviewers.length; i++) {
-          if (account._account_id == this.change.owner._account_id ||
-              account._account_id == this._reviewers[i]._account_id) {
-            return false;
-          }
-        }
-        return true;
-      }, this);
     },
 
     _handleBodyClick: function(e) {
@@ -241,7 +216,8 @@
           return;
         }
         this._lastAutocompleteRequest =
-            this.$.autocompleteXHR.generateRequest();
+            this._getSuggestedReviewers(this.change._number, val).then(
+                this._handleReviewersResponse.bind(this));
       }.bind(this);
 
       this._clearInputRequestHandle();
@@ -251,6 +227,24 @@
         this._inputRequestHandle =
             this.async(sendRequest, this._inputRequestTimeout);
       }
+    },
+
+    _handleReviewersResponse: function(response) {
+      this._autocompleteData = response.filter(function(reviewer) {
+        var account = reviewer.account;
+        if (!account) { return true; }
+        for (var i = 0; i < this._reviewers.length; i++) {
+          if (account._account_id == this.change.owner._account_id ||
+              account._account_id == this._reviewers[i]._account_id) {
+            return false;
+          }
+        }
+        return true;
+      }, this);
+    },
+
+    _getSuggestedReviewers: function(changeNum, inputVal) {
+      return this.$.restAPI.getChangeSuggestedReviewers(changeNum, inputVal);
     },
 
     _handleKey: function(e) {
@@ -302,19 +296,30 @@
         reviewerID = reviewer.group.id;
       }
       this._autocompleteData = [];
-      this._send('POST', this._restEndpoint(), reviewerID).then(function(req) {
-        this.change.reviewers.CC = this.change.reviewers.CC || [];
-        req.response.reviewers.forEach(function(r) {
-          this.push('change.removable_reviewers', r);
-          this.push('change.reviewers.CC', r);
-        }, this);
-        this._inputVal = '';
-        this.$.input.focus();
-      }.bind(this)).catch(function(err) {
-        // TODO(andybons): Use the message returned by the server.
-        alert('Unable to add ' + reviewerID + ' as a reviewer.');
-        throw err;
+      this._addReviewer(reviewerID).then(function(response) {
+        this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
+        if (!response.ok) {
+          return response.text().then(function(text) {
+            alert(text);
+          });
+        }
+        return this.$.restAPI.getResponseObject(response).then(function(obj) {
+          obj.reviewers.forEach(function(r) {
+            this.push('change.removable_reviewers', r);
+            this.push('change.reviewers.CC', r);
+          }, this);
+          this._inputVal = '';
+          this.$.input.focus();
+        });
       }.bind(this));
+    },
+
+    _addReviewer: function(id) {
+      this.$.restAPI.addChangeReviewer(this.change._number, id);
+    },
+
+    _removeReviewer: function(id) {
+      this.$.restAPI.removeChangeReviewer(this.change._number, id);
     },
 
     _send: function(method, url, reviewerID) {

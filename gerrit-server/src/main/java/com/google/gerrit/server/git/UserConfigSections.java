@@ -22,6 +22,9 @@ public class UserConfigSections {
   /** The my menu user preferences. */
   public static final String MY = "my";
 
+  /** The user email preferences. */
+  public static final String EMAIL = "email";
+
   public static final String KEY_URL = "url";
   public static final String KEY_TARGET = "target";
   public static final String KEY_ID = "id";

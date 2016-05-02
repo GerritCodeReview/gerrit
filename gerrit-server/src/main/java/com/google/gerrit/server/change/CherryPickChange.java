@@ -235,8 +235,7 @@ public class CherryPickChange {
 
     bu.addOp(change.getId(), inserter
         .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
-        .setDraft(current.isDraft())
-        .setSendMail(false));
+        .setDraft(current.isDraft()));
     return change.getId();
   }
 

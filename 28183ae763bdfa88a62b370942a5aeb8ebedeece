@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1462190393 +0200\nnonce AD0XjTWg45iipBkv5gkW7oscsSnLJjH0529v7gZcuVKqWIHswNBalR/eUbnZuzBrDJpKMtdgQ2C6\n\n0000000000000000000000000000000000000000 28183ae763bdfa88a62b370942a5aeb8ebedeece refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXJ0E5AAoJEFG1/Zeg0O9RckMH/2cDxfKssVtLBWEqw0cGoZG1\nvBZghSTDMLGVBZv/7ccvDnVpdkXXVXlMY5fizKLV38CXAfoqiCMyVrquxRR2qTKQ\nbb2raGHRZl0umlN383kBz2pq9afvSRvpKHYMErasOAWbXWaMPEWyJeI1gpk9T4t1\nNELg4GZADXeJy+AS+RNKOKKyTwRUPbCJKlKtW5hDRQHjddHnnR7R9YoO+BSGl91T\nHDhRWGmpemwQqarDeZ1l+Z9pbrckk+DyaGepw+w7HCmBilmSumR8SqUiGwBIUB9F\nM8qv30SvW7ZwWUurE13svsujBeSwCOY0vvBbdZQrs82nQW1nDoYr/sTn58o801Y\u003d\n\u003djMVw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83309d6_ea9d876a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:33:07Z",
+      "side": 1,
+      "message": "use .isAllUsers() now that it exists on ProjectState?",
+      "revId": "28183ae763bdfa88a62b370942a5aeb8ebedeece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_07a3b6af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:33:07Z",
+      "side": 1,
+      "message": "Don\u0027t set the cmd OK. You\u0027ll need to wrap it with the ReceiveCommand you create below to ensure the correct result information is sent back to the client.",
+      "revId": "28183ae763bdfa88a62b370942a5aeb8ebedeece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_2aa07fa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:33:07Z",
+      "side": 1,
+      "message": "Don\u0027t translate the type; this is like oldId (see below). We want to use what is in cmd from the wire, not what we read from the repository.",
+      "revId": "28183ae763bdfa88a62b370942a5aeb8ebedeece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_0aa3bbaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-02T23:33:07Z",
+      "side": 1,
+      "message": "oldId here must be the cmd.getOldId(), not oldId above. If the VisibleRefFilter is working correctly we advertised the current value of the user\u0027s branch under refs/users/self. The client will send us back that value as oldId. We don\u0027t need to be faking it out here.",
+      "revId": "28183ae763bdfa88a62b370942a5aeb8ebedeece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

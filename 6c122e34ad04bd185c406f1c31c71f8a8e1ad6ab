@@ -165,6 +165,30 @@
       "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f83dfd_7b2fbf91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-02T18:19:18Z",
+      "side": 1,
+      "message": "\u003e If the input is sequence numbers [4, 1, 3], you sort it to [1, 3,\n \u003e 4], then you call add() 3 times on keys, you end up with:\n \u003e \n \u003e index 0: seq 1\n \u003e index 1: seq 3\n \u003e index 2: seq 4\n \u003e \n \u003e If you try to look up sequence number 3 by doing keys.get(3-1), you\n \u003e get sequence number 4, which is wrong.\n\nHmm, I think what happens is this:\n\n1. iteration of for loop:\nkeys.size() \u003d 0\nkey.getKey().get() - 1 \u003d 0\n-\u003e line 302 is not executed, but the key is added in line 304\n\u003d\u003e\nindex 0: seq 1\n\n2. iteration of for loop:\nkeys.size() \u003d 1\nkey.getKey().get() - 1 \u003d 2\n-\u003e line 302 is executed once, key is added in line 304\n\u003d\u003e\nindex 0: seq 1\nindex 1: absent\nindex 2: seq 3\n\n3. iteration of for loop:\nkeys.size() \u003d 3\nkey.getKey().get() - 1 \u003d 3\n-\u003e line 302 is not executed, but the key is added in line 304\n\u003d\u003e\nindex 0: seq 1\nindex 1: absent\nindex 2: seq 3\nindex 3: seq 4\n\n \u003e \n \u003e \n \u003e You don\u0027t have to sort if you assign directly into the list.\n \u003e \n \u003e \n \u003e Ordering\u003cAccountSshKey\u003e o \u003d ...\n \u003e keys \u003d Collections.nCopies(Optional.absent(), o.max(newKeys));\n \u003e \n \u003e for (AccountSshKey key : newKeys) {\n \u003e keys.set(key.getId().get() - 1, key);\n \u003e }\n\nI can do that, I guess it\u0027s at least more readable :-)",
+      "parentUuid": "e8fd01ea_5ce2bdb0",
+      "range": {
+        "startLine": 302,
+        "startChar": 13,
+        "endLine": 302,
+        "endChar": 16
+      },
+      "revId": "6c122e34ad04bd185c406f1c31c71f8a8e1ad6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

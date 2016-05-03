@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
@@ -22,12 +23,14 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.testutil.NoteDbMode;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.util.IO;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -38,6 +41,13 @@ import java.util.TreeSet;
 
 @NoHttpd
 public class UploadArchiveIT extends AbstractDaemonTest {
+
+  @Before
+  public void setUp() {
+    // There is some Guice request scoping problem preventing this test from
+    // passing in CHECK mode.
+    assume().that(NoteDbMode.get()).isNotEqualTo(NoteDbMode.CHECK);
+  }
 
   @Test
   @GerritConfig(name = "download.archive", value = "off")

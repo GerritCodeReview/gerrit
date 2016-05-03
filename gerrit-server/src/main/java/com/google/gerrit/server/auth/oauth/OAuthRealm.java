@@ -104,10 +104,14 @@ public class OAuthRealm extends AbstractRealm {
     if (userInfo == null) {
       throw new AccountException("Cannot authenticate");
     }
-    if (!Strings.isNullOrEmpty(userInfo.getEmailAddress())) {
+    if (!Strings.isNullOrEmpty(userInfo.getEmailAddress())
+        && (Strings.isNullOrEmpty(who.getUserName())
+            || !allowsEdit(FieldName.REGISTER_NEW_EMAIL))) {
       who.setEmailAddress(userInfo.getEmailAddress());
     }
-    if (!Strings.isNullOrEmpty(userInfo.getDisplayName())) {
+    if (!Strings.isNullOrEmpty(userInfo.getDisplayName())
+        && (Strings.isNullOrEmpty(who.getDisplayName())
+            || !allowsEdit(FieldName.FULL_NAME))) {
       who.setDisplayName(userInfo.getDisplayName());
     }
     return who;

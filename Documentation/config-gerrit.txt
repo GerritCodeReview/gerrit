@@ -3811,13 +3811,6 @@ The maximum numbers of reviewers suggested.
 +
 By default 10.
 
-[[suggest.from]]suggest.from::
-+
-The number of characters that a user must have typed before suggestions
-are provided. If set to 0, suggestions are always provided.
-+
-By default 0.
-
 
 [[theme]]
 === Section theme

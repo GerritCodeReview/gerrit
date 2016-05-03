@@ -25,17 +25,19 @@ import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /** REST API based suggestion Oracle for reviewers. */
-public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
+public class ReviewerSuggestOracle extends HighlightSuggestOracle {
   private Change.Id changeId;
 
   @Override
-  protected void _onRequestSuggestions(final Request req, final Callback cb) {
+  protected void onRequestSuggestions(final Request req, final Callback cb) {
     ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit())
         .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
           @Override
@@ -53,6 +55,11 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
             cb.onSuggestionsReady(req, new Response(r));
           }
         });
+  }
+
+  @Override
+  public void requestDefaultSuggestions(final Request req, final Callback cb) {
+    requestSuggestions(req, cb);
   }
 
   public void setChange(Change.Id changeId) {

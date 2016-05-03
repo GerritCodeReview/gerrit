@@ -52,6 +52,13 @@ public class RemoteSuggestOracle extends SuggestOracle {
   }
 
   @Override
+  public void requestDefaultSuggestions(final Request req, final Callback cb) {
+    // We don't want to deal with a null query, but an empty string instead
+    req.setQuery("");
+    requestSuggestions(req, cb);
+  }
+
+  @Override
   public boolean isDisplayStringHTML() {
     return oracle.isDisplayStringHTML();
   }

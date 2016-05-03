@@ -33,7 +33,6 @@ public class SuggestReviewers {
   protected final ReviewersUtil reviewersUtil;
 
   private final boolean suggestAccounts;
-  private final int suggestFrom;
   private final int maxAllowed;
   private final int maxAllowedWithoutConfirmation;
   protected int limit;
@@ -60,10 +59,6 @@ public class SuggestReviewers {
 
   public boolean getSuggestAccounts() {
     return suggestAccounts;
-  }
-
-  public int getSuggestFrom() {
-    return suggestFrom;
   }
 
   public int getLimit() {
@@ -98,7 +93,6 @@ public class SuggestReviewers {
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
-    this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed",
         PostReviewers.DEFAULT_MAX_REVIEWERS);
     this.maxAllowedWithoutConfirmation = cfg.getInt(

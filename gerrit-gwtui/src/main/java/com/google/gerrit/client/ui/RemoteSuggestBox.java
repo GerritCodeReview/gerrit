@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -38,6 +40,7 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
   private final DefaultSuggestionDisplay display;
   private final HintTextBox textBox;
   private final SuggestBox suggestBox;
+  private HandlerRegistration defaultSuggestionFocusHandlerRegistration;
   private boolean submitOnSelection;
 
   public RemoteSuggestBox(SuggestOracle oracle) {
@@ -133,5 +136,30 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
   @Override
   public HandlerRegistration addCloseHandler(CloseHandler<RemoteSuggestBox> h) {
     return addHandler(h, CloseEvent.getType());
+  }
+
+  public void setShowDefaultSuggestions(boolean enabled) {
+    if (enabled) {
+      if (defaultSuggestionFocusHandlerRegistration == null) {
+        defaultSuggestionFocusHandlerRegistration =
+            textBox.addFocusHandler(new FocusHandler() {
+              @Override
+              public void onFocus(FocusEvent focusEvent) {
+                // Hack to force suggestBox to show the default selection
+                if (textBox.getText() == null) {
+                  textBox.setText("");
+                }
+                if (textBox.getText().equals("")) {
+                  suggestBox.showSuggestionList();
+                }
+              }
+            });
+      }
+    } else {
+      if (defaultSuggestionFocusHandlerRegistration != null) {
+        defaultSuggestionFocusHandlerRegistration.removeHandler();
+        defaultSuggestionFocusHandlerRegistration = null;
+      }
+    }
   }
 }

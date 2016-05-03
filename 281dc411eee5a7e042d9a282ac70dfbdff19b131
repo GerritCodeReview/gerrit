@@ -70,6 +70,24 @@
       "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_cafd2380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T12:41:01Z",
+      "side": 0,
+      "message": "\u003e From the story in\n \u003e the commit message i understood, that this (adding change message\n \u003e on adding a reviewer) should be a pat of this change or this\n \u003e series.\n\nSorry that wasn\u0027t clear. The story in the commit message was only a justification for why this behavior change is acceptable, I did not make that different behavior change in this change. I\u0027ve tried to clarify the commit message.",
+      "parentUuid": "883645c6_895fb964",
+      "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

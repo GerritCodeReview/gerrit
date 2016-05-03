@@ -2030,7 +2030,7 @@ public class ReceiveCommits {
               reader.abbreviate(newCommit).name()));
         } else {
           StringBuilder msg = new StringBuilder();
-          msg.append("(W) ");
+          msg.append("(I) ");
           msg.append(reader.abbreviate(newCommit).name());
           msg.append(":");
           msg.append(" no files changed");

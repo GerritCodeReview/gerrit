@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.0.2
-==============================
+= Release notes for Gerrit 2.0.2
 
 Gerrit 2.0.2 is now available for download:
 
 link:https://www.gerritcodereview.com/[https://www.gerritcodereview.com/]
 
-Important Notes
----------------
+== Important Notes
 
 Starting with this version, Gerrit is now packaged as a single WAR file.
 Just download and drop into your webapps directory for easier deployment.
@@ -31,16 +29,14 @@ If you use H2 as your database, you will need to download the JDBC driver
 and insert it into your container's CLASSPATH.  But I think all known
 instances are on PostgreSQL, so this is probably not a concern to anyone.
 
-New Features
-------------
+== New Features
 
 * Trailing whitespace is highlighted in diff views
 * SSHD upgraded with "faster connection" patch discussed on list
 * Git reflogs now contain the Gerrit account information of who did the push
 * Insanely long change subjects are now clipped at 80 characters
 
-All Changes
------------
+== All Changes
 
 * Switch back to -SNAPSHOT builds
 * Overhaul our build system to only create a WAR file

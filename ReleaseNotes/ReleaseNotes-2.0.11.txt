@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.11
-===============================
+= Release notes for Gerrit 2.0.11
 
 Gerrit 2.0.11 is now available in the usual location:
 
@@ -12,11 +11,9 @@ Apply the schema upgrade:
   java -jar gerrit.war --cat sql/upgrade009_010.sql | psql reviewdb
 ----
 
-Important Notes
----------------
+== Important Notes
 
-Cache directory
-~~~~~~~~~~~~~~~
+=== Cache directory
 
 Gerrit now prefers having a temporary directory to store a disk-based content cache.  This cache used to be in the PostgreSQL database, and was the primary reason for the rather large size of the Gerrit schema.  In 2.0.11 the cache has been moved to the local filesystem, and now has automatic expiration management to prevent it from growing too large.  As this is only a cache, making backups of this directory is not required.
 
@@ -30,13 +27,11 @@ The directory can also be placed elsewhere in the local filesystem, see `cache.d
 
 link:http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html[http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html]
 
-Protocol change
-~~~~~~~~~~~~~~~
+=== Protocol change
 
 The protocol between the browser based JavaScript and the server has changed.  After installing 2.0.11 users need to load the site page again to ensure they are running 2.0.11 or later.  Users can verify they have the new version by checking the version number in the footer in the lower right.  Users who don't load the new version (e.g. are using a stale tab from a week ago) will see errors when trying to view patches.
 
-New Features
-------------
+== New Features
 
 * GERRIT-8    Add 'Whole File' as a context preference in the user s...
 * GERRIT-9    Honor user's "Default Context" preference
@@ -65,8 +60,7 @@ There is a new administrative command over SSH called "gerrit show-caches" which
 +
 Simple DWIMery: users can now do `repo upload --reviewer=who` to have the reviewer email automatically expand according to the email_format column in system_config, e.g. by expanding `who` to `who@example.com`.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * GERRIT-81   Can't repack a repository while Gerrit is running
 +
@@ -80,8 +74,7 @@ New users coming from Google Accounts OpenID provider where given a full name of
 +
 Service users created by manually inserting into the accounts table didn't permit using their preferred_email in commits or tags; administrators had to also insert a dummy record into the account_external_ids table.  The dummy account_external_ids record is no longer necessary.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.11 development
 * Include the 'Google Format' style we selected in our p...
 * Upgrade JGit to v0.4.0-310-g3da8761

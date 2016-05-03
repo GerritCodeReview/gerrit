@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.11.4
-===============================
+= Release notes for Gerrit 2.11.4
 
 Gerrit 2.11.4 is now available:
 
@@ -13,8 +12,7 @@ in these release notes.
 There are no schema changes from link:ReleaseNotes-2.11.3.html[2.11.3].
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix NullPointerException in `ls-project` command with `--has-acl-for` option.
 +
@@ -131,8 +129,7 @@ The 'Conflicts List' was not being populated correctly if the change being viewe
 was a merge commit, or if the change being viewed conflicted with an open merge
 commit.
 
-Plugin Bugfixes
----------------
+== Plugin Bugfixes
 
 * singleusergroup: Allow to add a user to a project's ACL using `user/username`.
 +

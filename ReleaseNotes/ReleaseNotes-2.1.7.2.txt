@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.7.2
-================================
+= Release notes for Gerrit 2.1.7.2
 
 Gerrit 2.1.7.2 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.1.7.2.war[https://www.gerritcodereview.com/download/gerrit-2.1.7.2.war]
 
-Bug Fixes
----------
+== Bug Fixes
 * issue 997 Resolve Project Owners when checking access rights
 +
 Members of the 'Project Owners' magical group did not always have

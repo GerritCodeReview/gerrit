@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.3
-==============================
+= Release notes for Gerrit 2.0.3
 
 Gerrit 2.0.3 is now available in the usual location:
 
@@ -10,8 +9,7 @@ Gerrit and coming up with the implementation for  "Add reviewer to an
 existing change".  This has been an open issue in the bug tracker for a
 while, and its finally closed thanks to his work.
 
-New Features
-------------
+== New Features
 
 * GERRIT-37  Add additional reviewers to an existing change
 * Display old and new image line numbers in unified diff
@@ -19,8 +17,7 @@ New Features
 * Allow up/down arrow keys to scroll the page in patch view
 * Use a Java applet to help users load public SSH keys
 
-Bug Fixes
----------
+== Bug Fixes
 
 * GERRIT-72  Make review comments standout more from the surrounding text
 * GERRIT-7   Restart the merge queue when Gerrit starts up
@@ -36,8 +33,7 @@ page used CSS tricks to show only a portion of a particular part of the
 Gerrit UI.  Such a display might be able to convince a user they are
 clicking on one thing, while doing something else entirely.
 
-Other Changes
--------------
+== Other Changes
 
 * Restore -SNAPSHOT suffix after 2.0.2
 * Add a document describing Gerrit's high level design

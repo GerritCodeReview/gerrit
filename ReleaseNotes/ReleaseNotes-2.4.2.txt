@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.4.2
-==============================
+= Release notes for Gerrit 2.4.2
 
 Gerrit 2.4.2 is now available:
 
@@ -10,8 +9,7 @@ There are no schema changes from 2.4, or 2.4.1.
 However, if upgrading from anything earlier, follow the upgrade
 procedure in the 2.4 link:ReleaseNotes-2.4.html[ReleaseNotes].
 
-Security Fixes
---------------
+== Security Fixes
 * Some access control sections may be ignored
 +
 Gerrit sometimes ignored an access control section in a project

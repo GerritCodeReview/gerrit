@@ -1,13 +1,11 @@
-Release notes for Gerrit 2.0.24, 2.0.24.1, 2.0.24.2
-===================================================
+= Release notes for Gerrit 2.0.24, 2.0.24.1, 2.0.24.2
 
 Gerrit 2.0.24 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING: This version contains a schema change* (since 2.0.21)
 
@@ -18,8 +16,7 @@ Apply the database specific schema script:
 ----
 
 
-LDAP Change
------------
+== LDAP Change
 
 LDAP groups are now bound via their full distinguished name, and not
 by their common name.  Sites using LDAP groups will need to have the
@@ -34,8 +31,7 @@ an ambiguous case when different parts of the same directory space
 create identically named groups.
 
 
-New Features
-------------
+== New Features
 * Check if the user has permission to upload changes
 +
 The new READ +2 permission is required to upload a change to a
@@ -69,8 +65,7 @@ requests back to the developers.
 Encrypted SMTP is now supported natively within Gerrit, see
 link:http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#sendemail.smtpEncryption[sendemail.smtpEncryption]
 
-Bug Fixes
----------
+== Bug Fixes
 * issue 290    Fix invalid drop index in upgrade017_018_mysql
 +
 Minor syntax error in SQL script.
@@ -142,8 +137,7 @@ OpenID delegate identities were being stored rather than claimed
 identities when the claimed identity is just a delegate to the
 delegate provider.  We now store both in the account.
 
-Fixes in 2.0.24.1
------------------
+== Fixes in 2.0.24.1
 * Fix unused import in OpenIdServiceImpl
 * dev-readme: Fix formatting of initdb command
 +
@@ -159,8 +153,7 @@ and the underlying LDAP server is ActiveDirectory.
 Fixes sendemail configuration to use the documented smtppass
 variable and not the undocumented smtpuserpass variable.
 
-Fixes in 2.0.24.2
------------------
+== Fixes in 2.0.24.2
 * Fix CreateSchema to create Administrators group
 * Fix CreateSchema to set type of Registered Users group
 * Default AccountGroup instances to type INTERNAL
@@ -180,8 +173,7 @@ anonymous user having READ +2.
 Added unit tests to validate CreateSchema works properly, so we
 don't have a repeat of breakage here.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.24 development
 * Merge change Ie16b8ca2
 * Switch to the new org.eclipse.jgit package

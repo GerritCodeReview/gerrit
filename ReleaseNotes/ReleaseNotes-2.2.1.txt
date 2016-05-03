@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.2.1
-==============================
+= Release notes for Gerrit 2.2.1
 
 Gerrit 2.2.1 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.2.1.war[https://www.gerritcodereview.com/download/gerrit-2.2.1.war]
 
-Schema Change
--------------
+== Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
@@ -15,8 +13,7 @@ Schema Change
 *WARNING:* Upgrading to 2.2.x requires the server be first upgraded
 to 2.1.7, and then to 2.2.x.
 
-New Features
-------------
+== New Features
 * Add 'Expand All Comments' checkbox in PatchScreen
 +
 Allows users to save a user preference that automatically expands
@@ -28,8 +25,7 @@ The -b option may be supplied multiple times to ls-project, each
 usage adds a new column of output per project line listing the
 current value of that branch.
 
-Bug Fixes
----------
+== Bug Fixes
 * issue 994 Rename "-- All Projects --" to "All-Projects"
 +
 The name "-- All Projects --.git" is difficult to work with on

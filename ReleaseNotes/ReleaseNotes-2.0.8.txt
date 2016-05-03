@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.8
-==============================
+= Release notes for Gerrit 2.0.8
 
 Gerrit 2.0.8 is now available in the usual location:
 
@@ -14,8 +13,7 @@ Schema upgrade:
 This version has some major bug fixes for JGit.  I strongly encourage people to upgrade, we had a number of JGit bugs identified last week, all of them should be fixed in this release.
 
 
-New Features
-------------
+== New Features
 * Allow users to subscribe to submitted change events
 +
 Someone asked me on an IRC channel to have Gerrit send emails when changes are actually merged into a project.  This is what triggered the schema change; there is a new checkbox on the Watched Projects list under Settings to subscribe to these email notifications.
@@ -33,15 +31,13 @@ A long standing "bug"/feature request.  I had a small chunk of time I didn't kno
 +
 The reflogs now contain the remote user's IP address when Gerrit makes edits, resulting in slightly more detail than was there before.
 
-Bug Fixes
----------
+== Bug Fixes
 * Make sure only valid ObjectIds can be passed into git d...
 * GERRIT-92  Upgrade JGit to 0.4.0-262-g3c268c8
 +
 The JGit bug fixes are rather major.  I would strongly encourage upgrading.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.8 development
 * Upgrade MINA SSHD to SVN trunk 755651
 * Fix a minor whitespace error in ChangeMail

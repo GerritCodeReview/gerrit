@@ -1,23 +1,19 @@
-Release notes for Gerrit 2.1.4
-==============================
+= Release notes for Gerrit 2.1.4
 
 Gerrit 2.1.4 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING* This release contains multiple schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
 ----
 
-New Features
-------------
+== New Features
 
-Change Management
-~~~~~~~~~~~~~~~~~
+=== Change Management
 
 * issue 504 Implement full query operators
 +
@@ -51,8 +47,7 @@ The query operator `is:watched` matches changes matching the user's
 watched project list, and a new menu item was added under the My menu
 to select open changes matching these watched projects.
 
-Web UI
-~~~~~~
+=== Web UI
 
 * issue 579 Remember diff formatting preferences
 +
@@ -82,8 +77,7 @@ into a commit message.
 
 * issue 509 Make branch columns link to changes on that branch
 
-Email Notifications
-~~~~~~~~~~~~~~~~~~~
+=== Email Notifications
 
 * issue 311 No longer CC a user by default
 +
@@ -116,8 +110,7 @@ modified by the change.
 New fields in the email footer provide additional detail, enabling
 better filtering and classification of messages.
 
-Access Control
-~~~~~~~~~~~~~~
+=== Access Control
 
 * Support regular expressions for ref access rules
 +
@@ -136,8 +129,7 @@ each user their own "sandbox" to push changes to.
 Groups can now be created over SSH by administrators using the
 `gerrit create-group` command.
 
-Authentication
-~~~~~~~~~~~~~~
+=== Authentication
 
 * Remove password authentication over SSH
 +
@@ -157,8 +149,7 @@ Web sessions are now persistent for the cache.web_sessions.maxAge
 setting, rather than expiring when the browser closes.  (Previously
 sessions expired when the browser exited.)
 
-Misc.
-~~~~~
+=== Misc.
 
 * Add topic, lastUpdated, sortKey to ChangeAttribute
 +
@@ -184,11 +175,9 @@ SSH still requires `git` on the remote host's PATH.
 Updated JGit to 0.8.4.89-ge2f5716, log4j to 1.2.16, GWT to 2.0.4,
 sfl4j to 1.6.1, easymock to 3.0, JUnit to 4.8.1.
 
-Bug Fixes
----------
+== Bug Fixes
 
-Web UI
-~~~~~~
+=== Web UI
 
 * issue 352 Confirm branch deletion in web UI
 +
@@ -211,15 +200,13 @@ There was no obvious way to leave the sign-in dialog. Fixed.
 Keyboard navigation to standard links like 'Google Accounts'
 wasn't supported.  Fixed.
 
-Misc.
-~~~~~
+=== Misc.
 
 * issue 614 Fix 503 error when Jetty cancels a request
 +
 A bug was introduced in 2.1.3 that caused a server 503 error
 when a fetch/pull/clone or push request timed out.  Fixed.
 
-Version
--------
+== Version
 
 ae59d1bf232bba16d4d03ca924884234c68be0f2

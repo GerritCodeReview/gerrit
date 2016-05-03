@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7a73a9_b4a8a087",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T20:00:36Z",
+      "side": 1,
+      "message": "Is this actually an output of \"buck build release\"?",
+      "revId": "f4b20226fdfbe1c711d9e68893667f7f71deebf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

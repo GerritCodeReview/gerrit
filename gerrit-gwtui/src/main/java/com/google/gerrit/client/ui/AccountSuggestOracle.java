@@ -61,7 +61,8 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
     public static String format(AccountInfo info, String query) {
       String s = FormatUtil.nameEmail(info);
-      if (!containsQuery(s, query) && info.secondaryEmails() != null) {
+      if (query != null && !containsQuery(s, query) &&
+          info.secondaryEmails() != null) {
         for (String email : Natives.asList(info.secondaryEmails())) {
           AccountInfo info2 = AccountInfo.create(info._accountId(), info.name(),
               email, info.username());

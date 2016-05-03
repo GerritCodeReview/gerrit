@@ -34,6 +34,24 @@
       "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_895fb964",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-03T11:30:38Z",
+      "side": 0,
+      "message": "OK, my comment as it stands doesn\u0027t make any sende. My question was: \"You bump now lastUpdatedOn, even though the change message wasn\u0027t added yet on adding reviewer operation\". From the story in the commit message i understood, that this (adding change message on adding a reviewer) should be a pat of this change or this series.\n\nNot really related to this change, but see also discussion on another change about similar topic, to send email notification on removing a reviewer even without vote. Now, that a change message should be added when a reviewer is added, should a change message be also added, when a reviewer was deleted even without vote?\n\n* [1] https://gerrit-review.googlesource.com/73220",
+      "parentUuid": "883645c6_096d8922",
+      "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

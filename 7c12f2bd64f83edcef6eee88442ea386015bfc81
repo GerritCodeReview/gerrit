@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83309d6_0a6d7b22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T14:43:37Z",
+      "side": 1,
+      "message": "This should just be \"not allowed to edit project watches\" to be consistent with other error messages.",
+      "range": {
+        "startLine": 52,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 28
+      },
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

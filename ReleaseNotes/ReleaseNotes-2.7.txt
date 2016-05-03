@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.7
-============================
+= Release notes for Gerrit 2.7
 
 
 Gerrit 2.7 is now available:
@@ -10,8 +9,7 @@ https://www.gerritcodereview.com/download/gerrit-2.7.war]
 Gerrit 2.7 includes the bug fixes done with link:ReleaseNotes-2.6.1.html[Gerrit 2.6.1].
 These bug fixes are *not* listed in these release notes.
 
-Schema Change
--------------
+== Schema Change
 
 
 *WARNING:* This release contains schema changes.  To upgrade:
@@ -25,8 +23,7 @@ newer, you may ignore this warning and upgrade directly to 2.7.x.
 
 
 
-Gerrit Trigger Plugin in Jenkins
---------------------------------
+== Gerrit Trigger Plugin in Jenkins
 
 
 *WARNING:* Upgrading to 2.7 may cause the Gerrit Trigger Plugin in Jenkins to
@@ -34,8 +31,7 @@ stop working.  Please see the "New 'Stream Events' global capability" section
 below.
 
 
-Release Highlights
-------------------
+== Release Highlights
 
 
 * New `copyMaxScore` setting for labels.
@@ -46,12 +42,10 @@ Release Highlights
 * Several new REST APIs.
 
 
-New Features
-------------
+== New Features
 
 
-General
-~~~~~~~
+=== General
 
 * New `copyMaxScore` setting for labels.
 +
@@ -105,12 +99,10 @@ immediately submitted], if the caller has Submit permission on `refs/for/<ref>`.
 * Allow administrators to see all groups.
 
 
-Web UI
-~~~~~~
+=== Web UI
 
 
-Global
-^^^^^^
+==== Global
 
 * User avatars are displayed in more places in the Web UI.
 
@@ -120,8 +112,7 @@ Global
 mouse over avatar images.
 
 
-Change Screens
-^^^^^^^^^^^^^^
+==== Change Screens
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=667[Issue 667]:
@@ -140,8 +131,7 @@ A new preference setting allows the user to set the default visibility of
 change comments.
 
 
-Diff Screens
-^^^^^^^^^^^^
+==== Diff Screens
 
 * Show images in side-by-side and unified diffs.
 
@@ -150,15 +140,13 @@ Diff Screens
 * Harmonize unified diff's styling of images with that of text.
 
 
-REST API
-~~~~~~~~
+=== REST API
 
 
 Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api.html[
 REST API endpoints] are added.
 
-Accounts
-^^^^^^^^
+==== Accounts
 
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-accounts.html#get-diff-preferences[
@@ -168,8 +156,7 @@ Get account diff preferences]
 Set account diff preferences]
 
 
-Changes
-^^^^^^^
+==== Changes
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1820[Issue 1820]:
@@ -181,16 +168,14 @@ Get comment]
 
 
 
-Projects
-^^^^^^^^
+==== Projects
 
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-projects.html#get-config[
 Get project configuration]
 
 
-ssh
-~~~
+=== ssh
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1088[Issue 1088]:
@@ -198,11 +183,9 @@ Support link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/co
 Kerberos authentication for ssh interaction].
 
 
-Bug Fixes
----------
+== Bug Fixes
 
-General
-~~~~~~~
+=== General
 
 * Postpone check for first account until adding an account.
 
@@ -240,8 +223,7 @@ Fix null-pointer exception when deleting draft patch set when previous
 draft was already deleted.
 
 
-Web UI
-~~~~~~
+=== Web UI
 
 
 * Properly handle double-click on external group in GroupTable.
@@ -282,8 +264,7 @@ Fix null-pointer exception when searching for changes with the query
 Fix browser null-pointer exception when ChangeCache is incomplete.
 
 
-REST API
-~~~~~~~~
+=== REST API
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1819[Issue 1819]:
@@ -294,37 +275,32 @@ Get Change Detail REST API endpoint].
 * Correct URL encoding in 'GroupInfo'.
 
 
-Email
-~~~~~
+=== Email
 
 * Log failure to access reviewer list for notification emails.
 
 * Log when appropriate if email delivery is skipped.
 
 
-ssh
-~~~
+=== ssh
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2016[Issue 2016]:
 Flush caches after adding or deleting ssh keys via the `set-account` ssh command.
 
-Tools
-~~~~~
+=== Tools
 
 
 * The release build now builds for all browser configurations.
 
 
-Upgrades
---------
+== Upgrades
 
 * `gwtexpui` is now built in the gerrit tree rather than linking a separate module.
 
 
 
-Documentation
--------------
+== Documentation
 
 
 * Update the access control documentation to clarify how to set

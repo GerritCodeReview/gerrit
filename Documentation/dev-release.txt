@@ -335,8 +335,11 @@ Push the new Release Tag on the plugins:
 * Build the release notes:
 +
 ----
-  make -C ReleaseNotes
+  buck build releasenotes
 ----
+
+* Extract the release notes files from the zip file generated from last step:
+`buck-out/gen/ReleaseNotes/html/html.zip`.
 
 * Extract the documentation files from the zip file generated from
 `buck build docs`: `buck-out/gen/Documentation/searchfree/searchfree.zip`.

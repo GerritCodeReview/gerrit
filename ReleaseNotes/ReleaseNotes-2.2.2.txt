@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.2.2
-==============================
+= Release notes for Gerrit 2.2.2
 
 Gerrit 2.2.2 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.2.2.war[https://www.gerritcodereview.com/download/gerrit-2.2.2.war]
 
-Schema Change
--------------
+== Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
@@ -15,11 +13,9 @@ Schema Change
 *WARNING:* Upgrading to 2.2.x requires the server be first upgraded
 to 2.1.7 (or a later 2.1.x version), and then to 2.2.x.
 
-New Features
-------------
+== New Features
 
-Prolog
-~~~~~~
+=== Prolog
 * issue 971 Use Prolog Cafe for ChangeControl.canSubmit()
 
 *  Add per-project prolog submit rule files
@@ -59,8 +55,7 @@ Define a small interactive interpreter that users or site
 administrators can play around with by downloading the Gerrit WAR
 file and executing: java -jar gerrit.war prolog-shell
 
-Prolog Predicates
-^^^^^^^^^^^^^^^^^
+==== Prolog Predicates
 *  Add Prolog Predicates to check commit messages and edits
 +
 commit_message returns the commit message as a symbol.
@@ -104,8 +99,7 @@ This is the current rule generally applied to a label function. Make
 it exportable for now until we can come back and clean up the legacy
 approval data code.
 
-Web
-~~~
+=== Web
 
 * Support in Firefox delete key in NpIntTextBox
 +
@@ -118,8 +112,7 @@ file) now works in Firefox.
 There is a bug in gwt 2.1.0 that prevents pressing special keys like
 Enter, Backspace etc. from being properly recognized and so they have no effect.
 
-ChangeScreen
-^^^^^^^^^^^^
+==== ChangeScreen
 * issue 855 Indicate outdated dependencies on the ChangeScreen
 +
 If a change dependency is no longer the latest patchSet for that
@@ -142,8 +135,7 @@ The UI now shows whatever the results of the submit_rule are, which
 permits the submit_rule to make an ApprovalCategory optional, or to
 make a new label required.
 
-Diff Screen
-^^^^^^^^^^^
+==== Diff Screen
 * Add top level menus for a new PatchScreen header
 +
 Modify the PatchScreen so that the header contents is selectable
@@ -183,8 +175,7 @@ the automatic merge result and display the difference between the
 automatic result that Git would create, and the actual result that
 was uploaded by the author/committer of the merge.
 
-Groups
-^^^^^^
+==== Groups
 * Add menu to AccountGroupScreen
 +
 This change introduces a menu in the AccountGroupScreen and
@@ -199,8 +190,7 @@ To assign a privilege to a new group by editing the
 'groups' file in the 'refs/meta/config' branch which requires
 the UUID of the group to be known.
 
-Project Access
-^^^^^^^^^^^^^^
+==== Project Access
 * Automatically add new rule when adding new permission
 +
 If a new permission was added to a block, immediately create the new
@@ -218,8 +208,7 @@ When the access has been successfully modified for a project,
 switch back to the "read-only" view where the widgets are all
 disabled and the Edit button is enabled.
 
-Project Branches
-^^^^^^^^^^^^^^^^
+==== Project Branches
 * Display refs/meta/config branch on ProjectBranchesScreen
 +
 The new refs/meta/config branch was not shown in the ProjectBranchesScreen.
@@ -231,8 +220,7 @@ meaning to Gerrit it is now displayed at the top below HEAD.
 Since HEAD and refs/meta/config do not represent ordinary branches,
 highlight their rows with a special style in the ProjectBranchesScreen.
 
-URLs
-^^^^
+==== URLs
 * Modernize URLs to be shorter and consistent
 +
 Instead of http://site/#change,1234 we now use a slightly more
@@ -250,8 +238,7 @@ to indicate which view the user wants to see.
 
 * issue 1018 Accept ~ in linkify() URLs
 
-SSH
-~~~
+=== SSH
 * Added a set-reviewers ssh command
 
 * Support removing more than one reviewer at once
@@ -290,8 +277,7 @@ connections, and tasks in the task queue. The --show-jvm option
 will report additional data about the JVM, and tell the caller
 where it is running.
 
-Queries
-^^^^^^^
+==== Queries
 * Output patchset creation date for 'query' command.
 
 * issue 1053 Support comments option in query command
@@ -300,8 +286,7 @@ Query SSH command will show all comments if option --comments is
 used. If --comments is used together with --patch-sets all inline
 comments are included in the output.
 
-Config
-~~~~~~
+=== Config
 * Move batch user priority to a capability
 +
 Instead of using a magical group, use a special capability to
@@ -351,8 +336,7 @@ template.  Create a template and sender for the restorecommand.
 This allows aliases which redirect to gerrit's ssh port (say
 from port 22) to be setup and advertised to users.
 
-Dev
-~~~
+=== Dev
 * Updated eclipse settings for 3.7 and m2e 1.0
 
 * Fix build in m2eclipse 1.0
@@ -375,8 +359,7 @@ links. Clicking a user name logs in as this user, speeding up
 switching between different users when using the
 DEVELOPMENT_BECOME_ANY_ACCOUNT authentication type.
 
-Miscellaneous
-~~~~~~~~~~~~~
+=== Miscellaneous
 * Permit adding reviewers to closed changes
 +
 Permit adding a reviewer to closed changes to support post-submit
@@ -412,8 +395,7 @@ Eclipse Reviews plugin currently can parse the javascript from a
 gerrit page load.
 
 
-Performance
------------
+== Performance
 * Bumped Brics version to 1.11.8
 +
 This Brics version fixes a performance issue in some larger Gerrit systems.
@@ -453,8 +435,7 @@ the system clock, and thus reading System.currentTimeMillis()
 during the construction of ProjectState is a waste of resources.
 
 
-Upgrades
---------
+== Upgrades
 * Upgrade to GWT 2.3.0
 * Upgrade to Gson to 1.7.1
 * Upgrade to gwtjsonrpc 1.2.4
@@ -463,8 +444,7 @@ Upgrades
 * Upgrade to Brics 1.11.8
 
 
-Bug Fixes
----------
+== Bug Fixes
 * Fix: Issue where Gerrit could not linkify certain URLs
 
 * issue 1015 Fix handling of regex ref patterns in Access panel
@@ -563,11 +543,9 @@ cause the sequence to reset when the server restarts, giving out
 duplicate account_ids later.
 
 
-Documentation
--------------
+== Documentation
 
-New Documents
-~~~~~~~~~~~~~
+=== New Documents
 * First Cut of Gerrit Walkthrough Introduction documentation.
 +
 Add a new document intended to be a complement for the existing
@@ -580,8 +558,7 @@ work for them.
 The new document covers quick installation, new project and first
 upload.  It contains lots of quoted output, with a demo style to it.
 
-Access Control
-~~~~~~~~~~~~~~
+=== Access Control
 * Code review
 
 * Conversion table between 2.1 and 2.2
@@ -614,8 +591,7 @@ The groups are now sorted in alphabetical order.
 +
 Access categories are now sorted to match drop down box in UI
 
-Other Documentation
-~~~~~~~~~~~~~~~~~~~
+=== Other Documentation
 * Added additional information on the install instructions.
 +
 The installation instructions presumes much prior knowledge,

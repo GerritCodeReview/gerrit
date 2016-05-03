@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.8.3
-==============================
+= Release notes for Gerrit 2.8.3
 
 There are no schema changes from link:ReleaseNotes-2.8.2.html[2.8.2].
 
@@ -8,8 +7,7 @@ link:https://www.gerritcodereview.com/download/gerrit-2.8.3.war[
 https://www.gerritcodereview.com/download/gerrit-2.8.3.war]
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix for merging multiple changes with "Cherry Pick", "Merge Always" and
 "Merge If Necessary" strategies.
@@ -19,8 +17,7 @@ it was possible for them to all be marked as status "merged" but only some of
 them to actually land into the branch.
 
 
-Documentation
--------------
+== Documentation
 
 * Minor fixes in the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8.3/dev-buck.html[

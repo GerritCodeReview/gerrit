@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.2.4
-================================
+= Release notes for Gerrit 2.1.2.4
 
 Gerrit 2.1.2.4 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-New Features
-------------
+== New Features
 
 * Add 'checkout' download command to patch sets
 +
@@ -14,8 +12,7 @@ The Download area of a patch set now offers a command line to fetch
 and checkout the patch set on a detached HEAD.  This is more suitable
 for building and testing the change locally.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * issue 545 Fallback to ISO-8859-1 if charset isn't supported
 +
@@ -45,8 +42,7 @@ and an account has a user name, but the name is no longer present
 in the directory, Gerrit crashed during sign-in while trying to
 clear out the user name.  Fixed.
 
-Documentation Corrections
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Documentation Corrections
 
 * documentation: Elaborate on branch level Owner
 +

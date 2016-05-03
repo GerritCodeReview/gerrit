@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.12
-=============================
+= Release notes for Gerrit 2.12
 
 
 Gerrit 2.12 is now available:
@@ -7,8 +6,7 @@ Gerrit 2.12 is now available:
 link:https://www.gerritcodereview.com/download/gerrit-2.12.war[
 https://www.gerritcodereview.com/download/gerrit-2.12.war]
 
-Important Notes
----------------
+== Important Notes
 
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
@@ -39,8 +37,7 @@ to change the branch configuration to type `Path` with a pattern like
 `refs/*/master` instead of `Plain` and `master`.
 
 
-Release Highlights
-------------------
+== Release Highlights
 
 This release includes the following new features. See the sections below for
 further details.
@@ -50,11 +47,9 @@ further details.
 * Support for GPG Keys and signed pushes.
 
 
-New Features
-------------
+== New Features
 
-New Change Submission Workflows
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== New Change Submission Workflows
 
 * New 'Submit Whole Topic' setting.
 +
@@ -76,8 +71,7 @@ Changes that cannot be submitted due to missing dependencies will no longer
 enter the 'Submitted, Merge Pending' state.
 
 
-GPG Keys and Signed Pushes
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== GPG Keys and Signed Pushes
 
 * Signed push can be enabled by setting
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.enableSignedPush[
@@ -102,8 +96,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 `receive.certNonceSlop`].
 
 
-Secondary Index
-~~~~~~~~~~~~~~~
+=== Secondary Index
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3333[Issue 3333]:
 Support searching for changes by author and committer.
@@ -141,11 +134,9 @@ Plugins can now temporarily turn on auto-committing in situations where it makes
 sense to enforce all changes to be written to disk ASAP.
 
 
-UI
-~~
+=== UI
 
-General
-^^^^^^^
+==== General
 
 * Edit and diff preferences can be modified from the user preferences screen.
 +
@@ -165,14 +156,12 @@ Plugins may use user-specific URL aliases to replace certain screens for certain
 users.
 
 
-Project Screen
-^^^^^^^^^^^^^^
+==== Project Screen
 
 * New tab to list the project's tags, similar to the branch list.
 
 
-Inline Editor
-^^^^^^^^^^^^^
+==== Inline Editor
 
 * Store and load edit preferences in git.
 +
@@ -187,8 +176,7 @@ Edit preferences are stored and loaded to/from the `All-Users` repository.
 * Add support for Emacs and Vim key maps.
 
 
-Change Screen
-^^^^^^^^^^^^^
+==== Change Screen
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3318[Issue 3318]:
 Highlight 'Reply' button if there are draft comments on any patch set.
@@ -216,8 +204,7 @@ replying to a change.
 This helps to identify changes when the subject is truncated in the list.
 
 
-Side-By-Side Diff
-^^^^^^^^^^^^^^^^^
+==== Side-By-Side Diff
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3293[Issue 3293]:
 Add syntax highlighting for Puppet.
@@ -226,40 +213,34 @@ Add syntax highlighting for Puppet.
 Add syntax highlighting for VHDL.
 
 
-Group Screen
-^^^^^^^^^^^^
+==== Group Screen
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1479[Issue 1479]:
 The group screen now includes an 'Audit Log' panel showing member additions,
 removals, and the user who made the change.
 
 
-API
-~~~
+=== API
 
 Several new APIs are added.
 
-Accounts
-^^^^^^^^
+==== Accounts
 
 * Suggest accounts.
 
-Tags
-^^^^
+==== Tags
 
 * List tags.
 
 * Get tag.
 
 
-REST API
-~~~~~~~~
+=== REST API
 
 New REST API endpoints and new options on existing endpoints.
 
 
-Accounts
-^^^^^^^^
+==== Accounts
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-accounts.html#set-username[
 Set Username]: Set the username of an account.
@@ -276,8 +257,7 @@ the account and the timestamp of when contact information was filed for this
 account.
 
 
-Changes
-^^^^^^^
+==== Changes
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#set-review[
 Set Review]: Add an option to omit duplicate comments.
@@ -294,8 +274,7 @@ the same time as the change.
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#set-review[
 Set Review]: Add an option to publish draft comments on all revisions.
 
-Config
-^^^^^^
+==== Config
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-config.html#get-info[
 Get Server Info]: Return information about the Gerrit server configuration.
@@ -304,8 +283,7 @@ Get Server Info]: Return information about the Gerrit server configuration.
 Confirm Email]: Confirm that the user owns an email address.
 
 
-Groups
-^^^^^^
+==== Groups
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-groups.html#list-group[
 List Groups]: Add option to suggest groups.
@@ -317,8 +295,7 @@ Get Audit Log]: Get the audit log of a Gerrit internal group, showing member
 additions, removals, and the user who made the change.
 
 
-Projects
-^^^^^^^^
+==== Projects
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-projects.html#run-gc[
 Run GC]: Add `aggressive` option to specify whether or not to run an aggressive
@@ -329,8 +306,7 @@ List Tags]: Support filtering by substring and regex, and pagination with
 `--start` and `--end`.
 
 
-SSH
-~~~
+=== SSH
 
 * Add support for ZLib Compression.
 +
@@ -340,11 +316,9 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 
 * Add support for hmac-sha2-256 and hmac-sha2-512 as MACs.
 
-Plugins
-~~~~~~~
+=== Plugins
 
-General
-^^^^^^^
+==== General
 
 * Gerrit client can now pass JavaScriptObjects to extension panels.
 
@@ -387,8 +361,7 @@ config will also be updated in this section.
 ** Allow to use GWTORM `Key` classes.
 
 
-Other
-~~~~~
+=== Other
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3401[Issue 3401]:
 Add option to
@@ -433,8 +406,7 @@ Members of a group with the 'Maintain Server' capability may view caches, tasks,
 and queues, and invoke the index REST API on changes.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3499[Issue 3499]:
 Fix syntax highlighting of raw string literals in go.
@@ -536,8 +508,7 @@ Changes are now always reloaded from the database during online reindex.
 +
 Under some circumstances it was possible to fail with an IO error.
 
-Documentation Updates
----------------------
+== Documentation Updates
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=412[Issue 412]:
 Update documentation of `commentlink.match` regular expression to clarify
@@ -549,8 +520,7 @@ These endpoints should be considered stable since version 2.11.
 
 * Document that `ldap.groupBase` and `ldap.accountBase` are repeatable.
 
-Upgrades
---------
+== Upgrades
 
 * Upgrade Asciidoctor to 1.5.2
 

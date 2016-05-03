@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.8
-==============================
+= Release notes for Gerrit 2.1.8
 
 Gerrit 2.1.8 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.1.8.war[https://www.gerritcodereview.com/download/gerrit-2.1.8.war]
 
-New Features
-------------
+== New Features
 * Add cache for tag advertisements
 +
 When READ level access controls are used on references/branches, this
@@ -39,8 +37,7 @@ These additional checks are only relevant on Windows servers, where
 MS-DOS compatibility may have permitted access to special device
 files in any directory, rather than just the "\\.\" device namespace.
 
-Bug Fixes
----------
+== Bug Fixes
 * issue 518 Fix MySQL counter resets
 +
 MySQL databases lost their change_id, account_id counters after

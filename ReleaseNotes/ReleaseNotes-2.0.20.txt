@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.0.20
-===============================
+= Release notes for Gerrit 2.0.20
 
 Gerrit 2.0.20 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 A prior bug (GERRIT-262) permitted some invalid data to enter into some databases.  Administrators should consider running the following update statement as part of their upgrade to .20 to make any comments which were created with this bug visible:
 ----
@@ -14,8 +12,7 @@ A prior bug (GERRIT-262) permitted some invalid data to enter into some database
 ----
 Unfortunately the correct position of the comment has been lost, and the statement above will simply position them on the first line of the file.  Fortunately the lost comments were only on the wrong side of an insertion or deletion, and are generally rare.  (On my servers only 0.33% of the comments were created like this.)
 
-New Features
-------------
+== New Features
 * New ssh command approve
 +
 Patch sets can now be approved remotely via SSH.  For more
@@ -31,8 +28,7 @@ auth.allowGoogleAccountUpgrade = true in the configuration file
 administrators may permit automatically updating an existing
 account with a new identity by matching on the email address.
 
-Bug Fixes
----------
+== Bug Fixes
 * GERRIT-262  Disallow creating comments on line 0
 +
 Users were able to create comments in dead regions of a file.
@@ -59,8 +55,7 @@ same size as the other columns in the table.
 +
 MySQL schema upgrade scripts had a few bugs, fixed.
 
-Other Changes
--------------
+== Other Changes
 * Restart 2.0.20
 * Update MINA SSHD to 0.2.0 release
 * Update args4j to snapshot built from current CVS

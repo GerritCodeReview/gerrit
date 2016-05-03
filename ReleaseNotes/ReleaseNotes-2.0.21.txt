@@ -1,13 +1,11 @@
-Release notes for Gerrit 2.0.21
-===============================
+= Release notes for Gerrit 2.0.21
 
 Gerrit 2.0.21 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING: This version contains a schema change* (since 2.0.19)
 
@@ -48,8 +46,7 @@ Apply the database specific schema script:
 ----
 
 
-Important Notices
------------------
+== Important Notices
 
 * Prior User Sessions
 +
@@ -106,8 +103,7 @@ Changing pool implementations is not required, c3p0 is still
 a supported provider.  I just want to make it clear that I no
 longer recommend it in production.
 
-New Features
-------------
+== New Features
 
 * GERRIT-189  Show approval status in account dashboards
 +
@@ -203,8 +199,7 @@ To enable the prior forging behavior, set `sendemail.from`
 to `USER` in gerrit.config.  For more details see
 link:http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#sendemail.from[sendemail.from]
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix ReviewDb to actually be per-request scoped
 +
@@ -276,8 +271,7 @@ The database schema incorrectly allowed two user accounts to have
 the same email address, or to have the same OpenID auth token.
 Fixed by asserting a unique constraint on the column.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.21 development
 * Support cleaning up a Commons DBCP connection pool
 * Clarify which Factory we are importing in ApproveComma...

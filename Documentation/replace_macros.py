@@ -171,11 +171,14 @@ LINK_SCRIPT = """
           a.setAttribute('href', '#' + id);
           a.setAttribute('style', 'position: absolute;'
               + ' left: ' + (element.offsetLeft - 16 - 2 * 4) + 'px;'
-              + ' padding-left: 4px; padding-right: 4px; padding-top:4px;');
-          var img = document.createElement('img');
-          img.setAttribute('src', 'images/link.png');
-          img.setAttribute('style', 'background-color: #FFFFFF;');
-          a.appendChild(img);
+              + ' padding-left: 4px; padding-right: 4px;');
+          var span = document.createElement('span');
+          span.setAttribute('style', 'height: ' + element.offsetHeight + 'px;'
+              + ' display: inline-block; vertical-align: baseline;'
+              + ' font-size: 16px; text-decoration: none; color: grey;');
+          a.appendChild(span);
+          var link = document.createTextNode('🔗');
+          span.appendChild(link);
           element.insertBefore(a, element.firstChild);
 
           // remove the link icon when the mouse is moved away,
@@ -183,14 +186,16 @@ LINK_SCRIPT = """
           hide = function(evt) {
             if (document.elementFromPoint(evt.clientX, evt.clientY) != element
                 && document.elementFromPoint(evt.clientX, evt.clientY) != a
-                && document.elementFromPoint(evt.clientX, evt.clientY) != img
+                && document.elementFromPoint(evt.clientX, evt.clientY) != span
+                && document.elementFromPoint(evt.clientX, evt.clientY) != link
                 && element.contains(a)) {
               element.removeChild(a);
             }
           }
           element.onmouseout = hide;
           a.onmouseout = hide;
-          img.onmouseout = hide;
+          span.onmouseout = hide;
+          link.onmouseout = hide;
         }
       }
     }

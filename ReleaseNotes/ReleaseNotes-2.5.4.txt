@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.5.4
-==============================
+= Release notes for Gerrit 2.5.4
 
 Gerrit 2.5.4 is now available:
 
@@ -10,8 +9,7 @@ There are no schema changes from any of the 2.5.x versions.
 However, if upgrading from a version older than 2.5, follow the upgrade
 procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
 
-Bug Fixes
----------
+== Bug Fixes
 * Require preferred email to be verified
 +
 Some users were able to select a preferred email address that was

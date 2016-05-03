@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.9
-============================
+= Release notes for Gerrit 2.9
 
 
 Gerrit 2.9 is now available:
@@ -20,8 +19,7 @@ link:ReleaseNotes-2.8.6.html[Gerrit 2.8.6] and
 link:ReleaseNotes-2.8.6.1.html[Gerrit 2.8.6.1].
 These bug fixes are *not* listed in these release notes.
 
-Important Notes
----------------
+== Important Notes
 
 
 *WARNING:* This release contains schema changes.  To upgrade:
@@ -98,8 +96,7 @@ The plugin can be upgraded manually by copying the new plugin jar into
 the site's `plugins` folder.
 
 
-Release Highlights
-------------------
+== Release Highlights
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2065[Issue 2065]:
@@ -116,22 +113,18 @@ popup links to the review UI documentation and allows users to go back
 to the old change screen.
 
 
-New Features
-------------
+== New Features
 
 
-Web UI
-~~~~~~
+=== Web UI
 
 
-Global
-^^^^^^
+==== Global
 
 * Project links by default link to the project dashboard.
 
 
-New Change Screen
-^^^^^^^^^^^^^^^^^
+==== New Change Screen
 
 
 * The new change screen is now the default change screen.
@@ -197,8 +190,7 @@ case the parent commits are also shown.
 New copy-to-clipboard button for commit ID.
 
 
-New Side-by-Side Diff Screen
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== New Side-by-Side Diff Screen
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=348[Issue 348]:
 The lines of a patch file are linkable.
@@ -220,8 +212,7 @@ All diff preferences are honored.
 The full file path is shown.
 
 
-Change List / Dashboards
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Change List / Dashboards
 
 * The `Status` column shows `Merge Conflict` for changes that are not
 mergeable.
@@ -240,8 +231,7 @@ Clicking on the section title executes the query of this section
 without the `limit` operator.
 
 
-Project Screens
-^^^^^^^^^^^^^^^
+==== Project Screens
 
 * The general project screen provides a copyable clone command that
 automatically installs the `commit-msg` hook.
@@ -263,15 +253,13 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/acces
 Run Garbage Collection] global capability.
 
 
-User Preferences
-^^^^^^^^^^^^^^^^
+==== User Preferences
 
 * Users can choose the UK date format to render dates and timestamps in
 the UI.
 
 
-Secondary Index
-~~~~~~~~~~~~~~~
+=== Secondary Index
 
 * Support for query via the SQL index is removed. The usage of
 a secondary index is now mandatory.
@@ -280,8 +268,7 @@ a secondary index is now mandatory.
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/pgm-reindex.html[
 reindex] program.
 
-ssh
-~~~
+=== ssh
 
 * New `--notify` option on the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-review.html[
@@ -305,12 +292,10 @@ apropos] command to search the Gerrit documentation.
 New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-create-branch.html[
 create-branch] command.
 
-REST API
-~~~~~~~~
+=== REST API
 
 
-Changes
-^^^^^^^
+==== Changes
 
 
 [[sortkey-deprecation]]
@@ -325,22 +310,19 @@ of results, and the `-S` option to set the start point.
 Queries with sortkeys are still supported against old index versions, to enable
 online reindexing while clients have an older JS version.
 
-Projects
-^^^^^^^^
+==== Projects
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-projects.html#get-content[
 Get content of a file from HEAD of a branch].
 
-Documentation
-^^^^^^^^^^^^^
+==== Documentation
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation.html#search-documentation.html[
 Search documentation].
 
-Access Rights
-~~~~~~~~~~~~~
+=== Access Rights
 
 
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_viewAllAccounts[
@@ -374,8 +356,7 @@ Now if `auth.gitBasicAuth` is set to `true` users that exist only in
 Gerrit but not in LDAP are authenticated with their HTTP password from
 the Gerrit database.
 
-Search
-~~~~~~
+=== Search
 
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#mergeable[
 is:mergeable] search operator.
@@ -411,8 +392,7 @@ file] operator.
 ** `p` = `project`
 ** `f` = `file`
 
-Daemon
-~~~~~~
+=== Daemon
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-inspector.html[
@@ -421,8 +401,7 @@ Gerrit Inspector]: interactive Jython shell.
 New `-s` option is added to the Daemon to start an interactive Jython shell for inspection and
 troubleshooting of live data of the Gerrit instance.
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
 
 * The documentation is now
@@ -442,8 +421,7 @@ New Project Owner Guide].
 Newly structured documentation index].
 
 
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 * New init step for installing the `Verified` label.
 
@@ -463,8 +441,7 @@ Project configuration for checking of received objects].
 Allow the text of the "Report Bug" link to be configured.
 
 
-Misc
-~~~~
+=== Misc
 
 * The removal of reviewers and their votes is recorded as a change
 message.
@@ -478,8 +455,7 @@ changes have the same topic.
 * Stable CSS class names.
 
 
-Plugins
-~~~~~~~
+=== Plugins
 
 
 * Plugin API to invoke the REST API.
@@ -499,8 +475,7 @@ project plugin configuration parameters] in the UI.
 Remote plugin administration is by default disabled].
 
 
-Extension Points
-^^^^^^^^^^^^^^^^
+==== Extension Points
 
 
 * Extension point to provide a "Message Of The Day".
@@ -531,8 +506,7 @@ Multiple SSH commands can be bound to the same class].
 DataSource Interception].
 
 
-JavaScript Plugins
-^^^^^^^^^^^^^^^^^^
+==== JavaScript Plugins
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/js-api.html#self_on[
@@ -545,19 +519,16 @@ JavaScript Callbacks]
 insert arbitrary HTML fragments from plugins.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 
-Access Rights
-~~~~~~~~~~~~~
+=== Access Rights
 
 
 * Fix possibility to overcome BLOCK permissions.
 
 
-Web UI
-~~~~~~
+=== Web UI
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2652[Issue 2652]:
@@ -622,8 +593,7 @@ permanent and the username is only set when the user confirms.
 Fix copying from copyable label in Safari.
 
 
-Secondary Index
-~~~~~~~~~~~~~~~
+=== Secondary Index
 
 * Fix Online Reindexing.
 
@@ -640,16 +610,14 @@ full-text search word/phrase into a phrase query.
 Reindex change after updating commit message.
 
 
-REST
-~~~~
+=== REST
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2568[Issue 2568]:
 Update description file during `PUT /projects/{name}/config`.
 
 
-SSH
-~~~
+=== SSH
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2516[Issue 2516]:
@@ -659,8 +627,7 @@ Fix parsing of label name on `review` command.
 Clarify for review command when `--verified` can be used.
 
 
-Plugins
-~~~~~~~
+=== Plugins
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2551[Issue 2551]:
@@ -670,16 +637,14 @@ Handle absolute URLs in the top level menu.
 Respect servlet context path in URL for top menu items.
 
 
-Other
-~~~~~
+=== Other
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2382[Issue 2382]:
 Clean left over data migration after removal of TrackingIds table.
 
 
-Upgrades
---------
+== Upgrades
 
 * Update JGit to 3.4.0.201405051725-m7
 +
@@ -704,11 +669,9 @@ link:http://code.google.com/p/gerrit/issues/detail?id=2365[issue 2365].
 * Update GWT to 2.6.0
 
 
-Plugins
--------
+== Plugins
 
-Replication
-~~~~~~~~~~~
+=== Replication
 
 * Default push refSpec is changed to `refs/*:refs/*` (non-forced push).
 +
@@ -728,8 +691,7 @@ entry for each replication target.
 * Configuration changes can be detected and replication is
 automatically restarted.
 
-Issue Tracker System plugins
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Issue Tracker System plugins
 
 *WARNING:* The `hooks-*` plugins (`plugins/hooks-bugzilla`,
 `plugins/hooks-jira` and `plugins/hooks-rtc`) are deprecated with

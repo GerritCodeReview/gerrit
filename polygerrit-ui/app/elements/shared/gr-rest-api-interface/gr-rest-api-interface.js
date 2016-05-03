@@ -465,6 +465,31 @@
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
+    saveDiffDraft: function(changeNum, patchNum, draft) {
+      return this._sendDiffDraftRequest('PUT', changeNum, patchNum, draft);
+    },
+
+    deleteDiffDraft: function(changeNum, patchNum, draft) {
+      return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
+    },
+
+    _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
+      var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
+      var body;
+      switch(method) {
+        case 'PUT':
+          body = draft;
+          break;
+        case 'DELETE':
+          url += '/' + draft.id;
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
+
+      return this.send(method, url, body);
+    },
+
     _changeBaseURL: function(changeNum, opt_patchNum) {
       var v = '/changes/' + changeNum;
       if (opt_patchNum) {

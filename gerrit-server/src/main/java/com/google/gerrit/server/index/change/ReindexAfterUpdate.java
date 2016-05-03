@@ -152,10 +152,14 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
         throws OrmException, IOException, NoSuchChangeException {
       // Reload change, as some time may have passed since GetChanges.
       ReviewDb db = ctx.getReviewDbProvider().get();
-      Change c = notesFactory
-          .createChecked(db, new Project.NameKey(event.getProjectName()), id)
-          .getChange();
-      indexerFactory.create(executor, indexes).index(db, c);
+      try {
+        Change c = notesFactory
+            .createChecked(db, new Project.NameKey(event.getProjectName()), id)
+            .getChange();
+        indexerFactory.create(executor, indexes).index(db, c);
+      } catch (NoSuchChangeException e) {
+        // Ignore, the change could have been a draft and got deleted
+      }
       return null;
     }
 

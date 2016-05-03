@@ -69,11 +69,12 @@ limitations under the License.
     }
 
     suite('24 hours time format preference', function() {
-      setup(function() {
+      setup(function(done) {
         return stubRestAPI(
           {time_format: 'HHMM_24', relative_date_in_change_table: false}
         ).then(function() {
           element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
         });
       });
 
@@ -108,12 +109,13 @@ limitations under the License.
     });
 
     suite('12 hours time format preference', function() {
-      setup(function() {
+      setup(function(done) {
         // relative_date_in_change_table is not set when false.
         return stubRestAPI(
           {time_format: 'HHMM_12'}
         ).then(function() {
           element = fixture('basic');
+          element._loadPreferences().then(function() { done(); });
         });
       });
 
@@ -130,7 +132,7 @@ limitations under the License.
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
-          done();
+          element._loadPreferences().then(function() { done(); });
         });
       });
 
@@ -153,16 +155,13 @@ limitations under the License.
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
-          done();
+          element._loadPreferences().then(function() { done(); });
         });
       });
 
-      test('Preferences are respected', function(done) {
-        element._loadPreferences().then(function() {
-          assert.equal(element._timeFormat, 'h:mm A');
-          assert.isTrue(element._relative);
-          done();
-        });
+      test('Preferences are respected', function() {
+        assert.equal(element._timeFormat, 'h:mm A');
+        assert.isTrue(element._relative);
       });
     });
 
@@ -170,16 +169,13 @@ limitations under the License.
       setup(function(done) {
         return stubRestAPI(null).then(function() {
           element = fixture('basic');
-          done();
+          element._loadPreferences().then(function() { done(); });
         });
       });
 
-      test('Default preferences are respected', function(done) {
-        element._loadPreferences().then(function() {
-          assert.equal(element._timeFormat, 'H:mm');
-          assert.isFalse(element._relative);
-          done();
-        });
+      test('Default preferences are respected', function() {
+        assert.equal(element._timeFormat, 'H:mm');
+        assert.isFalse(element._relative);
       });
     });
   });

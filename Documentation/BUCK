@@ -57,6 +57,7 @@ python_binary(
 python_binary(
   name = 'replace_macros',
   main = 'replace_macros.py',
+  visibility = ['//ReleaseNotes:'],
 )
 
 genrule(

@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.8.2
-==============================
+= Release notes for Gerrit 2.8.2
 
 There are no schema changes from link:ReleaseNotes-2.8.1.html[2.8.1].
 
@@ -8,8 +7,7 @@ link:https://www.gerritcodereview.com/download/gerrit-2.8.2.war[
 https://www.gerritcodereview.com/download/gerrit-2.8.2.war]
 
 
-Lucene Index
-------------
+== Lucene Index
 
 * Support committing Lucene writes within a fixed interval.
 +
@@ -24,8 +22,7 @@ A new option `commitWithin` is added, to control how frequently the
 indexes are committed.
 
 
-General
--------
+== General
 
 * Only add "cherry picked from" when cherry picking a merged change.
 +
@@ -142,8 +139,7 @@ same branch.
 The joda time library was being unnecessarily packaged in the root of
 the gerrit.war file.
 
-Change Screen / Diff Screen
----------------------------
+== Change Screen / Diff Screen
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2398[Issue 2398]:
@@ -231,8 +227,7 @@ failed to load.
 +
 Now, an error message will be displayed in the UI.
 
-ssh
----
+== ssh
 
 
 * Support for nio2 backend is removed.
@@ -263,8 +258,7 @@ longer relevant to mention this in the description of a core command.
 * link:https://code.google.com/p/gerrit/issues/detail?id=2515[Issue 2515]:
 Fix internal server error when updating an existing label with `gerrit review`.
 
-Replication Plugin
-------------------
+== Replication Plugin
 
 
 * Never replicate automerge-cache commits.
@@ -287,14 +281,12 @@ differentiate between local and remote repository errors.
 * Update documentation to clarify replication of refs/meta/config when
 refspec is 'all refs'.
 
-Upgrades
---------
+== Upgrades
 
 
 * JGit is upgraded to 3.2.0.201312181205-r
 
-Documentation
--------------
+== Documentation
 
 
 * Add missing documentation of the secondary index configuration.

@@ -52,7 +52,7 @@ def genasciidoc_htmlonly(
 
     genrule(
       name = ex,
-      cmd = '$(exe :replace_macros) --suffix="%s"' % EXPN +
+      cmd = '$(exe //Documentation:replace_macros) --suffix="%s"' % EXPN +
         ' -s ' + passed_src + ' -o $OUT' +
         (' --searchbox' if searchbox else ' --no-searchbox'),
       srcs = srcs,
@@ -77,6 +77,8 @@ def genasciidoc(
     attributes = [],
     backend = None,
     searchbox = True,
+    licenses = True,
+    prettify = True,
     visibility = []):
   SUFFIX = '_htmlonly'
 
@@ -89,6 +91,11 @@ def genasciidoc(
     out = name + SUFFIX + '.zip',
   )
 
+  prettify_srcs = [
+    '//gerrit-prettify:prettify.min.css',
+    '//gerrit-prettify:prettify.min.js',
+  ] if prettify else []
+
   genrule(
     name = name,
     cmd = 'cd $TMP;' +
@@ -97,15 +104,12 @@ def genasciidoc(
       % (':' + name + SUFFIX, docdir) +
       'for s in $SRCS;do ln -s $s %s;done;' % docdir +
       'mv %s/*.{jpg,png} %s/images;' % (docdir, docdir) +
-      'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
+      'cp $(location %s) LICENSES.txt;' % ':licenses.txt' if licenses else '' +
       'zip -qr $OUT *',
     srcs = glob([
         'images/*.jpg',
         'images/*.png',
-      ]) + [
-        '//gerrit-prettify:prettify.min.css',
-        '//gerrit-prettify:prettify.min.js',
-      ],
+      ]) + prettify_srcs,
     out = out,
     visibility = visibility,
   )

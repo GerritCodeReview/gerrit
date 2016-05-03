@@ -1,13 +1,11 @@
-Release notes for Gerrit 2.0.10
-===============================
+= Release notes for Gerrit 2.0.10
 
 Gerrit 2.0.10 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 
-New Features
-------------
+== New Features
 
 * GERRIT-129  Make the browser window title reflect the current scre...
 +
@@ -25,8 +23,7 @@ Now comments can still be published, even if the change owner has uploaded a rep
 +
 Minor enhancement to the way submitted emails are formatted.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * GERRIT-91   Delay updating the UI until a Screen instance is fully...
 +
@@ -46,8 +43,7 @@ This version of MINA SSHD correctly supports SSH ControlMaster, a trick to reuse
 * GERRIT-135  Enable Save button after paste in a comment editor
 * GERRIT-137  Error out if a user forgets to squash when replacing a...
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.10 development
 * Add missing super.onSign{In,Out} calls to ChangeScreen
 * Remove the now pointless sign in callback support

@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.3
-============================
+= Release notes for Gerrit 2.3
 
 Gerrit 2.3 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.3.war[https://www.gerritcodereview.com/download/gerrit-2.3.war]
 
-Schema Change
--------------
+== Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
@@ -19,10 +17,8 @@ If you are upgrading from 2.2.x.x, you may ignore this warning and
 upgrade directly to 2.3.x.
 
 
-New Features
-------------
-Drafts
-~~~~~~
+== New Features
+=== Drafts
 * New draft statuses and magic branches
 +
 Adds draft status to Change. DRAFT status in change occurs before NEW
@@ -65,8 +61,7 @@ Draft patchsets cannot be submitted.
 * When pushing changes as drafts, output [DRAFT] next to the change link
 
 
-Web
-~~~
+=== Web
 * issue 203 Create project through web interface
 +
 Add a new panel in the Admin->Projects Screen.  It
@@ -106,8 +101,7 @@ when needed but not show huge amounts of unneeded data.
 * Disable SSH Keys in the web UI if SSHD is disabled
 
 
-SSH
-~~~
+=== SSH
 * Adds --description (-d) option to ls-projects
 +
 Allows listing of projects together with their respective
@@ -167,8 +161,7 @@ which allows Gerrit to publish the "--message", even if the
 labels could not be applied due to change being closed.
 
 
-Config
-~~~~~~
+=== Config
 * issue 349 Apply states for projects (active, readonly and hidden)
 +
 Active state indicates the project is regular and is the default value.
@@ -250,8 +243,7 @@ These features are: user agent detection and automatic refresh
 logic associated with the site header, footer and CSS.
 
 
-Dev
-~~~
+=== Dev
 * Fix 'No source code is available for type org.eclipse.jgit.lib.Constants'
 
 * Fix miscellaneous compiler warnings
@@ -270,8 +262,7 @@ provided to the war via an overlay in gerrit-war/pom.xml
 Fixes java.lang.NoClassDefFoundError: com/google/gwt/dev/DevMode
 
 
-Miscellaneous
-~~~~~~~~~~~~~
+=== Miscellaneous
 * Allow superprojects to subscribe to submodules updates
 +
 The feature introduced in this release allows superprojects to
@@ -370,8 +361,7 @@ bring users back to the current view after sign in.
 * Improve validation of email registration tokens
 
 
-Upgrades
---------
+== Upgrades
 * Upgrade to gwtorm 1.2
 
 * Upgrade to JGit 1.1.0.201109151100-r.119-gb4495d1
@@ -382,8 +372,7 @@ https://gerrit-review.googlesource.com/#/c/30450/
 * Support Velocity 1.5 (as well as previous 1.6.4)
 
 
-Bug Fixes
----------
+== Bug Fixes
 * Avoid NPE when group is missing
 
 * Do not fail with NPE if context path of request is null
@@ -437,8 +426,7 @@ being activated even if they push over HTTP.
 * Update top level SUBMITTING_PATCHES URLs
 
 
-Documentation
--------------
+== Documentation
 * Some updates to the design docs
 
 * cmd-index: Fix link to documentation of rename-group command

@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.9.1
-==============================
+= Release notes for Gerrit 2.9.1
 
 There are no schema changes from link:ReleaseNotes-2.9.html[2.9].
 
@@ -13,8 +12,7 @@ libraries should be manually removed from site's `lib` folder to prevent the
 startup failure described in
 link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
 
-Bug Fixes
----------
+== Bug Fixes
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2801[Issue 2801]:
 Set default for review SSH command to `notify=ALL`.

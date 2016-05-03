@@ -1,0 +1,21 @@
+include_defs('//Documentation/asciidoc.defs')
+include_defs('//ReleaseNotes/config.defs')
+include_defs('//tools/git.defs')
+
+DOC_DIR = 'ReleaseNotes'
+
+SRCS = glob(['*.txt'])
+
+
+genasciidoc(
+  name = 'html',
+  out = 'html.zip',
+  docdir = DOC_DIR,
+  srcs = SRCS,
+  attributes = documentation_attributes(),
+  backend = 'html5',
+  searchbox = False,
+  licenses = False,
+  prettify = False,
+  visibility = ['PUBLIC'],
+)

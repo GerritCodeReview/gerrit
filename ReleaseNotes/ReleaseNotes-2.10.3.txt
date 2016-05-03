@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.10.3
-===============================
+= Release notes for Gerrit 2.10.3
 
 Download:
 link:https://www.gerritcodereview.com/download/gerrit-2.10.3.war[
 https://www.gerritcodereview.com/download/gerrit-2.10.3.war]
 
-Important Notes
----------------
+== Important Notes
 
 *WARNING:* There are no schema changes from
 link:ReleaseNotes-2.10.2.html[2.10.2], but Bouncycastle was upgraded to 1.51.
@@ -26,8 +24,7 @@ be suppressed in batch mode.
   java -jar gerrit.war init -d site_path
 ----
 
-New Features
-------------
+== New Features
 
 * Support hybrid OpenID and OAuth2 authentication
 +
@@ -36,15 +33,13 @@ This feature is considered to be experimental and hasn't reached full feature se
 Particularly, linking of user identities across protocol boundaries and even from
 one OAuth2 identity to another OAuth2 identity wasn't implemented yet.
 
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 * Allow to configure
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10.3/config-gerrit.html#sshd.rekeyBytesLimit[
 SSHD rekey parameters].
 
-SSH
----
+== SSH
 
 * Update SSHD to 0.14.0.
 +
@@ -56,8 +51,7 @@ Also update SSHD Mina to 2.0.8 and Bouncycastle to 1.51.
 * link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
 Add support for ECDSA based public key authentication.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Prevent wrong content type for CSS files.
 +
@@ -69,8 +63,7 @@ use the correct type for CSS files.
 * link:https://code.google.com/p/gerrit/issues/detail?id=3289[Issue 3289]:
 Prevent NullPointerException in Gitweb servlet.
 
-Replication plugin
-~~~~~~~~~~~~~~~~~~
+=== Replication plugin
 
 * Set connection timeout to 120 seconds for SSH remote operations.
 +
@@ -78,8 +71,7 @@ The creation of a missing Git, before starting replication, is a blocking
 operation. By setting a timeout, we ensure the operation does not get stuck
 forever, essentially blocking all future remote git creation operations.
 
-OAuth extension point
-~~~~~~~~~~~~~~~~~~~~~
+=== OAuth extension point
 
 * Respect servlet context path in URL for login token
 +
@@ -90,34 +82,29 @@ with 404 Not found.
 +
 After web session cache expiration there is no way to re-sign-in into Gerrit.
 
-Daemon
-~~~~~~
+=== Daemon
 
 * Print proper names for tasks in output of `show-queue` command.
 +
 Some tasks were not displayed with the proper name.
 
-Web UI
-~~~~~~
+=== Web UI
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3044[Issue 3044]:
 Remove stripping `#` in login redirect.
 
-SSH
-~~~
+=== SSH
 
 * Prevent double authentication for the same public key.
 
 
-Performance
------------
+== Performance
 
 * Improved performance when creating a new branch on a repository with a large
 number of changes.
 
 
-Upgrades
---------
+== Upgrades
 
 * Update Bouncycastle to 1.51.
 

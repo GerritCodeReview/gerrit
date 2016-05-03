@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.4.1
-==============================
+= Release notes for Gerrit 2.4.1
 
 Gerrit 2.4.1 is now available:
 
@@ -11,8 +10,7 @@ anything but 2.4, follow the upgrade procedure in the 2.4
 link:ReleaseNotes-2.4.html[ReleaseNotes].
 
 
-Bug Fixes
----------
+== Bug Fixes
 * Catch all exceptions when async emailing
 +
 This fixes email notification issues reported

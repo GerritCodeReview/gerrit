@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.3
-==============================
+= Release notes for Gerrit 2.1.3
 
 Gerrit 2.1.3 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING* This release contains multiple schema changes.  To upgrade:
 ----
@@ -14,11 +12,9 @@ Schema Change
 ----
 
 
-New Features
-------------
+== New Features
 
-Web UI
-~~~~~~
+=== Web UI
 
 * issue 289 Remove reviewers (or self) from a change
 +
@@ -63,8 +59,7 @@ in the Admin > Projects page, as are the project's Branches and
 Access tabs.  Editing is obviously disabled, unless the user has
 owner level access to the project, or one of its branches.
 
-Access Controls
-~~~~~~~~~~~~~~~
+=== Access Controls
 
 * Branch-level read access is now supported
 +
@@ -97,8 +92,7 @@ or through a wildcard like 'refs/heads/*'.  Branch access is now
 inherited by default, but the old exclusive behavior can be obtained
 by prefixing the reference with '-'.
 
-SSH Commands
-~~~~~~~~~~~~
+=== SSH Commands
 
 * create-account: Permit creation of batch user accounts over SSH
 * issue 269 Enable create-project for non-Administrators
@@ -125,8 +119,7 @@ to gerrit review, better matching the web UI name for the concept.
 The old `gerrit approve` name will be kept around as an alias to
 provide time to migrate hooks/scripts/etc.
 
-Hooks / Stream Events
-~~~~~~~~~~~~~~~~~~~~~
+=== Hooks / Stream Events
 
 * \--change-url parameter passed to hooks
 +
@@ -147,13 +140,11 @@ The reference (e.g. 'refs/changes/12/812/2') to download a patch
 set is now included in the stream-events record, making it possible
 for a monitor to easily pull down a patch set and compile it.
 
-Contrib
-~~~~~~~
+=== Contrib
 
 * Example hook to auto-re-approve a trivial rebase
 
-Misc.
-~~~~~
+=== Misc.
 
 * transfer.timeout: Support configurable timeouts for dead clients
 +
@@ -195,11 +186,9 @@ Updated JGit to 0.8.4, Jetty to 7.0.2.v20100331, H2 database to
 Apache Commons DBCP to 1.4.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
-Web UI
-~~~~~~
+=== Web UI
 
 * issue 396 Prevent 'no-score' approvals from being recorded
 +
@@ -237,8 +226,7 @@ Users couldn't (easily) get out of the dialog popped up by the
 'Register New Email...' button.  A cancel button was added to
 close the dialog.
 
-Server Programs
-~~~~~~~~~~~~~~~
+=== Server Programs
 
 * init: Import non-standardly named Git repositories
 +
@@ -265,8 +253,7 @@ Internal server failures (such as database connectivity errors)
 were not properly logged by `gerrit approve` (now gerrit review).
 Fixed by logging the root cause of the failure.
 
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 * Display error when HTTP authentication isn't configured
 +
@@ -282,8 +269,7 @@ to lookup a name usually failed with the above Java exception
 during sign-in.  Administrators can enable following by adding
 `ldap.referral = follow` to their gerrit.config file.
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
 * documentation: Clarified the ownership of '\-- All Projects \--'
 +
@@ -308,7 +294,6 @@ our step-by-step documentation being out of date.  Fixed to match
 the current stable version of the Maven plugin.
 
 
-Version
--------
+== Version
 
 e8fd49f5f7481e2f916cb0d8cfbada79309562b4

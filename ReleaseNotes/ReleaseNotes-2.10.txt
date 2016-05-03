@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.10
-=============================
+= Release notes for Gerrit 2.10
 
 
 Gerrit 2.10 is now available:
@@ -14,8 +13,7 @@ link:ReleaseNotes-2.9.3.html[Gerrit 2.9.3] and
 link:ReleaseNotes-2.9.4.html[Gerrit 2.9.4].
 These bug fixes are *not* listed in these release notes.
 
-Important Notes
----------------
+== Important Notes
 
 
 *WARNING:* This release contains schema changes.  To upgrade:
@@ -44,8 +42,7 @@ startup failure described in
 link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
 
 
-Release Highlights
-------------------
+== Release Highlights
 
 
 * Support for externally loaded plugins.
@@ -62,16 +59,13 @@ Users can customize the contents of the 'My' menu in the top menu.  Administrato
 can configure the default contents of the menu.
 
 
-New Features
-------------
+== New Features
 
 
-Web UI
-~~~~~~
+=== Web UI
 
 
-Global
-^^^^^^
+==== Global
 
 * Add 'All-Users' project to store meta data for all users.
 
@@ -82,8 +76,7 @@ Global
 * Allow UiActions to perform redirects without JavaScript.
 
 
-Change Screen
-^^^^^^^^^^^^^
+==== Change Screen
 
 
 * Display avatar for author, committer, and change owner.
@@ -104,8 +97,7 @@ box.
 Allow to customize Submit button label and tooltip.
 
 
-Side-by-Side Diff Screen
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Side-by-Side Diff Screen
 
 * Allow the user to select the syntax highlighter.
 
@@ -116,8 +108,7 @@ Side-by-Side Diff Screen
 * Add syntax highlighting of the commit message.
 
 
-Change List / Dashboards
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Change List / Dashboards
 
 * Remove age operator when drilling down from a dashboard to a query.
 
@@ -132,8 +123,7 @@ Account dashboards, search results and the change screen refresh their content
 when 'R' is pressed.  The same binding is added for custom dashboards.
 
 
-Project Screens
-^^^^^^^^^^^^^^^
+==== Project Screens
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2751[Issue 2751]:
 Add support for filtering by regex in project list screen.
@@ -142,8 +132,7 @@ Add support for filtering by regex in project list screen.
 
 * Add branch actions to 'Projects > Branches' view.
 
-User Preferences
-^^^^^^^^^^^^^^^^
+==== User Preferences
 
 
 * Users can customize the contents of the 'My' menu from the preferences
@@ -156,8 +145,7 @@ Including new options 'Show Abbreviated Name' to display abbreviated reviewer
 names and 'Show Username' to show usernames in the change list.
 
 
-Secondary Index / Search
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Secondary Index / Search
 
 
 * Allow to search projects by prefix.
@@ -177,8 +165,7 @@ If a search is given with only a text, search over a variety of fields
 rather than just the project name.
 
 
-ssh
-~~~
+=== ssh
 
 
 * Expose SSHD backend in
@@ -187,12 +174,10 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/cmd-
 
 * Add support for JCE (Java Cryptography Extension) ciphers.
 
-REST API
-~~~~~~~~
+=== REST API
 
 
-General
-^^^^^^^
+==== General
 
 
 * Remove `kind` attribute from REST containers.
@@ -201,8 +186,7 @@ General
 
 * Accept `HEAD` in RestApiServlet.
 
-Accounts
-^^^^^^^^
+==== Accounts
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-accounts.html#get-user-preferences[
@@ -211,8 +195,7 @@ Get user preferences].
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-accounts.html#set-user-preferences[
 Set user preferences].
 
-Changes
-^^^^^^^
+==== Changes
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2338[Issue 2338]:
@@ -226,8 +209,7 @@ Get mergeable] endpoint.
 If the `other-branches` option is specified, the mergeability will also be
 checked for all other branches.
 
-Config
-^^^^^^
+==== Config
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#list-tasks[
@@ -254,8 +236,7 @@ Flush all caches].
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#get-summary[
 Get server summary].
 
-Projects
-^^^^^^^^
+==== Projects
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#ban-commit[
@@ -276,8 +257,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest
 list projects endpoint] to support query offset.
 
 
-Daemon
-~~~~~~
+=== Daemon
 
 
 * Add change subject to output of change URL on push.
@@ -292,8 +272,7 @@ adding review labels on changes] during git push.
 Add change kind to PatchSetCreatedEvent.
 
 
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 * Use
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-gerrit.html#core.useRecursiveMerge[
@@ -344,8 +323,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/inst
 configure Tomcat] to allow embedded slashes.
 
 
-Misc
-~~~~
+=== Misc
 
 * Don't allow empty user name and passwords in InternalAuthBackend.
 
@@ -353,8 +331,7 @@ Misc
 Add change-owner parameter to gerrit hooks.
 
 
-Plugins
-~~~~~~~
+=== Plugins
 
 * Support for externally loaded plugins.
 +
@@ -428,11 +405,9 @@ plugins.
 ** Star/unstar changes
 ** Check if revision needs rebase
 
-Bug Fixes
----------
+== Bug Fixes
 
-General
-~~~~~~~
+=== General
 
 * Use fixed rate instead of fixed delay for log file compression.
 +
@@ -453,8 +428,7 @@ When `auth.type` is set to `LDAP` (not `LDAP_BIND`), two LDAP connections are
 made, but one was not being closed. This eventually caused resource exhaustion
 and LDAP authentications failed.
 
-Access Permissions
-~~~~~~~~~~~~~~~~~~
+=== Access Permissions
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2995[Issue 2995]:
 Fix faulty behaviour in `BLOCK` permission.
@@ -464,11 +438,9 @@ bug when a child of the above project duplicates the `ALLOW` permission. In this
 case the `BLOCK` would always win for the child, even though the `BLOCK` was
 overruled in the parent.
 
-Web UI
-~~~~~~
+=== Web UI
 
-General
-^^^^^^^
+==== General
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2595[Issue 2595]:
 Make gitweb redirect to login.
@@ -486,8 +458,7 @@ If `refs/meta/config` already existed it was overwritten with default configurat
 if a site administrator ran `java -war gerrit.war init -d /some/existing/site --batch`.
 
 
-Change Screen
-^^^^^^^^^^^^^
+==== Change Screen
 
 * Don't linkify trailing dot or comma in messages.
 +
@@ -525,8 +496,7 @@ finish, and restarted hours later.
 * Fix exception when clicking on a binary file without being signed in.
 
 
-Side-By-Side Diff
-^^^^^^^^^^^^^^^^^
+==== Side-By-Side Diff
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2970[Issue 2970]:
 Fix misalignment of side A and side B for long insertion/deletion blocks.
@@ -556,30 +526,25 @@ Fix misalignment of side A and side B for long insertion/deletion blocks.
 * Include content on identical files with mode change.
 
 
-User Settings
-^^^^^^^^^^^^^
+==== User Settings
 
 * Avoid loading all SSH keys when adding a new one.
 
 
-Secondary Index / Search
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Secondary Index / Search
 
 
 * Omit corrupt changes from search results.
 
 * Allow illegal label names from default search predicate.
 
-REST
-~~~~
+=== REST
 
-General
-^^^^^^^
+==== General
 
 * Fix REST API responses for 3xx and 4xx classes.
 
-Changes
-^^^^^^^
+==== Changes
 
 * Fix inconsistent behaviour in the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#add-reviewer[
@@ -589,8 +554,7 @@ When adding a single reviewer to a change, it was possible to use the endpoint
 to add a user who had no visibility to the change or whose account was invalid.
 
 
-Changes
-^^^^^^^
+==== Changes
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2583[Issue 2583]:
 Reject inline comments on files that do not exist in the patch set.
@@ -620,8 +584,7 @@ Clarify the response info in the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#list-comments[
 List Comments] endpoint.
 
-SSH
-~~~
+=== SSH
 
 
 * Prevent double authentication for the same public key.
@@ -641,8 +604,7 @@ The SSH log only included the first argument. This prevented the repository name
 from being logged when `git receive-pack` was executed instead of `git-receive-pack`.
 
 
-Daemon
-~~~~~~
+=== Daemon
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2284[Issue 2284]:
@@ -661,11 +623,9 @@ The commit message in superproject was missing on submodule's
 directly pushed changes.
 
 
-Plugins
-~~~~~~~
+=== Plugins
 
-General
-^^^^^^^
+==== General
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2895[Issue 2895]:
@@ -680,8 +640,7 @@ is fully done.
 
 * Fix ChangeListener auto-registered implementations.
 
-Replication
-^^^^^^^^^^^
+==== Replication
 
 
 * Move replication logs into a separate file.
@@ -691,8 +650,7 @@ Replication
 * Show replication ID in the log and in show-queue command.
 
 
-Upgrades
---------
+== Upgrades
 
 
 * Update Guava to 17.0

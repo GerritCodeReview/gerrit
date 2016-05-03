@@ -1,20 +1,17 @@
-Release notes for Gerrit 2.1.1, 2.1.1.1
-=======================================
+= Release notes for Gerrit 2.1.1, 2.1.1.1
 
 Gerrit 2.1.1.1 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING* This release contains a schema change.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
 ----
 
-Patch 2.1.1.1
--------------
+== Patch 2.1.1.1
 
 * Update MINA SSHD to SVN 897374
 +
@@ -28,8 +25,7 @@ works, sometimes it hangs and never executes the command.  Fixed.
 Discarding a comment from the publish comments screen caused
 a ConcurrentModificationException.  Fixed.
 
-New Features
-------------
+== New Features
 
 * issue 322    Update to GWT 2.0.0
 +
@@ -106,8 +102,7 @@ Error dialogs are now more noticeable, and less easily dismissed
 by an accidental click.  This is especially useful when there
 is a merge error during submit.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * issue 359    Allow updates of commits where only the parent changes
 +
@@ -158,8 +153,7 @@ Exceptions may have allowed our internal gitweb CGI invocations
 to leak file descriptors, as pipes to the external CGI were not
 always closed.  Fixed.
 
-Other
------
+== Other
 * Switch to ClientBundle
 * Update to gwtexpui-1.2.0-SNAPSHOT
 * Merge branch 'master' into gwt-2.0

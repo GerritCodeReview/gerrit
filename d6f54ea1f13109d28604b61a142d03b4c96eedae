@@ -68,6 +68,24 @@
       "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_0bd1fd0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-03T07:23:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is documented somewhere, but I would follow the majority here. In general I would not use a library for things that can be done natively without any additional effort. But if I remember correctly there where reasons to prefer the lib implementation over the native one pre Java 7.",
+      "parentUuid": "a83309d6_4ac4d34f",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

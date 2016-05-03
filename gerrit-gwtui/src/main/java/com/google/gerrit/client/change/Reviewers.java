@@ -81,6 +81,7 @@ public class Reviewers extends Composite {
   Reviewers() {
     reviewerSuggestOracle = new ReviewerSuggestOracle();
     suggestBox = new RemoteSuggestBox(reviewerSuggestOracle);
+    suggestBox.setShowDefaultSuggestions(true);
     suggestBox.setVisibleLength(55);
     suggestBox.setHintText(Util.C.approvalTableAddReviewerHint());
     suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c842fd2f_abbaa9ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-03T04:03:33Z",
+      "side": 0,
+      "message": "You don\u0027t bump lastUpdatedOn any more, but change message wasn\u0027t added?",
+      "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

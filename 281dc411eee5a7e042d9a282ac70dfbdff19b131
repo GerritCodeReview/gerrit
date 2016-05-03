@@ -16,6 +16,24 @@
       "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_096d8922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T09:58:32Z",
+      "side": 0,
+      "message": "lastUpdatedOn is bumped now even if no change message is updated (see commit message). It\u0027s bumped now after removing this line because bumpLastUpdatedOn in BatchUpdate is by default true now.\n\nhttps://gerrit-review.googlesource.com/#/c/77121/2/gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+      "parentUuid": "c842fd2f_abbaa9ce",
+      "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

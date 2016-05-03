@@ -692,6 +692,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
           PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
           psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps,
               ImmutableList.<String> of());
+          ctx.bumpLastUpdatedOn(false);
           return true;
         }
       });

@@ -22,6 +22,30 @@
       "revId": "da532b6c0a0037ac5c41dbaeafd4e6142707a235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_871166a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-05-03T12:59:27Z",
+      "side": 1,
+      "message": "No, a different stack trace is shown from the checkNotNull in ChangeNotes#create(db, project, id). \n\nI\u0027m currently looking into it. I\u0027m trying to avoid playing with the thrown exceptions too much but I feel like it\u0027s inevitable!",
+      "parentUuid": "a83309d6_2ac79f56",
+      "range": {
+        "startLine": 14,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "da532b6c0a0037ac5c41dbaeafd4e6142707a235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

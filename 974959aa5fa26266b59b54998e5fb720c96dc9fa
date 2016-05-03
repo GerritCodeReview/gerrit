@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "add23be5_f2c70855",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-03T20:49:44Z",
+      "side": 1,
+      "message": "I’ll do that in this chain of commits alongside the minor cleanup of gr-rest-api-interface we were talking about. If I submit this without doing so, please yell at me.",
+      "parentUuid": "ed7a73a9_b4c18041",
+      "revId": "974959aa5fa26266b59b54998e5fb720c96dc9fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "add23be5_72bc78cb",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-03T20:34:14Z",
       "side": 1,
       "message": "could could do a .find here .. not a big deal",
+      "revId": "974959aa5fa26266b59b54998e5fb720c96dc9fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7a73a9_b4d66001",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-03T20:49:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "add23be5_72bc78cb",
       "revId": "974959aa5fa26266b59b54998e5fb720c96dc9fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

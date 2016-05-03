@@ -42,6 +42,9 @@ limitations under the License.
   suite('gr-diff-comment tests', function() {
     var element;
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve(null); },
+      });
       element = fixture('basic');
       element.comment = {
         author: {
@@ -93,9 +96,30 @@ limitations under the License.
 
   suite('gr-diff-comment draft tests', function() {
     var element;
-    var server;
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve(null); },
+        saveDiffDraft: function() {
+          return Promise.resolve({
+            ok: true,
+            text: function() {
+              return Promise.resolve(
+                ')]}\'\n{' +
+                  '"id": "baf0414d_40572e03",' +
+                  '"path": "/path/to/file",' +
+                  '"line": 5,' +
+                  '"updated": "2015-12-08 21:52:36.177000000",' +
+                  '"message": "saved!"' +
+                '}'
+              );
+            },
+          });
+        },
+        removeChangeReviewer: function() {
+          return Promise.resolve({ok: true});
+        },
+      });
       element = fixture('draft');
       element.changeNum = 42;
       element.patchNum = 1;
@@ -106,43 +130,6 @@ limitations under the License.
         path: '/path/to/file',
         line: 5,
       };
-
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'PUT',
-        '/changes/42/revisions/1/drafts',
-        [
-          201,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n{' +
-            '"id": "baf0414d_40572e03",' +
-            '"path": "/path/to/file",' +
-            '"line": 5,' +
-            '"updated": "2015-12-08 21:52:36.177000000",' +
-            '"message": "created!"' +
-          '}'
-        ]
-      );
-
-      server.respondWith(
-        'PUT',
-        /\/changes\/42\/revisions\/1\/drafts\/.+/,
-        [
-          200,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n{' +
-            '"id": "baf0414d_40572e03",' +
-            '"path": "/path/to/file",' +
-            '"line": 5,' +
-            '"updated": "2015-12-08 21:52:36.177000000",' +
-            '"message": "saved!"' +
-          '}'
-        ]
-      );
-    });
-
-    teardown(function() {
-      server.restore();
     });
 
     function isVisible(el) {
@@ -224,14 +211,10 @@ limitations under the License.
       assert.isTrue(element.disabled,
           'Element should be disabled when creating draft.');
 
-      server.respond();
-
-      element._xhrPromise.then(function(req) {
+      element._xhrPromise.then(function(draft) {
         assert.isFalse(element.disabled,
             'Element should be enabled when done creating draft.');
-        assert.equal(req.status, 201);
-        assert.equal(req.url, '/changes/42/revisions/1/drafts');
-        assert.equal(req.response.message, 'created!');
+        assert.equal(draft.message, 'saved!');
         assert.isFalse(element.editing);
       }).then(function() {
         MockInteractions.tap(element.$$('.edit'));
@@ -240,15 +223,11 @@ limitations under the License.
         MockInteractions.tap(element.$$('.save'));
         assert.isTrue(element.disabled,
             'Element should be disabled when updating draft.');
-        server.respond();
 
-        element._xhrPromise.then(function(req) {
+        element._xhrPromise.then(function(draft) {
           assert.isFalse(element.disabled,
               'Element should be enabled when done updating draft.');
-          assert.equal(req.status, 200);
-          assert.equal(req.url,
-              '/changes/42/revisions/1/drafts/baf0414d_40572e03');
-          assert.equal(req.response.message, 'saved!');
+          assert.equal(draft.message, 'saved!');
           assert.isFalse(element.editing);
           done();
         });

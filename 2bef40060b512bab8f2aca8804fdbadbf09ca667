@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "c842fd2f_8b940df9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T15:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83309d6_4aadb397",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_8ab5ebe1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2016-05-02T23:41:48Z",
       "side": 1,
       "message": "Is this only used for iteration above on line 112?  If so the older List version will be more efficient than HashSet.\n\nMaybe make this just return Iterable\u003cString\u003e and then the implementation can be a bit more aggressive about avoiding unnecessary copies:\n\n  if (user.isIdentifiedUser()) {\n    Set\u003cString\u003e emails \u003d user.asIdentifiedUser().getEmailAddresses();\n    if (user.getUserName() \u003d\u003d null) {\n      return emails;\n    } else if (emails.isEmpty()) {\n      return ImmutableSet.of(user.getUserName());\n    }\n    Iterables.concat(emails, ImmutableSet.of(user.getUserName());\n  }\n  if (user.getUserName() !\u003d null) {\n    return ImmutableSet.of(user.getUserName());\n  }\n  return ImmutableSet.of();",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_a9671d14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T15:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83309d6_8ab5ebe1",
       "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c842fd2f_ab99c931",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T15:36:43Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "4830cdcd_47adae97",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_6aaa7782",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2016-05-02T23:41:48Z",
       "side": 1,
       "message": "Same as above",
+      "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_cb9e1517",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T15:36:43Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "a83309d6_6aaa7782",
       "revId": "2bef40060b512bab8f2aca8804fdbadbf09ca667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

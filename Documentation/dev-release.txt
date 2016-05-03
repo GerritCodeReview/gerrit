@@ -154,12 +154,13 @@ Tag the plugins:
 [[build-gerrit]]
 === Build Gerrit
 
-* Build the Gerrit WAR and API JARs
+* Build the Gerrit WAR, API JARs and documentation
 +
 ----
   buck clean
   buck build --no-cache release
   buck build api_install
+  buck build docs
 ----
 
 * Sanity check WAR
@@ -339,7 +340,7 @@ Push the new Release Tag on the plugins:
 ----
 
 * Extract the documentation files from the zip file generated during
-the release build: `buck-out/gen/Documentation/html/html.zip`.
+the docs build: `buck-out/gen/Documentation/searchfree/searchfree.zip`.
 
 * Upload the files manually via web browser to the appropriate folder
 in the

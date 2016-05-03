@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ed7a73a9_740a087b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-03T21:07:26Z",
+      "side": 1,
+      "message": "A plain merge or do we want to follow the configured merge strategy of that project?",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7a73a9_14ff1478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-03T21:07:26Z",
+      "side": 1,
+      "message": "The merge attribute is {0,1} heads? i.e. do we want to allow giving multiple heads. (\"Make an octopus merge of all the stable branches\")\n\nThe second parent is the target branch tip?",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_8adc0b2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -18,6 +64,29 @@
         "startChar": 60,
         "endLine": 11,
         "endChar": 67
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "add23be5_92c47c52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-03T21:07:26Z",
+      "side": 1,
+      "message": "Please add an example query for a successful and a failed query to Documentation/rest-api-changes.txt\n\nI am trying to think of a good place to add tests for these. gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/ChangeTest.java maybe?",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 61
       },
       "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

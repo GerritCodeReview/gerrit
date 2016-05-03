@@ -126,26 +126,21 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
         throws OrmException, NoSuchChangeException {
-      ChangeNotes notes = create(db, c.getProject(), c.getId());
-      if (notes.getChange() == null) {
-        throw new NoSuchChangeException(c.getId());
-      }
-      return notes;
+      return createChecked(db, c.getProject(), c.getId());
     }
 
     public ChangeNotes createChecked(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException, NoSuchChangeException {
-      ChangeNotes notes = create(db, project, changeId);
-      if (notes.getChange() == null) {
+      List<ChangeData> changes = getChangesCorrespondingToId(changeId);
+      if (changes.isEmpty()) {
         throw new NoSuchChangeException(changeId);
       }
-      return notes;
+      return create(db, project, changeId);
     }
 
     public ChangeNotes createChecked(Change.Id changeId)
         throws OrmException, NoSuchChangeException {
-      InternalChangeQuery query = queryProvider.get().noFields();
-      List<ChangeData> changes = query.byLegacyChangeId(changeId);
+      List<ChangeData> changes = getChangesCorrespondingToId(changeId);
       if (changes.isEmpty()) {
         throw new NoSuchChangeException(changeId);
       }
@@ -169,6 +164,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
       return new ChangeNotes(args, change).load();
+    }
+
+    private List<ChangeData> getChangesCorrespondingToId(Change.Id changeId)
+        throws OrmException {
+      InternalChangeQuery query = queryProvider.get().noFields();
+      return query.byLegacyChangeId(changeId);
     }
 
     /**

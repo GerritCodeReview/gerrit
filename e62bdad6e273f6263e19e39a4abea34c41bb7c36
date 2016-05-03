@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "add23be5_b2d66001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-03T21:36:18Z",
+      "side": 1,
+      "message": "Done. I have some vimrc that overrides textwidth\u003d72 I set for gitcommit files :(",
+      "parentUuid": "add23be5_12b16cf2",
+      "revId": "e62bdad6e273f6263e19e39a4abea34c41bb7c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7a73a9_542a6cd7",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2016-05-03T21:29:48Z",
       "side": 1,
       "message": "Just add this to the release line so they can build in parallel",
+      "range": {
+        "startLine": 163,
+        "startChar": 13,
+        "endLine": 163,
+        "endChar": 17
+      },
+      "revId": "e62bdad6e273f6263e19e39a4abea34c41bb7c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "add23be5_720a387b",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-03T21:36:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7a73a9_542a6cd7",
       "range": {
         "startLine": 163,
         "startChar": 13,

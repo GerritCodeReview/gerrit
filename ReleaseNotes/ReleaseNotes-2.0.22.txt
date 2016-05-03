@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.0.22
-===============================
+= Release notes for Gerrit 2.0.22
 
 Gerrit 2.0.22 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 There is no schema change in this release.
 
@@ -32,8 +30,7 @@ Administrators can identify these users with the following query:
    login over SSH until they return and select a new name.
 
 
-New Features
-------------
+== New Features
 * GERRIT-280  create-project: Add --branch and cleanup arguments
 +
 The --branch option to create-project can be used to setup the
@@ -94,8 +91,7 @@ is actually a path conflict.
 +
 Sample git pull lines are now included in email notifications.
 
-Bug Fixes
----------
+== Bug Fixes
 * create-project: Document needing to double quote descr...
 +
 The --description flag to create-project require two levels
@@ -141,8 +137,7 @@ The cursor was wrong in the OpenID sign-in dialog.  Fixed.
 Merge commits created by Gerrit were still using the older style
 integer change number; changed to use the abbreviated Change-Id.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.22 development
 * Configure Maven to build with UTF-8 encoding
 * Document minimum build requirement for Mac OS X

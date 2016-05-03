@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.7
-==============================
+= Release notes for Gerrit 2.0.7
 
 Gerrit 2.0.7 is now available in the usual location:
 
@@ -11,15 +10,13 @@ Installation of openid4java may require installing Xalan/Xerces from the WAR int
 
 Gerrit is still Apache 2/MIT/BSD licensed, despite the switch of a dependency.
 
-New Features
-------------
+== New Features
 
 * GERRIT-103  Display our server host keys for the client to copy an...
 +
 For the paranoid user, they can check the key fingerprint, or even copy the complete host key line for ~/.ssh/known_hosts, directly from Settings > SSH Keys.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * GERRIT-98   Require that a change be open in order to abandon it
 * GERRIT-101  Switch OpenID relying party to openid4java
@@ -34,8 +31,7 @@ The upgrade of JGit should resolves issues relating to not being able to upload 
 
 * Fix a NullPointerException in OpenIdServiceImpl on res...
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.7 development
 * Upgrade JGit to 0.4.0-212-g9057f1b
 * Make the sign in dialog a bit taller to avoid clipping...

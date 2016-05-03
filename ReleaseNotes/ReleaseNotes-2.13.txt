@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.13
-=============================
+= Release notes for Gerrit 2.13
 
 
 Gerrit 2.13 is now available:
@@ -8,23 +7,19 @@ link:https://www.gerritcodereview.com/download/gerrit-2.13.war[
 https://www.gerritcodereview.com/download/gerrit-2.13.war]
 
 
-Important Notes
----------------
+== Important Notes
 
 TODO
 
 
-Release Highlights
-------------------
+== Release Highlights
 
 * Metrics interface.
 
 
-New Features
-------------
+== New Features
 
-Metrics
-~~~~~~~
+=== Metrics
 
 Metrics about Gerrit's internal state can be sent to external
 monitoring systems.
@@ -66,21 +61,18 @@ by core plugins:
 
 * TODO add more
 
-Changes
-~~~~~~~
+=== Changes
 
 In order to avoid potentially confusing behavior, when submitting changes in a
 batch, submit type rules may not be used to mix submit types on a single branch,
 and trying to submit such a batch will fail.
 
-Bug Fixes
----------
+== Bug Fixes
 
 TODO
 
 
-Upgrades
---------
+== Upgrades
 
 * Upgrade CodeMirror to 5.14.2
 

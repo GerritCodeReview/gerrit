@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.11.2
-===============================
+= Release notes for Gerrit 2.11.2
 
 Gerrit 2.11.2 is now available:
 
@@ -12,8 +11,7 @@ in these release notes.
 
 There are no schema changes from link:ReleaseNotes-2.11.1.html[2.11.1].
 
-New Features
-------------
+== New Features
 
 New SSH commands:
 
@@ -29,8 +27,7 @@ Allows to activate the latest index version even if the indexing encountered
 problems.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2761[Issue 2761]:
 Fix incorrect file list when comparing patchsets.
@@ -96,8 +93,7 @@ Now those files are bundled with the documentation.
 
 * Print proper name for reindex after update tasks in `show-queue` command.
 
-Updates
--------
+== Updates
 
 * Update JGit to 4.0.1.201506240215-r.
 

@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.12.1
-===============================
+= Release notes for Gerrit 2.12.1
 
 Gerrit 2.12.1 is now available:
 
@@ -11,8 +10,7 @@ link:ReleaseNotes-2.11.6.html[Gerrit 2.11.6] and
 link:ReleaseNotes-2.11.7.html[Gerrit 2.11.7]. These bug fixes are *not*
 listed in these release notes.
 
-Schema Upgrade
---------------
+== Schema Upgrade
 
 *WARNING:* This version includes a manual schema upgrade when upgrading
 from 2.12.
@@ -48,11 +46,9 @@ When upgrading from a version earlier than 2.12, this manual step is not
 necessary and should be omitted.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
-General
-~~~~~~~
+=== General
 
 * Fix column type for signed push certificates.
 +
@@ -160,8 +156,7 @@ series, the series was not submittable.
 * link:https://code.google.com/p/gerrit/issues/detail?id=3883[Issue 3883]:
 Respect the `core.commentchar` setting from `.gitconfig` in `commit-msg` hook.
 
-UI
-~~
+=== UI
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=3894[Issue 3894]:
 Fix display of 'Related changes' after change is rebased in web UI:
@@ -194,8 +189,7 @@ Note that the problem still exists on the unified diff screen.
 * Improve tooltip on 'Submit' button when 'Submit whole topic' is enabled
 and the topic can't be submitted due to some changes not being ready.
 
-Plugins
-~~~~~~~
+=== Plugins
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=3821[Issue 3821]:
 Fix repeated reloading of plugins when running on OpenJDK 8.
@@ -223,14 +217,12 @@ method signature.
 Allow plugins to suggest reviewers based on either change or project
 resources.
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
 * Update documentation of `commentlink` to reflect changed search URL.
 
 * Add missing documentation of valid `database.type` values.
 
-Upgrades
---------
+== Upgrades
 
 * Upgrade JGit to 4.1.2.201602141800-r.

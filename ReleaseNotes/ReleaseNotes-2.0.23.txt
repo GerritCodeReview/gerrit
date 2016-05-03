@@ -1,18 +1,15 @@
-Release notes for Gerrit 2.0.23
-===============================
+= Release notes for Gerrit 2.0.23
 
 Gerrit 2.0.23 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 There is no schema change in this release.
 
 
-New Features
-------------
+== New Features
 
 * Adding support to list merged and abandoned changes
 +
@@ -22,8 +19,7 @@ change the link is displayed in.  So open changes link to all open
 changes in the same project while merged changes link to all merged
 changes in the same project.  These links are bookmarkable.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix new change email to always have SSH pull URL
 * Move git pull URL to bottom of email notifications
@@ -39,8 +35,7 @@ the tabs not agreeing about the session state.  Fixed.
 
 * Fix MySQL CREATE USER example in install documentation
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.23 development
 * Move Jetty 6.x resources into a jetty6 directory
 * Move the Jetty 6.x start script to our extra directory

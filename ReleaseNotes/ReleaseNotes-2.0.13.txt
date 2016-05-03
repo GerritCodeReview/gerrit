@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.13, 2.0.13.1
-=========================================
+= Release notes for Gerrit 2.0.13, 2.0.13.1
 
 Gerrit 2.0.13.1 is now available in the usual location:
 
@@ -23,8 +22,7 @@ After verifying `$site_path/gerrit.config` is correct for your installation, dro
   java -jar gerrit.war --cat sql/upgrade011_012_part2.sql | psql reviewdb
 ----
 
-Configuration Mapping
----------------------
+== Configuration Mapping
 || *system_config*                || *$site_path/gerrit.config*     ||
 || max_session_age                || auth.maxSessionAge             ||
 || canonical_url                  || gerrit.canonicalWebUrl         ||
@@ -45,8 +43,7 @@ Configuration Mapping
 
 See also [http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html Gerrit2 Configuration].
 
-New Features
-------------
+== New Features
 * GERRIT-180  Rewrite outgoing email to be more user friendly
 +
 A whole slew of feature improvements on outgoing email formatting was closed by this one (massive) rewrite of the outgoing email implementation.
@@ -81,8 +78,7 @@ The internal SSHD can now be bound to any IP address/port combinations, which ca
 +
 The new `sendemail` section of `$site_path/gerrit.config` now controls the configuration of the outgoing SMTP server, rather than relying upon a JNDI resource.  See [http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html configuration] section sendemail for more details.
 
-Bug Fixes
----------
+== Bug Fixes
 * Fix file browser in patch that is taller than the wind...
 * GERRIT-184  Make 'f' toggle the file browser popup closed
 * GERRIT-188  Fix key bindings in patch when changing the old or new...
@@ -123,8 +119,7 @@ A bunch of bug fixes related to error handling during replication.  Errors are n
 +
 Bug fixes identified after release of 2.0.13, rolled into 2.0.13.1.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.13 development
 * Use gwtexpui 1.1.1-SNAPSHOT
 * Document the Patch.PatchType and Patch.ChangeType enum

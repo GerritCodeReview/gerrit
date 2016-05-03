@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.6.1
-================================
+= Release notes for Gerrit 2.1.6.1
 
 Gerrit 2.1.6.1 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.1.6.1.war[https://www.gerritcodereview.com/download/gerrit-2.1.6.1.war]
 
-Schema Change
--------------
+== Schema Change
 
 If upgrading from 2.1.6, there are no schema changes.  Replace the
 WAR and restart the daemon.
@@ -17,8 +15,7 @@ To upgrade:
   java -jar gerrit.war init -d site_path
 ----
 
-New Features
-------------
+== New Features
 * Display the originator of each access rule
 +
 The project access panel now shows which project each rule inherits
@@ -37,8 +34,7 @@ The project Owner permission can now be inherited from any parent
 project, provided that the parent project is not the root level
 \-- All Projects \--.
 
-Bug Fixes
----------
+== Bug Fixes
 * Fix disabled intraline difference checkbox
 +
 Intraline difference couldn't be enabled once it was disabled by

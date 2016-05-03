@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.9.2
-==============================
+= Release notes for Gerrit 2.9.2
 
 Download:
 link:https://www.gerritcodereview.com/download/gerrit-2.9.2.war[
 https://www.gerritcodereview.com/download/gerrit-2.9.2.war]
 
-Important Notes
----------------
+== Important Notes
 
 *WARNING:* There are no schema changes from
 link:ReleaseNotes-2.9.1.html[2.9.1], but when upgrading from an existing site
@@ -28,11 +26,9 @@ libraries should be manually removed from site's `lib` folder to prevent the
 startup failure described in
 link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
 
-Bug Fixes
----------
+== Bug Fixes
 
-ssh
-~~~
+=== ssh
 
 * Update SSHD to 0.13.0.
 +
@@ -41,8 +37,7 @@ was causing ssh threads allocated to stream-events clients to get stuck.
 +
 Also update SSHD Mina to 2.0.8 and Bouncycastle to 1.51.
 
-Database
-~~~~~~~~
+=== Database
 
 * Update gwtorm to 1.14.
 +
@@ -54,8 +49,7 @@ This version of gwtorm fixes the issue for new sites. For existing sites that
 were initialized with Gerrit version 2.6 or later, the primary key column
 order will be fixed during initialization when upgrading to 2.9.2.
 
-Secondary Index
-~~~~~~~~~~~~~~~
+=== Secondary Index
 
 * Fix "400 cannot create query for index" error in "Conflicts With" list.
 +
@@ -79,8 +73,7 @@ Automatically remove the change from the secondary index if it doesn't exist in
 the database. If a user clicks on search result from a stale change, they will
 get a 404 page and the change will be removed from the index.
 
-Change Screen
-~~~~~~~~~~~~~
+=== Change Screen
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2964[Issue 2964]:
 Fix comment box font colors of dark CodeMirror themes.
@@ -107,8 +100,7 @@ in the window title. This feature was missed in the new side-by-side diff screen
 
 * Remove 'send email' checkbox from reply box on change screen.
 
-Plugins
-~~~~~~~
+=== Plugins
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=543[Issue 543]
 Replication plugin: Prevent creating repos on extra servers.
@@ -120,8 +112,7 @@ servers, even if the authGroup would prevent replicating code to it.
 By ensuring the authGroup can see the project first, the repository is
 not created if it's not needed.
 
-Security
-~~~~~~~~
+=== Security
 
 * Do not throw away bytes from the CNSPRG when generating HTTP passwords.
 +
@@ -141,8 +132,7 @@ owners list. This meant that members of a group that was given OWNER permission
 with BLOCK or DENY action were considered as project owners.
 
 
-Miscellaneous Fixes
-~~~~~~~~~~~~~~~~~~~
+=== Miscellaneous Fixes
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2911[Issue 2911]:
 Fix Null Pointer Exception after a MergeValidationListener throws

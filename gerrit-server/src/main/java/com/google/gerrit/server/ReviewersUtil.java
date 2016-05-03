@@ -14,19 +14,15 @@
 
 package com.google.gerrit.server;
 
-import static java.util.Comparator.comparing;
-
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -41,78 +37,90 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers;
+import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.SuggestReviewers;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class ReviewersUtil {
   private static final String MAX_SUFFIX = "\u9fa5";
-  private static final Ordering<SuggestedReviewerInfo> ORDERING =
-      Ordering.<SuggestedReviewerInfo> from(comparing(
-          suggestedReviewerInfo -> {
-            if (suggestedReviewerInfo == null) {
-              return null;
-            }
-            return suggestedReviewerInfo.account != null
-                ? MoreObjects.firstNonNull(suggestedReviewerInfo.account.email,
-                Strings.nullToEmpty(suggestedReviewerInfo.account.name))
-                : Strings.nullToEmpty(suggestedReviewerInfo.group.name);
-          }));
+  // Generate a candidate list at 3x the size of what the user wants to see to
+  // give the ranking algorithm a good set of candidates it can work with
+  private static final int CANDIDATE_LIST_MULTIPLIER = 3;
 
-  private final AccountLoader accountLoader;
   private final AccountCache accountCache;
-  private final AccountIndexCollection indexes;
-  private final AccountQueryBuilder queryBuilder;
-  private final AccountQueryProcessor queryProcessor;
   private final AccountControl accountControl;
-  private final Provider<ReviewDb> dbProvider;
+  private final AccountIndexCollection accountIndexes;
+  private final AccountLoader accountLoader;
+  private final AccountQueryBuilder accountQueryBuilder;
+  private final AccountQueryProcessor accountQueryProcessor;
+  private final ChangeQueryBuilder changeQueryBuilder;
+  private final DynamicSet<ReviewerSuggestion> reviewerSuggestionPluginSet;
   private final GroupBackend groupBackend;
   private final GroupMembers.Factory groupMembersFactory;
+  private final InternalChangeQuery internalChangeQuery;
   private final Provider<CurrentUser> currentUser;
+  private final Provider<ReviewDb> dbProvider;
+  private final ReviewerRecommender reviewerRecommender;
+  private final double baseWeight;
 
   @Inject
-  ReviewersUtil(AccountLoader.Factory accountLoaderFactory,
-      AccountCache accountCache,
-      AccountIndexCollection indexes,
-      AccountQueryBuilder queryBuilder,
-      AccountQueryProcessor queryProcessor,
+  ReviewersUtil(AccountCache accountCache,
       AccountControl.Factory accountControlFactory,
-      Provider<ReviewDb> dbProvider,
+      AccountIndexCollection accountIndexes,
+      AccountLoader.Factory accountLoaderFactory,
+      AccountQueryBuilder accountQueryBuilder,
+      AccountQueryProcessor accountQueryProcessor,
+      ChangeQueryBuilder changeQueryBuilder,
+      DynamicSet<ReviewerSuggestion> reviewerSuggestionPluginSet,
       GroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
-      Provider<CurrentUser> currentUser) {
+      InternalChangeQuery internalChangeQuery,
+      Provider<CurrentUser> currentUser,
+      Provider<ReviewDb> dbProvider,
+      ReviewerRecommender reviewerRecommender,
+      @GerritServerConfig Config config) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-    this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountCache = accountCache;
-    this.indexes = indexes;
-    this.queryBuilder = queryBuilder;
-    this.queryProcessor = queryProcessor;
     this.accountControl = accountControlFactory.get();
+    this.accountIndexes = accountIndexes;
+    this.accountLoader = accountLoaderFactory.create(fillOptions);
+    this.accountQueryBuilder = accountQueryBuilder;
+    this.accountQueryProcessor = accountQueryProcessor;
+    this.changeQueryBuilder = changeQueryBuilder;
+    this.currentUser = currentUser;
     this.dbProvider = dbProvider;
     this.groupBackend = groupBackend;
     this.groupMembersFactory = groupMembersFactory;
-    this.currentUser = currentUser;
+    this.internalChangeQuery = internalChangeQuery;
+    this.reviewerSuggestionPluginSet = reviewerSuggestionPluginSet;
+    this.reviewerRecommender = reviewerRecommender;
+
+    this.baseWeight = config.getInt("suggest", "baseReviewerWeight", 1);
   }
 
   public interface VisibilityControl {
@@ -120,34 +128,35 @@ public class ReviewersUtil {
   }
 
   public List<SuggestedReviewerInfo> suggestReviewers(
+      ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers, ProjectControl projectControl,
       VisibilityControl visibilityControl, boolean excludeGroups)
       throws IOException, OrmException, BadRequestException {
     String query = suggestReviewers.getQuery();
-    boolean suggestAccounts = suggestReviewers.getSuggestAccounts();
-    int suggestFrom = suggestReviewers.getSuggestFrom();
     int limit = suggestReviewers.getLimit();
 
-    if (Strings.isNullOrEmpty(query)) {
-      throw new BadRequestException("missing query field");
-    }
-
-    if (!suggestAccounts || query.length() < suggestFrom) {
+    if (!suggestReviewers.getSuggestAccounts()) {
       return Collections.emptyList();
     }
 
-    Collection<AccountInfo> suggestedAccounts =
-        suggestAccounts(suggestReviewers, visibilityControl);
+    List<Account.Id> sortedRecommendations = reviewerRecommender
+        .suggestReviewers(
+            changeNotes,
+            suggestReviewers,
+            projectControl,
+            suggestAccounts(suggestReviewers, visibilityControl));
 
+    // Populate AccountInfo
     List<SuggestedReviewerInfo> reviewer = new ArrayList<>();
-    for (AccountInfo a : suggestedAccounts) {
+    for (Account.Id id : sortedRecommendations) {
       SuggestedReviewerInfo info = new SuggestedReviewerInfo();
-      info.account = a;
+      info.account = accountLoader.get(id);
       info.count = 1;
       reviewer.add(info);
     }
+    accountLoader.fill();
 
-    if (!excludeGroups) {
+    if (!excludeGroups && !Strings.isNullOrEmpty(query)) {
       for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
         GroupAsReviewer result = suggestGroupAsReviewer(
             suggestReviewers, projectControl.getProject(), g, visibilityControl);
@@ -161,59 +170,55 @@ public class ReviewersUtil {
           if (result.allowedWithConfirmation) {
             suggestedReviewerInfo.confirm = true;
           }
-          reviewer.add(suggestedReviewerInfo);
+          // Always add groups at the front as they are usually more important
+          reviewer.add(0, suggestedReviewerInfo);
         }
       }
     }
 
-    reviewer = ORDERING.immutableSortedCopy(reviewer);
     if (reviewer.size() <= limit) {
       return reviewer;
     }
     return reviewer.subList(0, limit);
   }
 
-  private Collection<AccountInfo> suggestAccounts(SuggestReviewers suggestReviewers,
+  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers,
       VisibilityControl visibilityControl)
       throws OrmException {
-    AccountIndex searchIndex = indexes.getSearchIndex();
+    AccountIndex searchIndex = accountIndexes.getSearchIndex();
     if (searchIndex != null) {
       return suggestAccountsFromIndex(suggestReviewers);
     }
     return suggestAccountsFromDb(suggestReviewers, visibilityControl);
   }
 
-  private Collection<AccountInfo> suggestAccountsFromIndex(
+  private List<Account.Id> suggestAccountsFromIndex(
       SuggestReviewers suggestReviewers) throws OrmException {
     try {
-      Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
-      QueryResult<AccountState> result = queryProcessor
-          .setLimit(suggestReviewers.getLimit())
-          .query(queryBuilder.defaultQuery(suggestReviewers.getQuery()));
+      Set<Account.Id> matches = new HashSet<>();
+      QueryResult<AccountState> result = accountQueryProcessor
+          .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
+          .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
       for (AccountState accountState : result.entities()) {
         Account.Id id = accountState.getAccount().getId();
-        matches.put(id, accountLoader.get(id));
+        matches.add(id);
       }
-
-      accountLoader.fill();
-
-      return matches.values();
+      return new ArrayList<>(matches);
     } catch (QueryParseException e) {
       return ImmutableList.of();
     }
   }
 
-  private Collection<AccountInfo> suggestAccountsFromDb(
+  private List<Account.Id> suggestAccountsFromDb(
       SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
           throws OrmException {
     String query = suggestReviewers.getQuery();
-    int limit = suggestReviewers.getLimit();
+    int limit = suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER;
 
     String a = query;
     String b = a + MAX_SUFFIX;
 
-    Map<Account.Id, AccountInfo> r = new LinkedHashMap<>();
-    Map<Account.Id, String> queryEmail = new HashMap<>();
+    Set<Account.Id> r = new HashSet<>();
 
     for (Account p : dbProvider.get().accounts()
         .suggestByFullName(a, b, limit)) {
@@ -234,36 +239,26 @@ public class ReviewersUtil {
     if (r.size() < limit) {
       for (AccountExternalId e : dbProvider.get().accountExternalIds()
           .suggestByEmailAddress(a, b, limit - r.size())) {
-        if (!r.containsKey(e.getAccountId())) {
+        if (!r.contains(e.getAccountId())) {
           Account p = accountCache.get(e.getAccountId()).getAccount();
           if (p.isActive()) {
-            if (addSuggestion(r, p.getId(), visibilityControl)) {
-              queryEmail.put(e.getAccountId(), e.getEmailAddress());
-            }
+            addSuggestion(r, p.getId(), visibilityControl);
           }
         }
       }
     }
-
-    accountLoader.fill();
-    for (Map.Entry<Account.Id, String> p : queryEmail.entrySet()) {
-      AccountInfo info = r.get(p.getKey());
-      if (info != null) {
-        info.email = p.getValue();
-      }
-    }
-    return new ArrayList<>(r.values());
+    return new ArrayList<>(r);
   }
 
-  private boolean addSuggestion(Map<Account.Id, AccountInfo> map,
+  private boolean addSuggestion(Set<Account.Id> map,
       Account.Id account, VisibilityControl visibilityControl)
       throws OrmException {
-    if (!map.containsKey(account)
+    if (!map.contains(account)
         // Can the suggestion see the change?
         && visibilityControl.isVisibleTo(account)
         // Can the current user see the account?
         && accountControl.canSee(account)) {
-      map.put(account, accountLoader.get(account));
+      map.add(account);
       return true;
     }
     return false;
@@ -282,7 +277,8 @@ public class ReviewersUtil {
     int size;
   }
 
-  private GroupAsReviewer suggestGroupAsReviewer(SuggestReviewers suggestReviewers,
+  private GroupAsReviewer suggestGroupAsReviewer(
+      SuggestReviewers suggestReviewers,
       Project project, GroupReference group,
       VisibilityControl visibilityControl) throws OrmException, IOException {
     GroupAsReviewer result = new GroupAsReviewer();

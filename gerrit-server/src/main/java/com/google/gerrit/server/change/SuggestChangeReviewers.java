@@ -54,7 +54,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
       throws BadRequestException, OrmException, IOException {
-    return reviewersUtil.suggestReviewers(this,
+    return reviewersUtil.suggestReviewers(rsrc.getNotes(), this,
         rsrc.getControl().getProjectControl(), getVisibility(rsrc), excludeGroups);
   }
 

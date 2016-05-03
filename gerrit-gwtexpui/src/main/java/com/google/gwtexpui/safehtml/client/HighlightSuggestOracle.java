@@ -43,7 +43,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
   }
 
   @Override
-  public final void requestSuggestions(final Request request, final Callback cb) {
+  public final void requestSuggestions(Request request, Callback cb) {
     onRequestSuggestions(request, new Callback() {
       @Override
       public void onSuggestionsReady(final Request request,
@@ -88,26 +88,27 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         ds = escape(ds);
       }
 
-      StringBuilder pattern = new StringBuilder();
-      for (String qterm : splitQuery(qstr)) {
-        qterm = escape(qterm);
-        // We now surround qstr by <strong>. But the chosen approach is not too
-        // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
-        // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
-        // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
-        // as repairing those mangled escapes is easier than not mangling them in
-        // the first place, we repair them afterwards.
-
-        if (pattern.length() > 0) {
-          pattern.append("|");
+      if (qstr != null && !qstr.isEmpty()) {
+        StringBuilder pattern = new StringBuilder();
+        for (String qterm : splitQuery(qstr)) {
+          qterm = "(" + escape(qterm) + ")";
+          // We now surround qstr by <strong>. But the chosen approach is not too
+          // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
+          // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
+          // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
+          // as repairing those mangled escapes is easier than not mangling them in
+          // the first place, we repair them afterwards.
+          if (pattern.length() > 0) {
+            pattern.append("|");
+          }
+          pattern.append(qterm);
         }
-        pattern.append(qterm);
+
+        ds = sgi(ds, "(" + pattern.toString() + ")", "<strong>$1</strong>");
+
+        // Repairing <strong>-ed escapes.
+        ds = sgi(ds, "(&[a-z]*)<strong>([a-z]*)</strong>([a-z]*;)", "$1$2$3");
       }
-
-      ds = sgi(ds, "(" + pattern.toString() + ")", "<strong>$1</strong>");
-
-      // Repairing <strong>-ed escapes.
-      ds = sgi(ds, "(&[a-z]*)<strong>([a-z]*)</strong>([a-z]*;)", "$1$2$3");
 
       displayString = ds;
     }

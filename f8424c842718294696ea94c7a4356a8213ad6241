@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4830cdcd_076d7622",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:08:32Z",
+      "side": 1,
+      "message": "Tiniest of nits: we tend to have a newline between the license header and the package declaration.",
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_6a7437ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:08:32Z",
+      "side": 1,
+      "message": "LinkedList is fine, ArrayList is usually faster and more memory efficient though.",
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_4a7773f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:08:32Z",
+      "side": 1,
+      "message": "\"pwi\" instead of \"wpi\"?",
+      "range": {
+        "startLine": 55,
+        "startChar": 23,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

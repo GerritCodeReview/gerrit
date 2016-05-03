@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c842fd2f_8b2a4dd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-03T09:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fd01ea_7cfcd94e",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8fd01ea_5cf91d5d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-02T19:07:26Z",
       "side": 1,
       "message": "merge",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_e9391533",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-03T09:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fd01ea_5cf91d5d",
       "range": {
         "startLine": 9,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "883645c6_293c0d1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-03T09:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fd01ea_bc94a1f8",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8fd01ea_9c99e532",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -82,6 +154,42 @@
       "writtenOn": "2016-05-02T19:07:26Z",
       "side": 1,
       "message": "If auto-merge (the actual submit) fails, are we reaching this block thus fire by mistake?",
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_cb34553c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-03T09:14:31Z",
+      "side": 1,
+      "message": "You are right, good catch. Will rework this patch so that we won\u0027t fire ref-updated event by mistake.",
+      "parentUuid": "e8fd01ea_9c99e532",
+      "revId": "419a85d12d06f5bba017311aec984fdf807db857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_891179a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-03T09:14:31Z",
+      "side": 1,
+      "message": "You are right, good catch. Will rework this patch so that we won\u0027t fire ref-updated event by mistake.",
+      "parentUuid": "e8fd01ea_9c99e532",
       "revId": "419a85d12d06f5bba017311aec984fdf807db857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "883645c6_c959b180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T11:30:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f83dfd_3b02572f",
+      "revId": "9ceca80d7c29e0a45a0fd6bdf33bfe7585bc57be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a80949df_fae749ba",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2016-05-02T14:33:03Z",
       "side": 1,
       "message": "Optional: Accept here just \"install\" and \"deploy\" and shortcut them to api_{install,deploy}. These are the most often used commands for plugin development and this script already called api.sh so that `api.sh install` would make a lot of sense. Of course one could add an alias to .bashrc.",
+      "revId": "9ceca80d7c29e0a45a0fd6bdf33bfe7585bc57be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_0954a942",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T11:30:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a80949df_7afcd94e",
       "revId": "9ceca80d7c29e0a45a0fd6bdf33bfe7585bc57be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -31,7 +31,6 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -230,7 +229,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     Change change = new Change(bundle.getChange());
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
-    List<Event> events = Lists.newArrayList();
+    List<Event> events = new ArrayList<>();
     Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
 

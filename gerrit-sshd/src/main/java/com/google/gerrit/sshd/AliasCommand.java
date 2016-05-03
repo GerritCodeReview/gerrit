@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
@@ -118,7 +117,7 @@ public class AliasCommand extends BaseCommand {
   }
 
   private static LinkedList<String> chain(CommandName command) {
-    LinkedList<String> chain = Lists.newLinkedList();
+    LinkedList<String> chain = new LinkedList<>();
     while (command != null) {
       chain.addFirst(command.value());
       command = Commands.parentOf(command);

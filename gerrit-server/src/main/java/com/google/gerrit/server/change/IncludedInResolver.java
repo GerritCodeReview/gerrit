@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -35,6 +34,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -107,8 +108,8 @@ public class IncludedInResolver {
 
   private boolean includedInOne(final Collection<Ref> refs) throws IOException {
     parseCommits(refs);
-    List<RevCommit> before = Lists.newLinkedList();
-    List<RevCommit> after = Lists.newLinkedList();
+    List<RevCommit> before = new LinkedList<>();
+    List<RevCommit> after = new LinkedList<>();
     partition(before, after);
     // It is highly likely that the target is reachable from the "after" set
     // Within the "before" set we are trying to handle cases arising from clock skew
@@ -120,7 +121,7 @@ public class IncludedInResolver {
    */
   private Set<String> includedIn(final Collection<RevCommit> tips, int limit)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
-    Set<String> result = Sets.newHashSet();
+    Set<String> result = new HashSet<>();
     for (RevCommit tip : tips) {
       boolean commitFound = false;
       rw.resetRetain(RevFlag.UNINTERESTING, containsTarget);

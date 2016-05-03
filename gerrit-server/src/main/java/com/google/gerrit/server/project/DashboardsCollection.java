@@ -49,6 +49,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -207,7 +208,7 @@ class DashboardsCollection implements
     Boolean isDefault;
 
     String title;
-    List<Section> sections = Lists.newArrayList();
+    List<Section> sections = new ArrayList<>();
 
     DashboardInfo(String ref, String name) {
       this.ref = ref;

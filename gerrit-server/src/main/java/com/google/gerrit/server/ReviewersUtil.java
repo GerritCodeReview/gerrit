@@ -129,7 +129,7 @@ public class ReviewersUtil {
       suggestedAccounts = suggestAccount(suggestReviewers, visibilityControl);
     }
 
-    List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
+    List<SuggestedReviewerInfo> reviewer = new ArrayList<>();
     for (AccountInfo a : suggestedAccounts) {
       SuggestedReviewerInfo info = new SuggestedReviewerInfo();
       info.account = a;

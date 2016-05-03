@@ -21,7 +21,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
@@ -55,6 +54,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -163,7 +163,7 @@ public class ChangeNoteUtil {
       return ImmutableList.of();
     }
     Set<PatchLineComment.Key> seen = new HashSet<>();
-    List<PatchLineComment> result = Lists.newArrayList();
+    List<PatchLineComment> result = new ArrayList<>();
     int sizeOfNote = note.length;
     byte[] psb = PATCH_SET.getBytes(UTF_8);
     byte[] bpsb = BASE_PATCH_SET.getBytes(UTF_8);

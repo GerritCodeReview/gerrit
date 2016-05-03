@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,6 +36,7 @@ import org.slf4j.Logger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {
@@ -61,7 +61,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   @Override
   public void onAddAccountsToGroup(Account.Id me,
       Collection<AccountGroupMember> added) {
-    List<AccountGroupMemberAudit> auditInserts = Lists.newLinkedList();
+    List<AccountGroupMemberAudit> auditInserts = new LinkedList<>();
     for (AccountGroupMember m : added) {
       AccountGroupMemberAudit audit =
           new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
@@ -79,8 +79,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   @Override
   public void onDeleteAccountsFromGroup(Account.Id me,
       Collection<AccountGroupMember> removed) {
-    List<AccountGroupMemberAudit> auditInserts = Lists.newLinkedList();
-    List<AccountGroupMemberAudit> auditUpdates = Lists.newLinkedList();
+    List<AccountGroupMemberAudit> auditInserts = new LinkedList<>();
+    List<AccountGroupMemberAudit> auditUpdates = new LinkedList<>();
     try (ReviewDb db = schema.open()) {
       for (AccountGroupMember m : removed) {
         AccountGroupMemberAudit audit = null;
@@ -131,7 +131,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   @Override
   public void onDeleteGroupsFromGroup(Account.Id me,
       Collection<AccountGroupById> removed) {
-    final List<AccountGroupByIdAud> auditUpdates = Lists.newLinkedList();
+    final List<AccountGroupByIdAud> auditUpdates = new LinkedList<>();
     try (ReviewDb db = schema.open()) {
       for (final AccountGroupById g : removed) {
         AccountGroupByIdAud audit = null;

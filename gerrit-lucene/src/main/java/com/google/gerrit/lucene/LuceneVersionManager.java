@@ -226,7 +226,7 @@ public class LuceneVersionManager implements LifecycleListener {
 
   private <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>>
       scanVersions(IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
-    TreeMap<Integer, Version<V>> versions = Maps.newTreeMap();
+    TreeMap<Integer, Version<V>> versions = new TreeMap<>();
     for (Schema<V> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
       Path p = getDir(sitePaths, def.getName(), schema);

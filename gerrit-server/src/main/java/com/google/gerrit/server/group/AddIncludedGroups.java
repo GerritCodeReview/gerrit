@@ -17,7 +17,6 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -39,6 +38,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +99,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     input = Input.init(input);
 
     GroupControl control = resource.getControl();
-    Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = Maps.newHashMap();
-    List<GroupInfo> result = Lists.newLinkedList();
+    Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = new HashMap<>();
+    List<GroupInfo> result = new LinkedList<>();
     Account.Id me = control.getUser().getAccountId();
 
     for (String includedGroup : input.groups) {

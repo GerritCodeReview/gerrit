@@ -21,7 +21,6 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -49,6 +48,7 @@ import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -125,7 +125,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String p = createGroup("parent");
     String g1 = createGroup("newGroup1");
     String g2 = createGroup("newGroup2");
-    List<String> groups = Lists.newLinkedList();
+    List<String> groups = new LinkedList<>();
     groups.add(g1);
     groups.add(g2);
     gApi.groups().id(p).addGroups(g1, g2);

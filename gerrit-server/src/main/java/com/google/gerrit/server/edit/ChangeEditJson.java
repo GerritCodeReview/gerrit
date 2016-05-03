@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.edit;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
@@ -31,6 +30,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Singleton
@@ -78,7 +78,7 @@ public class ChangeEditJson {
   }
 
   private Map<String, FetchInfo> fillFetchMap(ChangeEdit edit) {
-    Map<String, FetchInfo> r = Maps.newLinkedHashMap();
+    Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,6 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,7 +43,7 @@ class PerThreadReviewDbModule extends LifecycleModule {
   @Override
   protected void configure() {
     final List<ReviewDb> dbs = Collections.synchronizedList(
-        Lists.<ReviewDb> newArrayList());
+        new ArrayList<ReviewDb>());
     final ThreadLocal<ReviewDb> localDb = new ThreadLocal<>();
 
     bind(ReviewDb.class).toProvider(new Provider<ReviewDb>() {

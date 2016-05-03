@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.gerrit.server.plugins.Plugin;
@@ -36,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
@@ -60,7 +60,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
     this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
-    this.pluginConfigs = Maps.newHashMap();
+    this.pluginConfigs = new HashMap<>();
 
     this.cfgSnapshot = FileSnapshot.save(site.gerrit_config.toFile());
     this.cfg = cfgProvider.get();

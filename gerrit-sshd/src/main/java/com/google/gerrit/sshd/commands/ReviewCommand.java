@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -51,10 +50,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 @CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {
@@ -275,7 +276,7 @@ public class ReviewCommand extends SshCommand {
     review.message = Strings.emptyToNull(changeComment);
     review.tag = Strings.emptyToNull(changeTag);
     review.notify = notify;
-    review.labels = Maps.newTreeMap();
+    review.labels = new TreeMap<>();
     review.drafts = ReviewInput.DraftHandling.PUBLISH;
     review.strictLabels = strictLabels;
     for (ApproveOption ao : optionList) {
@@ -335,7 +336,7 @@ public class ReviewCommand extends SshCommand {
   @Override
   protected void parseCommandLine() throws UnloggedFailure {
     optionList = new ArrayList<>();
-    customLabels = Maps.newHashMap();
+    customLabels = new HashMap<>();
 
     ProjectControl allProjectsControl;
     try {

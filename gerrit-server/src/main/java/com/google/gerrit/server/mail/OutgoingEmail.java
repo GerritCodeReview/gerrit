@@ -18,7 +18,6 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -63,7 +62,7 @@ public abstract class OutgoingEmail {
   protected String messageClass;
   private final HashSet<Account.Id> rcptTo = new HashSet<>();
   private final Map<String, EmailHeader> headers;
-  private final Set<Address> smtpRcptTo = Sets.newHashSet();
+  private final Set<Address> smtpRcptTo = new HashSet<>();
   private Address smtpFromAddress;
   private StringBuilder body;
   protected VelocityContext velocityContext;

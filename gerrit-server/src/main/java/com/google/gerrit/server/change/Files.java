@@ -231,7 +231,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     private List<String> scan(Account.Id userId, PatchSet.Id psId)
         throws OrmException {
-      List<String> r = Lists.newArrayList();
+      List<String> r = new ArrayList<>();
       for (AccountPatchReview w : db.get().accountPatchReviews()
           .byReviewer(userId, psId)) {
         r.add(w.getKey().getPatchKey().getFileName());

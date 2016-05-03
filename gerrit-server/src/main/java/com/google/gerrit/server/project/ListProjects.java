@@ -21,8 +21,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -61,8 +59,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -179,7 +180,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupUuid = groupUuid;
   }
 
-  private final List<String> showBranch = Lists.newArrayList();
+  private final List<String> showBranch = new ArrayList<>();
   private boolean showTree;
   private FilterType type = FilterType.ALL;
   private boolean showDescription;
@@ -256,8 +257,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
     int foundIndex = 0;
     int found = 0;
-    TreeMap<String, ProjectInfo> output = Maps.newTreeMap();
-    Map<String, String> hiddenNames = Maps.newHashMap();
+    TreeMap<String, ProjectInfo> output = new TreeMap<>();
+    Map<String, String> hiddenNames = new HashMap<>();
     Set<String> rejected = new HashSet<>();
 
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
@@ -357,7 +358,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                   Ref ref = refs.get(i);
                   if (ref != null && ref.getObjectId() != null) {
                     if (info.branches == null) {
-                      info.branches = Maps.newLinkedHashMap();
+                      info.branches = new LinkedHashMap<>();
                     }
                     info.branches.put(showBranch.get(i), ref.getObjectId().name());
                   }

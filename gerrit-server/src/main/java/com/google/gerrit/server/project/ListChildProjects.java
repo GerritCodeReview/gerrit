@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -25,7 +23,9 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +64,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   private List<ProjectInfo> getDirectChildProjects(Project.NameKey parent) {
-    List<ProjectInfo> childProjects = Lists.newArrayList();
+    List<ProjectInfo> childProjects = new ArrayList<>();
     for (Project.NameKey projectName : projectCache.all()) {
       ProjectState e = projectCache.get(projectName);
       if (e == null) {
@@ -80,7 +80,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   private List<ProjectInfo> getChildProjectsRecursively(Project.NameKey parent,
       CurrentUser user) {
-    Map<Project.NameKey, ProjectNode> projects = Maps.newHashMap();
+    Map<Project.NameKey, ProjectNode> projects = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
       ProjectState p = projectCache.get(name);
       if (p == null) {
@@ -106,7 +106,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   private List<ProjectInfo> getChildProjectsRecursively(ProjectNode p) {
-    List<ProjectInfo> allChildren = Lists.newArrayList();
+    List<ProjectInfo> allChildren = new ArrayList<>();
     for (ProjectNode c : p.getChildren()) {
       if (c.isVisible()) {
         allChildren.add(json.format(c.getProject()));

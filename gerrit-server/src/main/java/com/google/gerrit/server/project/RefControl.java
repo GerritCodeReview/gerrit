@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -45,6 +43,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,8 +127,8 @@ public class RefControl {
   public boolean isVisibleByRegisteredUsers() {
     List<PermissionRule> access = relevant.getPermission(Permission.READ);
     List<PermissionRule> overridden = relevant.getOverridden(Permission.READ);
-    Set<ProjectRef> allows = Sets.newHashSet();
-    Set<ProjectRef> blocks = Sets.newHashSet();
+    Set<ProjectRef> allows = new HashSet<>();
+    Set<ProjectRef> blocks = new HashSet<>();
     for (PermissionRule rule : access) {
       if (rule.isBlock()) {
         blocks.add(relevant.getRuleProps(rule));
@@ -506,7 +505,7 @@ public class RefControl {
 
   private PermissionRange toRange(String permissionName,
       List<PermissionRule> ruleList) {
-    Map<ProjectRef, AllowedRange> ranges = Maps.newHashMap();
+    Map<ProjectRef, AllowedRange> ranges = new HashMap<>();
     for (PermissionRule rule : ruleList) {
       ProjectRef p = relevant.getRuleProps(rule);
       AllowedRange r = ranges.get(p);
@@ -546,8 +545,8 @@ public class RefControl {
   private boolean doCanPerform(String permissionName, boolean blockOnly) {
     List<PermissionRule> access = access(permissionName);
     List<PermissionRule> overridden = relevant.getOverridden(permissionName);
-    Set<ProjectRef> allows = Sets.newHashSet();
-    Set<ProjectRef> blocks = Sets.newHashSet();
+    Set<ProjectRef> allows = new HashSet<>();
+    Set<ProjectRef> blocks = new HashSet<>();
     for (PermissionRule rule : access) {
       if (rule.isBlock() && !rule.getForce()) {
         blocks.add(relevant.getRuleProps(rule));
@@ -566,8 +565,8 @@ public class RefControl {
   private boolean canForcePerform(String permissionName) {
     List<PermissionRule> access = access(permissionName);
     List<PermissionRule> overridden = relevant.getOverridden(permissionName);
-    Set<ProjectRef> allows = Sets.newHashSet();
-    Set<ProjectRef> blocks = Sets.newHashSet();
+    Set<ProjectRef> allows = new HashSet<>();
+    Set<ProjectRef> blocks = new HashSet<>();
     for (PermissionRule rule : access) {
       if (rule.isBlock()) {
         blocks.add(relevant.getRuleProps(rule));
@@ -588,8 +587,8 @@ public class RefControl {
   private boolean isForceBlocked(String permissionName) {
     List<PermissionRule> access = access(permissionName);
     List<PermissionRule> overridden = relevant.getOverridden(permissionName);
-    Set<ProjectRef> allows = Sets.newHashSet();
-    Set<ProjectRef> blocks = Sets.newHashSet();
+    Set<ProjectRef> allows = new HashSet<>();
+    Set<ProjectRef> blocks = new HashSet<>();
     for (PermissionRule rule : access) {
       if (rule.isBlock()) {
         blocks.add(relevant.getRuleProps(rule));

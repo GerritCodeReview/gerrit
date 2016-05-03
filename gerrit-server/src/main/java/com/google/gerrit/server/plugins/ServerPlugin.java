@@ -30,6 +30,8 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -198,7 +200,7 @@ public class ServerPlugin extends Plugin {
     }
 
     if (env.hasSshModule()) {
-      List<Module> modules = Lists.newLinkedList();
+      List<Module> modules = new LinkedList<>();
       if (getApiType() == ApiType.PLUGIN) {
         modules.add(env.getSshModule());
       }
@@ -214,7 +216,7 @@ public class ServerPlugin extends Plugin {
     }
 
     if (env.hasHttpModule()) {
-      List<Module> modules = Lists.newLinkedList();
+      List<Module> modules = new LinkedList<>();
       if (getApiType() == ApiType.PLUGIN) {
         modules.add(env.getHttpModule());
       }
@@ -279,7 +281,7 @@ public class ServerPlugin extends Plugin {
     if (serverManager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {
         if (reloadableHandles == null) {
-          reloadableHandles = Lists.newArrayList();
+          reloadableHandles = new ArrayList<>();
         }
         reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }

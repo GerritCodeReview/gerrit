@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -37,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 class ListDashboards implements RestReadView<ProjectResource> {
@@ -61,7 +61,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
       return scan(resource.getControl(), project, true);
     }
 
-    List<List<DashboardInfo>> all = Lists.newArrayList();
+    List<List<DashboardInfo>> all = new ArrayList<>();
     boolean setDefault = true;
     for (ProjectState ps : ctl.getProjectState().tree()) {
       ctl = ps.controlFor(ctl.getUser());
@@ -85,7 +85,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
     Project.NameKey projectName = ctl.getProject().getNameKey();
     try (Repository git = gitManager.openRepository(projectName);
         RevWalk rw = new RevWalk(git)) {
-      List<DashboardInfo> all = Lists.newArrayList();
+      List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
         if (ctl.controlForRef(ref.getName()).canRead()) {
           all.addAll(scanDashboards(ctl.getProject(), git, rw, ref,
@@ -101,7 +101,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
   private List<DashboardInfo> scanDashboards(Project definingProject,
       Repository git, RevWalk rw, Ref ref, String project, boolean setDefault)
       throws IOException {
-    List<DashboardInfo> list = Lists.newArrayList();
+    List<DashboardInfo> list = new ArrayList<>();
     try (TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
       tw.addTree(rw.parseTree(ref.getObjectId()));
       tw.setRecursive(true);

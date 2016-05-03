@@ -49,7 +49,7 @@
         value: function() { return {}; },
       },
 
-      changesPerPage: Number,
+      _changesPerPage: Number,
 
       /**
        * Currently active query.
@@ -67,11 +67,6 @@
       _changes: Array,
 
       /**
-       * Contains error of last request (in case of change loading error).
-       */
-      _lastError: Object,
-
-      /**
        * For showing a "loading..." string during ajax requests.
        */
       _loading: {
@@ -80,10 +75,6 @@
       },
     },
 
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
-
     attached: function() {
       this.fire('title-change', {title: this._query});
     },
@@ -91,6 +82,7 @@
     _paramsChanged: function(value) {
       if (value.view != this.tagName.toLowerCase()) { return; }
 
+      this._loading = true;
       this._query = value.query;
       this._offset = value.offset || 0;
       if (this.viewState.query != this._query ||
@@ -101,22 +93,23 @@
       }
 
       this.fire('title-change', {title: this._query});
+
+      this._getPreferences().then(function(prefs) {
+        this._changesPerPage = prefs.changes_per_page;
+        return this._getChanges();
+      }.bind(this)).then(function(changes) {
+        this._changes = changes;
+        this._loading = false;
+      }.bind(this));
     },
 
-    _computeQueryParams: function(query, offset, changesPerPage) {
-      var options = this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.DETAILED_ACCOUNTS
-      );
-      var obj = {
-        n: changesPerPage,
-        O: options,
-        S: offset || 0,
-      };
-      if (query && query.length > 0) {
-        obj.q = query;
-      }
-      return obj;
+    _getChanges: function() {
+      return this.$.restAPI.getChanges(this._changesPerPage, this._query,
+          this._offset);
+    },
+
+    _getPreferences: function() {
+      return this.$.restAPI.getPreferences();
     },
 
     _computeNavLink: function(query, offset, direction, changesPerPage) {

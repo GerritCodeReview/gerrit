@@ -153,7 +153,29 @@
     },
 
     getDiffPreferences: function() {
-      return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+      return this.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+        }
+        // These defaults should match the defaults in
+        // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+        // NOTE: There are some settings that don't apply to PolyGerrit
+        // (Render mode being at least one of them).
+        return Promise.resolve({
+          auto_hide_diff_table_header: true,
+          context: 10,
+          cursor_blink_rate: 0,
+          ignore_whitespace: 'IGNORE_NONE',
+          intraline_difference: true,
+          line_length: 100,
+          show_line_endings: true,
+          show_tabs: true,
+          show_whitespace_errors: true,
+          syntax_highlighting: true,
+          tab_size: 8,
+          theme: 'DEFAULT',
+        });
+      }.bind(this));
     },
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
@@ -172,7 +194,15 @@
     },
 
     getPreferences: function() {
-      return this._fetchSharedCacheURL('/accounts/self/preferences');
+      return this.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          return this._fetchSharedCacheURL('/accounts/self/preferences');
+        }
+
+        return Promise.resolve({
+          changes_per_page: 25,
+        });
+      }.bind(this));
     },
 
     _fetchSharedCacheURL: function(url) {
@@ -195,6 +225,22 @@
           throw err;
         }.bind(this));
       return this._sharedFetchPromises[url];
+    },
+
+    getChanges: function(changesPerPage, opt_query, opt_offset) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS
+      );
+      var params = {
+        n: changesPerPage,
+        O: options,
+        S: opt_offset || 0,
+      };
+      if (opt_query && opt_query.length > 0) {
+        params.q = opt_query;
+      }
+      return this.fetchJSON('/changes/', null, null, params);
     },
 
     getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {

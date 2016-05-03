@@ -43,6 +43,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -306,8 +307,8 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
             return sshKey.getKey().get();
           }
         });
-    keys = Collections.nCopies(o.max(newKeys).getKey().get(),
-        Optional.<AccountSshKey> absent());
+    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).getKey().get(),
+        Optional.<AccountSshKey> absent()));
     for (AccountSshKey key : newKeys) {
       keys.set(key.getKey().get() - 1, Optional.of(key));
     }

@@ -88,6 +88,7 @@ public class ChangeEditModifier {
     RENAME_ENTRY,
     RESTORE_ENTRY
   }
+
   private final TimeZone tz;
   private final GitRepositoryManager gitManager;
   private final ChangeIndexer indexer;
@@ -95,7 +96,8 @@ public class ChangeEditModifier {
   private final Provider<CurrentUser> currentUser;
 
   @Inject
-  ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
+  ChangeEditModifier(
+      @GerritPersonIdent PersonIdent gerritIdent,
       GitRepositoryManager gitManager,
       ChangeIndexer indexer,
       Provider<ReviewDb> reviewDb,
@@ -135,10 +137,9 @@ public class ChangeEditModifier {
 
       try (RevWalk rw = new RevWalk(repo)) {
         ObjectId revision = ObjectId.fromString(ps.getRevision().get());
-        String editRefName = RefNames.refsEdit(me.getAccountId(), change.getId(),
-            ps.getId());
-        Result res = update(repo, me, editRefName, rw, ObjectId.zeroId(),
-            revision, TimeUtil.nowTs());
+        String editRefName = RefNames.refsEdit(me.getAccountId(), change.getId(), ps.getId());
+        Result res =
+            update(repo, me, editRefName, rw, ObjectId.zeroId(), revision, TimeUtil.nowTs());
         indexer.index(reviewDb.get(), change);
         return res;
       }
@@ -156,31 +157,27 @@ public class ChangeEditModifier {
    * @throws IOException
    */
   public void rebaseEdit(ChangeEdit edit, PatchSet current)
-      throws AuthException, ResourceConflictException,
-      InvalidChangeOperationException, IOException {
+      throws AuthException, ResourceConflictException, InvalidChangeOperationException,
+          IOException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
 
     Change change = edit.getChange();
     IdentifiedUser me = currentUser.get().asIdentifiedUser();
-    String refName = RefNames.refsEdit(me.getAccountId(), change.getId(),
-        current.getId());
+    String refName = RefNames.refsEdit(me.getAccountId(), change.getId(), current.getId());
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
         ObjectInserter inserter = repo.newObjectInserter()) {
       BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
       RevCommit editCommit = edit.getEditCommit();
       if (editCommit.getParentCount() == 0) {
-        throw new InvalidChangeOperationException(
-            "Rebase edit against root commit not supported");
+        throw new InvalidChangeOperationException("Rebase edit against root commit not supported");
       }
-      RevCommit tip = rw.parseCommit(ObjectId.fromString(
-          current.getRevision().get()));
+      RevCommit tip = rw.parseCommit(ObjectId.fromString(current.getRevision().get()));
       ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
       m.setObjectInserter(inserter);
-      m.setBase(ObjectId.fromString(
-          edit.getBasePatchSet().getRevision().get()));
+      m.setBase(ObjectId.fromString(edit.getBasePatchSet().getRevision().get()));
 
       if (m.merge(tip, editCommit)) {
         ObjectId tree = m.getResultTreeId();
@@ -191,16 +188,14 @@ public class ChangeEditModifier {
           commit.addParentId(tip.getParent(i));
         }
         commit.setAuthor(editCommit.getAuthorIdent());
-        commit.setCommitter(new PersonIdent(
-            editCommit.getCommitterIdent(), TimeUtil.nowTs()));
+        commit.setCommitter(new PersonIdent(editCommit.getCommitterIdent(), TimeUtil.nowTs()));
         commit.setMessage(editCommit.getFullMessage());
         ObjectId newEdit = inserter.insert(commit);
         inserter.flush();
 
-        ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), newEdit,
-            refName));
-        ru.addCommand(new ReceiveCommand(edit.getRef().getObjectId(),
-            ObjectId.zeroId(), edit.getRefName()));
+        ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), newEdit, refName));
+        ru.addCommand(
+            new ReceiveCommand(edit.getRef().getObjectId(), ObjectId.zeroId(), edit.getRefName()));
         ru.execute(rw, NullProgressMonitor.INSTANCE);
         for (ReceiveCommand cmd : ru.getCommands()) {
           if (cmd.getResult() != ReceiveCommand.Result.OK) {
@@ -227,7 +222,7 @@ public class ChangeEditModifier {
    */
   public RefUpdate.Result modifyMessage(ChangeEdit edit, String msg)
       throws AuthException, InvalidChangeOperationException, IOException,
-      UnchangedCommitMessageException {
+          UnchangedCommitMessageException {
     msg = msg.trim() + "\n";
     checkState(!Strings.isNullOrEmpty(msg), "message cannot be null");
     if (!currentUser.get().isIdentifiedUser()) {
@@ -246,9 +241,7 @@ public class ChangeEditModifier {
         ObjectInserter inserter = repo.newObjectInserter()) {
       String refName = edit.getRefName();
       Timestamp now = TimeUtil.nowTs();
-      ObjectId commit = createCommit(me, inserter, prevEdit,
-          prevEdit.getTree(),
-          msg, now);
+      ObjectId commit = createCommit(me, inserter, prevEdit, prevEdit.getTree(), msg, now);
       inserter.flush();
       return update(repo, me, refName, rw, prevEdit, commit, now);
     }
@@ -265,9 +258,8 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException
    * @throws IOException
    */
-  public RefUpdate.Result modifyFile(ChangeEdit edit,
-      String file, RawInput content) throws AuthException,
-      InvalidChangeOperationException, IOException {
+  public RefUpdate.Result modifyFile(ChangeEdit edit, String file, RawInput content)
+      throws AuthException, InvalidChangeOperationException, IOException {
     return modify(TreeOperation.CHANGE_ENTRY, edit, file, null, content);
   }
 
@@ -281,9 +273,8 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException
    * @throws IOException
    */
-  public RefUpdate.Result deleteFile(ChangeEdit edit,
-      String file) throws AuthException, InvalidChangeOperationException,
-      IOException {
+  public RefUpdate.Result deleteFile(ChangeEdit edit, String file)
+      throws AuthException, InvalidChangeOperationException, IOException {
     return modify(TreeOperation.DELETE_ENTRY, edit, file, null, null);
   }
 
@@ -298,9 +289,8 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException
    * @throws IOException
    */
-  public RefUpdate.Result renameFile(ChangeEdit edit, String file,
-      String newFile) throws AuthException, InvalidChangeOperationException,
-      IOException {
+  public RefUpdate.Result renameFile(ChangeEdit edit, String file, String newFile)
+      throws AuthException, InvalidChangeOperationException, IOException {
     return modify(TreeOperation.RENAME_ENTRY, edit, file, newFile, null);
   }
 
@@ -314,14 +304,17 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException
    * @throws IOException
    */
-  public RefUpdate.Result restoreFile(ChangeEdit edit,
-      String file) throws AuthException, InvalidChangeOperationException,
-      IOException {
+  public RefUpdate.Result restoreFile(ChangeEdit edit, String file)
+      throws AuthException, InvalidChangeOperationException, IOException {
     return modify(TreeOperation.RESTORE_ENTRY, edit, file, null, null);
   }
 
-  private RefUpdate.Result modify(TreeOperation op, ChangeEdit edit,
-      String file, @Nullable String newFile, @Nullable RawInput content)
+  private RefUpdate.Result modify(
+      TreeOperation op,
+      ChangeEdit edit,
+      String file,
+      @Nullable String newFile,
+      @Nullable RawInput content)
       throws AuthException, IOException, InvalidChangeOperationException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -334,14 +327,9 @@ public class ChangeEditModifier {
         ObjectReader reader = repo.newObjectReader()) {
       String refName = edit.getRefName();
       RevCommit prevEdit = edit.getEditCommit();
-      ObjectId newTree = writeNewTree(op,
-          rw,
-          inserter,
-          prevEdit,
-          reader,
-          file,
-          newFile,
-          toBlob(inserter, content));
+      ObjectId newTree =
+          writeNewTree(
+              op, rw, inserter, prevEdit, reader, file, newFile, toBlob(inserter, content));
       if (ObjectId.equals(newTree, prevEdit.getTree())) {
         throw new InvalidChangeOperationException("no changes were made");
       }
@@ -367,14 +355,19 @@ public class ChangeEditModifier {
     return ins.insert(OBJ_BLOB, len, in);
   }
 
-  private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit revision, ObjectId tree, Timestamp when) throws IOException {
-    return createCommit(me, inserter, revision, tree,
-        revision.getFullMessage(), when);
+  private ObjectId createCommit(
+      IdentifiedUser me, ObjectInserter inserter, RevCommit revision, ObjectId tree, Timestamp when)
+      throws IOException {
+    return createCommit(me, inserter, revision, tree, revision.getFullMessage(), when);
   }
 
-  private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit revision, ObjectId tree, String msg, Timestamp when)
+  private ObjectId createCommit(
+      IdentifiedUser me,
+      ObjectInserter inserter,
+      RevCommit revision,
+      ObjectId tree,
+      String msg,
+      Timestamp when)
       throws IOException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(tree);
@@ -385,9 +378,15 @@ public class ChangeEditModifier {
     return inserter.insert(builder);
   }
 
-  private RefUpdate.Result update(Repository repo, IdentifiedUser me,
-      String refName, RevWalk rw, ObjectId oldObjectId, ObjectId newEdit,
-      Timestamp when) throws IOException {
+  private RefUpdate.Result update(
+      Repository repo,
+      IdentifiedUser me,
+      String refName,
+      RevWalk rw,
+      ObjectId oldObjectId,
+      ObjectId newEdit,
+      Timestamp when)
+      throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setExpectedOldObjectId(oldObjectId);
     ru.setNewObjectId(newEdit);
@@ -395,17 +394,22 @@ public class ChangeEditModifier {
     ru.setRefLogMessage("inline edit (amend)", false);
     ru.setForceUpdate(true);
     RefUpdate.Result res = ru.update(rw);
-    if (res != RefUpdate.Result.NEW &&
-        res != RefUpdate.Result.FORCED) {
+    if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
       throw new IOException("update failed: " + ru);
     }
     return res;
   }
 
-  private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
-      ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
-      String fileName, @Nullable String newFile,
-      @Nullable final ObjectId content) throws IOException {
+  private static ObjectId writeNewTree(
+      TreeOperation op,
+      RevWalk rw,
+      ObjectInserter ins,
+      RevCommit prevEdit,
+      ObjectReader reader,
+      String fileName,
+      @Nullable String newFile,
+      @Nullable final ObjectId content)
+      throws IOException {
     DirCache newTree = readTree(reader, prevEdit);
     DirCacheEditor dce = newTree.editor();
     switch (op) {
@@ -415,8 +419,7 @@ public class ChangeEditModifier {
 
       case RENAME_ENTRY:
         rw.parseHeaders(prevEdit);
-        TreeWalk tw =
-            TreeWalk.forPath(rw.getObjectReader(), fileName, prevEdit.getTree());
+        TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), fileName, prevEdit.getTree());
         if (tw != null) {
           dce.add(new DeletePath(fileName));
           addFileToCommit(newFile, dce, tw);
@@ -425,15 +428,16 @@ public class ChangeEditModifier {
 
       case CHANGE_ENTRY:
         checkNotNull(content, "new content required");
-        dce.add(new PathEdit(fileName) {
-          @Override
-          public void apply(DirCacheEntry ent) {
-            if (ent.getRawMode() == 0) {
-              ent.setFileMode(FileMode.REGULAR_FILE);
-            }
-            ent.setObjectId(content);
-          }
-        });
+        dce.add(
+            new PathEdit(fileName) {
+              @Override
+              public void apply(DirCacheEntry ent) {
+                if (ent.getRawMode() == 0) {
+                  ent.setFileMode(FileMode.REGULAR_FILE);
+                }
+                ent.setObjectId(content);
+              }
+            });
         break;
 
       case RESTORE_ENTRY:
@@ -457,21 +461,20 @@ public class ChangeEditModifier {
     return newTree.writeTree(ins);
   }
 
-  private static void addFileToCommit(String newFile, DirCacheEditor dce,
-      TreeWalk tw) {
+  private static void addFileToCommit(String newFile, DirCacheEditor dce, TreeWalk tw) {
     final FileMode mode = tw.getFileMode(0);
     final ObjectId oid = tw.getObjectId(0);
-    dce.add(new PathEdit(newFile) {
-      @Override
-      public void apply(DirCacheEntry ent) {
-        ent.setFileMode(mode);
-        ent.setObjectId(oid);
-      }
-    });
+    dce.add(
+        new PathEdit(newFile) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            ent.setFileMode(mode);
+            ent.setObjectId(oid);
+          }
+        });
   }
 
-  private static DirCache readTree(ObjectReader reader, RevCommit prevEdit)
-      throws IOException {
+  private static DirCache readTree(ObjectReader reader, RevCommit prevEdit) throws IOException {
     DirCache dc = DirCache.newInCore();
     DirCacheBuilder b = dc.builder();
     b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, prevEdit.getTree());

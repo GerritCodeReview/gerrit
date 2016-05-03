@@ -126,20 +126,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
         throws OrmException, NoSuchChangeException {
-      ChangeNotes notes = create(db, c.getProject(), c.getId());
-      if (notes.getChange() == null) {
-        throw new NoSuchChangeException(c.getId());
-      }
-      return notes;
+      return createChecked(db, c.getProject(), c.getId());
     }
 
     public ChangeNotes createChecked(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException, NoSuchChangeException {
-      ChangeNotes notes = create(db, project, changeId);
-      if (notes.getChange() == null) {
+      Change change = unwrap(db).changes().get(changeId);
+      if (change == null || !change.getProject().equals(project)) {
         throw new NoSuchChangeException(changeId);
       }
-      return notes;
+      return new ChangeNotes(args, change).load();
     }
 
     public ChangeNotes createChecked(Change.Id changeId)

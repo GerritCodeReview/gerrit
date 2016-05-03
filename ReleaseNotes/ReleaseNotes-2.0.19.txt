@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.0.19, 2.0.19.1, 2.0.19.2
-===================================================
+= Release notes for Gerrit 2.0.19, 2.0.19.1, 2.0.19.2
 
 Gerrit 2.0.19.2 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Important Notices
------------------
+== Important Notices
 
 * Prior User Sessions
 +
@@ -25,8 +23,7 @@ Administrators who wish to preserve user sessions across server restarts must
 set [http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#cache.directory cache.directory] in gerrit.config.  This allows Gerrit to flush the set
 of active sessions to disk during shutdown, and load them back during startup.
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING: This version contains a schema change* (since 2.0.18)
 
@@ -44,8 +41,7 @@ Apply the database specific schema script:
 ----
 
 
-New Features
-------------
+== New Features
 * New ssh create-project command
 +
 Thanks to Ulrik Sjölin we now have `gerrit create-project`
@@ -171,8 +167,7 @@ the commit is uploaded for review.
 For more details, please see the docs:
 link:http://gerrit.googlecode.com/svn/documentation/2.0/user-changeid.html[http://gerrit.googlecode.com/svn/documentation/2.0/user-changeid.html]
 
-Bug Fixes
----------
+== Bug Fixes
 * Fix yet another ArrayIndexOutOfBounds during side-by-s...
 +
 We found yet another bug with the side-by-side view failing
@@ -230,8 +225,7 @@ It was possible for users to upload replacement commits to the
 wrong project, e.g. uploading a replacement commit to project
 B while picking a change number from project A.  Fixed.
 
-=Fixes in 2.0.19.1=
--------------------
+== =Fixes in 2.0.19.1=
 
 * Fix NPE during direct push to branch closing a change
 +
@@ -258,8 +252,7 @@ the pattern match wasn't quite right.  Fixed.
 +
 HTTP_LDAP broke using local usernames to match an account.  Fixed.
 
-=Fixes in 2.0.19.2=
--------------------
+== =Fixes in 2.0.19.2=
 * Don't line wrap project or group names in admin panels
 +
 Line wrapping group names like "All Users" when the description column
@@ -283,8 +276,7 @@ the hook should upgrade to the new hook, if possible.
 As reported on repo-discuss, recursive search is sometimes necessary,
 and is now the default.
 
-Removed Features
-----------------
+== Removed Features
 
 * Remove support for /user/email style URLs
 +
@@ -292,8 +284,7 @@ I decided to remove this URL, its a pain to support and not
 discoverable.  Its unlikely anyone is really using it, but if
 they are, they could try using "#q,owner:email,n,z" instead.
 
-Other Changes
--------------
+== Other Changes
 
 * Start 2.0.19 development
 * Document the Failure and UnloggedFailure classes in Ba...

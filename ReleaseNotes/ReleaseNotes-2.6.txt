@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.6
-============================
+= Release notes for Gerrit 2.6
 
 Gerrit 2.6 is now available:
 
@@ -12,8 +11,7 @@ link:ReleaseNotes-2.5.3.html[Gerrit 2.5.3], and
 link:ReleaseNotes-2.5.4.html[Gerrit 2.5.4]. These bug fixes are *not*
 listed in these release notes.
 
-Schema Change
--------------
+== Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
@@ -23,8 +21,7 @@ Schema Change
 a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
 newer, you may ignore this warning and upgrade directly to 2.6.x.
 
-Reverse Proxy Configuration Changes
------------------------------------
+== Reverse Proxy Configuration Changes
 
 If you are running a reverse proxy in front of Gerrit (e.g. Apache or Nginx),
 make sure to check your configuration, especially if you are encountering
@@ -34,8 +31,7 @@ Reverse Proxy Configuration] for details.
 
 Gerrit now requires passed URLs to be unchanged by the proxy.
 
-Release Highlights
-------------------
+== Release Highlights
 * 42x improvement on `git clone` and `git fetch`
 +
 Running link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
@@ -51,14 +47,11 @@ link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-lab
 labels] and link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html[
 Prolog rules].
 
-New Features
-------------
+== New Features
 
-Web UI
-~~~~~~
+=== Web UI
 
-Global
-^^^^^^
+==== Global
 
 * New Login Screens
 +
@@ -93,8 +86,7 @@ has scrolled down the page.
 
 * Add a link to the REST API documentation in the top menu.
 
-Search
-^^^^^^
+==== Search
 * Suggest projects, groups and users in search panel
 +
 Suggest projects, groups and users in the search panel as parameter for
@@ -107,8 +99,7 @@ those search operators that expect a project, group or user.
 The values that are suggested for the search operators in the search
 panel are now only quoted if they contain a whitespace.
 
-Change Screens
-^^^^^^^^^^^^^^
+==== Change Screens
 
 * A change's commit message can be edited from the change screen.
 
@@ -182,8 +173,7 @@ This makes it easier to use Gerrit on narrow screens.
 
 * Rename "Old Version History" to "Reference Version".
 
-Patch Screens
-^^^^^^^^^^^^^
+==== Patch Screens
 
 * Support for file comments
 +
@@ -205,8 +195,7 @@ This avoids alignment errors when syntax highlighting is enabled.
 
 * Enable expanding skipped lines even if 'Syntax Coloring' is off.
 
-Project Screens
-^^^^^^^^^^^^^^^
+==== Project Screens
 
 * Support filtering of projects in the project list screen
 +
@@ -260,8 +249,7 @@ the Not Found screen after sign in.
 Improve the error messages that are displayed in the WebUI if the
 creation of a branch fails due to invalid user input.
 
-Group Screens
-^^^^^^^^^^^^^
+==== Group Screens
 
 * Support filtering of groups in the group list screen
 +
@@ -276,8 +264,7 @@ that can be seen in Gerrit are of type 'INTERNAL', except a few
 well-known system groups which are of type 'SYSTEM'. The system groups
 are so well-known that there is no need to display the type for them.
 
-Dashboard Screens
-^^^^^^^^^^^^^^^^^
+==== Dashboard Screens
 
 * Link dashboard title to a URL version of itself
 +
@@ -290,8 +277,7 @@ does.
 
 * Increase time span for "Recently Closed" section in user dashboard to 4 weeks.
 
-Account Screens
-^^^^^^^^^^^^^^^
+==== Account Screens
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1740[Issue 1740]:
   Display description how to generate SSH Key in SshPanel
@@ -302,16 +288,14 @@ The GitHub SSH tutorial was partially not relevant and confused users.
 
 * Make the text for "Register" customizable
 
-Plugin Screens
-^^^^^^^^^^^^^^
+==== Plugin Screens
 
 * Show status for enabled plugins in the WebUI as 'Enabled'
 +
 Earlier no status was shown for enabled plugins, which was confusing to
 some users.
 
-REST API
-~~~~~~~~
+=== REST API
 
 * A big chunk of the Gerrit functionality is now available via the
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api.html[REST API].
@@ -443,8 +427,7 @@ responses are protected from accidental sniffing and treatment as
 HTML thanks to Gson encoding HTML control characters using Unicode
 character escapes within JSON strings.
 
-Project Dashboards
-~~~~~~~~~~~~~~~~~~
+=== Project Dashboards
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-dashboards.html#project-dashboards[
   Support for storing custom dashboards for projects]
 +
@@ -472,8 +455,7 @@ which a dashboard is being applied.
 The `foreach` parameter which will get appended to all the queries in
 the dashboard.
 
-Access Controls
-~~~~~~~~~~~~~~~
+=== Access Controls
 * Allow to overrule `BLOCK` permissions on the same project
 +
 It was impossible to block a permission for a group and allow the same
@@ -567,8 +549,7 @@ The problem was that assigning the `Push` access right for
 Having the `Push` access right for `refs/meta/config` on the
 `All-Projects` project without being administrator has no effect.
 
-Hooks
-~~~~~
+=== Hooks
 * Change topic is passed to hooks as `--topic NAME`.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1200[Issue 1200]:
 New `reviewer-added` hook and stream event when a reviewer is added.
@@ -581,8 +562,7 @@ New `ref-update` hook run before a push is accepted by Gerrit.
 
 * Add `--is-draft` parameter to `comment-added` hook
 
-Git
-~~~
+=== Git
 * Add options to `refs/for/` magic branch syntax
 +
 Git doesn't want to modify the network protocol to support passing
@@ -629,8 +609,7 @@ to download and install the commit-msg hook.
 
 * Add `oldObjectId` and `newObjectId` to the `GitReferenceUpdatedListener.Update`
 
-SSH
-~~~
+=== SSH
 * New SSH command to http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
   run Git garbage collection]
 +
@@ -659,8 +638,7 @@ commands with their descriptions.
 * http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-test-submit-type.html[
   test-submit type] tests the Prolog submit type with a chosen change.
 
-Query
-~~~~~
+=== Query
 * Allow `{}` to be used for quoting in query expressions
 +
 This makes it a little easier to query for group names that contain
@@ -676,8 +654,7 @@ a space over SSH:
 * When a file is renamed the old file name is included in the Patch
   attribute
 
-Plugins
-~~~~~~~
+=== Plugins
 * Plugins can contribute Prolog facts/predicates from Java.
 * Plugins can prompt for parameters during `init` with `InitStep`.
 * Plugins can now contribute JavaScript to the web UI. UI plugins can
@@ -697,8 +674,7 @@ An HTTP plugin may want more control over its URL space, but still
 delegate to the plugin servlet's magic handling for static files and
 documentation. Add JAR attributes to configure these prefixes.
 
-Prolog
-~~~~~~
+=== Prolog
 [[submit-type-from-prolog]]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#HowToWriteSubmitType[
   Support controlling the submit type for changes from Prolog]
@@ -723,8 +699,7 @@ added.
 
 * A new `max_with_block` predicate was added for more convenient usage
 
-Email
-~~~~~
+=== Email
 * Notify project watchers if draft change is published
 * Notify users mentioned in commit footer on draft publish
 * Add new notify type that allows watching of new patch sets
@@ -747,8 +722,7 @@ This may help automated systems to be less noisy. Tools can now choose
 which review updates should send email, and which categories of users
 on a change should get that email.
 
-Labels
-~~~~~~
+=== Labels
 * Approval categories stored in the database have been replaced with labels
   configured in `project.config`. Existing categories are migrated to
   `project.config` in `All-Projects` as part of the schema upgrade; no user
@@ -765,8 +739,7 @@ have `Code-Review`. When a team installs the Hudson/Jenkins integration
 or their own build system they can now trivially add the `Verified`
 category by pasting 5 lines into `project.config`.
 
-Dev
-~~~
+=== Dev
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-readme.html#debug-javascript[
   Support loading debug JavaScript]
@@ -815,8 +788,7 @@ be run unless `-Dgerrit.acceptance-tests.skip=True` is given on the command line
 * "Become Any Account" can be used for accounts whose full name is an empty string.
 
 
-Performance
-~~~~~~~~~~~
+=== Performance
 * Bitmap Optimizations
 +
 On running the http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
@@ -904,8 +876,7 @@ refs are visible and should be advertised to the user. To reduce
 database traffic a cache for changes was introduced. This cache is
 disabled by default since it can mess up multi-server setups.
 
-Misc
-~~~~
+=== Misc
 * Add config parameter to make new groups by default visible to all
 +
 Add a new http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#groups.newGroupsVisibleToAll[
@@ -1018,8 +989,7 @@ to support this feature for deployed war mode.
 
 * Show path to gerrit.war in command for upgrade schema
 
-Upgrades
-~~~~~~~~
+=== Upgrades
 * link:https://code.google.com/p/gerrit/issues/detail?id=1619[Issue 1619]:
 Embedded Jetty is now 8.1.7.v20120910.
 
@@ -1033,11 +1003,9 @@ prettify is now r225
 +
 Fixes some issues with IE9 and IE10.
 
-Bug Fixes
----------
+== Bug Fixes
 
-Web UI
-~~~~~~
+=== Web UI
 * link:https://code.google.com/p/gerrit/issues/detail?id=1662[Issue 1662]:
   Don't show error on ACL modification if empty permissions are added
 +
@@ -1234,8 +1202,7 @@ Don't show non-visible drafts in the diff screens.
 Correctly keep patch set ordering after a new patch set is added via
 the Web UI.
 
-REST API
-~~~~~~~~
+=== REST API
 * Fix returning of 'Email Reviewers' capability via REST
 +
 The `/accounts/self/capabilities/` didn't return the 'Email Reviewers'
@@ -1249,8 +1216,7 @@ capability always as true, which was wrong for the DENY case.
 * Provide a more descriptive error message for unauthenticated REST
   API access
 
-Git
-~~~
+=== Git
 * The wildcard `.` is now permitted in reference regex rules.
 
 * Checking if a change is mergeable no longer writes to the repository.
@@ -1356,8 +1322,7 @@ replaceCount. As a result, a confusing message like
 "Only 0 of 0 new change refs created in xxx; aborting"
 could appear in the error log.
 
-SSH
-~~~
+=== SSH
 * `review --restore` allows a review score to be added on the restored change.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1721[Issue 1721]:
@@ -1379,8 +1344,7 @@ failed with an NPE.
 
 * Fix setting account's full name via ssh.
 
-Query
-~~~~~
+=== Query
 * link:https://code.google.com/p/gerrit/issues/detail?id=1729[Issue 1729]:
   Fix query by 'label:Verified=0'
 
@@ -1389,8 +1353,7 @@ Query
 
 * Fix query cost for "status:merged commit:c0ffee"
 
-Plugins
-~~~~~~~
+=== Plugins
 * Skip disabled plugins on rescan
 +
 In a background thread Gerrit periodically scans for new or changed
@@ -1450,8 +1413,7 @@ REST API.
   Allow InternalUser (aka plugins) to see any internal group, and run
   plugin startup and shutdown as PluginUser.
 
-Email
-~~~~~
+=== Email
 * Merge failure emails are only sent once per day.
 * Unused macros are removed from the mail templates.
 * Unnecessary ellipses are no longer applied to email subjects.
@@ -1467,8 +1429,7 @@ Review comments are sorted before being added to notification emails.
 If a user is watching 'All Comments' on `All-Projects` this should
 apply to all projects.
 
-Misc
-~~~~
+=== Misc
 * Provide more descriptive message for NoSuchProjectException
 
 * On internal error due to receive timeout include the value of
@@ -1630,15 +1591,13 @@ Instead insert a unique token into `X-Gerrit-Auth`, leaving the HTTP
 standard `Authorization` header unspecified and available for use in
 HTTP reverse proxies.
 
-Documentation
--------------
+== Documentation
 
 The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/index.html[
 documentation index] is restructured to make it easier to use for different kinds of
 users.
 
-User Documentation
-~~~~~~~~~~~~~~~~~~
+=== User Documentation
 * Split link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api.html[
   REST API documentation] and have one page per top level resource
 
@@ -1750,8 +1709,7 @@ like "No DataSource" on the first deployment.
 * Fix external links in 2.0.21 and 2.0.24 release notes
 * Manual pages can be optionally created/installed for core gerrit ssh commands.
 
-Developer And Maintainer Documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Developer And Maintainer Documentation
 * Updated the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-eclipse.html#maven[
   Maven plugin installation instructions] for Eclipse 3.7 (Indigo).
 

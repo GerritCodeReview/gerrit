@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.11.5
-===============================
+= Release notes for Gerrit 2.11.5
 
 Gerrit 2.11.5 is now available:
 
@@ -9,8 +8,7 @@ https://gerrit-releases.storage.googleapis.com/gerrit-2.11.5.war]
 There are no schema changes from link:ReleaseNotes-2.11.4.html[2.11.4].
 
 
-Important Notes
----------------
+== Important Notes
 
 *WARNING:* This release uses a forked version of buck.
 
@@ -25,8 +23,7 @@ the remotes in the buck checkout:
 ----
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=3442[Issue 3442]:
 Handle commit validation errors when creating/editing changes via REST.

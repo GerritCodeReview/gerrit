@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.6
-==============================
+= Release notes for Gerrit 2.1.6
 
 Gerrit 2.1.6 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.1.6.war[https://www.gerritcodereview.com/download/gerrit-2.1.6.war]
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING* This release contains multiple schema changes.  To upgrade:
 ----
@@ -14,11 +12,9 @@ Schema Change
 ----
 
 
-New Features
-------------
+== New Features
 
-Web UI
-~~~~~~
+=== Web UI
 * issue 312 Abandoned changes can now be restored.
 * issue 698 Make date and time fields customizable
 * issue 556 Preference to display patch sets in reverse order
@@ -39,8 +35,7 @@ allowing Gerrit to automatically resolve many path conflict cases.
 This is built upon experimental merge code inherited from JGit,
 and is therefore still experimental in Gerrit.
 
-Change Query
-~~~~~~~~~~~~
+=== Change Query
 * issue 688 Match branch, topic, project, ref by regular expressions
 +
 Similar to other features in Gerrit Code Review, starting any of these
@@ -80,8 +75,7 @@ Whenever a ref is updated via either a direct push to a branch or a
 Gerrit change submission, Gerrit will now send a new "ref-updated"
 event to the event stream.
 
-User Management
-~~~~~~~~~~~~~~~
+=== User Management
 * SSO via client SSL certificates
 +
 A new auth.type of CLIENT_SSL_CERT_LDAP supports authenticating users
@@ -123,8 +117,7 @@ Connection to review.example.com closed.
 The internal SSH daemon now supports additional configuration
 settings to reduce the risk of abuse.
 
-Administration
-~~~~~~~~~~~~~~
+=== Administration
 * issue 558 Allow Access rights to be edited by clicking on them.
 
 * New 'Project Owner' system group to define default rights
@@ -186,11 +179,9 @@ useful after performing a project-wide filter-branch operation to
 prevent the older (pre-filter-branch) history from being reintroduced
 into the repository.
 
-Bug Fixes
----------
+== Bug Fixes
 
-Web UI
-~~~~~~
+=== Web UI
 * issue 498 Enable Keyboard navigation after change submit
 * issue 691 Make ']' on last file go up to change
 * issue 741 Make ENTER work for 'Create Group'
@@ -224,13 +215,11 @@ know about code names contained within either string.  Users that
 are not project owners may now only view access rights for branches
 they have at least READ +1 permission on.
 
-Change Query
-~~~~~~~~~~~~
+=== Change Query
 * issue 689 Fix age:4days to parse correctly
 * Make branch: operator slightly less ambiguous
 
-Push Support
-~~~~~~~~~~~~
+=== Push Support
 * issue 695 Permit changing only the author of a commit
 +
 Correcting only the author of a change failed to upload the new patch
@@ -257,8 +246,7 @@ Users who had direct branch push permission but lacked the ability to
 create changes for review were unable to push to a project.  Fixed.
 This (finally) makes Gerrit a replacement for Gitosis or Gitolite.
 
-Replication
-~~~~~~~~~~~
+=== Replication
 * issue 683 Don't assume authGroup = "Registered Users" in replication
 +
 Previously a misconfigured authGroup in replication.config may have
@@ -281,8 +269,7 @@ such as `refs/dev/'$\{username\}'/*`.
 
 * issue 658 Allow refspec shortcuts (push = master) for replication
 
-User Management
-~~~~~~~~~~~~~~~
+=== User Management
 * Ensure proper escaping of LDAP group names
 +
 Some special characters may appear in LDAP group names, these must be
@@ -295,8 +282,7 @@ If the user name for a new account is supposed to import from LDAP
 but cannot because it is already in use by another user on this
 server, the new account won't be created.
 
-Administration
-~~~~~~~~~~~~~~
+=== Administration
 * gerrit.sh: actually verify running processes
 +
 Previously `gerrit.sh check` claimed a server was running if the
@@ -317,6 +303,5 @@ Permissions in the parent project could not be overridden in the
 child project.  Permissions can now be overidden if the category,
 group name and reference name all match.
 
-Version
--------
+== Version
 ef16a1816f293d00c33de9f90470021e2468a709

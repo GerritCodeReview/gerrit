@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.9.3
-==============================
+= Release notes for Gerrit 2.9.3
 
 Download:
 link:https://www.gerritcodereview.com/download/gerrit-2.9.3.war[
 https://www.gerritcodereview.com/download/gerrit-2.9.3.war]
 
-Important Notes
----------------
+== Important Notes
 
 *WARNING:* There are no schema changes from
 link:ReleaseNotes-2.9.2.html[2.9.2], but when upgrading from an existing site
@@ -28,8 +26,7 @@ libraries should be manually removed from site's `lib` folder to prevent the
 startup failure described in
 link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
 
-Bug Fixes
----------
+== Bug Fixes
 
 *Downgrade SSHD to 0.9.0-4-g5967cfd*
 

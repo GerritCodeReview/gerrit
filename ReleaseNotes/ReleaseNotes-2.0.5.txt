@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.5
-==============================
+= Release notes for Gerrit 2.0.5
 
 Gerrit 2.0.5 is now available in the usual location:
 
@@ -15,8 +14,7 @@ If you use an OpenID authentication provider, you may want to review the new tru
 
 link:http://gerrit.googlecode.com/svn/documentation/2.0/config-sso.html[http://gerrit.googlecode.com/svn/documentation/2.0/config-sso.html]
 
-New Features
-------------
+== New Features
 
 * GERRIT-62  Work around IE6's inability to set innerHTML on a tbody ...
 * GERRIT-62  Upgrade to gwtjsonrpc 1.0.2 for ie6 support
@@ -35,14 +33,12 @@ These features allow a site to lock down access to only a trusted OpenID provide
 +
 These features make it easier to copy patch download commands.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * GERRIT-79  Error out with more useful message on "push :refs/change...
 * Invalidate all SSH keys when otherwise flushing all cach...
 
-Other Changes
--------------
+== Other Changes
 
 * Set version 2.0.4-SNAPSHOT
 * Correct note in developer setup about building SSHD

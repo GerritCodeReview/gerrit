@@ -52,7 +52,7 @@ def genasciidoc_htmlonly(
 
     genrule(
       name = ex,
-      cmd = '$(exe :replace_macros) --suffix="%s"' % EXPN +
+      cmd = '$(exe //Documentation:replace_macros) --suffix="%s"' % EXPN +
         ' -s ' + passed_src + ' -o $OUT' +
         (' --searchbox' if searchbox else ' --no-searchbox'),
       srcs = srcs,
@@ -72,11 +72,13 @@ def genasciidoc_htmlonly(
 def genasciidoc(
     name,
     out,
-    docdir,
+    directory,
     srcs = [],
     attributes = [],
     backend = None,
     searchbox = True,
+    licenses = True,
+    prettify = True,
     visibility = []):
   SUFFIX = '_htmlonly'
 
@@ -89,23 +91,31 @@ def genasciidoc(
     out = name + SUFFIX + '.zip',
   )
 
+  prettify_deps = []
+  if prettify:
+    prettify_deps = [
+        '//gerrit-prettify:prettify.min.css',
+        '//gerrit-prettify:prettify.min.js',
+    ]
+  copy_license = ''
+  if licenses:
+    copy_license = 'cp $(location %s) LICENSES.txt;' % ':licenses.txt'
+
   genrule(
     name = name,
     cmd = 'cd $TMP;' +
-      'mkdir -p %s/images;' % docdir +
+      'mkdir -p %s/images;' % directory +
       'unzip -q $(location %s) -d %s/;'
-      % (':' + name + SUFFIX, docdir) +
-      'for s in $SRCS;do ln -s $s %s;done;' % docdir +
-      'mv %s/*.{jpg,png} %s/images;' % (docdir, docdir) +
-      'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
+      % (':' + name + SUFFIX, directory) +
+      'for s in $SRCS;do ln -s $s %s/;done;' % directory +
+      'for i in %s/*.{jpg,png};do if [ -e "$i" ];then mv $i %s/images/;fi;done;'
+      % (directory, directory) +
+      copy_license +
       'zip -qr $OUT *',
     srcs = glob([
         'images/*.jpg',
         'images/*.png',
-      ]) + [
-        '//gerrit-prettify:prettify.min.css',
-        '//gerrit-prettify:prettify.min.js',
-      ],
+      ]) + prettify_deps,
     out = out,
     visibility = visibility,
   )

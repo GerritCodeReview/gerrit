@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.1.5
-==============================
+= Release notes for Gerrit 2.1.5
 
 Gerrit 2.1.5 is now available:
 
@@ -8,8 +7,7 @@ link:https://www.gerritcodereview.com/download/gerrit-2.1.5.war[https://www.gerr
 This is primarily a bug fix release to 2.1.4, but some additional
 new features were included so its named 2.1.5 rather than 2.1.4.1.
 
-Upgrade Instructions
---------------------
+== Upgrade Instructions
 
 If upgrading from version 2.1.4, simply replace the WAR file in
 `'site_path'/bin/gerrit.war` and restart Gerrit.
@@ -18,11 +16,9 @@ If upgrading from version 2.1.3 or earlier, stop Gerrit, use
 `java -jar gerrit.war init -d 'site_path'` to upgrade the schema,
 and restart Gerrit.
 
-New Features
-------------
+== New Features
 
-Web UI
-~~~~~~
+=== Web UI
 * issue 361 Enable commenting on commit messages
 +
 The commit message of a change can now be commented on inline, and
@@ -49,8 +45,7 @@ repo.showDownloadCommand.
 A 'diffstat' is shown for each file, summarizing the size of the
 change on that file in terms of number of lines added or deleted.
 
-Email Notifications
-~~~~~~~~~~~~~~~~~~~
+=== Email Notifications
 * issue 452 Include a quick summary of the size of a change in email
 +
 After the file listing, a summary totaling the number of files
@@ -58,11 +53,9 @@ changed, lines added, and lines removed is displayed.  This may
 help reviewers to get a quick estimation on the time required for
 them to review the change.
 
-Bug Fixes
----------
+== Bug Fixes
 
-Web UI
-~~~~~~
+=== Web UI
 * issue 639 Fix keyboard shortcuts under Chrome/Safari
 +
 Keyboard shortcuts didn't work properly on modern WebKit browsers
@@ -91,8 +84,7 @@ show the current user's star settings, even though the star icon
 is present and will toggle the user's starred flag for that change.
 Fixed.
 
-Access Control
-~~~~~~~~~~~~~~
+=== Access Control
 * issue 672 Fix branch owner adding exclusive ACL
 +
 Branch owners could not add exclusive ACLs within their branch
@@ -118,8 +110,7 @@ Read access control within the local project.  This was a coding
 bug which failed to consider the project inheritance if any branch
 (not just the one being uploaded to) denied upload access.
 
-Misc.
-~~~~~
+=== Misc.
 * issue 641 Don't pass null arguments to hooks
 +
 Some hooks crashed inside of the server during invocation because the
@@ -162,12 +153,10 @@ gitweb.cgi accepts either ';' or '&' between parameters, but
 Gerrit Code Review was only accepting the ';' syntax.  Fixed
 to support both.
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 * Fixed example for gerrit create-account.
 * gerrit.sh: Correct /etc/default path in error message
 
-Version
--------
+== Version
 
 2765ff9e5f821100e9ca671f4d502b5c938457a5

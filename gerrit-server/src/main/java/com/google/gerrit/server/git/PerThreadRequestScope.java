@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -25,6 +24,7 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -37,7 +37,7 @@ public class PerThreadRequestScope {
     private final Map<Key<?>, Object> map;
 
     private Context() {
-      map = Maps.newHashMap();
+      map = new HashMap<>();
     }
 
     private <T> T get(Key<T> key, Provider<T> creator) {

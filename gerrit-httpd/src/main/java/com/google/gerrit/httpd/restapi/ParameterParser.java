@@ -24,7 +24,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Url;
@@ -40,6 +39,7 @@ import org.kohsuke.args4j.CmdLineException;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -107,7 +107,7 @@ class ParameterParser {
   }
 
   private static Set<String> query(HttpServletRequest req) {
-    Set<String> params = Sets.newHashSet();
+    Set<String> params = new HashSet<>();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       for (String kvPair : Splitter.on('&').split(req.getQueryString())) {
         params.add(Iterables.getFirst(

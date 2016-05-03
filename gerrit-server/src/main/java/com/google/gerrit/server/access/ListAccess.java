@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.access;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -28,14 +26,16 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ListAccess implements RestReadView<TopLevelResource> {
 
   @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",
       usage = "projects for which the access rights should be returned")
-  private List<String> projects = Lists.newArrayList();
+  private List<String> projects = new ArrayList<>();
 
   private final GetAccess getAccess;
 
@@ -47,7 +47,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   @Override
   public Map<String, ProjectAccessInfo> apply(TopLevelResource resource)
       throws ResourceNotFoundException, ResourceConflictException, IOException {
-    Map<String, ProjectAccessInfo> access = Maps.newTreeMap();
+    Map<String, ProjectAccessInfo> access = new TreeMap<>();
     for (String p : projects) {
       Project.NameKey projectName = new Project.NameKey(p);
       access.put(p, getAccess.apply(projectName));

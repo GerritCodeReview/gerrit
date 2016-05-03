@@ -20,7 +20,6 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -247,7 +246,7 @@ public class BaseInit extends SiteProgram {
         bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
         List<String> plugins =
             MoreObjects.firstNonNull(
-                getInstallPlugins(), Lists.<String> newArrayList());
+                getInstallPlugins(), new ArrayList<String>());
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
         bind(new TypeLiteral<Boolean>() {}).annotatedWith(

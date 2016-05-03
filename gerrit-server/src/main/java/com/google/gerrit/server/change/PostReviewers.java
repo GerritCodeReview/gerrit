@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
@@ -63,6 +62,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -170,7 +170,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       return result;
     }
 
-    Map<Account.Id, ChangeControl> reviewers = Maps.newHashMap();
+    Map<Account.Id, ChangeControl> reviewers = new HashMap<>();
     ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {

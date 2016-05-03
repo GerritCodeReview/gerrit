@@ -631,7 +631,7 @@ public class ReceiveCommits {
       rp.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
     }
 
-    Set<Branch.NameKey> branches = Sets.newHashSet();
+    Set<Branch.NameKey> branches = new HashSet<>();
     for (ReceiveCommand c : commands) {
         if (c.getResult() == OK) {
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
@@ -789,7 +789,7 @@ public class ReceiveCommits {
       return;
     }
 
-    List<String> lastCreateChangeErrors = Lists.newArrayList();
+    List<String> lastCreateChangeErrors = new ArrayList<>();
     for (CreateRequest create : newChanges) {
       if (create.cmd.getResult() == OK) {
         okToInsert++;
@@ -819,7 +819,7 @@ public class ReceiveCommits {
     }
 
     try {
-      List<CheckedFuture<?, RestApiException>> futures = Lists.newArrayList();
+      List<CheckedFuture<?, RestApiException>> futures = new ArrayList<>();
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
           futures.add(replace.insertPatchSet());
@@ -1504,7 +1504,7 @@ public class ReceiveCommits {
   }
 
   private void selectNewAndReplacedChangesFromMagicBranch() {
-    newChanges = Lists.newArrayList();
+    newChanges = new ArrayList<>();
 
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector = GroupCollector.create(refsById, db, psUtil,
@@ -1531,7 +1531,7 @@ public class ReceiveCommits {
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
-      List<ChangeLookup> pending = Lists.newArrayList();
+      List<ChangeLookup> pending = new ArrayList<>();
       Set<Change.Key> newChangeIds = new HashSet<>();
       int maxBatchChanges =
           receiveConfig.getEffectiveMaxBatchChangesLimit(user);

@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.PluginData;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -30,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -55,7 +55,7 @@ public class InitPlugins implements InitStep {
   private static List<PluginData> listPlugins(final SitePaths site,
       final boolean deleteTempPluginFile, PluginsDistribution pluginsDistribution)
           throws IOException {
-    final List<PluginData> result = Lists.newArrayList();
+    final List<PluginData> result = new ArrayList<>();
     pluginsDistribution.foreach(new PluginsDistribution.Processor() {
       @Override
       public void process(String pluginName, InputStream in) throws IOException {

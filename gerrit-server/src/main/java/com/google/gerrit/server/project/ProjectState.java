@@ -21,7 +21,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
@@ -61,8 +60,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -126,7 +127,7 @@ public class ProjectState {
     this.rulesCache = rulesCache;
     this.commentLinks = commentLinks;
     this.config = config;
-    this.configs = Maps.newHashMap();
+    this.configs = new HashMap<>();
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
@@ -277,7 +278,7 @@ public class ProjectState {
       return getLocalAccessSections();
     }
 
-    List<SectionMatcher> all = Lists.newArrayList();
+    List<SectionMatcher> all = new ArrayList<>();
     for (ProjectState s : tree()) {
       all.addAll(s.getLocalAccessSections());
     }
@@ -423,7 +424,7 @@ public class ProjectState {
   }
 
   public LabelTypes getLabelTypes() {
-    Map<String, LabelType> types = Maps.newLinkedHashMap();
+    Map<String, LabelType> types = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
         String lower = type.getName().toLowerCase();
@@ -443,7 +444,7 @@ public class ProjectState {
   }
 
   public List<CommentLinkInfo> getCommentLinks() {
-    Map<String, CommentLinkInfo> cls = Maps.newLinkedHashMap();
+    Map<String, CommentLinkInfo> cls = new LinkedHashMap<>();
     for (CommentLinkInfo cl : commentLinks) {
       cls.put(cl.name.toLowerCase(), cl);
     }

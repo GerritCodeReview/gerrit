@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /** Efficiently builds a {@link GroupInfoCache}. */
@@ -34,7 +34,7 @@ public class GroupInfoCacheFactory {
   @Inject
   GroupInfoCacheFactory(GroupBackend groupBackend) {
     this.groupBackend = groupBackend;
-    this.out = Maps.newHashMap();
+    this.out = new HashMap<>();
   }
 
   /**

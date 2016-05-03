@@ -35,6 +35,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -113,7 +114,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // Impossibly long identifier will never match.
       return Collections.emptyList();
     } else {
-      List<RevisionResource> out = Lists.newArrayList();
+      List<RevisionResource> out = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(dbProvider.get(), change.getNotes())) {
         if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
           out.add(new RevisionResource(change, ps));

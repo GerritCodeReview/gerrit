@@ -156,7 +156,7 @@ public class PatchLineCommentsUtil {
     }
 
     notes.load();
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getComments().values());
     return sort(comments);
   }
@@ -168,7 +168,7 @@ public class PatchLineCommentsUtil {
           db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
     }
 
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     for (String refSuffix : getDraftRefs(notes.getChangeId()).keySet()) {
       Account.Id account = Account.Id.fromRefPart(refSuffix);
       if (account != null) {
@@ -196,7 +196,7 @@ public class PatchLineCommentsUtil {
     if (!migration.readChanges()) {
       return sort(db.patchComments().byPatchSet(psId).toList());
     }
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(publishedByPatchSet(db, notes, psId));
 
     for (String refSuffix : getDraftRefs(notes.getChangeId()).keySet()) {
@@ -266,7 +266,7 @@ public class PatchLineCommentsUtil {
             }
           }).toSortedList(PLC_ORDER);
     }
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
   }
@@ -280,7 +280,7 @@ public class PatchLineCommentsUtil {
 
     Set<String> refNames =
         getRefNamesAllUsers(RefNames.refsDraftCommentsPrefix(author));
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     for (String refName : refNames) {
       Change.Id changeId = Change.Id.parse(refName);
       // Avoid loading notes for all affected changes just to be able to auto-

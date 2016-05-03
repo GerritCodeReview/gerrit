@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,6 +30,7 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -82,7 +82,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
   public void addQuery(String query) {
     if (queries == null) {
-      queries = Lists.newArrayList();
+      queries = new ArrayList<>();
     }
     queries.add(query);
   }

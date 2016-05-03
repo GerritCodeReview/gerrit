@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.plugins;
 
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -33,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -55,7 +55,7 @@ public class LfsPluginServlet extends HttpServlet
   public static final String URL_REGEX =
       "^(?:/a)?(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
 
-  private List<Plugin> pending = Lists.newArrayList();
+  private List<Plugin> pending = new ArrayList<>();
   private final String pluginName;
   private GuiceFilter filter;
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
@@ -27,6 +26,7 @@ import org.eclipse.jgit.lib.Constants;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -70,7 +70,7 @@ public class SubmoduleSectionParser {
   }
 
   public Set<SubmoduleSubscription> parseAllSections() {
-    Set<SubmoduleSubscription> parsedSubscriptions = Sets.newHashSet();
+    Set<SubmoduleSubscription> parsedSubscriptions = new HashSet<>();
     for (final String id : bbc.getSubsections("submodule")) {
       final SubmoduleSubscription subscription = parse(id);
       if (subscription != null) {

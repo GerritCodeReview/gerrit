@@ -66,6 +66,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -147,7 +148,7 @@ public class AllChangesIndexer
         totalWork >= 0 ? totalWork : MultiProgressMonitor.UNKNOWN);
     final Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
-    final List<ListenableFuture<?>> futures = Lists.newArrayList();
+    final List<ListenableFuture<?>> futures = new ArrayList<>();
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final Project.NameKey project : projects) {

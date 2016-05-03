@@ -28,6 +28,7 @@ import com.google.gerrit.server.util.RangeUtil;
 import com.google.gerrit.server.util.RangeUtil.Range;
 import com.google.inject.Provider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -152,7 +153,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new EqualsLabelPredicate(args, label, expVal, null);
     } else {
-      List<Predicate<ChangeData>> r = Lists.newArrayList();
+      List<Predicate<ChangeData>> r = new ArrayList<>();
       for (Account.Id a : args.accounts) {
         r.add(new EqualsLabelPredicate(args, label, expVal, a));
       }

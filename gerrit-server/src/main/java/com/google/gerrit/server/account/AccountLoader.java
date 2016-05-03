@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
@@ -28,9 +26,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,8 +57,8 @@ public class AccountLoader {
   AccountLoader(InternalAccountDirectory directory, @Assisted boolean detailed) {
     this.directory = directory;
     options = detailed ? DETAILED_OPTIONS : InternalAccountDirectory.ID_ONLY;
-    created = Maps.newHashMap();
-    provided = Lists.newArrayList();
+    created = new HashMap<>();
+    provided = new ArrayList<>();
   }
 
   public AccountInfo get(Account.Id id) {

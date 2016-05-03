@@ -52,8 +52,6 @@ package com.google.gerrit.server.tools.hooks;
 
 import static com.google.common.truth.Truth.assert_;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -67,14 +65,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Ignore
 public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   protected Repository repository;
-  private final Map<String, File> hooks = Maps.newTreeMap();
-  private final List<File> cleanup = Lists.newArrayList();
+  private final Map<String, File> hooks = new TreeMap<>();
+  private final List<File> cleanup = new ArrayList<>();
 
   @Override
   @Before

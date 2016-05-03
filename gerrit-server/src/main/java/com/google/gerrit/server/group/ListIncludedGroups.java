@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -31,6 +30,7 @@ import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -59,7 +59,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
     }
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
-    List<GroupInfo> included = Lists.newArrayList();
+    List<GroupInfo> included = new ArrayList<>();
     for (AccountGroupById u : dbProvider.get()
         .accountGroupById()
         .byGroup(rsrc.toAccountGroup().getId())) {

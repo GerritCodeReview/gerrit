@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -485,7 +484,7 @@ public class SubmitRuleEvaluator {
       }
       List<Term> r;
       if (resultsTerm instanceof ListTerm) {
-        r = Lists.newArrayList();
+        r = new ArrayList<>();
         for (Term t = resultsTerm; t instanceof ListTerm;) {
           ListTerm l = (ListTerm) t;
           r.add(l.car().dereference());

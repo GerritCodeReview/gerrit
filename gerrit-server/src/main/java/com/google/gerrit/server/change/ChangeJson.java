@@ -125,6 +125,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -280,7 +282,7 @@ public class ChangeJson {
         }));
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
-    Map<Change.Id, ChangeInfo> out = Maps.newHashMap();
+    Map<Change.Id, ChangeInfo> out = new HashMap<>();
     for (QueryResult r : in) {
       List<ChangeInfo> infos = toChangeInfo(out, r.changes());
       if (!infos.isEmpty() && r.moreChanges()) {
@@ -610,7 +612,7 @@ public class ChangeJson {
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
-    Set<Account.Id> allUsers = Sets.newHashSet();
+    Set<Account.Id> allUsers = new HashSet<>();
     allUsers.addAll(cd.reviewers().values());
     for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
@@ -667,7 +669,7 @@ public class ChangeJson {
   private Map<String, LabelWithStatus> labelsForClosedChange(ChangeData cd,
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
-    Set<Account.Id> allUsers = Sets.newHashSet();
+    Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
       // Users expect to see all reviewers on closed changes, even if they
       // didn't vote on the latest patch set. If we don't need detailed labels,
@@ -680,7 +682,7 @@ public class ChangeJson {
 
     // We can only approximately reconstruct what the submit rule evaluator
     // would have done. These should really come from a stored submit record.
-    Set<String> labelNames = Sets.newHashSet();
+    Set<String> labelNames = new HashSet<>();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
     for (PatchSetApproval a : cd.currentApprovals()) {
       allUsers.add(a.getAccountId());
@@ -755,7 +757,7 @@ public class ChangeJson {
 
   private void setLabelValues(LabelType type, LabelWithStatus l) {
     l.label().defaultValue = type.getDefaultValue();
-    l.label().values = Maps.newLinkedHashMap();
+    l.label().values = new LinkedHashMap<>();
     for (LabelValue v : type.getValues()) {
       l.label().values.put(v.formatValue(), v.getText());
     }
@@ -871,7 +873,7 @@ public class ChangeJson {
   private Map<String, RevisionInfo> revisions(ChangeControl ctl,
       Map<PatchSet.Id, PatchSet> map) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {
-    Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
+    Map<String, RevisionInfo> res = new LinkedHashMap<>();
     for (PatchSet in : map.values()) {
       if ((has(ALL_REVISIONS)
           || in.getId().equals(ctl.getChange().currentPatchSetId()))
@@ -1003,7 +1005,7 @@ public class ChangeJson {
 
   private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in)
       throws OrmException {
-    Map<String, FetchInfo> r = Maps.newLinkedHashMap();
+    Map<String, FetchInfo> r = new LinkedHashMap<>();
 
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
@@ -1049,7 +1051,7 @@ public class ChangeJson {
   private static void addCommand(FetchInfo fetchInfo, String commandName,
       String c) {
     if (fetchInfo.commands == null) {
-      fetchInfo.commands = Maps.newTreeMap();
+      fetchInfo.commands = new TreeMap<>();
     }
     fetchInfo.commands.put(commandName, c);
   }
@@ -1063,7 +1065,7 @@ public class ChangeJson {
 
   private static void addApproval(LabelInfo label, ApprovalInfo approval) {
     if (label.all == null) {
-      label.all = Lists.newArrayList();
+      label.all = new ArrayList<>();
     }
     label.all.add(approval);
   }

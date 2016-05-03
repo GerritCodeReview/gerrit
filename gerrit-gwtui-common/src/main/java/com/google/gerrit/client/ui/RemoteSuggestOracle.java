@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 /**
@@ -31,6 +32,10 @@ public class RemoteSuggestOracle extends SuggestOracle {
   private final SuggestOracle oracle;
   private Query query;
   private String last;
+  private Timer requestRetentionTimer;
+  private boolean cancelOutstandingRequest;
+
+  private boolean serveSuggestions;
 
   public RemoteSuggestOracle(SuggestOracle src) {
     oracle = src;
@@ -42,18 +47,50 @@ public class RemoteSuggestOracle extends SuggestOracle {
 
   @Override
   public void requestSuggestions(Request req, Callback cb) {
-    Query q = new Query(req, cb);
-    if (query == null) {
-      query = q;
-      q.start();
-    } else {
-      query = q;
+    if (!serveSuggestions){
+      return;
     }
+    if (requestRetentionTimer != null) {
+      requestRetentionTimer.cancel();
+    }
+    requestRetentionTimer = new Timer() {
+      @Override
+      public void run() {
+        Query q = new Query(req, cb);
+        if (query == null) {
+          query = q;
+          q.start();
+        } else {
+          query = q;
+        }
+      }
+    };
+    requestRetentionTimer.schedule(200);
+  }
+
+  @Override
+  public void requestDefaultSuggestions(final Request req, final Callback cb) {
+    // We don't want to deal with a null query, but an empty string instead
+    req.setQuery("");
+    requestSuggestions(req, cb);
   }
 
   @Override
   public boolean isDisplayStringHTML() {
     return oracle.isDisplayStringHTML();
+  }
+
+  public void cancelOutstandingRequest() {
+    if (requestRetentionTimer != null) {
+      requestRetentionTimer.cancel();
+    }
+    if (query != null) {
+      cancelOutstandingRequest = true;
+    }
+  }
+
+  public void setServeSuggestions(boolean serveSuggestions) {
+    this.serveSuggestions = serveSuggestions;
   }
 
   private class Query implements Callback {
@@ -71,7 +108,11 @@ public class RemoteSuggestOracle extends SuggestOracle {
 
     @Override
     public void onSuggestionsReady(Request req, Response res) {
-      if (query == this) {
+      if (cancelOutstandingRequest || !serveSuggestions) {
+        // If cancelOutstandingRequest() was called, we ignore this response
+        cancelOutstandingRequest = false;
+        query = null;
+      } else if (query == this) {
         // No new request was started while this query was running.
         // Propose this request's response as the suggestions.
         query = null;

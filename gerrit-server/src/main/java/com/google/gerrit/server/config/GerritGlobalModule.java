@@ -100,6 +100,7 @@ import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
+import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -339,6 +340,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);
     DynamicSet.setOf(binder(), UserScopedEventListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
+    DynamicSet.setOf(binder(), ReviewerSuggestion.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicSet.setOf(binder(), ProjectCreationValidationListener.class);

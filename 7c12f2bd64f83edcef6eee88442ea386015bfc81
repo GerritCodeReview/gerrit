@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "a83309d6_aacb8f2d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1490,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "Is the intent that if you don\u0027t set the boolean for a particular type, then it doesn\u0027t modify the stored value? Or that unset means false? I think from reading the code that the current behavior is the latter.\n\nI would be explicit here.",
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_e75ea265",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "Per my comments in the documentation, I think we need an explicit test for the behavior of modifying an existing watch where the input includes one or more null Boolean fields.",
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_0a549b42",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "I think this might succeed only nondeterministically.\n\nAbstractDaemonTest reuses a single running server for all its tests. It creates a new project for each change, but reuses the same user. As a result, the set of watched projects for this user may vary depending on what other test methods run before this one. And test method order is not guaranteed to be stable.\n\nI think just replacing containsExactlyElementsIn with containsAllOf will fix this.",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 34
+      },
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_47776ef2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "For tests where you\u0027re only using a single project, you can skip the createProject() step. The test harness already creates a project with a unique name and assigns it to a field named \"project\",.",
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_0a6d7b22",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
         "patchSetId": 5
@@ -19,6 +93,86 @@
         "endLine": 53,
         "endChar": 28
       },
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_4a4e93b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "\"Set\" makes it sound like it has PUT semantics, i.e. \"set the set of my watched projects to this input, overwriting the previous set\". Elsewhere we use \"Post\" instead.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_6a4b57a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "Nit: final fields before non-final",
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_875fa664",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "Optional: These three are all RestApiExceptions, so you could just declare that and shorten this list.",
+      "range": {
+        "startLine": 58,
+        "startChar": 27,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_677472ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T15:23:22Z",
+      "side": 1,
+      "message": "Same comment as David P had on wording in the delete handler.",
       "revId": "7c12f2bd64f83edcef6eee88442ea386015bfc81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

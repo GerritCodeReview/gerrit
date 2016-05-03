@@ -152,6 +152,24 @@
       "revId": "0b8ca103ca07a9f8b0858e21c5a2ef46018a3c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_eba3d15d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-05-03T15:32:43Z",
+      "side": 1,
+      "message": "Ok, that would be possible. But I am not sure if this really worth the trouble, as the exception seems to get swalloed somewhere on the way up anyway ( No feedback to the user, only a 409 response on trying to save an invalid hash, no entries in any logfile).",
+      "parentUuid": "a83309d6_2ad87fff",
+      "revId": "0b8ca103ca07a9f8b0858e21c5a2ef46018a3c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

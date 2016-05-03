@@ -21,7 +21,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -63,6 +62,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -327,7 +327,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
       throws OrmException {
     PatchSet.Id psId = update.getPatchSetId();
-    Map<PatchSetApproval.Key, PatchSetApproval> byKey = Maps.newHashMap();
+    Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa : args.approvalsUtil.byPatchSet(
         ctx.getDb(), ctx.getControl(), psId)) {
       byKey.put(psa.getKey(), psa);

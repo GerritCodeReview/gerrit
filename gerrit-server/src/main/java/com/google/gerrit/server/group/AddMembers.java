@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -47,7 +46,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -174,7 +175,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   public void addMembers(AccountGroup.Id groupId,
       Collection<? extends Account.Id> newMemberIds) throws OrmException {
-    Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
+    Map<Account.Id, AccountGroupMember> newAccountGroupMembers = new HashMap<>();
     for (Account.Id accId : newMemberIds) {
       if (!newAccountGroupMembers.containsKey(accId)) {
         AccountGroupMember.Key key =
@@ -212,7 +213,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds)
       throws OrmException {
-    List<AccountInfo> result = Lists.newLinkedList();
+    List<AccountInfo> result = new LinkedList<>();
     AccountLoader loader = infoFactory.create(true);
     for (Account.Id accId : accountIds) {
       result.add(loader.get(accId));

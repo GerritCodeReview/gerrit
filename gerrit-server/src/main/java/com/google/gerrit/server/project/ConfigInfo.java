@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -34,6 +33,7 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -131,7 +131,7 @@ public class ConfigInfo {
     this.submitType = p.getSubmitType();
     this.state = p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE ? p.getState() : null;
 
-    this.commentlinks = Maps.newLinkedHashMap();
+    this.commentlinks = new LinkedHashMap<>();
     for (CommentLinkInfo cl : projectState.getCommentLinks()) {
       this.commentlinks.put(cl.name, cl);
     }
@@ -140,7 +140,7 @@ public class ConfigInfo {
         getPluginConfig(control.getProjectState(), pluginConfigEntries,
             cfgFactory, allProjects);
 
-    actions = Maps.newTreeMap();
+    actions = new TreeMap<>();
     for (UiAction.Description d : UiActions.from(
         views, new ProjectResource(control),
         Providers.of(control.getUser()))) {

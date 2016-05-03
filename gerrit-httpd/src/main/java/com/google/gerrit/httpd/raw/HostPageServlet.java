@@ -18,7 +18,6 @@ import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
@@ -231,7 +230,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void plugins(StringWriter w) {
-    List<String> urls = Lists.newArrayList();
+    List<String> urls = new ArrayList<>();
     for (WebUiPlugin u : plugins) {
       urls.add(String.format("plugins/%s/%s",
           u.getPluginName(),

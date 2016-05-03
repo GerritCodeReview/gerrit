@@ -22,6 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,7 +103,7 @@ public class IncludingGroupMembership implements GroupMembership {
 
   @Override
   public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
-    Set<AccountGroup.UUID> r = Sets.newHashSet();
+    Set<AccountGroup.UUID> r = new HashSet<>();
     for (AccountGroup.UUID id : groupIds) {
       if (contains(id)) {
         r.add(id);

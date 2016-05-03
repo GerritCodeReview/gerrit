@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -33,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -150,7 +150,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           return Collections.emptySet();
         }
 
-        Set<AccountGroup.UUID> ids = Sets.newHashSet();
+        Set<AccountGroup.UUID> ids = new HashSet<>();
         for (AccountGroupById agi : db.accountGroupById()
             .byGroup(group.get(0).getId())) {
           ids.add(agi.getIncludeUUID());
@@ -172,13 +172,13 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        Set<AccountGroup.Id> ids = Sets.newHashSet();
+        Set<AccountGroup.Id> ids = new HashSet<>();
         for (AccountGroupById agi : db.accountGroupById()
             .byIncludeUUID(key)) {
           ids.add(agi.getGroupId());
         }
 
-        Set<AccountGroup.UUID> groupArray = Sets.newHashSet();
+        Set<AccountGroup.UUID> groupArray = new HashSet<>();
         for (AccountGroup g : db.accountGroups().get(ids)) {
           groupArray.add(g.getGroupUUID());
         }
@@ -199,7 +199,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public Set<AccountGroup.UUID> load(String key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        Set<AccountGroup.UUID> ids = Sets.newHashSet();
+        Set<AccountGroup.UUID> ids = new HashSet<>();
         for (AccountGroupById agi : db.accountGroupById().all()) {
           if (!AccountGroup.isInternalGroup(agi.getIncludeUUID())) {
             ids.add(agi.getIncludeUUID());

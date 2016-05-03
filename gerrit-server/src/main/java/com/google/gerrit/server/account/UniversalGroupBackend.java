@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -180,7 +181,7 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         lookups.put(m, uuid);
       }
-      Set<AccountGroup.UUID> groups = Sets.newHashSet();
+      Set<AccountGroup.UUID> groups = new HashSet<>();
       for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
           : lookups.asMap().entrySet()) {
         groups.addAll(entry.getKey().intersection(entry.getValue()));
@@ -190,7 +191,7 @@ public class UniversalGroupBackend implements GroupBackend {
 
     @Override
     public Set<AccountGroup.UUID> getKnownGroups() {
-      Set<AccountGroup.UUID> groups = Sets.newHashSet();
+      Set<AccountGroup.UUID> groups = new HashSet<>();
       for (GroupMembership m : memberships.values()) {
         groups.addAll(m.getKnownGroups());
       }

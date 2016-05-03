@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +27,7 @@ public class GetEmails implements RestReadView<AccountResource> {
 
   @Override
   public List<EmailInfo> apply(AccountResource rsrc) {
-    List<EmailInfo> emails = Lists.newArrayList();
+    List<EmailInfo> emails = new ArrayList<>();
     for (String email : rsrc.getUser().getEmailAddresses()) {
       if (email != null) {
         EmailInfo e = new EmailInfo();

@@ -20,7 +20,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
@@ -46,6 +45,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -102,7 +102,7 @@ class LoginForm extends HttpServlet {
       suggestProviders = ImmutableSet.of();
       ssoUrl = authConfig.getOpenIdSsoUrl();
     } else {
-      Set<String> providers = Sets.newHashSet();
+      Set<String> providers = new HashSet<>();
       for (Map.Entry<String, String> e : ALL_PROVIDERS.entrySet()) {
         if (impl.isAllowedOpenID(e.getValue())) {
           providers.add(e.getKey());

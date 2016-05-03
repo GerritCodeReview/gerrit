@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Lists;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -50,6 +49,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -479,7 +479,7 @@ public abstract class VersionedMetaData {
     TreeWalk tw = new TreeWalk(reader);
     tw.addTree(revision.getTree());
     tw.setRecursive(recursive);
-    List<PathInfo> paths = Lists.newArrayList();
+    List<PathInfo> paths = new ArrayList<>();
     while (tw.next()) {
       paths.add(new PathInfo(tw));
     }

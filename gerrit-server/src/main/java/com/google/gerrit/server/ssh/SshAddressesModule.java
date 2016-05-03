@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,8 +82,8 @@ public class SshAddressesModule extends AbstractModule {
     if (want.length > 0) {
       return Arrays.asList(want);
     }
-    List<InetSocketAddress> pub = Lists.newArrayList();
-    List<InetSocketAddress> local = Lists.newArrayList();
+    List<InetSocketAddress> pub = new ArrayList<>();
+    List<InetSocketAddress> local = new ArrayList<>();
 
     for (SocketAddress addr : listen) {
       if (addr instanceof InetSocketAddress) {

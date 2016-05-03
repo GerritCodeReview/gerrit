@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -29,6 +28,7 @@ import com.google.inject.util.Types;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.SocketAddress;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -54,7 +54,7 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
    */
   @Override
   protected <T> Callable<T> wrapImpl(Callable<T> callable) {
-    Map<Key<?>, Object> seedMap = Maps.newHashMap();
+    Map<Key<?>, Object> seedMap = new HashMap<>();
 
     // Request scopes appear to use specific keys in their map, instead of only
     // providers. Add bindings for both the key to the instance directly and the

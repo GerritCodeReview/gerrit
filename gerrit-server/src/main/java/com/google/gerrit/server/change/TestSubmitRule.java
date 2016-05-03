@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -34,6 +33,7 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -116,31 +116,31 @@ public class TestSubmitRule
       switch (n.status) {
         case OK:
           if (ok == null) {
-            ok = Maps.newLinkedHashMap();
+            ok = new LinkedHashMap<>();
           }
           ok.put(n.label, who);
           break;
         case REJECT:
           if (reject == null) {
-            reject = Maps.newLinkedHashMap();
+            reject = new LinkedHashMap<>();
           }
           reject.put(n.label, who);
           break;
         case NEED:
           if (need == null) {
-            need = Maps.newLinkedHashMap();
+            need = new LinkedHashMap<>();
           }
           need.put(n.label, new None());
           break;
         case MAY:
           if (may == null) {
-            may = Maps.newLinkedHashMap();
+            may = new LinkedHashMap<>();
           }
           may.put(n.label, who);
           break;
         case IMPOSSIBLE:
           if (impossible == null) {
-            impossible = Maps.newLinkedHashMap();
+            impossible = new LinkedHashMap<>();
           }
           impossible.put(n.label, new None());
           break;

@@ -46,7 +46,7 @@ public interface GroupMembership {
    * Implementors may implement the method as:
    *
    * <pre>
-   * Set&lt;AccountGroup.UUID&gt; r = Sets.newHashSet();
+   * Set&lt;AccountGroup.UUID&gt; r = new HashSet<>();
    * for (AccountGroup.UUID id : groupIds)
    *   if (contains(id)) r.add(id);
    * </pre>

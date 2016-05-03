@@ -33,8 +33,6 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_QUEUE;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -54,7 +52,9 @@ import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -62,7 +62,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
   void addQuery(String name) {
     if (query == null) {
-      query = Sets.newHashSet();
+      query = new HashSet<>();
     }
     Iterables.addAll(query, OptionUtil.splitOptionValue(name));
   }
@@ -86,7 +86,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     }
 
     CapabilityControl cc = resource.getUser().getCapabilities();
-    Map<String, Object> have = Maps.newLinkedHashMap();
+    Map<String, Object> have = new LinkedHashMap<>();
     for (String name : GlobalCapability.getAllNames()) {
       if (!name.equals(PRIORITY) && want(name) && cc.canPerform(name)) {
         if (GlobalCapability.hasRange(name)) {

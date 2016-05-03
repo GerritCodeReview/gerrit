@@ -20,7 +20,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -29,6 +28,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoHttpd
@@ -39,7 +39,7 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    results = Lists.newArrayList();
+    results = new ArrayList<>();
     results.add(push("file contents", null));
     changeId = results.get(0).getChangeId();
     results.add(push("new contents 1", changeId));

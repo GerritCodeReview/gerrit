@@ -15,7 +15,6 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -23,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /** Fake implementation of {@link AccountCache} for testing. */
@@ -31,8 +31,8 @@ public class FakeAccountCache implements AccountCache {
   private final Map<String, AccountState> byUsername;
 
   public FakeAccountCache() {
-    byId = Maps.newHashMap();
-    byUsername = Maps.newHashMap();
+    byId = new HashMap<>();
+    byUsername = new HashMap<>();
   }
 
   @Override

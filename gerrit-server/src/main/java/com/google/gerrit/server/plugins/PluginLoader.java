@@ -25,7 +25,6 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -56,10 +55,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.AbstractMap;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -114,8 +115,8 @@ public class PluginLoader implements LifecycleListener {
     pluginUserFactory = puf;
     running = Maps.newConcurrentMap();
     disabled = Maps.newConcurrentMap();
-    broken = Maps.newHashMap();
-    toCleanup = Queues.newArrayDeque();
+    broken = new HashMap<>();
+    toCleanup = new ArrayDeque<>();
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
     urlProvider = provider;
@@ -659,8 +660,8 @@ public class PluginLoader implements LifecycleListener {
       assert winner != null;
       // Disable all loser plugins by renaming their file names to
       // "file.disabled" and replace the disabled files in the multimap.
-      Collection<Path> elementsToRemove = Lists.newArrayList();
-      Collection<Path> elementsToAdd = Lists.newArrayList();
+      Collection<Path> elementsToRemove = new ArrayList<>();
+      Collection<Path> elementsToAdd = new ArrayList<>();
       for (Path loser : Iterables.skip(enabled, 1)) {
         log.warn(String.format("Plugin <%s> was disabled, because"
              + " another plugin <%s>"

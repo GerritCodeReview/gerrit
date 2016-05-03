@@ -17,7 +17,6 @@ package com.google.gerrit.server.plugins;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.inject.Module;
@@ -26,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.Manifest;
@@ -85,7 +85,7 @@ public abstract class AbstractPreloadedPluginScanner implements
         ImmutableMap.builder();
 
     for (Class<? extends Annotation> annotation : annotations) {
-      Set<ExtensionMetaData> classMetaDataSet = Sets.newHashSet();
+      Set<ExtensionMetaData> classMetaDataSet = new HashSet<>();
       result.put(annotation, classMetaDataSet);
 
       for (Class<?> clazz : preloadedClasses) {

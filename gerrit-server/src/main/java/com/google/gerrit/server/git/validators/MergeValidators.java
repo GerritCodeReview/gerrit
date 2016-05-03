@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git.validators;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -36,6 +35,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MergeValidators {
@@ -60,7 +60,7 @@ public class MergeValidators {
       PatchSet.Id patchSetId,
       IdentifiedUser caller)
       throws MergeValidationException {
-    List<MergeValidationListener> validators = Lists.newLinkedList();
+    List<MergeValidationListener> validators = new LinkedList<>();
 
     validators.add(new PluginMergeValidationListener(mergeValidationListeners));
     validators.add(projectConfigValidatorFactory.create());

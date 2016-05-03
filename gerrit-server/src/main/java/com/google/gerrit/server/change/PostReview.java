@@ -24,8 +24,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
@@ -410,8 +408,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      List<PatchLineComment> del = Lists.newArrayList();
-      List<PatchLineComment> ups = Lists.newArrayList();
+      List<PatchLineComment> del = new ArrayList<>();
+      List<PatchLineComment> ups = new ArrayList<>();
 
       Set<CommentSetEntry> existingIds = in.omitDuplicateComments
           ? readExistingComments(ctx)
@@ -490,7 +488,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)
         throws OrmException {
-      Map<String, PatchLineComment> drafts = Maps.newHashMap();
+      Map<String, PatchLineComment> drafts = new HashMap<>();
       for (PatchLineComment c : plcUtil.draftByChangeAuthor(
           ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
         c.setTag(in.tag);
@@ -501,7 +499,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     private Map<String, PatchLineComment> patchSetDrafts(ChangeContext ctx)
         throws OrmException {
-      Map<String, PatchLineComment> drafts = Maps.newHashMap();
+      Map<String, PatchLineComment> drafts = new HashMap<>();
       for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(ctx.getDb(),
           psId, user.getAccountId(), ctx.getNotes())) {
         drafts.put(c.getKey().get(), c);
@@ -588,8 +586,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      List<PatchSetApproval> del = Lists.newArrayList();
-      List<PatchSetApproval> ups = Lists.newArrayList();
+      List<PatchSetApproval> del = new ArrayList<>();
+      List<PatchSetApproval> ups = new ArrayList<>();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Map<String, Short> allApprovals = getAllApprovals(labelTypes,
@@ -690,7 +688,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,
         List<PatchSetApproval> del) throws OrmException {
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
-      Map<String, PatchSetApproval> current = Maps.newHashMap();
+      Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
           ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {

@@ -17,7 +17,6 @@ package com.google.gerrit.server.cache.h2;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -40,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -70,7 +70,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     config = cfg;
     cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
-    caches = Lists.newLinkedList();
+    caches = new LinkedList<>();
     this.cacheMap = cacheMap;
 
     if (cacheDir != null) {

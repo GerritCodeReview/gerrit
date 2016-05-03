@@ -33,6 +33,24 @@
       "revId": "25aca7107efc9013f12b5279b186cbb30b66b132",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_47204ee8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T14:26:22Z",
+      "side": 1,
+      "message": "This is a different usage though.  I\u0027ve only replaced the cases where we instantiate an empty collection.",
+      "parentUuid": "a83309d6_8a116ba2",
+      "revId": "25aca7107efc9013f12b5279b186cbb30b66b132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

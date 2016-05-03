@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4830cdcd_07dbb6fe",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-03T17:53:32Z",
+      "side": 1,
+      "message": "this reverted cookbook-plugin to an older revision, fixed in https://gerrit-review.googlesource.com/#/c/77190/",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2e7f5ccb7c18286ea6b634a57c9a4e420a0773fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_8aedeba0",
+        "filename": "plugins/download-commands",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-03T17:53:32Z",
+      "side": 1,
+      "message": "this reverted download-commands to an older revision, fixed in https://gerrit-review.googlesource.com/#/c/77191/",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2e7f5ccb7c18286ea6b634a57c9a4e420a0773fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

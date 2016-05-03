@@ -81,6 +81,7 @@ public class Reviewers extends Composite {
   Reviewers() {
     reviewerSuggestOracle = new ReviewerSuggestOracle();
     suggestBox = new RemoteSuggestBox(reviewerSuggestOracle);
+    suggestBox.enableDefaultSuggestions();
     suggestBox.setVisibleLength(55);
     suggestBox.setHintText(Util.C.approvalTableAddReviewerHint());
     suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
@@ -123,6 +124,7 @@ public class Reviewers extends Composite {
     UIObject.setVisible(form, true);
     UIObject.setVisible(error, false);
     addReviewerIcon.setVisible(false);
+    suggestBox.setServeSuggestionsOnOracle(true);
     suggestBox.setFocus(true);
   }
 
@@ -143,6 +145,7 @@ public class Reviewers extends Composite {
     UIObject.setVisible(form, false);
     suggestBox.setFocus(false);
     suggestBox.setText("");
+    suggestBox.setServeSuggestionsOnOracle(false);
   }
 
   private void addReviewer(final String reviewer, boolean confirmed) {

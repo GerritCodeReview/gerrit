@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -42,6 +44,7 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
 
   public RemoteSuggestBox(SuggestOracle oracle) {
     remoteSuggestOracle = new RemoteSuggestOracle(oracle);
+    remoteSuggestOracle.setServeSuggestions(true);
     display = new DefaultSuggestionDisplay();
 
     textBox = new HintTextBox();
@@ -49,7 +52,6 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
       @Override
       public void onKeyDown(KeyDownEvent e) {
         submitOnSelection = false;
-
         if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
           CloseEvent.fire(RemoteSuggestBox.this, RemoteSuggestBox.this);
         } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -70,10 +72,11 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
     suggestBox.addSelectionHandler(new SelectionHandler<Suggestion>() {
       @Override
       public void onSelection(SelectionEvent<Suggestion> event) {
-        textBox.setFocus(true);
         if (submitOnSelection) {
           SelectionEvent.fire(RemoteSuggestBox.this, getText());
         }
+        remoteSuggestOracle.cancelOutstandingRequest();
+        display.hideSuggestions();
       }
     });
     initWidget(suggestBox);
@@ -133,5 +136,20 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
   @Override
   public HandlerRegistration addCloseHandler(CloseHandler<RemoteSuggestBox> h) {
     return addHandler(h, CloseEvent.getType());
+  }
+
+  public void enableDefaultSuggestions() {
+    textBox.addFocusHandler(new FocusHandler() {
+      @Override
+      public void onFocus(FocusEvent focusEvent) {
+        if (textBox.getText().equals("")) {
+          suggestBox.showSuggestionList();
+        }
+      }
+    });
+  }
+
+  public void setServeSuggestionsOnOracle(boolean serveSuggestions) {
+    remoteSuggestOracle.setServeSuggestions(serveSuggestions);
   }
 }

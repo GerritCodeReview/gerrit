@@ -16,6 +16,24 @@
       "revId": "f4b20226fdfbe1c711d9e68893667f7f71deebf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7a73a9_74bc48cb",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-03T20:03:54Z",
+      "side": 1,
+      "message": "No it\u0027s the output of `buck build docs`. But I think by \"release build\" it means the step of build gerrit. On second thought I think I\u0027m wrong. Fixed.",
+      "parentUuid": "ed7a73a9_b4a8a087",
+      "revId": "f4b20226fdfbe1c711d9e68893667f7f71deebf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

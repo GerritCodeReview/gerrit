@@ -365,6 +365,12 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    saveChangeStarred: function(changeNum, starred) {
+      var url = '/accounts/self/starred.changes/' + changeNum;
+      var method = starred ? 'PUT' : 'DELETE';
+      return this.send(method, url);
+    },
+
     send: function(method, url, opt_body, opt_errFn, opt_ctx) {
       var headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),

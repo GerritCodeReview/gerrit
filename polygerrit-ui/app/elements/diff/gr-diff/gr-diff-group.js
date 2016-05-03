@@ -19,6 +19,7 @@
     this.lines = [];
     this.adds = [];
     this.removes = [];
+    this.element = null;
 
     if (opt_lines) {
       opt_lines.forEach(this.addLine, this);

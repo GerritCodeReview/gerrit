@@ -16,7 +16,7 @@
 
   function GrDiffLine(type) {
     this.type = type;
-    this.contextLines = [];
+    this.contextGroup = null;
     this.highlights = [];
   }
 

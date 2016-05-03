@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "883645c6_e9d595c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-03T11:42:57Z",
+      "side": 1,
+      "message": "This would now also add a change message on reviewer removal without vote, which is probably OK, as commented by Edwin on this change: [1]. This should be mentioned in the commit message.\n\n* [1] https://gerrit-review.googlesource.com/#/c/77034/5/gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java@a282",
+      "revId": "0d335051c20ffb9d6e753eb631ebf1957e0c75f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

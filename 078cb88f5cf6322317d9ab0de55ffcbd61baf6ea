@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ed7a73a9_3404906b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-03T21:19:34Z",
+      "side": 1,
+      "message": "I think we want a plain merge. For example, in a project using Fast-Forward Only strategy, this would still be useful for requesting a merge from one branh to another.",
+      "parentUuid": "ed7a73a9_740a087b",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7a73a9_14ff1478",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -88,6 +106,23 @@
         "endLine": 12,
         "endChar": 61
       },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7a73a9_f4f5b894",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4203,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-03T21:19:34Z",
+      "side": 1,
+      "message": "Bikeshedding a little: is this the right REST endpoint for this action? The action is very similar to what /changes/{change-id}/revision/{revision-id}/cherrypick does so it would be nice to have it in a similar place in the REST API if possible. Some other possibilities for comparison:\n\nSomething like\n\n POST /projects/{project-name}/branches/{branch}/merge\n\nwith input\n\n {\n    commit: \"1ab8c787a\"\n }\n\nor, imitating https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherry-pick,\n\n POST /changes/{change-id}/revisions/{revision-id}/merge\n\nwith input\n\n {\n     destination: \"release-branch\"\n }",
       "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

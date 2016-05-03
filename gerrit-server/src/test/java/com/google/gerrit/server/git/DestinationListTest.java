@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -27,6 +26,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 public class DestinationListTest extends TestCase {
@@ -61,7 +61,7 @@ public class DestinationListTest extends TestCase {
   public static final Branch.NameKey B_BAR = dest(P_SLASH, R_BAR);
   public static final Branch.NameKey B_COMPLEX = dest(P_COMPLEX, R_FOO);
 
-  public static final Set<Branch.NameKey> D_SIMPLE = Sets.newHashSet();
+  public static final Set<Branch.NameKey> D_SIMPLE = new HashSet<>();
   static {
     D_SIMPLE.clear();
     D_SIMPLE.add(B_FOO);

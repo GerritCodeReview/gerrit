@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -33,6 +32,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 @Singleton
 public class FileInfoJson {
@@ -57,7 +57,7 @@ public class FileInfoJson {
     PatchList list = patchListCache.get(
         new PatchListKey(a, b, Whitespace.IGNORE_NONE), change.getProject());
 
-    Map<String, FileInfo> files = Maps.newTreeMap();
+    Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {
       FileInfo d = new FileInfo();
       d.status = e.getChangeType() != Patch.ChangeType.MODIFIED

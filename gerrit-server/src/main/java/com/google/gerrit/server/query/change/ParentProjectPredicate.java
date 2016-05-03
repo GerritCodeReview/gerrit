@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -26,6 +25,7 @@ import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.inject.Provider;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +48,7 @@ class ParentProjectPredicate extends OrPredicate<ChangeData> {
       return Collections.emptyList();
     }
 
-    List<Predicate<ChangeData>> r = Lists.newArrayList();
+    List<Predicate<ChangeData>> r = new ArrayList<>();
     r.add(new ProjectPredicate(projectState.getProject().getName()));
     ListChildProjects children = listChildProjects.get();
     children.setRecursive(true);

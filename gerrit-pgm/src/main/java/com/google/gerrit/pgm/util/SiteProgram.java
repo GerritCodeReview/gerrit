@@ -18,7 +18,6 @@ import static com.google.gerrit.server.config.GerritServerConfigModule.getSecure
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -224,7 +223,7 @@ public abstract class SiteProgram extends AbstractProgram {
       throw new RuntimeException(e);
     }
 
-    List<Module> modules = Lists.newArrayList();
+    List<Module> modules = new ArrayList<>();
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

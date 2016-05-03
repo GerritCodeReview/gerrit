@@ -22,8 +22,6 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.RootRelative;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -56,7 +54,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -347,7 +347,7 @@ public class PluginGuiceEnvironment {
       PrivateInternals_DynamicMapImpl<Object> map =
           (PrivateInternals_DynamicMapImpl<Object>) e.getValue();
 
-      Map<Annotation, ReloadableRegistrationHandle<?>> am = Maps.newHashMap();
+      Map<Annotation, ReloadableRegistrationHandle<?>> am = new HashMap<>();
       for (ReloadableRegistrationHandle<?> h : oldHandles.get(type)) {
         Annotation a = h.getKey().getAnnotation();
         if (a != null && !UNIQUE_ANNOTATION.isInstance(a)) {
@@ -402,7 +402,7 @@ public class PluginGuiceEnvironment {
       // Index all old handles that match this DynamicSet<T> keyed by
       // annotations. Ignore the unique annotations, thereby favoring
       // the @Named annotations or some other non-unique naming.
-      Map<Annotation, ReloadableRegistrationHandle<?>> am = Maps.newHashMap();
+      Map<Annotation, ReloadableRegistrationHandle<?>> am = new HashMap<>();
       List<ReloadableRegistrationHandle<?>> old = oldHandles.get(type);
       Iterator<ReloadableRegistrationHandle<?>> oi = old.iterator();
       while (oi.hasNext()) {
@@ -510,8 +510,8 @@ public class PluginGuiceEnvironment {
   }
 
   private Module copy(Injector src) {
-    Set<TypeLiteral<?>> dynamicTypes = Sets.newHashSet();
-    Set<TypeLiteral<?>> dynamicItemTypes = Sets.newHashSet();
+    Set<TypeLiteral<?>> dynamicTypes = new HashSet<>();
+    Set<TypeLiteral<?>> dynamicItemTypes = new HashSet<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicItem.class) {
@@ -524,7 +524,7 @@ public class PluginGuiceEnvironment {
       }
     }
 
-    final Map<Key<?>, Binding<?>> bindings = Maps.newLinkedHashMap();
+    final Map<Key<?>, Binding<?>> bindings = new LinkedHashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       if (dynamicTypes.contains(e.getKey().getTypeLiteral())
           && e.getKey().getAnnotation() != null) {

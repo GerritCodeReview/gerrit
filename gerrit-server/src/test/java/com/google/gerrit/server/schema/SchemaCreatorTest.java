@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -44,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -111,7 +111,7 @@ public class SchemaCreatorTest {
 
   @Test
   public void testCreateSchema_LabelTypes() throws Exception {
-    List<String> labels = Lists.newArrayList();
+    List<String> labels = new ArrayList<>();
     for (LabelType label : getLabelTypes().getLabelTypes()) {
       labels.add(label.getName());
     }

@@ -16,11 +16,11 @@ package com.google.gerrit.server.auth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +38,8 @@ public final class UniversalAuthBackend implements AuthBackend {
 
   @Override
   public AuthUser authenticate(final AuthRequest request) throws AuthException {
-    List<AuthUser> authUsers = Lists.newArrayList();
-    List<AuthException> authExs = Lists.newArrayList();
+    List<AuthUser> authUsers = new ArrayList<>();
+    List<AuthException> authExs = new ArrayList<>();
     for (AuthBackend backend : authBackends) {
       try {
         authUsers.add(checkNotNull(backend.authenticate(request)));

@@ -18,8 +18,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
@@ -49,11 +47,14 @@ import org.kohsuke.args4j.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 /** List groups visible to the calling user. */
 public class ListGroups implements RestReadView<TopLevelResource> {
@@ -61,7 +62,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   protected final GroupCache groupCache;
 
   private final List<ProjectControl> projects = new ArrayList<>();
-  private final Set<AccountGroup.UUID> groupsToInspect = Sets.newHashSet();
+  private final Set<AccountGroup.UUID> groupsToInspect = new HashSet<>();
   private final GroupControl.Factory groupControlFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -177,7 +178,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Override
   public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
       throws OrmException, BadRequestException {
-    SortedMap<String, GroupInfo> output = Maps.newTreeMap();
+    SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(
           info.name,
@@ -209,7 +210,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     List<GroupInfo> groupInfos;
     List<AccountGroup> groupList;
     if (!projects.isEmpty()) {
-      Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
+      Map<AccountGroup.UUID, AccountGroup> groups = new HashMap<>();
       for (final ProjectControl projectControl : projects) {
         final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
         for (final GroupReference groupRef : groupsRefs) {
@@ -290,7 +291,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
       throws OrmException {
-    List<GroupInfo> groups = Lists.newArrayList();
+    List<GroupInfo> groups = new ArrayList<>();
     int found = 0;
     int foundIndex = 0;
     for (AccountGroup g : filterGroups(groupCache.all())) {
@@ -314,7 +315,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
-    final List<AccountGroup> filteredGroups = Lists.newArrayList();
+    final List<AccountGroup> filteredGroups = new ArrayList<>();
     final boolean isAdmin =
         identifiedUser.get().getCapabilities().canAdministrateServer();
     for (final AccountGroup group : groups) {

@@ -123,7 +123,7 @@ public class Init extends BaseInit {
 
   @Override
   protected void afterInit(SiteRun run) throws Exception {
-    List<Module> modules = Lists.newArrayList();
+    List<Module> modules = new ArrayList<>();
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

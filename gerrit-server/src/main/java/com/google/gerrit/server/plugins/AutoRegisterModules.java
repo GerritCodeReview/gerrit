@@ -20,7 +20,6 @@ import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
@@ -40,6 +39,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,7 +78,7 @@ class AutoRegisterModules {
   }
 
   AutoRegisterModules discover() throws InvalidPluginException {
-    sysSingletons = Sets.newHashSet();
+    sysSingletons = new HashSet<>();
     sysListen = LinkedListMultimap.create();
     initJs = null;
 

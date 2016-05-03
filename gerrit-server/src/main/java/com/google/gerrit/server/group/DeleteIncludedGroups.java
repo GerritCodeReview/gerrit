@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -37,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,7 +101,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   private Map<AccountGroup.UUID, AccountGroupById> getIncludedGroups(
       final AccountGroup.Id groupId) throws OrmException {
     final Map<AccountGroup.UUID, AccountGroupById> groups =
-        Maps.newHashMap();
+        new HashMap<>();
     for (AccountGroupById g : db.get().accountGroupById().byGroup(groupId)) {
       groups.put(g.getIncludeUUID(), g);
     }

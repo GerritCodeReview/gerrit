@@ -15,7 +15,6 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -26,6 +25,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -64,7 +64,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private Map<String, Repo> repos = Maps.newHashMap();
+  private Map<String, Repo> repos = new HashMap<>();
 
   @Override
   public synchronized Repo openRepository(Project.NameKey name)

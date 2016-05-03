@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -115,7 +114,7 @@ final class AdminSetParent extends SshCommand {
       }
     }
 
-    final List<Project.NameKey> childProjects = Lists.newArrayList();
+    final List<Project.NameKey> childProjects = new ArrayList<>();
     for (final ProjectControl pc : children) {
       childProjects.add(pc.getProject().getNameKey());
     }
@@ -175,7 +174,7 @@ final class AdminSetParent extends SshCommand {
    * that were specified to be excluded from reparenting.
    */
   private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent) {
-    final List<Project.NameKey> childProjects = Lists.newArrayList();
+    final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded =
         new ArrayList<>(excludedChildren.size());
     for (final ProjectControl excludedChild : excludedChildren) {

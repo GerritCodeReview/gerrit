@@ -703,7 +703,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void start() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    List<Change> changes = Lists.newArrayList();
+    List<Change> changes = new ArrayList<>();
     for (int i = 0; i < 2; i++) {
       changes.add(insert(repo, newChange(repo)));
     }
@@ -717,7 +717,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void startWithLimit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    List<Change> changes = Lists.newArrayList();
+    List<Change> changes = new ArrayList<>();
     for (int i = 0; i < 3; i++) {
       changes.add(insert(repo, newChange(repo)));
     }
@@ -747,8 +747,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void updateOrder() throws Exception {
     resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
-    List<ChangeInserter> inserters = Lists.newArrayList();
-    List<Change> changes = Lists.newArrayList();
+    List<ChangeInserter> inserters = new ArrayList<>();
+    List<Change> changes = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       inserters.add(newChange(repo));
       changes.add(insert(repo, inserters.get(i)));

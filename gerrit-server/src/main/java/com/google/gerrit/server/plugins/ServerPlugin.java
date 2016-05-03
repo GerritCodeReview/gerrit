@@ -30,6 +30,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -279,7 +280,7 @@ public class ServerPlugin extends Plugin {
     if (serverManager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {
         if (reloadableHandles == null) {
-          reloadableHandles = Lists.newArrayList();
+          reloadableHandles = new ArrayList<>();
         }
         reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }

@@ -22,8 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -32,6 +30,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +38,7 @@ import java.util.Set;
 public class SchemaUtil {
   public static <V> ImmutableSortedMap<Integer, Schema<V>> schemasFromClass(
       Class<?> schemasClass, Class<V> valueClass) {
-    Map<Integer, Schema<V>> schemas = Maps.newHashMap();
+    Map<Integer, Schema<V>> schemas = new HashMap<>();
     for (Field f : schemasClass.getDeclaredFields()) {
       if (Modifier.isStatic(f.getModifiers())
           && Modifier.isFinal(f.getModifiers())
@@ -100,7 +99,7 @@ public class SchemaUtil {
       Iterable<String> emails) {
     Splitter at = Splitter.on('@');
     Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
-    HashSet<String> parts = Sets.newHashSet();
+    HashSet<String> parts = new HashSet<>();
     for (String email : emails) {
       if (email == null) {
         continue;

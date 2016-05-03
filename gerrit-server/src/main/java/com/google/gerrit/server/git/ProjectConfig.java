@@ -69,6 +69,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -527,7 +528,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
    */
   private void loadNotifySections(
       Config rc, Map<String, GroupReference> groupsByName) {
-    notifySections = Maps.newHashMap();
+    notifySections = new HashMap<>();
     for (String sectionName : rc.getSubsections(NOTIFY)) {
       NotifyConfig n = new NotifyConfig();
       n.setName(sectionName);
@@ -683,7 +684,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void loadLabelSections(Config rc) {
     Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
-    labelSections = Maps.newLinkedHashMap();
+    labelSections = new LinkedHashMap<>();
     for (String name : rc.getSubsections(LABEL)) {
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
@@ -693,7 +694,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
       lowerNames.put(lower, name);
 
-      List<LabelValue> values = Lists.newArrayList();
+      List<LabelValue> values = new ArrayList<>();
       for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
         try {
           values.add(parseLabelValue(value));
@@ -818,7 +819,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void loadPluginSections(Config rc) {
-    pluginConfigs = Maps.newHashMap();
+    pluginConfigs = new HashMap<>();
     for (String plugin : rc.getSubsections(PLUGIN)) {
       Config pluginConfig = new Config();
       pluginConfigs.put(plugin, pluginConfig);
@@ -973,7 +974,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveNotifySections(
       Config rc, Set<AccountGroup.UUID> keepGroups) {
     for (NotifyConfig nc : sort(notifySections.values())) {
-      List<String> email = Lists.newArrayList();
+      List<String> email = new ArrayList<>();
       for (GroupReference gr : nc.getGroups()) {
         if (gr.getUUID() != null) {
           keepGroups.add(gr.getUUID());
@@ -982,7 +983,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
       Collections.sort(email);
 
-      List<String> addrs = Lists.newArrayList();
+      List<String> addrs = new ArrayList<>();
       for (Address addr : nc.getAddresses()) {
         addrs.add(addr.toString());
       }

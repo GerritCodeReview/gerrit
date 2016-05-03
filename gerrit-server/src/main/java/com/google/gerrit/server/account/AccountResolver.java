@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -154,7 +153,7 @@ public class AccountResolver {
 
       // more than one match, try to return the best one
       String name = nameOrEmail.substring(0, lt - 1);
-      Set<Account.Id> nameMatches = Sets.newHashSet();
+      Set<Account.Id> nameMatches = new HashSet<>();
       for (Account.Id id : ids) {
         Account a = byId.get(id).getAccount();
         if (name.equals(a.getFullName())) {

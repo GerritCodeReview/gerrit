@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.server.query.QueryParseException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +44,8 @@ public class PredicateArgs {
    * @throws QueryParseException
    */
   PredicateArgs(String args) throws QueryParseException {
-    positional = Lists.newArrayList();
-    keyValue = Maps.newHashMap();
+    positional = new ArrayList<>();
+    keyValue = new HashMap<>();
 
     String[] splitArgs = args.split(",");
 

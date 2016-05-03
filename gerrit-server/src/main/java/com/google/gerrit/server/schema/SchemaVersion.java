@@ -26,6 +26,7 @@ import com.google.inject.Provider;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public abstract class SchemaVersion {
     migrateData(pending, ui, curr, db);
 
     JdbcSchema s = (JdbcSchema) db;
-    final List<String> pruneList = Lists.newArrayList();
+    final List<String> pruneList = new ArrayList<>();
     s.pruneSchema(new StatementExecutor() {
       @Override
       public void execute(String sql) {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.testutil;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.testutil.log.LogUtil;
 
 import org.apache.log4j.LogManager;
@@ -22,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -102,7 +102,7 @@ public abstract class LoggingMockingTestCase extends MockingTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    loggedEvents = Lists.newArrayList();
+    loggedEvents = new ArrayList<>();
 
     // The logger we're interested is class name without the trailing "Test".
     // While this is not the most general approach it is sufficient for now,

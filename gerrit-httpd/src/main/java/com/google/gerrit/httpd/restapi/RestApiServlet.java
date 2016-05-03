@@ -40,9 +40,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -123,10 +121,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
@@ -712,13 +714,13 @@ public class RestApiServlet extends HttpServlet {
 
   private static void enablePartialGetFields(GsonBuilder gb,
       Multimap<String, String> config) {
-    final Set<String> want = Sets.newHashSet();
+    final Set<String> want = new HashSet<>();
     for (String p : config.get("fields")) {
       Iterables.addAll(want, OptionUtil.splitOptionValue(p));
     }
     if (!want.isEmpty()) {
       gb.addSerializationExclusionStrategy(new ExclusionStrategy() {
-        private final Map<String, String> names = Maps.newHashMap();
+        private final Map<String, String> names = new HashMap<>();
 
         @Override
         public boolean shouldSkipField(FieldAttributes field) {
@@ -917,7 +919,7 @@ public class RestApiServlet extends HttpServlet {
       }
     }
 
-    Map<String, RestView<RestResource>> r = Maps.newTreeMap();
+    Map<String, RestView<RestResource>> r = new TreeMap<>();
     for (String plugin : views.plugins()) {
       RestView<RestResource> action = views.get(plugin, name);
       if (action != null) {
@@ -950,7 +952,7 @@ public class RestApiServlet extends HttpServlet {
     if (Strings.isNullOrEmpty(path)) {
       return Collections.emptyList();
     }
-    List<IdString> out = Lists.newArrayList();
+    List<IdString> out = new ArrayList<>();
     for (String p : Splitter.on('/').split(path)) {
       out.add(IdString.fromUrl(p));
     }

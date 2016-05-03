@@ -46,6 +46,30 @@
       "revId": "da532b6c0a0037ac5c41dbaeafd4e6142707a235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_4ae5b3b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-05-03T15:44:17Z",
+      "side": 1,
+      "message": "I created two changes to bring this fix into master\n\nhttps://gerrit-review.googlesource.com/#/c/77176/\nhttps://gerrit-review.googlesource.com/#/c/77177/",
+      "parentUuid": "4830cdcd_871166a2",
+      "range": {
+        "startLine": 14,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "da532b6c0a0037ac5c41dbaeafd4e6142707a235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

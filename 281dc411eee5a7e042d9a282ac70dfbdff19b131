@@ -52,6 +52,24 @@
       "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_89c6d924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T11:33:00Z",
+      "side": 0,
+      "message": "I would say yes.",
+      "parentUuid": "883645c6_895fb964",
+      "revId": "281dc411eee5a7e042d9a282ac70dfbdff19b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

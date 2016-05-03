@@ -49,6 +49,7 @@ public interface AccountApi {
 
   List<SshKeyInfo> listSshKeys() throws RestApiException;
   SshKeyInfo addSshKey(String key) throws RestApiException;
+  void deleteSshKey(int seq) throws RestApiException;
 
   Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException;
   Map<String, GpgKeyInfo> putGpgKeys(List<String> add, List<String> remove)
@@ -125,6 +126,11 @@ public interface AccountApi {
 
     @Override
     public SshKeyInfo addSshKey(String key) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteSshKey(int seq) throws RestApiException {
       throw new NotImplementedException();
     }
 

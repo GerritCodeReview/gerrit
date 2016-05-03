@@ -340,6 +340,7 @@ public class AccountIT extends AbstractDaemonTest {
     // The test account should initially have exactly one ssh key
     List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(1);
+    assertSequenceNumbers(info);
     SshKeyInfo key = info.get(0);
     String inital = AccountCreator.publicKey(admin.sshKey, admin.email);
     assertThat(key.sshPublicKey).isEqualTo(inital);
@@ -350,11 +351,35 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().self().addSshKey(newKey);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
+    assertSequenceNumbers(info);
 
-    // Add an existing key again
+    // Add an existing key (the request succeeds, but the key isn't added again)
     gApi.accounts().self().addSshKey(inital);
     info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(2);
+    assertSequenceNumbers(info);
+
+    // Add another new key
+    String newKey2 = AccountCreator.publicKey(
+        AccountCreator.genSshKey(), admin.email);
+    gApi.accounts().self().addSshKey(newKey2);
+    info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
+    assertSequenceNumbers(info);
+
+    // Delete second key
+    gApi.accounts().self().deleteSshKey(2);
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(2);
+    assertThat(info.get(0).seq).isEqualTo(1);
+    assertThat(info.get(1).seq).isEqualTo(3);
+  }
+
+  private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {
+    int seq = 1;
+    for (SshKeyInfo key : sshKeys) {
+      assertThat(key.seq).isEqualTo(seq++);
+    }
   }
 
   private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {

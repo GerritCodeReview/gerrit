@@ -171,10 +171,13 @@ public class ChangeApi {
   }
 
   public static RestApi suggestReviewers(int id, String q, int n, boolean e) {
-    return change(id).view("suggest_reviewers")
-        .addParameter("q", q)
+    RestApi api = change(id).view("suggest_reviewers")
         .addParameter("n", n)
         .addParameter("e", e);
+    if (q != null) {
+      api.addParameter("q", q);
+    }
+    return api;
   }
 
   public static RestApi vote(int id, int reviewer, String vote) {

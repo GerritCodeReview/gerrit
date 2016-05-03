@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c842fd2f_8b116da2",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T09:32:41Z",
+      "side": 1,
+      "message": "a list of ... entities?",
+      "range": {
+        "startLine": 1482,
+        "startChar": 12,
+        "endLine": 1482,
+        "endChar": 63
+      },
+      "revId": "7e520d2e26af050ef3cee789d46308f17a6f5ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_6b4601b1",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T09:32:41Z",
+      "side": 1,
+      "message": "Should this actually be a list?\n\n  [\n    {\n      \"project\": \"Test Project 1\",\n      \"notify_new_changes\": true,\n      \"notify_new_patch_sets\": true,\n      \"notify_all_comments\": true,\n    }\n  ]",
+      "range": {
+        "startLine": 1489,
+        "startChar": 2,
+        "endLine": 1494,
+        "endChar": 3
+      },
+      "revId": "7e520d2e26af050ef3cee789d46308f17a6f5ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_ab162995",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-03T09:32:41Z",
+      "side": 1,
+      "message": "The arguments of these methods look somewhat inconsistent. \n\nsetWatchedProjects takes a list of ProjectWatchInfo entities whereas deleteWatchedProjects expects one DeleteWatchedProjectsInput, which contains a list.\n\nMaybe either both should expect a list, or both should expect an Input object that contains the list. I believe so far we always use the on Input object, so we might do this for consistency, but I\u0027m also fine with having the list as argument here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 59
+      },
+      "revId": "7e520d2e26af050ef3cee789d46308f17a6f5ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.8
-============================
+= Release notes for Gerrit 2.8
 
 
 Gerrit 2.8 is now available:
@@ -8,8 +7,7 @@ link:https://www.gerritcodereview.com/download/gerrit-2.8.war[
 https://www.gerritcodereview.com/download/gerrit-2.8.war]
 
 
-Schema Change
--------------
+== Schema Change
 
 
 *WARNING:* This release contains schema changes.  To upgrade:
@@ -46,8 +44,7 @@ link:https://gerrit-review.googlesource.com/Documentation/pgm-init.html[
 site initialization].
 
 
-Release Highlights
-------------------
+== Release Highlights
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/intro-change-screen.html[
@@ -70,11 +67,9 @@ JavaScript API] for plugins.
 * New core plugin: Download Commands.
 
 
-New Features
-------------
+== New Features
 
-Build
-~~~~~
+=== Build
 
 * Gerrit is now built with
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-buck.html[
@@ -83,8 +78,7 @@ Buck].
 * Documentation is now built with Buck and link:http://asciidoctor.org[Asciidoctor].
 
 
-Indexing and Search
-~~~~~~~~~~~~~~~~~~~
+=== Indexing and Search
 
 Gerrit can be configured to use a
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_index_a_section_index[
@@ -111,8 +105,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/pgm-r
 reindex program] before restarting the Gerrit server.
 
 
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 * Project owners can define `receive.maxObjectSizeLimit` in the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#receive.maxObjectSizeLimit[
@@ -168,17 +161,14 @@ configured to copy scores forward to new patch sets if there is no code change].
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-labels.html#httpd.label_copyAllScoresOnTrivialRebase[
 configured to copy scores forward to new patch sets for trivial rebases].
 
-Web UI
-~~~~~~
+=== Web UI
 
 
-Global
-^^^^^^
+==== Global
 
 * The change status is shown in a separate column on dashboards and search results.
 
-Change Screens
-^^^^^^^^^^^^^^
+==== Change Screens
 
 
 * New change screen with completely redesigned UI, using the REST API.
@@ -220,8 +210,7 @@ identical to the reviewed file.
 are uploaded.
 
 
-REST API
-~~~~~~~~
+=== REST API
 
 * Several new link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api.html[
 REST API endpoints] are added.
@@ -230,15 +219,13 @@ REST API endpoints] are added.
 
 * REST views can handle 'HTTP 422 Unprocessable Entity' responses.
 
-Access Rights
-^^^^^^^^^^^^^
+==== Access Rights
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-access.html#list-access[
 List access rights for project(s)]
 
-Accounts
-^^^^^^^^
+==== Accounts
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#create-account[
@@ -310,8 +297,7 @@ Star change]
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#unstar-change[
 Unstar change]
 
-Changes
-^^^^^^^
+==== Changes
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#rebase-change[
@@ -345,8 +331,7 @@ Suggest reviewers]
 Get included in]
 
 
-Config
-^^^^^^
+==== Config
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-config.html#get-capabilities[
 Get capabilities]
@@ -355,8 +340,7 @@ Get capabilities]
 Get version] (of the Gerrit server)
 
 
-Projects
-^^^^^^^^
+==== Projects
 
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#list-branches[
@@ -381,8 +365,7 @@ Get child project]
 Set configuration]
 
 
-Capabilities
-~~~~~~~~~~~~
+=== Capabilities
 
 
 New global capabilities are added.
@@ -403,8 +386,7 @@ Site administrators do not inherit this capability;  it must be granted
 explicitly.
 
 
-Emails
-~~~~~~
+=== Emails
 
 * The `RebasedPatchSet` template is removed.  Email notifications for rebased
 changes are now sent with the `ReplacePatchSet` template.
@@ -413,12 +395,10 @@ changes are now sent with the `ReplacePatchSet` template.
 to, and links to the file(s) in which comments are made.
 
 
-Plugins
-~~~~~~~
+=== Plugins
 
 
-Global
-^^^^^^
+==== Global
 
 
 * Plugins may now contribute buttons to various parts of the UI using the
@@ -475,14 +455,12 @@ Gerrit and are now implemented by a new core plugin, `download-commands`.
 
 
 
-Commit Message Length Checker
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Commit Message Length Checker
 
 
 * Commits whose subject or body length exceeds the limit can be rejected.
 
-Replication
-^^^^^^^^^^^
+==== Replication
 
 * Automatically create missing repositories on the destination.
 +
@@ -528,8 +506,7 @@ job is rescheduled according to the replication delay, rather than the retry
 delay.
 
 
-ssh
-~~~
+=== ssh
 
 
 * The `commit-msg` hook installation command is now
@@ -557,8 +534,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-s
 * The 'CHANGEID,PATCHSET' format for specifying a patch set in the `review` command
 is no longer considered to be a 'legacy' feature that will be removed in future.
 
-Daemon
-~~~~~~
+=== Daemon
 
 
 * Add `--init` option to Daemon to initialize site on daemon start.
@@ -567,12 +543,10 @@ The `--init` option will also upgrade an already existing site and is processed 
 non-interactive (batch) mode.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 
-General
-~~~~~~~
+=== General
 
 
 * Use the parent change on the same branch for rebases.
@@ -619,8 +593,7 @@ By filtering the refs before the objectIds are added to advertisedHaves,
 lots of time can be saved when pushing to complex Gits.
 
 
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 
 * Do not persist default project state in `project.config`.
@@ -644,12 +617,10 @@ Support optional Certificate Revocation List (CRL) with `CLIENT_SSL_CERT_LDAP`.
 
 * Fix JdbcSQLException when numbers are read from cache.
 
-Web UI
-~~~~~~
+=== Web UI
 
 
-Global
-^^^^^^
+==== Global
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
@@ -669,8 +640,7 @@ Correctly shows '-1' instead of '1' for label score.
 If a user voted '-1', and then another user voted '+1' for a label, the
 label was shown as a red '1' in the change list instead of red '-1'.
 
-Change Screens
-^^^^^^^^^^^^^^
+==== Change Screens
 
 
 * Default review comment visibility is changed to expand all recent.
@@ -694,8 +664,7 @@ patch set N" instead.
 
 * Prevent duplicate permitted_labels from being shown in labels list.
 
-Diff Screens
-^^^^^^^^^^^^
+==== Diff Screens
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1233[Issue 1233]:
@@ -708,8 +677,7 @@ When comparing patch sets and some comment was put in one side,
 that comment was not shown if there was no code changed between
 the two patch sets
 
-Project Screens
-^^^^^^^^^^^^^^^
+==== Project Screens
 
 
 * Only enable the delete branch button when branches are selected.
@@ -717,16 +685,14 @@ Project Screens
 * Disable the delete branch button while branch deletion requests are
 still being processed.
 
-User Profile Screens
-^^^^^^^^^^^^^^^^^^^^
+==== User Profile Screens
 
 
 * The preferred email address field is shown as empty if the user has no
 preferred email address.
 
 
-REST API
-~~~~~~~~
+=== REST API
 
 
 * Support raw input also in POST requests.
@@ -735,8 +701,7 @@ REST API
 
 * Return all revisions when `o=ALL_REVISIONS` is set on `/changes/`.
 
-ssh
-~~~
+=== ssh
 
 
 * The `--force-message` option is removed from the
@@ -762,11 +727,9 @@ The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/c
 * Improve the error message when rejecting upload for review to a read-only project.
 
 
-Plugins
-~~~~~~~
+=== Plugins
 
-Global
-^^^^^^
+==== Global
 
 * Better error message when a Javascript plugin cannot be loaded.
 
@@ -784,8 +747,7 @@ one ref update only.
 * Make plugin servlet's context path authorization aware.
 
 
-Review Notes
-^^^^^^^^^^^^
+==== Review Notes
 
 * Do not try to create review notes for ref deletion events.
 
@@ -800,22 +762,19 @@ Fix note creation when the same commit exists in another Git repository.
 
 * Correct documentation of the export command.
 
-Emails
-~~~~~~
+=== Emails
 
 * Email notifications are sent for new changes created via actions in the
 Web UI such as cherry-picking or reverting a change.
 
 
-Tools
-~~~~~
+=== Tools
 
 
 * git-exproll.sh: return non-zero on errors
 
 
-Documentation
--------------
+== Documentation
 
 
 * The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/index.html[
@@ -832,8 +791,7 @@ release notes.
 Documentation of the query operator is fixed.
 
 
-Upgrades
---------
+== Upgrades
 
 * Update JGit to 3.1.0.201310021548-r
 * Update gwtorm to 1.7

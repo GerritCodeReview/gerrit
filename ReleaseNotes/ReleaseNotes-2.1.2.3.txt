@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.2.3
-================================
+= Release notes for Gerrit 2.1.2.3
 
 Gerrit 2.1.2.3 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Bug Fixes
----------
+== Bug Fixes
 
 * issue 528 gsql: Fix escaping of quotes in JSON
 +

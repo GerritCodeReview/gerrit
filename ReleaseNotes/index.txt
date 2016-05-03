@@ -1,21 +1,17 @@
-Gerrit Code Review - Release Notes
-==================================
+= Gerrit Code Review - Release Notes
 
-[[2_13]]
-Version 2.13.x
---------------
+[[s2_13]]
+== Version 2.13.x
 * link:ReleaseNotes-2.13.html[2.13]
 
-[[2_12]]
-Version 2.12.x
---------------
+[[s2_12]]
+== Version 2.12.x
 * link:ReleaseNotes-2.12.2.html[2.12.2]
 * link:ReleaseNotes-2.12.1.html[2.12.1]
 * link:ReleaseNotes-2.12.html[2.12]
 
-[[2_11]]
-Version 2.11.x
---------------
+[[s2_11]]
+== Version 2.11.x
 * link:ReleaseNotes-2.11.9.html[2.11.9]
 * link:ReleaseNotes-2.11.8.html[2.11.8]
 * link:ReleaseNotes-2.11.7.html[2.11.7]
@@ -27,9 +23,8 @@ Version 2.11.x
 * link:ReleaseNotes-2.11.1.html[2.11.1]
 * link:ReleaseNotes-2.11.html[2.11]
 
-[[2_10]]
-Version 2.10.x
---------------
+[[s2_10]]
+== Version 2.10.x
 * link:ReleaseNotes-2.10.7.html[2.10.7]
 * link:ReleaseNotes-2.10.6.html[2.10.6]
 * link:ReleaseNotes-2.10.5.html[2.10.5]
@@ -40,18 +35,16 @@ Version 2.10.x
 * link:ReleaseNotes-2.10.1.html[2.10.1]
 * link:ReleaseNotes-2.10.html[2.10]
 
-[[2_9]]
-Version 2.9.x
--------------
+[[s2_9]]
+== Version 2.9.x
 * link:ReleaseNotes-2.9.4.html[2.9.4]
 * link:ReleaseNotes-2.9.3.html[2.9.3]
 * link:ReleaseNotes-2.9.2.html[2.9.2]
 * link:ReleaseNotes-2.9.1.html[2.9.1]
 * link:ReleaseNotes-2.9.html[2.9]
 
-[[2_8]]
-Version 2.8.x
--------------
+[[s2_8]]
+== Version 2.8.x
 * link:ReleaseNotes-2.8.6.1.html[2.8.6.1]
 * link:ReleaseNotes-2.8.6.html[2.8.6]
 * link:ReleaseNotes-2.8.5.html[2.8.5]
@@ -61,20 +54,17 @@ Version 2.8.x
 * link:ReleaseNotes-2.8.1.html[2.8.1]
 * link:ReleaseNotes-2.8.html[2.8]
 
-[[2_7]]
-Version 2.7.x
--------------
+[[s2_7]]
+== Version 2.7.x
 * link:ReleaseNotes-2.7.html[2.7]
 
-[[2_6]]
-Version 2.6.x
--------------
+[[s2_6]]
+== Version 2.6.x
 * link:ReleaseNotes-2.6.1.html[2.6.1]
 * link:ReleaseNotes-2.6.html[2.6]
 
-[[2_5]]
-Version 2.5.x
--------------
+[[s2_5]]
+== Version 2.5.x
 * link:ReleaseNotes-2.5.6.html[2.5.6]
 * link:ReleaseNotes-2.5.5.html[2.5.5]
 * link:ReleaseNotes-2.5.4.html[2.5.4]
@@ -83,33 +73,29 @@ Version 2.5.x
 * link:ReleaseNotes-2.5.1.html[2.5.1]
 * link:ReleaseNotes-2.5.html[2.5]
 
-[[2_4]]
-Version 2.4.x
--------------
+[[s2_4]]
+== Version 2.4.x
 * link:ReleaseNotes-2.4.4.html[2.4.4]
 * link:ReleaseNotes-2.4.3.html[2.4.3]
 * link:ReleaseNotes-2.4.2.html[2.4.2]
 * link:ReleaseNotes-2.4.1.html[2.4.1]
 * link:ReleaseNotes-2.4.html[2.4]
 
-[[2_3]]
-Version 2.3.x
--------------
+[[s2_3]]
+== Version 2.3.x
 * link:ReleaseNotes-2.3.1.html[2.3.1]
 * link:ReleaseNotes-2.3.html[2.3]
 
-[[2_2]]
-Version 2.2.x
--------------
+[[s2_2]]
+== Version 2.2.x
 * link:ReleaseNotes-2.2.2.2.html[2.2.2.2]
 * link:ReleaseNotes-2.2.2.1.html[2.2.2.1]
 * link:ReleaseNotes-2.2.2.html[2.2.2]
 * link:ReleaseNotes-2.2.1.html[2.2.1]
 * link:ReleaseNotes-2.2.0.html[2.2.0]
 
-[[2_1]]
-Version 2.1.x
--------------
+[[s2_1]]
+== Version 2.1.x
 * link:ReleaseNotes-2.1.10.html[2.1.10]
 * link:ReleaseNotes-2.1.9.html[2.1.9]
 * link:ReleaseNotes-2.1.8.html[2.1.8]
@@ -130,9 +116,8 @@ Version 2.1.x
 * link:ReleaseNotes-2.1.1.html[2.1.1]
 * link:ReleaseNotes-2.1.html[2.1]
 
-[[2_0]]
-Version 2.0.x
--------------
+[[s2_0]]
+== Version 2.0.x
 * link:ReleaseNotes-2.0.24.html[2.0.24.2]
 * link:ReleaseNotes-2.0.24.html[2.0.24.1]
 * link:ReleaseNotes-2.0.24.html[2.0.24]

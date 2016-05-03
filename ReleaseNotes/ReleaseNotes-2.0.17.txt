@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.0.17
-===============================
+= Release notes for Gerrit 2.0.17
 
 Gerrit 2.0.17 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING: This version contains a schema change* (since 2.0.16)
 
@@ -22,8 +20,7 @@ After the upgrade is successful, apply the final script to drop dead columns:
   java -jar gerrit.war --cat sql/upgrade014_015_part2.sql | mysql reviewdb
 ----
 
-New Features
-------------
+== New Features
 * Add '[' and ']' shortcuts to PatchScreen.
 +
 The keys '[' and ']' can be used to navigate to previous and next file in a patch set.
@@ -56,8 +53,7 @@ Per-user green check marks now appear when you view a file.  This makes it easie
 +
 The owner of a project was moved from the General tab to the Access Rights tab, under a new category called Owner.  This permits multiple groups to be designated the Owner of the project (simply grant Owner status to each group).
 
-Bug Fixes
----------
+== Bug Fixes
 * Permit author Signed-off-by to be optional
 +
 If a project requires Signed-off-by tags to appear the author tag is now optional, only the committer/uploader must provide a Signed-off-by tag.
@@ -83,8 +79,7 @@ You can now view a change made to a gitlink (aka a submodule path).
 +
 Instead of crashing on a criss-cross merge case, Gerrit unsubmits the change and attaches a message, like it does when it encounters a path conflict.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.17 development
 * Move '[' and ']' key bindings to Navigation category
 * Use gwtexpui 1.1.2-SNAPSHOT to fix navigation keys

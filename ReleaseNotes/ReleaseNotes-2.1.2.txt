@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.2
-==============================
+= Release notes for Gerrit 2.1.2
 
 Gerrit 2.1.2 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING* This release contains multiple schema changes.  To upgrade:
 ----
@@ -14,8 +12,7 @@ Schema Change
 ----
 
 
-Breakages
----------
+== Breakages
 
 * issue 421 Force validation of the author and committer lines
 +
@@ -33,11 +30,9 @@ match prior behavior grant Forge Identity +1 where Read +2 (Upload)
 exists, and Forge Identity +2 where Push Branch >= +1 exists.
 
 
-New Features
-------------
+== New Features
 
-UI - Diff Viewer
-~~~~~~~~~~~~~~~~
+=== UI - Diff Viewer
 
 * issue 169 Highlight line-level (aka word) differences in files
 +
@@ -110,8 +105,7 @@ h. WINDOWS-1252
 * Use RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK for tabs
 * Use a tooltip to explain whitespace errors
 
-UI - Other
-~~~~~~~~~~
+=== UI - Other
 
 * issue 408 Show summary of code review, verified on all open changes
 +
@@ -153,8 +147,7 @@ patch set.
 Site administrators can now theme the UI with local site colors
 by setting theme variables in gerrit.config.
 
-Permissions
-~~~~~~~~~~~
+=== Permissions
 
 * issue 60 Change permissions to be branch based
 +
@@ -172,8 +165,7 @@ category for reviews that are performed by automated lint tools.
 See link:http://gerrit.googlecode.com/svn/documentation/2.1.2/access-control.html#function_MaxNoBlock[access control]
 for more details on this function.
 
-Remote Access
-~~~~~~~~~~~~~
+=== Remote Access
 
 * Enable smart HTTP under /p/ URLs
 +
@@ -210,8 +202,7 @@ SSH command arguments may now be quoted with double quotes, in
 addition to single quotes.  This can make it easier to intermix
 quoting styles with the shell that is calling the SSH client .
 
-Server Administration
-~~~~~~~~~~~~~~~~~~~~~
+=== Server Administration
 
 * issue 383 Add event hook support
 +
@@ -272,8 +263,7 @@ The gsql command now supports JSON as an output format, making
 software driven queries over SSH easier.  The -c option accepts
 one query, executes it, and returns.
 
-Other
-~~~~~
+=== Other
 
 * Warn when a commit message isn't wrapped
 +
@@ -290,11 +280,9 @@ the authorship of the merge commit is copied from one of those commits
 rather than from the user's preferred account information.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
-UI
-~~
+=== UI
 
 * Change "Publish Comments" to "Review"
 +
@@ -380,8 +368,7 @@ than once in the "Needed By" list.  Fixed.
 * Update URL for GitHub's SSH key guide
 * issue 314 Hide group type choice if LDAP is not enabled
 
-Email
-~~~~~
+=== Email
 
 * Send missing dependencies to owners if they are the only reviewer
 +
@@ -401,8 +388,7 @@ there is no way to know who wrote a comment or voted on a change.
 An additional from line is now injected at the start of the email
 body to indicate the actual user.
 
-Remote Access
-~~~~~~~~~~~~~
+=== Remote Access
 
 * issue 385 Delete session cookie when session is expired
 +
@@ -443,8 +429,7 @@ LDAP usernames no longer are permitted to start with or end with
 whitespace, removing a common source of typos that lead to users
 being automatically assigned more than one Gerrit user account.
 
-Server Administration
-~~~~~~~~~~~~~~~~~~~~~
+=== Server Administration
 
 * daemon: Really allow httpd.listenUrl to end with /
 +
@@ -532,8 +517,7 @@ browser tab since the upgrade, opening a new section of the UI
 sometimes failed.  Fixed by executing an implicit reload in these
 cases, reducing the number of times a user sees a failure.
 
-Development
-~~~~~~~~~~~
+=== Development
 
 * issue 427 Adjust SocketUtilTest to be more likely to pass
 +
@@ -569,8 +553,7 @@ package, which was never even included in the distribution, was
 removed from the license file.
 
 
-Schema Changes in Detail
-------------------------
+== Schema Changes in Detail
 
 * Remove Project.Id and use only Project.NameKey
 +
@@ -594,8 +577,7 @@ onto a distributed storage system where multi-row atomic updates
 aren't possible, or to run on MySQL MyISAM tables.
 
 
-Other Changes
--------------
+== Other Changes
 * Update gwtorm to 1.1.4-SNAPSHOT
 * Add unique column ids to every column
 * Remove unused byName @SecondaryKey from ApprovalCategory

@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.14, 2.0.14.1
-=========================================
+= Release notes for Gerrit 2.0.14, 2.0.14.1
 
 Gerrit 2.0.14.1 is now available in the usual location:
 
@@ -13,8 +12,7 @@ Apply the database specific schema script:
   java -jar gerrit.war --cat sql/upgrade012_013_mysql.sql | mysql reviewdb
 ----
 
-New Features
-------------
+== New Features
 * GERRIT-177  Display branch name next to project in change list
 +
 Now its easier to see from your Mine>Changes what branch each change goes to.  For some users this may help prioritize reviews.
@@ -53,8 +51,7 @@ Group membership changes are now audited in the account_group_members_audit tabl
 +
 This is really for the server admin, the Git reflogs are now more likely to contain actual user information in them, rather than generic "gerrit2@localhost" identities.  This may help if you are mining "WTF happened to this branch" data from Git directly.
 
-Bug Fixes
----------
+== Bug Fixes
 * GERRIT-213  Fix n/p on a file with only one edit
 * GERRIT-66   Always show comments in patch views, even if no edit e...
 * Correctly handle comments after last hunk of patch
@@ -81,8 +78,7 @@ Minor cosmetic improvements.
 +
 Fixed run-on addresses when more than one user was listed in To/CC headers.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.14 development (again)
 * Small doc updates.
 * Merge change 10282

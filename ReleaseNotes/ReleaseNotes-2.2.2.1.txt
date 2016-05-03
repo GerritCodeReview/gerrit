@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.2.2.1
-================================
+= Release notes for Gerrit 2.2.2.1
 
 Gerrit 2.2.2.1 is now available:
 
@@ -11,8 +10,7 @@ anything but 2.2.2, follow the upgrade procedure in the 2.2.2
 link:ReleaseNotes-2.2.2.html[ReleaseNotes].
 
 
-Bug Fixes
----------
+== Bug Fixes
 * issue 1139 Fix change state in patch set approval if reviewer is added to
 closed change
 +
@@ -35,8 +33,7 @@ hash to the comment. This was accidentally removed in
 commit 14246de3c0f81c06bba8d4530e6bf00e918c11b0
 
 
-Documentation
--------------
+== Documentation
 * Update top level SUBMITTING_PATCHES
 +
 This document is out of date, the URLs are from last August.

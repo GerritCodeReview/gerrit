@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.8.5
-==============================
+= Release notes for Gerrit 2.8.5
 
 Download:
 link:https://www.gerritcodereview.com/download/gerrit-2.8.5.war[
 https://www.gerritcodereview.com/download/gerrit-2.8.5.war]
 
-Schema Changes and Upgrades
----------------------------
+== Schema Changes and Upgrades
 
 
 * There are no schema changes from link:ReleaseNotes-2.8.4.html[2.8.4].
@@ -24,19 +22,16 @@ updated library files, the site must be updated:
   java -jar gerrit.war init -d site_path
 ----
 
-Bug Fixes
----------
+== Bug Fixes
 
 
-Secondary Index
-~~~~~~~~~~~~~~~
+=== Secondary Index
 
 
 * Fix deadlocks on index shutdown.
 
 
-Change Screen
-~~~~~~~~~~~~~
+=== Change Screen
 
 
 * Only permit current patch set to edit the commit message.
@@ -68,8 +63,7 @@ Only reset the box when the user explicitly clicks Cancel.
 * Fix failure to load side-by-side diff due to "ISE EditIterator out of bounds"
 error.
 
-ssh
-~~~
+=== ssh
 
 * Upgrade SSHD to version 0.11.0.
 +
@@ -90,8 +84,7 @@ The nio2 backend was disabled in Gerrit version 2.8.4 because of a
 link:https://issues.apache.org/jira/browse/SSHD-252[bug in SSHD].  That bug
 was fixed in SSHD version 0.10.0, so now we can re-enable nio2.
 
-Misc
-~~~~
+=== Misc
 
 
 * Keep old timestamps during data migration.

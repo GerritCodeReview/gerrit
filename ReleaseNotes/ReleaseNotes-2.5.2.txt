@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.5.2
-==============================
+= Release notes for Gerrit 2.5.2
 
 Gerrit 2.5.2 is now available:
 
@@ -10,8 +9,7 @@ There are no schema changes from 2.5, or 2.5.1.
 However, if upgrading from any earlier version, follow the upgrade
 procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
 
-Bug Fixes
----------
+== Bug Fixes
 * Improve performance of ReceiveCommits for repos with many refs
 +
 When validating the received commits all existing refs were added as

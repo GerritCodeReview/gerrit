@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.6.1
-==============================
+= Release notes for Gerrit 2.6.1
 
 There are no schema changes from link:ReleaseNotes-2.6.html[2.6].
 
 link:https://www.gerritcodereview.com/download/gerrit-2.6.1.war[https://www.gerritcodereview.com/download/gerrit-2.6.1.war]
 
-Bug Fixes
----------
+== Bug Fixes
 * Patch JGit security hole
 +
 The security hole may permit a modified Git client to gain access

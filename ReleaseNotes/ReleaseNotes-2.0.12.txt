@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.0.12
-===============================
+= Release notes for Gerrit 2.0.12
 
 Gerrit 2.0.12 is now available in the usual location:
 
@@ -12,21 +11,17 @@ Apply the schema upgrade:
   java -jar gerrit.war --cat sql/upgrade010_011.sql | psql reviewdb
 ----
 
-Important Notes
----------------
+== Important Notes
 
-Java 6 Required
-~~~~~~~~~~~~~~~
+=== Java 6 Required
 
 Gerrit now requires running within a Java 6 (or later) JVM.
 
-Protocol change
-~~~~~~~~~~~~~~~
+=== Protocol change
 
 The protocol between the browser based JavaScript and the server has changed.  After installing 2.0.12 users need to load the site page again to ensure they are running 2.0.12 or later.  Users can verify they have the new version by checking the version number in the footer in the lower right.  Users who don't load the new version (e.g. are using a stale tab from a week ago) will see errors when trying to view patches.
 
-New Features
-------------
+== New Features
 * Honor --reviewer=not.preferred.email during upload
 * Also scan by preferred email for --reviewers and --cc ...
 +
@@ -73,8 +68,7 @@ A new per-account setting allows users to control how many rows appear per page 
 +
 Keyboard bindings have been completely overhauled in this release, and should now work on every browser.  Press '?' in any context to see the available actions.  Please note that this help is context sensitive, so you will only see keys that make sense in the current context.  Actions in a user dashboard screen differ from actions in a patch (for example), but where possible the same key is used when the logical meaning is unchanged.
 
-Bug Fixes
----------
+== Bug Fixes
 * Ignore "SshException: Already closed" errors
 +
 Hides some non-errors from the log file.
@@ -83,8 +77,7 @@ Hides some non-errors from the log file.
 +
 Should be a minor improvement for MSIE 6 users.
 
-Other Changes
--------------
+== Other Changes
 * Start 2.0.12 development
 * Report what version we want on a schema version mismat...
 * Remove unused imports in SshServlet

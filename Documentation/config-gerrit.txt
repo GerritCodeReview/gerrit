@@ -67,6 +67,15 @@ be added at once by adding a group as reviewer.
 +
 Default is 20.
 
+[[addReviewer.baseWeight]]addReviewer.baseWeight::
++
+The weight that will be applied in the default reviewer ranking algorithm.
+This can be increased or decreased to give more or less influence to plugins.
+If set to zero, the base ranking will not have any effect. Reviewers will then
+be ordered as ranked by the plugins (if there are any).
++
+By default 1.
+
 [[auth]]
 === Section auth
 
@@ -3907,10 +3916,10 @@ By default 10.
 [[suggest.from]]suggest.from::
 +
 The number of characters that a user must have typed before suggestions
-are provided. If set to 0, suggestions are always provided.
+are provided. If set to 0, suggestions are always provided. This is only
+used for suggesting accounts when adding members to a group.
 +
 By default 0.
-
 
 [[theme]]
 === Section theme

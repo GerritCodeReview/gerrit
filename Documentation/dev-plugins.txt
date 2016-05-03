@@ -2399,6 +2399,41 @@ new RestApi("accounts").id("self").view("password.http")
 ----
 
 
+[[reviewer-suggestion]]
+== Reviewer Suggestion Plugins
+
+Gerrit provides an extension point that enables Plugins to rank
+the list of reviewer suggestion a user receives upon clicking "Add Reviewer" on
+the change screen.
+Gerrit supports both a default suggestion that appears when the user has not yet
+typed anything and a filtered suggestion that is shown as the user starts
+typing.
+Plugins receive a candidate list and can return a List of suggested reviewers
+containing the Account.Id and a score for each reviewer.
+The candidate list is non-binding and plugins can choose to return reviewers not
+initially contained in the candidate list.
+Server administrators can configure the overall weight of your plugin using the
+weight config parameter on [addreviewer "<pluginName-endpointName>"].
+
+[source, java]
+----
+import com.google.gerrit.server.change.ReviewerSuggestion;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
+
+import java.util.Set;
+
+public class MyPlugin implements ReviewerSuggestion {
+  public Set<SuggestedReviewer> suggestReviewers(
+      Change.Id changeId, String query, Set<Account.Id> candidates){
+      Set<SuggestedReviewer> suggestions = new HashSet<>();
+      // Implement your ranking logic here
+      return suggestions;
+  }
+}
+----
+
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

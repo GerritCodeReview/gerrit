@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4830cdcd_27cefa6a",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:37:51Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 32,
+        "startChar": 61,
+        "endLine": 32,
+        "endChar": 62
+      },
+      "revId": "514a1b19db83b11e6017d515aff6a88b22544a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

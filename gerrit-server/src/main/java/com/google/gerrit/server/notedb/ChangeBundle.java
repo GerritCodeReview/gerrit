@@ -334,11 +334,18 @@ public class ChangeBundle {
     Change b = bundleB.change;
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
 
+    boolean excludeSubject = false;
     boolean excludeOrigSubj = false;
     boolean excludeTopic = false;
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
 
+
+    // Ignore subject if the NoteDb subject starts with the ReviewDb subject.
+    // The NoteDb subject is read directly from the commit, whereas the ReviewDb
+    // subject historically may have been truncated to fit in a SQL varchar
+    // column.
+    //
     // Ignore null original subject on the ReviewDb side, as this field is
     // always set in NoteDb.
     //
@@ -346,10 +353,12 @@ public class ChangeBundle {
     //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludeSubject = b.getSubject().startsWith(a.getSubject());
       excludeOrigSubj = a.getOriginalSubjectOrNull() == null;
       excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludeSubject = a.getSubject().startsWith(b.getSubject());
       excludeOrigSubj = b.getOriginalSubjectOrNull() == null;
       excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
       bUpdated = bundleB.getLatestTimestamp();
@@ -358,6 +367,9 @@ public class ChangeBundle {
     String updatedField = "lastUpdatedOn";
     List<String> exclude =
         Lists.newArrayList(updatedField, "noteDbState", "rowVersion");
+    if (excludeSubject) {
+      exclude.add("subject");
+    }
     if (excludeOrigSubj) {
       exclude.add("originalSubject");
     }

@@ -302,6 +302,42 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffChangesAllowsReviewDbSubjectToBePrefixOfNoteDbSubject()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c1.currentPatchSetId(),
+        c1.getSubject().substring(0, 10), c1.getOriginalSubject());
+    assertThat(c2.getSubject()).isNotEqualTo(c1.getSubject());
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {Change sub}");
+
+    // ReviewDb has shorter subject, allowed.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+
+    // NoteDb has shorter subject, not allowed.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {Change sub}");
+  }
+
+  @Test
   public void diffChangeMessageKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();

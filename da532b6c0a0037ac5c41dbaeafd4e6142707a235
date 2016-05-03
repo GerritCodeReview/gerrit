@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83309d6_2ac79f56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:22:02Z",
+      "side": 1,
+      "message": "Does this mean the issue doesn\u0027t exist on master because the change is never null?",
+      "range": {
+        "startLine": 14,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "da532b6c0a0037ac5c41dbaeafd4e6142707a235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

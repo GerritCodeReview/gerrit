@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -42,7 +44,10 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class Schema_124 extends SchemaVersion {
@@ -106,7 +111,7 @@ public class Schema_124 extends SchemaVersion {
           md.getCommitBuilder().setCommitter(serverUser);
 
           authorizedKeys.load(md);
-          authorizedKeys.setKeys(e.getValue());
+          authorizedKeys.setKeys(fixInvalidSequenceNumbers(e.getValue()));
           authorizedKeys.commit(md);
         }
       }
@@ -115,5 +120,27 @@ public class Schema_124 extends SchemaVersion {
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);
     }
+  }
+
+  private Collection<AccountSshKey> fixInvalidSequenceNumbers(
+      Collection<AccountSshKey> keys) {
+    Ordering<AccountSshKey> o =
+        Ordering.natural().onResultOf(new Function<AccountSshKey, Integer>() {
+          @Override
+          public Integer apply(AccountSshKey sshKey) {
+            return sshKey.getKey().get();
+          }
+        });
+    List<AccountSshKey> fixedKeys = new ArrayList<>(keys);
+    AccountSshKey minKey = o.min(keys);
+    while (minKey.getKey().get() <= 0) {
+      AccountSshKey fixedKey = new AccountSshKey(
+          new AccountSshKey.Id(minKey.getKey().getParentKey(),
+              Math.max(o.max(keys).getKey().get() + 1, 1)),
+          minKey.getSshPublicKey());
+      Collections.replaceAll(fixedKeys, minKey, fixedKey);
+      minKey = o.min(fixedKeys);
+    }
+    return fixedKeys;
   }
 }

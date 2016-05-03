@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adccfb7d_42935260",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-03T23:29:17Z",
+      "side": 0,
+      "message": "Deleting this line is what caused all the syntax errors. Bad rebase I guess.",
+      "revId": "a101030aff248720174ab854e6df8173c4b5c35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

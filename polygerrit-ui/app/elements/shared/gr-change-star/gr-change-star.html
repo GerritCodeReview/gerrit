@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../gr-request/gr-request.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-change-star">
   <template>
@@ -46,6 +46,7 @@ limitations under the License.
       <!-- Public Domain image from the Noun Project: https://thenounproject.com/search/?q=star&i=25969 -->
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M26.439,95.601c-5.608,2.949-9.286,0.276-8.216-5.968l4.5-26.237L3.662,44.816c-4.537-4.423-3.132-8.746,3.137-9.657  l26.343-3.829L44.923,7.46c2.804-5.682,7.35-5.682,10.154,0l11.78,23.87l26.343,3.829c6.27,0.911,7.674,5.234,3.138,9.657  L77.277,63.397l4.501,26.237c1.07,6.244-2.608,8.916-8.216,5.968L50,83.215L26.439,95.601z"></path></svg>
     </button>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-star.js"></script>
 </dom-module>

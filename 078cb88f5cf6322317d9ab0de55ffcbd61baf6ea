@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83309d6_8adc0b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:36:23Z",
+      "side": 1,
+      "message": "\"an empty\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_aae1cfe2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:36:23Z",
+      "side": 1,
+      "message": "What about tags?",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4830cdcd_e7eb02bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:36:23Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_cae603f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:36:23Z",
+      "side": 1,
+      "message": "unnecessary final",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 9
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

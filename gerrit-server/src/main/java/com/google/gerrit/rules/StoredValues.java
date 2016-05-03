@@ -16,7 +16,6 @@ package com.google.gerrit.rules;
 
 import static com.google.gerrit.rules.StoredValue.create;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -45,6 +44,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class StoredValues {
@@ -150,7 +150,7 @@ public final class StoredValues {
       new StoredValue<Map<Account.Id, IdentifiedUser>>() {
         @Override
         protected Map<Account.Id, IdentifiedUser> createValue(Prolog engine) {
-          return Maps.newHashMap();
+          return new HashMap<>();
         }
       };
 

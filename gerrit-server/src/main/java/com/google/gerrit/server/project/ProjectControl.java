@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -385,7 +384,7 @@ public class ProjectControl {
     }
     final IdentifiedUser iUser = user.asIdentifiedUser();
 
-    List<AccountGroup.UUID> okGroupIds = Lists.newArrayList();
+    List<AccountGroup.UUID> okGroupIds = new ArrayList<>();
     for (ContributorAgreement ca : contributorAgreements) {
       List<AccountGroup.UUID> groupIds;
       groupIds = okGroupIds;

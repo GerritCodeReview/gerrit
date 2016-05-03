@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -35,6 +34,7 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +90,7 @@ public class ListMembers implements RestReadView<GroupResource> {
       final HashSet<AccountGroup.UUID> seenGroups) throws OrmException {
     seenGroups.add(groupUUID);
 
-    final Map<Account.Id, AccountInfo> members = Maps.newHashMap();
+    final Map<Account.Id, AccountInfo> members = new HashMap<>();
     final AccountGroup group = groupCache.get(groupUUID);
     if (group == null) {
       // the included group is an external group and can't be resolved

@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +82,7 @@ public class PermissionCollection {
 
       Collection<String> usernames = null;
       boolean perUser = false;
-      Map<AccessSection, Project.NameKey> sectionToProject = Maps.newLinkedHashMap();
+      Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
       for (SectionMatcher sm : matcherList) {
         // If the matcher has to expand parameters and its prefix matches the
         // reference there is a very good chance the reference is actually user

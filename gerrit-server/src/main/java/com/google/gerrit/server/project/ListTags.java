@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -43,6 +42,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -93,7 +93,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   @Override
   public List<TagInfo> apply(ProjectResource resource) throws IOException,
       ResourceNotFoundException, BadRequestException {
-    List<TagInfo> tags = Lists.newArrayList();
+    List<TagInfo> tags = new ArrayList<>();
 
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {

@@ -37,7 +37,6 @@ package com.google.gerrit.util.cli;
 import com.google.common.base.Strings;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -59,6 +58,7 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -282,7 +282,7 @@ public class CmdLineParser {
 
   @SuppressWarnings("rawtypes")
   private static Map<String, OptionHandler> index(List<OptionHandler> in) {
-    Map<String, OptionHandler> m = Maps.newHashMap();
+    Map<String, OptionHandler> m = new HashMap<>();
     for (OptionHandler handler : in) {
       if (handler.option instanceof NamedOptionDef) {
         NamedOptionDef def = (NamedOptionDef) handler.option;
@@ -352,7 +352,7 @@ public class CmdLineParser {
     private void ensureOptionsInitialized() {
       if (optionsList == null) {
         help = new HelpOption();
-        optionsList = Lists.newArrayList();
+        optionsList = new ArrayList<>();
         addOption(help, help);
       }
     }

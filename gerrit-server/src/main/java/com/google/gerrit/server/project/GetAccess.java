@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -48,6 +47,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 @Singleton
@@ -135,7 +135,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     }
 
     info.local = new HashMap<>();
-    info.ownerOf = Sets.newHashSet();
+    info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
 
     for (AccessSection section : config.getAccessSections()) {

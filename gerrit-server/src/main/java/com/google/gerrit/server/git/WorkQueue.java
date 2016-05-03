@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListenableFutureTask;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -129,7 +128,7 @@ public class WorkQueue {
   }
 
   public <T> List<T> getTaskInfos(TaskInfoFactory<T> factory) {
-    List<T> taskInfos = Lists.newArrayList();
+    List<T> taskInfos = new ArrayList<>();
     for (Executor exe : queues) {
       for (Task<?> task : exe.getTasks()) {
         taskInfos.add(factory.getTaskInfo(task));

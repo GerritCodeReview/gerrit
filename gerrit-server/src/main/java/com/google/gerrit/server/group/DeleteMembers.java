@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -36,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -102,7 +102,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
   private Map<Account.Id, AccountGroupMember> getMembers(
       final AccountGroup.Id groupId) throws OrmException {
-    final Map<Account.Id, AccountGroupMember> members = Maps.newHashMap();
+    final Map<Account.Id, AccountGroupMember> members = new HashMap<>();
     for (final AccountGroupMember m : db.get().accountGroupMembers()
         .byGroup(groupId)) {
       members.put(m.getAccountId(), m);

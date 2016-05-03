@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -33,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -93,7 +93,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     @Override
     public Set<Account.Id> load(String email) throws Exception {
       try (ReviewDb db = schema.open()) {
-        Set<Account.Id> r = Sets.newHashSet();
+        Set<Account.Id> r = new HashSet<>();
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
         }

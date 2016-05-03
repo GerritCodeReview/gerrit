@@ -14,8 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
@@ -29,7 +27,9 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,14 +54,14 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
 
   @Override
   public AgreementInfo call() throws Exception {
-    List<String> accepted = Lists.newArrayList();
-    Map<String, ContributorAgreement> agreements = Maps.newHashMap();
+    List<String> accepted = new ArrayList<>();
+    Map<String, ContributorAgreement> agreements = new HashMap<>();
     Collection<ContributorAgreement> cas =
         projectCache.getAllProjects().getConfig().getContributorAgreements();
     for (ContributorAgreement ca : cas) {
       agreements.put(ca.getName(), ca.forUi());
 
-      List<AccountGroup.UUID> groupIds = Lists.newArrayList();
+      List<AccountGroup.UUID> groupIds = new ArrayList<>();
       for (PermissionRule rule : ca.getAccepted()) {
         if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)) {
           if (rule.getGroup().getUUID() == null) {

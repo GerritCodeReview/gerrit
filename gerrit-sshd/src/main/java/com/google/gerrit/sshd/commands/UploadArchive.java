@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
@@ -38,6 +37,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -113,7 +113,7 @@ public class UploadArchive extends AbstractGitCommand {
    */
   protected void readArguments() throws IOException, Failure {
     String argCmd = "argument ";
-    List<String> args = Lists.newArrayList();
+    List<String> args = new ArrayList<>();
 
     // Read arguments in Pkt-Line format
     PacketLineIn packetIn = new PacketLineIn(in);

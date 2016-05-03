@@ -21,7 +21,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
@@ -37,6 +36,7 @@ import org.junit.Test;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -88,7 +88,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
+    Set<SubmoduleSubscription> expectedSubscriptions = new HashSet<>();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a"), "refs/heads/master"), "a"));
@@ -135,7 +135,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
+    Set<SubmoduleSubscription> expectedSubscriptions = new HashSet<>();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a"), "refs/heads/master"), "a"));
@@ -204,7 +204,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
+    Set<SubmoduleSubscription> expectedSubscriptions = new HashSet<>();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a/b"), "refs/heads/master"), "a/b"));

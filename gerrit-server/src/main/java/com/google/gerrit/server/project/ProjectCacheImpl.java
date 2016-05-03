@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -210,7 +211,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-    Set<AccountGroup.UUID> groups = Sets.newHashSet();
+    Set<AccountGroup.UUID> groups = new HashSet<>();
     for (Project.NameKey n : all()) {
       ProjectState p = byName.getIfPresent(n.get());
       if (p != null) {

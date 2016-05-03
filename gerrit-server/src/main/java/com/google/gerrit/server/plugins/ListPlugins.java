@@ -16,7 +16,6 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -34,6 +33,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /** List the installed plugins. */
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
@@ -63,7 +63,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     });
 
     if (stdout == null) {
-      Map<String, PluginInfo> output = Maps.newTreeMap();
+      Map<String, PluginInfo> output = new TreeMap<>();
       for (Plugin p : plugins) {
         PluginInfo info = new PluginInfo(p);
         output.put(p.getName(), info);

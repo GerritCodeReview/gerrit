@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -148,7 +147,7 @@ public class ApprovalCopier {
   private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd)
       throws OrmException {
     Collection<PatchSet> patchSets = cd.patchSets();
-    TreeMap<Integer, PatchSet> result = Maps.newTreeMap();
+    TreeMap<Integer, PatchSet> result = new TreeMap<>();
     for (PatchSet ps : patchSets) {
       result.put(ps.getId().get(), ps);
     }

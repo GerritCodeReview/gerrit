@@ -82,7 +82,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -139,15 +141,15 @@ class ChangeNotesParser implements AutoCloseable {
     this.repo = repoManager.openRepository(project);
     this.noteUtil = noteUtil;
     this.metrics = metrics;
-    approvals = Maps.newHashMap();
-    reviewers = Maps.newLinkedHashMap();
-    allPastReviewers = Lists.newArrayList();
+    approvals = new HashMap<>();
+    reviewers = new LinkedHashMap<>();
+    allPastReviewers = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
-    allChangeMessages = Lists.newArrayList();
+    allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
     patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
-    patchSetStates = Maps.newHashMap();
+    patchSetStates = new HashMap<>();
   }
 
   @Override
@@ -660,7 +662,7 @@ class ChangeNotesParser implements AutoCloseable {
           new Supplier<Map<Entry<String, String>, Optional<PatchSetApproval>>>() {
             @Override
             public Map<Entry<String, String>, Optional<PatchSetApproval>> get() {
-              return Maps.newLinkedHashMap();
+              return new LinkedHashMap<>();
             }
           });
       approvals.put(psId, curr);
@@ -690,7 +692,7 @@ class ChangeNotesParser implements AutoCloseable {
         checkFooter(rec != null, FOOTER_SUBMITTED_WITH, line);
         SubmitRecord.Label label = new SubmitRecord.Label();
         if (rec.labels == null) {
-          rec.labels = Lists.newArrayList();
+          rec.labels = new ArrayList<>();
         }
         rec.labels.add(label);
 

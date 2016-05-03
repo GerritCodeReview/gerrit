@@ -15,7 +15,6 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -29,6 +28,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RefOperationValidators {
@@ -63,7 +63,7 @@ public class RefOperationValidators {
   public List<ValidationMessage> validateForRefOperation()
     throws RefOperationValidationException {
 
-    List<ValidationMessage> messages = Lists.newArrayList();
+    List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
     try {
       for (RefOperationValidationListener listener : refOperationValidationListeners) {

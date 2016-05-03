@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1462215324 +0200\nnonce AD0XjTUwBElTX1H66GnTLJ9NRb4hxiGf6cyjSBTs2QIHnDNi9P0ExjGv4v5fa5bSh3fzBF22HRND\n\n0000000000000000000000000000000000000000 ea37c789179aae16e84548605e4d8640e6144c13 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXJ6KcAAoJEHFVO370GiZWxQgH/1OTbPBEIJxM92Ag0LZ0iLcP\neZz+GV5T8HtS7DNYLUdoCSZcID1+IcMlCbxm7FTutcMPavK/+jFJttFn+p8r91kg\nrZCQK11mSooss75etWNfgCRtnovCpm6xANFbnVzLwAFRnpQYNi69RIVAl/qx17p7\nu19d7LlyST15Nw7mOvBjXFFh6VHo7JA+8Z4P3bGbQqK1M7MrXUJuyv7Vi1SdYIxo\nhO2Y3o3dl7hk+kSARX3bwNWowTN03nmjDU/22a8FyHKABJdb3I7MRGFU+PZNRHpl\nZ2sI6gfkZi4XPDQjTQD7WR1J9E7dUBUEdEyLpYC45kX8WzfkVBk/YetKjOB6mmo\u003d\n\u003dQbzL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "883645c6_c9fd3180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-05-03T07:54:30Z",
+      "side": 1,
+      "message": "seems to be the cause of https://groups.google.com/forum/#!topic/repo-discuss/D1CId1sgEJY",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 57
+      },
+      "revId": "07952c069abd75abd6d33e58561307d86e0cabb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "883645c6_c943715b",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "import requests.auth ? \n\nnon-qualified names are evil :)",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_e948357a",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "here too",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_cb6c55fb",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "?",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_095e6935",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "make this an arg. I have a ~/tmp/ that I\u0027d hate to loose unless warned.",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_295b2d46",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "comment on key/value meaning here, eg.\n\n  # UID \u003d\u003e name\n\nor something",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_49586147",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "if jsonString.startswith(.. ): \n   \n\n)]}\u0027 could be valid json, or embedded in a  string literal",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_eb7111d2",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "just inline a string constant?\n\nOr write your own.\n\n  \u0027 \u0027.join([random.choice(\u0027lorem ipsum doleret delendam \\n esse\u0027.split(\u0027 \u0027)) for x in xrange(1,100)])",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c842fd2f_0b773dc5",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "here too. Better if you\u0027re working on a plane, or if they discontinue the site",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_a9355de8",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "neat, but i\u0027d just shell out to \n \n  ssh-keygen -f /tmp/out -N \u0027\u0027\n\nand let openssh do the work.",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_e93f55c4",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-03T16:22:07Z",
+      "side": 1,
+      "message": "this is kind of scary.",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

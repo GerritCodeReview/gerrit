@@ -17,12 +17,12 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -50,7 +50,7 @@ public class MergeTip {
     checkArgument(!toMerge.isEmpty(), "toMerge may not be empty");
     this.initialTip = initialTip;
     this.branchTip = initialTip;
-    this.mergeResults = Maps.newHashMap();
+    this.mergeResults = new HashMap<>();
     // Assume fast-forward merge until opposite is proven.
     for (CodeReviewCommit commit : toMerge) {
       mergeResults.put(commit.copy(), commit.copy());

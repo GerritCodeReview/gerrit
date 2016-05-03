@@ -17,7 +17,6 @@ package com.google.gerrit.pgm;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -42,6 +41,7 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -114,7 +114,7 @@ public class Reindex extends SiteProgram {
     if (changesVersion != null) {
       versions.put(ChangeSchemaDefinitions.INSTANCE.getName(), changesVersion);
     }
-    List<Module> modules = Lists.newArrayList();
+    List<Module> modules = new ArrayList<>();
     Module indexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:

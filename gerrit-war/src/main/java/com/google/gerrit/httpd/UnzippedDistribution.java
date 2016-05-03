@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import static com.google.gerrit.pgm.init.InitPlugins.JAR;
 import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.inject.Singleton;
 
@@ -26,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -57,7 +57,7 @@ class UnzippedDistribution implements PluginsDistribution {
 
   @Override
   public List<String> listPluginNames() throws FileNotFoundException {
-    List<String> names = Lists.newArrayList();
+    List<String> names = new ArrayList<>();
     String[] list = getPluginsDir().list();
     if (list != null) {
       for (String pluginJarName : list) {

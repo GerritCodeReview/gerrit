@@ -17,7 +17,6 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
@@ -42,6 +41,7 @@ import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
 
 import java.net.SocketAddress;
+import java.util.HashMap;
 import java.util.Map;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
@@ -50,7 +50,7 @@ public class SshModule extends LifecycleModule {
 
   @Inject
   SshModule(@GerritServerConfig Config cfg) {
-    aliases = Maps.newHashMap();
+    aliases = new HashMap<>();
     for (String name : cfg.getNames("ssh-alias", true)) {
       aliases.put(name, cfg.getString("ssh-alias", null, name));
     }

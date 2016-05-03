@@ -15,7 +15,6 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
@@ -26,6 +25,7 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -146,7 +146,7 @@ public abstract class Plugin {
     if (manager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {
         if (reloadableHandles == null) {
-          reloadableHandles = Lists.newArrayList();
+          reloadableHandles = new ArrayList<>();
         }
         reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }

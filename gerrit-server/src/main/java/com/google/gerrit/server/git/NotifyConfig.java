@@ -15,12 +15,12 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.mail.Address;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 public class NotifyConfig implements Comparable<NotifyConfig> {
@@ -33,8 +33,8 @@ public class NotifyConfig implements Comparable<NotifyConfig> {
   private String filter;
 
   private Header header;
-  private Set<GroupReference> groups = Sets.newHashSet();
-  private Set<Address> addresses = Sets.newHashSet();
+  private Set<GroupReference> groups = new HashSet<>();
+  private Set<Address> addresses = new HashSet<>();
 
   public String getName() {
     return name;

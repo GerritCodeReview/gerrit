@@ -152,7 +152,7 @@ public class PatchLineCommentsUtil {
     }
 
     notes.load();
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getComments().values());
     return sort(comments);
   }
@@ -164,7 +164,7 @@ public class PatchLineCommentsUtil {
           db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
     }
 
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
       Account.Id account = Account.Id.fromRefSuffix(ref.getName());
       if (account != null) {
@@ -192,7 +192,7 @@ public class PatchLineCommentsUtil {
     if (!migration.readChanges()) {
       return sort(db.patchComments().byPatchSet(psId).toList());
     }
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(publishedByPatchSet(db, notes, psId));
 
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
@@ -262,7 +262,7 @@ public class PatchLineCommentsUtil {
             }
           }).toSortedList(PLC_ORDER);
     }
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
   }
@@ -274,7 +274,7 @@ public class PatchLineCommentsUtil {
       return sort(db.patchComments().draftByAuthor(author).toList());
     }
 
-    List<PatchLineComment> comments = Lists.newArrayList();
+    List<PatchLineComment> comments = new ArrayList<>();
     try (Repository repo = repoManager.openRepository(allUsers)) {
       for (String refName : repo.getRefDatabase()
           .getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {

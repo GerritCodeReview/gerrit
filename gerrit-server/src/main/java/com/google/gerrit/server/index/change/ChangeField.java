@@ -222,7 +222,7 @@ public class ChangeField {
       return ImmutableSet.of();
     }
     Splitter s = Splitter.on('/').omitEmptyStrings();
-    Set<String> r = Sets.newHashSet();
+    Set<String> r = new HashSet<>();
     for (String path : paths) {
       for (String part : s.split(path)) {
         r.add(part);
@@ -302,7 +302,7 @@ public class ChangeField {
           if (c == null) {
             return ImmutableSet.of();
           }
-          Set<Integer> r = Sets.newHashSet();
+          Set<Integer> r = new HashSet<>();
           if (!args.allowsDrafts && c.getStatus() == Change.Status.DRAFT) {
             return r;
           }
@@ -336,7 +336,7 @@ public class ChangeField {
       };
 
   private static Set<String> getRevisions(ChangeData cd) throws OrmException {
-    Set<String> revisions = Sets.newHashSet();
+    Set<String> revisions = new HashSet<>();
     for (PatchSet ps : cd.patchSets()) {
       if (ps.getRevision() != null) {
         revisions.add(ps.getRevision().get());
@@ -372,8 +372,8 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Set<String> allApprovals = Sets.newHashSet();
-          Set<String> distinctApprovals = Sets.newHashSet();
+          Set<String> allApprovals = new HashSet<>();
+          Set<String> distinctApprovals = new HashSet<>();
           for (PatchSetApproval a : input.currentApprovals()) {
             if (a.getValue() != 0 && !a.isLegacySubmit()) {
               allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
@@ -505,7 +505,7 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Set<String> r = Sets.newHashSet();
+          Set<String> r = new HashSet<>();
           for (PatchLineComment c : input.publishedComments()) {
             r.add(c.getMessage());
           }

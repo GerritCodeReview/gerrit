@@ -19,11 +19,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Singleton;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Singleton
 public class GarbageCollectionQueue {
-  private final Set<Project.NameKey> projectsScheduledForGc = Sets.newHashSet();
+  private final Set<Project.NameKey> projectsScheduledForGc = new HashSet<>();
 
   public synchronized Set<Project.NameKey> addAll(Collection<Project.NameKey> projects) {
     Set<Project.NameKey> added =

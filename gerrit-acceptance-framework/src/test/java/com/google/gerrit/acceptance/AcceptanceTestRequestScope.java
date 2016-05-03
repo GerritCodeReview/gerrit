@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -32,6 +31,7 @@ import com.google.inject.Provider;
 import com.google.inject.Scope;
 import com.google.inject.util.Providers;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an Acceptance Test connection. */
@@ -44,7 +44,7 @@ public class AcceptanceTestRequestScope {
 
   public static class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
-    private final Map<Key<?>, Object> map = Maps.newHashMap();
+    private final Map<Key<?>, Object> map = new HashMap<>();
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final SshSession session;
     private final CurrentUser user;

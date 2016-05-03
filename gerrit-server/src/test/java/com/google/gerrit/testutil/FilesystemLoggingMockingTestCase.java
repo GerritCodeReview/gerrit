@@ -15,17 +15,17 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 
 import org.eclipse.jgit.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTestCase {
 
-  private Collection<File> toCleanup = Lists.newArrayList();
+  private Collection<File> toCleanup = new ArrayList<>();
 
   /**
    * Asserts that a given file exists.

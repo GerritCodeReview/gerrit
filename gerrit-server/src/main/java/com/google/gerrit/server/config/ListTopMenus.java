@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -34,7 +34,7 @@ class ListTopMenus implements RestReadView<ConfigResource> {
 
   @Override
   public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
-    List<TopMenu.MenuEntry> entries = Lists.newArrayList();
+    List<TopMenu.MenuEntry> entries = new ArrayList<>();
     for (TopMenu extension : extensions) {
       entries.addAll(extension.getEntries());
     }

@@ -1804,7 +1804,7 @@ public class MyMenu implements TopMenu {
 
   @Inject
   public MyMenu(@PluginName String name) {
-    menuEntries = Lists.newArrayList();
+    menuEntries = new ArrayList<>();
     menuEntries.add(new MenuEntry("My Menu", Collections.singletonList(
       new MenuItem("My Screen", "#/x/" + name + "/my-screen", ""))));
   }

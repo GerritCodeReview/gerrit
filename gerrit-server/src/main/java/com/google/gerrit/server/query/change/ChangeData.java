@@ -125,7 +125,7 @@ public class ChangeData {
       return;
     }
 
-    Map<Change.Id, ChangeData> missing = Maps.newHashMap();
+    Map<Change.Id, ChangeData> missing = new HashMap<>();
     for (ChangeData cd : changes) {
       if (cd.change == null) {
         missing.put(cd.getId(), cd);
@@ -183,7 +183,7 @@ public class ChangeData {
       return;
     }
 
-    Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
+    Map<PatchSet.Id, ChangeData> missing = new HashMap<>();
     for (ChangeData cd : changes) {
       if (cd.currentPatchSet == null && cd.patchSets == null) {
         missing.put(cd.change().currentPatchSetId(), cd);

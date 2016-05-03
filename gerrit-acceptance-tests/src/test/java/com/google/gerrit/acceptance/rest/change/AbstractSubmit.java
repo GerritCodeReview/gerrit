@@ -26,7 +26,6 @@ import static org.junit.Assert.fail;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -82,6 +81,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -127,7 +127,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    mergeResults = Maps.newHashMap();
+    mergeResults = new HashMap<>();
     eventListenerRegistration =
         eventListeners.add(new UserScopedEventListener() {
           @Override

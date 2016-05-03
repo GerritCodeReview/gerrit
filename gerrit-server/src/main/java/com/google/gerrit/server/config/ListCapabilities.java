@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -28,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 /** List capabilities visible to the calling user. */
 @Singleton
@@ -43,7 +43,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   @Override
   public Map<String, CapabilityInfo> apply(ConfigResource resource)
       throws IllegalAccessException, NoSuchFieldException {
-    Map<String, CapabilityInfo> output = Maps.newTreeMap();
+    Map<String, CapabilityInfo> output = new TreeMap<>();
     collectCoreCapabilities(output);
     collectPluginCapabilities(output);
     return output;

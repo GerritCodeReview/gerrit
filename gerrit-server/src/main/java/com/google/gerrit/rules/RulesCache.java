@@ -18,7 +18,6 @@ import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -61,6 +60,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -283,7 +283,7 @@ public class RulesCache {
         predicateProviders, cl)));
     ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
 
-    List<String> packages = Lists.newArrayList();
+    List<String> packages = new ArrayList<>();
     packages.addAll(PACKAGE_LIST);
     for (PredicateProvider predicateProvider : predicateProviders) {
       packages.addAll(predicateProvider.getPackages());

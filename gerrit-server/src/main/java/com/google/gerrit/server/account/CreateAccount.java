@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -51,6 +50,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -214,7 +214,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
 
   private Set<AccountGroup.Id> parseGroups(List<String> groups)
       throws UnprocessableEntityException {
-    Set<AccountGroup.Id> groupIds = Sets.newHashSet();
+    Set<AccountGroup.Id> groupIds = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
         groupIds.add(GroupDescriptions.toAccountGroup(

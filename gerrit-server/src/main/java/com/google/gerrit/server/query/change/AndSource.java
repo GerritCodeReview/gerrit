@@ -21,7 +21,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
@@ -108,7 +107,7 @@ public class AndSource extends AndPredicate<ChangeData>
     if (source == null) {
       throw new OrmException("No ChangeDataSource: " + this);
     }
-    List<ChangeData> r = Lists.newArrayList();
+    List<ChangeData> r = new ArrayList<>();
     ChangeData last = null;
     int nextStart = 0;
     boolean skipped = false;

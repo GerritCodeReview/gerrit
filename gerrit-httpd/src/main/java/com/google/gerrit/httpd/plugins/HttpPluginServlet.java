@@ -66,8 +66,10 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -100,7 +102,7 @@ class HttpPluginServlet extends HttpServlet
   private final int sshPort;
   private final RestApiServlet managerApi;
 
-  private List<Plugin> pending = Lists.newArrayList();
+  private List<Plugin> pending = new ArrayList<>();
   private ContextMapper wrapper;
   private final ConcurrentMap<String, PluginHolder> plugins
       = Maps.newConcurrentMap();
@@ -370,10 +372,10 @@ class HttpPluginServlet extends HttpServlet
       String prefix, String pluginName,
       PluginResourceKey cacheKey, HttpServletResponse res,long lastModifiedTime)
       throws IOException {
-    List<PluginEntry> cmds = Lists.newArrayList();
-    List<PluginEntry> servlets = Lists.newArrayList();
-    List<PluginEntry> restApis = Lists.newArrayList();
-    List<PluginEntry> docs = Lists.newArrayList();
+    List<PluginEntry> cmds = new ArrayList<>();
+    List<PluginEntry> servlets = new ArrayList<>();
+    List<PluginEntry> restApis = new ArrayList<>();
+    List<PluginEntry> docs = new ArrayList<>();
     PluginEntry about = null;
     Enumeration<PluginEntry> entries = scanner.entries();
     while (entries.hasMoreElements()) {
@@ -443,7 +445,7 @@ class HttpPluginServlet extends HttpServlet
   private void sendMarkdownAsHtml(String md, String pluginName,
       PluginResourceKey cacheKey, HttpServletResponse res, long lastModifiedTime)
       throws UnsupportedEncodingException, IOException {
-    Map<String, String> macros = Maps.newHashMap();
+    Map<String, String> macros = new HashMap<>();
     macros.put("PLUGIN", pluginName);
     macros.put("SSH_HOST", sshHost);
     macros.put("SSH_PORT", "" + sshPort);

@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.metrics.Counter0;
@@ -625,8 +624,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initCompression(boolean enableCompression) {
-    List<NamedFactory<Compression>> compressionFactories =
-        Lists.newArrayList();
+    List<NamedFactory<Compression>> compressionFactories = new ArrayList<>();
 
     // Always support no compression over SSHD.
     compressionFactories.add(BuiltinCompressions.none);
@@ -661,7 +659,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initUserAuth(final PublickeyAuthenticator pubkey,
       final GSSAuthenticator kerberosAuthenticator,
       String kerberosKeytab, String kerberosPrincipal) {
-    List<NamedFactory<UserAuth>> authFactories = Lists.newArrayList();
+    List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
       log.info("Enabling kerberos with keytab " + kerberosKeytab);

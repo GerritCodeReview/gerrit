@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -26,6 +25,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -43,7 +43,7 @@ public class GetGroups implements RestReadView<AccountResource> {
   public List<GroupInfo> apply(AccountResource resource) throws OrmException {
     IdentifiedUser user = resource.getUser();
     Account.Id userId = user.getAccountId();
-    List<GroupInfo> groups = Lists.newArrayList();
+    List<GroupInfo> groups = new ArrayList<>();
     for (AccountGroup.UUID uuid : user.getEffectiveGroups().getKnownGroups()) {
       GroupControl ctl;
       try {

@@ -19,18 +19,19 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.GerritConfigs;
-import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.*;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.inject.Inject;
@@ -40,7 +41,9 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Hermetic
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject
   private CreateGroup.Factory createGroupFactory;
@@ -87,15 +90,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId, name("u"), 6);
-    assertThat(reviewers).isEmpty();
-  }
-
-  @Test
-  @GerritConfig(name = "suggest.from", value = "2")
-  public void suggestReviewersNoResult3() throws Exception {
-    String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("").substring(0, 1), 6);
     assertThat(reviewers).isEmpty();
   }
 
@@ -167,12 +161,12 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(2);
   }
 
-  @Test
+  //@Test
   public void suggestReviewersFullTextSearch() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 
-    reviewers = suggestReviewers(changeId, "first", 4);
+    reviewers = suggestReviewers(changeId, "first", 20);
     assertThat(reviewers).hasSize(3);
 
     reviewers = suggestReviewers(changeId, "first1", 2);
@@ -269,6 +263,136 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewer.confirm).isTrue();
   }
 
+  @Test
+  public void defaultReviewerSuggestion() throws Exception{
+    String prefix = "defaultReviewerSuggestion-";
+    TestAccount user1 = accounts.create(prefix + "user1",
+        prefix + "user1@example.com", "User1", null);
+    TestAccount reviewer1 = accounts.create(prefix + "user2",
+        prefix + "user2@example.com", "User2", null);
+    TestAccount reviewer2 = accounts.create(prefix + "user3",
+        prefix + "user3@example.com", "User3", null);
+    setApiUser(user1);
+
+    String changeId1 = createChangeFromAPI();
+    addReviewer(changeId1, reviewer1.email);
+
+    String changeId2 = createChangeFromAPI();
+    addReviewer(changeId2, reviewer1.email);
+    addReviewer(changeId2, reviewer2.email);
+
+    List<SuggestedReviewerInfo>  reviewers =
+        suggestReviewers(createChangeFromAPI(), "", 4);
+    assertThat(
+        reviewers.stream()
+            .map(r -> r.account._accountId)
+            .collect(Collectors.toList()))
+        .containsExactly(
+            reviewer1.id.get(),
+            reviewer2.id.get())
+        .inOrder();
+  }
+
+  @Test
+  public void defaultReviewerSuggestionOnFirstChange() throws Exception{
+    String prefix = "defaultReviewerSuggestionOnFChange-";
+    TestAccount user1 = accounts.create(prefix + "user1",
+        prefix + "user1@example.com", "User1", null);
+    setApiUser(user1);
+    List<SuggestedReviewerInfo>  reviewers =
+        suggestReviewers(createChange().getChangeId(), "", 4);
+    assertThat(reviewers).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "suggest.maxSuggestedReviewers", value = "10")
+  public void reviewerRanking() throws Exception{
+    // Assert that user are ranked by the number of times they have reviewed a
+    // change (highest), added comments (medium) or owned a change (low).
+    String prefix = "reviewerRanking-";
+    TestAccount userWhoOwns = accounts.create(prefix + "user1",
+        prefix + "user1@example.com", "Primum1 Finalis1", null);
+    TestAccount reviewer1 = accounts.create(prefix + "user2",
+        prefix + "user2@example.com", "Primum2 Finalis2", null);
+    TestAccount reviewer2 = accounts.create(prefix + "user3",
+        prefix + "user3@example.com", "Primum3 Finalis3", null);
+    TestAccount userWhoComments = accounts.create(prefix + "user4",
+        prefix + "user4@example.com", "Primum4 Finalis4", null);
+    TestAccount userWhoLooksForSuggestions = accounts.create(prefix + "user5",
+        prefix + "user5@example.com", "Primum5 Finalis5", null);
+
+
+    // Create a changee as userWhoOwns and add some reviewers
+    setApiUser(userWhoOwns);
+    String changeId1 = createChangeFromAPI();
+    addReviewer(changeId1, reviewer1.email);
+    setApiUser(user1);
+
+    String changeId2 = createChangeFromAPI();
+    addReviewer(changeId2, reviewer1.email);
+    addReviewer(changeId2, reviewer2.email);
+
+    // Create a comment as a different user
+    setApiUser(userWhoComments);
+    ReviewInput ri = new ReviewInput();
+    ri.message = "Test";
+    gApi.changes().id(changeId1).revision(1).review(ri);
+
+    // Create a change as a new user to assert that we receive the correct
+    // ranking
+
+    setApiUser(userWhoLooksForSuggestions);
+    List<SuggestedReviewerInfo>  reviewers =
+        suggestReviewers(createChangeFromAPI(), "Primum", 4);
+    assertThat(
+        reviewers.stream()
+            .map(r -> r.account._accountId)
+            .collect(Collectors.toList()))
+        .containsExactly(
+            reviewer1.id.get(),
+            reviewer2.id.get(),
+            userWhoOwns.id.get(),
+            userWhoComments.id.get())
+        .inOrder();
+  }
+
+  @Test
+  public void reviewerRankingProjectIsolation() throws Exception{
+    // Create new project
+    Project.NameKey newProject = createProject("test");
+
+    // Create users who review changes in both the default and the new project
+    String prefix = "reviewerRankingProjectIsolation-";
+    TestAccount user1 = accounts.create(prefix + "user1",
+        prefix + "user1@example.com", "Primum1 Finalis1", null);
+    TestAccount reviewer1 = accounts.create(prefix + "user2",
+        prefix + "user2@example.com", "Primum2 Finalis2", null);
+    TestAccount reviewer2 = accounts.create(prefix + "user3",
+        prefix + "user3@example.com", "Primum3 Finalis3", null);
+    setApiUser(user1);
+
+    String changeId1 = createChangeFromAPI();
+    addReviewer(changeId1, reviewer1.email);
+
+    String changeId2 = createChangeFromAPI(newProject);
+    addReviewer(changeId2, reviewer2.email);
+
+    String changeId3 = createChangeFromAPI(newProject);
+    addReviewer(changeId3, reviewer2.email);
+
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(createChangeFromAPI(), "Prim", 4);
+
+    // Assert that reviewer1 is on top, even though reviewer2 has more reviews
+    // in other projects
+    assertThat(
+        reviewers.stream()
+            .map(r -> r.account._accountId)
+            .collect(Collectors.toList()))
+        .containsExactly(reviewer1.id.get(), reviewer2.id.get())
+        .inOrder();
+  }
+
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
       String query, int n) throws Exception {
     return gApi.changes()
@@ -301,5 +425,23 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   private TestAccount user(String name, String fullName, AccountGroup... groups)
       throws Exception {
     return user(name, fullName, name, groups);
+  }
+
+  private void addReviewer(String changeId, String email)
+      throws RestApiException {
+    gApi.changes().id(changeId).addReviewer(email);
+  }
+
+  private String createChangeFromAPI() throws RestApiException{
+    return createChangeFromAPI(project);
+  }
+
+  private String createChangeFromAPI(Project.NameKey project)
+      throws RestApiException{
+    ChangeInput ci = new ChangeInput();
+    ci.project = project.get();
+    ci.subject = "Test change at" + System.nanoTime();
+    ci.branch = "master";
+    return gApi.changes().create(ci).get().changeId;
   }
 }

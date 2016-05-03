@@ -88,19 +88,21 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         ds = escape(ds);
       }
 
-      for (String qterm : splitQuery(qstr)) {
-        qterm = "(" + escape(qterm) + ")";
-        // We now surround qstr by <strong>. But the chosen approach is not too
-        // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
-        // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
-        // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
-        // as repairing those mangled escapes is easier than not mangling them in
-        // the first place, we repair them afterwards.
-        ds = sgi(ds, qterm, "<strong>$1</strong>");
-      }
+      if (!qstr.equals("")) {
+        for (String qterm : splitQuery(qstr)) {
+          qterm = "(" + escape(qterm) + ")";
+          // We now surround qstr by <strong>. But the chosen approach is not too
+          // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
+          // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
+          // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
+          // as repairing those mangled escapes is easier than not mangling them in
+          // the first place, we repair them afterwards.
+          ds = sgi(ds, qterm, "<strong>$1</strong>");
+        }
 
-      // Repairing <strong>-ed escapes.
-      ds = sgi(ds, "(&[a-z]*)<strong>([a-z]*)</strong>([a-z]*;)", "$1$2$3");
+        // Repairing <strong>-ed escapes.
+        ds = sgi(ds, "(&[a-z]*)<strong>([a-z]*)</strong>([a-z]*;)", "$1$2$3");
+      }
 
       displayString = ds;
     }

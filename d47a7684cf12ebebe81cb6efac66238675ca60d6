@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7a73a9_34b6d0eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2456,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2016-05-03T20:17:22Z",
+      "side": 1,
+      "message": "What is the reasoning behind adding this firing here, which is now done for each call to this method (autoCloseChanges)? Maybe this patch set is not the \"final\" one yet, based on your latest replies.",
+      "revId": "d47a7684cf12ebebe81cb6efac66238675ca60d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

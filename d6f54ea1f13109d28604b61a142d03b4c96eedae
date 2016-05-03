@@ -50,6 +50,24 @@
       "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a83309d6_4ac4d34f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-03T06:31:08Z",
+      "side": 1,
+      "message": "There are plenty of places in the code where we use newArrayList():\n\n $ git grep \"newArrayList()\" | wc -l\n     107\n\nadmittedly it\u0027s less than the alternative:\n\n $ git grep \"new ArrayList\u003c\u003e()\" | wc -l\n     268\n\nbut I\u0027m not sure if we have a documented convention for this.",
+      "parentUuid": "c8f83dfd_9bc0cbf2",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

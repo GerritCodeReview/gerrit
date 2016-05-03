@@ -3866,10 +3866,19 @@ By default 10.
 [[suggest.from]]suggest.from::
 +
 The number of characters that a user must have typed before suggestions
-are provided. If set to 0, suggestions are always provided.
+are provided. If set to 0, suggestions are always provided. This is only
+used for suggesting accounts that can be added to a group.
 +
 By default 0.
 
+[[suggest.baseReviewerWeight]]suggest.baseReviewerWeight::
++
+The weight that will be applied in the default reviewer ranking algorithm.
+This can be increased or decreased to give more or less influence to plugins.
+If set to zero, the base ranking will not have any effect. Reviewers will then
+be ordered as ranked by the plugins (if there are any).
++
+By default 1.
 
 [[theme]]
 === Section theme

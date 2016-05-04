@@ -84,27 +84,11 @@
       opt_opts = opt_opts || {};
 
       var fetchOptions = {
-        credentials: (opt_opts.noCredentials ? undefined : 'same-origin'),
+        credentials: 'same-origin',
         headers: opt_opts.headers,
       };
 
-      var urlWithParams = url;
-      if (opt_params) {
-        var params = [];
-        for (var p in opt_params) {
-          if (opt_params[p] == null) {
-            params.push(encodeURIComponent(p));
-            continue;
-          }
-          params.push(
-            encodeURIComponent(p) + '=' +
-            encodeURIComponent(opt_params[p]));
-        }
-        // Sorting the params leaves the order deterministic which is easier
-        // to test.
-        urlWithParams += '?' + params.sort().join('&');
-      }
-
+      var urlWithParams = this._urlWithParams(url, opt_params);
       return fetch(urlWithParams, fetchOptions).then(function(response) {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
@@ -117,14 +101,29 @@
         }
         return this.getResponseObject(response);
       }.bind(this)).catch(function(err) {
-        if (opt_opts.noCredentials) {
-          throw err;
-        } else {
-          // This could be because of a 302 auth redirect. Retry the request.
-          return this.fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params,
-              Object.assign(opt_opts, {noCredentials: true}));
+        throw err;
+      });
+    },
+
+    _urlWithParams: function(url, opt_params) {
+      if (!opt_params) { return url; }
+
+      var params = [];
+      for (var p in opt_params) {
+        if (opt_params[p] == null) {
+          params.push(encodeURIComponent(p));
+          continue;
         }
-      }.bind(this));
+        var values = [].concat(opt_params[p]);
+        for (var i = 0; i < values.length; i++) {
+          params.push(
+            encodeURIComponent(p) + '=' +
+            encodeURIComponent(values[i]));
+        }
+      }
+      // Sorting the params leaves the order deterministic which is easier
+      // to test.
+      return url + '?' + params.sort().join('&');
     },
 
     getResponseObject: function(response) {
@@ -240,6 +239,23 @@
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getDashboardChanges: function() {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS,
+          ListChangesOption.REVIEWED
+      );
+      var params = {
+        O: options,
+        q: [
+          'is:open owner:self',
+          'is:open reviewer:self -owner:self',
+          'is:closed (owner:self OR reviewer:self) -age:4w limit:10',
+        ],
+      };
       return this.fetchJSON('/changes/', null, null, params);
     },
 

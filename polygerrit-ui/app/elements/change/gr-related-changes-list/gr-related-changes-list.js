@@ -20,10 +20,6 @@
     properties: {
       change: Object,
       patchNum: String,
-      serverConfig: {
-        type: Object,
-        observer: '_serverConfigChanged',
-      },
       hidden: {
         type: Boolean,
         value: false,
@@ -31,15 +27,6 @@
       },
 
       _loading: Boolean,
-      _resolveServerConfigReady: Function,
-      _serverConfigReady: {
-        type: Object,
-        value: function() {
-          return new Promise(function(resolve) {
-            this._resolveServerConfigReady = resolve;
-          }.bind(this));
-        }
-      },
       _connectedRevisions: {
         type: Array,
         computed: '_computeConnectedRevisions(change, patchNum, ' +
@@ -52,10 +39,6 @@
       _sameTopic: Array,
     },
 
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
-
     observers: [
       '_resultsChanged(_relatedResponse.changes, _submittedTogether, ' +
           '_conflicts, _cherryPicks, _sameTopic)',
@@ -67,72 +50,58 @@
       }
       this._loading = true;
       var promises = [
-        this.$.relatedXHR.generateRequest().completes,
-        this.$.submittedTogetherXHR.generateRequest().completes,
-        this.$.conflictsXHR.generateRequest().completes,
-        this.$.cherryPicksXHR.generateRequest().completes,
+        this._getRelatedChanges().then(function(response) {
+          this._relatedResponse = response;
+        }.bind(this)),
+        this._getSubmittedTogether().then(function(response) {
+          this._submittedTogether = response;
+        }.bind(this)),
+        this._getConflicts().then(function(response) {
+          this._conflicts = response;
+        }.bind(this)),
+        this._getCherryPicks().then(function(response) {
+          this._cherryPicks = response;
+        }.bind(this)),
       ];
 
-      return this._serverConfigReady.then(function() {
-        if (this.change.topic &&
-            !this.serverConfig.change.submit_whole_topic) {
-          return this.$.sameTopicXHR.generateRequest().completes;
+      return this._getServerConfig().then(function(config) {
+        if (this.change.topic && !config.change.submit_whole_topic) {
+          return this._getChangesWithSameTopic().then(function(response) {
+            this._sameTopic = response;
+          }.bind(this));
         } else {
-          this._sameTopic = [];
+         this._sameTopic = [];
         }
-        return Promise.resolve();
+        return this._sameTopic;
       }.bind(this)).then(Promise.all(promises)).then(function() {
         this._loading = false;
       }.bind(this));
     },
 
-    _computeRelatedURL: function(changeNum, patchNum) {
-      return this.changeBaseURL(changeNum, patchNum) + '/related';
+    _getRelatedChanges: function() {
+      return this.$.restAPI.getRelatedChanges(this.change._number,
+          this.patchNum);
     },
 
-    _computeSubmittedTogetherURL: function(changeNum) {
-      return this.changeBaseURL(changeNum) + '/submitted_together';
+    _getSubmittedTogether: function() {
+      return this.$.restAPI.getChangesSubmittedTogether(this.change._number);
     },
 
-    _computeConflictsQueryParams: function(changeNum) {
-      var options = this.listChangesOptionsToHex(
-          this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT
-      );
-      return {
-        O: options,
-        q: 'status:open is:mergeable conflicts:' + changeNum,
-      };
+    _getServerConfig: function() {
+      return this.$.restAPI.getConfig();
     },
 
-    _computeCherryPicksQueryParams: function(project, changeID, changeNum) {
-      var options = this.listChangesOptionsToHex(
-          this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT
-      );
-      var query = [
-        'project:' + project,
-        'change:' + changeID,
-        '-change:' + changeNum,
-        '-is:abandoned',
-      ].join(' ');
-      return {
-        O: options,
-        q: query
-      };
+    _getConflicts: function() {
+      return this.$.restAPI.getChangeConflicts(this.change._number);
     },
 
-    _computeSameTopicQueryParams: function(topic) {
-      var options = this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT,
-          this.ListChangesOption.DETAILED_LABELS
-      );
-      return {
-        O: options,
-        q: 'status:open topic:' + topic,
-      };
+    _getCherryPicks: function() {
+      return this.$.restAPI.getChangeCherryPicks(this.change.project,
+          this.change.change_id, this.change._number);
+    },
+
+    _getChangesWithSameTopic: function() {
+      return this.$.restAPI.getChangesWithSameTopic(this.change.topic);
     },
 
     _computeChangeURL: function(changeNum, patchNum) {
@@ -180,10 +149,6 @@
         return 'Submittable';
       }
       return '';
-    },
-
-    _serverConfigChanged: function(config) {
-      this._resolveServerConfigReady(config);
     },
 
     _resultsChanged: function(related, submittedTogether, conflicts,

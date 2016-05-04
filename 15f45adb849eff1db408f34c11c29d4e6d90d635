@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0daa6753_657d86d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-04T07:29:58Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "15f45adb849eff1db408f34c11c29d4e6d90d635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

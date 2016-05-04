@@ -14,19 +14,14 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
-
-import dk.brics.automaton.RegExp;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -47,8 +42,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -645,54 +638,5 @@ public class RefControl {
     }
     effective.put(permissionName, mine);
     return mine;
-  }
-
-  public static boolean isRE(String refPattern) {
-    return refPattern.startsWith(AccessSection.REGEX_PREFIX);
-  }
-
-  public static String shortestExample(String pattern) {
-    if (isRE(pattern)) {
-      // Since Brics will substitute dot [.] with \0 when generating
-      // shortest example, any usage of dot will fail in
-      // Repository.isValidRefName() if not combined with star [*].
-      // To get around this, we substitute the \0 with an arbitrary
-      // accepted character.
-      return toRegExp(pattern).toAutomaton().getShortestExample(true).replace('\0', '-');
-    } else if (pattern.endsWith("/*")) {
-      return pattern.substring(0, pattern.length() - 1) + '1';
-    } else {
-      return pattern;
-    }
-  }
-
-  public static RegExp toRegExp(String refPattern) {
-    if (isRE(refPattern)) {
-      refPattern = refPattern.substring(1);
-    }
-    return new RegExp(refPattern, RegExp.NONE);
-  }
-
-  public static void validateRefPattern(String refPattern)
-      throws InvalidNameException {
-    if (refPattern.startsWith(RefConfigSection.REGEX_PREFIX)) {
-      if (!Repository.isValidRefName(RefControl.shortestExample(refPattern))) {
-        throw new InvalidNameException(refPattern);
-      }
-    } else if (refPattern.equals(RefConfigSection.ALL)) {
-      // This is a special case we have to allow, it fails below.
-    } else if (refPattern.endsWith("/*")) {
-      String prefix = refPattern.substring(0, refPattern.length() - 2);
-      if (!Repository.isValidRefName(prefix)) {
-        throw new InvalidNameException(refPattern);
-      }
-    } else if (!Repository.isValidRefName(refPattern)) {
-      throw new InvalidNameException(refPattern);
-    }
-    try {
-      Pattern.compile(refPattern.replace("${username}/", ""));
-    } catch (PatternSyntaxException e) {
-      throw new InvalidNameException(refPattern + " " + e.getMessage());
-    }
   }
 }

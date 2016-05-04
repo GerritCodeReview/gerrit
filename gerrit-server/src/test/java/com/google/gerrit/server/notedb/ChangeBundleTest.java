@@ -294,6 +294,41 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffChangesIgnoresChangeTimestampIfAnyOtherEntitiesExist() {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    PatchSetApproval a = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            c1.currentPatchSetId(), accountId, new LabelId("Code-Review")),
+        (short) 1,
+        TimeUtil.nowTs());
+    c1.setLastUpdatedOn(a.getGranted());
+
+    Change c2 = clone(c1);
+    c2.setLastUpdatedOn(TimeUtil.nowTs());
+
+    // ReviewDb has later lastUpdatedOn timestamp than NoteDb, allowed since
+    // NoteDb matches the latest timestamp of a non-Change entity.
+    ChangeBundle b1 = new ChangeBundle(c2, messages(), patchSets(),
+        approvals(a), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c1, messages(), patchSets(),
+        approvals(a), comments(), NOTE_DB);
+    assertThat(b1.getChange().getLastUpdatedOn())
+        .isGreaterThan(b2.getChange().getLastUpdatedOn());
+    assertNoDiffs(b1, b2);
+
+    // Timestamps must actually match if Change is the only entity.
+    b1 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        REVIEW_DB);
+    b2 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        NOTE_DB);
+    assertDiffs(b1, b2,
+        "effective last updated time differs for Change.Id " + c1.getId()
+            + " in NoteDb vs. ReviewDb:"
+            + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:12.0}");
+  }
+
+  @Test
   public void diffChangesAllowsReviewDbSubjectToBePrefixOfNoteDbSubject()
       throws Exception {
     Change c1 = TestChanges.newChange(

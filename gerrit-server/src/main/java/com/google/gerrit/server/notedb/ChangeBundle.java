@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -325,8 +326,8 @@ public class ChangeBundle {
   }
 
   private Timestamp getLatestTimestamp() {
-    Ordering<Timestamp> o = Ordering.natural();
-    Timestamp ts = change.getLastUpdatedOn();
+    Ordering<Timestamp> o = Ordering.natural().nullsFirst();
+    Timestamp ts = null;
     for (ChangeMessage cm : getChangeMessages()) {
       ts = o.max(ts, cm.getWrittenOn());
     }
@@ -342,7 +343,7 @@ public class ChangeBundle {
         ts = o.max(ts, plc.getWrittenOn());
       }
     }
-    return ts;
+    return firstNonNull(ts, change.getLastUpdatedOn());
   }
 
   private static void diffChanges(List<String> diffs, ChangeBundle bundleA,

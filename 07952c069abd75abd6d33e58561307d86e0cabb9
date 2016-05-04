@@ -71,6 +71,30 @@
       "revId": "07952c069abd75abd6d33e58561307d86e0cabb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_62c87665",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-04T20:59:37Z",
+      "side": 1,
+      "message": "Ah, I think the culprit is InitAdminUser, which manually sets 0. That seems like a bug, it should be 1. Unfortunately this means we have to handle this case in the schema migration code, translating 0 to $max.",
+      "parentUuid": "8d9bb78c_01b76aea",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 57
+      },
+      "revId": "07952c069abd75abd6d33e58561307d86e0cabb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

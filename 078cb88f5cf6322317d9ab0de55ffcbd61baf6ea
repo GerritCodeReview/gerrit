@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "6daf6390_7812c1a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-04T16:42:28Z",
+      "side": 1,
+      "message": "Most of the REST API has tests in gerrit-acceptance-tests. E.g. for POST /changes/{change}/revisions/{revision}/cherrypick, there is a test in\n\n gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java\n\nand some tests for the POST /changes call (e.g. createEmptyChangeOnNonExistingBranch) are in\n\n gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+      "parentUuid": "add23be5_92c47c52",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "add23be5_5205b469",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

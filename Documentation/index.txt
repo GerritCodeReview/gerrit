@@ -84,5 +84,9 @@
 * link:https://gerrit.googlesource.com/gerrit[Source Code]
 * link:https://www.gerritcodereview.com/about.md[A History of Gerrit Code Review]
 
+GERRIT
+------
+Part of link:https://www.gerritcodereview.com/[Gerrit Code Review]
+
 SEARCHBOX
 ---------

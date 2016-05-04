@@ -620,9 +620,14 @@ public abstract class AbstractDaemonTest {
 
   protected void deny(String permission, AccountGroup.UUID id, String ref)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    deny(project, permission, id, ref);
+  }
+
+  protected void deny(Project.NameKey p, String permission,
+      AccountGroup.UUID id, String ref) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
     Util.deny(cfg, permission, id, ref);
-    saveProjectConfig(project, cfg);
+    saveProjectConfig(p, cfg);
   }
 
   protected PermissionRule block(String permission, AccountGroup.UUID id, String ref)
@@ -652,14 +657,22 @@ public abstract class AbstractDaemonTest {
 
   protected void grant(String permission, Project.NameKey project, String ref,
       boolean force) throws RepositoryNotFoundException, IOException,
-      ConfigInvalidException {
+          ConfigInvalidException {
+    AccountGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators"));
+    grant(permission, project, ref, force, adminGroup.getGroupUUID());
+  }
+
+  protected void grant(String permission, Project.NameKey project, String ref,
+      boolean force, AccountGroup.UUID groupUUID)
+          throws RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
       ProjectConfig config = ProjectConfig.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
-      AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-      PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
+      PermissionRule rule = Util.newRule(config, groupUUID);
       rule.setForce(force);
       p.add(rule);
       config.commit(md);

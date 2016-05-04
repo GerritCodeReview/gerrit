@@ -110,18 +110,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       Account.Id accountId;
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
-      } else if ((accountId =
-          Account.Id.fromRef(ref.getLeaf().getName())) != null) {
-        // Reference related to an account is visible only for the current
-        // account.
+      } else if (showMetadata
+          && (RefNames.isRefsEditOf(ref.getLeaf().getName(), currAccountId)
+              || (RefNames.isRefsEdit(ref.getLeaf().getName())
+                  && canViewMetadata))) {
+        // Change edit reference related is visible to the account that owns the
+        // change edit.
         //
-        // TODO(dborowitz): If a ref matches an account and a change, verify
-        // both (to exclude e.g. edits on changes that the user has lost access
-        // to).
-        if (showMetadata
-            && (canViewMetadata || accountId.equals(currAccountId))) {
-          result.put(ref.getName(), ref);
-        }
+        // TODO(dborowitz): Verify if change is visible (to exclude edits on
+        // changes that the user has lost access to).
+        result.put(ref.getName(), ref);
 
       } else if ((changeId = Change.Id.fromRef(ref.getName())) != null) {
         // Reference related to a change is visible if the change is visible.
@@ -143,7 +141,18 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         // symbolic we want the control around the final target. If its
         // not symbolic then getLeaf() is a no-op returning ref itself.
         //
-        result.put(ref.getName(), ref);
+
+        if ((accountId =
+            Account.Id.fromRef(ref.getLeaf().getName())) != null) {
+          // Reference related to an account is visible only for the current
+          // account.
+          if (showMetadata
+              && (canViewMetadata || accountId.equals(currAccountId))) {
+            result.put(ref.getName(), ref);
+          }
+        } else {
+          result.put(ref.getName(), ref);
+        }
       }
     }
 

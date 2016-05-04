@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.server.project.RefControl.isRE;
+import static com.google.gerrit.server.project.RefPattern.isRE;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -93,12 +93,13 @@ public abstract class RefPatternMatcher {
         // in a reference and the string :USERNAME: is not likely to
         // be a valid part of the regex. This later allows the pattern
         // prefix to be clipped, saving time on evaluation.
+        String replacement = ":" + RefPattern.USERNAME.toUpperCase() + ":";
         Automaton am =
-            RefControl.toRegExp(
-                template.replace(Collections.singletonMap("username",
-                    ":USERNAME:"))).toAutomaton();
+            RefPattern.toRegExp(
+                template.replace(Collections.singletonMap(RefPattern.USERNAME,
+                    replacement))).toAutomaton();
         String rePrefix = am.getCommonPrefix();
-        prefix = rePrefix.substring(0, rePrefix.indexOf(":USERNAME:"));
+        prefix = rePrefix.substring(0, rePrefix.indexOf(replacement));
       } else {
         prefix = pattern.substring(0, pattern.indexOf("${"));
       }
@@ -154,8 +155,8 @@ public abstract class RefPatternMatcher {
     }
 
     private String expand(ParameterizedString parameterizedRef, String userName) {
-      return parameterizedRef.replace(Collections.singletonMap("username",
-          userName));
+      return parameterizedRef
+          .replace(Collections.singletonMap(RefPattern.USERNAME, userName));
     }
   }
 }

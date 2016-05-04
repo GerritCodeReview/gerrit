@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_028e4a36",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-04T17:03:37Z",
+      "side": 1,
+      "message": "catch and reset _loading?",
+      "revId": "2943cf924b0091d68c45c32b28f40b53e25744ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

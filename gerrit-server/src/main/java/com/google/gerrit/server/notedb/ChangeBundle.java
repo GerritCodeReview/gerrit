@@ -346,20 +346,34 @@ public class ChangeBundle {
     // subject historically may have been truncated to fit in a SQL varchar
     // column.
     //
-    // Ignore null original subject on the ReviewDb side, as this field is
-    // always set in NoteDb.
+    // Ignore original subject on the ReviewDb side when comparing to NoteDb.
+    // This field may have any number of values:
+    //  - It may be null, if the change has had no new patch sets pushed since
+    //    migrating to schema 103.
+    //  - It may match the first patch set subject, if the change was created
+    //    after migrating to schema 103.
+    //  - It may match the subject of the first patch set that was pushed after
+    //    the migration to schema 103, even though that is neither the subject
+    //    of the first patch set nor the subject of the last patch set. (See
+    //    Change#setCurrentPatchSet as of 43b10f86 for this behavior.) This
+    //    subject of an intermediate patch set is not available to the
+    //    ChangeBundle; we would have to get the subject from the repo, which is
+    //    inconvenient at this point.
+    //
+    // Ignore original subject on the ReviewDb side if it equals the subject of
+    // the current patch set.
     //
     // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
     //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludeSubject = b.getSubject().startsWith(a.getSubject());
-      excludeOrigSubj = a.getOriginalSubjectOrNull() == null;
+      excludeOrigSubj = true;
       excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeSubject = a.getSubject().startsWith(b.getSubject());
-      excludeOrigSubj = b.getOriginalSubjectOrNull() == null;
+      excludeOrigSubj = true;
       excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
       bUpdated = bundleB.getLatestTimestamp();
     }

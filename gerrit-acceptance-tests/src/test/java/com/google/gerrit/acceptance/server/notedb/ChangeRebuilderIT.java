@@ -459,6 +459,35 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     checker.rebuildAndCheckChanges(id);
   }
 
+  @Test
+  public void noteDbUsesOriginalSubjectFromPatchSetAndIgnoresChangeField()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    String orig = r.getChange().change().getSubject();
+    r = pushFactory.create(
+            db, admin.getIdent(), testRepo, orig + " v2",
+            PushOneCommit.FILE_NAME, "new contents", r.getChangeId())
+        .to("refs/heads/master");
+    r.assertOkStatus();
+
+    PatchSet.Id psId = r.getPatchSetId();
+    Change.Id id = psId.getParentKey();
+    Change c = db.changes().get(id);
+
+    c.setCurrentPatchSet(psId, c.getSubject(), "Bogus original subject");
+    db.changes().update(Collections.singleton(c));
+
+    checker.rebuildAndCheckChanges(id);
+
+    notesMigration.setAllEnabled(true);
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    Change nc = notes.getChange();
+    assertThat(nc.getSubject()).isEqualTo(c.getSubject());
+    assertThat(nc.getSubject()).isEqualTo(orig + " v2");
+    assertThat(nc.getOriginalSubject()).isNotEqualTo(c.getOriginalSubject());
+    assertThat(nc.getOriginalSubject()).isEqualTo(orig);
+  }
+
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
     ReviewDb db = unwrapDb();
     Change c = db.changes().get(id);

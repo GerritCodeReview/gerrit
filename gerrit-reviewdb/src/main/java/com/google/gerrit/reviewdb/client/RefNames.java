@@ -177,6 +177,18 @@ public class RefNames {
       .toString();
   }
 
+  public static boolean isRefsEdit(String ref) {
+    return ref.startsWith(REFS_USERS) && ref.contains(EDIT_PREFIX);
+  }
+
+  public static boolean isRefsEditOf(String ref, Account.Id accountId) {
+    String prefix = new StringBuilder(refsUsers(accountId))
+        .append('/')
+        .append(EDIT_PREFIX)
+        .toString();
+    return ref.startsWith(prefix);
+  }
+
   static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;

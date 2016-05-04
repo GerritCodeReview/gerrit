@@ -426,17 +426,11 @@ public class ChangeBundleTest {
     b2 = new ChangeBundle(c, messages(cm1), patchSets(), approvals(),
         comments(), NOTE_DB);
     assertDiffs(b1, b2,
-        "Differing numbers of ChangeMessages for Change.Id " + id + ":\n"
-        + "ChangeMessage{key=" + id + ",uuid1, author=100,"
-        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1, tag=null,"
-        + " message=[message 2]}\n"
-        + "ChangeMessage{key=" + id + ",uuid2, author=100,"
-        + " writtenOn=2009-09-30 17:00:12.0, patchset=" + id + ",1, tag=null,"
-        + " message=[null]}\n"
-        + "--- vs. ---\n"
-        + "ChangeMessage{key=" + id + ",uuid1, author=100,"
-        + " writtenOn=2009-09-30 17:00:06.0, patchset=" + id + ",1, tag=null,"
-        + " message=[message 2]}");
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm2);
+    assertDiffs(b2, b1,
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in B:\n  " + cm2);
   }
 
   @Test
@@ -456,9 +450,17 @@ public class ChangeBundleTest {
         approvals(), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(cm2, cm3), patchSets(),
         approvals(), comments(), NOTE_DB);
+    // Implementation happens to pair up cm1 in b1 with cm3 in b2 because it
+    // depends on iteration order and doesn't care about UUIDs. The important
+    // thing is that there's some diff.
     assertDiffs(b1, b2,
-        "message differs for ChangeMessage on " + id + " at index 1:"
-        + " {message 1} != {message 2}");
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm3 + "\n"
+            + "Only in B:\n  " + cm2);
+    assertDiffs(b2, b1,
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm2 + "\n"
+            + "Only in B:\n  " + cm3);
   }
 
   @Test
@@ -496,11 +498,15 @@ public class ChangeBundleTest {
         comments(), NOTE_DB);
     ChangeBundle b3 = new ChangeBundle(c, messages(cm3), patchSets(),
         approvals(), comments(), REVIEW_DB);
-    String msg = "writtenOn differs for ChangeMessage on " + c.getId() +
-        " at index 0 in NoteDb vs. ReviewDb:"
-        + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}";
-    assertDiffs(b1, b3, msg);
-    assertDiffs(b3, b1, msg);
+    int id = c.getId().get();
+    assertDiffs(b1, b3,
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm1 + "\n"
+            + "Only in B:\n  " + cm3);
+    assertDiffs(b3, b1,
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm3 + "\n"
+            + "Only in B:\n  " + cm1);
   }
 
   @Test
@@ -538,8 +544,13 @@ public class ChangeBundleTest {
     b2 = new ChangeBundle(c, messages(cm2), patchSets(), approvals(),
         comments(), NOTE_DB);
     assertDiffs(b1, b2,
-        "patchset differs for ChangeMessage on " + id + " at index 0:"
-            + " {" + id + ",1} != {null}");
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm1 + "\n"
+            + "Only in B:\n  " + cm2);
+    assertDiffs(b2, b1,
+        "ChangeMessages differ for Change.Id " + id + "\n"
+            + "Only in A:\n  " + cm2 + "\n"
+            + "Only in B:\n  " + cm1);
   }
 
   @Test

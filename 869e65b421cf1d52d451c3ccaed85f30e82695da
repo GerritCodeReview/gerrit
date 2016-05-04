@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "883645c6_090ca931",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883645c6_c943715b",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "883645c6_e948357a",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-03T16:22:07Z",
       "side": 1,
       "message": "here too",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_29096d22",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883645c6_e948357a",
       "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c842fd2f_6b55210c",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "I use sh for having a local git client, but that will be added in a different change. Will remove this for now.",
+      "parentUuid": "c842fd2f_cb6c55fb",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "883645c6_095e6935",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-05-03T16:22:07Z",
       "side": 1,
       "message": "make this an arg. I have a ~/tmp/ that I\u0027d hate to loose unless warned.",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d6a9fda_37d578ca",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "I\u0027ve added inputs for this. Both upfront and before anything gets deleted.",
+      "parentUuid": "883645c6_095e6935",
       "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "4d6a9fda_f7d620d4",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883645c6_295b2d46",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "883645c6_49586147",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2016-05-03T16:22:07Z",
       "side": 1,
       "message": "if jsonString.startswith(.. ): \n   \n\n)]}\u0027 could be valid json, or embedded in a  string literal",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883645c6_4906a111",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883645c6_49586147",
       "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "c842fd2f_ab3549e8",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c842fd2f_eb7111d2",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c842fd2f_0b773dc5",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2016-05-03T16:22:07Z",
       "side": 1,
       "message": "here too. Better if you\u0027re working on a plane, or if they discontinue the site",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0daa6753_25eeae98",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "I though about that but I wanted to have meaningful names and at the same time not provide a lot of strings myself. I changed it now.",
+      "parentUuid": "c842fd2f_0b773dc5",
       "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "4d6a9fda_b7f9885e",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883645c6_a9355de8",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "883645c6_e93f55c4",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2016-05-03T16:22:07Z",
       "side": 1,
       "message": "this is kind of scary.",
+      "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0daa6753_e5d656d4",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T09:31:37Z",
+      "side": 1,
+      "message": "Yes ;) I\u0027ve made it explicit what will get deleted and added the option to abort.",
+      "parentUuid": "883645c6_e93f55c4",
       "revId": "869e65b421cf1d52d451c3ccaed85f30e82695da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

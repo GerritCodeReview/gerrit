@@ -16,6 +16,7 @@ java_library(
     '//lib:args4j',
     '//lib:guava',
     '//lib/log:api',
+    '//lib/log:nop',
   ],
   visibility = ['//tools/eclipse:classpath'],
 )

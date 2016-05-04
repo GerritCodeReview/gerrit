@@ -26,6 +26,8 @@ import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
@@ -68,6 +70,7 @@ import com.google.inject.Provider;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -76,6 +79,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -366,21 +370,50 @@ public class AccountIT extends AbstractDaemonTest {
   public void fetchUserBranch() throws Exception {
     // change something in the user preferences to ensure that the user branch
     // is created
+    setApiUser(user);
     GeneralPreferencesInfo input = new GeneralPreferencesInfo();
     input.changesPerPage =
         GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    TestRepository<InMemoryRepository> allUsersRepo =
+        cloneProject(allUsers, user);
+    String userRefName = RefNames.refsUsers(user.id);
+
+    // deny READ permission that is inherited from All-Projects
+    deny(allUsers, Permission.READ, ANONYMOUS_USERS, RefNames.REFS + "*");
+
+    // fetching user branch without READ permission fails
+    try {
+      fetch(allUsersRepo, userRefName + ":userRef");
+      Assert.fail(
+          "user branch is visible although no READ permission is granted");
+    } catch (TransportException e) {
+      // expected because no READ granted on user branch
+    }
+
+    // allow each user to read its own user branch
+    grant(Permission.READ, allUsers, RefNames.REFS_USERS + "*", false,
+        REGISTERED_USERS);
+
+    // fetch user branch using refs/users/YY/XXXXXXX
+    fetch(allUsersRepo, userRefName + ":userRef");
     Ref userRef = allUsersRepo.getRepository().exactRef("userRef");
     assertThat(userRef).isNotNull();
 
+    // fetch user branch using refs/users/self
     fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userSelfRef");
     Ref userSelfRef =
         allUsersRepo.getRepository().getRefDatabase().exactRef("userSelfRef");
     assertThat(userSelfRef).isNotNull();
     assertThat(userSelfRef.getObjectId()).isEqualTo(userRef.getObjectId());
+
+    // fetching user branch of another user fails
+    String otherUserRefName = RefNames.refsUsers(admin.id);
+    exception.expect(TransportException.class);
+    exception.expectMessage(
+        "Remote does not have " + otherUserRefName + " available for fetch.");
+    fetch(allUsersRepo, otherUserRefName + ":otherUserRef");
   }
 
   @Test

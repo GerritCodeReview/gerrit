@@ -22,16 +22,20 @@ import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Joiner;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -48,6 +52,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -114,30 +120,33 @@ public class ChangeBundle {
     return out;
   }
 
+  // Unlike the *Map comparators, which are intended to make key lists diffable,
+  // this comparator sorts first on timestamp, then on every other field.
+  private static final Ordering<ChangeMessage> CHANGE_MESSAGE_ORDER =
+      new Ordering<ChangeMessage>() {
+        final Ordering<Comparable<?>> nullsFirst =
+            Ordering.natural().nullsFirst();
+
+        @Override
+        public int compare(ChangeMessage a, ChangeMessage b) {
+          return ComparisonChain.start()
+              .compare(a.getWrittenOn(), b.getWrittenOn())
+              .compare(a.getKey().getParentKey().get(),
+                  b.getKey().getParentKey().get())
+              .compare(psId(a), psId(b), nullsFirst)
+              .compare(a.getAuthor(), b.getAuthor(), intKeyOrdering())
+              .compare(a.getMessage(), b.getMessage(), nullsFirst)
+              .result();
+        }
+
+        private Integer psId(ChangeMessage m) {
+          return m.getPatchSetId() != null ? m.getPatchSetId().get() : null;
+        }
+      };
+
   private static ImmutableList<ChangeMessage> changeMessageList(
       Iterable<ChangeMessage> in) {
-    // Unlike the *Map comparators, which are intended to make key lists
-    // diffable, this comparator sorts first on timestamp, then on every other
-    // field.
-    final Ordering<Comparable<?>> nullsFirst = Ordering.natural().nullsFirst();
-    return new Ordering<ChangeMessage>() {
-      @Override
-      public int compare(ChangeMessage a, ChangeMessage b) {
-        return ComparisonChain.start()
-            .compare(roundToSecond(a.getWrittenOn()),
-                roundToSecond(b.getWrittenOn()))
-            .compare(a.getKey().getParentKey().get(),
-                b.getKey().getParentKey().get())
-            .compare(psId(a), psId(b), nullsFirst)
-            .compare(a.getAuthor(), b.getAuthor(), intKeyOrdering())
-            .compare(a.getMessage(), b.getMessage(), nullsFirst)
-            .result();
-      }
-
-      private Integer psId(ChangeMessage m) {
-        return m.getPatchSetId() != null ? m.getPatchSetId().get() : null;
-      }
-    }.immutableSortedCopy(in);
+    return CHANGE_MESSAGE_ORDER.immutableSortedCopy(in);
   }
 
 
@@ -403,6 +412,31 @@ public class ChangeBundle {
     }
   }
 
+  /**
+   * Set of fields that must always exactly match between ReviewDb and NoteDb.
+   * <p>
+   * Used to limit the worst-case quadratic search when pairing off matching
+   * messages below.
+   */
+  @AutoValue
+  static abstract class ChangeMessageCandidate {
+    static ChangeMessageCandidate create(ChangeMessage cm) {
+      return new AutoValue_ChangeBundle_ChangeMessageCandidate(
+          cm.getAuthor(),
+          cm.getMessage(),
+          cm.getTag());
+    }
+
+    @Nullable abstract Account.Id author();
+    @Nullable abstract String message();
+    @Nullable abstract String tag();
+
+    // Exclude:
+    //  - patch set, which may be null on ReviewDb side but not NoteDb
+    //  - UUID, which is always different between ReviewDb and NoteDb
+    //  - writtenOn, which is fuzzy
+  }
+
   private static void diffChangeMessages(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
     if (bundleA.source == REVIEW_DB && bundleB.source == REVIEW_DB) {
@@ -420,43 +454,79 @@ public class ChangeBundle {
       }
       return;
     }
-
-    // At least one is from NoteDb, so comparisons are inexact as noted below.
     Change.Id id = bundleA.getChange().getId();
     checkArgument(id.equals(bundleB.getChange().getId()));
-    List<ChangeMessage> as = bundleA.changeMessages;
-    List<ChangeMessage> bs = bundleB.changeMessages;
-    if (as.size() != bs.size()) {
-      Joiner j = Joiner.on("\n");
-      diffs.add("Differing numbers of ChangeMessages for Change.Id " + id
-          + ":\n" + j.join(as) + "\n--- vs. ---\n" + j.join(bs));
+
+    // Try to pair up matching ChangeMessages from each side, and succeed only
+    // if both collections are empty at the end. Quadratic in the worst case,
+    // but easy to reason about.
+    List<ChangeMessage> as = new LinkedList<>(bundleA.getChangeMessages());
+
+    Multimap<ChangeMessageCandidate, ChangeMessage> bs =
+        LinkedListMultimap.create();
+    for (ChangeMessage b : bundleB.getChangeMessages()) {
+      bs.put(ChangeMessageCandidate.create(b), b);
+    }
+
+    Iterator<ChangeMessage> ait = as.iterator();
+    A: while (ait.hasNext()) {
+      ChangeMessage a = ait.next();
+      Iterator<ChangeMessage> bit =
+          bs.get(ChangeMessageCandidate.create(a)).iterator();
+      while (bit.hasNext()) {
+        ChangeMessage b = bit.next();
+        if (changeMessagesMatch(bundleA, a, bundleB, b)) {
+          ait.remove();
+          bit.remove();
+          continue A;
+        }
+      }
+    }
+
+    if (as.isEmpty() && bs.isEmpty()) {
       return;
     }
-
-    for (int i = 0; i < as.size(); i++) {
-      ChangeMessage a = as.get(i);
-      ChangeMessage b = bs.get(i);
-      String desc = "ChangeMessage on " + id + " at index " + i;
-
-      // Ignore null PatchSet.Id on a ReviewDb change; all entities in NoteDb
-      // have a PatchSet.Id.
-      boolean checkPsId = true;
-      if (bundleA.source == REVIEW_DB) {
-        checkPsId = a.getPatchSetId() != null;
-      } else if (bundleB.source == REVIEW_DB) {
-        checkPsId = b.getPatchSetId() != null;
+    StringBuilder sb = new StringBuilder("ChangeMessages differ for Change.Id ")
+        .append(id).append('\n');
+    if (!as.isEmpty()) {
+      sb.append("Only in A:");
+      for (ChangeMessage cm : as) {
+        sb.append("\n  ").append(cm);
       }
-
-      // Ignore UUIDs for both sides.
-      List<String> exclude = Lists.newArrayList("key");
-      if (!checkPsId) {
-        exclude.add("patchset");
+      if (!bs.isEmpty()) {
+        sb.append('\n');
       }
-
-      // Normal column-wise diff also allows timestamp slop.
-      diffColumnsExcluding(diffs, ChangeMessage.class, desc, bundleA, a,
-          bundleB, b, exclude);
     }
+    if (!bs.isEmpty()) {
+      sb.append("Only in B:");
+      for (ChangeMessage cm : CHANGE_MESSAGE_ORDER.sortedCopy(bs.values())) {
+        sb.append("\n  ").append(cm);
+      }
+    }
+    diffs.add(sb.toString());
+  }
+
+  private static boolean changeMessagesMatch(
+      ChangeBundle bundleA, ChangeMessage a,
+      ChangeBundle bundleB, ChangeMessage b) {
+    List<String> tempDiffs = new ArrayList<>();
+    String temp = "temp";
+
+    boolean excludePatchSet = false;
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludePatchSet = a.getPatchSetId() == null;
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludePatchSet = b.getPatchSetId() == null;
+    }
+
+    List<String> exclude = Lists.newArrayList("key");
+    if (excludePatchSet) {
+      exclude.add("patchset");
+    }
+
+    diffColumnsExcluding(
+        tempDiffs, ChangeMessage.class, temp, bundleA, a, bundleB, b, exclude);
+    return tempDiffs.isEmpty();
   }
 
   private static void diffPatchSets(List<String> diffs, ChangeBundle bundleA,

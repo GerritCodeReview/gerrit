@@ -35,6 +35,9 @@ public final class AccountSshKey {
     }
 
     public Id(final Account.Id a, final int s) {
+      if (s < 0) {
+        throw new IllegalArgumentException("invalid sequence number " + s);
+      }
       accountId = a;
       seq = s;
     }
@@ -51,6 +54,10 @@ public final class AccountSshKey {
 
     @Override
     protected void set(int newValue) {
+      if (newValue < 0) {
+        throw new IllegalArgumentException("invalid sequence number " +
+            newValue);
+      }
       seq = newValue;
     }
   }

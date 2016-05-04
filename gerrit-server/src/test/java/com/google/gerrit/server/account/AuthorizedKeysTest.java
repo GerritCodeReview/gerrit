@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
@@ -106,6 +107,17 @@ public class AuthorizedKeysTest {
     authorizedKeys.append(toWindowsLineEndings(addKey(keys, KEY5)));
     assertParse(authorizedKeys, keys);
 
+  }
+
+  @Test
+  public void testNegativeSequence() throws Exception {
+    Account.Id accountId = new Account.Id(1);
+    try {
+      new AccountSshKey.Id(accountId, -1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException iae) {
+      assertThat(iae.getMessage()).isEqualTo("invalid sequence number -1");
+    }
   }
 
   private static String toWindowsLineEndings(String s) {

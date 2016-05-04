@@ -823,27 +823,26 @@ public class RefControlTest {
 
   @Test
   public void testValidateRefPatternsOK() throws Exception {
-    RefControl.validateRefPattern("refs/*");
-    RefControl.validateRefPattern("^refs/heads/*");
-    RefControl.validateRefPattern("^refs/tags/[0-9a-zA-Z-_.]+");
-    RefControl.validateRefPattern("refs/heads/review/${username}/*");
+    RefPattern.validate("refs/*");
+    RefPattern.validate("^refs/heads/*");
+    RefPattern.validate("^refs/tags/[0-9a-zA-Z-_.]+");
+    RefPattern.validate("refs/heads/review/${username}/*");
   }
 
   @Test(expected = InvalidNameException.class)
   public void testValidateBadRefPatternDoubleCaret() throws Exception {
-    RefControl.validateRefPattern("^^refs/*");
+    RefPattern.validate("^^refs/*");
   }
 
   @Test(expected = InvalidNameException.class)
   public void testValidateBadRefPatternDanglingCharacter() throws Exception {
-    RefControl
-        .validateRefPattern("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
+    RefPattern
+        .validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
   }
 
   @Test
   public void testValidateRefPatternNoDanglingCharacter() throws Exception {
-    RefControl
-        .validateRefPattern("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
+    RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
   }
 
   private InMemoryRepository add(ProjectConfig pc) {

@@ -37,7 +37,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -111,7 +111,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
             continue;
           }
 
-          RefControl.validateRefPattern(name);
+          RefPattern.validate(name);
 
           replace(config, toDelete, section);
         }

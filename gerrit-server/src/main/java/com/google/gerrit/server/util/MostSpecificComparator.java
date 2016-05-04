@@ -15,7 +15,7 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.RefPattern;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -82,8 +82,8 @@ public final class MostSpecificComparator implements
 
   private int distance(String pattern) {
     String example;
-    if (RefControl.isRE(pattern)) {
-      example = RefControl.shortestExample(pattern);
+    if (RefPattern.isRE(pattern)) {
+      example = RefPattern.shortestExample(pattern);
 
     } else if (pattern.endsWith("/*")) {
       example = pattern;
@@ -98,8 +98,8 @@ public final class MostSpecificComparator implements
   }
 
   private boolean finite(String pattern) {
-    if (RefControl.isRE(pattern)) {
-      return RefControl.toRegExp(pattern).toAutomaton().isFinite();
+    if (RefPattern.isRE(pattern)) {
+      return RefPattern.toRegExp(pattern).toAutomaton().isFinite();
 
     } else if (pattern.endsWith("/*")) {
       return false;
@@ -110,8 +110,8 @@ public final class MostSpecificComparator implements
   }
 
   private int transitions(String pattern) {
-    if (RefControl.isRE(pattern)) {
-      return RefControl.toRegExp(pattern).toAutomaton()
+    if (RefPattern.isRE(pattern)) {
+      return RefPattern.toRegExp(pattern).toAutomaton()
           .getNumberOfTransitions();
 
     } else if (pattern.endsWith("/*")) {

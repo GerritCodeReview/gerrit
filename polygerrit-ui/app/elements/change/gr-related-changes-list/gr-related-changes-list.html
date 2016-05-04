@@ -15,8 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-related-changes-list">
   <template>
@@ -68,25 +67,6 @@ limitations under the License.
         display: none;
       }
     </style>
-    <gr-ajax id="relatedXHR"
-        url="[[_computeRelatedURL(change._number, patchNum)]]"
-        last-response="{{_relatedResponse}}"></gr-ajax>
-    <gr-ajax id="submittedTogetherXHR"
-        url="[[_computeSubmittedTogetherURL(change._number)]]"
-        last-response="{{_submittedTogether}}"></gr-ajax>
-    <gr-ajax id="conflictsXHR"
-        url="/changes/"
-        params="[[_computeConflictsQueryParams(change._number)]]"
-        last-response="{{_conflicts}}"></gr-ajax>
-    <gr-ajax id="cherryPicksXHR"
-        url="/changes/"
-        params="[[_computeCherryPicksQueryParams(change.project, change.change_id, change._number)]]"
-        last-response="{{_cherryPicks}}"></gr-ajax>
-    <gr-ajax id="sameTopicXHR"
-        url="/changes/"
-        params="[[_computeSameTopicQueryParams(change.topic)]]"
-        last-response="{{_sameTopic}}"></gr-ajax>
-
     <div hidden$="[[!_loading]]">Loading...</div>
     <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
       <h4>Relation chain</h4>
@@ -138,6 +118,7 @@ limitations under the License.
         </a>
       </template>
     </section>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-related-changes-list.js"></script>
 </dom-module>

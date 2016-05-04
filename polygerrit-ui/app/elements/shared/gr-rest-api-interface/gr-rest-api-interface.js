@@ -407,6 +407,60 @@
       return this.send(method, url, body);
     },
 
+    getRelatedChanges: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchNum, '/related'));
+    },
+
+    getChangesSubmittedTogether: function(changeNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, null, '/submitted_together'));
+    },
+
+    getChangeConflicts: function(changeNum) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT
+      );
+      var params = {
+        O: options,
+        q: 'status:open is:mergeable conflicts:' + changeNum,
+      };
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getChangeCherryPicks: function(project, changeID, changeNum) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT
+      );
+      var query = [
+        'project:' + project,
+        'change:' + changeID,
+        '-change:' + changeNum,
+        '-is:abandoned',
+      ].join(' ');
+      var params = {
+        O: options,
+        q: query
+      };
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getChangesWithSameTopic: function(topic) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT,
+          ListChangesOption.DETAILED_LABELS
+      );
+      var params = {
+        O: options,
+        q: 'status:open topic:' + topic,
+      };
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
     getReviewedFiles: function(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));

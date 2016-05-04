@@ -49,7 +49,7 @@ import java.util.Objects;
  * a transaction of a submission, this caches open repositories to satisfy
  * that requirement.
  */
-class MergeOpRepoManager implements AutoCloseable {
+public class MergeOpRepoManager implements AutoCloseable {
   public class OpenRepo {
     final Repository repo;
     final CodeReviewRevWalk rw;

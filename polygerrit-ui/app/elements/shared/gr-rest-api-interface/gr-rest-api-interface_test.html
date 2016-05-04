@@ -83,19 +83,18 @@ limitations under the License.
     });
 
     test('params are properly encoded', function() {
-      var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({text: function() {
-          return Promise.resolve(')]}\'\n{}');
-        }});
-      });
-      var params = {
+      var url = element._urlWithParams('/path/', {
         sp: 'hola',
         gr: 'guten tag',
         noval: null,
-      };
-      element.fetchJSON('/path/', null, null, params);
-      assert.equal(fetchStub.args[0][0], '/path/?gr=guten%20tag&noval&sp=hola');
-      fetchStub.restore();
+      });
+      assert.equal(url, '/path/?gr=guten%20tag&noval&sp=hola');
+
+      url = element._urlWithParams('/path/', {
+        sp: 'hola',
+        en: ['hey', 'hi'],
+      });
+      assert.equal(url, '/path/?en=hey&en=hi&sp=hola');
     });
 
     test('request callbacks can be canceled', function(done) {

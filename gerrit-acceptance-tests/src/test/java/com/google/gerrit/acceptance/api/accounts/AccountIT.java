@@ -61,6 +61,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -393,7 +394,8 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     // allow each user to read its own user branch
-    grant(Permission.READ, allUsers, RefNames.REFS_USERS + "*", false,
+    grant(Permission.READ, allUsers,
+        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", false,
         REGISTERED_USERS);
 
     // fetch user branch using refs/users/YY/XXXXXXX

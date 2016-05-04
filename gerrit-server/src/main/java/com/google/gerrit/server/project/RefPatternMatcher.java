@@ -16,14 +16,18 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.RefPattern.isRE;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 
 import dk.brics.automaton.Automaton;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -89,15 +93,17 @@ public abstract class RefPatternMatcher {
       template = new ParameterizedString(pattern);
 
       if (isRE(pattern)) {
-        // Replace ${username} with ":USERNAME:" as : is not legal
-        // in a reference and the string :USERNAME: is not likely to
-        // be a valid part of the regex. This later allows the pattern
-        // prefix to be clipped, saving time on evaluation.
-        String replacement = ":" + RefPattern.USERNAME.toUpperCase() + ":";
+        // Replace ${username} and ${shardeduserid} with ":PLACEHOLDER:"
+        // as : is not legal in a reference and the string :PLACEHOLDER:
+        // is not likely to be a valid part of the regex. This later
+        // allows the pattern prefix to be clipped, saving time on
+        // evaluation.
+        String replacement = ":PLACEHOLDER:";
+        Map<String, String> params = ImmutableMap.of(
+            RefPattern.USERID_SHARDED, replacement,
+            RefPattern.USERNAME, replacement);
         Automaton am =
-            RefPattern.toRegExp(
-                template.replace(Collections.singletonMap(RefPattern.USERNAME,
-                    replacement))).toAutomaton();
+            RefPattern.toRegExp(template.replace(params)).toAutomaton();
         String rePrefix = am.getCommonPrefix();
         prefix = rePrefix.substring(0, rePrefix.indexOf(replacement));
       } else {
@@ -119,8 +125,11 @@ public abstract class RefPatternMatcher {
           u = username;
         }
 
-        RefPatternMatcher next = getMatcher(expand(template, u));
-        if (next != null && next.match(expand(ref, u), user)) {
+        Account.Id accountId = user.isIdentifiedUser()
+            ? user.getAccountId()
+            : null;
+        RefPatternMatcher next = getMatcher(expand(template, u, accountId));
+        if (next != null && next.match(expand(ref, u, accountId), user)) {
           return true;
         }
       }
@@ -147,16 +156,21 @@ public abstract class RefPatternMatcher {
       return ref.startsWith(prefix);
     }
 
-    private String expand(String parameterizedRef, String userName) {
+    private String expand(String parameterizedRef, String userName, Account.Id accountId) {
       if (parameterizedRef.contains("${")) {
-        return expand(new ParameterizedString(parameterizedRef), userName);
+        return expand(new ParameterizedString(parameterizedRef), userName, accountId);
       }
       return parameterizedRef;
     }
 
-    private String expand(ParameterizedString parameterizedRef, String userName) {
-      return parameterizedRef
-          .replace(Collections.singletonMap(RefPattern.USERNAME, userName));
+    private String expand(ParameterizedString parameterizedRef, String userName,
+        Account.Id accountId) {
+      Map<String, String> params = new HashMap<>();
+      params.put(RefPattern.USERNAME, userName);
+      if (accountId != null) {
+        params.put(RefPattern.USERID_SHARDED, RefNames.shard(accountId.get()));
+      }
+      return parameterizedRef.replace(params);
     }
   }
 }

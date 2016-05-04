@@ -220,11 +220,15 @@ shortest possible pattern expansion must be a valid ref name:
 thus `^refs/heads/.*/name` will fail because `refs/heads//name`
 is not a valid reference, but `^refs/heads/.+/name` will work.
 
-References can have the current user name automatically included,
-creating dynamic access controls that change to match the currently
-logged in user.  For example to provide a personal sandbox space
-to all developers, `+refs/heads/sandbox/${username}/*+` allowing
-the user 'joe' to use 'refs/heads/sandbox/joe/foo'.
+References can have the user name or the sharded account ID of the
+current user automatically included, creating dynamic access controls
+that change to match the currently logged in user.  For example to
+provide a personal sandbox space to all developers,
+`+refs/heads/sandbox/${username}/*+` allowing the user 'joe' to use
+'refs/heads/sandbox/joe/foo'. The sharded account ID can be used to
+give users access to their user branch in the `All-Users` repository,
+`+refs/users/${shardeduserid}+` is resolved to 'refs/users/23/1011123'
+if the account ID of the current user is `1011123`.
 
 When evaluating a reference-level access right, Gerrit will use
 the full set of access rights to determine if the user

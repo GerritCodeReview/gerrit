@@ -65,6 +65,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Patch-set: 1\n",
         new PersonIdent("Change Owner", "x@gerrit",
           serverIdent.getWhen(), serverIdent.getTimeZone())));
+    assertParseFails(writeCommit("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n",
+        new PersonIdent("Change\n\u1234<Owner>", "\n\nx<@>\u0002gerrit",
+          serverIdent.getWhen(), serverIdent.getTimeZone())));
   }
 
   @Test

@@ -539,9 +539,12 @@ public class ChangeNoteUtil {
     PersonIdent ident = newIdent(
         accountCache.get(c.getAuthor()).getAccount(),
         c.getWrittenOn(), serverIdent, anonymousCowardName);
-    String nameString = ident.getName() + " <" + ident.getEmailAddress()
-        + ">";
-    appendHeaderField(writer, AUTHOR, nameString);
+    StringBuilder name = new StringBuilder();
+    PersonIdent.appendSanitized(name, ident.getName());
+    name.append(" <");
+    PersonIdent.appendSanitized(name, ident.getEmailAddress());
+    name.append('>');
+    appendHeaderField(writer, AUTHOR, name.toString());
 
     String parent = c.getParentUuid();
     if (parent != null) {

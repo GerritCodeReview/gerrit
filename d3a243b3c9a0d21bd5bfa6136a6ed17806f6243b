@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adccfb7d_02a94a8a",
+        "filename": ".buckconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-04T00:57:17Z",
+      "side": 1,
+      "message": "Other aliases seem to lump words together, so releasenotes?",
+      "revId": "d3a243b3c9a0d21bd5bfa6136a6ed17806f6243b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adccfb7d_22b72eeb",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-04T00:57:17Z",
+      "side": 1,
+      "message": "(here too)",
+      "revId": "d3a243b3c9a0d21bd5bfa6136a6ed17806f6243b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6daf6390_98a155a9",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-04T00:57:17Z",
+      "side": 1,
+      "message": "Does this mean that URLs like https://gerrit-documentation.storage.googleapis.com/ReleaseNotes/index.html#2_12 would stop working? (That\u0027s okay if it\u0027s necessary --- just asking because I\u0027m curious.)",
+      "revId": "d3a243b3c9a0d21bd5bfa6136a6ed17806f6243b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -87,21 +86,6 @@ public class ChangeNoteUtil {
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
   private static final String TAG = FOOTER_TAG.getName();
-
-  public static String changeRefName(Change.Id id) {
-    StringBuilder r = new StringBuilder();
-    r.append(RefNames.REFS_CHANGES);
-    int n = id.get();
-    int m = n % 100;
-    if (m < 10) {
-      r.append('0');
-    }
-    r.append(m);
-    r.append('/');
-    r.append(n);
-    r.append(RefNames.META_SUFFIX);
-    return r.toString();
-  }
 
   public static String formatTime(PersonIdent ident, Timestamp t) {
     GitDateFormatter dateFormatter = new GitDateFormatter(Format.DEFAULT);

@@ -14,69 +14,48 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.reviewdb.client.Account.Id.fromRef;
+import static com.google.gerrit.reviewdb.client.Account.Id.fromRefPart;
+import static com.google.gerrit.reviewdb.client.Account.Id.fromRefSuffix;
 
 import org.junit.Test;
 
 public class AccountTest {
   @Test
   public void parseRefName() {
-    assertRef(1, "refs/users/01/1");
-    assertRef(1, "refs/users/01/1-drafts");
-    assertRef(1, "refs/users/01/1-drafts/2");
-    assertRef(1, "refs/users/01/1/edit/2");
+    assertThat(fromRef("refs/users/01/1")).isEqualTo(id(1));
+    assertThat(fromRef("refs/users/01/1-drafts")).isEqualTo(id(1));
+    assertThat(fromRef("refs/users/01/1-drafts/2")).isEqualTo(id(1));
+    assertThat(fromRef("refs/users/01/1/edit/2")).isEqualTo(id(1));
 
-    assertNotRef(null);
-    assertNotRef("");
+    assertThat(fromRef(null)).isNull();
+    assertThat(fromRef("")).isNull();
 
     // Invalid characters.
-    assertNotRef("refs/users/01a/1");
-    assertNotRef("refs/users/01/a1");
+    assertThat(fromRef("refs/users/01a/1")).isNull();
+    assertThat(fromRef("refs/users/01/a1")).isNull();
 
     // Mismatched shard.
-    assertNotRef("refs/users/01/23");
+    assertThat(fromRef("refs/users/01/23")).isNull();
 
     // Shard too short.
-    assertNotRef("refs/users/1/1");
+    assertThat(fromRef("refs/users/1/1")).isNull();
   }
 
   @Test
   public void parseRefNameParts() {
-    assertRefPart(1, "01/1");
-    assertRefPart(1, "01/1-drafts");
-    assertRefPart(1, "01/1-drafts/2");
-
-    assertNotRefPart(null);
-    assertNotRefPart("");
-
-    // This method assumes that the common prefix "refs/users/" will be removed.
-    assertNotRefPart("refs/users/01/1");
-
-    // Invalid characters.
-    assertNotRefPart("01a/1");
-    assertNotRefPart("01/a1");
-
-    // Mismatched shard.
-    assertNotRefPart("01/23");
-
-    // Shard too short.
-    assertNotRefPart("1/1");
+    assertThat(fromRefPart("01/1")).isEqualTo(id(1));
+    assertThat(fromRefPart("ab/cd")).isNull();
   }
 
-  private static void assertRef(int accountId, String refName) {
-    assertEquals(new Account.Id(accountId), Account.Id.fromRef(refName));
+  @Test
+  public void parseRefSuffix() {
+    assertThat(fromRefSuffix("12/34")).isEqualTo(id(34));
+    assertThat(fromRefSuffix("ab/cd")).isNull();
   }
 
-  private static void assertNotRef(String refName) {
-    assertNull(Account.Id.fromRef(refName));
-  }
-
-  private static void assertRefPart(int accountId, String refName) {
-    assertEquals(new Account.Id(accountId), Account.Id.fromRefPart(refName));
-  }
-
-  private static void assertNotRefPart(String refName) {
-    assertNull(Account.Id.fromRefPart(refName));
+  private Account.Id id(int n) {
+    return new Account.Id(n);
   }
 }

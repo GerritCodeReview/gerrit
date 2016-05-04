@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-
 /** Constants and utilities for Gerrit-specific ref names. */
 public class RefNames {
   public static final String REFS = "refs/";
@@ -79,6 +78,21 @@ public class RefNames {
     return ref;
   }
 
+  public static String changeMetaRef(Change.Id id) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_CHANGES);
+    int n = id.get();
+    int m = n % 100;
+    if (m < 10) {
+      r.append('0');
+    }
+    r.append(m);
+    r.append('/');
+    r.append(n);
+    r.append(META_SUFFIX);
+    return r.toString();
+  }
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_USERS);
@@ -93,15 +107,15 @@ public class RefNames {
     return r.toString();
   }
 
-  public static String refsDraftComments(Account.Id accountId,
-      Change.Id changeId) {
-    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId.get());
-    r.append(changeId.get());
+  public static String refsDraftComments(Change.Id changeId,
+      Account.Id accountId) {
+    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get());
+    r.append(accountId.get());
     return r.toString();
   }
 
-  public static String refsDraftCommentsPrefix(Account.Id accountId) {
-    return buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId.get()).toString();
+  public static String refsDraftCommentsPrefix(Change.Id changeId) {
+    return buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get()).toString();
   }
 
   public static String refsStarredChanges(Change.Id changeId,
@@ -158,6 +172,69 @@ public class RefNames {
       .append(changeId.get())
       .append('/')
       .toString();
+  }
+
+  static Integer parseShardedRefPart(String name) {
+    if (name == null) {
+      return null;
+    }
+
+    String[] parts = name.split("/");
+    int n = parts.length;
+    if (n < 2) {
+      return null;
+    }
+
+    // Last 2 digits.
+    int le;
+    for (le = 0; le < parts[0].length(); le++) {
+      if (!Character.isDigit(parts[0].charAt(le))) {
+        return null;
+      }
+    }
+    if (le != 2) {
+      return null;
+    }
+
+    // Full ID.
+    int ie;
+    for (ie = 0; ie < parts[1].length(); ie++) {
+      if (!Character.isDigit(parts[1].charAt(ie))) {
+        if (ie == 0) {
+          return null;
+        } else {
+          break;
+        }
+      }
+    }
+
+    int shard = Integer.parseInt(parts[0]);
+    int id = Integer.parseInt(parts[1].substring(0, ie));
+
+    if (id % 100 != shard) {
+      return null;
+    }
+    return id;
+  }
+
+  static Integer parseRefSuffix(String name) {
+    if (name == null) {
+      return null;
+    }
+    int i = name.length();
+    while (i > 0) {
+      char c = name.charAt(i - 1);
+      if (c == '/') {
+        break;
+      } else if (!Character.isDigit(c)) {
+        return null;
+      }
+      i--;
+    }
+    if (i == 0) {
+      return null;
+    }
+    return Integer.valueOf(name.substring(i, name.length()));
   }
 
   private RefNames() {

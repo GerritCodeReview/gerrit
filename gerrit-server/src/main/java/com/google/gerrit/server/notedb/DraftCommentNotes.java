@@ -110,7 +110,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(author, getChangeId());
+    return RefNames.refsDraftComments(getChangeId(), author);
   }
 
   @Override

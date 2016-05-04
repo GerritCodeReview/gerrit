@@ -20,12 +20,12 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
-import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
@@ -118,8 +118,7 @@ public class NoteDbChecker {
   public void assertNoChangeRef(Project.NameKey project, Change.Id changeId)
       throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.exactRef(ChangeNoteUtil.changeRefName(changeId)))
-          .isNull();
+      assertThat(repo.exactRef(RefNames.changeMetaRef(changeId))).isNull();
     }
   }
 

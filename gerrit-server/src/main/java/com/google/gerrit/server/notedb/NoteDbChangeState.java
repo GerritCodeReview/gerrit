@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -166,7 +167,7 @@ public class NoteDbChangeState {
   }
 
   public boolean isChangeUpToDate(Repository changeRepo) throws IOException {
-    Ref ref = changeRepo.exactRef(ChangeNoteUtil.changeRefName(changeId));
+    Ref ref = changeRepo.exactRef(changeMetaRef(changeId));
     if (ref == null) {
       return changeMetaId.equals(ObjectId.zeroId());
     }
@@ -176,7 +177,7 @@ public class NoteDbChangeState {
   public boolean areDraftsUpToDate(Repository draftsRepo, Account.Id accountId)
       throws IOException {
     Ref ref = draftsRepo.exactRef(
-        RefNames.refsDraftComments(accountId, changeId));
+        RefNames.refsDraftComments(changeId, accountId));
     if (ref == null) {
       return !draftIds.containsKey(accountId);
     }

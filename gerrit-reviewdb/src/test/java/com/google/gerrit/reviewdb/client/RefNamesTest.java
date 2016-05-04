@@ -15,6 +15,8 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
+import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
 
 import org.junit.Test;
 
@@ -38,14 +40,14 @@ public class RefNamesTest {
 
   @Test
   public void refsDraftComments() throws Exception {
-    assertThat(RefNames.refsDraftComments(accountId, changeId))
-      .isEqualTo("refs/draft-comments/23/1011123/67473");
+    assertThat(RefNames.refsDraftComments(changeId, accountId))
+      .isEqualTo("refs/draft-comments/73/67473/1011123");
   }
 
   @Test
   public void refsDraftCommentsPrefix() throws Exception {
-    assertThat(RefNames.refsDraftCommentsPrefix(accountId))
-      .isEqualTo("refs/draft-comments/23/1011123/");
+    assertThat(RefNames.refsDraftCommentsPrefix(changeId))
+      .isEqualTo("refs/draft-comments/73/67473/");
   }
 
   @Test
@@ -64,5 +66,43 @@ public class RefNamesTest {
   public void refsEdit() throws Exception {
     assertThat(RefNames.refsEdit(accountId, changeId, psId))
       .isEqualTo("refs/users/23/1011123/edit-67473/42");
+  }
+
+  @Test
+  public void testParseShardedRefsPart() throws Exception {
+    assertThat(parseShardedRefPart("01/1")).isEqualTo(1);
+    assertThat(parseShardedRefPart("01/1-drafts")).isEqualTo(1);
+    assertThat(parseShardedRefPart("01/1-drafts/2")).isEqualTo(1);
+
+    assertThat(parseShardedRefPart(null)).isNull();
+    assertThat(parseShardedRefPart("")).isNull();
+
+    // Prefix not stripped.
+    assertThat(parseShardedRefPart("refs/users/01/1")).isNull();
+
+    // Invalid characters.
+    assertThat(parseShardedRefPart("01a/1")).isNull();
+    assertThat(parseShardedRefPart("01/a1")).isNull();
+
+    // Mismatched shard.
+    assertThat(parseShardedRefPart("01/23")).isNull();
+
+    // Shard too short.
+    assertThat(parseShardedRefPart("1/1")).isNull();
+  }
+
+  @Test
+  public void testParseRefSuffix() throws Exception {
+    assertThat(parseRefSuffix("1/2/34")).isEqualTo(34);
+    assertThat(parseRefSuffix("/34")).isEqualTo(34);
+
+    assertThat(parseRefSuffix(null)).isNull();
+    assertThat(parseRefSuffix("")).isNull();
+    assertThat(parseRefSuffix("34")).isNull();
+    assertThat(parseRefSuffix("12/ab")).isNull();
+    assertThat(parseRefSuffix("12/a4")).isNull();
+    assertThat(parseRefSuffix("12/4a")).isNull();
+    assertThat(parseRefSuffix("a4")).isNull();
+    assertThat(parseRefSuffix("4a")).isNull();
   }
 }

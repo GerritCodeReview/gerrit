@@ -122,46 +122,23 @@ public final class Account {
      *              We assume that the caller has trimmed any prefix.
      */
     public static Id fromRefPart(String name) {
-      if (name == null) {
-        return null;
-      }
+      Integer id = RefNames.parseShardedRefPart(name);
+      return id != null ? new Account.Id(id) : null;
+    }
 
-      String[] parts = name.split("/");
-      int n = parts.length;
-      if (n < 2) {
-        return null;
-      }
-
-      // Last 2 digits.
-      int le;
-      for (le = 0; le < parts[0].length(); le++) {
-        if (!Character.isDigit(parts[0].charAt(le))) {
-          return null;
-        }
-      }
-      if (le != 2) {
-        return null;
-      }
-
-      // Full ID.
-      int ie;
-      for (ie = 0; ie < parts[1].length(); ie++) {
-        if (!Character.isDigit(parts[1].charAt(ie))) {
-          if (ie == 0) {
-            return null;
-          } else {
-            break;
-          }
-        }
-      }
-
-      int shard = Integer.parseInt(parts[0]);
-      int id = Integer.parseInt(parts[1].substring(0, ie));
-
-      if (id % 100 != shard) {
-        return null;
-      }
-      return new Account.Id(id);
+    /**
+     * Parse an Account.Id out of the last part of a ref name.
+     * <p>
+     * The input is a ref name of the form {@code ".../1234"}, where the suffix
+     * is a non-sharded account ID. Ref names using a sharded ID should use
+     * {@link #fromRefPart(String)} instead for greater safety.
+     *
+     * @param name ref name
+     * @return account ID, or null if not numeric.
+     */
+    public static Id fromRefSuffix(String name) {
+      Integer id = RefNames.parseRefSuffix(name);
+      return id != null ? new Account.Id(id) : null;
     }
   }
 

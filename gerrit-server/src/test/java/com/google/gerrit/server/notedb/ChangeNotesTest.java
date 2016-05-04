@@ -15,8 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.changeRefName;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
@@ -526,7 +526,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void emptyChangeUpdate() throws Exception {
     Change c = newChange();
-    Ref initial = repo.exactRef(changeRefName(c.getId()));
+    Ref initial = repo.exactRef(changeMetaRef(c.getId()));
     assertThat(initial).isNotNull();
 
     // Empty update doesn't create a new commit.
@@ -534,7 +534,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     assertThat(update.getResult()).isNull();
 
-    Ref updated = repo.exactRef(changeRefName(c.getId()));
+    Ref updated = repo.exactRef(changeMetaRef(c.getId()));
     assertThat(updated.getObjectId()).isEqualTo(initial.getObjectId());
   }
 
@@ -1930,8 +1930,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(comment);
     update.commit();
 
-    assertThat(repo.exactRef(changeRefName(c.getId()))).isNotNull();
-    String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
+    assertThat(repo.exactRef(changeMetaRef(c.getId()))).isNotNull();
+    String draftRef = refsDraftComments(c.getId(), otherUser.getAccountId());
     assertThat(exactRefAllUsers(draftRef)).isNull();
   }
 
@@ -1953,7 +1953,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(draft);
     update.commit();
 
-    String draftRef = refsDraftComments(otherUser.getAccountId(), c.getId());
+    String draftRef = refsDraftComments(c.getId(), otherUser.getAccountId());
     ObjectId old = exactRefAllUsers(draftRef);
     assertThat(old).isNotNull();
 
@@ -2127,7 +2127,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putComment(comment2);
     update.commit();
 
-    String refName = refsDraftComments(otherUserId, c.getId());
+    String refName = refsDraftComments(c.getId(), otherUserId);
     ObjectId oldDraftId = exactRefAllUsers(refName);
 
     update = newUpdate(c, otherUser);

@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -401,7 +402,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,
       NoteDbUpdateManager manager) throws IOException {
-    String refName = ChangeNoteUtil.changeRefName(change.getId());
+    String refName = changeMetaRef(change.getId());
     ObjectId old = manager.getChangeRepo().getObjectId(refName);
     if (old == null) {
       return Collections.emptyList();
@@ -460,7 +461,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void deleteRef(Change change, Repository repo,
       ChainedReceiveCommands cmds) throws IOException {
-    String refName = ChangeNoteUtil.changeRefName(change.getId());
+    String refName = changeMetaRef(change.getId());
     ObjectId old = cmds.getObjectId(repo, refName);
     if (old != null) {
       cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));

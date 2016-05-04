@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -1486,6 +1487,58 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             revId, comment1,
             revId, comment2,
             revId, comment3));
+  }
+
+  @Test
+  public void patchLineCommentNotesFormatWeirdUser() throws Exception {
+    Account account = new Account(new Account.Id(3), TimeUtil.nowTs());
+    account.setFullName("Weird\n\u0002<User>\n");
+    account.setPreferredEmail(" we\r\nird@ex>ample<.com");
+    accountCache.put(account);
+    IdentifiedUser user = userFactory.create(account.getId());
+
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, user);
+    String uuid = "uuid";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    Timestamp time = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    PatchLineComment comment = newPublishedComment(psId, "file1",
+        uuid, range, range.getEndLine(), user, null, time, "comment",
+        (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    try (RevWalk walk = new RevWalk(repo)) {
+      ArrayList<Note> notesInTree =
+          Lists.newArrayList(notes.revisionNoteMap.noteMap.iterator());
+      Note note = Iterables.getOnlyElement(notesInTree);
+
+      byte[] bytes =
+          walk.getObjectReader().open(
+              note.getData(), Constants.OBJ_BLOB).getBytes();
+      String noteString = new String(bytes, UTF_8);
+      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+      assertThat(noteString).isEqualTo(
+          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+          + "Patch-set: 1\n"
+          + "File: file1\n"
+          + "\n"
+          + "1:1-2:1\n"
+          + timeStr + "\n"
+          + "Author: Weird\u0002User <3@gerrit>\n"
+          + "UUID: uuid\n"
+          + "Bytes: 7\n"
+          + "comment\n"
+          + "\n");
+    }
+
+    assertThat(notes.getComments())
+        .isEqualTo(ImmutableMultimap.of(comment.getRevId(), comment));
   }
 
   @Test

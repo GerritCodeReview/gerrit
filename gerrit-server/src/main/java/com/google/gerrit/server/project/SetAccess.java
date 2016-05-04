@@ -146,7 +146,7 @@ public class SetAccess implements
             throw new AuthException("You are not allowed to edit permissions"
                 + "for ref: " + name);
           }
-          RefControl.validateRefPattern(name);
+          RefPattern.validate(name);
         }
 
         // Check all permissions for soundness

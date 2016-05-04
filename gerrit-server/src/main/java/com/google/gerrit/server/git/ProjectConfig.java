@@ -40,6 +40,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.CommentLinkInfo;
+import com.google.gerrit.server.project.RefPattern;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -645,8 +647,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private boolean isValidRegex(String refPattern) {
     try {
-      Pattern.compile(refPattern.replace("${username}/", ""));
-    } catch (PatternSyntaxException e) {
+      RefPattern.validateRegExp(refPattern);
+    } catch (InvalidNameException e) {
       error(new ValidationError(PROJECT_CONFIG, "Invalid ref name: "
           + e.getMessage()));
       return false;

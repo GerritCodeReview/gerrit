@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.gerrit.server.project.RefControl.isRE;
+import static com.google.gerrit.server.project.RefPattern.isRE;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Lists;
@@ -74,7 +74,7 @@ public class PermissionCollection {
     PermissionCollection filter(Iterable<SectionMatcher> matcherList,
         String ref, CurrentUser user) {
       if (isRE(ref)) {
-        ref = RefControl.shortestExample(ref);
+        ref = RefPattern.shortestExample(ref);
       } else if (ref.endsWith("/*")) {
         ref = ref.substring(0, ref.length() - 1);
       }

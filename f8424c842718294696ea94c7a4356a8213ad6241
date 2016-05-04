@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0daa6753_45616a29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T07:36:33Z",
+      "side": 1,
+      "message": "Although an argument could be that the default size for an ArrayList is 10 and that should be sufficient for most of the executions here.",
+      "parentUuid": "0daa6753_8520c2e9",
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_4a7773f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 6

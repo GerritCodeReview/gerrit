@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_22d70e00",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-04T22:24:57Z",
+      "side": 1,
+      "message": "just a note here is the pattern again :D",
+      "revId": "7ad8ac47a37d2a2891e25927fb691c7adba54213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_42da1228",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-04T22:24:57Z",
+      "side": 1,
+      "message": "starred \u003d\u003d\u003d a boolean trap :P\n\nI would make two methods instead :D",
+      "revId": "7ad8ac47a37d2a2891e25927fb691c7adba54213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

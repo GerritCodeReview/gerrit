@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "adccfb7d_22dc8e27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteIncludedGroups.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-05-04T07:23:39Z",
+      "side": 1,
+      "message": "This can be changed too?",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 65
+      },
+      "revId": "f45e8a556185cd53202c2b762ca624cbea0de6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adccfb7d_c2c76255",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteIncludedGroups.java",
         "patchSetId": 3

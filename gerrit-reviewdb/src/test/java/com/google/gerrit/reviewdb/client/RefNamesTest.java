@@ -141,4 +141,14 @@ public class RefNamesTest {
     assertThat(parseRefSuffix("a4")).isNull();
     assertThat(parseRefSuffix("4a")).isNull();
   }
+
+  @Test
+  public void shard() throws Exception {
+    assertThat(RefNames.shard(1011123)).isEqualTo("23/1011123");
+    assertThat(RefNames.shard(537)).isEqualTo("37/537");
+    assertThat(RefNames.shard(12)).isEqualTo("12/12");
+    assertThat(RefNames.shard(0)).isEqualTo("00/0");
+    assertThat(RefNames.shard(1)).isEqualTo("01/1");
+    assertThat(RefNames.shard(-1)).isNull();
+  }
 }

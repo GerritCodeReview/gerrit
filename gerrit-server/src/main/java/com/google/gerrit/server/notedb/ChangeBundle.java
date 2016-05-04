@@ -28,6 +28,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
@@ -150,8 +151,8 @@ public class ChangeBundle {
   }
 
 
-  private static Map<PatchSet.Id, PatchSet> patchSetMap(Iterable<PatchSet> in) {
-    Map<PatchSet.Id, PatchSet> out = new TreeMap<>(
+  private static TreeMap<PatchSet.Id, PatchSet> patchSetMap(Iterable<PatchSet> in) {
+    TreeMap<PatchSet.Id, PatchSet> out = new TreeMap<>(
         new Comparator<PatchSet.Id>() {
           @Override
           public int compare(PatchSet.Id a, PatchSet.Id b) {
@@ -244,7 +245,7 @@ public class ChangeBundle {
 
   private final Change change;
   private final ImmutableList<ChangeMessage> changeMessages;
-  private final ImmutableMap<PatchSet.Id, PatchSet> patchSets;
+  private final ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private final ImmutableMap<PatchSetApproval.Key, PatchSetApproval>
       patchSetApprovals;
   private final ImmutableMap<PatchLineComment.Key, PatchLineComment>
@@ -260,7 +261,7 @@ public class ChangeBundle {
       Source source) {
     this.change = checkNotNull(change);
     this.changeMessages = changeMessageList(changeMessages);
-    this.patchSets = ImmutableMap.copyOf(patchSetMap(patchSets));
+    this.patchSets = ImmutableSortedMap.copyOfSorted(patchSetMap(patchSets));
     this.patchSetApprovals =
         ImmutableMap.copyOf(patchSetApprovalMap(patchSetApprovals));
     this.patchLineComments =
@@ -316,6 +317,13 @@ public class ChangeBundle {
     return ImmutableList.copyOf(diffs);
   }
 
+  private Timestamp getFirstPatchSetTime() {
+    if (patchSets.isEmpty()) {
+      return change.getCreatedOn();
+    }
+    return patchSets.firstEntry().getValue().getCreatedOn();
+  }
+
   private Timestamp getLatestTimestamp() {
     Ordering<Timestamp> o = Ordering.natural();
     Timestamp ts = change.getLastUpdatedOn();
@@ -343,13 +351,16 @@ public class ChangeBundle {
     Change b = bundleB.change;
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
 
+    boolean excludeCreatedOn = false;
     boolean excludeSubject = false;
     boolean excludeOrigSubj = false;
     boolean excludeTopic = false;
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
 
-
+    // Allow created timestamp in NoteDb to be either the created timestamp of
+    // the change, or the timestamp of the first remaining patch set.
+    //
     // Ignore subject if the NoteDb subject starts with the ReviewDb subject.
     // The NoteDb subject is read directly from the commit, whereas the ReviewDb
     // subject historically may have been truncated to fit in a SQL varchar
@@ -376,11 +387,15 @@ public class ChangeBundle {
     //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludeCreatedOn = !timestampsDiffer(
+          bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
       excludeSubject = b.getSubject().startsWith(a.getSubject());
       excludeOrigSubj = true;
       excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludeCreatedOn = !timestampsDiffer(
+          bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
       excludeSubject = a.getSubject().startsWith(b.getSubject());
       excludeOrigSubj = true;
       excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
@@ -390,6 +405,9 @@ public class ChangeBundle {
     String updatedField = "lastUpdatedOn";
     List<String> exclude =
         Lists.newArrayList(updatedField, "noteDbState", "rowVersion");
+    if (excludeCreatedOn) {
+      exclude.add("createdOn");
+    }
     if (excludeSubject) {
       exclude.add("subject");
     }
@@ -402,9 +420,9 @@ public class ChangeBundle {
     diffColumnsExcluding(diffs, Change.class, desc, bundleA, a, bundleB, b,
         exclude);
 
-    // Allow timestamps to either be exactly equal (within slop), or the NoteDb
-    // timestamp to be equal to the latest entity timestamp in the whole
-    // ReviewDb bundle (within slop).
+    // Allow last updated timestamps to either be exactly equal (within slop),
+    // or the NoteDb timestamp to be equal to the latest entity timestamp in the
+    // whole ReviewDb bundle (within slop).
     if (timestampsDiffer(bundleA, a.getLastUpdatedOn(),
           bundleB, b.getLastUpdatedOn())) {
       diffTimestamps(diffs, desc, bundleA, aUpdated, bundleB, bUpdated,

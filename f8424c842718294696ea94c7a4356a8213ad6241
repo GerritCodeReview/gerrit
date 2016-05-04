@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d6a9fda_f7686012",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T07:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4830cdcd_076d7622",
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_6a7437ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0daa6753_8520c2e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T07:28:48Z",
+      "side": 1,
+      "message": "An ArrayList is definitely more efficient when you know the size upfront (which we don\u0027t because we only have an Iterable) and can allocate it accordingly. If you build a (large) list iteratively without knowing it\u0027s size upfront I would assume that a LinkedList is more efficient, as an ArrayList would need to change it\u0027s size multiple times (allocate a new array and copy all contents).\n\nInvoking toList on the ResultSet could be an alternative that provides the size upfront, but that depends on how toList is implemented (constant time cast vs linear time list building).",
+      "parentUuid": "a83309d6_6a7437ed",
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_4a7773f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 6
@@ -47,6 +83,30 @@
       "writtenOn": "2016-05-03T15:08:32Z",
       "side": 1,
       "message": "\"pwi\" instead of \"wpi\"?",
+      "range": {
+        "startLine": 55,
+        "startChar": 23,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "f8424c842718294696ea94c7a4356a8213ad6241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d6a9fda_77669044",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-04T07:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83309d6_4a7773f2",
       "range": {
         "startLine": 55,
         "startChar": 23,

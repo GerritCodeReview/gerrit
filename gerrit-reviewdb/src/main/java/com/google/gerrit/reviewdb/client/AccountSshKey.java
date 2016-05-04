@@ -53,6 +53,10 @@ public final class AccountSshKey {
     protected void set(int newValue) {
       seq = newValue;
     }
+
+    public boolean isValid() {
+      return seq > 0;
+    }
   }
 
   @Column(id = 1, name = Column.NONE)
@@ -70,7 +74,7 @@ public final class AccountSshKey {
   public AccountSshKey(final AccountSshKey.Id i, final String pub) {
     id = i;
     sshPublicKey = pub;
-    valid = true; // We can assume it is fine.
+    valid = id.isValid();
   }
 
   public Account.Id getAccount() {
@@ -125,7 +129,7 @@ public final class AccountSshKey {
   }
 
   public boolean isValid() {
-    return valid;
+    return valid && id.isValid();
   }
 
   public void setInvalid() {

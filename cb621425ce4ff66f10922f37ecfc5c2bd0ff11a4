@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6daf6390_182aa5d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-04T14:57:02Z",
+      "side": 1,
+      "message": "the new value is passed to _editDraftChanged. Use that instead of this._editDraft.",
+      "revId": "cb621425ce4ff66f10922f37ecfc5c2bd0ff11a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adccfb7d_a2f89e8c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-04T14:57:02Z",
+      "side": 1,
+      "message": "other code in this file uses i++",
+      "revId": "cb621425ce4ff66f10922f37ecfc5c2bd0ff11a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6daf6390_382f69e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-04T14:57:02Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d here and elsewhere",
+      "revId": "cb621425ce4ff66f10922f37ecfc5c2bd0ff11a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adccfb7d_c2f5a295",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-04T14:57:02Z",
+      "side": 1,
+      "message": "declare this on the prototype.",
+      "revId": "cb621425ce4ff66f10922f37ecfc5c2bd0ff11a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6daf6390_58341d3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-line.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-04T14:57:02Z",
+      "side": 1,
+      "message": "declare on prototype.",
+      "revId": "cb621425ce4ff66f10922f37ecfc5c2bd0ff11a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

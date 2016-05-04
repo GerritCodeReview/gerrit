@@ -4,7 +4,6 @@ bower_components(
   name = 'polygerrit_components',
   deps = [
     '//lib/js:fetch',
-    '//lib/js:iron-ajax',
     '//lib/js:iron-autogrow-textarea',
     '//lib/js:iron-dropdown',
     '//lib/js:iron-input',

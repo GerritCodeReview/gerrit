@@ -134,18 +134,6 @@ bower_component(
 )
 
 bower_component(
-  name = 'iron-ajax',
-  package = 'polymerelements/iron-ajax',
-  version = '1.2.0',
-  deps = [
-    ':polymer',
-    ':promise-polyfill',
-  ],
-  license = 'polymer',
-  sha1 = 'f195d0d0ddef73a20573b0a02ce6a505cc1d7014',
-)
-
-bower_component(
   name = 'iron-autogrow-textarea',
   package = 'polymerelements/iron-autogrow-textarea',
   version = '1.0.12',

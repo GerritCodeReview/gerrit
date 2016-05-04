@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class RefPattern {
+  public static final String USERID_SHARDED = "shardeduserid";
   public static final String USERNAME = "username";
 
   public static String shortestExample(String refPattern) {
@@ -77,7 +78,9 @@ public class RefPattern {
   public static void validateRegExp(String refPattern)
       throws InvalidNameException {
     try {
-      Pattern.compile(refPattern.replace("${" + USERNAME + "}/", ""));
+      refPattern = refPattern.replace("${" + USERID_SHARDED + "}", "");
+      refPattern = refPattern.replace("${" + USERNAME + "}", "");
+      Pattern.compile(refPattern);
     } catch (PatternSyntaxException e) {
       throw new InvalidNameException(refPattern + " " + e.getMessage());
     }

@@ -84,14 +84,7 @@ public class RefNames {
   public static String changeMetaRef(Change.Id id) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_CHANGES);
-    int n = id.get();
-    int m = n % 100;
-    if (m < 10) {
-      r.append('0');
-    }
-    r.append(m);
-    r.append('/');
-    r.append(n);
+    r.append(shard(id.get()));
     r.append(META_SUFFIX);
     return r.toString();
   }
@@ -99,14 +92,7 @@ public class RefNames {
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_USERS);
-    int account = accountId.get();
-    int m = account % 100;
-    if (m < 10) {
-      r.append('0');
-    }
-    r.append(m);
-    r.append('/');
-    r.append(account);
+    r.append(shard(accountId.get()));
     return r.toString();
   }
 
@@ -135,6 +121,16 @@ public class RefNames {
   private static StringBuilder buildRefsPrefix(String prefix, int id) {
     StringBuilder r = new StringBuilder();
     r.append(prefix);
+    r.append(shard(id));
+    r.append('/');
+    return r;
+  }
+
+  public static String shard(int id) {
+    if (id < 0) {
+      return null;
+    }
+    StringBuilder r = new StringBuilder();
     int n = id % 100;
     if (n < 10) {
       r.append('0');
@@ -142,8 +138,7 @@ public class RefNames {
     r.append(n);
     r.append('/');
     r.append(id);
-    r.append('/');
-    return r;
+    return r.toString();
   }
 
   /**

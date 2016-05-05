@@ -16,13 +16,14 @@
 
   function GrDiffLine(type) {
     this.type = type;
-    this.contextLines = [];
     this.highlights = [];
   }
 
+  GrDiffLine.prototype.afterNumber = 0;
+
   GrDiffLine.prototype.beforeNumber = 0;
 
-  GrDiffLine.prototype.afterNumber = 0;
+  GrDiffLine.prototype.contextGroup = null;
 
   GrDiffLine.prototype.text = '';
 

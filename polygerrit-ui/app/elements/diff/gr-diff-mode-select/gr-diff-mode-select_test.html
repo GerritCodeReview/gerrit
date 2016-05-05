@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-mode-select</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../bower_components/page/page.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-diff-mode-select.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-mode-select diff-mode="UNIFIED_DIFF"></gr-diff-mode-select>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-patch-range-select tests', function() {
+    var element;
+    var select;
+
+    setup(function() {
+      element = fixture('basic');
+      select = element.$$('select');
+    });
+
+    test('default option is set', function(done) {
+
+      // Because the element was initialized with UNIFIED_DIFF as its diff-mode
+      // then this should be reflected in the test methods.
+      assert.isTrue(element._modeIsUnified());
+      assert.isFalse(element._modeIsSideBySide());
+
+      // It should also be reflected in the option that is selected.
+      var selectedOption = element.$$('option[selected]');
+      assert.equal(element.diffMode, selectedOption.value);
+
+      done();
+    });
+
+    test('properly updates mode', function(done) {
+
+      // We will simulate a user change of the selected mode.
+
+      element.addEventListener('diff-mode-changed', function() {
+
+        // By the time the mode is changed, we expect it to be in SIDE_BY_SIDE
+        // mode at the test methods and the currently-selected option.
+        assert.isFalse(element._modeIsUnified());
+        assert.isTrue(element._modeIsSideBySide());
+
+        var selectedOption = element.$$('option[selected]');
+        assert.equal(element.diffMode, selectedOption.value);
+
+        done();
+      });
+
+      // Set the actual value of the select.
+      select.value = 'SIDE_BY_SIDE';
+
+      // Simulate a change event to propagate the change.
+      var evt = document.createEvent('HTMLEvents');
+      evt.initEvent("change", false, true);
+      select.dispatchEvent(evt);
+    });
+  });
+</script>

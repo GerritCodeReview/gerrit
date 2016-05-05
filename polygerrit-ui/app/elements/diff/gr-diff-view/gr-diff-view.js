@@ -16,6 +16,11 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   Polymer({
     is: 'gr-diff-view',
 
@@ -64,6 +69,11 @@
         value: true,
       },
       _prefs: Object,
+      _diffMode: {
+        type: String,
+        value: DiffViewMode.SIDE_BY_SIDE,
+        notify: true,
+      }
     },
 
     behaviors: [

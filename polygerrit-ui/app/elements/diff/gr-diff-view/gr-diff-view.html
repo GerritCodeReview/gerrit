@@ -103,6 +103,9 @@ limitations under the License.
       .prefsButton {
         text-align: right;
       }
+      #modeSelect {
+        margin-left: .5em;
+      }
       @media screen and (max-width: 50em) {
         .dash {
           display: none;
@@ -168,11 +171,17 @@ limitations under the License.
             patch-range="[[_patchRange]]"
             available-patches="[[_computeAvailablePatches(_change.revisions)]]">
         </gr-patch-range-select>
-        <gr-button link
-           class="prefsButton"
-           on-tap="_handlePrefsTap"
-           hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
-           hidden>Diff View Preferences</gr-button>
+        <div>
+          <gr-button link
+              class="prefsButton"
+              on-tap="_handlePrefsTap"
+              hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
+              hidden>Diff View Preferences</gr-button>
+          <select id="modeSelect" on-change="_handleModeChange">
+            <option value="SIDE_BY_SIDE">Side By Side</option>
+            <option value="UNIFIED_DIFF">Unified</option>
+          </select>
+        </div>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>
         <gr-diff-preferences
@@ -186,6 +195,7 @@ limitations under the License.
           path="[[_path]]"
           prefs="[[_prefs]]"
           project-config="[[_projectConfig]]"
+          view-mode="[[_diffMode]]"
           on-render="_handleDiffRender">
       </gr-diff>
     </div>

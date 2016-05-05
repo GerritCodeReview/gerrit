@@ -25,6 +25,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
@@ -208,7 +209,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     try (ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
         RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
       manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
-          new ChainedReceiveCommands());
+          new ChainedReceiveCommands(allUsersRepo));
       for (Change.Id changeId : allChanges.get(project)) {
         try {
           buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
@@ -235,11 +236,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
         ArrayListMultimap.create();
 
-    Repository changeMetaRepo = manager.getChangeRepo().repo;
     events.addAll(getHashtagsEvents(change, manager));
 
     // Delete ref only after hashtags have been read
-    deleteRef(change, changeMetaRepo, manager.getChangeRepo().cmds);
+    deleteRef(change, manager.getChangeRepo().cmds);
 
     Integer minPsNum = getMinPatchSetNum(bundle);
     Set<PatchSet.Id> psIds =
@@ -416,15 +416,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private List<HashtagsEvent> getHashtagsEvents(Change change,
       NoteDbUpdateManager manager) throws IOException {
     String refName = changeMetaRef(change.getId());
-    ObjectId old = manager.getChangeRepo().getObjectId(refName);
-    if (old == null) {
+    Optional<ObjectId> old = manager.getChangeRepo().getObjectId(refName);
+    if (!old.isPresent()) {
       return Collections.emptyList();
     }
 
     RevWalk rw = manager.getChangeRepo().rw;
     List<HashtagsEvent> events = new ArrayList<>();
     rw.reset();
-    rw.markStart(rw.parseCommit(old));
+    rw.markStart(rw.parseCommit(old.get()));
     for (RevCommit commit : rw) {
       Account.Id authorId;
       try {
@@ -472,12 +472,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return new PatchSet.Id(change.getId(), psId);
   }
 
-  private void deleteRef(Change change, Repository repo,
-      ChainedReceiveCommands cmds) throws IOException {
+  private void deleteRef(Change change, ChainedReceiveCommands cmds)
+      throws IOException {
     String refName = changeMetaRef(change.getId());
-    ObjectId old = cmds.getObjectId(repo, refName);
-    if (old != null) {
-      cmds.add(new ReceiveCommand(old, ObjectId.zeroId(), refName));
+    Optional<ObjectId> old = cmds.get(refName);
+    if (old.isPresent()) {
+      cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), refName));
     }
   }
 

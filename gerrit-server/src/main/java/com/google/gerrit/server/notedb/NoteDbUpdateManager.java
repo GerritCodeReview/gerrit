@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -82,8 +81,8 @@ public class NoteDbUpdateManager {
       this.close = close;
     }
 
-    ObjectId getObjectId(String refName) throws IOException {
-      return cmds.getObjectId(repo, refName);
+    Optional<ObjectId> getObjectId(String refName) throws IOException {
+      return cmds.get(refName);
     }
 
     @Override
@@ -163,7 +162,7 @@ public class NoteDbUpdateManager {
     Repository repo = repoManager.openRepository(p);
     ObjectInserter ins = repo.newObjectInserter();
     return new OpenRepo(repo, new RevWalk(ins.newReader()), ins,
-        new ChainedReceiveCommands(), true);
+        new ChainedReceiveCommands(repo), true);
   }
 
   private boolean isEmpty() {
@@ -331,8 +330,7 @@ public class NoteDbUpdateManager {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
-      ObjectId old = firstNonNull(
-          or.cmds.getObjectId(or.repo, refName), ObjectId.zeroId());
+      ObjectId old = or.cmds.get(refName).or(ObjectId.zeroId());
       // Only actually write to the ref if one of the updates explicitly allows
       // us to do so, i.e. it is known to represent a new change. This avoids
       // writing partial change meta if the change hasn't been backfilled yet.

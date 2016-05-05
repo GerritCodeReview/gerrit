@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_01788ae6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_81f93a92",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_0213eaaa",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2016-05-05T01:46:56Z",
       "side": 1,
       "message": "I’m assuming the callback is bound to the element’s scope and you don’t need a bind(this)",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_8255ba42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Yes, this.debounce is magical - I was surprised as well.",
+      "parentUuid": "ad987b90_0213eaaa",
       "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_211eeea9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_61f636a2",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_21f02ea1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder_test.html",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2016-05-05T01:46:56Z",
       "side": 1,
       "message": "var content;\nvar outputEl;",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_6252b65a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_21f02ea1",
       "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_21e14eac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done - indeed, I\u0027ve overlooked this one.\nside is confusing...",
+      "parentUuid": "ad987b90_8227fa02",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_e12ec6e8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 2
@@ -115,6 +205,24 @@
       "writtenOn": "2016-05-05T01:46:56Z",
       "side": 1,
       "message": "Comments should be full sentences with period at the end.",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_01ef6a97",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_e12ec6e8",
       "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "ad987b90_224caeb5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_c133c252",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_41f332b0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
         "patchSetId": 2
@@ -149,6 +275,24 @@
       "writtenOn": "2016-05-05T01:46:56Z",
       "side": 1,
       "message": "\u003e80chars",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_c18182d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T18:57:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_41f332b0",
       "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

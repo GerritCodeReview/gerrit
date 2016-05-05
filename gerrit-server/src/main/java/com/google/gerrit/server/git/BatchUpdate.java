@@ -49,6 +49,8 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
+import com.google.gwtorm.server.OrmConcurrencyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -572,13 +574,7 @@ public class BatchUpdate implements AutoCloseable {
 
           // Stage the NoteDb update and store its state in the Change.
           if (!ctx.deleted && notesMigration.writeChanges()) {
-            updateManager = updateManagerFactory.create(ctx.getProject());
-            for (ChangeUpdate u : ctx.updates.values()) {
-              updateManager.add(u);
-            }
-            NoteDbChangeState.applyDelta(
-                ctx.getChange(),
-                updateManager.stage().get(id));
+            updateManager = stageNoteDbUpdate(ctx);
           }
 
           // Bump lastUpdatedOn or rowVersion and commit.
@@ -617,6 +613,25 @@ public class BatchUpdate implements AutoCloseable {
       Throwables.propagateIfPossible(e, RestApiException.class);
       throw new UpdateException(e);
     }
+  }
+
+  private NoteDbUpdateManager stageNoteDbUpdate(ChangeContext ctx)
+      throws OrmException, IOException {
+    NoteDbUpdateManager updateManager =
+        updateManagerFactory.create(ctx.getProject());
+    for (ChangeUpdate u : ctx.updates.values()) {
+      updateManager.add(u);
+    }
+    try {
+      NoteDbChangeState.applyDelta(
+          ctx.getChange(),
+          updateManager.stage().get(ctx.getChange().getId()));
+    } catch (OrmConcurrencyException ex) {
+      // Refused to apply update because NoteDb was out of sync. Go ahead with
+      // this ReviewDb update; it's still out of sync, but this is no worse than
+      // before, and it will eventually get rebuilt.
+    }
+    return updateManager;
   }
 
   private static Iterable<Change> changesToUpdate(ChangeContext ctx) {

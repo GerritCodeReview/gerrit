@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_c2fe227a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T00:00:25Z",
+      "side": 1,
+      "message": "why not return Promise.reject(..) or throw new Error?\nSame for other similar cases",
+      "revId": "7feb2bab55b766bd5e66e674fd9f881fd17de4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_a2031e64",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T00:00:25Z",
+      "side": 1,
+      "message": "why not this.listen(...)?",
+      "revId": "7feb2bab55b766bd5e66e674fd9f881fd17de4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

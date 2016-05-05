@@ -70,6 +70,7 @@
           patchNum: null,
           selectedFileIndex: 0,
           showReplyDialog: false,
+          diffMode: null,
         },
         changeListView: {
           query: null,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d9bb78c_e198062d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-05T22:18:18Z",
+      "side": 1,
+      "message": "Didn\u0027t we determine that 0 is invalid as well?",
+      "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_a2ed5e9c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-05T22:18:18Z",
+      "side": 1,
+      "message": "I forget how gwtorm works...does it call set() in order to set the field when it\u0027s converting it from a SQL row? If so, this will break when attempting to load invalid records during the schema migration.",
+      "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

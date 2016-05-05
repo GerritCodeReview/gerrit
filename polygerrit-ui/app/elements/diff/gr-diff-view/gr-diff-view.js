@@ -16,6 +16,11 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   Polymer({
     is: 'gr-diff-view',
 
@@ -64,6 +69,11 @@
         value: true,
       },
       _prefs: Object,
+      _userPrefs: Object,
+      _diffMode: {
+        type: String,
+        computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)'
+      },
     },
 
     behaviors: [
@@ -74,6 +84,7 @@
       '_getChangeDetail(_changeNum)',
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.patchNum)',
+      '_updateModeSelect(_diffMode)',
     ],
 
     attached: function() {
@@ -92,6 +103,9 @@
     },
 
     detached: function() {
+      // Reset the diff mode to null so that it reverts to the user preference.
+      this.changeViewState.diffMode = null;
+
       window.removeEventListener('resize', this._boundWindowResizeHandler);
     },
 
@@ -122,6 +136,10 @@
 
     _getDiffPreferences: function() {
       return this.$.restAPI.getDiffPreferences();
+    },
+
+    _getPreferences: function() {
+      return this.$.restAPI.getPreferences();
     },
 
     _handleReviewedChange: function(e) {
@@ -242,6 +260,10 @@
         this._prefs = prefs;
       }.bind(this)));
 
+      promises.push(this._getPreferences().then(function(prefs) {
+        this._userPrefs = prefs;
+      }.bind(this)));
+
       promises.push(this.$.diff.reload());
 
       Promise.all(promises).then(function() {
@@ -359,6 +381,44 @@
     _handlePrefsCancel: function(e) {
       e.stopPropagation();
       this.$.prefsOverlay.close();
+    },
+
+    _handleModeChange: function(e) {
+      this.set('changeViewState.diffMode', this.$.modeSelect.value);
+    },
+
+    /**
+     * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
+     * the current state.
+     *
+     * The expected behavior is to use the mode specified in the user's
+     * preferences unless they have manually chosen the alternative view. If the
+     * user navigates up to the change view, it should clear this choice and
+     * revert to the preference the next time a diff is viewed.
+     *
+     * Use side-by-side if the user is not logged in.
+     *
+     * @return {String}
+     */
+    _getDiffViewMode: function() {
+      if (this.changeViewState.diffMode) {
+        return this.changeViewState.diffMode;
+      } else if (this._userPrefs && this._userPrefs.diff_view) {
+        return this.changeViewState.diffMode = this._userPrefs.diff_view;
+      }
+
+      return DiffViewMode.SIDE_BY_SIDE;
+    },
+
+    /**
+     * Synchronize the mode select if it deviates from the selected mode state.
+     * This is mainly to keep it accurate when the page loads.
+     */
+    _updateModeSelect: function() {
+      var mode = this._getDiffViewMode();
+      if (this.$.modeSelect.value !== mode) {
+        this.$.modeSelect.value = mode;
+      }
     },
   });
 })();

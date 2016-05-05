@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_424fb2ac",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-05T17:25:51Z",
+      "side": 1,
+      "message": "what happens if _getLoggedIn fails :)",
+      "revId": "8f2310717b52f9971086538caa72f8940a37b82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

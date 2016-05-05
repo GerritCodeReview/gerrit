@@ -1018,27 +1018,23 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(commitWithComments).isNotNull();
 
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
-      try (ChangeNotesParser notesWithComments = new ChangeNotesParser(
-          project, c.getId(), commitWithComments.copy(), rw, repoManager,
-          noteUtil, args.metrics)) {
-        notesWithComments.parseAll();
-        ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
-            notesWithComments.buildApprovals();
-        assertThat(approvals1).isEmpty();
-        assertThat(notesWithComments.comments).hasSize(1);
-      }
+      ChangeNotesParser notesWithComments = new ChangeNotesParser(
+          c.getId(), commitWithComments.copy(), rw, noteUtil, args.metrics);
+      notesWithComments.parseAll();
+      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
+          notesWithComments.buildApprovals();
+      assertThat(approvals1).isEmpty();
+      assertThat(notesWithComments.comments).hasSize(1);
     }
 
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
-      try (ChangeNotesParser notesWithApprovals = new ChangeNotesParser(project,
-          c.getId(), commitWithApprovals.copy(), rw, repoManager,
-          noteUtil, args.metrics)) {
-        notesWithApprovals.parseAll();
-        ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
-            notesWithApprovals.buildApprovals();
-        assertThat(approvals2).hasSize(1);
-        assertThat(notesWithApprovals.comments).hasSize(1);
-      }
+      ChangeNotesParser notesWithApprovals = new ChangeNotesParser(c.getId(),
+          commitWithApprovals.copy(), rw, noteUtil, args.metrics);
+      notesWithApprovals.parseAll();
+      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
+          notesWithApprovals.buildApprovals();
+      assertThat(approvals2).hasSize(1);
+      assertThat(notesWithApprovals.comments).hasSize(1);
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_22f02ea1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2016-05-05T01:08:57Z",
+      "side": 1,
+      "message": "A few questions:\n\n1. How does this handle topics?\n\n2. If you handle topics, how do you handle the case where there are multiple CLs / projects? Ideally, we want to be able to configure a different merge target branch for each source project/branch.\n\n3. If you don\u0027t handle topics, how do you recommend clients handle multi-CL stacking? E.g., suppose that a user upload separate stacks of CLs in the same topic and we want to merge them both to the same project/branch. How do we do this and handle the situation correctly, particularly in dry-run mode where we aren\u0027t creating CLs?",
+      "revId": "3959f96bff05e738655ed055041185ad95d9fb79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

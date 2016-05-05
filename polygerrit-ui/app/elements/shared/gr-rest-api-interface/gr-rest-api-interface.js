@@ -68,6 +68,18 @@
   Polymer({
     is: 'gr-rest-api-interface',
 
+    /**
+     * Fired when an server error occurs.
+     *
+     * @event server-error
+     */
+
+    /**
+     * Fired when a network error occurs.
+     *
+     * @event network-error
+     */
+
     properties: {
       _cache: {
         type: Object,
@@ -84,47 +96,56 @@
       opt_opts = opt_opts || {};
 
       var fetchOptions = {
-        credentials: (opt_opts.noCredentials ? undefined : 'same-origin'),
+        credentials: 'same-origin',
         headers: opt_opts.headers,
       };
 
-      var urlWithParams = url;
-      if (opt_params) {
-        var params = [];
-        for (var p in opt_params) {
-          if (opt_params[p] == null) {
-            params.push(encodeURIComponent(p));
-            continue;
-          }
-          params.push(
-            encodeURIComponent(p) + '=' +
-            encodeURIComponent(opt_params[p]));
-        }
-        // Sorting the params leaves the order deterministic which is easier
-        // to test.
-        urlWithParams += '?' + params.sort().join('&');
-      }
-
+      var urlWithParams = this._urlWithParams(url, opt_params);
       return fetch(urlWithParams, fetchOptions).then(function(response) {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
         }
 
-        if (!response.ok && opt_errFn) {
-          opt_errFn.call(null, response);
-          return undefined;
+        if (!response.ok) {
+          if (opt_errFn) {
+            opt_errFn.call(null, response);
+            return undefined;
+          }
+          this.fire('server-error', {response: response});
         }
+
         return this.getResponseObject(response);
       }.bind(this)).catch(function(err) {
-        if (opt_opts.noCredentials) {
-          throw err;
+        if (opt_errFn) {
+          opt_errFn.call(null, null, err);
         } else {
-          // This could be because of a 302 auth redirect. Retry the request.
-          return this.fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params,
-              Object.assign(opt_opts, {noCredentials: true}));
+          this.fire('network-error', {error: err});
+          throw err;
         }
+        throw err;
       }.bind(this));
+    },
+
+    _urlWithParams: function(url, opt_params) {
+      if (!opt_params) { return url; }
+
+      var params = [];
+      for (var p in opt_params) {
+        if (opt_params[p] == null) {
+          params.push(encodeURIComponent(p));
+          continue;
+        }
+        var values = [].concat(opt_params[p]);
+        for (var i = 0; i < values.length; i++) {
+          params.push(
+            encodeURIComponent(p) + '=' +
+            encodeURIComponent(values[i]));
+        }
+      }
+      // Sorting the params leaves the order deterministic which is easier
+      // to test.
+      return url + '?' + params.sort().join('&');
     },
 
     getResponseObject: function(response) {
@@ -153,7 +174,29 @@
     },
 
     getDiffPreferences: function() {
-      return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+      return this.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+        }
+        // These defaults should match the defaults in
+        // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+        // NOTE: There are some settings that don't apply to PolyGerrit
+        // (Render mode being at least one of them).
+        return Promise.resolve({
+          auto_hide_diff_table_header: true,
+          context: 10,
+          cursor_blink_rate: 0,
+          ignore_whitespace: 'IGNORE_NONE',
+          intraline_difference: true,
+          line_length: 100,
+          show_line_endings: true,
+          show_tabs: true,
+          show_whitespace_errors: true,
+          syntax_highlighting: true,
+          tab_size: 8,
+          theme: 'DEFAULT',
+        });
+      }.bind(this));
     },
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
@@ -172,7 +215,15 @@
     },
 
     getPreferences: function() {
-      return this._fetchSharedCacheURL('/accounts/self/preferences');
+      return this.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          return this._fetchSharedCacheURL('/accounts/self/preferences');
+        }
+
+        return Promise.resolve({
+          changes_per_page: 25,
+        });
+      }.bind(this));
     },
 
     _fetchSharedCacheURL: function(url) {
@@ -195,6 +246,39 @@
           throw err;
         }.bind(this));
       return this._sharedFetchPromises[url];
+    },
+
+    getChanges: function(changesPerPage, opt_query, opt_offset) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS
+      );
+      var params = {
+        n: changesPerPage,
+        O: options,
+        S: opt_offset || 0,
+      };
+      if (opt_query && opt_query.length > 0) {
+        params.q = opt_query;
+      }
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getDashboardChanges: function() {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS,
+          ListChangesOption.REVIEWED
+      );
+      var params = {
+        O: options,
+        q: [
+          'is:open owner:self',
+          'is:open reviewer:self -owner:self',
+          'is:closed (owner:self OR reviewer:self) -age:4w limit:10',
+        ],
+      };
+      return this.fetchJSON('/changes/', null, null, params);
     },
 
     getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
@@ -311,6 +395,94 @@
               });
     },
 
+    getChangeSuggestedReviewers: function(changeNum, inputVal, opt_errFn,
+        opt_ctx) {
+      var url = this.getChangeActionURL(changeNum, null, '/suggest_reviewers');
+      return this.fetchJSON(url, opt_errFn, opt_ctx, {
+        n: 10,  // Return max 10 results
+        q: inputVal,
+      });
+    },
+
+    addChangeReviewer: function(changeNum, reviewerID) {
+      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
+    },
+
+    removeChangeReviewer: function(changeNum, reviewerID) {
+      return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
+    },
+
+    _sendChangeReviewerRequest: function(method, changeNum, reviewerID) {
+      var url = this.getChangeActionURL(changeNum, null, '/reviewers');
+      var body;
+      switch(method) {
+        case 'POST':
+          body = {reviewer: reviewerID};
+          break;
+        case 'DELETE':
+          url += '/' + reviewerID;
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
+
+      return this.send(method, url, body);
+    },
+
+    getRelatedChanges: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchNum, '/related'));
+    },
+
+    getChangesSubmittedTogether: function(changeNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, null, '/submitted_together'));
+    },
+
+    getChangeConflicts: function(changeNum) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT
+      );
+      var params = {
+        O: options,
+        q: 'status:open is:mergeable conflicts:' + changeNum,
+      };
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getChangeCherryPicks: function(project, changeID, changeNum) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT
+      );
+      var query = [
+        'project:' + project,
+        'change:' + changeID,
+        '-change:' + changeNum,
+        '-is:abandoned',
+      ].join(' ');
+      var params = {
+        O: options,
+        q: query
+      };
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getChangesWithSameTopic: function(topic) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT,
+          ListChangesOption.DETAILED_LABELS
+      );
+      var params = {
+        O: options,
+        q: 'status:open topic:' + topic,
+      };
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
     getReviewedFiles: function(changeNum, patchNum) {
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));
@@ -331,6 +503,12 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    saveChangeStarred: function(changeNum, starred) {
+      var url = '/accounts/self/starred.changes/' + changeNum;
+      var method = starred ? 'PUT' : 'DELETE';
+      return this.send(method, url);
+    },
+
     send: function(method, url, opt_body, opt_errFn, opt_ctx) {
       var headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
@@ -347,13 +525,24 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).catch(function(err) {
+      return fetch(url, options).then(function(response) {
+        if (!response.ok) {
+          if (opt_errFn) {
+            opt_errFn.call(null, response);
+            return undefined;
+          }
+          this.fire('server-error', {response: response});
+        }
+
+        return response;
+      }.bind(this)).catch(function(err) {
+        this.fire('network-error', {error: err});
         if (opt_errFn) {
-          opt_errFn.call(opt_ctx || this);
+          opt_errFn.call(opt_ctx, null, err);
         } else {
           throw err;
         }
-      });
+      }.bind(this));
     },
 
     getDiff: function(changeNum, basePatchNum, patchNum, path,
@@ -429,6 +618,31 @@
 
     _getDiffCommentsFetchURL: function(changeNum, endpoint, opt_patchNum) {
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
+    },
+
+    saveDiffDraft: function(changeNum, patchNum, draft) {
+      return this._sendDiffDraftRequest('PUT', changeNum, patchNum, draft);
+    },
+
+    deleteDiffDraft: function(changeNum, patchNum, draft) {
+      return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
+    },
+
+    _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
+      var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
+      var body;
+      switch(method) {
+        case 'PUT':
+          body = draft;
+          break;
+        case 'DELETE':
+          url += '/' + draft.id;
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
+
+      return this.send(method, url, body);
     },
 
     _changeBaseURL: function(changeNum, opt_patchNum) {

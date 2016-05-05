@@ -15,8 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-ajax/gr-ajax.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list/gr-change-list.html">
 
 <dom-module id="gr-change-list-view">
@@ -26,15 +25,9 @@ limitations under the License.
         background-color: var(--view-background-color);
         display: block;
       }
-      .loading,
-      .error {
-        padding: 1em var(--default-horizontal-margin);
-      }
       .loading {
         color: #666;
-      }
-      .error {
-        color: #D32F2F;
+        padding: 1em var(--default-horizontal-margin);
       }
       gr-change-list {
         width: 100%;
@@ -56,30 +49,21 @@ limitations under the License.
         }
       }
     </style>
-    <gr-ajax
-        auto
-        url="/changes/"
-        params="[[_computeQueryParams(_query, _offset, changesPerPage)]]"
-        last-response="{{_changes}}"
-        last-error="{{_lastError}}"
-        loading="{{_loading}}"></gr-ajax>
-    <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
-    <div class="error" hidden$="[[_computeErrorHidden(_loading, _lastError)]]" hidden>
-      [[_lastError.request.xhr.responseText]]
-    </div>
-    <div hidden$="[[_computeListHidden(_loading, _lastError)]]" hidden>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]">
       <gr-change-list
           changes="{{_changes}}"
           selected-index="{{viewState.selectedChangeIndex}}"
           show-star="[[loggedIn]]"></gr-change-list>
       <nav>
-        <a href$="[[_computeNavLink(_query, _offset, -1, changesPerPage)]]"
+        <a href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
            hidden$="[[_hidePrevArrow(_offset)]]">&larr; Prev</a>
-        <a href$="[[_computeNavLink(_query, _offset, 1, changesPerPage)]]"
-           hidden$="[[_hideNextArrow(_changes.length, changesPerPage)]]">
+        <a href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
+           hidden$="[[_hideNextArrow(_changes.length, _changesPerPage)]]">
           Next &rarr;</a>
       </nav>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-list-view.js"></script>
 </dom-module>

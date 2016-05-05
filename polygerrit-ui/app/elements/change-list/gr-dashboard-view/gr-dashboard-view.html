@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-dashboard-view">
   <template>
@@ -37,12 +37,6 @@ limitations under the License.
         }
       }
     </style>
-    <gr-ajax
-        auto
-        url="/changes/"
-        params="[[_computeQueryParams()]]"
-        last-response="{{_results}}"
-        loading="{{_loading}}"></gr-ajax>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
       <gr-change-list
@@ -53,6 +47,7 @@ limitations under the License.
           groups="{{_results}}"
           group-titles="[[_groupTitles]]"></gr-change-list>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-dashboard-view.js"></script>
 </dom-module>

@@ -72,22 +72,26 @@
     save: function() {
       this.comment.message = this._editDraft;
       this.disabled = true;
-      var endpoint = this._restEndpoint(this.comment.id);
-      this._send('PUT', endpoint).then(function(req) {
+      this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
         this.disabled = false;
-        var comment = req.response;
-        comment.__draft = true;
-        // Maintain the ephemeral draft ID for identification by other
-        // elements.
-        if (this.comment.__draftID) {
-          comment.__draftID = this.comment.__draftID;
-        }
-        this.comment = comment;
-        this.editing = false;
+        if (!response.ok) { return response; }
+
+        return this.$.restAPI.getResponseObject(response).then(function(obj) {
+          var comment = obj;
+          comment.__draft = true;
+          // Maintain the ephemeral draft ID for identification by other
+          // elements.
+          if (this.comment.__draftID) {
+            comment.__draftID = this.comment.__draftID;
+          }
+          this.comment = comment;
+          this.editing = false;
+
+          return obj;
+        }.bind(this));
       }.bind(this)).catch(function(err) {
-        alert('Your draft couldn’t be saved. Check the console and contact ' +
-            'the PolyGerrit team for assistance.');
         this.disabled = false;
+        throw err;
       }.bind(this));
     },
 
@@ -179,18 +183,21 @@
         throw Error('Cannot discard a non-draft comment.');
       }
       this.disabled = true;
-      var commentID = this.comment.id;
-      if (!commentID) {
+      if (!this.comment.id) {
         this.fire('comment-discard');
         return;
       }
-      this._send('DELETE', this._restEndpoint(commentID)).then(function(req) {
+
+      this._xhrPromise =
+          this._deleteDraft(this.comment).then(function(response) {
+        this.disabled = false;
+        if (!response.ok) { return response; }
+
         this.fire('comment-discard');
       }.bind(this)).catch(function(err) {
-        alert('Your draft couldn’t be deleted. Check the console and ' +
-            'contact the PolyGerrit team for assistance.');
         this.disabled = false;
-      }.bind(this));
+        throw err;
+      }.bind(this));;
     },
 
     _preventDefaultAndBlur: function(e) {
@@ -198,26 +205,13 @@
       Polymer.dom(e).rootTarget.blur();
     },
 
-    _send: function(method, url) {
-      var xhr = document.createElement('gr-request');
-      var opts = {
-        method: method,
-        url: url,
-      };
-      if (method == 'PUT' || method == 'POST') {
-        opts.body = this.comment;
-      }
-      this._xhrPromise = xhr.send(opts);
-      return this._xhrPromise;
+    _saveDraft: function(draft) {
+      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft);
     },
 
-    _restEndpoint: function(id) {
-      var path = '/changes/' + this.changeNum + '/revisions/' +
-          this.patchNum + '/drafts';
-      if (id) {
-        path += '/' + id;
-      }
-      return path;
+    _deleteDraft: function(draft) {
+      return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
+          draft);
     },
   });
 })();

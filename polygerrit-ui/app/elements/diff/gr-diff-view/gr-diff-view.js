@@ -121,29 +121,7 @@
     },
 
     _getDiffPreferences: function() {
-      return this._getLoggedIn().then(function(loggedIn) {
-        if (!loggedIn) {
-          // These defaults should match the defaults in
-          // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
-          // NOTE: There are some settings that don't apply to PolyGerrit
-          // (Render mode being at least one of them).
-          return Promise.resolve({
-            auto_hide_diff_table_header: true,
-            context: 10,
-            cursor_blink_rate: 0,
-            ignore_whitespace: 'IGNORE_NONE',
-            intraline_difference: true,
-            line_length: 100,
-            show_line_endings: true,
-            show_tabs: true,
-            show_whitespace_errors: true,
-            syntax_highlighting: true,
-            tab_size: 8,
-            theme: 'DEFAULT',
-          });
-        }
-        return this.$.restAPI.getDiffPreferences();
-      }.bind(this));
+      return this.$.restAPI.getDiffPreferences();
     },
 
     _handleReviewedChange: function(e) {
@@ -366,14 +344,11 @@
       el.disabled = true;
       this._saveDiffPreferences().then(function(response) {
         el.disabled = false;
-        if (!response.ok) {
-          alert('Oops. Something went wrong. Check the console and bug the ' +
-              'PolyGerrit team for assistance.');
-          return response.text().then(function(text) {
-            console.error(text);
-          });
-        }
+        if (!response.ok) { return response; }
+
         this.$.prefsOverlay.close();
+      }.bind(this)).catch(function(err) {
+        el.disabled = false;
       }.bind(this));
     },
 

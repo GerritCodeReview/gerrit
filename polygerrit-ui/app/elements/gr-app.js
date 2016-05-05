@@ -30,7 +30,6 @@
       },
       _serverConfig: Object,
       _version: String,
-      _preferences: Object,
       _showChangeListView: Boolean,
       _showDashboardView: Boolean,
       _showChangeView: Boolean,
@@ -51,10 +50,6 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
     ],
-
-    get loggedIn() {
-      return !!(this._account && Object.keys(this._account).length > 0);
-    },
 
     attached: function() {
       this.$.restAPI.getAccount().then(function(account) {
@@ -88,17 +83,9 @@
     },
 
     _accountChanged: function(account) {
-      if (this.loggedIn) {
-        this.$.restAPI.getPreferences().then(function(preferences) {
-          this._preferences = preferences;
-        }.bind(this));
-        // Diff preferences are cached; warm it before a diff is rendered.
-        this.$.restAPI.getDiffPreferences();
-      } else {
-        this._preferences = {
-          changes_per_page: 25,
-        };
-      }
+      // Preferences are cached when a user is logged in; warm them.
+      this.$.restAPI.getPreferences();
+      this.$.restAPI.getDiffPreferences();
     },
 
     _viewChanged: function(view) {
@@ -117,7 +104,7 @@
 
     // Argument used for binding update only.
     _computeLoggedIn: function(account) {
-      return this.loggedIn;
+      return !!(account && Object.keys(account).length > 0);
     },
 
     _handlePageError: function(e) {

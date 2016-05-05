@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
 
+<link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
 <link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
@@ -89,7 +90,6 @@ limitations under the License.
         <gr-change-list-view
             params="[[params]]"
             view-state="{{_viewState.changeListView}}"
-            changes-per-page="[[_preferences.changes_per_page]]"
             logged-in="[[_computeLoggedIn(_account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="[[_showDashboardView]]" restamp="true">
@@ -140,6 +140,7 @@ limitations under the License.
     <template is="dom-repeat" items="[[_serverConfig.plugin.js_resource_paths]]" as="path">
       <script src$="/[[path]]" defer></script>
     </template>
+    <gr-error-manager></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-app.js"></script>

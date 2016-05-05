@@ -49,28 +49,21 @@
       },
     },
 
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
-
     attached: function() {
       this.fire('title-change', {title: 'My Reviews'});
+
+      this._loading = true;
+      this._getDashboardChanges().then(function(results) {
+        this._results = results;
+        this._loading = false;
+      }.bind(this)).catch(function(err) {
+        this._loading = false;
+        console.error(err.message);
+      }.bind(this));
     },
 
-    _computeQueryParams: function() {
-      var options = this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.DETAILED_ACCOUNTS,
-          this.ListChangesOption.REVIEWED
-      );
-      return {
-        O: options,
-        q: [
-          'is:open owner:self',
-          'is:open reviewer:self -owner:self',
-          'is:closed (owner:self OR reviewer:self) -age:4w limit:10',
-        ],
-      };
+    _getDashboardChanges: function() {
+      return this.$.restAPI.getDashboardChanges();
     },
   });
 })();

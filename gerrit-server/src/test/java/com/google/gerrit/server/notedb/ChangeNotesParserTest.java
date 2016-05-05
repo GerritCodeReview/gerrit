@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -482,9 +481,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private void assertParseSucceeds(RevCommit commit) throws Exception {
-    try (ChangeNotesParser parser = newParser(commit)) {
-      parser.parseAll();
-    }
+    newParser(commit).parseAll();
   }
 
   private void assertParseFails(String body) throws Exception {
@@ -492,8 +489,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private void assertParseFails(RevCommit commit) throws Exception {
-    try (ChangeNotesParser parser = newParser(commit)) {
-      parser.parseAll();
+    try {
+      newParser(commit).parseAll();
       fail("Expected parse to fail:\n" + commit.getFullMessage());
     } catch (ConfigInvalidException e) {
       // Expected
@@ -501,8 +498,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
-    Change c = newChange();
-    return new ChangeNotesParser(c.getProject(), c.getId(), tip, walk,
-        repoManager, noteUtil, args.metrics);
+    return new ChangeNotesParser(
+        newChange().getId(), tip, walk, noteUtil, args.metrics);
   }
 }

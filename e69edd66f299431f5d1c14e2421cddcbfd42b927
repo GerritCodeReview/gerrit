@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_221eeea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-05T13:45:08Z",
+      "side": 1,
+      "message": "nit: remove the blank line here",
+      "revId": "e69edd66f299431f5d1c14e2421cddcbfd42b927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_4148d2bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-05T13:45:08Z",
+      "side": 1,
+      "message": "nit: remove the blank line here",
+      "revId": "e69edd66f299431f5d1c14e2421cddcbfd42b927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

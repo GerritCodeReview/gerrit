@@ -31,6 +31,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -504,6 +506,30 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     notesMigration.setAllEnabled(true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId);
+  }
+
+  @Test
+  public void ignorePatchLineCommentsOnPatchSet0() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change change = r.getChange().change();
+    Change.Id id = change.getId();
+
+    PatchLineComment comment = new PatchLineComment(
+        new PatchLineComment.Key(
+            new Patch.Key(new PatchSet.Id(id, 0), PushOneCommit.FILE_NAME),
+            "uuid"),
+        0, user.getId(), null, TimeUtil.nowTs());
+    comment.setSide((short) 1);
+    comment.setMessage("message");
+    comment.setStatus(PatchLineComment.Status.PUBLISHED);
+    db.patchComments().insert(Collections.singleton(comment));
+    indexer.index(db, change.getProject(), id);
+
+    checker.rebuildAndCheckChanges(id);
+
+    notesMigration.setAllEnabled(true);
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getComments()).isEmpty();
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {

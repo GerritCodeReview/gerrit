@@ -16,6 +16,24 @@
       "revId": "8f2310717b52f9971086538caa72f8940a37b82a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_816c9a26",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-05T17:32:43Z",
+      "side": 1,
+      "message": "If it fails it means that the app is somehow making requests to a resource that it doesn’t have access to while it’s logged out, which I’m kind of on the fence about in terms of showing that as a popup error since it’s a logic error not a user one.",
+      "parentUuid": "ad987b90_424fb2ac",
+      "revId": "8f2310717b52f9971086538caa72f8940a37b82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

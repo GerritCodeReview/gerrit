@@ -14,18 +14,18 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Optional;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,9 +37,17 @@ import java.util.Map;
  * works around that limitation by allowing multiple updates per ref, as long as
  * the previous new SHA-1 matches the next old SHA-1.
  */
-public class ChainedReceiveCommands {
+public class ChainedReceiveCommands implements RefCache {
   private final Map<String, ReceiveCommand> commands = new LinkedHashMap<>();
-  private final Map<String, ObjectId> oldIds = new HashMap<>();
+  private final RepoRefCache refCache;
+
+  public ChainedReceiveCommands(Repository repo) {
+    this(new RepoRefCache(repo));
+  }
+
+  public ChainedReceiveCommands(RepoRefCache refCache) {
+    this.refCache = checkNotNull(refCache);
+  }
 
   public boolean isEmpty() {
     return commands.isEmpty();
@@ -73,38 +81,20 @@ public class ChainedReceiveCommands {
   /**
    * Get the latest value of a ref according to this sequence of commands.
    * <p>
-   * Once the value for a ref is read once, it is cached in this instance, so
-   * that multiple callers using this instance for lookups see a single
-   * consistent snapshot.
+   * Once the value for a ref is read from the repo once, it is cached as in
+   * {@link RepoRefCache}.
    *
-   * @param repo repository to read from, if result is not cached.
-   * @param refName name of the ref.
-   * @return value of the ref, taking into account commands that have already
-   *     been added to this instance. Null if the ref is deleted, matching the
-   *     behavior of {@link Repository#exactRef(String)}.
+   * @see RefCache#get(String)
    */
-  public ObjectId getObjectId(Repository repo, String refName)
-      throws IOException {
+  @Override
+  public Optional<ObjectId> get(String refName) throws IOException {
     ReceiveCommand cmd = commands.get(refName);
     if (cmd != null) {
-      return zeroToNull(cmd.getNewId());
+      return !cmd.getNewId().equals(ObjectId.zeroId())
+          ? Optional.of(cmd.getNewId())
+          : Optional.<ObjectId>absent();
     }
-    ObjectId old = oldIds.get(refName);
-    if (old != null) {
-      return zeroToNull(old);
-    }
-    Ref ref = repo.exactRef(refName);
-    ObjectId id = ref != null ? ref.getObjectId() : null;
-    // Cache missing ref as zeroId to match value in commands map.
-    oldIds.put(refName, firstNonNull(id, ObjectId.zeroId()));
-    return id;
-  }
-
-  private static ObjectId zeroToNull(ObjectId id) {
-    if (id == null || id.equals(ObjectId.zeroId())) {
-      return null;
-    }
-    return id;
+    return refCache.get(refName);
   }
 
   /**

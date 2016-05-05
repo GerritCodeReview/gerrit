@@ -164,7 +164,8 @@ public class BatchUpdate implements AutoCloseable {
       return BatchUpdate.this.getObjectInserter();
     }
 
-    public void addRefUpdate(ReceiveCommand cmd) {
+    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
+      initRepository();
       commands.add(cmd);
     }
 
@@ -399,7 +400,7 @@ public class BatchUpdate implements AutoCloseable {
   private Repository repo;
   private ObjectInserter inserter;
   private RevWalk revWalk;
-  private ChainedReceiveCommands commands = new ChainedReceiveCommands();
+  private ChainedReceiveCommands commands;
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
   private Order order;
@@ -452,6 +453,7 @@ public class BatchUpdate implements AutoCloseable {
     this.repo = checkNotNull(repo, "repo");
     this.revWalk = checkNotNull(revWalk, "revWalk");
     this.inserter = checkNotNull(inserter, "inserter");
+    commands = new ChainedReceiveCommands(repo);
     return this;
   }
 
@@ -466,6 +468,7 @@ public class BatchUpdate implements AutoCloseable {
       closeRepo = true;
       inserter = repo.newObjectInserter();
       revWalk = new RevWalk(inserter.newReader());
+      commands = new ChainedReceiveCommands(repo);
     }
   }
 
@@ -529,7 +532,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executeRefUpdates() throws IOException, UpdateException {
-    if (commands.isEmpty()) {
+    if (commands == null || commands.isEmpty()) {
       return;
     }
     // May not be opened if the caller added ref updates but no new objects.

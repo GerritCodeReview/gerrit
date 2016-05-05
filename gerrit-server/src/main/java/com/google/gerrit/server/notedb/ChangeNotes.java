@@ -627,7 +627,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     if (autoRebuild) {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
-      if (state == null || !state.isChangeUpToDate(refs)) {
+      if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
         return rebuildAndOpen(repo);
       }
     }

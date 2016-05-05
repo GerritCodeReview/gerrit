@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_6124f6fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-05T17:16:36Z",
+      "side": 1,
+      "message": "Fair enough, catch seems like an overkill, but what about reject?\nSeems if response is not ok this is already an error.\nAnyways, up to you - I\u0027m just trying to understand.\nIt\u0027s not about this particular place, but generally feels that this could be handled either in _saveReview or even in restAPI, so in .then(function() { /*resolve function*/, function() { /* reject function */}) resolve function gets guaranteed success, while reject one, if provided, has a chance to recover if it can.",
+      "parentUuid": "ad987b90_62f636a2",
+      "revId": "7feb2bab55b766bd5e66e674fd9f881fd17de4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_a2031e64",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 5

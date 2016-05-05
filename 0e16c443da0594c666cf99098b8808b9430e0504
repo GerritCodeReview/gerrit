@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d9bb78c_e117e692",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-05T13:52:17Z",
+      "side": 1,
+      "message": "Can this be inlined to one statement, and remove the need for the \u0027change2\u0027 intermediate variable?",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 432,
+        "endChar": 71
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_e27c86dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-05T13:52:17Z",
+      "side": 1,
+      "message": "Can the same be achieved by pushing the first change as draft, and then deleting it before attempting to submit change 2?",
+      "range": {
+        "startLine": 434,
+        "startChar": 3,
+        "endLine": 438,
+        "endChar": 17
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

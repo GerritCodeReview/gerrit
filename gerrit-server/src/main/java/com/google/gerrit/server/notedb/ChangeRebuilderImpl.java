@@ -228,6 +228,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
       throws IOException, OrmException {
+    manager.setCheckExpectedState(false);
     Change change = new Change(bundle.getChange());
     PatchSet.Id currPsId = change.currentPatchSetId();
     // We will rebuild all events, except for draft comments, in buckets based

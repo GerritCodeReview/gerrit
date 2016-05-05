@@ -35,6 +35,18 @@
      * @event comment-discard
      */
 
+    /**
+     * Fired when this comment is saved.
+     *
+     * @event comment-save
+     */
+
+    /**
+     * Fired when this comment is updated.
+     *
+     * @event comment-update
+     */
+
     properties: {
       changeNum: String,
       comment: {
@@ -61,12 +73,20 @@
       projectConfig: Object,
 
       _xhrPromise: Object,  // Used for testing.
-      _editDraft: String,
+      _editDraft: {
+        type: String,
+        observer: '_editDraftChanged',
+      },
+    },
+
+    detached: function() {
+      this.flushDebouncer('fire-update');
     },
 
     ready: function() {
-      this._editDraft = (this.comment && this.comment.message) || '';
-      this.editing = this._editDraft.length == 0;
+      this.editing = this.comment && !!this.comment.__editing;
+      this._editDraft = (this.comment &&
+          (this.comment.__editDraft || this.comment.message)) || '';
     },
 
     save: function() {
@@ -86,13 +106,26 @@
           }
           this.comment = comment;
           this.editing = false;
-
+          this.fire('comment-save', {comment: this.comment});
           return obj;
         }.bind(this));
       }.bind(this)).catch(function(err) {
         this.disabled = false;
         throw err;
       }.bind(this));
+    },
+
+    _editDraftChanged: function(_editDraft) {
+      if (this.comment && this.comment.__editDraft !== _editDraft) {
+        this.comment.__editDraft = _editDraft;
+        this._fireUpdate();
+      }
+    },
+
+    _fireUpdate: function() {
+      this.debounce('fire-update', function() {
+        this.fire('comment-update', {comment: this.comment});
+      }, 500);
     },
 
     _draftChanged: function(draft) {
@@ -113,6 +146,10 @@
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
       }
+      if (this.comment) {
+        this.comment.__editing = this.editing;
+      }
+      this._fireUpdate();
     },
 
     _computeLinkToComment: function(comment) {
@@ -170,7 +207,7 @@
     _handleCancel: function(e) {
       this._preventDefaultAndBlur(e);
       if (this.comment.message == null || this.comment.message.length == 0) {
-        this.fire('comment-discard');
+        this.fire('comment-discard', {comment: this.comment});
         return;
       }
       this._editDraft = this.comment.message;
@@ -184,20 +221,20 @@
       }
       this.disabled = true;
       if (!this.comment.id) {
-        this.fire('comment-discard');
+        this.fire('comment-discard', {comment: this.comment});
         return;
       }
 
-      this._xhrPromise =
-          this._deleteDraft(this.comment).then(function(response) {
-        this.disabled = false;
-        if (!response.ok) { return response; }
+      this._xhrPromise = this._deleteDraft(this.comment).then(
+          function(response) {
+            this.disabled = false;
+            if (!response.ok) { return response; }
 
-        this.fire('comment-discard');
-      }.bind(this)).catch(function(err) {
-        this.disabled = false;
-        throw err;
-      }.bind(this));;
+            this.fire('comment-discard', {comment: this.comment});
+          }.bind(this)).catch(function(err) {
+            this.disabled = false;
+            throw err;
+          }.bind(this));
     },
 
     _preventDefaultAndBlur: function(e) {

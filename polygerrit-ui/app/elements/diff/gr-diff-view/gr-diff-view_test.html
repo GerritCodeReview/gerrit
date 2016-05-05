@@ -356,5 +356,35 @@ limitations under the License.
         done();
       });
     });
+
+    test('diff mode selector correctly toggles the diff', function() {
+      var select = element.$.modeSelect;
+      var diffDisplay = element.$.diff;
+
+      // The mode selected in the view state reflects the selected option.
+      assert.equal(element.changeViewState.diffMode, select.value);
+
+      // The mode selected in the view state reflects the view rednered in the
+      // diff.
+      assert.equal(select.value, diffDisplay.viewMode);
+
+      // We will simulate a user change of the selected mode.
+      var newMode = 'UNIFIED_DIFF';
+
+      // Listen to the change handler.
+      var eventStub = sinon.spy(element, '_handleModeChange');
+
+      // Set the actual value of the select, and simulate the change event.
+      select.value = newMode;
+      element.fire('change', {}, { node: select });
+
+      // Make sure the handler was called and the state is still coherent.
+      assert.isTrue(eventStub.called);
+      assert.equal(element.changeViewState.diffMode, newMode);
+      assert.equal(element.changeViewState.diffMode, select.value);
+      assert.equal(element.changeViewState.diffMode, diffDisplay.viewMode);
+
+      eventStub.restore();
+    });
   });
 </script>

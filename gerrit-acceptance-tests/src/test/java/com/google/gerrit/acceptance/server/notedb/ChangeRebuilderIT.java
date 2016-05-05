@@ -533,6 +533,38 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(notes.getComments()).isEmpty();
   }
 
+  @Test
+  public void rebuildAutomaticallyWhenOnlyWritesEnabled() throws Exception {
+    notesMigration.setWriteChanges(true);
+    notesMigration.setReadChanges(false);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    notesMigration.setAllEnabled(false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertChangeUpToDate(false, id);
+
+    // On next NoteDb access, the change is transparently rebuilt.
+    notesMigration.setWriteChanges(true);
+    assertThat(gApi.changes().id(id.get()).info().topic)
+        .isEqualTo(name("a-topic"));
+    assertChangeUpToDate(true, id);
+
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getPatchSets().isEmpty()); // Notes not parsed.
+
+    // Check that the bundles are equal.
+    notesMigration.setReadChanges(true);
+    ChangeBundle actual = ChangeBundle.fromNotes(
+        plcUtil, notesFactory.create(dbProvider.get(), project, id));
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
     ReviewDb db = unwrapDb();
     Change c = db.changes().get(id);

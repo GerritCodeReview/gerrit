@@ -377,7 +377,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private final Project.NameKey project;
   private final Change change;
-  private final boolean autoRebuild;
   private final RefCache refs;
 
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
@@ -403,10 +402,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private ChangeNotes(Args args, Project.NameKey project, Change change,
       boolean autoRebuild, @Nullable RefCache refs) {
-    super(args, change.getId());
+    super(args, change.getId(), autoRebuild);
     this.project = project;
     this.change = new Change(change);
-    this.autoRebuild = autoRebuild;
     this.refs = refs;
   }
 
@@ -626,26 +624,31 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected LoadHandle openHandle(Repository repo) throws IOException {
     if (autoRebuild) {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
+      ObjectId id = readRef(repo);
+      if (state == null && id == null) {
+        return super.openHandle(repo, id);
+      }
       RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
       if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
-        return rebuildAndOpen(repo);
+        return rebuildAndOpen(repo, id);
       }
     }
     return super.openHandle(repo);
   }
 
-  private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
+  private LoadHandle rebuildAndOpen(Repository repo, ObjectId oldId)
+      throws IOException {
     try {
       NoteDbChangeState newState =
           args.rebuilder.get().rebuild(args.db.get(), getChangeId());
       if (newState == null) {
-        return super.openHandle(repo); // May be null in tests.
+        return super.openHandle(repo, oldId); // May be null in tests.
       }
       repo.scanForRepoChanges();
       return LoadHandle.create(
           ChangeNotesCommit.newRevWalk(repo), newState.getChangeMetaId());
     } catch (NoSuchChangeException e) {
-      return super.openHandle(repo);
+      return super.openHandle(repo, oldId);
     } catch (OrmException | ConfigInvalidException e) {
       throw new IOException(e);
     }

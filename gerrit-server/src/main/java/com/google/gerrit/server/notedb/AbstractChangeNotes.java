@@ -103,8 +103,8 @@ public abstract class AbstractChangeNotes<T> {
   private boolean loaded;
 
   AbstractChangeNotes(Args args, Change.Id changeId) {
-    this.args = args;
-    this.changeId = changeId;
+    this.args = checkNotNull(args);
+    this.changeId = checkNotNull(changeId);
   }
 
   public Change.Id getChangeId() {
@@ -120,7 +120,7 @@ public abstract class AbstractChangeNotes<T> {
     if (loaded) {
       return self();
     }
-    if (!args.migration.readChanges() || changeId == null) {
+    if (!args.migration.readChanges()) {
       loadDefaults();
       return self();
     }

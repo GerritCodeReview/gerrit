@@ -402,9 +402,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private ChangeNotes(Args args, Project.NameKey project, Change change,
       boolean autoRebuild, @Nullable ChainedReceiveCommands cmds) {
-    super(args, change != null ? change.getId() : null);
+    super(args, change.getId());
     this.project = project;
-    this.change = change != null ? new Change(change) : null;
+    this.change = new Change(change);
     this.autoRebuild = autoRebuild;
     this.cmds = cmds;
   }

@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_c1e8628e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-05-05T18:45:02Z",
+      "side": 1,
+      "message": "I\u0027d suggest just going with ES6. I assume most edit-refresh style development happens on Chrome / Firefox, which already has good support for ES6.\n\nI\u0027m interested in using Closure Compiler to transpile the code to ES5 for the release build. For now we can use \"simple\" optimizations which should be Polymer-compatible. There\u0027s some work in progress on the Closure / Polymer teams to support more advanced optimizations, but it\u0027s not quite ready yet.",
+      "parentUuid": "8d9bb78c_21c26e45",
+      "revId": "cb621425ce4ff66f10922f37ecfc5c2bd0ff11a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6daf6390_58341d3b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-line.js",
         "patchSetId": 1

@@ -25,6 +25,9 @@ import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -33,6 +36,7 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -53,6 +57,7 @@ import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -346,6 +351,50 @@ public class ChangeBundle {
     return firstNonNull(ts, change.getLastUpdatedOn());
   }
 
+  private Map<PatchSetApproval.Key, PatchSetApproval>
+      filterPatchSetApprovals() {
+    return limitToExistingPatchSets(patchSetApprovals,
+        new Function<PatchSetApproval.Key, PatchSet.Id>() {
+          @Override
+          public PatchSet.Id apply(PatchSetApproval.Key in) {
+            return in.getParentKey();
+          }
+        });
+  }
+
+  private Map<PatchLineComment.Key, PatchLineComment>
+      filterPatchLineComments() {
+    return limitToExistingPatchSets(patchLineComments,
+        new Function<PatchLineComment.Key, PatchSet.Id>() {
+          @Override
+          public PatchSet.Id apply(PatchLineComment.Key in) {
+            return in.getParentKey().getParentKey();
+          }
+        });
+  }
+
+  private <K, V> Map<K, V> limitToExistingPatchSets(Map<K, V> in,
+      final Function<K, PatchSet.Id> func) {
+    return Maps.filterKeys(
+        in, new Predicate<K>() {
+          @Override
+          public boolean apply(K in) {
+            return patchSets.containsKey(func.apply(in));
+          }
+        });
+  }
+
+  private Collection<ChangeMessage> filterChangeMessages() {
+    return Collections2.filter(changeMessages,
+        new Predicate<ChangeMessage>() {
+          @Override
+          public boolean apply(ChangeMessage in) {
+            PatchSet.Id psId = in.getPatchSetId();
+            return psId == null || patchSets.containsKey(psId);
+          }
+        });
+  }
+
   private static void diffChanges(List<String> diffs, ChangeBundle bundleA,
       ChangeBundle bundleB) {
     Change a = bundleA.change;
@@ -461,9 +510,9 @@ public class ChangeBundle {
     if (bundleA.source == REVIEW_DB && bundleB.source == REVIEW_DB) {
       // Both came from ReviewDb: check all fields exactly.
       Map<ChangeMessage.Key, ChangeMessage> as =
-          changeMessageMap(bundleA.changeMessages);
+          changeMessageMap(bundleA.filterChangeMessages());
       Map<ChangeMessage.Key, ChangeMessage> bs =
-          changeMessageMap(bundleB.changeMessages);
+          changeMessageMap(bundleB.filterChangeMessages());
 
       for (ChangeMessage.Key k : diffKeySets(diffs, as, bs)) {
         ChangeMessage a = as.get(k);
@@ -479,11 +528,11 @@ public class ChangeBundle {
     // Try to pair up matching ChangeMessages from each side, and succeed only
     // if both collections are empty at the end. Quadratic in the worst case,
     // but easy to reason about.
-    List<ChangeMessage> as = new LinkedList<>(bundleA.getChangeMessages());
+    List<ChangeMessage> as = new LinkedList<>(bundleA.filterChangeMessages());
 
     Multimap<ChangeMessageCandidate, ChangeMessage> bs =
         LinkedListMultimap.create();
-    for (ChangeMessage b : bundleB.getChangeMessages()) {
+    for (ChangeMessage b : bundleB.filterChangeMessages()) {
       bs.put(ChangeMessageCandidate.create(b), b);
     }
 
@@ -572,8 +621,10 @@ public class ChangeBundle {
 
   private static void diffPatchSetApprovals(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
-    Map<PatchSetApproval.Key, PatchSetApproval> as = bundleA.patchSetApprovals;
-    Map<PatchSetApproval.Key, PatchSetApproval> bs = bundleB.patchSetApprovals;
+    Map<PatchSetApproval.Key, PatchSetApproval> as =
+          bundleA.filterPatchSetApprovals();
+    Map<PatchSetApproval.Key, PatchSetApproval> bs =
+        bundleB.filterPatchSetApprovals();
     for (PatchSetApproval.Key k : diffKeySets(diffs, as, bs)) {
       PatchSetApproval a = as.get(k);
       PatchSetApproval b = bs.get(k);
@@ -584,8 +635,10 @@ public class ChangeBundle {
 
   private static void diffPatchLineComments(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
-    Map<PatchLineComment.Key, PatchLineComment> as = bundleA.patchLineComments;
-    Map<PatchLineComment.Key, PatchLineComment> bs = bundleB.patchLineComments;
+    Map<PatchLineComment.Key, PatchLineComment> as =
+        bundleA.filterPatchLineComments();
+    Map<PatchLineComment.Key, PatchLineComment> bs =
+        bundleB.filterPatchLineComments();
     for (PatchLineComment.Key k : diffKeySets(diffs, as, bs)) {
       PatchLineComment a = as.get(k);
       PatchLineComment b = bs.get(k);

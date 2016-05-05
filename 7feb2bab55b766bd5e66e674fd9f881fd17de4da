@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_a1867eea",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-05T17:32:43Z",
+      "side": 1,
+      "message": "Hm. You raise good points. I need to noodle on this a bit more as the error handling evolves. Let’s talk about alternative approaches.",
+      "parentUuid": "8d9bb78c_6124f6fd",
+      "revId": "7feb2bab55b766bd5e66e674fd9f881fd17de4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_a2031e64",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 5

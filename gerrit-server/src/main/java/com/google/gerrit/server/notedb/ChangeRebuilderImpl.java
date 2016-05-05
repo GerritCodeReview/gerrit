@@ -241,8 +241,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     deleteRef(change, changeMetaRepo, manager.getChangeRepo().cmds);
 
     Integer minPsNum = getMinPatchSetNum(bundle);
+    Set<PatchSet.Id> psIds =
+        Sets.newHashSetWithExpectedSize(bundle.getPatchSets().size());
 
     for (PatchSet ps : bundle.getPatchSets()) {
+      psIds.add(ps.getId());
       events.add(new PatchSetEvent(
           change, ps, manager.getChangeRepo().rw));
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
@@ -257,13 +260,17 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
 
     for (PatchSetApproval psa : bundle.getPatchSetApprovals()) {
-      events.add(new ApprovalEvent(psa, change.getCreatedOn()));
+      if (psIds.contains(psa.getPatchSetId())) {
+        events.add(new ApprovalEvent(psa, change.getCreatedOn()));
+      }
     }
 
     Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : bundle.getChangeMessages()) {
-      events.add(
-          new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
+      if (msg.getPatchSetId() == null || psIds.contains(msg.getPatchSetId())) {
+        events.add(
+            new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
+      }
     }
 
     sortAndFillEvents(change, noteDbChange, events, minPsNum);

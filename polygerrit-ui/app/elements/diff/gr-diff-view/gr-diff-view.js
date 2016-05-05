@@ -16,6 +16,11 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   Polymer({
     is: 'gr-diff-view',
 
@@ -89,6 +94,13 @@
             {title: this._computeFileDisplayName(this._path)});
       }
       window.addEventListener('resize', this._boundWindowResizeHandler);
+    },
+
+    ready: function() {
+      // If no diff mode is selected already, default to side-by-side.
+      if (!this.changeViewState.diffMode) {
+        this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
+      }
     },
 
     detached: function() {

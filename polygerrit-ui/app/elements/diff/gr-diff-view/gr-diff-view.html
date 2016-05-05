@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff/gr-diff.html">
+<link rel="import" href="../gr-diff-mode-select/gr-diff-mode-select.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
 
@@ -168,11 +169,14 @@ limitations under the License.
             patch-range="[[_patchRange]]"
             available-patches="[[_computeAvailablePatches(_change.revisions)]]">
         </gr-patch-range-select>
-        <gr-button link
-           class="prefsButton"
-           on-tap="_handlePrefsTap"
-           hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
-           hidden>Diff View Preferences</gr-button>
+        <div>
+          <gr-button link
+              class="prefsButton"
+              on-tap="_handlePrefsTap"
+              hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
+              hidden>Diff View Preferences</gr-button>
+          <gr-diff-mode-select diff-mode="{{changeViewState.diffMode}}"></gr-diff-mode-select>
+         </div>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>
         <gr-diff-preferences
@@ -186,6 +190,7 @@ limitations under the License.
           path="[[_path]]"
           prefs="[[_prefs]]"
           project-config="[[_projectConfig]]"
+          view-mode="[[changeViewState.diffMode]]"
           on-render="_handleDiffRender">
       </gr-diff>
     </div>

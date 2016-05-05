@@ -1071,7 +1071,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byHashtagWithNoteDb() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
     List<Change> changes = setUpHashtagChanges();
     assertQuery("hashtag:foo", changes.get(1), changes.get(0));
     assertQuery("hashtag:bar", changes.get(1));

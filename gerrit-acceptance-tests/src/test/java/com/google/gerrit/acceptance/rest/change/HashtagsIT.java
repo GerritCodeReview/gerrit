@@ -38,7 +38,7 @@ import org.junit.Test;
 public class HashtagsIT extends AbstractDaemonTest {
   @Before
   public void before() {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
   }
 
   @BeforeClass

@@ -399,9 +399,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void testPushForMasterWithHashtags() throws Exception {
-
-    // Hashtags currently only work when noteDB is enabled
-    assume().that(notesMigration.enabled()).isTrue();
+    // Hashtags only work when reading from NoteDB is enabled
+    assume().that(notesMigration.readChanges()).isTrue();
 
     // specify a single hashtag as option
     String hashtag1 = "tag1";
@@ -427,9 +426,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void testPushForMasterWithMultipleHashtags() throws Exception {
-
-    // Hashtags currently only work when noteDB is enabled
-    assume().that(notesMigration.enabled()).isTrue();
+    // Hashtags only work when reading from NoteDB is enabled
+    assume().that(notesMigration.readChanges()).isTrue();
 
     // specify multiple hashtags as options
     String hashtag1 = "tag1";

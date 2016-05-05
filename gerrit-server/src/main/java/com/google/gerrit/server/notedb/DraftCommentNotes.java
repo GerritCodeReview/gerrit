@@ -52,7 +52,6 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   private final Change change;
   private final Account.Id author;
-  private final boolean autoRebuild;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private RevisionNoteMap revisionNoteMap;
@@ -70,10 +69,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Args args,
       @Assisted Change.Id changeId,
       @Assisted Account.Id author) {
-    super(args, changeId);
+    super(args, changeId, true);
     this.change = null;
     this.author = author;
-    this.autoRebuild = true;
   }
 
   DraftCommentNotes(
@@ -81,10 +79,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Change change,
       Account.Id author,
       boolean autoRebuild) {
-    super(args, change.getId());
+    super(args, change.getId(), autoRebuild);
     this.change = change;
     this.author = author;
-    this.autoRebuild = autoRebuild;
   }
 
   RevisionNoteMap getRevisionNoteMap() {

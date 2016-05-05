@@ -26,6 +26,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
@@ -138,6 +139,24 @@ public class NoteDbChangeState {
         change.getId(), changeMetaId, draftIds);
     change.setNoteDbState(state.toString());
     return state;
+  }
+
+  public static boolean isChangeUpToDate(@Nullable NoteDbChangeState state,
+      RefCache changeRepoRefs, Change.Id changeId) throws IOException {
+    if (state == null) {
+      return !changeRepoRefs.get(changeMetaRef(changeId)).isPresent();
+    }
+    return state.isChangeUpToDate(changeRepoRefs);
+  }
+
+  public static boolean areDraftsUpToDate(@Nullable NoteDbChangeState state,
+      RefCache draftsRepoRefs, Change.Id changeId, Account.Id accountId)
+      throws IOException {
+    if (state == null) {
+      return !draftsRepoRefs.get(refsDraftComments(changeId, accountId))
+          .isPresent();
+    }
+    return state.areDraftsUpToDate(draftsRepoRefs, accountId);
   }
 
   public static String toString(ObjectId changeMetaId,

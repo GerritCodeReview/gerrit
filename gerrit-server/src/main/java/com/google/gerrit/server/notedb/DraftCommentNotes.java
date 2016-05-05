@@ -153,8 +153,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       // Only check if this particular user's drafts are up to date, to avoid
       // reading unnecessary refs.
-      if (state == null
-          || !state.areDraftsUpToDate(new RepoRefCache(repo), author)) {
+      if (!NoteDbChangeState.areDraftsUpToDate(
+          state, new RepoRefCache(repo), getChangeId(), author)) {
         return rebuildAndOpen(repo);
       }
     }

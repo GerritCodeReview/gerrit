@@ -97,14 +97,16 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected final Args args;
+  protected final boolean autoRebuild;
   private final Change.Id changeId;
 
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(Args args, Change.Id changeId) {
+  AbstractChangeNotes(Args args, Change.Id changeId, boolean autoRebuild) {
     this.args = checkNotNull(args);
     this.changeId = checkNotNull(changeId);
+    this.autoRebuild = autoRebuild;
   }
 
   public Change.Id getChangeId() {
@@ -120,7 +122,9 @@ public abstract class AbstractChangeNotes<T> {
     if (loaded) {
       return self();
     }
-    if (!args.migration.readChanges()) {
+    boolean read = args.migration.readChanges();
+    boolean readOrWrite = read || args.migration.writeChanges();
+    if (!readOrWrite || !autoRebuild) {
       loadDefaults();
       return self();
     }
@@ -129,9 +133,15 @@ public abstract class AbstractChangeNotes<T> {
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
         Repository repo = args.repoManager.openRepository(getProjectName());
+        // Call openHandle even if reading is disabled, to trigger
+        // auto-rebuilding before this object may get passed to a ChangeUpdate.
         LoadHandle handle = openHandle(repo)) {
-      revision = handle.id();
-      onLoad(handle);
+      if (read) {
+        revision = handle.id();
+        onLoad(handle);
+      } else {
+        loadDefaults();
+      }
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
@@ -145,7 +155,11 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected LoadHandle openHandle(Repository repo) throws IOException {
-    return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), readRef(repo));
+    return openHandle(repo, readRef(repo));
+  }
+
+  protected LoadHandle openHandle(Repository repo, ObjectId id) {
+    return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), id);
   }
 
   public T reload() throws OrmException {

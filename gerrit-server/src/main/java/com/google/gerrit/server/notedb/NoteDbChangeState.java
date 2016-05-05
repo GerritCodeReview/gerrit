@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -27,12 +28,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.git.RefCache;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -166,22 +165,22 @@ public class NoteDbChangeState {
     this.draftIds = ImmutableMap.copyOf(draftIds);
   }
 
-  public boolean isChangeUpToDate(Repository changeRepo) throws IOException {
-    Ref ref = changeRepo.exactRef(changeMetaRef(changeId));
-    if (ref == null) {
+  public boolean isChangeUpToDate(RefCache changeRepoRefs) throws IOException {
+    Optional<ObjectId> id = changeRepoRefs.get(changeMetaRef(changeId));
+    if (!id.isPresent()) {
       return changeMetaId.equals(ObjectId.zeroId());
     }
-    return ref.getObjectId().equals(changeMetaId);
+    return id.get().equals(changeMetaId);
   }
 
-  public boolean areDraftsUpToDate(Repository draftsRepo, Account.Id accountId)
+  public boolean areDraftsUpToDate(RefCache draftsRepoRefs, Account.Id accountId)
       throws IOException {
-    Ref ref = draftsRepo.exactRef(
-        RefNames.refsDraftComments(changeId, accountId));
-    if (ref == null) {
+    Optional<ObjectId> id =
+        draftsRepoRefs.get(refsDraftComments(changeId, accountId));
+    if (!id.isPresent()) {
       return !draftIds.containsKey(accountId);
     }
-    return ref.getObjectId().equals(draftIds.get(accountId));
+    return id.get().equals(draftIds.get(accountId));
   }
 
   @VisibleForTesting

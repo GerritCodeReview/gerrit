@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
@@ -549,7 +550,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       Change c = unwrapDb().changes().get(id);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
-      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(repo))
+      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(
+              new RepoRefCache(repo)))
           .isEqualTo(expected);
     }
   }
@@ -561,7 +563,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
       NoteDbChangeState state = NoteDbChangeState.parse(c);
-      assertThat(state.areDraftsUpToDate(repo, account.getId()))
+      assertThat(state.areDraftsUpToDate(
+              new RepoRefCache(repo), account.getId()))
           .isEqualTo(expected);
     }
   }

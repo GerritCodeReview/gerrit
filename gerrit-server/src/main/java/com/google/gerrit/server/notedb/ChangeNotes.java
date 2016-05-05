@@ -55,7 +55,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.git.ChainedReceiveCommands;
+import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -202,8 +203,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(Change change,
-        ChainedReceiveCommands cmds) throws OrmException {
-      return new ChangeNotes(args, change.getProject(), change, false, cmds)
+        RefCache refs) throws OrmException {
+      return new ChangeNotes(args, change.getProject(), change, false, refs)
           .load();
     }
 
@@ -377,7 +378,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private final Project.NameKey project;
   private final Change change;
   private final boolean autoRebuild;
-  private final ChainedReceiveCommands cmds;
+  private final RefCache refs;
 
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
@@ -401,12 +402,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   private ChangeNotes(Args args, Project.NameKey project, Change change,
-      boolean autoRebuild, @Nullable ChainedReceiveCommands cmds) {
+      boolean autoRebuild, @Nullable RefCache refs) {
     super(args, change.getId());
     this.project = project;
     this.change = new Change(change);
     this.autoRebuild = autoRebuild;
-    this.cmds = cmds;
+    this.refs = refs;
   }
 
   public Change getChange() {
@@ -616,8 +617,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   protected ObjectId readRef(Repository repo) throws IOException {
-    return cmds != null
-        ? cmds.getObjectId(repo, getRefName())
+    return refs != null
+        ? refs.get(getRefName()).orNull()
         : super.readRef(repo);
   }
 
@@ -625,7 +626,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected LoadHandle openHandle(Repository repo) throws IOException {
     if (autoRebuild) {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
-      if (state == null || !state.isChangeUpToDate(repo)) {
+      RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
+      if (state == null || !state.isChangeUpToDate(refs)) {
         return rebuildAndOpen(repo);
       }
     }

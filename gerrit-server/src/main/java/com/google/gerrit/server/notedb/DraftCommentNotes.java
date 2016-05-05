@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -152,7 +153,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       // Only check if this particular user's drafts are up to date, to avoid
       // reading unnecessary refs.
-      if (state == null || !state.areDraftsUpToDate(repo, author)) {
+      if (state == null
+          || !state.areDraftsUpToDate(new RepoRefCache(repo), author)) {
         return rebuildAndOpen(repo);
       }
     }

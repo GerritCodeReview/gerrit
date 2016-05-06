@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d03e3bf_b88dd93b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:34:08Z",
+      "side": 1,
+      "message": "This part is inaccurate, Submit#submittable literally just checks the submit records.",
+      "range": {
+        "startLine": 315,
+        "startChar": 19,
+        "endLine": 315,
+        "endChar": 35
+      },
+      "revId": "db33e44f14d5fefc5c7665007b9ddf3bf40cc782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

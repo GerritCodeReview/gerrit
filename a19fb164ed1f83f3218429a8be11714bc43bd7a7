@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad987b90_625cf63a",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "empty",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 35
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_e24fe67f",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -53,6 +76,52 @@
     },
     {
       "key": {
+        "uuid": "cd920f66_6b3f61c6",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "This assumes the user has already installed requests, and will cause ImportError if they have not.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_e23486ed",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "nit: import order should be separated into blocks for standard and external libraries, and each block should be in alphabetical order.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_8176dac7",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -64,6 +133,29 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "Nit: be consistent between \u0027\u0027 and \"\" within a file.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd920f66_0b309df7",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "Use urlparse.urljoin?",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 23
+      },
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +213,47 @@
     },
     {
       "key": {
+        "uuid": "cd920f66_2b3559e8",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "Note that we have a pylint configuration file at /contrib/.pylintrc\n\nInvoke with:\n\n pylint --rcfile\u003d.pylintrc my-python-file.py\n\nThe config hasn\u0027t really been maintained since I originally added it though. It might be better to run pyflakes instead.",
+      "parentUuid": "ad987b90_825ffa2f",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_a149de7c",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "this is not used, so prefix it with an underscore.  Or, just name it `_`.",
+      "range": {
+        "startLine": 181,
+        "startChar": 59,
+        "endLine": 181,
+        "endChar": 60
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_a270bece",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -137,6 +270,29 @@
         "startChar": 11,
         "endLine": 192,
         "endChar": 16
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_02308af7",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 7
       },
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -178,6 +334,29 @@
     },
     {
       "key": {
+        "uuid": "cd920f66_4b3aa5d7",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "nit: line break should be after the +",
+      "range": {
+        "startLine": 289,
+        "startChar": 22,
+        "endLine": 289,
+        "endChar": 24
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_227dcea0",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -189,6 +368,40 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "Nit: unnecessary parens",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_4259f248",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "nit: unnecessary parens",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_2256ee1a",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T12:35:40Z",
+      "side": 1,
+      "message": "unnecessary parens",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

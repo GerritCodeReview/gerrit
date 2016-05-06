@@ -16,6 +16,24 @@
       "revId": "2d7189549b35a7754b17c58e6756fb177cf5cf75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad831b1c_8a5e4b33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_124.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-06T07:04:38Z",
+      "side": 1,
+      "message": "The set(int) method is protected and we cannot invoke it from here.",
+      "parentUuid": "8d9bb78c_61c87665",
+      "revId": "2d7189549b35a7754b17c58e6756fb177cf5cf75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

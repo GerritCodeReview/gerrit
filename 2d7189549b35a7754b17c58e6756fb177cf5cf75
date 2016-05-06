@@ -34,6 +34,24 @@
       "revId": "2d7189549b35a7754b17c58e6756fb177cf5cf75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d1d6b1b_36a278ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_124.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T13:07:35Z",
+      "side": 1,
+      "message": "Eh don\u0027t worry about it, this is fine.",
+      "parentUuid": "ad831b1c_8a5e4b33",
+      "revId": "2d7189549b35a7754b17c58e6756fb177cf5cf75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

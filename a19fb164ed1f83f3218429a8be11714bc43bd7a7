@@ -1,0 +1,231 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_e24fe67f",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "This comment should probably go in a pydoc block. It could also stand to be expanded with some more detailed description or usage. (Although I would be fine if you held off on more details until there are actual command line flags to explain.)",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_6173d6d9",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Add your name to these TODOs?",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_c244e266",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary given that you\u0027ve just imported requests:\n\n \u003e\u003e\u003e import requests\n \u003e\u003e\u003e requests.auth\n \u003cmodule \u0027requests.auth\u0027 from \u0027/usr/lib/python2.7/dist-packages/requests/auth.pyc\u0027\u003e",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_8176dac7",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Nit: be consistent between \u0027\u0027 and \"\" within a file.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_a249de7c",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Optional nit: can be one line",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_217dcea0",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "These could be named as constants.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_825ffa2f",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "In the absence of any other suggestions I would recommend the Google Python Style Guide, which says method_name and variable_name:\n\nhttps://google.github.io/styleguide/pyguide.html#Naming",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_a270bece",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Optional: xrange",
+      "range": {
+        "startLine": 192,
+        "startChar": 11,
+        "endLine": 192,
+        "endChar": 16
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_6273d6d9",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Maybe raise instead of print? :)\n\nAlso, I tend to recommend using \"from __future__ import print_function\" in new code because Python 3 is happening any day now right?",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_4280d29c",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Optional nit: trailing comma",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_227dcea0",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "Nit: unnecessary parens",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_024bea77",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "If the purpose of this try/except is just to get cleanUp run at exit, I would recommend the atexit module instead.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_4180d29c",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T12:00:54Z",
+      "side": 1,
+      "message": "I think this print statement is redundant with the raise below.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -108,6 +108,38 @@ public class AccountApi {
         .post(sshPublicKey, cb);
   }
 
+  /** Retrieve Watched Projects */
+  public static void getWatchedProjects(String account,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    new RestApi("/accounts/").id(account).view("watched.projects").get(cb);
+  }
+
+  /** Create/Update Watched Projects */
+  public static void updateWatchedProjects(
+      String account,
+      JsArray<ProjectWatchInfo> watchedProjectInfos,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    new RestApi("/accounts/")
+        .id(account)
+        .view("watched.projects")
+        .post(watchedProjectInfos, cb);
+  }
+
+  /** Delete Watched Projects */
+  public static void deleteWatchedProjects(
+      String account,
+      Iterable<String> projectIds,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    JsArrayString in = JavaScriptObject.createArray().cast();
+    for (String s : projectIds) {
+      in.push(s);
+    }
+    new RestApi("/accounts/")
+        .id(account)
+        .view("watched.projects:delete")
+        .post(in, cb);
+  }
+
   /**
    * Delete SSH keys. For each key to be deleted a separate DELETE request is
    * fired to the server. The {@code onSuccess} method of the provided callback

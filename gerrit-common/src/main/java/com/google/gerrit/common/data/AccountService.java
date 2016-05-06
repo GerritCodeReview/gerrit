@@ -29,23 +29,5 @@ import java.util.Set;
 @RpcImpl(version = Version.V2_0)
 public interface AccountService extends RemoteJsonService {
   @SignInRequired
-  void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);
-
-  @Audit
-  @SignInRequired
-  void addProjectWatch(String projectName, String filter,
-      AsyncCallback<AccountProjectWatchInfo> callback);
-
-  @Audit
-  @SignInRequired
-  void updateProjectWatch(AccountProjectWatch watch,
-      AsyncCallback<VoidResult> callback);
-
-  @Audit
-  @SignInRequired
-  void deleteProjectWatches(Set<AccountProjectWatch.Key> keys,
-      AsyncCallback<VoidResult> callback);
-
-  @SignInRequired
   void myAgreements(AsyncCallback<AgreementInfo> callback);
 }

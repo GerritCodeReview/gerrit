@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_c16bc2df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T11:50:28Z",
+      "side": 1,
+      "message": "Yes. Definitely aware of this confusion ;).",
+      "parentUuid": "8d9bb78c_21e14eac",
+      "revId": "ecc6ef3c5fbd6d57677519da59d745bd697a8d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_e12ec6e8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 2

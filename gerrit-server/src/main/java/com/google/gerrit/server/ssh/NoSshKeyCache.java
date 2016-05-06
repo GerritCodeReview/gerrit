@@ -18,8 +18,9 @@ import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class NoSshKeyCache implements SshKeyCache, SshKeyCreator {
 
   public static Module module() {

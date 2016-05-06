@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2d1d6b1b_d638642f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T20:03:58Z",
+      "side": 1,
+      "message": "I considered this but I think I agree that it would be overkill as there will only ever be a small, fixed number of options.",
+      "parentUuid": "2d1d6b1b_b6db2830",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_b7b688eb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "4d061fd1_774870bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T20:03:58Z",
+      "side": 1,
+      "message": "Sounds like that may be cleaner. I\u0027ll give that a shot.",
+      "parentUuid": "4d061fd1_b7b688eb",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_f7b000f1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2016-05-06T17:01:39Z",
       "side": 1,
       "message": "Hm, what will happen if nothing is selected?\nAnd what should happen?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd420f30_8b8ded3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T20:03:58Z",
+      "side": 1,
+      "message": "If nothing is passed then neither OPTION is given the selected attribute, so the browser will default to the first one. I will add a test to make sure it sets the property correctly in this case.",
+      "parentUuid": "4d061fd1_f7b000f1",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "cd420f30_ab92a95a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T20:03:58Z",
+      "side": 1,
+      "message": "Do you know of a good way to use MockInteractions to set a select value? I couldn\u0027t find one.",
+      "parentUuid": "4d061fd1_d7b5fcde",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_57a9ec89",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 2
@@ -149,6 +221,42 @@
       "writtenOn": "2016-05-06T18:50:14Z",
       "side": 1,
       "message": "It\u0027s kind of useful to have in the UI. One click switching is convenient when debugging and on mobile devices. GitHub has this too.\n\nOf course we also need to add it to the diff preferences.",
+      "parentUuid": "4d061fd1_57a9ec89",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d272b9a_868dea3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T20:03:58Z",
+      "side": 1,
+      "message": "I agree, I like having this button available because sometimes the shape of a diff is easier to read in one or the other mode.\n\nIt appears to me that this setting is not currently available in the diff preferences. Maybe encoding the layout choice in preferences should be a new feature.",
+      "parentUuid": "2d1d6b1b_76f350b0",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd420f30_cb97f549",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T20:03:58Z",
+      "side": 1,
+      "message": "I like the sound of the side-by-side-buttons iron-select approach. I feel that a custom component (perhaps that simply hosts an iron-select) still makes sense though.",
       "parentUuid": "4d061fd1_57a9ec89",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -140,7 +140,7 @@ public class IndexModule extends LifecycleModule {
       threads = config.getInt("index", null, "threads", 0);
     }
     if (threads <= 0) {
-      return MoreExecutors.newDirectExecutorService();
+      threads = Runtime.getRuntime().availableProcessors() / 2;
     }
     return MoreExecutors.listeningDecorator(
         workQueue.createQueue(threads, "Index-Interactive"));

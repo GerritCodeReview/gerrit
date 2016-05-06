@@ -421,9 +421,17 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
-    out.starred = user.getStarredChanges().contains(in.getId())
-        ? true
-        : null;
+
+    if (user.isIdentifiedUser()) {
+      Collection<String> stars = cd.stars().get(user.getAccountId());
+      out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL)
+          ? true
+          : null;
+      if (!stars.isEmpty()) {
+        out.stars = stars;
+      }
+    }
+
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
       Account.Id accountId = user.getAccountId();
       out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;

@@ -21,6 +21,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
@@ -28,10 +29,38 @@ import com.google.gwtorm.server.OrmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
+  public static class Builder<T> {
+    private final List<FieldDef<T, ?>> fields = new ArrayList<>();
+
+    public Builder<T> add(Schema<T> schema) {
+      this.fields.addAll(schema.getFields().values());
+      return this;
+    }
+
+    @SafeVarargs
+    public final Builder<T> add(FieldDef<T, ?>... fields) {
+      this.fields.addAll(Arrays.asList(fields));
+      return this;
+    }
+
+    @SafeVarargs
+    public final Builder<T> remove(FieldDef<T, ?>... fields) {
+      this.fields.removeAll(Arrays.asList(fields));
+      return this;
+    }
+
+    public Schema<T> build() {
+      return new Schema<>(ImmutableList.copyOf(fields));
+    }
+  }
+
   private static final Logger log = LoggerFactory.getLogger(Schema.class);
 
   public static class Values<T> {

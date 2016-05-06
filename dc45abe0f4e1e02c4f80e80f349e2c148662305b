@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_c29d021b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T02:13:32Z",
+      "side": 1,
+      "message": "Update the comment to match the new condition?\n\nAlso, saying \"currently\" implies that hashtags will in future be supported without noteDb, which is not the case, so maybe better to just completely remove the comment?",
+      "revId": "dc45abe0f4e1e02c4f80e80f349e2c148662305b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_a2a2fe5a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T02:13:32Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "dc45abe0f4e1e02c4f80e80f349e2c148662305b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

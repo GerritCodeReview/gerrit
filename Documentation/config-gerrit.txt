@@ -2400,9 +2400,10 @@ By default, `LUCENE`.
 
 [[index.threads]]index.threads::
 +
-Number of threads to use for indexing in normal interactive operations.
+Number of threads to use for indexing in normal interactive operations. If set
+to 0, indexing will be done in the same thread as the interactive operation.
 +
-Defaults to 1 if not set, or set to a negative value.
+Defaults to 0 if not set, or set to a negative value.
 
 [[index.batchThreads]]index.batchThreads::
 +

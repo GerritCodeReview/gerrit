@@ -23,6 +23,24 @@
       "revId": "29a719dc4ef1eac07d058c208bc4ca7d87fd890d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_02bd2a77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T11:23:17Z",
+      "side": 1,
+      "message": "That may be related, but if you look at the change linked below I don\u0027t think there were any edits involved in the PS0 comments. Regardless, as you know, storing inline comments particularly doesn\u0027t work for edits because the ref can be rewritten. (Eventually it may actually be possible to record them somewhere in a notes format, since that\u0027s tied to commit SHA-1, not ref name, but that\u0027s not helpful here.)",
+      "parentUuid": "cd920f66_6b7121d1",
+      "revId": "29a719dc4ef1eac07d058c208bc4ca7d87fd890d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

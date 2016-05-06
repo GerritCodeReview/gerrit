@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
 import java.util.Objects;
@@ -24,10 +23,8 @@ public final class AccountSshKey {
   public static class Id extends IntKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column(id = 2)
     protected int seq;
 
     protected Id() {
@@ -59,13 +56,10 @@ public final class AccountSshKey {
     }
   }
 
-  @Column(id = 1, name = Column.NONE)
   protected AccountSshKey.Id id;
 
-  @Column(id = 2, length = Integer.MAX_VALUE)
   protected String sshPublicKey;
 
-  @Column(id = 3)
   protected boolean valid;
 
   protected AccountSshKey() {

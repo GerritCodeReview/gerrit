@@ -1107,25 +1107,6 @@ master node startup.
 +
 Default is 300 seconds (5 minutes).
 
-[[changeMerge.threadPoolSize]]changeMerge.threadPoolSize::
-+
-_Deprecated:_ Formerly used to control thread pool size for background
-mergeability checks. These checks were moved to the indexing threadpool,
-so this value is now used for
-link:#index.batchThreads[index.batchThreads], only if that value is not
-provided.
-+
-This option may be removed in a future version.
-
-[[changeMerge.interactiveThreadPoolSize]]changeMerge.interactiveThreadPoolSize::
-+
-_Deprecated:_ Formerly used to control thread pool size for interactive
-mergeability checks. These checks were moved to the indexing threadpool,
-so this value is now used for link:#index.threads[index.threads], only
-if that value is not provided.
-+
-This option may be removed in a future version.
-
 [[commentlink]]
 === Section commentlink
 
@@ -2421,9 +2402,7 @@ By default, `LUCENE`.
 +
 Number of threads to use for indexing in normal interactive operations.
 +
-Defaults to 1 if not set, or set to a negative value (unless
-link:#changeMerge.interactiveThreadPoolSize[changeMerge.interactiveThreadPoolSize]
-is iset).
+Defaults to 1 if not set, or set to a negative value.
 
 [[index.batchThreads]]index.batchThreads::
 +
@@ -2431,8 +2410,7 @@ Number of threads to use for indexing in background operations, such as
 online schema upgrades.
 +
 If not set or set to a negative value, defaults to the number of logical
-CPUs as returned by the JVM (unless
-link:#changeMerge.threadPoolSize[changeMerge.threadPoolSize] is set).
+CPUs as returned by the JVM.
 
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +

@@ -14,38 +14,14 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-import com.google.gwtjsonrpc.common.VoidResult;
-
-import java.util.List;
-import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface AccountService extends RemoteJsonService {
-  @SignInRequired
-  void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);
-
-  @Audit
-  @SignInRequired
-  void addProjectWatch(String projectName, String filter,
-      AsyncCallback<AccountProjectWatchInfo> callback);
-
-  @Audit
-  @SignInRequired
-  void updateProjectWatch(AccountProjectWatch watch,
-      AsyncCallback<VoidResult> callback);
-
-  @Audit
-  @SignInRequired
-  void deleteProjectWatches(Set<AccountProjectWatch.Key> keys,
-      AsyncCallback<VoidResult> callback);
-
   @SignInRequired
   void myAgreements(AsyncCallback<AgreementInfo> callback);
 }

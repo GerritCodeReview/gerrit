@@ -29,7 +29,16 @@ public class AclUtil {
 
   public static void grant(ProjectConfig config, AccessSection section,
       String permission, boolean force, GroupReference... groupList) {
+    grant(config, section, permission, force, null, groupList);
+  }
+
+  public static void grant(ProjectConfig config, AccessSection section,
+      String permission, boolean force, Boolean exclusive,
+      GroupReference... groupList) {
     Permission p = section.getPermission(permission, true);
+    if (exclusive != null) {
+      p.setExclusiveGroup(exclusive);
+    }
     for (GroupReference group : groupList) {
       if (group != null) {
         PermissionRule r = rule(config, group);

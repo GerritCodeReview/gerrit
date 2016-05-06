@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d1d6b1b_962eece7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "This should be line-breaked at 72 chars",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_77f350b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "First lines in the commit don’t have periods. I don’t remember why but that’s Gerrit’s style ¯\\_(ツ)_/¯",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d1d6b1b_16c81c64",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -13,6 +47,41 @@
       "writtenOn": "2016-05-06T17:01:39Z",
       "side": 1,
       "message": "space after :",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_61b916d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "use ems, not px.",
+      "parentUuid": "2d1d6b1b_16c81c64",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_41ae1295",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "so why do you need this span? the host itself has the same stylistic properties. You can remove this and the css decl above and still have it be the same thing, no?",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "92ebd862_818d3a3f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "Yeah. For two options it’s overkill :)",
+      "parentUuid": "2d1d6b1b_d638642f",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_b7b688eb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -83,6 +170,108 @@
       "side": 1,
       "message": "Sounds like that may be cleaner. I\u0027ll give that a shot.",
       "parentUuid": "4d061fd1_b7b688eb",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_a1a71eb9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "four-space continuations.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_6192365b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "you don’t need two-way binding here because the option element won’t be changing _isUnified.\n\n[[_isUnified]]",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_81b41ae3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "you don’t need to notify for this or _isUnified. which also means you don’t need these properties. just use the functions within your template:\n\n\u003coption selected$\u003d\"[[_modeIsSideBySide(diffMode)]]\" ...\u003e\n\nand it will re-evaluate once diffMode changes.\n\nAlso, you could also reduce it down to one function if you want. Since it’s only two options you can just check if it’s sideBySide or not. Both can’t be true.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32fcec2a_3e97a94a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "trailing comma here, too. This just helps when you add another property down the line. there have been so many times where I’ve added something, went back to the page, reloaded, and gotten an “unexpected identifier” syntax error from a missing comma.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_e19d2667",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "this.diffMode \u003d this.$.modeSelect.value; \n\nis the same.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32fcec2a_de9d6567",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "you don\u0027t need page.js for this test.",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -124,6 +313,23 @@
     },
     {
       "key": {
+        "uuid": "92ebd862_219c2e6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "lose the blank lines at the top of the tests.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_97bb84d3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
         "patchSetId": 2
@@ -141,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "92ebd862_41973249",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "To clarify, done() only needs to used if the test doesn’t finish in a synchronous manner (like within a callback, for instance). You can omit it here.",
+      "parentUuid": "4d061fd1_97bb84d3",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d1d6b1b_d6ea24bb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
         "patchSetId": 2
@@ -152,6 +376,24 @@
       "writtenOn": "2016-05-06T17:01:39Z",
       "side": 1,
       "message": "Alternative:\nvar eventStub \u003d sinon.stub();\nelement.addEventListener(\u0027diff-mode-changed\u0027, eventStub);\n// dispatch the event\nassert.isTrue(eventStub.called);\n\nand the test can be made sync as well",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32fcec2a_7e8d313c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "TIL that event dispatch was synchronous. You’re full of tidbits, Viktar.\n\nAre certain that Polymer.fire() is synchronous as well or is it possible it has some sort of microtask timing thing going on in the impl.",
+      "parentUuid": "2d1d6b1b_d6ea24bb",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -187,6 +429,74 @@
       "side": 1,
       "message": "Do you know of a good way to use MockInteractions to set a select value? I couldn\u0027t find one.",
       "parentUuid": "4d061fd1_d7b5fcde",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32fcec2a_5e92755a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "You can fire a change event from Polymer in one line instead of this.\n\nelement.fire(\u0027change\u0027, {}, {node: select});",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_01a12aa7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "Single quotes everywhere in JS.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32fcec2a_1e9ced6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "keep these alphabetical",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ebd862_c1aa2283",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "four-space indent on continuations.",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -258,6 +568,24 @@
       "side": 1,
       "message": "I like the sound of the side-by-side-buttons iron-select approach. I feel that a custom component (perhaps that simply hosts an iron-select) still makes sense though.",
       "parentUuid": "4d061fd1_57a9ec89",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32fcec2a_fea021a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-06T20:37:59Z",
+      "side": 1,
+      "message": "I think this is fine for now. Native elements are lightweight, accessible, work on mobile devices. It also keeps with the visual look of the dropdowns on the left side of the screen.",
+      "parentUuid": "cd420f30_cb97f549",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

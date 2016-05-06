@@ -16,13 +16,13 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.AccountProjectWatchInfo;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -35,8 +35,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-
-import java.util.List;
 
 public class MyWatchedProjectsScreen extends SettingsScreen {
   private Button addNew;
@@ -188,35 +186,40 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     nameBox.setEnabled(false);
     filterTxt.setEnabled(false);
 
-    Util.ACCOUNT_SVC.addProjectWatch(projectName, filter,
-        new GerritCallback<AccountProjectWatchInfo>() {
+    final ProjectWatchInfo projectWatchInfo = JavaScriptObject
+        .createObject().cast();
+    projectWatchInfo.project(projectName);
+    projectWatchInfo.filter(filterTxt.getText());
+
+    AccountApi.updateWatchedProject("self", projectWatchInfo,
+        new GerritCallback<JsArray<ProjectWatchInfo>>() {
           @Override
-          public void onSuccess(final AccountProjectWatchInfo result) {
+          public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
             addNew.setEnabled(true);
             nameBox.setEnabled(true);
             filterTxt.setEnabled(true);
 
             nameBox.setText("");
-            watchesTab.insertWatch(result);
+            watchesTab.insertWatch(projectWatchInfo);
           }
 
           @Override
-          public void onFailure(final Throwable caught) {
+          public void onFailure(Throwable caught) {
             addNew.setEnabled(true);
             nameBox.setEnabled(true);
             filterTxt.setEnabled(true);
-
             super.onFailure(caught);
           }
         });
   }
 
   protected void populateWatches() {
-    Util.ACCOUNT_SVC.myProjectWatch(
-        new ScreenLoadCallback<List<AccountProjectWatchInfo>>(this) {
+    AccountApi.getWatchedProjects("self",
+        new GerritCallback<JsArray<ProjectWatchInfo>>() {
       @Override
-      public void preDisplay(final List<AccountProjectWatchInfo> result) {
-        watchesTab.display(result);
+      public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
+        display();
+        watchesTab.display(watchedProjects);
       }
     });
   }

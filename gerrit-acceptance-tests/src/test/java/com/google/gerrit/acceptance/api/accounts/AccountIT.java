@@ -42,6 +42,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -381,6 +382,13 @@ public class AccountIT extends AbstractDaemonTest {
         cloneProject(allUsers, user);
     String userRefName = RefNames.refsUsers(user.id);
 
+    // remove default READ permissions
+    ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
+    cfg.getAccessSection(
+        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
+        .remove(new Permission(Permission.READ));
+    saveProjectConfig(allUsers, cfg);
+
     // deny READ permission that is inherited from All-Projects
     deny(allUsers, Permission.READ, ANONYMOUS_USERS, RefNames.REFS + "*");
 
@@ -427,15 +435,11 @@ public class AccountIT extends AbstractDaemonTest {
         GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
-    removeExclusiveReadPermissionOnAllUsers();
-    String userRefName = RefNames.refsUsers(admin.id);
-    grant(Permission.PUSH, allUsers, userRefName);
-
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
     allUsersRepo.reset("userRef");
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
-    push.to(userRefName).assertOkStatus();
+    push.to(RefNames.refsUsers(admin.id)).assertOkStatus();
 
     push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
@@ -450,29 +454,23 @@ public class AccountIT extends AbstractDaemonTest {
         GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
-    removeExclusiveReadPermissionOnAllUsers();
     String userRefName = RefNames.refsUsers(admin.id);
-    grant(Permission.PUSH, allUsers, MagicBranch.NEW_CHANGE + userRefName);
-
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    fetch(allUsersRepo, userRefName + ":userRef");
     allUsersRepo.reset("userRef");
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     PushOneCommit.Result r = push.to(MagicBranch.NEW_CHANGE + userRefName);
     r.assertOkStatus();
     assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
 
     push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     r = push.to(MagicBranch.NEW_CHANGE + RefNames.REFS_USERS_SELF);
     r.assertOkStatus();
     assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
-  }
-
-  private void removeExclusiveReadPermissionOnAllUsers() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
-    cfg.getAccessSection(RefNames.REFS_USERS + "*", true)
-        .remove(new Permission(Permission.READ));
-    saveProjectConfig(allUsers, cfg);
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
   }
 
   @Test

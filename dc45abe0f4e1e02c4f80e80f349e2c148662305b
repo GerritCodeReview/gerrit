@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_c1b6229b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-06T11:24:26Z",
+      "side": 1,
+      "message": "I don\u0027t mind making the comment match the reality today, but I have said publicly I think not implementing hashtags in ReviewDb was a mistake and I would accept a change adding them if someone wrote it.",
+      "parentUuid": "ad987b90_c29d021b",
+      "revId": "dc45abe0f4e1e02c4f80e80f349e2c148662305b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_a2a2fe5a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1

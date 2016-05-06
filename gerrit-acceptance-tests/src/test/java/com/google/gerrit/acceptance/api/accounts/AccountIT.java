@@ -180,12 +180,14 @@ public class AccountIT extends AbstractDaemonTest {
         .starChange(triplet);
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
+    assertThat(change.stars).contains(DEFAULT_LABEL);
 
     gApi.accounts()
         .self()
         .unstarChange(triplet);
     change = info(triplet);
     assertThat(change.starred).isNull();
+    assertThat(change.stars).isNull();
   }
 
   @Test
@@ -199,6 +201,8 @@ public class AccountIT extends AbstractDaemonTest {
         new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
+    assertThat(change.stars)
+        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     assertThat(gApi.accounts().self().getStars(triplet))
         .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     List<ChangeInfo> starredChanges =
@@ -207,12 +211,15 @@ public class AccountIT extends AbstractDaemonTest {
     ChangeInfo starredChange = starredChanges.get(0);
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isTrue();
+    assertThat(starredChange.stars)
+        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
 
     gApi.accounts().self().setStars(triplet,
         new StarsInput(ImmutableSet.of("yellow"),
             ImmutableSet.of(DEFAULT_LABEL, "blue")));
     change = info(triplet);
     assertThat(change.starred).isNull();
+    assertThat(change.stars).containsExactly("red", "yellow").inOrder();
     assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
         "red", "yellow").inOrder();
     starredChanges = gApi.accounts().self().getStarredChanges();
@@ -220,6 +227,7 @@ public class AccountIT extends AbstractDaemonTest {
     starredChange = starredChanges.get(0);
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isNull();
+    assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
 
     setApiUser(user);
     exception.expect(AuthException.class);

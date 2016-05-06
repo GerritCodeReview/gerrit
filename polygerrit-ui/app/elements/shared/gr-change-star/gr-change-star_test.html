@@ -20,8 +20,6 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<script src="../../../bower_components/page/page.js"></script>
-<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-star.html">
@@ -35,39 +33,16 @@ limitations under the License.
 <script>
   suite('gr-change-star tests', function() {
     var element;
-    var server;
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        saveChangeStarred: function() { return Promise.resolve({ok: true}); },
+      });
       element = fixture('basic');
       element.change = {
         _number: 2,
         starred: true,
       };
-
-      server = sinon.fakeServer.create();
-      server.respondWith(
-        'PUT',
-        '/accounts/self/starred.changes/2',
-        [
-          204,
-          {'Content-Type': 'application/json'},
-          ''
-        ]
-      );
-
-      server.respondWith(
-        'DELETE',
-        '/accounts/self/starred.changes/2',
-        [
-          204,
-          {'Content-Type': 'application/json'},
-          ''
-        ]
-      );
-    });
-
-    teardown(function() {
-      server.restore();
     });
 
     test('star visibility states', function() {
@@ -86,11 +61,7 @@ limitations under the License.
       element.set('change.starred', false);
       MockInteractions.tap(element.$$('button'));
 
-      server.respond();
-
       element._xhrPromise.then(function(req) {
-        assert.equal(req.status, 204);
-        assert.equal(req.url, '/accounts/self/starred.changes/2');
         assert.equal(element.change.starred, true);
         done();
       });
@@ -100,11 +71,7 @@ limitations under the License.
       element.set('change.starred', true);
       MockInteractions.tap(element.$$('button'));
 
-      server.respond();
-
       element._xhrPromise.then(function(req) {
-        assert.equal(req.status, 204);
-        assert.equal(req.url, '/accounts/self/starred.changes/2');
         assert.equal(element.change.starred, false);
         done();
       });

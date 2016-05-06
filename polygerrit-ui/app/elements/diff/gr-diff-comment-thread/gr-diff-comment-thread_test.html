@@ -124,11 +124,24 @@ limitations under the License.
 
   suite('comment action tests', function() {
     var element;
-    var server;
 
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
+        saveDiffDraft: function() { return Promise.resolve({
+          ok: true,
+          text: function() { return Promise.resolve(')]}\'\n' +
+              JSON.stringify({
+                id: '7afa4931_de3d65bd',
+                path: '/path/to/file.txt',
+                line: 5,
+                in_reply_to: 'baf0414d_60047215',
+                updated: '2015-12-21 02:01:10.850000000',
+                message: 'Done'
+              }));
+          },
+        })},
+        deleteDiffDraft: function() { return Promise.resolve({ok: true}); },
       });
       element = fixture('withComment');
       element.comments = [{
@@ -142,35 +155,6 @@ limitations under the License.
         updated: '2015-12-08 19:48:33.843000000',
       }];
       flushAsynchronousOperations();
-
-      server = sinon.fakeServer.create();
-      // Eat any requests made by elements in this suite.
-      server.respondWith(
-        'PUT',
-        '/changes/41/1/drafts',
-        [
-          201,
-          {'Content-Type': 'application/json'},
-          ')]}\'\n' + JSON.stringify({
-            id: '7afa4931_de3d65bd',
-            path: '/path/to/file.txt',
-            line: 5,
-            in_reply_to: 'baf0414d_60047215',
-            updated: '2015-12-21 02:01:10.850000000',
-            message: 'Done'
-          }),
-        ]
-      );
-
-      server.respondWith(
-        'DELETE',
-        '/changes/41/1/drafts/baf0414d_60047215',
-        [
-          204,
-          {},
-          '',
-        ]
-      );
     });
 
     test('reply', function(done) {
@@ -210,7 +194,6 @@ limitations under the License.
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
       commentEl.addEventListener('done', function() {
-        server.respond();
         var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
@@ -236,7 +219,6 @@ limitations under the License.
           Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
       assert.ok(draftEl);
       draftEl.addEventListener('comment-discard', function() {
-        server.respond();
         var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
         });

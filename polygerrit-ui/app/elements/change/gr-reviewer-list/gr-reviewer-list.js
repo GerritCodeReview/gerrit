@@ -121,33 +121,8 @@
       return false;
     },
 
-    _computeAutocompleteURL: function(change) {
-      return '/changes/' + change._number + '/suggest_reviewers';
-    },
-
-    _computeAutocompleteParams: function(inputVal) {
-      return {
-        n: 10,  // Return max 10 results
-        q: inputVal,
-      };
-    },
-
     _computeSelected: function(index, selectedIndex) {
       return index == selectedIndex;
-    },
-
-    _handleResponse: function(e) {
-      this._autocompleteData = e.detail.response.filter(function(reviewer) {
-        var account = reviewer.account;
-        if (!account) { return true; }
-        for (var i = 0; i < this._reviewers.length; i++) {
-          if (account._account_id == this.change.owner._account_id ||
-              account._account_id == this._reviewers[i]._account_id) {
-            return false;
-          }
-        }
-        return true;
-      }, this);
     },
 
     _handleBodyClick: function(e) {
@@ -165,7 +140,12 @@
       e.preventDefault();
       var target = Polymer.dom(e).rootTarget;
       var accountID = parseInt(target.getAttribute('data-account-id'), 10);
-      this._send('DELETE', this._restEndpoint(accountID)).then(function(req) {
+      this.disabled = true;
+      this._xhrPromise =
+          this._removeReviewer(accountID).then(function(response) {
+        this.disabled = false;
+        if (!response.ok) { return response; }
+
         var reviewers = this.change.reviewers;
         ['REVIEWER', 'CC'].forEach(function(type) {
           reviewers[type] = reviewers[type] || [];
@@ -177,8 +157,7 @@
           }
         }, this);
       }.bind(this)).catch(function(err) {
-        alert('Oops. Something went wrong. Check the console and bug the ' +
-            'PolyGerrit team for assistance.');
+        this.disabled = false;
         throw err;
       }.bind(this));
     },
@@ -241,7 +220,8 @@
           return;
         }
         this._lastAutocompleteRequest =
-            this.$.autocompleteXHR.generateRequest();
+            this._getSuggestedReviewers(this.change._number, val).then(
+                this._handleReviewersResponse.bind(this));
       }.bind(this);
 
       this._clearInputRequestHandle();
@@ -251,6 +231,24 @@
         this._inputRequestHandle =
             this.async(sendRequest, this._inputRequestTimeout);
       }
+    },
+
+    _handleReviewersResponse: function(response) {
+      this._autocompleteData = response.filter(function(reviewer) {
+        var account = reviewer.account;
+        if (!account) { return true; }
+        for (var i = 0; i < this._reviewers.length; i++) {
+          if (account._account_id == this.change.owner._account_id ||
+              account._account_id == this._reviewers[i]._account_id) {
+            return false;
+          }
+        }
+        return true;
+      }, this);
+    },
+
+    _getSuggestedReviewers: function(changeNum, inputVal) {
+      return this.$.restAPI.getChangeSuggestedReviewers(changeNum, inputVal);
     },
 
     _handleKey: function(e) {
@@ -302,43 +300,32 @@
         reviewerID = reviewer.group.id;
       }
       this._autocompleteData = [];
-      this._send('POST', this._restEndpoint(), reviewerID).then(function(req) {
-        this.change.reviewers.CC = this.change.reviewers.CC || [];
-        req.response.reviewers.forEach(function(r) {
-          this.push('change.removable_reviewers', r);
-          this.push('change.reviewers.CC', r);
-        }, this);
-        this._inputVal = '';
-        this.$.input.focus();
+      this.disabled = true;
+      this._xhrPromise = this._addReviewer(reviewerID).then(function(response) {
+        this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
+        this.disabled = false;
+        if (!response.ok) { return response; }
+
+        return this.$.restAPI.getResponseObject(response).then(function(obj) {
+          obj.reviewers.forEach(function(r) {
+            this.push('change.removable_reviewers', r);
+            this.push('change.reviewers.CC', r);
+          }, this);
+          this._inputVal = '';
+          this.$.input.focus();
+        }.bind(this));
       }.bind(this)).catch(function(err) {
-        // TODO(andybons): Use the message returned by the server.
-        alert('Unable to add ' + reviewerID + ' as a reviewer.');
+        this.disabled = false;
         throw err;
       }.bind(this));
     },
 
-    _send: function(method, url, reviewerID) {
-      this.disabled = true;
-      var request = document.createElement('gr-request');
-      var opts = {
-        method: method,
-        url: url,
-      };
-      if (reviewerID) {
-        opts.body = {reviewer: reviewerID};
-      }
-      this._xhrPromise = request.send(opts);
-      var enableEl = function() { this.disabled = false; }.bind(this);
-      this._xhrPromise.then(enableEl).catch(enableEl);
-      return this._xhrPromise;
+    _addReviewer: function(id) {
+      return this.$.restAPI.addChangeReviewer(this.change._number, id);
     },
 
-    _restEndpoint: function(id) {
-      var path = '/changes/' + this.change._number + '/reviewers';
-      if (id) {
-        path += '/' + id;
-      }
-      return path;
+    _removeReviewer: function(id) {
+      return this.$.restAPI.removeChangeReviewer(this.change._number, id);
     },
   });
 })();

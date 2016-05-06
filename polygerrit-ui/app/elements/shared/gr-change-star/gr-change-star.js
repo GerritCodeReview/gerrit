@@ -35,27 +35,10 @@
     },
 
     _handleStarTap: function() {
-      var method = this.change.starred ? 'DELETE' : 'PUT';
-      this.set('change.starred', !this.change.starred);
-      this._send(method, this._restEndpoint()).catch(function(err) {
-        this.set('change.starred', !this.change.starred);
-        alert('Change couldn’t be starred. Check the console and contact ' +
-            'the PolyGerrit team for assistance.');
-        throw err;
-      }.bind(this));
-    },
-
-    _send: function(method, url) {
-      var xhr = document.createElement('gr-request');
-      this._xhrPromise = xhr.send({
-        method: method,
-        url: url,
-      });
-      return this._xhrPromise;
-    },
-
-    _restEndpoint: function() {
-      return '/accounts/self/starred.changes/' + this.change._number;
+      var newVal = !this.change.starred;
+      this.set('change.starred', newVal);
+      this._xhrPromise = this.$.restAPI.saveChangeStarred(this.change._number,
+          newVal);
     },
   });
 })();

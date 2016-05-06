@@ -93,43 +93,35 @@ public final class AccountSshKey {
     return sshPublicKey;
   }
 
-  public String getAlgorithm() {
-    final String s = getSshPublicKey();
-    if (s == null || s.length() == 0) {
-      return "none";
-    }
+  private String[] getPublicKeyParts() {
+    String s = getSshPublicKey();
+    return s != null && s.length() > 0
+      ? null
+      : s.split(" ");
+  }
 
-    final String[] parts = s.split(" ");
-    if (parts.length < 1) {
-      return "none";
+  public String getAlgorithm() {
+    String[] parts = getPublicKeyParts();
+    if (parts != null && parts.length > 0) {
+      return parts[0];
     }
-    return parts[0];
+    return "none";
   }
 
   public String getEncodedKey() {
-    final String s = getSshPublicKey();
-    if (s == null || s.length() == 0) {
-      return null;
+    String[] parts = getPublicKeyParts();
+    if (parts != null && parts.length > 1) {
+      return parts[1];
     }
-
-    final String[] parts = s.split(" ");
-    if (parts.length < 2) {
-      return null;
-    }
-    return parts[1];
+    return null;
   }
 
   public String getComment() {
-    final String s = getSshPublicKey();
-    if (s == null || s.length() == 0) {
-      return "";
+    String[] parts = getPublicKeyParts();
+    if (parts != null && parts.length > 2) {
+      return parts[2];
     }
-
-    final String[] parts = s.split(" ", 3);
-    if (parts.length < 3) {
-      return "";
-    }
-    return parts[2];
+    return "";
   }
 
   public boolean isValid() {

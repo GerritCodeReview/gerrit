@@ -25,9 +25,10 @@ public class AccountSshKeyTest {
       + "vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5T"
       + "w== john.doe@example.com";
 
+  private final Account.Id accountId = new Account.Id(1);
+
   @Test
   public void testValidity() throws Exception {
-    Account.Id accountId = new Account.Id(1);
     AccountSshKey key = new AccountSshKey(
         new AccountSshKey.Id(accountId, -1), KEY);
     assertThat(key.isValid()).isFalse();
@@ -35,5 +36,15 @@ public class AccountSshKeyTest {
     assertThat(key.isValid()).isFalse();
     key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY);
     assertThat(key.isValid()).isTrue();
+  }
+
+  @Test
+  public void testGetters() throws Exception {
+    AccountSshKey key = new AccountSshKey(
+        new AccountSshKey.Id(accountId, 1), KEY);
+    assertThat(key.getSshPublicKey()).isEqualTo(KEY);
+    assertThat(key.getAlgorithm()).isEqualTo(KEY.split(" ")[0]);
+    assertThat(key.getEncodedKey()).isEqualTo(KEY.split(" ")[1]);
+    assertThat(key.getComment()).isEqualTo(KEY.split(" ")[2]);
   }
 }

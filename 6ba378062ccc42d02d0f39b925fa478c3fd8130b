@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f205f4fe_1c9cf56a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026552
+      },
+      "writtenOn": "2016-05-06T20:48:28Z",
+      "side": 1,
+      "message": "threads will default to zero for single-core machines. This is far from intuitive. availableProcessors/2+1 might be a better choice.",
+      "range": {
+        "startLine": 143,
+        "startChar": 58,
+        "endLine": 143,
+        "endChar": 62
+      },
+      "revId": "6ba378062ccc42d02d0f39b925fa478c3fd8130b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

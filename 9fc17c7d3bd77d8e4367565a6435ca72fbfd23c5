@@ -69,6 +69,24 @@
       "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad831b1c_ea55070f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-06T07:20:53Z",
+      "side": 1,
+      "message": "Good catch!\n\nI tested the migration with having an SSH key with an invalid sequence number and now it fails, because the invalid key cannot be loaded. However the stacktrace shows that it invokes the constructor and not this set method:\n\nMigrating data to schema 124 ...\nException in thread \"main\" java.lang.IllegalArgumentException: invalid sequence number 0\n\tat com.google.gerrit.reviewdb.client.AccountSshKey$Id.checkSequenceValue(AccountSshKey.java:61)\n\tat com.google.gerrit.reviewdb.client.AccountSshKey$Id.\u003cinit\u003e(AccountSshKey.java:38)\n\tat com.google.gerrit.server.schema.Schema_124.migrateData(Schema_124.java:85)\n\tat com.google.gerrit.server.schema.SchemaVersion.migrateData(SchemaVersion.java:141)\n        ...",
+      "parentUuid": "ad987b90_02940af7",
+      "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

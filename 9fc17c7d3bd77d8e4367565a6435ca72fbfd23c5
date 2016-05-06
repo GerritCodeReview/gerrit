@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_41921209",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T01:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_e198062d",
+      "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_a2ed5e9c",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-05T22:18:18Z",
       "side": 1,
       "message": "I forget how gwtorm works...does it call set() in order to set the field when it\u0027s converting it from a SQL row? If so, this will break when attempting to load invalid records during the schema migration.",
+      "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_02940af7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-06T01:58:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  Maybe better to test this case in combination with Edwin\u0027s fixes.",
+      "parentUuid": "ad987b90_a2ed5e9c",
       "revId": "9fc17c7d3bd77d8e4367565a6435ca72fbfd23c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

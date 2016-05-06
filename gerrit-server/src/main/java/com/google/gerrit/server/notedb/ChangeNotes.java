@@ -402,9 +402,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private ChangeNotes(Args args, Project.NameKey project, Change change,
       boolean autoRebuild, @Nullable ChainedReceiveCommands cmds) {
-    super(args, change != null ? change.getId() : null);
+    super(args, change.getId());
     this.project = project;
-    this.change = change != null ? new Change(change) : null;
+    this.change = new Change(change);
     this.autoRebuild = autoRebuild;
     this.cmds = cmds;
   }
@@ -548,54 +548,52 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       loadDefaults();
       return;
     }
-    try (ChangeNotesParser parser = new ChangeNotesParser(
-         project, change.getId(), rev, handle.walk(), args.repoManager,
-         args.noteUtil, args.metrics)) {
-      parser.parseAll();
+    ChangeNotesParser parser = new ChangeNotesParser(
+        change.getId(), rev, handle.walk(), args.noteUtil, args.metrics);
+    parser.parseAll();
 
-      if (parser.status != null) {
-        change.setStatus(parser.status);
-      }
-      approvals = parser.buildApprovals();
-      changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
-      allChangeMessages = parser.buildAllMessages();
-      comments = ImmutableListMultimap.copyOf(parser.comments);
-      revisionNoteMap = parser.revisionNoteMap;
-      change.setKey(new Change.Key(parser.changeId));
-      change.setDest(new Branch.NameKey(project, parser.branch));
-      change.setTopic(Strings.emptyToNull(parser.topic));
-      change.setCreatedOn(parser.createdOn);
-      change.setLastUpdatedOn(parser.lastUpdatedOn);
-      change.setOwner(parser.ownerId);
-      change.setSubmissionId(parser.submissionId);
-      patchSets = ImmutableSortedMap.copyOf(
-          parser.patchSets, ReviewDbUtil.intKeyOrdering());
-
-      if (!patchSets.isEmpty()) {
-        change.setCurrentPatchSet(
-            parser.currentPatchSetId, parser.subject, parser.originalSubject);
-      } else {
-        // TODO(dborowitz): This should be an error, but for now it's required
-        // for some tests to pass.
-        change.clearCurrentPatchSet();
-      }
-
-      if (parser.hashtags != null) {
-        hashtags = ImmutableSet.copyOf(parser.hashtags);
-      } else {
-        hashtags = ImmutableSet.of();
-      }
-      ImmutableSetMultimap.Builder<ReviewerStateInternal, Account.Id> reviewers =
-          ImmutableSetMultimap.builder();
-      for (Map.Entry<Account.Id, ReviewerStateInternal> e
-          : parser.reviewers.entrySet()) {
-        reviewers.put(e.getValue(), e.getKey());
-      }
-      this.reviewers = reviewers.build();
-      this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
-
-      submitRecords = ImmutableList.copyOf(parser.submitRecords);
+    if (parser.status != null) {
+      change.setStatus(parser.status);
     }
+    approvals = parser.buildApprovals();
+    changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
+    allChangeMessages = parser.buildAllMessages();
+    comments = ImmutableListMultimap.copyOf(parser.comments);
+    revisionNoteMap = parser.revisionNoteMap;
+    change.setKey(new Change.Key(parser.changeId));
+    change.setDest(new Branch.NameKey(project, parser.branch));
+    change.setTopic(Strings.emptyToNull(parser.topic));
+    change.setCreatedOn(parser.createdOn);
+    change.setLastUpdatedOn(parser.lastUpdatedOn);
+    change.setOwner(parser.ownerId);
+    change.setSubmissionId(parser.submissionId);
+    patchSets = ImmutableSortedMap.copyOf(
+        parser.patchSets, ReviewDbUtil.intKeyOrdering());
+
+    if (!patchSets.isEmpty()) {
+      change.setCurrentPatchSet(
+          parser.currentPatchSetId, parser.subject, parser.originalSubject);
+    } else {
+      // TODO(dborowitz): This should be an error, but for now it's required for
+      // some tests to pass.
+      change.clearCurrentPatchSet();
+    }
+
+    if (parser.hashtags != null) {
+      hashtags = ImmutableSet.copyOf(parser.hashtags);
+    } else {
+      hashtags = ImmutableSet.of();
+    }
+    ImmutableSetMultimap.Builder<ReviewerStateInternal, Account.Id> reviewers =
+        ImmutableSetMultimap.builder();
+    for (Map.Entry<Account.Id, ReviewerStateInternal> e
+        : parser.reviewers.entrySet()) {
+      reviewers.put(e.getValue(), e.getKey());
+    }
+    this.reviewers = reviewers.build();
+    this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
+
+    submitRecords = ImmutableList.copyOf(parser.submitRecords);
   }
 
   @Override

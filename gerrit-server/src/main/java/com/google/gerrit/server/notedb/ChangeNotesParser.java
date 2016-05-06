@@ -57,21 +57,17 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -92,7 +88,7 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeMap;
 
-class ChangeNotesParser implements AutoCloseable {
+class ChangeNotesParser {
   // Sentinel RevId indicating a mutable field on a patch set was parsed, but
   // the parser does not yet know its commit SHA-1.
   private static final RevId PARTIAL_PATCH_SET =
@@ -125,20 +121,16 @@ class ChangeNotesParser implements AutoCloseable {
   private final Change.Id id;
   private final ObjectId tip;
   private final ChangeNotesRevWalk walk;
-  private final Repository repo;
   private final Map<PatchSet.Id,
       Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
-  ChangeNotesParser(Project.NameKey project, Change.Id changeId, ObjectId tip,
-      ChangeNotesRevWalk walk, GitRepositoryManager repoManager,
-      ChangeNoteUtil noteUtil, NoteDbMetrics metrics)
-      throws RepositoryNotFoundException, IOException {
+  ChangeNotesParser(Change.Id changeId, ObjectId tip, ChangeNotesRevWalk walk,
+      ChangeNoteUtil noteUtil, NoteDbMetrics metrics) {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
-    this.repo = repoManager.openRepository(project);
     this.noteUtil = noteUtil;
     this.metrics = metrics;
     approvals = new HashMap<>();
@@ -150,11 +142,6 @@ class ChangeNotesParser implements AutoCloseable {
     comments = ArrayListMultimap.create();
     patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
     patchSetStates = new HashMap<>();
-  }
-
-  @Override
-  public void close() {
-    repo.close();
   }
 
   void parseAll() throws ConfigInvalidException, IOException {

@@ -246,6 +246,13 @@ public class AccountIT extends AbstractDaemonTest {
         cloneProject(allUsers, user);
     String userRefName = RefNames.refsUsers(user.id);
 
+    // remove default READ permissions
+    ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
+    cfg.getAccessSection(
+        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
+        .remove(new Permission(Permission.READ));
+    saveProjectConfig(allUsers, cfg);
+
     // deny READ permission that is inherited from All-Projects
     deny(allUsers, Permission.READ, ANONYMOUS_USERS, RefNames.REFS + "*");
 
@@ -292,25 +299,14 @@ public class AccountIT extends AbstractDaemonTest {
         GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
-    removeExclusiveReadPermissionOnAllUsers();
-    String userRefName = RefNames.refsUsers(admin.id);
-    grant(Permission.PUSH, allUsers, userRefName);
-
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
     allUsersRepo.reset("userRef");
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
-    push.to(userRefName).assertOkStatus();
+    push.to(RefNames.refsUsers(admin.id)).assertOkStatus();
 
     push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
-  }
-
-  private void removeExclusiveReadPermissionOnAllUsers() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
-    cfg.getAccessSection(RefNames.REFS_USERS + "*", true)
-        .remove(new Permission(Permission.READ));
-    saveProjectConfig(allUsers, cfg);
   }
 
   @Test

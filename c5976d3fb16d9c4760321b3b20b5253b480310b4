@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "2d1d6b1b_76f350b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-05-06T18:50:14Z",
+      "side": 1,
+      "message": "It\u0027s kind of useful to have in the UI. One click switching is convenient when debugging and on mobile devices. GitHub has this too.\n\nOf course we also need to add it to the diff preferences.",
+      "parentUuid": "4d061fd1_57a9ec89",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_37cb9864",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2

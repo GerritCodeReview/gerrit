@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 
 import com.google.gerrit.common.Version;
@@ -28,6 +29,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.RefPattern;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -42,6 +45,7 @@ public class AllUsersCreator {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
+  private final GroupReference registered;
 
   private GroupReference admin;
 
@@ -53,6 +57,7 @@ public class AllUsersCreator {
     this.mgr = mgr;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
+    this.registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
   }
 
   public AllUsersCreator setAdministrators(GroupReference admin) {
@@ -87,8 +92,10 @@ public class AllUsersCreator {
       Project project = config.getProject();
       project.setDescription("Individual user settings and preferences.");
 
-      AccessSection all = config.getAccessSection(RefNames.REFS_USERS + "*", true);
-      all.getPermission(Permission.READ, true).setExclusiveGroup(true);
+      AccessSection users = config.getAccessSection(
+          RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
+      grant(config, users, Permission.READ, false, true, registered);
+      grant(config, users, Permission.PUSH, false, true, registered);
 
       AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
       defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);

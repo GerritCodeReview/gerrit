@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d1d6b1b_16c81c64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "space after :",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d1d6b1b_b6db2830",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "Hm, model-driven \u003ctemplate\u003e with repeat would be an overkill here, wouldn\u0027t it?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_b7b688eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "I wonder if selecting the right option on ready/attached would allow to avoid repeating this construction..",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_f7b000f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "Hm, what will happen if nothing is selected?\nAnd what should happen?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_97bb84d3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "Does this need to be async?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d1d6b1b_d6ea24bb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "Alternative:\nvar eventStub \u003d sinon.stub();\nelement.addEventListener(\u0027diff-mode-changed\u0027, eventStub);\n// dispatch the event\nassert.isTrue(eventStub.called);\n\nand the test can be made sync as well",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_d7b5fcde",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "consider using MockInteractions",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_57a9ec89",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "Looks ok, just few thoughts.\n(thinking out loud)\nAlternatively, it could be moved into diff preferences not to clutter the UI, because unlikely that this would be an often used feature. \nAlso, this could be iron-select (ie two buttons side by side), saving a click.\nOr even one button to switch to next mode, potentially with a dropdown if (when?) more diff modes are added.\nAlso, can we even avoid having custom component?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_37cb9864",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "(side note)\nthis is repeated multiple time in various Elements. Should we reuse it somehow?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d061fd1_17c81464",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-06T17:01:39Z",
+      "side": 1,
+      "message": "👍",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

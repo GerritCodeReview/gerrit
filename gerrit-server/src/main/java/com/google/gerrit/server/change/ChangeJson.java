@@ -89,6 +89,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
@@ -377,7 +378,6 @@ public class ChangeJson {
     return info;
   }
 
-  @SuppressWarnings("deprecation")
   private ChangeInfo toChangeInfo(ChangeData cd,
       Optional<PatchSet.Id> limitToPsId) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {
@@ -421,9 +421,17 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
-    out.starred = user.getStarredChanges().contains(in.getId())
-        ? true
-        : null;
+
+    if (user.isIdentifiedUser()) {
+      Collection<String> stars = cd.stars().get(user.getAccountId());
+      out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL)
+          ? true
+          : null;
+      if (!stars.isEmpty()) {
+        out.stars = stars;
+      }
+    }
+
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
       Account.Id accountId = user.getAccountId();
       out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;

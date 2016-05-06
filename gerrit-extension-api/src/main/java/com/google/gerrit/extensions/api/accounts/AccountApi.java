@@ -121,7 +121,7 @@ public interface AccountApi {
     public List<ProjectWatchInfo> setWatchedProjects(
         List<ProjectWatchInfo> in) throws RestApiException {
       throw new NotImplementedException();
-    };
+    }
 
     @Override
     public void deleteWatchedProjects(List<String> in)

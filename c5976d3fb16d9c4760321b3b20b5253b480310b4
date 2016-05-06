@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "92ebd862_01c80a67",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T22:38:46Z",
+      "side": 1,
+      "message": "Right. That\u0027s unneeded. I had originally used a label for the select but removed it, and I should have removed this SPAN.",
+      "parentUuid": "92ebd862_41ae1295",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d1d6b1b_b6db2830",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -400,6 +418,24 @@
     },
     {
       "key": {
+        "uuid": "f23334f3_6c8d9b3c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T22:38:46Z",
+      "side": 1,
+      "message": "Looks like it is using dispatch internally:\nhttps://github.com/Polymer/polymer/blob/master/src/standard/utils.html#L202-L232",
+      "parentUuid": "32fcec2a_7e8d313c",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_d7b5fcde",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select_test.html",
         "patchSetId": 2
@@ -603,6 +639,24 @@
       "writtenOn": "2016-05-06T17:01:39Z",
       "side": 1,
       "message": "(side note)\nthis is repeated multiple time in various Elements. Should we reuse it somehow?",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23334f3_4c92df5a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-06T22:38:46Z",
+      "side": 1,
+      "message": "I agree. I don\u0027t readily see the right place for it though. Would we want some kind of constants file?\n\nPerhaps we\u0027d like a vanilla JS file that can be imported here and there rather than a full-blown element like with gr-rest-api-interface.",
+      "parentUuid": "4d061fd1_37cb9864",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

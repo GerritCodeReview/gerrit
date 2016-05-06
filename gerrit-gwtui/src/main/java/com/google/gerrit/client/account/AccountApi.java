@@ -27,6 +27,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -108,6 +109,54 @@ public class AccountApi {
         .post(sshPublicKey, cb);
   }
 
+  /** Retrieve Watched Projects */
+  public static void getWatchedProjects(String account,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    new RestApi("/accounts/").id(account).view("watched.projects").get(cb);
+  }
+
+  /** Create/Update Watched Project */
+  public static void updateWatchedProject(
+      String account,
+      ProjectWatchInfo watchedProjectInfo,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    Set<ProjectWatchInfo> watchedProjectInfos = new HashSet<>();
+    watchedProjectInfos.add(watchedProjectInfo);
+    updateWatchedProjects(account, watchedProjectInfos, cb);
+  }
+
+  /** Create/Update Watched Projects */
+  public static void updateWatchedProjects(
+      String account,
+      Set<ProjectWatchInfo> watchedProjectInfos,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    new RestApi("/accounts/")
+        .id(account)
+        .view("watched.projects")
+        .post(projectWatchArrayFromSet(watchedProjectInfos), cb);
+  }
+
+  /** Delete Watched Project */
+  public static void deleteWatchedProject(
+      String account,
+      ProjectWatchInfo watchedProjectInfo,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    Set<ProjectWatchInfo> watchedProjectInfos = new HashSet<>();
+    watchedProjectInfos.add(watchedProjectInfo);
+    deleteWatchedProjects(account, watchedProjectInfos, cb);
+  }
+
+  /** Delete Watched Projects */
+  public static void deleteWatchedProjects(
+      String account,
+      Set<ProjectWatchInfo> watchedProjectInfos,
+      AsyncCallback<JsArray<ProjectWatchInfo>> cb) {
+    new RestApi("/accounts/")
+        .id(account)
+        .view("watched.projects:delete")
+        .post(projectWatchArrayFromSet(watchedProjectInfos), cb);
+  }
+
   /**
    * Delete SSH keys. For each key to be deleted a separate DELETE request is
    * fired to the server. The {@code onSuccess} method of the provided callback
@@ -144,6 +193,15 @@ public class AccountApi {
   public static void clearHttpPassword(String account,
       AsyncCallback<VoidResult> cb) {
     new RestApi("/accounts/").id(account).view("password.http").delete(cb);
+  }
+
+  private static JsArray<ProjectWatchInfo> projectWatchArrayFromSet(
+      Set<ProjectWatchInfo> set) {
+    JsArray<ProjectWatchInfo> jsArray = JsArray.createArray().cast();
+    for (ProjectWatchInfo p : set) {
+      jsArray.push(p);
+    }
+    return jsArray;
   }
 
   private static class HttpPasswordInput extends JavaScriptObject {

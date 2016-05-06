@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d18a72b_55c28c45",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-05-06T15:10:30Z",
+      "side": 1,
+      "message": "Now the old path is displayed on the same line. IMHO it is more practical if it is displayed below the new path since it is easier to compare what exactly has changed. Also, when the path is long and the screen not too wide, you won\u0027t even see the old path.",
+      "revId": "086ef9f351fa2440596855ff802d93d53e8f92f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

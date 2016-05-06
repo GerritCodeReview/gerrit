@@ -53,6 +53,10 @@ public final class AccountSshKey {
     protected void set(int newValue) {
       seq = newValue;
     }
+
+    public boolean isValid() {
+      return seq > 0;
+    }
   }
 
   @Column(id = 1, name = Column.NONE)
@@ -70,7 +74,7 @@ public final class AccountSshKey {
   public AccountSshKey(final AccountSshKey.Id i, final String pub) {
     id = i;
     sshPublicKey = pub;
-    valid = true; // We can assume it is fine.
+    valid = id.isValid();
   }
 
   public Account.Id getAccount() {
@@ -85,47 +89,31 @@ public final class AccountSshKey {
     return sshPublicKey;
   }
 
-  public String getAlgorithm() {
-    final String s = getSshPublicKey();
-    if (s == null || s.length() == 0) {
-      return "none";
+  private String getPublicKeyPart(int index, String defaultValue) {
+    String s = getSshPublicKey();
+    if (s != null && s.length() > 0) {
+      String[] parts = s.split(" ");
+      if (parts.length > index) {
+        return parts[index];
+      }
     }
+    return defaultValue;
+  }
 
-    final String[] parts = s.split(" ");
-    if (parts.length < 1) {
-      return "none";
-    }
-    return parts[0];
+  public String getAlgorithm() {
+    return getPublicKeyPart(0, "none");
   }
 
   public String getEncodedKey() {
-    final String s = getSshPublicKey();
-    if (s == null || s.length() == 0) {
-      return null;
-    }
-
-    final String[] parts = s.split(" ");
-    if (parts.length < 2) {
-      return null;
-    }
-    return parts[1];
+    return getPublicKeyPart(1, null);
   }
 
   public String getComment() {
-    final String s = getSshPublicKey();
-    if (s == null || s.length() == 0) {
-      return "";
-    }
-
-    final String[] parts = s.split(" ", 3);
-    if (parts.length < 3) {
-      return "";
-    }
-    return parts[2];
+    return getPublicKeyPart(2, "");
   }
 
   public boolean isValid() {
-    return valid;
+    return valid && id.isValid();
   }
 
   public void setInvalid() {

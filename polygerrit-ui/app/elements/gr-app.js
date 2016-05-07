@@ -45,6 +45,7 @@
 
     observers: [
       '_viewChanged(params.view)',
+      '_loadPlugins(_serverConfig.plugin.js_resource_paths)',
     ],
 
     behaviors: [
@@ -94,6 +95,15 @@
       this.set('_showDashboardView', view === 'gr-dashboard-view');
       this.set('_showChangeView', view === 'gr-change-view');
       this.set('_showDiffView', view === 'gr-diff-view');
+    },
+
+    _loadPlugins: function(plugins) {
+      for (var i = 0; i < plugins.length; i++) {
+        var scriptEl = document.createElement('script');
+        scriptEl.defer = true;
+        scriptEl.src = '/' + plugins[i];
+        document.body.appendChild(scriptEl);
+      }
     },
 
     _loginTapHandler: function(e) {

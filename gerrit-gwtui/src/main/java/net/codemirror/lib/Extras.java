@@ -39,9 +39,8 @@ import java.util.Objects;
 
 /** Additional features added to CodeMirror by Gerrit Code Review. */
 public class Extras {
-  public static final String ANNOTATION_GUTTER_ID = "CodeMirror-lint-markers";
-
-  static final BlameConfig C = GWT.create(BlameConfig.class);
+  private static final String ANNOTATION_GUTTER_ID = "CodeMirror-lint-markers";
+  private static final BlameConfig C = GWT.create(BlameConfig.class);
 
   static final native Extras get(CodeMirror c) /*-{ return c.gerritExtras }-*/;
   private static native void set(CodeMirror c, Extras e)

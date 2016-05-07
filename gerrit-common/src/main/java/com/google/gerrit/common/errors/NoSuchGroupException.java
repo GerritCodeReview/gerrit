@@ -38,10 +38,6 @@ public class NoSuchGroupException extends Exception {
     super(MESSAGE + key.toString(), why);
   }
 
-  public NoSuchGroupException(final AccountGroup.NameKey k) {
-    this(k, null);
-  }
-
   public NoSuchGroupException(final AccountGroup.NameKey k, final Throwable why) {
     super(MESSAGE + k.toString(), why);
   }

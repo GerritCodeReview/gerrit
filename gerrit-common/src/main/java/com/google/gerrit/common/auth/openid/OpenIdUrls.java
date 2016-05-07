@@ -15,7 +15,6 @@
 package com.google.gerrit.common.auth.openid;
 
 public class OpenIdUrls {
-  public static final String OPENID_IDENTIFIER = "openid_identifier";
   public static final String LASTID_COOKIE = "gerrit.last_openid";
 
   public static final String URL_LAUNCHPAD = "https://login.launchpad.net/+openid";

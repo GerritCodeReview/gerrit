@@ -14,20 +14,17 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_ALL;
+
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class DiffApi {
-  public enum IgnoreWhitespace {
-    NONE, TRAILING, CHANGED, ALL
-  }
-
   public static void list(int id, String base, String revision,
       AsyncCallback<NativeMap<FileInfo>> cb) {
     RestApi api = ChangeApi.revision(id, revision).view("files");
@@ -71,7 +68,7 @@ public class DiffApi {
   }
 
   public DiffApi ignoreWhitespace(DiffPreferencesInfo.Whitespace w) {
-    if (w != null && w != Whitespace.IGNORE_ALL) {
+    if (w != null && w != IGNORE_ALL) {
       call.addParameter("whitespace", w);
     }
     return this;

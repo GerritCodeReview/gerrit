@@ -49,7 +49,8 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
-  static final Logger log = LoggerFactory.getLogger(H2CacheFactory.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(H2CacheFactory.class);
 
   private final DefaultCacheFactory defaultFactory;
   private final Config config;

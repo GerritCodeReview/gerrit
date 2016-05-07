@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import com.google.gerrit.common.errors.CorruptEntityException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -73,9 +72,6 @@ public abstract class Handler<T> implements Callable<T> {
     } catch (OrmException e) {
       if (e.getCause() instanceof BaseServiceImplementation.Failure) {
         callback.onFailure(e.getCause().getCause());
-
-      } else if (e.getCause() instanceof CorruptEntityException) {
-        callback.onFailure(e.getCause());
 
       } else if (e.getCause() instanceof NoSuchEntityException) {
         callback.onFailure(e.getCause());

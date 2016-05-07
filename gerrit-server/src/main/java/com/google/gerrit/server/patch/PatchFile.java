@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.common.errors.CorruptEntityException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
 
@@ -87,12 +86,11 @@ public class PatchFile {
    * @param file the file index to extract.
    * @param line the line number to extract (1 based; 1 is the first line).
    * @return the string version of the file line.
-   * @throws CorruptEntityException the patch cannot be read.
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException
    */
   public String getLine(final int file, final int line)
-      throws CorruptEntityException, IOException, NoSuchEntityException {
+      throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
@@ -116,12 +114,11 @@ public class PatchFile {
    *
    * @param file the file index to extract.
    * @return number of lines in file.
-   * @throws CorruptEntityException the patch cannot be read.
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException the file is not exist.
    */
   public int getLineCount(final int file)
-      throws CorruptEntityException, IOException, NoSuchEntityException {
+      throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {

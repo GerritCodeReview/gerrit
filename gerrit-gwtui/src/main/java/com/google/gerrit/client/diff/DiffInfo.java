@@ -27,9 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DiffInfo extends JavaScriptObject {
-  public static final String GITLINK = "x-git/gitlink";
-  public static final String SYMLINK = "x-git/symlink";
-
   public final native FileMeta metaA() /*-{ return this.meta_a; }-*/;
   public final native FileMeta metaB() /*-{ return this.meta_b; }-*/;
   public final native JsArrayString diffHeader() /*-{ return this.diff_header; }-*/;

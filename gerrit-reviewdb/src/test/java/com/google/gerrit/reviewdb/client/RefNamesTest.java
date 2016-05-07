@@ -15,8 +15,8 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
+import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
 
 import org.junit.Test;
 

@@ -68,7 +68,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import java.sql.Timestamp;
 
 public class FileTable extends FlowPanel {
-  static final FileTableResources R = GWT
+  private static final FileTableResources R = GWT
       .create(FileTableResources.class);
 
   interface FileTableResources extends ClientBundle {

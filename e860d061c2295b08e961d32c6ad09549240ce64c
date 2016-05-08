@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72b584ab_6892435b",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-08T05:10:32Z",
+      "side": 1,
+      "message": "Perhaps move the scriptEl declaration outside of the loop.",
+      "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

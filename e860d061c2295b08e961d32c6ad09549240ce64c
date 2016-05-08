@@ -70,6 +70,24 @@
       "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23334f3_4cb9bfd8",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-08T16:56:36Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "72b584ab_c8a00fa6",
+      "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

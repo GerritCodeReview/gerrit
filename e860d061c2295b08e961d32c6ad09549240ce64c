@@ -52,6 +52,24 @@
       "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72b584ab_e89dd366",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-08T16:51:05Z",
+      "side": 1,
+      "message": "yeah, this is a nit I agree, if this was a hot loop this could matter but I think in this case it is pretty minor. \n\nIdeally we would use let here... but es2015 is not everywhere yet :)",
+      "parentUuid": "72b584ab_c8a00fa6",
+      "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

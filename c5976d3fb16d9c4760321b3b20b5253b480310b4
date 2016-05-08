@@ -663,6 +663,24 @@
     },
     {
       "key": {
+        "uuid": "1268c801_55b32cf7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-08T23:59:53Z",
+      "side": 1,
+      "message": "For now I think this is fine. It’s not a large enum and it won’t get larger. Putting it into a shared file seems like overkill at this stage.",
+      "parentUuid": "f23334f3_4c92df5a",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d061fd1_17c81464",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 2

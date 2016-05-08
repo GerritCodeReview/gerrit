@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2fe1c6e_929dbc68",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-08T23:59:53Z",
+      "side": 1,
+      "message": "Given the outright simplicity of this element I’m having a hard time seeing why it’s not just a select in the diff view.",
+      "revId": "073b765fe8c1717e26a59b364b41fb273b39d79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72b584ab_c8a00fa6",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-08T05:17:33Z",
+      "side": 1,
+      "message": "It\u0027s a minor nitpick, but I think this way, the variable is repeatedly re-declared in its own scope, since the braces of a for loop don\u0027t create a new scope in JS.",
+      "parentUuid": "f23334f3_acaa6381",
+      "revId": "e860d061c2295b08e961d32c6ad09549240ce64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

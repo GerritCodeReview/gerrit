@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "32c94c7a_56979448",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-09T12:33:28Z",
+      "side": 1,
+      "message": "for",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "6ba378062ccc42d02d0f39b925fa478c3fd8130b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f205f4fe_1c9cf56a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 2

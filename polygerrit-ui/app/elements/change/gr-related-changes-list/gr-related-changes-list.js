@@ -39,6 +39,10 @@
       _sameTopic: Array,
     },
 
+    behaviors: [
+      Gerrit.RESTClientBehavior,
+    ],
+
     observers: [
       '_resultsChanged(_relatedResponse.changes, _submittedTogether, ' +
           '_conflicts, _cherryPicks, _sameTopic)',

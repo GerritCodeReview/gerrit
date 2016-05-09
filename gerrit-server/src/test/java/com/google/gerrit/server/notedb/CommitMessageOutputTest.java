@@ -289,6 +289,43 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         update.getResult());
   }
 
+  @Test
+  public void leadingWhitespace() throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+    c.setCurrentPatchSet(c.currentPatchSetId(), "  " + c.getSubject(),
+        c.getOriginalSubject());
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeId(c.getKey().get());
+    update.setBranch(c.getDest().get());
+    update.commit();
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Change-id: " + c.getKey().get() + "\n"
+        + "Subject:   Change subject\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: " + update.getCommit().name() + "\n",
+        update.getResult());
+
+    c = TestChanges.newChange(project, changeOwner.getAccountId());
+    c.setCurrentPatchSet(c.currentPatchSetId(), "\t\t" + c.getSubject(),
+        c.getOriginalSubject());
+    update = newUpdate(c, changeOwner);
+    update.setChangeId(c.getKey().get());
+    update.setBranch(c.getDest().get());
+    update.commit();
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Change-id: " + c.getKey().get() + "\n"
+        + "Subject: \t\tChange subject\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: " + update.getCommit().name() + "\n",
+        update.getResult());
+  }
+
   private RevCommit parseCommit(ObjectId id) throws Exception {
     if (id instanceof RevCommit) {
       return (RevCommit) id;

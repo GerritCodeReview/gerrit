@@ -14,6 +14,10 @@
 (function(window) {
   'use strict';
 
+  // GWT JSNI uses $wnd to refer to window.
+  // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
+  window.$wnd = window;
+
   function Plugin(opt_url) {
     this._url = new URL(opt_url);
     if (this._url.pathname.indexOf('/plugins') !== 0) {
@@ -62,6 +66,10 @@
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     var src = opt_src || (document.currentScript && document.currentScript.src);
     callback(new Plugin(src));
+  };
+
+  Gerrit.installGwt = function() {
+    // NOOP since PolyGerrit doesn’t support GWT plugins.
   };
 
   window.Gerrit = Gerrit;

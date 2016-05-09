@@ -52,7 +52,7 @@ final class ShowQueue extends SshCommand {
   private IdentifiedUser currentUser;
 
   private int columns = 80;
-  private int taskNameWidth;
+  private int maxCommandWidth;
 
   @Override
   public void start(Environment env) throws IOException {
@@ -69,7 +69,7 @@ final class ShowQueue extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
-    taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
+    maxCommandWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
     stdout.print(String.format("%-8s %-12s %-12s %-4s %s\n", //
         "Task", "State", "StartTime", "", "Command"));
     stdout.print("----------------------------------------------"
@@ -97,9 +97,9 @@ final class ShowQueue extends SshCommand {
 
         // Shows information about tasks depending on the user rights
         if (viewAll || task.projectName == null) {
-          String command = task.command.length() < taskNameWidth
+          String command = task.command.length() < maxCommandWidth
               ? task.command
-              : task.command.substring(0, taskNameWidth);
+              : task.command.substring(0, maxCommandWidth);
 
           stdout.print(String.format("%8s %-12s %-12s %-4s %s\n",
               task.id, start, startTime(task.startTime), "", command));

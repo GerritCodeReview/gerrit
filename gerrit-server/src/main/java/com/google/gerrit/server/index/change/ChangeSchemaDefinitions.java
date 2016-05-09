@@ -67,8 +67,12 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
   static final Schema<ChangeData> V28 = schema(V27, ChangeField.STARREDBY);
 
+  @Deprecated
   static final Schema<ChangeData> V29 =
       schema(V28, ChangeField.HASHTAG_CASE_AWARE);
+
+  static final Schema<ChangeData> V30 =
+      schema(V29, ChangeField.STAR, ChangeField.STARBY);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE =

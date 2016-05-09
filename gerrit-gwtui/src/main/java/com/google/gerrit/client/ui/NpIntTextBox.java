@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -28,11 +27,6 @@ public class NpIntTextBox extends NpTextBox {
   private int intValue;
 
   public NpIntTextBox() {
-    init();
-  }
-
-  public NpIntTextBox(Element element) {
-    super(element);
     init();
   }
 

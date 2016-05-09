@@ -269,10 +269,6 @@ abstract class DiffScreen extends Screen {
     return keysAction;
   }
 
-  KeyCommandSet getKeysComment() {
-    return keysComment;
-  }
-
   @Override
   protected void onUnload() {
     super.onUnload();

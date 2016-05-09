@@ -628,16 +628,12 @@
 
     _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
       var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
+      if (draft.id) {
+        url += '/' + draft.id;
+      }
       var body;
-      switch(method) {
-        case 'PUT':
-          body = draft;
-          break;
-        case 'DELETE':
-          url += '/' + draft.id;
-          break;
-        default:
-          throw Error('Unsupported HTTP method: ' + method);
+      if (method === 'PUT') {
+        body = draft;
       }
 
       return this.send(method, url, body);

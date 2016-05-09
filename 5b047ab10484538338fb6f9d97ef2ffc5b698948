@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2de305a_cb919556",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "Lose this. It will cause the observer to fire twice since the value will go from undefined -\u003e null (fires observer) -\u003e \u003cprefs fetched from server\u003e (fires observer)",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2de305a_ab96494a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "add trailing comma",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2de305a_eb8c5142",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "Initialize this in gr-app.js in the ready() function along with the other state vars",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32da2c65_2eab8789",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "diff view MODE. otherwise it’s a bit confusing because I expect it to return a gr-diff-view",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f024dd_90b294f2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "only one space after *\u0027s in comments",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32da2c65_0ea8cb88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "you can lose the else and just have it return side by side at the end of the func",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2e3341d_ec8c6b42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T21:32:20Z",
+      "side": 1,
+      "message": "no space after or before brackets\n\n{diff_view: \u0027SIDE_BY_SIDE\u0027}",
+      "revId": "5b047ab10484538338fb6f9d97ef2ffc5b698948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -71,6 +71,42 @@
     },
     {
       "key": {
+        "uuid": "32da2c65_ce91a356",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ebd862_61b916d9",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f024dd_909bb474",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d1d6b1b_16c81c64",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92ebd862_41ae1295",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -100,6 +136,42 @@
       "side": 1,
       "message": "Right. That\u0027s unneeded. I had originally used a label for the select but removed it, and I should have removed this SPAN.",
       "parentUuid": "92ebd862_41ae1295",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f024dd_509e6c63",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ebd862_41ae1295",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f024dd_70a170a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ebd862_01c80a67",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -194,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "32da2c65_ae96574a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d061fd1_774870bc",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92ebd862_a1a71eb9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -211,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "72f024dd_30abe889",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ebd862_a1a71eb9",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92ebd862_6192365b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
         "patchSetId": 2
@@ -222,6 +330,24 @@
       "writtenOn": "2016-05-06T20:37:59Z",
       "side": 1,
       "message": "you don’t need two-way binding here because the option element won’t be changing _isUnified.\n\n[[_isUnified]]",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f024dd_10a8e488",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ebd862_6192365b",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -522,6 +648,24 @@
     },
     {
       "key": {
+        "uuid": "72f024dd_f0b320f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32fcec2a_1e9ced6a",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92ebd862_c1aa2283",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 2
@@ -533,6 +677,24 @@
       "writtenOn": "2016-05-06T20:37:59Z",
       "side": 1,
       "message": "four-space indent on continuations.",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32da2c65_8e9b9b74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ebd862_c1aa2283",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -622,6 +784,24 @@
       "side": 1,
       "message": "I think this is fine for now. Native elements are lightweight, accessible, work on mobile devices. It also keeps with the visual look of the dropdowns on the left side of the screen.",
       "parentUuid": "cd420f30_cb97f549",
+      "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32da2c65_6ea18fa7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32fcec2a_fea021a5",
       "revId": "c5976d3fb16d9c4760321b3b20b5253b480310b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

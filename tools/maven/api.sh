@@ -66,4 +66,4 @@ script="./buck-out/gen/tools/maven/gen_${command}/${command}.sh"
 # The PEX wrapper does some funky exit handling, so even if the script
 # does "exit(0)", the return status is '1'. So we can't tell if the
 # following invocation was successful.
-${script}
+${script} || /bin/true

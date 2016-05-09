@@ -763,9 +763,17 @@ public class ChangeBundle {
     if (bundleA.source == bundleB.source || ta == null || tb == null) {
       diffValues(diffs, desc, ta, tb, fieldDesc);
     } else if (bundleA.source == NOTE_DB) {
-      diffTimestamps(diffs, desc, ta, tb, fieldDesc);
+      diffTimestamps(
+          diffs, desc,
+          bundleA.getChange(), ta,
+          bundleB.getChange(), tb,
+          fieldDesc);
     } else {
-      diffTimestamps(diffs, desc, tb, ta, fieldDesc);
+      diffTimestamps(
+          diffs, desc,
+          bundleB.getChange(), tb,
+          bundleA.getChange(), ta,
+          fieldDesc);
     }
   }
 
@@ -777,13 +785,25 @@ public class ChangeBundle {
   }
 
   private static void diffTimestamps(List<String> diffs, String desc,
-      Timestamp tsFromNoteDb, Timestamp tsFromReviewDb, String field) {
+      Change changeFromNoteDb, Timestamp tsFromNoteDb,
+      Change changeFromReviewDb, Timestamp tsFromReviewDb,
+      String field) {
     // Because ChangeRebuilder may batch events together that are several
     // seconds apart, the timestamp in NoteDb may actually be several seconds
     // *earlier* than the timestamp in ReviewDb that it was converted from.
     checkArgument(tsFromNoteDb.equals(roundToSecond(tsFromNoteDb)),
         "%s from NoteDb has non-rounded %s timestamp: %s",
         desc, field, tsFromNoteDb);
+
+    if (tsFromReviewDb.before(changeFromReviewDb.getCreatedOn())
+        && tsFromNoteDb.equals(changeFromNoteDb.getCreatedOn())) {
+      // Timestamp predates change creation. These are truncated to change
+      // creation time during NoteDb conversion, so allow this if the timestamp
+      // in NoteDb matches the createdOn time in NoteDb.
+      return;
+    }
+
+
     long delta = tsFromReviewDb.getTime() - tsFromNoteDb.getTime();
     long max = ChangeRebuilderImpl.MAX_WINDOW_MS;
     if (delta < 0 || delta > max) {

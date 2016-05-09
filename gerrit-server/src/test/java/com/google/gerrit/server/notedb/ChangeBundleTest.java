@@ -40,10 +40,12 @@ import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.StandardKeyEncoder;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -896,6 +898,37 @@ public class ChangeBundleTest {
         + " {2009-09-30 17:00:07.0} != {2009-09-30 17:00:15.0}";
     assertDiffs(b1, b3, msg);
     assertDiffs(b3, b1, msg);
+  }
+
+  @Test
+  public void diffPatchSetApprovalsAllowsTruncatedTimestampInNoteDb()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    PatchSetApproval a1 = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            c.currentPatchSetId(), accountId, new LabelId("Code-Review")),
+        (short) 1,
+        c.getCreatedOn());
+    PatchSetApproval a2 = clone(a1);
+    a2.setGranted(new Timestamp(new DateTime(1900, 1, 1, 0, 0, 0).getMillis()));
+
+    // Both are ReviewDb, exact match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(a1),
+        comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), latest(c), approvals(a2),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "granted differs for PatchSetApproval.Key "
+            + c.getId() + "%2C1,100,Code-Review:"
+            + " {2009-09-30 17:00:00.0} != {1900-01-01 00:00:00.0}");
+
+    // Truncating NoteDb timestamp is allowed.
+    b1 = new ChangeBundle(c, messages(), latest(c), approvals(a1), comments(),
+        NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), latest(c), approvals(a2), comments(),
+        REVIEW_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
   }
 
   @Test

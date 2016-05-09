@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "72f024dd_b096b84a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12c44860_158d143d",
+      "revId": "d14b48d20ab739ef29e9aa7f15fe005cdbe63a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32c94c7a_168d1c3d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-09T04:59:27Z",
       "side": 1,
       "message": "This state will have to be set back to the user’s preference once they go back to the change view.",
+      "revId": "d14b48d20ab739ef29e9aa7f15fe005cdbe63a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f024dd_b0ad9898",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T19:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32c94c7a_168d1c3d",
       "revId": "d14b48d20ab739ef29e9aa7f15fe005cdbe63a0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

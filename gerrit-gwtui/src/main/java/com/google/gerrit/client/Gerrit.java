@@ -26,7 +26,6 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.change.LocalComments;
-import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.documentation.DocInfo;
@@ -100,7 +99,6 @@ import java.util.Map;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
-  public static final ChangeConstants CC = GWT.create(ChangeConstants.class);
   public static final GerritMessages M = GWT.create(GerritMessages.class);
   public static final GerritResources RESOURCES =
       GWT.create(GerritResources.class);

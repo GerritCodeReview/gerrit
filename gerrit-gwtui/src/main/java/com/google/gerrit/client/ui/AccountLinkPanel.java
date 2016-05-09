@@ -20,19 +20,10 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /** Link to any user's account dashboard. */
 public class AccountLinkPanel extends FlowPanel {
-  public AccountLinkPanel(UserIdentity ident) {
-    this(AccountInfo.create(
-        ident.getAccount().get(),
-        ident.getName(),
-        ident.getEmail(),
-        ident.getUsername()));
-  }
-
   public AccountLinkPanel(AccountInfo info) {
     this(info, Change.Status.NEW);
   }

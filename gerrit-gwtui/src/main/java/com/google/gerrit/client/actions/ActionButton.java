@@ -57,11 +57,6 @@ public class ActionButton extends Button implements ClickHandler {
     this(null, null, change, null, revision, action);
   }
 
-  public ActionButton(ChangeInfo change, EditInfo edit,
-      ActionInfo action) {
-    this(null, null, change, edit, null, action);
-  }
-
   private ActionButton(Project.NameKey project, BranchInfo branch,
       ChangeInfo change, EditInfo edit, RevisionInfo revision,
       ActionInfo action) {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import com.google.gerrit.common.errors.CorruptEntityException;
 import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -102,8 +101,6 @@ public class BaseServiceImplementation {
       final AsyncCallback<T> callback, Exception e) {
     if (e.getCause() instanceof Failure) {
       callback.onFailure(e.getCause().getCause());
-    } else if (e.getCause() instanceof CorruptEntityException) {
-      callback.onFailure(e.getCause());
     } else if (e.getCause() instanceof NoSuchEntityException) {
       callback.onFailure(e.getCause());
     } else {

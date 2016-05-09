@@ -592,7 +592,7 @@ abstract class DiffScreen extends Screen {
     }
   }
 
-  void toggleShowIntraline() {
+  private void toggleShowIntraline() {
     prefs.intralineDifference(!prefs.intralineDifference());
     setShowIntraline(prefs.intralineDifference());
     prefsAction.update();
@@ -734,7 +734,7 @@ abstract class DiffScreen extends Screen {
 
   abstract void operation(final Runnable apply);
 
-  Runnable upToChange(final boolean openReplyBox) {
+  private Runnable upToChange(final boolean openReplyBox) {
     return new Runnable() {
       @Override
       public void run() {
@@ -756,7 +756,7 @@ abstract class DiffScreen extends Screen {
     };
   }
 
-  Runnable maybePrevVimSearch(final CodeMirror cm) {
+  private Runnable maybePrevVimSearch(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {
@@ -769,7 +769,7 @@ abstract class DiffScreen extends Screen {
     };
   }
 
-  Runnable maybeNextVimSearch(final CodeMirror cm) {
+  private Runnable maybeNextVimSearch(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {
@@ -890,7 +890,7 @@ abstract class DiffScreen extends Screen {
       });
   }
 
-  static FileSize bucketFileSize(DiffInfo diff) {
+  private static FileSize bucketFileSize(DiffInfo diff) {
     FileMeta a = diff.metaA();
     FileMeta b = diff.metaB();
     FileSize[] sizes = FileSize.values();

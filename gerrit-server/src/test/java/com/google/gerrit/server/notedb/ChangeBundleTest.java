@@ -706,6 +706,48 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffPatchSetsIgnoresGreaterThanCurrentFromReviewDb()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+
+    PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(TimeUtil.nowTs());
+    PatchSet ps2 = new PatchSet(new PatchSet.Id(c.getId(), 2));
+    ps2.setRevision(new RevId("badc0feebadc0feebadc0feebadc0feebadc0fee"));
+    ps2.setUploader(accountId);
+    ps2.setCreatedOn(TimeUtil.nowTs());
+    assertThat(ps2.getId().get()).isGreaterThan(c.currentPatchSetId().get());
+
+    // Both ReviewDb, exact match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
+        approvals(), comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2),
+        approvals(), comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "PatchSet.Id sets differ:"
+            + " [] only in A; [" + c.getId() + ",2] only in B");
+
+    // Both NoteDb, exact match is required.
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(),
+        comments(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "PatchSet.Id sets differ:"
+            + " [] only in A; [" + c.getId() + ",2] only in B");
+
+    // PS2 is in ReviewDb but not NoteDb, ok.
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
   public void diffPatchSetApprovalKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();

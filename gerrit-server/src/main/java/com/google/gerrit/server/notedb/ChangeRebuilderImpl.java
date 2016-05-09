@@ -228,6 +228,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
       throws IOException, OrmException {
     Change change = new Change(bundle.getChange());
+    PatchSet.Id currPsId = change.currentPatchSetId();
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
     List<Event> events = new ArrayList<>();
@@ -245,6 +246,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         Sets.newHashSetWithExpectedSize(bundle.getPatchSets().size());
 
     for (PatchSet ps : bundle.getPatchSets()) {
+      if (ps.getId().get() > currPsId.get()) {
+        log.info(
+            "Skipping patch set {}, which is higher than current patch set {}",
+            ps.getId(), currPsId);
+        continue;
+      }
       psIds.add(ps.getId());
       events.add(new PatchSetEvent(
           change, ps, manager.getChangeRepo().rw));

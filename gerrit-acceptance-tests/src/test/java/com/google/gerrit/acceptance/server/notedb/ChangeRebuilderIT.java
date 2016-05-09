@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
@@ -530,6 +531,28 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     notesMigration.setAllEnabled(true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getComments()).isEmpty();
+  }
+
+  @Test
+  public void skipPatchSetsGreaterThanCurrentPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change change = r.getChange().change();
+    Change.Id id = change.getId();
+
+    PatchSet badPs =
+        new PatchSet(new PatchSet.Id(id, change.currentPatchSetId().get() + 1));
+    badPs.setCreatedOn(TimeUtil.nowTs());
+    badPs.setUploader(new Account.Id(12345));
+    badPs.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    db.patchSets().insert(Collections.singleton(badPs));
+    indexer.index(db, change.getProject(), id);
+
+    checker.rebuildAndCheckChanges(id);
+
+    notesMigration.setAllEnabled(true);
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getPatchSets().keySet())
+        .containsExactly(change.currentPatchSetId());
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {

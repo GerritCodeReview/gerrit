@@ -395,6 +395,17 @@ public class ChangeBundle {
         });
   }
 
+  private Map<PatchSet.Id, PatchSet> filterPatchSets() {
+    final int max = change.currentPatchSetId().get();
+    return Maps.filterKeys(patchSets,
+        new Predicate<PatchSet.Id>() {
+          @Override
+          public boolean apply(PatchSet.Id in) {
+            return in.get() <= max;
+          }
+        });
+  }
+
   private static void diffChanges(List<String> diffs, ChangeBundle bundleA,
       ChangeBundle bundleB) {
     Change a = bundleA.change;
@@ -601,6 +612,14 @@ public class ChangeBundle {
       ChangeBundle bundleB) {
     Map<PatchSet.Id, PatchSet> as = bundleA.patchSets;
     Map<PatchSet.Id, PatchSet> bs = bundleB.patchSets;
+    // Filter out patch sets from ReviewDb side that are greater than latest.
+    if (bundleA.getSource() == REVIEW_DB && bundleB.getSource() == NOTE_DB) {
+      as = bundleA.filterPatchSets();
+    } else if (bundleA.getSource() == NOTE_DB
+        && bundleB.getSource() == REVIEW_DB) {
+      bs = bundleB.filterPatchSets();
+    }
+
     for (PatchSet.Id id : diffKeySets(diffs, as, bs)) {
       PatchSet a = as.get(id);
       PatchSet b = bs.get(id);

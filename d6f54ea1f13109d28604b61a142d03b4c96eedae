@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "12c44860_35b930da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-09T13:50:17Z",
+      "side": 1,
+      "message": "Added a TODO for this and the tests.",
+      "parentUuid": "883645c6_c98291d8",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8f83dfd_3bb0979b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
         "patchSetId": 1
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "IIRC in new code we prefer\n\n  new ArrayList\u003c\u003e();\n\nsince it is slightly shorter than\n\n  Lists.newArrayList();\n\nIn the past when we didn\u0027t use Java 7 we preferred \n\n  Lists.newArrayList();\n\nover\n\n  new ArrayList\u003cTYPE\u003e();",
       "parentUuid": "c842fd2f_0bd1fd0b",
+      "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c44860_55aeac94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-09T13:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c842fd2f_cb0b756c",
       "revId": "d6f54ea1f13109d28604b61a142d03b4c96eedae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

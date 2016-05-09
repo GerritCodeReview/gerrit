@@ -27,6 +27,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
@@ -353,7 +354,7 @@ public class ChangeBundle {
 
   private Map<PatchSetApproval.Key, PatchSetApproval>
       filterPatchSetApprovals() {
-    return limitToExistingPatchSets(patchSetApprovals,
+    return limitToValidPatchSets(patchSetApprovals,
         new Function<PatchSetApproval.Key, PatchSet.Id>() {
           @Override
           public PatchSet.Id apply(PatchSetApproval.Key in) {
@@ -364,7 +365,7 @@ public class ChangeBundle {
 
   private Map<PatchLineComment.Key, PatchLineComment>
       filterPatchLineComments() {
-    return limitToExistingPatchSets(patchLineComments,
+    return limitToValidPatchSets(patchLineComments,
         new Function<PatchLineComment.Key, PatchSet.Id>() {
           @Override
           public PatchSet.Id apply(PatchLineComment.Key in) {
@@ -373,13 +374,15 @@ public class ChangeBundle {
         });
   }
 
-  private <K, V> Map<K, V> limitToExistingPatchSets(Map<K, V> in,
+  private <K, V> Map<K, V> limitToValidPatchSets(Map<K, V> in,
       final Function<K, PatchSet.Id> func) {
+    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
     return Maps.filterKeys(
         in, new Predicate<K>() {
           @Override
           public boolean apply(K in) {
-            return patchSets.containsKey(func.apply(in));
+            PatchSet.Id psId = func.apply(in);
+            return upToCurrent.apply(psId) && patchSets.containsKey(psId);
           }
         });
   }
@@ -395,15 +398,18 @@ public class ChangeBundle {
         });
   }
 
-  private Map<PatchSet.Id, PatchSet> filterPatchSets() {
+  private Predicate<PatchSet.Id> upToCurrentPredicate() {
     final int max = change.currentPatchSetId().get();
-    return Maps.filterKeys(patchSets,
-        new Predicate<PatchSet.Id>() {
-          @Override
-          public boolean apply(PatchSet.Id in) {
-            return in.get() <= max;
-          }
-        });
+    return new Predicate<PatchSet.Id>() {
+      @Override
+      public boolean apply(PatchSet.Id in) {
+        return in.get() <= max;
+      }
+    };
+  }
+
+  private Map<PatchSet.Id, PatchSet> filterPatchSets() {
+    return Maps.filterKeys(patchSets, upToCurrentPredicate());
   }
 
   private static void diffChanges(List<String> diffs, ChangeBundle bundleA,
@@ -622,16 +628,8 @@ public class ChangeBundle {
 
   private static void diffPatchSets(List<String> diffs, ChangeBundle bundleA,
       ChangeBundle bundleB) {
-    Map<PatchSet.Id, PatchSet> as = bundleA.patchSets;
-    Map<PatchSet.Id, PatchSet> bs = bundleB.patchSets;
-    // Filter out patch sets from ReviewDb side that are greater than latest.
-    if (bundleA.getSource() == REVIEW_DB && bundleB.getSource() == NOTE_DB) {
-      as = bundleA.filterPatchSets();
-    } else if (bundleA.getSource() == NOTE_DB
-        && bundleB.getSource() == REVIEW_DB) {
-      bs = bundleB.filterPatchSets();
-    }
-
+    Map<PatchSet.Id, PatchSet> as = bundleA.filterPatchSets();
+    Map<PatchSet.Id, PatchSet> bs = bundleB.filterPatchSets();
     for (PatchSet.Id id : diffKeySets(diffs, as, bs)) {
       PatchSet a = as.get(id);
       PatchSet b = bs.get(id);

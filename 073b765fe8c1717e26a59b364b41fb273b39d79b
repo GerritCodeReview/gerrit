@@ -16,6 +16,24 @@
       "revId": "073b765fe8c1717e26a59b364b41fb273b39d79b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2fe1c6e_32b4d0e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-select/gr-diff-mode-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T00:38:38Z",
+      "side": 1,
+      "message": "I agree. I can remove the element and move the tests into the gr-diff-view tests, which is actually better because the test can check the state of the gr-diff as well.",
+      "parentUuid": "b2fe1c6e_929dbc68",
+      "revId": "073b765fe8c1717e26a59b364b41fb273b39d79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

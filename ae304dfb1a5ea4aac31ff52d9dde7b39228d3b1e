@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1462535102 -0400\nnonce AD0XjTXhEOMLL+RmVkFZ46NDeBMcSP5LvwIiOHlMzuWanyWTXadxVOmkmMUfr/85yzDXR183MBsm\n\n0000000000000000000000000000000000000000 ae304dfb1a5ea4aac31ff52d9dde7b39228d3b1e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXLIO+AAoJEF/XxZqaEoiM7zMP/jog+DTcRUDVzbFqhaQCZIc4\nmkXI7bYRhn6u+dDKg7x1sYu+HuwStOHJcwPcqCy6HTF9wVMbleuEX8WkmHE1AvtK\nKRMXFxP562MIaMme/QFM05Vk/cshk/o6cCCvN0MtG/tKjhfSGHApc7lRtD60FN+b\nhOwbk+rRIKfxZ7OGinIm1ObsZ0euivweUfwQNVEdyWbAvJQl0fyTwJ6nLf4261zx\njrMKmSLxfOWZVBoKKjEFHCHddHxl5k+UP2WkvBkHqnFVH3z+UmneIIs0f6K8P8ga\njmT6jGEHeDEs6K5n7Ni7EZwlYby2hz/ArI87JrTp1/JAMrt2V2E9BEtUsXkUHb6H\n4J0rRDNc7P7Cs8R4apBsgivTUaIpFvTWXCGvRcQMBs7Zl6GYeIprQ8SOiivLfRwe\nUEj0pn2BFy4SVKzWXv+5AaAOoyry/3jlqlGA1MQE1T2zA10FdjGOAu9GP7S3zmzq\nPApsbX5tUv4ZcCsKEJgBqSYgXbXM0oI/bAB+g3z5ptHIRYu0SRVqIYKZ4kpR3nE5\ntRoAyNexpO4pAhYpCyQX6KAJbvvZOXTg/gRrglEpzkMQLZEUCmEQvkCVlNkr/T9w\nY1YLbIsjffQNZDpV8midPWJfXu0ciHUcuPTeDa9/LTJv7pNrtXLO/VCNxjEsapUF\n0ppEUMc0/kqMaoQ+aeR8\n\u003dJCyU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2c1bc6e_3aabc189",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-05-09T18:23:51Z",
+      "side": 1,
+      "message": "I\u0027m having trouble understanding the change in state here. onLoad() is the path that can rebuild the DB, and previously that would occur if migration.readChanges\u003d\u003dtrue. Now here it is avoided if neither migration read or write is enabled, and below again only issue onLoad() if read is enabled, independent of write, which is not what the change description claims.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "ae304dfb1a5ea4aac31ff52d9dde7b39228d3b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2ced4a2_74a148a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-05-09T18:23:51Z",
+      "side": 1,
+      "message": "Do you need a tracking bug to remove this when migration is over? How long will this code live? It the performance impact enough to make it worth adding a flag to disable it for known migrated repos?",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 79
+      },
+      "revId": "ae304dfb1a5ea4aac31ff52d9dde7b39228d3b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2bd50cb_d34654b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-05-09T14:49:14Z",
+      "side": 1,
+      "message": "nit: we could get the encrypter once at the beginning of the method and then reuse it as variable.",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 40
+      },
+      "revId": "84f44ad9abfe59ed9e1bcb2125f44e6982285ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

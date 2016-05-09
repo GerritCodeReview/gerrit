@@ -366,6 +366,64 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffChangesTrimsLeadingSpacesFromReviewDbComparingToNoteDb()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c1.currentPatchSetId(),
+        "   " + c1.getSubject(), c1.getOriginalSubject());
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {   Change subject}");
+
+    // ReviewDb is missing leading spaces, allowed.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
+  public void diffChangesDoesntTrimLeadingNonSpaceWhitespaceFromSubject()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c1.currentPatchSetId(),
+        "\t" + c1.getSubject(), c1.getOriginalSubject());
+
+    // Both ReviewDb.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {\tChange subject}");
+
+    // One NoteDb.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {\tChange subject}");
+    assertDiffs(b2, b1,
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {\tChange subject} != {Change subject}");
+  }
+
+  @Test
   public void diffChangeMessageKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();

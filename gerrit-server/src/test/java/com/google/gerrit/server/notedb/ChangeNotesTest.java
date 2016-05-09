@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -750,6 +751,34 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     Timestamp ts10 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts10).isGreaterThan(ts9);
+  }
+
+  @Test
+  public void subjectLeadingWhitespaceChangeNotes() throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+    String trimmedSubj = c.getSubject();
+    c.setCurrentPatchSet(c.currentPatchSetId(), "  " + trimmedSubj,
+        c.getOriginalSubject());
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeId(c.getKey().get());
+    update.setBranch(c.getDest().get());
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getChange().getSubject()).isEqualTo(trimmedSubj);
+
+    String tabSubj = "\t\t" + trimmedSubj;
+
+    c = TestChanges.newChange(project, changeOwner.getAccountId());
+    c.setCurrentPatchSet(c.currentPatchSetId(), tabSubj,
+        c.getOriginalSubject());
+    update = newUpdate(c, changeOwner);
+    update.setChangeId(c.getKey().get());
+    update.setBranch(c.getDest().get());
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getChange().getSubject()).isEqualTo(tabSubj);
   }
 
   @Test

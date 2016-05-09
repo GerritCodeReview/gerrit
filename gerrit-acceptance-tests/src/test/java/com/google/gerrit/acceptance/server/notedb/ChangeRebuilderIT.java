@@ -555,6 +555,25 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         .containsExactly(change.currentPatchSetId());
   }
 
+  @Test
+  public void leadingSpacesInSubject() throws Exception {
+    String subj = "   " + PushOneCommit.SUBJECT;
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        subj, PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    Change change = r.getChange().change();
+    assertThat(change.getSubject()).isEqualTo(subj);
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    checker.rebuildAndCheckChanges(id);
+
+    notesMigration.setAllEnabled(true);
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getChange().getSubject()).isNotEqualTo(subj);
+    assertThat(notes.getChange().getSubject()).isEqualTo(PushOneCommit.SUBJECT);
+  }
+
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
     ReviewDb db = unwrapDb();
     Change c = db.changes().get(id);

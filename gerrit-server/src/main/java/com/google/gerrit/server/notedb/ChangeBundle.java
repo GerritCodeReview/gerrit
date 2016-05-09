@@ -413,11 +413,15 @@ public class ChangeBundle {
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
 
     boolean excludeCreatedOn = false;
-    boolean excludeSubject = false;
-    boolean excludeOrigSubj = false;
     boolean excludeTopic = false;
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
+
+    CharMatcher s = CharMatcher.is(' ');
+    boolean excludeSubject = false;
+    boolean excludeOrigSubj = false;
+    String aSubj = a.getSubject();
+    String bSubj = b.getSubject();
 
     // Allow created timestamp in NoteDb to be either the created timestamp of
     // the change, or the timestamp of the first remaining patch set.
@@ -444,33 +448,38 @@ public class ChangeBundle {
     // Ignore original subject on the ReviewDb side if it equals the subject of
     // the current patch set.
     //
+    // For all of the above subject comparisons, first trim any leading spaces
+    // from the NoteDb strings. (We actually do represent the leading spaces
+    // faithfully during conversion, but JGit's FooterLine parser trims them
+    // when reading.)
+    //
     // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
     //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
-      excludeSubject = b.getSubject().startsWith(a.getSubject());
+      aSubj = s.trimLeadingFrom(aSubj);
+      excludeSubject = bSubj.startsWith(aSubj);
       excludeOrigSubj = true;
       excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
-      excludeSubject = a.getSubject().startsWith(b.getSubject());
+      bSubj = s.trimLeadingFrom(bSubj);
+      excludeSubject = aSubj.startsWith(bSubj);
       excludeOrigSubj = true;
       excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
       bUpdated = bundleB.getLatestTimestamp();
     }
 
+    String subjectField = "subject";
     String updatedField = "lastUpdatedOn";
-    List<String> exclude =
-        Lists.newArrayList(updatedField, "noteDbState", "rowVersion");
+    List<String> exclude = Lists.newArrayList(
+        subjectField, updatedField, "noteDbState", "rowVersion");
     if (excludeCreatedOn) {
       exclude.add("createdOn");
-    }
-    if (excludeSubject) {
-      exclude.add("subject");
     }
     if (excludeOrigSubj) {
       exclude.add("originalSubject");
@@ -488,6 +497,9 @@ public class ChangeBundle {
           bundleB, b.getLastUpdatedOn())) {
       diffTimestamps(diffs, desc, bundleA, aUpdated, bundleB, bUpdated,
           "effective last updated time");
+    }
+    if (!excludeSubject) {
+      diffValues(diffs, desc, aSubj, bSubj, subjectField);
     }
   }
 

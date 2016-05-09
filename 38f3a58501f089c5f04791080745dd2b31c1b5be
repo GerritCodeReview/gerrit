@@ -16,6 +16,24 @@
       "revId": "38f3a58501f089c5f04791080745dd2b31c1b5be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b20ffcb0_0aa8bb88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-09T22:08:45Z",
+      "side": 1,
+      "message": "I should have read your comment more closely. We still need to have this line here however, so that reverts to the user preference when the gr-change-view is rendered.\n\nI added the entry to gr-app as well.",
+      "parentUuid": "b20ffcb0_6aa177a7",
+      "revId": "38f3a58501f089c5f04791080745dd2b31c1b5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

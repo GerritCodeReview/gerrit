@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "72f024dd_f08c4042",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-09T19:21:40Z",
+      "side": 1,
+      "message": "\u003e onLoad() is the path that can rebuild the DB\n\nI think this is the source of your confusion. The rebuild path is openHandle, not onLoad.\n\nBefore: proceed to openHandle only if readChanges \u003d true\n\nAfter: proceed to openHandle if either readChanges \u003d true or writeChanges \u003d true\n\nThe additional if/else on l. 139 below ensures onLoad, which actually reads \u0026 parses the meta graph, is only called if readChanges \u003d true.\n\nOtherwise, if writeChanges \u003d true, on l. 143, we call loadDefaults(). This populates the same fields as l. 124 on the LHS. The difference, as I mentioned, is that on the RHS we call loadDefaults *after* openHandle rebuilds the change.",
+      "parentUuid": "b2c1bc6e_3aabc189",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "ae304dfb1a5ea4aac31ff52d9dde7b39228d3b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2ced4a2_74a148a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-05-09T18:23:51Z",
       "side": 1,
       "message": "Do you need a tracking bug to remove this when migration is over? How long will this code live? It the performance impact enough to make it worth adding a flag to disable it for known migrated repos?",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 79
+      },
+      "revId": "ae304dfb1a5ea4aac31ff52d9dde7b39228d3b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32da2c65_ee8c5f42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-09T19:21:40Z",
+      "side": 1,
+      "message": "A \"complete\" migration means that we are reading from NoteDb, which means we have to open the repo and read the ref. Doing an extra read when we are in write-only mode just enables that read a little earlier than we would otherwise.\n\nSomewhere down the line we will also enable turning off writes to ReviewDb, at which point we can stop worrying about rebuilding. But we haven\u0027t written any of that code; that is still a few months away.",
+      "parentUuid": "f2ced4a2_74a148a7",
       "range": {
         "startLine": 136,
         "startChar": 0,

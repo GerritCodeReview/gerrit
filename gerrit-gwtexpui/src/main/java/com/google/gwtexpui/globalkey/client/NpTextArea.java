@@ -14,16 +14,10 @@
 
 package com.google.gwtexpui.globalkey.client;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.TextArea;
 
 public class NpTextArea extends TextArea {
   public NpTextArea() {
-    addKeyPressHandler(GlobalKey.STOP_PROPAGATION);
-  }
-
-  public NpTextArea(final Element element) {
-    super(element);
     addKeyPressHandler(GlobalKey.STOP_PROPAGATION);
   }
 

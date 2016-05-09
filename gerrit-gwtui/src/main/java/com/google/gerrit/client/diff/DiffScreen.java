@@ -79,7 +79,7 @@ import java.util.List;
 
 /** Base class for SideBySide and Unified */
 abstract class DiffScreen extends Screen {
-  static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
+  private static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
       .propagate("Ctrl-F");
 
   enum FileSize {

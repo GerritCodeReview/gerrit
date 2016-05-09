@@ -69,9 +69,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Utility functions to manipulate change edits.

@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -71,16 +70,6 @@ public class DefaultRealm extends AbstractRealm {
         && emailExpander.canExpand(who.getLocalUser())) {
       who.setEmailAddress(emailExpander.expand(who.getLocalUser()));
     }
-    return who;
-  }
-
-  @Override
-  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
-    return who;
-  }
-
-  @Override
-  public AuthRequest unlink(ReviewDb db, Account.Id from, AuthRequest who) {
     return who;
   }
 

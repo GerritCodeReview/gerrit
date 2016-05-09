@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 
 import java.util.Set;
@@ -28,12 +27,6 @@ public interface Realm {
   Set<Account.FieldName> getEditableFields();
 
   AuthRequest authenticate(AuthRequest who) throws AccountException;
-
-  AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who)
-      throws AccountException;
-
-  AuthRequest unlink(ReviewDb db, Account.Id to, AuthRequest who)
-      throws AccountException;
 
   void onCreateAccount(AuthRequest who, Account account);
 

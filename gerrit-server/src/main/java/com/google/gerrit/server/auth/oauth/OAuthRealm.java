@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -110,17 +109,6 @@ public class OAuthRealm extends AbstractRealm {
     if (!Strings.isNullOrEmpty(userInfo.getDisplayName())) {
       who.setDisplayName(userInfo.getDisplayName());
     }
-    return who;
-  }
-
-  @Override
-  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
-    return who;
-  }
-
-  @Override
-  public AuthRequest unlink(ReviewDb db, Account.Id to, AuthRequest who)
-      throws AccountException {
     return who;
   }
 

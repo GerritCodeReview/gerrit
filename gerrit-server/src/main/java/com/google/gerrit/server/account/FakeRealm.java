@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 
 /** Fake implementation of {@link Realm} that does not communicate. */
 public class FakeRealm extends AbstractRealm {
@@ -27,16 +26,6 @@ public class FakeRealm extends AbstractRealm {
 
   @Override
   public AuthRequest authenticate(AuthRequest who) {
-    return who;
-  }
-
-  @Override
-  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
-    return who;
-  }
-
-  @Override
-  public AuthRequest unlink(ReviewDb db, Account.Id to, AuthRequest who) {
     return who;
   }
 

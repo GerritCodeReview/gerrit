@@ -283,16 +283,6 @@ public class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
-    return who;
-  }
-
-  @Override
-  public AuthRequest unlink(ReviewDb db, Account.Id from, AuthRequest who) {
-    return who;
-  }
-
-  @Override
   public void onCreateAccount(final AuthRequest who, final Account account) {
     usernameCache.put(who.getLocalUser(), Optional.of(account.getId()));
   }

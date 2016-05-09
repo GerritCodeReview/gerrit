@@ -344,8 +344,6 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException {
     try (ReviewDb db = schema.open()) {
-      who = realm.link(db, to, who);
-
       AccountExternalId.Key key = id(who);
       AccountExternalId extId = getAccountExternalId(db, key);
       if (extId != null) {
@@ -435,8 +433,6 @@ public class AccountManager {
   public AuthResult unlink(Account.Id from, AuthRequest who)
       throws AccountException, OrmException {
     try (ReviewDb db = schema.open()) {
-      who = realm.unlink(db, from, who);
-
       AccountExternalId.Key key = id(who);
       AccountExternalId extId = getAccountExternalId(db, key);
       if (extId != null) {

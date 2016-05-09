@@ -34,6 +34,24 @@
       "revId": "38f3a58501f089c5f04791080745dd2b31c1b5be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b20ffcb0_aaad2f98",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-09T22:31:54Z",
+      "side": 1,
+      "message": "I would clear this in gr-diff-view’s detached method instead.",
+      "parentUuid": "b20ffcb0_0aa8bb88",
+      "revId": "38f3a58501f089c5f04791080745dd2b31c1b5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

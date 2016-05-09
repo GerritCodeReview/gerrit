@@ -143,9 +143,7 @@
             encodeURIComponent(values[i]));
         }
       }
-      // Sorting the params leaves the order deterministic which is easier
-      // to test.
-      return url + '?' + params.sort().join('&');
+      return url + '?' + params.join('&');
     },
 
     getResponseObject: function(response) {

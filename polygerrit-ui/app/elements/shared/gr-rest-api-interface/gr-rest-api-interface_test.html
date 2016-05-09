@@ -88,13 +88,19 @@ limitations under the License.
         gr: 'guten tag',
         noval: null,
       });
-      assert.equal(url, '/path/?gr=guten%20tag&noval&sp=hola');
+      assert.equal(url, '/path/?sp=hola&gr=guten%20tag&noval');
 
       url = element._urlWithParams('/path/', {
         sp: 'hola',
         en: ['hey', 'hi'],
       });
-      assert.equal(url, '/path/?en=hey&en=hi&sp=hola');
+      assert.equal(url, '/path/?sp=hola&en=hey&en=hi');
+
+      // Order must be maintained with array params.
+      url = element._urlWithParams('/path/', {
+        l: ['c', 'b', 'a'],
+      });
+      assert.equal(url, '/path/?l=c&l=b&l=a');
     });
 
     test('request callbacks can be canceled', function(done) {

@@ -46,18 +46,6 @@ public class AvatarImage extends Image implements LoadHandler {
    * @param size A requested size. Note that the size can be ignored depending
    *        on the avatar provider. A size <= 0 indicates to let the provider
    *        decide a default size.
-   */
-  public AvatarImage(AccountInfo account, int size) {
-    this(account, size, true);
-  }
-
-  /**
-   * An avatar image for the given account using the requested size.
-   *
-   * @param account The account in which we are interested
-   * @param size A requested size. Note that the size can be ignored depending
-   *        on the avatar provider. A size <= 0 indicates to let the provider
-   *        decide a default size.
    * @param addPopup show avatar popup with user info on hovering over the
    *        avatar image
    */

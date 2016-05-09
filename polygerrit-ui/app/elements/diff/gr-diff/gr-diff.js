@@ -47,7 +47,7 @@
         type: Boolean,
         value: false,
       },
-      _viewMode: {
+      viewMode: {
         type: String,
         value: DiffViewMode.SIDE_BY_SIDE,
       },
@@ -69,7 +69,7 @@
     },
 
     observers: [
-      '_prefsChanged(prefs.*)',
+      '_prefsChanged(prefs.*, viewMode)',
     ],
 
     attached: function() {
@@ -439,14 +439,14 @@
     },
 
     _getDiffBuilder: function(diff, comments, prefs) {
-      if (this._viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
         return new GrDiffBuilderSideBySide(diff, comments, prefs,
             this.$.diffTable);
-      } else if (this._viewMode === DiffViewMode.UNIFIED) {
+      } else if (this.viewMode === DiffViewMode.UNIFIED) {
         return new GrDiffBuilderUnified(diff, comments, prefs,
             this.$.diffTable);
       }
-      throw Error('Unsupported diff view mode: ' + this._viewMode);
+      throw Error('Unsupported diff view mode: ' + this.viewMode);
     },
 
     _projectConfigChanged: function(projectConfig) {

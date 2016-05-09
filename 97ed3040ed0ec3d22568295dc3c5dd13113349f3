@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b29a9c76_f2d98830",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-05-09T08:23:09Z",
+      "side": 1,
+      "message": "I had to put a similar workaround as well on the Build scripts :-( It is quite sad anyway because we can\u0027t really understand and notify any failure !",
+      "revId": "97ed3040ed0ec3d22568295dc3c5dd13113349f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

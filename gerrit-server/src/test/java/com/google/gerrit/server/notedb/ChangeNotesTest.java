@@ -1056,21 +1056,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithComments = new ChangeNotesParser(
           c.getId(), commitWithComments.copy(), rw, noteUtil, args.metrics);
-      notesWithComments.parseAll();
-      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
-          notesWithComments.buildApprovals();
-      assertThat(approvals1).isEmpty();
-      assertThat(notesWithComments.comments).hasSize(1);
+      ChangeNotesState state = notesWithComments.parseAll();
+      assertThat(state.approvals()).isEmpty();
+      assertThat(state.publishedComments()).hasSize(1);
     }
 
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithApprovals = new ChangeNotesParser(c.getId(),
           commitWithApprovals.copy(), rw, noteUtil, args.metrics);
-      notesWithApprovals.parseAll();
-      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
-          notesWithApprovals.buildApprovals();
-      assertThat(approvals2).hasSize(1);
-      assertThat(notesWithApprovals.comments).hasSize(1);
+      ChangeNotesState state = notesWithApprovals.parseAll();
+      assertThat(state.approvals()).hasSize(1);
+      assertThat(state.publishedComments()).hasSize(1);
     }
   }
 

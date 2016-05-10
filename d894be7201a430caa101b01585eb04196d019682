@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d24c7016_1bc25b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:41:36Z",
+      "side": 1,
+      "message": "Sorry about this, will fix up commit message...",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 78
+      },
+      "revId": "d894be7201a430caa101b01585eb04196d019682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

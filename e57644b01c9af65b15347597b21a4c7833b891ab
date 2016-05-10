@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f25174a9_1cf49592",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-05-10T10:50:04Z",
+      "side": 1,
+      "message": "why call tokenCache.put if either user \u003d\u003d null or token \u003d\u003d null?\nI would propose:\n\n  if (user !\u003d null \u0026\u0026 token !\u003d null) {\n    tokenCache.put(user, token);\n  }\n\nIn addition, the OAuthTokenCache.put should protect itself from null values by throwing a NPE",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 34
+      },
+      "revId": "e57644b01c9af65b15347597b21a4c7833b891ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_3cf151a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-05-10T10:50:04Z",
+      "side": 1,
+      "message": "Is there any use-case that we should accept a null accessToken and put it into the cache?\n\nAlso, calling this method with user \u003d\u003d null or accessToken \u003d\u003d null should rather produce a NPE.",
+      "revId": "e57644b01c9af65b15347597b21a4c7833b891ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_dc286de3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-05-10T10:50:04Z",
+      "side": 1,
+      "message": "remove this check if the above comment is accepted.",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 25
+      },
+      "revId": "e57644b01c9af65b15347597b21a4c7833b891ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

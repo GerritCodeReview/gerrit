@@ -22,20 +22,17 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Tables;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
@@ -44,7 +41,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -54,7 +50,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
@@ -378,15 +373,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private final RefCache refs;
 
   private Change change;
-  private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
-  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
-  private ReviewerSet reviewers;
-  private ImmutableList<Account.Id> allPastReviewers;
-  private ImmutableList<SubmitRecord> submitRecords;
-  private ImmutableList<ChangeMessage> allChangeMessages;
-  private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
-  private ImmutableListMultimap<RevId, PatchLineComment> comments;
-  private ImmutableSet<String> hashtags;
+  private ChangeNotesState state;
 
   // Parsed note map state, used by ChangeUpdate to make in-place editing of
   // notes easier.
@@ -411,15 +398,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public ImmutableMap<PatchSet.Id, PatchSet> getPatchSets() {
-    return patchSets;
+    return state.patchSets();
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
-    return approvals;
+    return state.approvals();
   }
 
   public ReviewerSet getReviewers() {
-    return reviewers;
+    return state.reviewers();
   }
 
   /**
@@ -427,14 +414,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
    */
   public ImmutableSet<String> getHashtags() {
-    return ImmutableSortedSet.copyOf(hashtags);
+    return ImmutableSortedSet.copyOf(state.hashtags());
   }
 
   /**
    * @return a list of all users who have ever been a reviewer on this change.
    */
   public ImmutableList<Account.Id> getAllPastReviewers() {
-    return allPastReviewers;
+    return state.allPastReviewers();
   }
 
   /**
@@ -442,12 +429,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    *     changes that were actually submitted.
    */
   public ImmutableList<SubmitRecord> getSubmitRecords() {
-    return submitRecords;
+    return state.submitRecords();
   }
 
   /** @return all change messages, in chronological order, oldest first. */
   public ImmutableList<ChangeMessage> getChangeMessages() {
-    return allChangeMessages;
+    return state.allChangeMessages();
   }
 
   /**
@@ -456,18 +443,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    */
   public ImmutableListMultimap<PatchSet.Id, ChangeMessage>
       getChangeMessagesByPatchSet() {
-    return changeMessagesByPatchSet;
+    return state.changeMessagesByPatchSet();
   }
 
   /** @return inline comments on each revision. */
   public ImmutableListMultimap<RevId, PatchLineComment> getComments() {
-    return comments;
+    return state.publishedComments();
   }
 
   public ImmutableListMultimap<RevId, PatchLineComment> getDraftComments(
       Account.Id author) throws OrmException {
     loadDraftComments(author);
-    final Multimap<RevId, PatchLineComment> published = comments;
+    final Multimap<RevId, PatchLineComment> published =
+        state.publishedComments();
     // Filter out any draft comments that also exist in the published map, in
     // case the update to All-Users to delete them during the publish operation
     // failed.
@@ -533,7 +521,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public PatchSet getCurrentPatchSet() {
     PatchSet.Id psId = change.currentPatchSetId();
-    return checkNotNull(patchSets.get(psId),
+    return checkNotNull(state.patchSets().get(psId),
         "missing current patch set %s", psId.get());
   }
 
@@ -547,57 +535,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
     ChangeNotesParser parser = new ChangeNotesParser(
         change.getId(), rev, handle.walk(), args.noteUtil, args.metrics);
-    parser.parseAll();
-
-    if (parser.status != null) {
-      change.setStatus(parser.status);
-    }
-    approvals = parser.buildApprovals();
-    changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
-    allChangeMessages = parser.buildAllMessages();
-    comments = ImmutableListMultimap.copyOf(parser.comments);
-    revisionNoteMap = parser.revisionNoteMap;
-    change.setKey(new Change.Key(parser.changeId));
-    change.setDest(new Branch.NameKey(change.getProject(), parser.branch));
-    change.setTopic(Strings.emptyToNull(parser.topic));
-    change.setCreatedOn(parser.createdOn);
-    change.setLastUpdatedOn(parser.lastUpdatedOn);
-    change.setOwner(parser.ownerId);
-    change.setSubmissionId(parser.submissionId);
-    patchSets = ImmutableSortedMap.copyOf(
-        parser.patchSets, ReviewDbUtil.intKeyOrdering());
-
-    if (!patchSets.isEmpty()) {
-      change.setCurrentPatchSet(
-          parser.currentPatchSetId, parser.subject, parser.originalSubject);
-    } else {
-      // TODO(dborowitz): This should be an error, but for now it's required for
-      // some tests to pass.
-      change.clearCurrentPatchSet();
-    }
-
-    if (parser.hashtags != null) {
-      hashtags = ImmutableSet.copyOf(parser.hashtags);
-    } else {
-      hashtags = ImmutableSet.of();
-    }
-    this.reviewers = ReviewerSet.fromTable(Tables.transpose(parser.reviewers));
-    this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
-
-    submitRecords = ImmutableList.copyOf(parser.submitRecords);
+    state = parser.parseAll();
+    state.copyColumnsTo(change);
+    revisionNoteMap = parser.getRevisionNoteMap();
   }
 
   @Override
   protected void loadDefaults() {
-    approvals = ImmutableListMultimap.of();
-    reviewers = ReviewerSet.empty();
-    submitRecords = ImmutableList.of();
-    allChangeMessages = ImmutableList.of();
-    changeMessagesByPatchSet = ImmutableListMultimap.of();
-    comments = ImmutableListMultimap.of();
-    hashtags = ImmutableSet.of();
-    patchSets = ImmutableSortedMap.of();
-    allPastReviewers = ImmutableList.of();
+    state = ChangeNotesState.empty(change);
   }
 
   @Override

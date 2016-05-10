@@ -1,0 +1,400 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9237586b_a1969e4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "\"a new\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_c19ba273",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "nit: wrap lines at 80 columns",
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_61a176a7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Isn\u0027t it better to omit this if it\u0027s empty? (the documentation below states that it\u0027s optional)",
+      "range": {
+        "startLine": 1023,
+        "startChar": 4,
+        "endLine": 1023,
+        "endChar": 19
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_819efa60",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2451,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Mention that this can only be used by admins?",
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_21ab6e89",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Constants.R_HEADS?",
+      "range": {
+        "startLine": 45,
+        "startChar": 36,
+        "endLine": 45,
+        "endChar": 48
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_20ab6a89",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Instead of repeating this line in each test, make newProjectName a class variable and initialize it in an @Before annotated method.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 62
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_01b98ad9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Initialize this in the @Before method too.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 59
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_60a172a7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Is this the correct method to compare contents of a map?",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 45
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_a1ad3e98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Add an assertion on the error message too?",
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_40a8ee89",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Isn\u0027t the API user admin by default? If so this is redundant.",
+      "range": {
+        "startLine": 242,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 22
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_41a8f289",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/ProjectAccessInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "deductions, according to the documentation",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 49
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_0092e659",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/ProjectAccessInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "additions",
+      "range": {
+        "startLine": 20,
+        "startChar": 40,
+        "endLine": 20,
+        "endChar": 48
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_e1b346f9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Should be after ProjectAccessInfo",
+      "range": {
+        "startLine": 17,
+        "startChar": 47,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_a0969a4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Should be after PutDescription",
+      "range": {
+        "startLine": 40,
+        "startChar": 40,
+        "endLine": 40,
+        "endChar": 49
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_c09b9e73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "isEmpty()?\n\nSame below.",
+      "range": {
+        "startLine": 292,
+        "startChar": 28,
+        "endLine": 292,
+        "endChar": 40
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_61c89669",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "Don\u0027t import this.  Change the code to refer explicitly to PermissionRule.Action instead of only Action.",
+      "range": {
+        "startLine": 26,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 59
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_81c59a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "isEmpty()",
+      "range": {
+        "startLine": 132,
+        "startChar": 36,
+        "endLine": 132,
+        "endChar": 48
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_21c28e47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T05:10:56Z",
+      "side": 1,
+      "message": "This can be an else block.",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 36
+      },
+      "revId": "2fcbd8d50cff2e6736d7ad661e8c3c6e3f27e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

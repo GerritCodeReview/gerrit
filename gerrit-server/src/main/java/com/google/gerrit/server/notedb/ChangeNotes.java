@@ -533,11 +533,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       loadDefaults();
       return;
     }
-    ChangeNotesParser parser = new ChangeNotesParser(
-        change.getId(), rev, handle.walk(), args.noteUtil, args.metrics);
-    state = parser.parseAll();
+
+    ChangeNoteCache.Value v = args.cache.get().get(
+        getProjectName(), getChangeId(), rev, handle.walk());
+    state = v.state();
     state.copyColumnsTo(change);
-    revisionNoteMap = parser.getRevisionNoteMap();
+    revisionNoteMap = v.revisionNoteMap();
   }
 
   @Override

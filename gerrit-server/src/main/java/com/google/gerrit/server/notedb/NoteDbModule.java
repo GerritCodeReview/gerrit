@@ -52,6 +52,7 @@ public class NoteDbModule extends FactoryModule {
     factory(ChangeDraftUpdate.Factory.class);
     factory(DraftCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
+    install(ChangeNoteCache.module());
     if (!useTestBindings) {
       if (cfg.getBoolean("noteDb", null, "testRebuilderWrapper", false)) {
         // Yes, another variety of test bindings with a different way of

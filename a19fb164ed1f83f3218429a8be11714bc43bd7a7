@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "723e644b_a0ad3a98",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_625cf63a",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 35
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_e24fe67f",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -53,6 +77,24 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "Add your name to these TODOs?",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_81d03a06",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_6173d6d9",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "9237586b_21ddae1c",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Yes, that is true. But I need requests (or any other lib that can do proper REST requests and a DigestAuth).",
+      "parentUuid": "cd920f66_6b3f61c6",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_e23486ed",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -110,6 +176,30 @@
       "writtenOn": "2016-05-06T12:35:40Z",
       "side": 1,
       "message": "nit: import order should be separated into blocks for standard and external libraries, and each block should be in alphabetical order.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_c104026f",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_e23486ed",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -139,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "723e644b_60c89269",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_8176dac7",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd920f66_0b309df7",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -150,6 +258,30 @@
       "writtenOn": "2016-05-06T12:35:40Z",
       "side": 1,
       "message": "Use urlparse.urljoin?",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_80c59650",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "At this point these are just strings and the lib accepts them as strings so I would go with the +",
+      "parentUuid": "cd920f66_0b309df7",
       "range": {
         "startLine": 33,
         "startChar": 22,
@@ -179,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "9237586b_61fad685",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_a249de7c",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_217dcea0",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -190,6 +340,24 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "These could be named as constants.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_010bca81",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_217dcea0",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -231,6 +399,24 @@
     },
     {
       "key": {
+        "uuid": "9237586b_a1ff7e74",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "I have used both, since pyflakes only checks for errors and not styling. (From the docs: \"Pyflakes makes a simple promise: it will never complain about style\").",
+      "parentUuid": "cd920f66_2b3559e8",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_a149de7c",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -242,6 +428,30 @@
       "writtenOn": "2016-05-06T12:35:40Z",
       "side": 1,
       "message": "this is not used, so prefix it with an underscore.  Or, just name it `_`.",
+      "range": {
+        "startLine": 181,
+        "startChar": 59,
+        "endLine": 181,
+        "endChar": 60
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_81f7da98",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_a149de7c",
       "range": {
         "startLine": 181,
         "startChar": 59,
@@ -300,6 +510,54 @@
     },
     {
       "key": {
+        "uuid": "9237586b_41f1d2a1",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_02308af7",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 7
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_21f4ce92",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "At one point we\u0027ll probably convert this to python 3 and they got rid of xrange there. (From the docs: In Python 3.x, the xrange function does not exist anymore.) So I\u0027d keep range",
+      "parentUuid": "ad987b90_a270bece",
+      "range": {
+        "startLine": 192,
+        "startChar": 11,
+        "endLine": 192,
+        "endChar": 16
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_6273d6d9",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -317,6 +575,24 @@
     },
     {
       "key": {
+        "uuid": "723e644b_20c28a47",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "I just removed this entirely :) Will add it once I implement this. The script works fine and makes sense even without this",
+      "parentUuid": "ad987b90_6273d6d9",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_4280d29c",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -328,6 +604,24 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "Optional nit: trailing comma",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_e12826e3",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_4280d29c",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -357,6 +651,30 @@
     },
     {
       "key": {
+        "uuid": "9237586b_012e6aec",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd920f66_4b3aa5d7",
+      "range": {
+        "startLine": 289,
+        "startChar": 22,
+        "endLine": 289,
+        "endChar": 24
+      },
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_227dcea0",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -368,6 +686,24 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "Nit: unnecessary parens",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_40bf8eb8",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_227dcea0",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -391,6 +727,24 @@
     },
     {
       "key": {
+        "uuid": "9237586b_a1321e4b",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_4259f248",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_2256ee1a",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -402,6 +756,24 @@
       "writtenOn": "2016-05-06T12:35:40Z",
       "side": 1,
       "message": "unnecessary parens",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_c137223a",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad987b90_2256ee1a",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -425,6 +797,24 @@
     },
     {
       "key": {
+        "uuid": "723e644b_00e426f1",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Good idea! Should we still have the logic in main() then or just plain in the script?",
+      "parentUuid": "ad987b90_024bea77",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_4180d29c",
         "filename": "contrib/populate-fixture-data.py",
         "patchSetId": 5
@@ -436,6 +826,24 @@
       "writtenOn": "2016-05-06T12:00:54Z",
       "side": 1,
       "message": "I think this print statement is redundant with the raise below.",
+      "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_e0dee21e",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-10T18:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_4180d29c",
       "revId": "a19fb164ed1f83f3218429a8be11714bc43bd7a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

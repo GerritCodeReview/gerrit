@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f25174a9_9c32e54b",
+        "filename": "gerrit-oauth/src/main/java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-05-10T11:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f25174a9_1cf49592",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 34
+      },
+      "revId": "e57644b01c9af65b15347597b21a4c7833b891ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f25174a9_3cf151a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f25174a9_fc2d29f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-05-10T11:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f25174a9_3cf151a3",
+      "revId": "e57644b01c9af65b15347597b21a4c7833b891ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f25174a9_dc286de3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2016-05-10T10:50:04Z",
       "side": 1,
       "message": "remove this check if the above comment is accepted.",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 25
+      },
+      "revId": "e57644b01c9af65b15347597b21a4c7833b891ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24c7016_9bff4b75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-05-10T11:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f25174a9_dc286de3",
       "range": {
         "startLine": 87,
         "startChar": 8,

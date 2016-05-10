@@ -16,6 +16,24 @@
       "revId": "abcd9085594b5cb38ca7d42ece21be0b306bbb70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_a1e8dec7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-10T11:41:32Z",
+      "side": 1,
+      "message": "Stupid default timezone. Easy fix, one minute.",
+      "parentUuid": "d24c7016_db8cf342",
+      "revId": "abcd9085594b5cb38ca7d42ece21be0b306bbb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

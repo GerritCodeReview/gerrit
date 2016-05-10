@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -311,21 +312,21 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseCommit() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
-        + "Patch-set: 1\n"
+        + "Patch-set: 2\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Subject: Some subject of a change\n"
         + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234");
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-set: 1\n"
+        + "Patch-set: 2\n"
         + "Branch: refs/heads/master\n"
         + "Subject: Some subject of a change\n"
         + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
         + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     assertParseFails("Update patch set 1\n"
         + "Uploaded patch set 1.\n"
-        + "Patch-set: 1\n"
+        + "Patch-set: 2\n"
         + "Branch: refs/heads/master\n"
         + "Subject: Some subject of a change\n"
         + "Commit: beef");
@@ -362,22 +363,15 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parsePatchSetGroups() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
-        + "Patch-set: 1\n"
+        + "Patch-set: 2\n"
         + "Branch: refs/heads/master\n"
         + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
         + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
         + "Subject: Change subject\n"
         + "Groups: a,b,c\n");
-    // No patch set commit parsed on which we can set groups.
     assertParseFails("Update change\n"
         + "\n"
-        + "Patch-set: 1\n"
-        + "Branch: refs/heads/master\n"
-        + "Subject: Change subject\n"
-        + "Groups: a,b,c\n");
-    assertParseFails("Update change\n"
-        + "\n"
-        + "Patch-set: 1\n"
+        + "Patch-set: 2\n"
         + "Branch: refs/heads/master\n"
         + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
         + "Subject: Change subject\n"
@@ -462,8 +456,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private RevCommit writeCommit(String body, PersonIdent author)
       throws Exception {
+    Change change = newChange();
+    ChangeNotes notes = newNotes(change).load();
     try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
+      cb.setParentId(notes.getRevision());
       cb.setAuthor(author);
       cb.setCommitter(new PersonIdent(serverIdent, author.getWhen()));
       cb.setTreeId(testRepo.tree());
@@ -498,6 +495,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
+    walk.reset();
     return new ChangeNotesParser(
         newChange().getId(), tip, walk, noteUtil, args.metrics);
   }

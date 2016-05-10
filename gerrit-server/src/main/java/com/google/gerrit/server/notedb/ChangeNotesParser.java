@@ -37,8 +37,6 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
@@ -61,6 +59,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -95,37 +94,41 @@ class ChangeNotesParser {
   private static final RevId PARTIAL_PATCH_SET =
       new RevId("INVALID PARTIAL PATCH SET");
 
-  final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
-  final List<Account.Id> allPastReviewers;
-  final List<SubmitRecord> submitRecords;
-  final Multimap<RevId, PatchLineComment> comments;
-  final TreeMap<PatchSet.Id, PatchSet> patchSets;
-  final Map<PatchSet.Id, PatchSetState> patchSetStates;
-
-  String branch;
-  Change.Status status;
-  String topic;
-  Set<String> hashtags;
-  Timestamp createdOn;
-  Timestamp lastUpdatedOn;
-  Account.Id ownerId;
-  String changeId;
-  String subject;
-  String originalSubject;
-  String submissionId;
-  String tag;
-  PatchSet.Id currentPatchSetId;
-  RevisionNoteMap revisionNoteMap;
-
+  // Private final members initialized in the constructor.
   private final ChangeNoteUtil noteUtil;
   private final NoteDbMetrics metrics;
   private final Change.Id id;
   private final ObjectId tip;
   private final ChangeNotesRevWalk walk;
+
+  // Private final but mutable members initialized in the constructor and filled
+  // in during the parsing process.
+  private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
+  private final List<Account.Id> allPastReviewers;
+  private final List<SubmitRecord> submitRecords;
+  private final Multimap<RevId, PatchLineComment> comments;
+  private final TreeMap<PatchSet.Id, PatchSet> patchSets;
+  private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final Map<PatchSet.Id,
       Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
+
+  // Non-final private members filled in during the parsing process.
+  private String branch;
+  private Change.Status status;
+  private String topic;
+  private Set<String> hashtags;
+  private Timestamp createdOn;
+  private Timestamp lastUpdatedOn;
+  private Account.Id ownerId;
+  private String changeId;
+  private String subject;
+  private String originalSubject;
+  private String submissionId;
+  private String tag;
+  private PatchSet.Id currentPatchSetId;
+  private RevisionNoteMap revisionNoteMap;
 
   ChangeNotesParser(Change.Id changeId, ObjectId tip, ChangeNotesRevWalk walk,
       ChangeNoteUtil noteUtil, NoteDbMetrics metrics) {
@@ -145,7 +148,8 @@ class ChangeNotesParser {
     patchSetStates = new HashMap<>();
   }
 
-  void parseAll() throws ConfigInvalidException, IOException {
+  ChangeNotesState parseAll()
+      throws ConfigInvalidException, IOException {
     // Don't include initial parse in timer, as this might do more I/O to page
     // in the block containing most commits. Later reads are not guaranteed to
     // avoid I/O, but often should.
@@ -162,10 +166,41 @@ class ChangeNotesParser {
       updatePatchSetStates();
       checkMandatoryFooters();
     }
+
+    return buildState();
   }
 
-  ImmutableListMultimap<PatchSet.Id, PatchSetApproval>
-      buildApprovals() {
+  RevisionNoteMap getRevisionNoteMap() {
+    return revisionNoteMap;
+  }
+
+  private ChangeNotesState buildState() {
+    return ChangeNotesState.create(
+        id,
+        new Change.Key(changeId),
+        createdOn,
+        lastUpdatedOn,
+        ownerId,
+        branch,
+        currentPatchSetId,
+        subject,
+        topic,
+        originalSubject,
+        submissionId,
+        status,
+
+        hashtags,
+        patchSets,
+        buildApprovals(),
+        ReviewerSet.fromTable(Tables.transpose(reviewers)),
+        allPastReviewers,
+        submitRecords,
+        buildAllMessages(),
+        buildMessagesByPatchSet(),
+        comments);
+  }
+
+  private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
     Multimap<PatchSet.Id, PatchSetApproval> result =
         ArrayListMultimap.create(approvals.keySet().size(), 3);
     for (Table<?, ?, Optional<PatchSetApproval>> curr : approvals.values()) {
@@ -178,19 +213,19 @@ class ChangeNotesParser {
     for (Collection<PatchSetApproval> v : result.asMap().values()) {
       Collections.sort((List<PatchSetApproval>) v, ChangeNotes.PSA_BY_TIME);
     }
-    return ImmutableListMultimap.copyOf(result);
+    return result;
   }
 
-  ImmutableList<ChangeMessage> buildAllMessages() {
-    return ImmutableList.copyOf(Lists.reverse(allChangeMessages));
+  private List<ChangeMessage> buildAllMessages() {
+    return Lists.reverse(allChangeMessages);
   }
 
-  ImmutableListMultimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
+  private Multimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
     for (Collection<ChangeMessage> v :
         changeMessagesByPatchSet.asMap().values()) {
       Collections.reverse((List<ChangeMessage>) v);
     }
-    return ImmutableListMultimap.copyOf(changeMessagesByPatchSet);
+    return changeMessagesByPatchSet;
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {

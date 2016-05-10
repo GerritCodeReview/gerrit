@@ -68,15 +68,36 @@
     page('/q/:query', queryHandler);
 
     page(/^\/(\d+)\/?/, function(ctx) {
-      page.redirect('/c/' + ctx.params[0]);
+      page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
     });
 
-    page('/c/:changeNum/:patchNum?', function(data) {
-      data.params.view = 'gr-change-view';
-      app.params = data.params;
+    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
+    page(/^\/c\/(\d+)(\/((\d+)(\.\.(\d+))?))?$/, function(ctx) {
+      // Parameter order is based on the regex group number matched.
+      var params = {
+        changeNum: ctx.params[0],
+        basePatchNum: ctx.params[3],
+        patchNum: ctx.params[5],
+        view: 'gr-change-view',
+      };
+
+      // Don't allow diffing the same patch number against itself.
+      if (params.basePatchNum != null &&
+          params.basePatchNum === params.patchNum) {
+        page.redirect('/c/' +
+            encodeURIComponent(params.changeNum) +
+            '/' +
+            encodeURIComponent(params.patchNum) +
+            '/');
+        return;
+      }
+      normalizePatchRangeParams(params);
+      app.params = params;
     });
 
+    // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
+      // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],
         basePatchNum: ctx.params[2],
@@ -84,18 +105,26 @@
         path: ctx.params[5],
         view: 'gr-diff-view',
       };
-      // Don't allow diffing the same patch number against itself because WHY?
-      if (params.basePatchNum == params.patchNum) {
-        page.redirect('/c/' + params.changeNum + '/' + params.patchNum + '/' +
-            params.path);
+      // Don't allow diffing the same patch number against itself.
+      if (params.basePatchNum === params.patchNum) {
+        page.redirect('/c/' +
+            encodeURIComponent(params.changeNum) +
+            '/' +
+            encodeURIComponent(params.patchNum) +
+            '/' +
+            encodeURIComponent(params.path));
         return;
       }
-      if (!params.patchNum) {
-        params.patchNum = params.basePatchNum;
-        delete(params.basePatchNum);
-      }
+      normalizePatchRangeParams(params);
       app.params = params;
     });
+
+    function normalizePatchRangeParams(params) {
+      if (params.basePatchNum && !params.patchNum) {
+        params.patchNum = params.basePatchNum;
+        params.basePatchNum = null;
+      }
+    }
 
     page.start();
   });

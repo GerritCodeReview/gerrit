@@ -220,7 +220,7 @@ limitations under the License.
             <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
             <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
-            <span class="changeStatus">[[_computeChangeStatus(_change, _patchNum)]]</span>
+            <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
           </span>
           <span class="header-actions">
             <gr-button hidden
@@ -233,7 +233,7 @@ limitations under the License.
               <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
               <select id="patchSetSelect" on-change="_handlePatchChange">
                 <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
-                  <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchNum)]]">
+                  <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
                     <span>[[patchNumber]]</span>
                     /
                     <span>[[_computeLatestPatchNum(_change)]]</span>
@@ -253,7 +253,7 @@ limitations under the License.
           <gr-change-actions id="actions"
               actions="[[_change.actions]]"
               change-num="[[_changeNum]]"
-              patch-num="[[_patchNum]]"
+              patch-num="[[_patchRange.patchNum]]"
               commit-info="[[_commitInfo]]"
               on-reload-change="_handleReloadChange"></gr-change-actions>
         </div>
@@ -267,15 +267,16 @@ limitations under the License.
           <div class="relatedChanges">
             <gr-related-changes-list id="relatedChanges"
                 change="[[_change]]"
-                patch-num="[[_patchNum]]"></gr-related-changes-list>
+                patch-num="[[_patchRange.patchNum]]"></gr-related-changes-list>
           </div>
         </div>
       </section>
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"
-          patch-num="[[_patchNum]]"
+          patch-num="{{_patchRange.patchNum}}"
           comments="[[_comments]]"
           drafts="[[_diffDrafts]]"
+          revisions="[[_change.revisions]]"
           selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
       <gr-messages-list id="messageList"
           change-num="[[_changeNum]]"
@@ -288,7 +289,7 @@ limitations under the License.
     <gr-overlay id="downloadOverlay" with-backdrop>
       <gr-download-dialog
           change="[[_change]]"
-          patch-num="[[_patchNum]]"
+          patch-num="[[_patchRange.patchNum]]"
           config="[[serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
@@ -297,7 +298,7 @@ limitations under the License.
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
           change-num="[[_changeNum]]"
-          patch-num="[[_patchNum]]"
+          patch-num="[[_patchRange.patchNum]]"
           labels="[[_change.labels]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"

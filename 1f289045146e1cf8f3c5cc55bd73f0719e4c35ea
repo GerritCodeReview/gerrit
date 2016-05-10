@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9237586b_613df619",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChainedReceiveCommands.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-10T18:28:37Z",
+      "side": 1,
+      "message": "Slightly different usages of \"once\". Replaced the first one with \"After\" to make it clearer.",
+      "parentUuid": "ed16f3ff_149f7460",
+      "range": {
+        "startLine": 84,
+        "startChar": 52,
+        "endLine": 84,
+        "endChar": 56
+      },
+      "revId": "1f289045146e1cf8f3c5cc55bd73f0719e4c35ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d18a72b_f5975849",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RefCache.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-05-06T13:39:05Z",
       "side": 1,
       "message": "do",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "1f289045146e1cf8f3c5cc55bd73f0719e4c35ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_a0e8dac7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RefCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-10T18:28:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d18a72b_f5975849",
       "range": {
         "startLine": 31,
         "startChar": 31,

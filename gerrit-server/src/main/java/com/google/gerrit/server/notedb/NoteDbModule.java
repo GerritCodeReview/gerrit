@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
@@ -22,6 +24,8 @@ import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -53,6 +57,7 @@ public class NoteDbModule extends FactoryModule {
     factory(DraftCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
     if (!useTestBindings) {
+      install(ChangeNotesCache.module());
       if (cfg.getBoolean("noteDb", null, "testRebuilderWrapper", false)) {
         // Yes, another variety of test bindings with a different way of
         // configuring it.
@@ -83,6 +88,10 @@ public class NoteDbModule extends FactoryModule {
           return false;
         }
       });
+      bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})
+          .annotatedWith(Names.named(ChangeNotesCache.CACHE_NAME))
+          .toInstance(CacheBuilder.newBuilder()
+              .<ChangeNotesCache.Key, ChangeNotesState>build());
     }
   }
 }

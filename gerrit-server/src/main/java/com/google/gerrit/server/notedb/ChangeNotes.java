@@ -173,7 +173,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           project, changeId, change.getProject());
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
-      return new ChangeNotes(args, project, change).load();
+      return new ChangeNotes(args, change).load();
     }
 
     /**
@@ -185,11 +185,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * @return change notes
      */
     public ChangeNotes createFromIndexedChange(Change change) {
-      return new ChangeNotes(args, change.getProject(), change);
+      return new ChangeNotes(args, change);
     }
 
     public ChangeNotes createForNew(Change change) throws OrmException {
-      return new ChangeNotes(args, change.getProject(), change).load();
+      return new ChangeNotes(args, change).load();
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
@@ -200,13 +200,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Change change = unwrap(db).changes().get(changeId);
       checkNotNull(change,
           "change %s not found in ReviewDb", changeId);
-      return new ChangeNotes(args, change.getProject(), change).load();
+      return new ChangeNotes(args, change).load();
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(Change change,
         RefCache refs) throws OrmException {
-      return new ChangeNotes(args, change.getProject(), change, false, refs)
-          .load();
+      return new ChangeNotes(args, change, false, refs).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -218,7 +217,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throws OrmException {
       checkState(!args.migration.readChanges(), "do not call"
           + " createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
-      return new ChangeNotes(args, change.getProject(), change).load();
+      return new ChangeNotes(args, change).load();
     }
 
     public CheckedFuture<ChangeNotes, OrmException> createAsync(
@@ -237,7 +236,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
                           "passed project %s when creating ChangeNotes for %s,"
                               + " but actual project is %s",
                           project, changeId, change.getProject());
-                      return new ChangeNotes(args, project, change).load();
+                      return new ChangeNotes(args, change).load();
                     }
                   });
                 }
@@ -376,7 +375,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return db;
   }
 
-  private final Project.NameKey project;
   private final RefCache refs;
 
   private Change change;
@@ -397,14 +395,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
-  public ChangeNotes(Args args, Project.NameKey project, Change change) {
-    this(args, project, change, true, null);
+  public ChangeNotes(Args args, Change change) {
+    this(args, change, true, null);
   }
 
-  private ChangeNotes(Args args, Project.NameKey project, Change change,
-      boolean autoRebuild, @Nullable RefCache refs) {
+  private ChangeNotes(Args args, Change change, boolean autoRebuild,
+      @Nullable RefCache refs) {
     super(args, change.getId(), autoRebuild);
-    this.project = project;
     this.change = new Change(change);
     this.refs = refs;
   }
@@ -561,7 +558,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     comments = ImmutableListMultimap.copyOf(parser.comments);
     revisionNoteMap = parser.revisionNoteMap;
     change.setKey(new Change.Key(parser.changeId));
-    change.setDest(new Branch.NameKey(project, parser.branch));
+    change.setDest(new Branch.NameKey(change.getProject(), parser.branch));
     change.setTopic(Strings.emptyToNull(parser.topic));
     change.setCreatedOn(parser.createdOn);
     change.setLastUpdatedOn(parser.lastUpdatedOn);
@@ -605,7 +602,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   public Project.NameKey getProjectName() {
-    return project;
+    return change.getProject();
   }
 
   @Override

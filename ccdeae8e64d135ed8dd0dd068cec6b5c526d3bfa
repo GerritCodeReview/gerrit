@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "723e644b_60d3b213",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-10T19:48:18Z",
+      "side": 1,
+      "message": "buck build api complain:\n gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java:49: error: malformed HTML\n   * Set\u0026lt;AccountGroup.UUID\u0026gt; r \u003d new HashSet\u003c\u003e();\n                                                 ^\ngerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java:49: error: bad use of \u0027\u003e\u0027\n   * Set\u0026lt;AccountGroup.UUID\u0026gt; r \u003d new HashSet\u003c\u003e();",
+      "revId": "ccdeae8e64d135ed8dd0dd068cec6b5c526d3bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d24c7016_db8cf342",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-10T06:27:03Z",
+      "side": 1,
+      "message": "On my machine this test is consistently failing with:\n\nFAIL    \u003c100ms 29 Passed   0 Skipped   1 Failed   com.google.gerrit.server.notedb.ChangeBundleTest\nFAILURE com.google.gerrit.server.notedb.ChangeBundleTest diffPatchSetApprovalsAllowsTruncatedTimestampInNoteDb: expected:\u003c...30 17:00:00.0} !\u003d {1[900-01-01 00]:00:00.0}\u003e but was:\u003c...30 17:00:00.0} !\u003d {1[899-12-31 18]:00:00.0}\u003e\norg.junit.ComparisonFailure: expected:\u003c...30 17:00:00.0} !\u003d {1[900-01-01 00]:00:00.0}\u003e but was:\u003c...30 17:00:00.0} !\u003d {1[899-12-31 18]:00:00.0}\u003e\n\tat com.google.common.truth.Platform.comparisonFailure(Platform.java:133)\n\tat com.google.common.truth.Truth$1.failComparing(Truth.java:76)\n\tat com.google.common.truth.StringSubject.isEqualTo(StringSubject.java:76)\n\tat com.google.gerrit.server.notedb.ChangeBundleTest.assertDiffs(ChangeBundleTest.java:1059)\n\tat com.google.gerrit.server.notedb.ChangeBundleTest.diffPatchSetApprovalsAllowsTruncatedTimestampInNoteDb(ChangeBundleTest.java:926)\n        ...",
+      "revId": "abcd9085594b5cb38ca7d42ece21be0b306bbb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

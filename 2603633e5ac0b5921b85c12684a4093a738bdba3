@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "723e644b_a0ff7a74",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-10T20:51:14Z",
+      "side": 1,
+      "message": "extract this if check into a named fn for readability and testability?",
+      "revId": "2603633e5ac0b5921b85c12684a4093a738bdba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_40da2e26",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-10T20:51:14Z",
+      "side": 1,
+      "message": "this deserves a comment as to what you are trying to match",
+      "revId": "2603633e5ac0b5921b85c12684a4093a738bdba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_e005826c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-10T20:51:14Z",
+      "side": 1,
+      "message": "the param order prob deserves a comment also",
+      "revId": "2603633e5ac0b5921b85c12684a4093a738bdba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_000bc681",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-10T20:51:14Z",
+      "side": 1,
+      "message": "strict equality here?",
+      "revId": "2603633e5ac0b5921b85c12684a4093a738bdba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_a109be78",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-10T20:51:14Z",
+      "side": 1,
+      "message": "encode these params?",
+      "revId": "2603633e5ac0b5921b85c12684a4093a738bdba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

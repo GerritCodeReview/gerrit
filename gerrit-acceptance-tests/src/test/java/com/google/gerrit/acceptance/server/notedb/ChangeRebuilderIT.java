@@ -91,12 +91,18 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void setUp() {
     assume().that(NoteDbMode.readWrite()).isFalse();
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
-    notesMigration.setAllEnabled(false);
+    setNotesMigration(false, false);
   }
 
   @After
   public void tearDown() {
     TestTimeUtil.useSystemTime();
+  }
+
+  private void setNotesMigration(boolean writeChanges, boolean readChanges) {
+    notesMigration.setWriteChanges(writeChanges);
+    notesMigration.setReadChanges(readChanges);
+    db = atrScope.reopenDb().getReviewDbProvider().get();
   }
 
   @Test
@@ -200,8 +206,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setWriteChanges(true);
-    notesMigration.setReadChanges(true);
+    setNotesMigration(true, true);
 
     ChangeNotes notes = notesFactory.create(db, project, id);
     Map<String, PatchSet.Id> psIds = new HashMap<>();
@@ -223,7 +228,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = r.getPatchSetId().getParentKey();
     checker.assertNoChangeRef(project, id);
 
-    notesMigration.setWriteChanges(true);
+    setNotesMigration(true, false);
     gApi.changes().id(id.get()).topic(name("a-topic"));
 
     // First write doesn't create the ref, but rebuilding works.
@@ -251,7 +256,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void rebuildViaRestApi() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    notesMigration.setWriteChanges(true);
+    setNotesMigration(true, false);
 
     checker.assertNoChangeRef(project, id);
     rebuildHandler.apply(
@@ -265,7 +270,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     Change.Id id1 = r1.getPatchSetId().getParentKey();
 
-    notesMigration.setWriteChanges(true);
+    setNotesMigration(true, false);
     gApi.changes().id(id1.get()).topic(name("a-topic"));
     PushOneCommit.Result r2 = createChange();
     Change.Id id2 = r2.getPatchSetId().getParentKey();
@@ -282,7 +287,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Test
   public void noteDbChangeState() throws Exception {
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
 
@@ -317,20 +322,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildAutomaticallyWhenChangeOutOfDate() throws Exception {
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
 
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     assertChangeUpToDate(true, id);
 
     // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
-    notesMigration.setAllEnabled(false);
+    setNotesMigration(false, false);
     gApi.changes().id(id.get()).topic(name("a-topic"));
     setInvalidNoteDbState(id);
     assertChangeUpToDate(false, id);
 
     // On next NoteDb read, the change is transparently rebuilt.
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     assertThat(gApi.changes().id(id.get()).info().topic)
         .isEqualTo(name("a-topic"));
     assertChangeUpToDate(true, id);
@@ -344,7 +349,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildAutomaticallyWhenDraftsOutOfDate() throws Exception {
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     setApiUser(user);
 
     PushOneCommit.Result r = createChange();
@@ -353,13 +358,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertDraftsUpToDate(true, id, user);
 
     // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
-    notesMigration.setAllEnabled(false);
+    setNotesMigration(false, false);
     putDraft(user, id, 1, "comment");
     setInvalidNoteDbState(id);
     assertDraftsUpToDate(false, id, user);
 
     // On next NoteDb read, the drafts are transparently rebuilt.
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     assertThat(gApi.changes().id(id.get()).current().drafts())
         .containsKey(PushOneCommit.FILE_NAME);
     assertDraftsUpToDate(true, id, user);
@@ -413,8 +418,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setWriteChanges(true);
-    notesMigration.setReadChanges(true);
+    setNotesMigration(true, true);
 
     // Rebuild and check was successful, but NoteDb doesn't support storing an
     // empty topic, so it comes out as null.
@@ -481,7 +485,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     Change nc = notes.getChange();
     assertThat(nc.getSubject()).isEqualTo(c.getSubject());
@@ -504,7 +508,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId);
   }
@@ -528,7 +532,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getComments()).isEmpty();
   }
@@ -549,7 +553,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getPatchSets().keySet())
         .containsExactly(change.currentPatchSetId());
@@ -568,7 +572,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     checker.rebuildAndCheckChanges(id);
 
-    notesMigration.setAllEnabled(true);
+    setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getChange().getSubject()).isNotEqualTo(subj);
     assertThat(notes.getChange().getSubject()).isEqualTo(PushOneCommit.SUBJECT);

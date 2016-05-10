@@ -614,7 +614,7 @@ public class ChangeField {
       };
 
   /**
-   * Star labels on this change in the format: <account-id>:<label>
+   * Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt;
    */
   public static final FieldDef<ChangeData, Iterable<String>> STAR =
       new FieldDef.Repeatable<ChangeData, String>(

@@ -182,6 +182,14 @@ public class AcceptanceTestRequestScope {
     return old;
   }
 
+  public Context reopenDb() {
+    // Setting a new context with the same fields is enough to get the ReviewDb
+    // provider to reopen the database.
+    Context old = current.get();
+    return set(
+        new Context(old.schemaFactory, old.session, old.user, old.created));
+  }
+
   /** Returns exactly one instance per command executed. */
   static final Scope REQUEST = new Scope() {
     @Override

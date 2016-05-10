@@ -24,6 +24,7 @@
       changeNum: String,
       comments: Object,
       drafts: Object,
+      revisions: Object,
       selectedIndex: {
         type: Number,
         notify: true,

@@ -28,8 +28,14 @@ limitations under the License.
         display: flex;
         padding: .1em .25em;
       }
-      .header {
+      header {
+        display: flex;
         font-weight: bold;
+        justify-content: space-between;
+        margin-bottom: .5em;
+      }
+      header label {
+        font-weight: normal;
       }
       .positionIndicator,
       .reviewed,
@@ -59,19 +65,20 @@ limitations under the License.
       }
       .path {
         flex: 1;
-        overflow: hidden;
         padding-left: .35em;
         text-decoration: none;
-        text-overflow: ellipsis;
         white-space: nowrap;
       }
       .path:hover :first-child {
         text-decoration: underline;
       }
-      .oldPath {
-        color: #999;
+      .path,
+      .path div {
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .oldPath {
+        color: #999;
       }
       .comments,
       .stats {
@@ -116,14 +123,19 @@ limitations under the License.
         }
       }
     </style>
-    <div class="row header">
-      <div class="positionIndicator"></div>
-      <div class="reviewed" hidden$="[[!_loggedIn]]" hidden></div>
-      <div class="status"></div>
-      <div class="path">Path</div>
-      <div class="comments">Comments</div>
-      <div class="stats">Stats</div>
-    </div>
+    <header>
+      <div>Files</div>
+      <label>
+        Diff against
+        <select id="diffAgainstSelect" on-change="_handleDiffAgainstChange">
+          <template is="dom-repeat" items="[[availablePatches]]" as="patchNum">
+<!--             <option value$="[[patchNum]]"
+                selected$="[[_computeDiffAgainstSelected(patchNum, patchRange)]]"
+                disabled$="[[_computeDiffAgainstDisabled(patchNum, patchRange)]]">[[patchNum]]</option> -->
+          </template>
+        </select>
+      </label>
+    </header>
     <template is="dom-repeat" items="{{_files}}" as="file">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
         <div class="positionIndicator">&#x25b6;</div>

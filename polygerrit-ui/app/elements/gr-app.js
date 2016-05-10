@@ -68,7 +68,7 @@
       this._viewState = {
         changeView: {
           changeNum: null,
-          patchNum: null,
+          patchRange: null,
           selectedFileIndex: 0,
           showReplyDialog: false,
           diffMode: null,

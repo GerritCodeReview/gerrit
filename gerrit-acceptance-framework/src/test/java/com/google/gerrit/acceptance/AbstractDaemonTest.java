@@ -31,6 +31,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -745,5 +746,18 @@ public abstract class AbstractDaemonTest {
         changeId, atrScope.get().getUser());
     assertThat(ctls).hasSize(1);
     return changeResourceFactory.create(ctls.get(0));
+  }
+
+  protected String createGroup(String name) throws Exception {
+    return createGroup(name, "Administrators");
+  }
+
+  protected String createGroup(String name, String owner) throws Exception {
+    name = name(name);
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = owner;
+    gApi.groups().create(in);
+    return name;
   }
 }

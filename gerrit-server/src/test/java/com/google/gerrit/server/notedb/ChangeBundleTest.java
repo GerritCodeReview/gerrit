@@ -41,6 +41,7 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.StandardKeyEncoder;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -916,7 +917,9 @@ public class ChangeBundleTest {
         (short) 1,
         c.getCreatedOn());
     PatchSetApproval a2 = clone(a1);
-    a2.setGranted(new Timestamp(new DateTime(1900, 1, 1, 0, 0, 0).getMillis()));
+    a2.setGranted(new Timestamp(new DateTime(
+            1900, 1, 1, 0, 0, 0, DateTimeZone.forTimeZone(systemTimeZone))
+        .getMillis()));
 
     // Both are ReviewDb, exact match is required.
     ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(a1),

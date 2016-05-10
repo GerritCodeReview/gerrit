@@ -766,8 +766,7 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffPatchSetsIgnoresGreaterThanCurrentFromReviewDb()
-      throws Exception {
+  public void diffIgnoresPatchSetsGreaterThanCurrent() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
 
     PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
@@ -780,31 +779,38 @@ public class ChangeBundleTest {
     ps2.setCreatedOn(TimeUtil.nowTs());
     assertThat(ps2.getId().get()).isGreaterThan(c.currentPatchSetId().get());
 
-    // Both ReviewDb, exact match is required.
+    PatchSetApproval a1 = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            ps1.getId(), accountId, new LabelId("Code-Review")),
+        (short) 1,
+        TimeUtil.nowTs());
+    PatchSetApproval a2 = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            ps2.getId(), accountId, new LabelId("Code-Review")),
+        (short) 1,
+        TimeUtil.nowTs());
+
+    // Both ReviewDb.
     ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
-        approvals(), comments(), REVIEW_DB);
+        approvals(a1), comments(), REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2),
-        approvals(), comments(), REVIEW_DB);
-    assertDiffs(b1, b2,
-        "PatchSet.Id sets differ:"
-            + " [] only in A; [" + c.getId() + ",2] only in B");
+        approvals(a1, a2), comments(), REVIEW_DB);
+    assertNoDiffs(b1, b2);
 
-    // Both NoteDb, exact match is required.
-    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+    // One NoteDb.
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(a1),
         comments(), NOTE_DB);
-    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(),
-        comments(), NOTE_DB);
-    assertDiffs(b1, b2,
-        "PatchSet.Id sets differ:"
-            + " [] only in A; [" + c.getId() + ",2] only in B");
-
-    // PS2 is in ReviewDb but not NoteDb, ok.
-    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
-        comments(), NOTE_DB);
-    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(),
+    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(a1, a2),
         comments(), REVIEW_DB);
     assertNoDiffs(b1, b2);
     assertNoDiffs(b2, b1);
+
+    // Both NoteDb.
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(a1),
+        comments(), NOTE_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(a1, a2),
+        comments(), NOTE_DB);
+    assertNoDiffs(b1, b2);
   }
 
   @Test

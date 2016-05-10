@@ -87,6 +87,9 @@ class UrlModule extends ServletModule {
     serve("/watched").with(query("is:watched status:open"));
     serve("/starred").with(query("is:starred"));
 
+    // Forward PolyGerrit URLs to their respective GWT equivalents.
+    serveRegex("^/(c|q|x|admin|dashboard|settings)/(.*)").with(gerritUrl());
+
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register/?$").with(screen(PageLinks.REGISTER + "/"));
     serveRegex("^/([1-9][0-9]*)/?$").with(directChangeById());
@@ -113,6 +116,18 @@ class UrlModule extends ServletModule {
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
         rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      }
+    });
+  }
+
+  private Key<HttpServlet> gerritUrl() {
+    return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      protected void doGet(final HttpServletRequest req,
+          final HttpServletResponse rsp) throws IOException {
+        toGerrit(req.getRequestURI(), req, rsp);
       }
     });
   }

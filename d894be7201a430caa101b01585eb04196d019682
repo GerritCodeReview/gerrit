@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d24c7016_fbe3efe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:57:29Z",
+      "side": 1,
+      "message": "Done!\nNo longer related to Davids revert.",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 49
+      },
+      "revId": "d894be7201a430caa101b01585eb04196d019682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24c7016_1bc25b47",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

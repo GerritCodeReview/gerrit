@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f25174a9_9ce8a5c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:41:36Z",
+      "side": 1,
+      "message": "Done!\ncontinue if neither of newChangeForEveryCommit... or %base is set.",
+      "range": {
+        "startLine": 1562,
+        "startChar": 8,
+        "endLine": 1562,
+        "endChar": 11
+      },
+      "revId": "2488f4a437eee20a80d8876957ca84c57381435e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_fce3e9e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1728,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:41:36Z",
+      "side": 1,
+      "message": "Done\nThis whole debacle is not needed anymore.",
+      "range": {
+        "startLine": 1701,
+        "startChar": 1,
+        "endLine": 1728,
+        "endChar": 19
+      },
+      "revId": "2488f4a437eee20a80d8876957ca84c57381435e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

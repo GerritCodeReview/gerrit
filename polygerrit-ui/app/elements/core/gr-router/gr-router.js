@@ -71,9 +71,22 @@
       page.redirect('/c/' + ctx.params[0]);
     });
 
-    page('/c/:changeNum/:patchNum?', function(data) {
-      data.params.view = 'gr-change-view';
-      app.params = data.params;
+    page(/^\/c\/(\d+)(\/((\d+)(\.\.(\d+))?))?$/, function(ctx) {
+      var params = {
+        changeNum: ctx.params[0],
+        basePatchNum: ctx.params[3],
+        patchNum: ctx.params[5],
+        view: 'gr-change-view',
+      };
+
+      // Don't allow diffing the same patch number against itself.
+      if (params.basePatchNum != null &&
+          params.basePatchNum == params.patchNum) {
+        page.redirect('/c/' + params.changeNum + '/' + params.patchNum + '/');
+        return;
+      }
+      normalizePatchRangeParams(params);
+      app.params = params;
     });
 
     page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
@@ -84,18 +97,22 @@
         path: ctx.params[5],
         view: 'gr-diff-view',
       };
-      // Don't allow diffing the same patch number against itself because WHY?
+      // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum == params.patchNum) {
         page.redirect('/c/' + params.changeNum + '/' + params.patchNum + '/' +
             params.path);
         return;
       }
-      if (!params.patchNum) {
-        params.patchNum = params.basePatchNum;
-        delete(params.basePatchNum);
-      }
+      normalizePatchRangeParams(params);
       app.params = params;
     });
+
+    function normalizePatchRangeParams(params) {
+      if (params.basePatchNum && !params.patchNum) {
+        params.patchNum = params.basePatchNum;
+        params.basePatchNum = null;
+      }
+    }
 
     page.start();
   });

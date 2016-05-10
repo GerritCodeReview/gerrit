@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9237586b_41da3226",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T14:41:25Z",
+      "side": 1,
+      "message": "This returns false, although the user is actually in the group (confirmed with separate call to the groups API).",
+      "range": {
+        "startLine": 72,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 65
+      },
+      "revId": "bb858cbc2889f13f119eda6c2b68a97cd151457b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_c0b2bef3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-10T14:41:25Z",
+      "side": 1,
+      "message": "This returns false, although the user is in the group (confirmed with separate call to the groups API).",
+      "range": {
+        "startLine": 72,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 65
+      },
+      "revId": "bb858cbc2889f13f119eda6c2b68a97cd151457b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

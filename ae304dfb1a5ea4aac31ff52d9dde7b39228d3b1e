@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "9237586b_e1dee61e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-10T11:34:55Z",
+      "side": 1,
+      "message": "Good point. That describes what is new in this change, but assumes you already knew about auto-rebuilding in the read+write case. I can clarify.",
+      "parentUuid": "d2de305a_abff6974",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "ae304dfb1a5ea4aac31ff52d9dde7b39228d3b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2ced4a2_74a148a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 3

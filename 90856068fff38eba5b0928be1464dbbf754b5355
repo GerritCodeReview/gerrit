@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d24c7016_9be8abc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1509,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:57:29Z",
+      "side": 1,
+      "message": "Prior to If2ffd544c821d184593d729fe4ebef77de1860ee This collection would be empty if MagicBranch.baseCommit !\u003d null.",
+      "range": {
+        "startLine": 1509,
+        "startChar": 31,
+        "endLine": 1509,
+        "endChar": 39
+      },
+      "revId": "90856068fff38eba5b0928be1464dbbf754b5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24c7016_bbed67d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1545,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:57:29Z",
+      "side": 1,
+      "message": "If the existingRefs is empty this would be false. And the following continue would have no effect on \"Create new change for...\" setting or %base option.",
+      "range": {
+        "startLine": 1545,
+        "startChar": 13,
+        "endLine": 1545,
+        "endChar": 35
+      },
+      "revId": "90856068fff38eba5b0928be1464dbbf754b5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24c7016_5bd30313",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1630,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:57:29Z",
+      "side": 1,
+      "message": "If commit is already current patchset of target change.",
+      "range": {
+        "startLine": 1630,
+        "startChar": 14,
+        "endLine": 1630,
+        "endChar": 90
+      },
+      "revId": "90856068fff38eba5b0928be1464dbbf754b5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_bced61d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:57:29Z",
+      "side": 1,
+      "message": "unrelated change...",
+      "range": {
+        "startLine": 1703,
+        "startChar": 2,
+        "endLine": 1704,
+        "endChar": 50
+      },
+      "revId": "90856068fff38eba5b0928be1464dbbf754b5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_5cd3fd12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-10T08:57:29Z",
+      "side": 1,
+      "message": "unrelated change...",
+      "range": {
+        "startLine": 1713,
+        "startChar": 10,
+        "endLine": 1713,
+        "endChar": 19
+      },
+      "revId": "90856068fff38eba5b0928be1464dbbf754b5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

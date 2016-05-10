@@ -560,19 +560,6 @@ public class GroupsIT extends AbstractDaemonTest {
     return groupCache.get(new AccountGroup.NameKey(name));
   }
 
-  private String createGroup(String name) throws Exception {
-    return createGroup(name, "Administrators");
-  }
-
-  private String createGroup(String name, String owner) throws Exception {
-    name = name(name);
-    GroupInput in = new GroupInput();
-    in.name = name;
-    in.ownerId = owner;
-    gApi.groups().create(in);
-    return name;
-  }
-
   private String createAccount(String name, String group) throws Exception {
     name = name(name);
     accounts.create(name, group);

@@ -89,7 +89,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;

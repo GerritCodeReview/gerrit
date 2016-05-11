@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f25174a9_dc470d6b",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-11T16:28:11Z",
+      "side": 1,
+      "message": "get them from u",
+      "revId": "55a99ddd75a2e4577a1a47e2fe142186713d98d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

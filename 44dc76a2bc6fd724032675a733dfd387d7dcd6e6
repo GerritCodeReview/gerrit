@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "9237586b_c1eac286",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-11T22:44:58Z",
+      "side": 1,
+      "message": "This method is starting to feel very overloaded, almost like it has become a \"reset state\" method. \n\nI wonder if there is a higher level pattern that can be abstracted from this.",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_00674640",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-11T22:44:58Z",
+      "side": 1,
+      "message": "encodeUri",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_a05bfa74",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-11T22:44:58Z",
+      "side": 1,
+      "message": "encode",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_61009628",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-11T22:44:58Z",
+      "side": 1,
+      "message": "encode?",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9237586b_e1eb468c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2

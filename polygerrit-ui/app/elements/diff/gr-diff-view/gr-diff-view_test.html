@@ -50,6 +50,7 @@ limitations under the License.
     test('keyboard shortcuts', function() {
       element._changeNum = '42';
       element._patchRange = {
+        basePatchNum: 'PARENT',
         patchNum: '10',
       };
       element._change = {
@@ -143,12 +144,12 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       assert.isTrue(element.changeViewState.showReplyDialog);
 
-      assert(showStub.lastCall.calledWithExactly('/c/42/'),
-          'Should navigate to /c/42/');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+          'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
-      assert(showStub.lastCall.calledWithExactly('/c/42/'),
-          'Should navigate to /c/42/');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+          'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221);  // ']'
       assert(showStub.lastCall.calledWithExactly('/c/42/5..10/wheatley.md'),
@@ -166,8 +167,8 @@ limitations under the License.
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219);  // '['
-      assert(showStub.lastCall.calledWithExactly('/c/42/'),
-          'Should navigate to /c/42/');
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+          'Should navigate to /c/42/5..10');
 
       showStub.restore();
     });
@@ -175,6 +176,7 @@ limitations under the License.
     test('keyboard shortcuts with old patch number', function() {
       element._changeNum = '42';
       element._patchRange = {
+        basePatchNum: 'PARENT',
         patchNum: '1',
       };
       element._change = {
@@ -230,6 +232,7 @@ limitations under the License.
     test('go up to change via kb without change loaded', function() {
       element._changeNum = '42';
       element._patchRange = {
+        basePatchNum: 'PARENT',
         patchNum: '1',
       };
 
@@ -280,6 +283,7 @@ limitations under the License.
     test('jump to file dropdown', function() {
       element._changeNum = '42';
       element._patchRange = {
+        basePatchNum: 'PARENT',
         patchNum: '10',
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];

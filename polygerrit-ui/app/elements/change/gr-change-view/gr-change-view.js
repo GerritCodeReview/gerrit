@@ -179,7 +179,14 @@
         basePatchNum: value.basePatchNum || 'PARENT',
       };
 
-      this._resetStateIfNecessary();
+      // If the change number or patch range is different, then reset the
+      // selected file index.
+      var patchRangeState = this.viewState.patchRange;
+      if (this.viewState.changeNum !== this._changeNum ||
+          patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
+          patchRangeState.patchNum !== this._patchRange.patchNum) {
+        this._resetFileListViewState();
+      }
 
       if (!this._changeNum) {
         return;
@@ -212,17 +219,10 @@
       }.bind(this));
     },
 
-    _resetStateIfNecessary: function() {
-      // If the change number or patch range is different, then reset the
-      // selected file index.
-      if (this.viewState.changeNum !== this._changeNum ||
-          this.viewState.patchRange.basePatchNum !==
-              this._patchRange.basePatchNum ||
-          this.viewState.patchRange.patchNum !== this._patchRange.patchNum) {
-        this.set('viewState.selectedFileIndex', 0);
-        this.set('viewState.changeNum', this._changeNum);
-        this.set('viewState.patchRange', this._patchRange);
-      }
+    _resetFileListViewState: function() {
+      this.set('viewState.selectedFileIndex', 0);
+      this.set('viewState.changeNum', this._changeNum);
+      this.set('viewState.patchRange', this._patchRange);
     },
 
     _changeChanged: function(change) {

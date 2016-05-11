@@ -83,7 +83,7 @@
     observers: [
       '_getChangeDetail(_changeNum)',
       '_getProjectConfig(_change.project)',
-      '_getFiles(_changeNum, _patchRange.patchNum)',
+      '_getFiles(_changeNum, _patchRange.*)',
       '_updateModeSelect(_diffMode)',
     ],
 
@@ -127,9 +127,10 @@
           }.bind(this));
     },
 
-    _getFiles: function(changeNum, patchNum) {
+    _getFiles: function(changeNum, patchRangeRecord) {
+      var patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
-          changeNum, patchNum).then(function(files) {
+          changeNum, patchRange).then(function(files) {
             this._fileList = files;
           }.bind(this));
     },
@@ -196,9 +197,9 @@
         case 85:  // 'u'
           if (this._changeNum && this._patchRange.patchNum) {
             e.preventDefault();
-            page.show(this._computeChangePath(
+            page.show(this._getChangePath(
                 this._changeNum,
-                this._patchRange.patchNum,
+                this._patchRange,
                 this._change && this._change.revisions));
           }
           break;
@@ -221,15 +222,15 @@
 
       var idx = fileList.indexOf(this._path) + direction;
       if (idx < 0 || idx > fileList.length - 1) {
-        page.show(this._computeChangePath(
+        page.show(this._getChangePath(
             this._changeNum,
-            this._patchRange.patchNum,
+            this._patchRange,
             this._change && this._change.revisions));
         return;
       }
-      page.show(this._computeDiffURL(this._changeNum,
-                                     this._patchRange,
-                                     fileList[idx]));
+      page.show(this._getDiffURL(this._changeNum,
+                                 this._patchRange,
+                                 fileList[idx]));
     },
 
     _paramsChanged: function(value) {
@@ -282,13 +283,22 @@
       }
     },
 
-    _computeDiffURL: function(changeNum, patchRange, path) {
+    _getDiffURL: function(changeNum, patchRange, path) {
+      return '/c/' + changeNum + '/' + this._patchRangeStr(patchRange) + '/' +
+          path;
+    },
+
+    _computeDiffURL: function(changeNum, patchRangeRecord, path) {
+      return this._getDiffURL(changeNum, patchRangeRecord.base, path);
+    },
+
+    _patchRangeStr: function(patchRange) {
       var patchStr = patchRange.patchNum;
       if (patchRange.basePatchNum != null &&
           patchRange.basePatchNum != 'PARENT') {
         patchStr = patchRange.basePatchNum + '..' + patchRange.patchNum;
       }
-      return '/c/' + changeNum + '/' + patchStr + '/' + path;
+      return patchStr;
     },
 
     _computeAvailablePatches: function(revisions) {
@@ -299,23 +309,28 @@
       return patchNums.sort(function(a, b) { return a - b; });
     },
 
-    _computeChangePath: function(changeNum, patchNum, revisions) {
+    _getChangePath: function(changeNum, patchRange, revisions) {
       var base = '/c/' + changeNum + '/';
 
       // The change may not have loaded yet, making revisions unavailable.
       if (!revisions) {
-        return base + patchNum;
+        return base + this._patchRangeStr(patchRange);
       }
 
       var latestPatchNum = -1;
       for (var rev in revisions) {
         latestPatchNum = Math.max(latestPatchNum, revisions[rev]._number);
       }
-      if (parseInt(patchNum, 10) != latestPatchNum) {
-        return base + patchNum;
+      if (patchRange.basePatchNum !== 'PARENT' ||
+          parseInt(patchRange.patchNum, 10) !== latestPatchNum) {
+        return base + this._patchRangeStr(patchRange);
       }
 
       return base;
+    },
+
+    _computeChangePath: function(changeNum, patchRangeRecord, revisions) {
+      return this._getChangePath(changeNum, patchRangeRecord.base, revisions);
     },
 
     _computeFileDisplayName: function(path) {
@@ -347,8 +362,7 @@
 
     _handleMobileSelectChange: function(e) {
       var path = Polymer.dom(e).rootTarget.value;
-      page.show(
-          this._computeDiffURL(this._changeNum, this._patchRange, path));
+      page.show(this._getDiffURL(this._changeNum, this._patchRange, path));
     },
 
     _showDropdownTapHandler: function(e) {

@@ -16,6 +16,24 @@
       "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9237586b_a1e53eb7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-11T22:32:43Z",
+      "side": 1,
+      "message": "It’s either this or four-space indent. There’s no hard and fast rule for it.",
+      "parentUuid": "9237586b_e1eb468c",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

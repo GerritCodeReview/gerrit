@@ -74,7 +74,6 @@
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
     page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
       // Parameter order is based on the regex group number matched.
-      console.info(ctx)
       var params = {
         changeNum: ctx.params[0],
         basePatchNum: ctx.params[3],

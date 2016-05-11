@@ -123,7 +123,7 @@ limitations under the License.
       }
     </style>
     <h3>
-      <a href$="[[_computeChangePath(_changeNum, _patchRange.patchNum, _change.revisions)]]">
+      <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
         [[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span>
       <span class="dash">—</span>
@@ -140,7 +140,7 @@ limitations under the License.
         <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
           <div class="dropdown-content">
             <template is="dom-repeat" items="[[_fileList]]" as="path">
-              <a href$="[[_computeDiffURL(_changeNum, _patchRange, path)]]"
+              <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
                  selected$="[[_computeFileSelected(path, _path)]]"
                  data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
                  on-tap="_handleFileTap">

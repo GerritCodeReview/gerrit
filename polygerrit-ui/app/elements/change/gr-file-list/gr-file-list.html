@@ -34,7 +34,7 @@ limitations under the License.
         justify-content: space-between;
         margin-bottom: .5em;
       }
-      header label {
+      .diffAgainst {
         font-weight: normal;
       }
       .positionIndicator,
@@ -125,10 +125,20 @@ limitations under the License.
     </style>
     <header>
       <div>Files</div>
-      <label hidden>
-        Diff against
-        <select></select>
-      </label>
+      <div class="diffAgainst">
+        <label>
+          Diff against
+          <select on-change="_handlePatchChange">
+            <option value="PARENT">Base</option>
+            <template is="dom-repeat" items="[[_computePatchSets(revisions)]]" as="patchNum">
+              <option
+                  value$="[[patchNum]]"
+                  selected$="[[_computePatchSetSelected(patchNum, patchRange.basePatchNum)]]"
+                  disabled$="[[_computePatchSetDisabled(patchNum, patchRange.patchNum)]]">[[patchNum]]</option>
+            </template>
+          </select>
+        </label>
+      </div>
     </header>
     <template is="dom-repeat" items="{{_files}}" as="file">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
@@ -140,7 +150,7 @@ limitations under the License.
         <div class$="[[_computeClass('status', file.__path)]]">
           [[_computeFileStatus(file.status)]]
         </div>
-        <a class="path" href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">
+        <a class="path" href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
           <div title$="[[_computeFileDisplayName(file.__path)]]">
             [[_computeFileDisplayName(file.__path)]]
           </div>
@@ -150,8 +160,8 @@ limitations under the License.
           </div>
         </a>
         <div class="comments">
-          <span class="drafts">[[_computeDraftsString(drafts, patchNum, file.__path)]]</span>
-          [[_computeCommentsString(comments, patchNum, file.__path)]]
+          <span class="drafts">[[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]</span>
+          [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
         </div>
         <div class$="[[_computeClass('stats', file.__path)]]">
           <span class="added">+[[file.lines_inserted]]</span>

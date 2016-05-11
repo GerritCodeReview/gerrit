@@ -89,7 +89,10 @@ limitations under the License.
         {__path: 'myfile.txt'},
       ];
       element.changeNum = '42';
-      element.patchNum = '2';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
       element.selectedIndex = 0;
 
       flushAsynchronousOperations();
@@ -181,7 +184,10 @@ limitations under the License.
       ];
       element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element.changeNum = '42';
-      element.patchNum = '2';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
       element.selectedIndex = 0;
 
       flushAsynchronousOperations();

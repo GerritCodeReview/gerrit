@@ -35,30 +35,30 @@ public class PatchScript {
     FILE, SYMLINK, GITLINK
   }
 
-  protected Change.Key changeId;
-  protected ChangeType changeType;
-  protected String oldName;
-  protected String newName;
-  protected FileMode oldMode;
-  protected FileMode newMode;
-  protected List<String> header;
-  protected DiffPreferencesInfo diffPrefs;
-  protected SparseFileContent a;
-  protected SparseFileContent b;
-  protected List<Edit> edits;
-  protected DisplayMethod displayMethodA;
-  protected DisplayMethod displayMethodB;
-  protected transient String mimeTypeA;
-  protected transient String mimeTypeB;
-  protected CommentDetail comments;
-  protected List<Patch> history;
-  protected boolean hugeFile;
-  protected boolean intralineDifference;
-  protected boolean intralineFailure;
-  protected boolean intralineTimeout;
-  protected boolean binary;
-  protected transient String commitIdA;
-  protected transient String commitIdB;
+  private Change.Key changeId;
+  private ChangeType changeType;
+  private String oldName;
+  private String newName;
+  private FileMode oldMode;
+  private FileMode newMode;
+  private List<String> header;
+  private DiffPreferencesInfo diffPrefs;
+  private SparseFileContent a;
+  private SparseFileContent b;
+  private List<Edit> edits;
+  private DisplayMethod displayMethodA;
+  private DisplayMethod displayMethodB;
+  private transient String mimeTypeA;
+  private transient String mimeTypeB;
+  private CommentDetail comments;
+  private List<Patch> history;
+  private boolean hugeFile;
+  private boolean intralineDifference;
+  private boolean intralineFailure;
+  private boolean intralineTimeout;
+  private boolean binary;
+  private transient String commitIdA;
+  private transient String commitIdB;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final FileMode om, final FileMode nm,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9237586b_816cba28",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-11T15:09:21Z",
+      "side": 1,
+      "message": "I am still very much +1 on extracting this if check to a named fn.",
+      "revId": "6bd435314f8044c3cb8150378d1ef6dfbf8ed31c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

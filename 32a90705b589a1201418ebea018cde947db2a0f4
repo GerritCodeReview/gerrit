@@ -22,6 +22,30 @@
       "revId": "32a90705b589a1201418ebea018cde947db2a0f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_bcea4185",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-05-11T06:45:19Z",
+      "side": 1,
+      "message": "It won\u0027t show the topic changes as \"Submitted Togeter\". It will show changes that are really submitted together as \"Submitter Together\", like a series of changes in Merge or Rebase if Necessary strategies.",
+      "parentUuid": "d24c7016_5b8b03d6",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "32a90705b589a1201418ebea018cde947db2a0f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -107,11 +107,6 @@ public class PageLinks {
     return QUERY + KeyUtil.encode(query);
   }
 
-  public static String toChangeQuery(String query, String start) {
-    int s = Integer.parseInt(start);
-    return QUERY + KeyUtil.encode(query) + (s > 0 ? "," + s : "");
-  }
-
   public static String toProjectDashboard(Project.NameKey name, String id) {
     return PROJECTS + name.get() + DASHBOARDS + id;
   }

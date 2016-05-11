@@ -46,6 +46,30 @@
       "revId": "32a90705b589a1201418ebea018cde947db2a0f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24c7016_3b92b704",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-11T06:50:10Z",
+      "side": 1,
+      "message": "Ok, this makes sense. Maybe clarify this in the commit message.",
+      "parentUuid": "f25174a9_bcea4185",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "32a90705b589a1201418ebea018cde947db2a0f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

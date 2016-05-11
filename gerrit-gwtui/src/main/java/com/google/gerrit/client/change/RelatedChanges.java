@@ -215,6 +215,11 @@ public class RelatedChanges extends TabPanel {
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
+    // TODO(sbeller): show only on latest revision
+    ChangeApi.change(info.legacyId().get()).view("submitted_together")
+        .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+            info.project(), revision));
+
     if (!Gerrit.info().change().isSubmitWholeTopicEnabled()
         && info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
@@ -226,11 +231,6 @@ public class RelatedChanges extends TabPanel {
                      ListChangesOption.DETAILED_LABELS,
                      ListChangesOption.LABELS),
           new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
-    } else {
-      // TODO(sbeller): show only on latest revision
-      ChangeApi.change(info.legacyId().get()).view("submitted_together")
-          .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
-              info.project(), revision));
     }
   }
 

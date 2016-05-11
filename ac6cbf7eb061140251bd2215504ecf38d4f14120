@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "723e644b_603df219",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-11T09:21:19Z",
+      "side": 1,
+      "message": "If the IdentifiedUser is removed and instead we use self.get() on line 98, then containsAnyOf(groupsIds) returns false.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 62
+      },
+      "revId": "ac6cbf7eb061140251bd2215504ecf38d4f14120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -163,8 +163,33 @@
 
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
-
       switch (e.keyCode) {
+        case 37: // left
+          if (e.shiftKey) {
+            e.preventDefault();
+            this.$.diff.selectLeftPane();
+          }
+          break;
+        case 39: // right
+          if (e.shiftKey) {
+            e.preventDefault();
+            this.$.diff.selectRightPane();
+          }
+          break;
+        case 40: // down
+        case 74: // 'j'
+          e.preventDefault();
+          this.$.diff.scrollToNextLine();
+          break;
+        case 38: // up
+        case 75: // 'k'
+          e.preventDefault();
+          this.$.diff.scrollToPreviousLine();
+          break;
+        case 67: // 'c'
+          e.preventDefault();
+          this.$.diff.addDraftAtTarget();
+          break;
         case 219:  // '['
           e.preventDefault();
           this._navToFile(this._fileList, -1);

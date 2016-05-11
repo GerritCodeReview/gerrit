@@ -1,0 +1,204 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+(function() {
+  'use strict';
+
+  Polymer({
+    is: 'gr-cursor-manager',
+
+    properties: {
+      stops: {
+        type: Array,
+        value: null,
+      },
+
+      target: {
+        type: Object,
+        notify: true,
+      },
+
+      /**
+       * The index of the current target (if any). -1 otherwise.
+       */
+      index: {
+        type: Number,
+        value: -1,
+      },
+
+      cursorStopSelector: {
+        type: String,
+        value: '.cursor-stop',
+      },
+
+      /**
+       * The class to apply to the current target. Use null for no class.
+       */
+      cursorTargetClass: {
+        type: String,
+        value: null,
+      },
+
+      cursorRoot: {
+        type: Object,
+        value: function() {
+          return document;
+        },
+      },
+    },
+
+    detached: function() {
+      this.unsetCursor();
+    },
+
+    resetStops: function() {
+      this.stops = null;
+      this._updateStops();
+    },
+
+    next: function(opt_condition) {
+      this._moveCursor(1, opt_condition);
+    },
+
+    previous: function(opt_condition) {
+      this._moveCursor(-1, opt_condition);
+    },
+
+    /**
+     * Set the cursor to an arbitrary element.
+     * @param {DOMElement}
+     */
+    setCursor: function(element) {
+      this.unsetCursor();
+      this.target = element;
+      this._updateStops();
+      this._updateTargetElement();
+    },
+
+    /**
+     * Remove the cursor target.
+     */
+    unsetCursor: function() {
+      this._detarget();
+      this.index = -1;
+      this.target = null;
+    },
+
+    isAtStart: function() {
+      return this.index === 0;
+    },
+
+    isAtEnd: function() {
+      return this.index === this.stops.length - 1;
+    },
+
+    moveToStart: function() {
+      this._detarget();
+      this.index = 0;
+      this.target = this.stops[0];
+      this._updateStops();
+      this._updateTargetElement();
+    },
+
+    /**
+     * Move the cursor forward or backward by delta. Noop if moving past either
+     * end of the stop list.
+     * @param {Number} delta: either -1 or 1.
+     * @param {Function} opt_condition Optional stop condition. If a condition
+     *    is passed the cursor will continue to move in the specified direction
+     *    until the condition is met.
+     * @private
+     */
+    _moveCursor: function(delta, opt_condition) {
+      if (!this.stops) {
+        this._updateStops();
+      }
+
+      this._detarget();
+
+      var newIndex = this._getNextindex(delta, opt_condition);
+
+      var newTarget = null;
+      if (newIndex != -1) {
+        newTarget = this.stops[newIndex];
+      }
+
+      this.index = newIndex;
+      this.target = newTarget;
+
+      this._updateTargetElement();
+    },
+
+    _updateTargetElement: function() {
+      if (this.target && this.cursorTargetClass) {
+        this.target.classList.add(this.cursorTargetClass);
+      }
+    },
+
+    _detarget: function() {
+      // First, de-target the current cursor-target.
+      if (this.target && this.cursorTargetClass) {
+        this.target.classList.remove(this.cursorTargetClass);
+      }
+    },
+
+    /**
+     * Get the next stop index indicated by the delta direction.
+     * @param {Number} delta: either -1 or 1.
+     * @param {Function} opt_condition Optional stop condition.
+     * @return {Number} the new index.
+     * @private
+     */
+    _getNextindex: function(delta, opt_condition) {
+      if (!this.stops.length || this.index === -1) {
+        return -1;
+      }
+
+      var newIndex = this.index;
+      do {
+        newIndex = newIndex + delta;
+      } while(newIndex !== 0 &&
+              newIndex !== this.stops.length - 1 &&
+              opt_condition &&
+              !opt_condition(this.stops[newIndex]));
+
+      newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
+
+      return newIndex;
+    },
+
+    _getTargetStops: function() {
+      return this.cursorRoot.querySelectorAll(this.cursorStopSelector);
+    },
+
+    /**
+     * Update the stops and recompute the index. If the current target is not in
+     * the new list then unset.
+     * @private
+     */
+    _updateStops: function() {
+      this.stops = this._getTargetStops();
+
+      if (this.target) {
+        var newIndex = Array.prototype.indexOf.call(this.stops, this.target);
+        if (newIndex === -1) {
+          this.unsetCursor();
+        } else {
+          this.index = newIndex;
+        }
+      } else {
+        this.index = -1;
+      }
+    },
+  });
+})();

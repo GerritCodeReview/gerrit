@@ -23,6 +23,7 @@
   GrDiffBuilderUnified.prototype.emitGroup = function(group,
       opt_beforeSection) {
     var sectionEl = this._createElement('tbody', 'section');
+    sectionEl.classList.add(group.type);
 
     for (var i = 0; i < group.lines.length; ++i) {
       sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));
@@ -32,6 +33,8 @@
 
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     var row = this._createElement('tr', line.type);
+    row.classList.add('diff-row', 'unified');
+
     row.appendChild(this._createLineEl(line, line.beforeNumber,
         GrDiffLine.Type.REMOVE));
     row.appendChild(this._createLineEl(line, line.afterNumber,

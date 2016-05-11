@@ -58,18 +58,12 @@
         observer: '_selectionSideChanged',
       },
       _comments: Object,
-      _focusedSection: {
-        type: Number,
-        value: -1,
-      },
-      _focusedThread: {
-        type: Number,
-        value: -1,
-      },
+      _focusedLine: Object,
     },
 
     observers: [
       '_prefsChanged(prefs.*, viewMode)',
+      '_scrollToCursor(_focusedLine)',
     ],
 
     attached: function() {
@@ -81,6 +75,8 @@
           this._handleThreadDiscard.bind(this));
       this.addEventListener('comment-discard',
           this._handleCommentDiscard.bind(this));
+
+      this.$.cursor.cursorRoot = this.$.diffTable;
     },
 
     reload: function() {
@@ -119,40 +115,50 @@
     },
 
     scrollToNextDiffChunk: function() {
-      this._focusedSection = this._advanceElementWithinNodeList(
-          this._getDeltaSections(), this._focusedSection, 1);
+      this.$.cursor.moveToNextChunk();
     },
 
     scrollToPreviousDiffChunk: function() {
-      this._focusedSection = this._advanceElementWithinNodeList(
-          this._getDeltaSections(), this._focusedSection, -1);
+      this.$.cursor.moveToPreviousChunk();
     },
 
     scrollToNextCommentThread: function() {
-      this._focusedThread = this._advanceElementWithinNodeList(
-          this._getCommentThreads(), this._focusedThread, 1);
+      this.$.cursor.moveToNextCommentThread();
     },
 
     scrollToPreviousCommentThread: function() {
-      this._focusedThread = this._advanceElementWithinNodeList(
-          this._getCommentThreads(), this._focusedThread, -1);
+      this.$.cursor.moveToPreviousCommentThread();
     },
 
-    _advanceElementWithinNodeList: function(els, curIndex, direction) {
-      var idx = Math.max(0, Math.min(els.length - 1, curIndex + direction));
-      if (curIndex !== idx) {
-        this._scrollToElement(els[idx]);
-        return idx;
+    scrollToNextLine: function() {
+      this.$.cursor.moveDown();
+    },
+
+    scrollToPreviousLine: function() {
+      this.$.cursor.moveUp();
+    },
+
+    selectLeftPane: function() {
+      this.$.cursor.moveLeft();
+    },
+
+    selectRightPane: function() {
+      this.$.cursor.moveRight();
+    },
+
+    addDraftAtTarget: function() {
+      var lineEl = this.$.cursor.getTargetLineElement();
+      if (lineEl) {
+        this._handleLineActivate(lineEl);
       }
-      return curIndex;
+    },
+
+    _scrollToCursor: function() {
+      this._scrollToElement(this.$.cursor.getTargetLineElement());
     },
 
     _getCommentThreads: function() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
-    },
-
-    _getDeltaSections: function() {
-      return Polymer.dom(this.root).querySelectorAll('.section.delta');
     },
 
     _scrollToElement: function(el) {
@@ -198,11 +204,11 @@
       if (el.classList.contains('showContext')) {
         this._showContext(e.detail.group, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
-        this._handleLineTap(el);
+        this._handleLineActivate(el);
       }
     },
 
-    _handleLineTap: function(el) {
+    _handleLineActivate: function(el) {
       this._getLoggedIn().then(function(loggedIn) {
         if (!loggedIn) { return; }
 
@@ -342,6 +348,7 @@
     _showContext: function(group, sectionEl) {
       this._builder.emitGroup(group, sectionEl);
       sectionEl.parentNode.removeChild(sectionEl);
+      this.$.cursor.stopsChanged();
     },
 
     _prefsChanged: function(prefsChangeRecord) {
@@ -359,6 +366,7 @@
       this._builder = this._getDiffBuilder(this._diff, this._comments,
           this.prefs);
       this._builder.emitDiff(this._diff.content);
+      this.$.cursor.reinitCursor();
 
       this.async(function() {
         this.fire('render', null, {bubbles: false});

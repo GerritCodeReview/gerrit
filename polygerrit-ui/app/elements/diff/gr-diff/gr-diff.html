@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
+<link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
 
 <dom-module id="gr-diff">
   <template>
@@ -43,6 +44,14 @@ limitations under the License.
       .section {
         background-color: #eee;
       }
+      .diff-row.target-row {
+        outline: .2em solid #ddd;
+      }
+      .diff-row.target-row.target-side-left .lineNum.left,
+      .diff-row.target-row.target-side-right .lineNum.right,
+      .diff-row.target-row.unified .lineNum {
+        background-color: #ccc;
+      }
       .blank,
       .content {
         background-color: #fff;
@@ -67,9 +76,7 @@ limitations under the License.
       .canComment .lineNum[data-value]:before {
         text-decoration: underline;
       }
-      .canComment .lineNum[data-value]:hover:before {
-        background-color: #ccc;
-      }
+      .canComment .lineNum[data-value]:hover:before,
       .canComment .lineNum[data-value="FILE"]:before {
         content: 'File';
       }
@@ -137,6 +144,11 @@ limitations under the License.
         on-copy="_handleCopy">
       <table id="diffTable"></table>
     </div>
+    <gr-diff-cursor
+        id="cursor"
+        view-mode="[[viewMode]]"
+        diff-row="{{_focusedLine}}"
+        side="{{_selectionSide}}"></gr-diff-cursor>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-diff-line.js"></script>

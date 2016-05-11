@@ -298,6 +298,7 @@ public class InternalChangeQuery {
     return query(and(project(project), or(groupPredicates)));
   }
 
+  @SuppressWarnings("deprecation")
   public List<ChangeData> byIsStarred(Account.Id id) throws OrmException {
     return query(new IsStarredByPredicate(id));
   }

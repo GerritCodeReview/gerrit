@@ -377,6 +377,7 @@ public class ChangeJson {
     return info;
   }
 
+  @SuppressWarnings("deprecation")
   private ChangeInfo toChangeInfo(ChangeData cd,
       Optional<PatchSet.Id> limitToPsId) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {

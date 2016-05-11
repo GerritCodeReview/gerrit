@@ -117,6 +117,7 @@ class ChangesImpl implements Changes {
     return query().withQuery(query);
   }
 
+  @SuppressWarnings("deprecation")
   private List<ChangeInfo> get(final QueryRequest q) throws RestApiException {
     QueryChanges qc = queryProvider.get();
     if (q.getQuery() != null) {

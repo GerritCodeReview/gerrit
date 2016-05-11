@@ -336,6 +336,7 @@ class ChangeApiImpl implements ChangeApi {
     }
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public ChangeInfo get(EnumSet<ListChangesOption> s)
       throws RestApiException {

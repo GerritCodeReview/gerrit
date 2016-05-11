@@ -111,6 +111,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     return out.size() == 1 ? out.get(0) : out;
   }
 
+  @SuppressWarnings("deprecation")
   private List<List<ChangeInfo>> query()
       throws OrmException, QueryParseException {
     if (imp.isDisabled()) {

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f25174a9_dc606d02",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-11T11:10:40Z",
+      "side": 1,
+      "message": "FIRST_NAMES \u003d [ .. ] (no need to separate by gender)\n\njust 10 names would also do the trick, no? If you\u0027re worried about collisions, construct them deterministically,\n\n users \u003d [(f, l) for f in FIRST for l in LAST][:num_users]",
+      "revId": "874343de5a52c794f0586c59171fb2510245caf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25174a9_fc65290f",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-11T11:10:40Z",
+      "side": 1,
+      "message": "SSH -\u003e ssh",
+      "revId": "874343de5a52c794f0586c59171fb2510245caf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24c7016_7b0b5f1d",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-11T11:10:40Z",
+      "side": 1,
+      "message": "os.getcwd() ?\n\nif you\u0027re going to delete it at the end, just use tempfile.mktempd and drop the prompting.",
+      "revId": "874343de5a52c794f0586c59171fb2510245caf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

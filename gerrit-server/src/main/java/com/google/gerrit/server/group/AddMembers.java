@@ -187,12 +187,13 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         }
       }
     }
-
-    auditService.dispatchAddAccountsToGroup(self.get().getAccountId(),
-        newAccountGroupMembers.values());
-    db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
-    for (AccountGroupMember m : newAccountGroupMembers.values()) {
-      accountCache.evict(m.getAccountId());
+    if (!newAccountGroupMembers.isEmpty()) {
+      auditService.dispatchAddAccountsToGroup(self.get().getAccountId(),
+          newAccountGroupMembers.values());
+      db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
+      for (AccountGroupMember m : newAccountGroupMembers.values()) {
+        accountCache.evict(m.getAccountId());
+      }
     }
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9237586b_41f79267",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-11T23:23:51Z",
+      "side": 1,
+      "message": "It essentially IS a reset state method, which I don’t really like since changing something like the basePatchNum should not have to reload the entire page. I have to go through each subcomponent to ensure that they’re all compatible with partial parameter changes before it becomes something other than a reset state method.",
+      "parentUuid": "9237586b_c1eac286",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "723e644b_00674640",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-11T22:44:58Z",
       "side": 1,
       "message": "encodeUri",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_c0607e27",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-11T23:23:51Z",
+      "side": 1,
+      "message": "No longer there.",
+      "parentUuid": "723e644b_00674640",
       "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9237586b_21fa8e52",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-11T23:23:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "723e644b_a05bfa74",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9237586b_61009628",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-05-11T22:44:58Z",
       "side": 1,
       "message": "encode?",
+      "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "723e644b_6056524c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-11T23:23:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9237586b_61009628",
       "revId": "44dc76a2bc6fd724032675a733dfd387d7dcd6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

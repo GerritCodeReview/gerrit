@@ -52,6 +52,24 @@
       "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_6af197a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-12T08:36:08Z",
+      "side": 1,
+      "message": "OK, I\u0027ve rebased it out to the tip of the series and removed the topic.",
+      "parentUuid": "97874ad1_c142429e",
+      "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

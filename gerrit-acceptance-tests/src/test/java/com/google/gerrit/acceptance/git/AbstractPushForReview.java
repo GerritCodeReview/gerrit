@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.server.git.ProjectConfig;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -41,6 +42,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -379,6 +382,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCreateNewChangeForAllNotInTarget() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.projects()
+        .name(project.get())
+        .branch("otherBranch")
+        .create(new BranchInput());
+
+    PushOneCommit.Result r2 = push.to("refs/for/otherBranch");
+    r2.assertOkStatus();
+    assertTwoChangesWithSameRevision(r);
+  }
+
+  @Test
   public void testPushSameCommitTwiceUsingMagicBranchBaseOption()
       throws Exception {
     grant(Permission.PUSH, project, "refs/heads/master");
@@ -401,7 +432,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         testRepo, "refs/for/foo%base=" + rBase.getCommitId().name(), false, false);
     assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
 
-    List<ChangeInfo> changes = query(r.getCommitId().name());
+    assertTwoChangesWithSameRevision(r);
+  }
+
+  private void assertTwoChangesWithSameRevision(PushOneCommit.Result result)
+      throws Exception {
+    List<ChangeInfo> changes = query(result.getCommitId().name());
     assertThat(changes).hasSize(2);
     ChangeInfo c1 = get(changes.get(0).id);
     ChangeInfo c2 = get(changes.get(1).id);

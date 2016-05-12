@@ -73,7 +73,6 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
-  static final String PLUGIN_TMP_PREFIX = "plugin_";
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   public String getPluginName(Path srcPath) {

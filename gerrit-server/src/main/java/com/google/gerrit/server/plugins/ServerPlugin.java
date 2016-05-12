@@ -37,22 +37,6 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 public class ServerPlugin extends Plugin {
-
-  /** Unique key that changes whenever a plugin reloads. */
-  public static final class CacheKey {
-    private final String name;
-
-    CacheKey(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String toString() {
-      int id = System.identityHashCode(this);
-      return String.format("Plugin[%s@%x]", name, id);
-    }
-  }
-
   private final Manifest manifest;
   private final PluginContentScanner scanner;
   private final Path dataDir;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "523080cd_c7327e4c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/WebLoginListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-12T11:41:08Z",
+      "side": 1,
+      "message": "The hyphen is not needed in \"logs in\" and \"logs out\".",
+      "range": {
+        "startLine": 25,
+        "startChar": 50,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "7e0411116d4172528fa93437662a1c1e12954ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_cace033f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/WebLoginListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-12T11:41:08Z",
+      "side": 1,
+      "message": "\"on\"?",
+      "range": {
+        "startLine": 42,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 12
+      },
+      "revId": "7e0411116d4172528fa93437662a1c1e12954ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

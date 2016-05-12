@@ -31,8 +31,3 @@ maven_package(
   },
   war = {'gerrit-war': '//:release'},
 )
-
-python_binary(
-  name = 'mvn',
-  main = 'mvn.py',
-)

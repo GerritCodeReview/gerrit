@@ -16,7 +16,7 @@ sh_bang_template = (' && '.join([
   "echo '#!/bin/sh -eu' > $OUT",
   'echo "# this script should run from the root of your workspace." >> $OUT',
   'echo "" >> $OUT',
-  "echo 'if [[ -n \"$${VERBOSE:-}\" ]]; then set -x ; fi' >> $OUT", 
+  "echo 'if [[ -n \"$${VERBOSE:-}\" ]]; then set -x ; fi' >> $OUT",
   'echo "" >> $OUT',
   'echo %s >> $OUT',
   'echo "" >> $OUT',
@@ -36,9 +36,11 @@ def maven_package(
 
   build_cmd = ['buck', 'build']
 
-  mvn_cmd = ['$(exe //tools/maven:mvn)', '-v', version]
+  # This is not using python_binary() to avoid the baggage and bugs
+  # that PEX brings along.
+  mvn_cmd = ['python', 'tools/maven/mvn.py', '-v', version]
   api_cmd = mvn_cmd[:]
-  api_targets = [ '//tools/maven:mvn' ]
+  api_targets = []
   for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc)]:
     for a,t in sorted(d.iteritems()):
       api_cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
@@ -66,7 +68,7 @@ def maven_package(
     )
 
   war_cmd = mvn_cmd[:]
-  war_targets = [ '//tools/maven:mvn' ]
+  war_targets = []
   for a,t in sorted(war.iteritems()):
     war_cmd.append('-s %s:war:$(location %s)' % (a,t))
     war_targets.append(t)

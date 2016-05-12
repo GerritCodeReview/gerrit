@@ -48,13 +48,6 @@ public class GroupInfoCache {
     }
   }
 
-  /** Indicate one or more groups will be needed later on. */
-  public void want(final Iterable<AccountGroup.UUID> uuids) {
-    for (final AccountGroup.UUID uuid : uuids) {
-      want(uuid);
-    }
-  }
-
   public GroupDescription.Basic get(final AccountGroup.UUID uuid) {
     want(uuid);
     return out.get(uuid);

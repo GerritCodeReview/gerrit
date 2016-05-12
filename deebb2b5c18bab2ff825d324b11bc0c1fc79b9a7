@@ -22,6 +22,30 @@
       "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "778e56f1_c0d8fe2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-05-12T07:12:49Z",
+      "side": 1,
+      "message": "Not really. See the discussion on PS2.\n\nSubmitted Together also shows changes that are submitted together because of project submit strategy.\n\nIf SubmitWholeTopic is enabled, then Submitted Together will show the same contents as Same Topic, so Same Topic is redundant. But it\u0027s not symmetric.",
+      "parentUuid": "b2337cd6_aae38fea",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

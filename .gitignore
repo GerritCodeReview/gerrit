@@ -8,6 +8,7 @@
 /test_site
 /.idea
 *.iml
+*.eml
 *.sublime-*
 /gerrit-package-plugins
 /.buckconfig.local

@@ -571,7 +571,10 @@ public class MergeOp {
     try {
       for (Ref r : repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
         try {
-          alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
+          CodeReviewCommit aac = rw.parseCommit(r.getObjectId());
+          if (!commits.values().contains(aac)) {
+            alreadyAccepted.add(aac);
+          }
         } catch (IncorrectObjectTypeException iote) {
           // Not a commit? Skip over it.
         }

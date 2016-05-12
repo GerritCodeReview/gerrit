@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2337cd6_aae38fea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-12T00:54:14Z",
+      "side": 1,
+      "message": "This means it still needs to be guarded in the isSubmitWholeTopicEnabled case,\nso I think what we want is\n\n    if (!isSubmitWholeTopicEnabled) {\n         if (info.topic() !\u003d null \u0026\u0026 !\"\".equals(info.topic())) {\n            ...\n            new TabChangeListCallback(Tab.SAME_TOPIC, ...)\n         } \n    } else {\n        // TODO(sbeller): show only on latest revision\n        ChangeApi.change(... SUBMITTED_TOGETHER);\n    }\n\nThat way we have only one of them, and the topic only if a topic is set.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

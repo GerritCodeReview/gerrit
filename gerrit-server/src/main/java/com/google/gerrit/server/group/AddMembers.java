@@ -255,9 +255,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   @Singleton
   static class UpdateMember implements RestModifyView<MemberResource, PutMember.Input> {
-    static class Input {
-    }
-
     private final GetMember get;
 
     @Inject

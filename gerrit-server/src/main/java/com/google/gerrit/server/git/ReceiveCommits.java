@@ -1505,7 +1505,7 @@ public class ReceiveCommits {
   private void selectNewAndReplacedChangesFromMagicBranch() {
     newChanges = Lists.newArrayList();
 
-    SetMultimap<ObjectId, Ref> existing = HashMultimap.create();
+    SetMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector = new GroupCollector(changeRefsById(), db);
 
     rp.getRevWalk().reset();
@@ -1553,10 +1553,14 @@ public class ReceiveCommits {
           //      B will be in existing so we aren't replacing the patch set. It
           //      used to have its own group, but now needs to to be changed to
           //      A's group.
+          // C) Commit is a PatchSet of a pre-existing change uploaded with a
+          //    different target branch.
           for (Ref ref : existingRefs) {
             updateGroups.add(new UpdateGroupsRequest(ref, c));
           }
-          continue;
+          if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
+            continue;
+          }
         }
 
         if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
@@ -1599,7 +1603,8 @@ public class ReceiveCommits {
         }
       }
 
-      for (ChangeLookup p : pending) {
+      for (Iterator<ChangeLookup> itr = pending.iterator();itr.hasNext();) {
+        ChangeLookup p = itr.next();
         if (newChangeIds.contains(p.changeKey)) {
           reject(magicBranch.cmd, "squash commits first");
           newChanges = Collections.emptyList();
@@ -1621,6 +1626,17 @@ public class ReceiveCommits {
         if (changes.size() == 1) {
           // Schedule as a replacement to this one matching change.
           //
+
+          if (p.commit.name().equals(changes.get(0).currentPatchSet().getRevision().get())) {
+            // All PatchSets in push are currentPatchSet of target changes
+            if (pending.size() == 1) {
+              reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
+            } else {
+              // Commit is already current PatchSet.
+              itr.remove();
+              continue;
+            }
+          }
           if (requestReplace(
               magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
             continue;
@@ -1994,12 +2010,6 @@ public class ReceiveCommits {
       }
 
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
-      if (newCommit == priorCommit) {
-        // Ignore requests to make the change its current state.
-        skip = true;
-        reject(inputCommand, "commit already exists (as current patchset)");
-        return false;
-      }
 
       changeCtl = projectControl.controlFor(change);
       if (!changeCtl.canAddPatchSet()) {

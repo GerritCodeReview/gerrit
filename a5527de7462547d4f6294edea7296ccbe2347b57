@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "523080cd_a7c90a3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-05-12T20:49:10Z",
+      "side": 1,
+      "message": "Can\u0027t simply revert since the next \u0027checkArgument\u0027 relies on change not being null.\n\nI\u0027m not familiar with NoteDb, how exactly can I query NoteDb for the existence of a change?",
+      "parentUuid": "778e56f1_6096d201",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 71
+      },
+      "revId": "a5527de7462547d4f6294edea7296ccbe2347b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97874ad1_61ed769f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-12T14:20:12Z",
       "side": 1,
       "message": "better: getChangesFromIndex",
+      "range": {
+        "startLine": 171,
+        "startChar": 29,
+        "endLine": 171,
+        "endChar": 56
+      },
+      "revId": "a5527de7462547d4f6294edea7296ccbe2347b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_6a927705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-05-12T20:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97874ad1_61ed769f",
       "range": {
         "startLine": 171,
         "startChar": 29,

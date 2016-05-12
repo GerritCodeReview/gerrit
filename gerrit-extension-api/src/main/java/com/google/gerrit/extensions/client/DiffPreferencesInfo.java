@@ -88,4 +88,47 @@ public class DiffPreferencesInfo {
     i.matchBrackets = false;
     return i;
   }
+
+  public static DiffPreferencesInfo updateDefaults(DiffPreferencesInfo update) {
+    DiffPreferencesInfo ud = new DiffPreferencesInfo();
+    ud.context = update.context != null ? update.context : DEFAULT_CONTEXT;
+    ud.tabSize = update.tabSize != null ? update.tabSize : DEFAULT_TAB_SIZE;
+    ud.lineLength = update.lineLength != null ?
+        update.lineLength : DEFAULT_LINE_LENGTH;
+    ud.cursorBlinkRate = update.cursorBlinkRate != null ?
+        update.cursorBlinkRate : 0;
+    ud.ignoreWhitespace = update.ignoreWhitespace != null ?
+        update.ignoreWhitespace : Whitespace.IGNORE_NONE;
+    ud.theme = update.theme != null ? update.theme : Theme.DEFAULT;
+    ud.expandAllComments = update.expandAllComments != null ?
+        update.expandAllComments : false;
+    ud.intralineDifference = update.intralineDifference != null ?
+        update.intralineDifference : true;
+    ud.manualReview = update.manualReview != null ?
+        update.manualReview : false;
+    ud.retainHeader = update.retainHeader != null ?
+        update.retainHeader : false;
+    ud.showLineEndings = update.showLineEndings != null ?
+        update.showLineEndings : true;
+    ud.showTabs = update.showTabs != null ? update.showTabs : true;
+    ud.showWhitespaceErrors = update.showWhitespaceErrors != null ?
+        update.showWhitespaceErrors : true;
+    ud.skipDeleted = update.skipDeleted != null ? update.skipDeleted : false;
+    ud.skipUncommented = update.skipUncommented != null ?
+        update.skipUncommented : false;
+    ud.syntaxHighlighting = update.syntaxHighlighting != null ?
+        update.syntaxHighlighting : true;
+    ud.hideTopMenu = update.hideTopMenu != null ? update.hideTopMenu : false;
+    ud.autoHideDiffTableHeader = update.autoHideDiffTableHeader != null ?
+        update.autoHideDiffTableHeader : true;
+    ud.hideLineNumbers = update.hideLineNumbers != null ?
+        update.hideLineNumbers : false;
+    ud.renderEntireFile = update.renderEntireFile != null ?
+        update.renderEntireFile : false;
+    ud.hideEmptyPane = update.hideEmptyPane != null ?
+        update.hideEmptyPane : false;
+    ud.matchBrackets = update.matchBrackets != null ?
+        update.matchBrackets : false;
+    return ud;
+  }
 }

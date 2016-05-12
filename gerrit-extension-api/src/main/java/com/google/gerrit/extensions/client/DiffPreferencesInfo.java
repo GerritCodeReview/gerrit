@@ -90,4 +90,50 @@ public class DiffPreferencesInfo {
     i.matchBrackets = false;
     return i;
   }
+
+  public static DiffPreferencesInfo updateDefaults(DiffPreferencesInfo update) {
+    DiffPreferencesInfo def = DiffPreferencesInfo.defaults();
+    DiffPreferencesInfo ud = new DiffPreferencesInfo();
+    ud.context = update.context != null ? update.context : def.context;
+    ud.tabSize = update.tabSize != null ? update.tabSize : def.tabSize;
+    ud.lineLength = update.lineLength != null ?
+        update.lineLength : def.lineLength;
+    ud.cursorBlinkRate = update.cursorBlinkRate != null ?
+        update.cursorBlinkRate : def.cursorBlinkRate;
+    ud.ignoreWhitespace = update.ignoreWhitespace != null ?
+        update.ignoreWhitespace : def.ignoreWhitespace;
+    ud.theme = update.theme != null ? update.theme : def.theme;
+    ud.expandAllComments = update.expandAllComments != null ?
+        update.expandAllComments : def.expandAllComments;
+    ud.intralineDifference = update.intralineDifference != null ?
+        update.intralineDifference : def.intralineDifference;
+    ud.manualReview = update.manualReview != null ?
+        update.manualReview : def.manualReview;
+    ud.retainHeader = update.retainHeader != null ?
+        update.retainHeader : def.retainHeader;
+    ud.showLineEndings = update.showLineEndings != null ?
+        update.showLineEndings : def.showLineEndings;
+    ud.showTabs = update.showTabs != null ? update.showTabs : def.showTabs;
+    ud.showWhitespaceErrors = update.showWhitespaceErrors != null ?
+        update.showWhitespaceErrors : def.showWhitespaceErrors;
+    ud.skipDeleted = update.skipDeleted != null ?
+        update.skipDeleted : def.skipDeleted;
+    ud.skipUncommented = update.skipUncommented != null ?
+        update.skipUncommented : def.skipUncommented;
+    ud.syntaxHighlighting = update.syntaxHighlighting != null ?
+        update.syntaxHighlighting : def.syntaxHighlighting;
+    ud.hideTopMenu = update.hideTopMenu != null ?
+        update.hideTopMenu : def.hideTopMenu;
+    ud.autoHideDiffTableHeader = update.autoHideDiffTableHeader != null ?
+        update.autoHideDiffTableHeader : def.autoHideDiffTableHeader;
+    ud.hideLineNumbers = update.hideLineNumbers != null ?
+        update.hideLineNumbers : def.hideLineNumbers;
+    ud.renderEntireFile = update.renderEntireFile != null ?
+        update.renderEntireFile : def.renderEntireFile;
+    ud.hideEmptyPane = update.hideEmptyPane != null ?
+        update.hideEmptyPane : def.hideEmptyPane;
+    ud.matchBrackets = update.matchBrackets != null ?
+        update.matchBrackets : def.matchBrackets;
+    return ud;
+  }
 }

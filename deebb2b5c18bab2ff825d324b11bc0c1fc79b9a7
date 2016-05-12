@@ -46,6 +46,30 @@
       "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_a72d8af1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-12T11:00:01Z",
+      "side": 1,
+      "message": "It might help to upload a screenshot of what the UI looks like with this change applied.",
+      "parentUuid": "778e56f1_c0d8fe2c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

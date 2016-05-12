@@ -17,7 +17,6 @@ package com.google.gerrit.client.rpc;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotSignedInDialog;
-import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -42,9 +41,6 @@ public abstract class GerritCallback<T> implements
       new NotSignedInDialog().center();
     } else if (isNoSuchEntity(caught)) {
       new ErrorDialog(Gerrit.C.notFoundBody()).center();
-    } else if (isInactiveAccount(caught)) {
-      new ErrorDialog(Gerrit.C.inactiveAccountBody()).center();
-
     } else if (isNoSuchAccount(caught)) {
       final String msg = caught.getMessage();
       final String who = msg.substring(NoSuchAccountException.MESSAGE.length());
@@ -95,11 +91,6 @@ public abstract class GerritCallback<T> implements
     return RestApi.isNotFound(caught)
         || (caught instanceof RemoteJsonException
             && caught.getMessage().equals(NoSuchEntityException.MESSAGE));
-  }
-
-  protected static boolean isInactiveAccount(final Throwable caught) {
-    return caught instanceof RemoteJsonException
-        && caught.getMessage().startsWith(InactiveAccountException.MESSAGE);
   }
 
   protected static boolean isNoSuchAccount(final Throwable caught) {

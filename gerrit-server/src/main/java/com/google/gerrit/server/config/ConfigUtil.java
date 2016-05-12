@@ -344,10 +344,7 @@ public class ConfigUtil {
         } else if (isLong(t)) {
           f.set(s, cfg.getLong(section, sub, n, (Long) d));
         } else if (isBoolean(t)) {
-          boolean b = cfg.getBoolean(section, sub, n, (Boolean) d);
-          if (b || i != null) {
-            f.set(s, b);
-          }
+          f.set(s, cfg.getBoolean(section, sub, n, (Boolean) d));
         } else if (t.isEnum()) {
           f.set(s, cfg.getEnum(section, sub, n, (Enum<?>) d));
         } else {

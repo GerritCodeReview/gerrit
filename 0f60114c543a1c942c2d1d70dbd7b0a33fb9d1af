@@ -16,6 +16,24 @@
       "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_8705e66d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-12T08:24:02Z",
+      "side": 1,
+      "message": "If I understand correctly the merge-failed event was a remnant of the merge queue functionality that was removed.",
+      "parentUuid": "97874ad1_01f82a87",
+      "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

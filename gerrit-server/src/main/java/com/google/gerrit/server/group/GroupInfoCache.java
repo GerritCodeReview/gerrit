@@ -23,16 +23,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** Efficiently builds a {@link GroupInfoCache}. */
-public class GroupInfoCacheFactory {
+public class GroupInfoCache {
   public interface Factory {
-    GroupInfoCacheFactory create();
+    GroupInfoCache create();
   }
 
   private final GroupBackend groupBackend;
   private final Map<AccountGroup.UUID, GroupDescription.Basic> out;
 
   @Inject
-  GroupInfoCacheFactory(GroupBackend groupBackend) {
+  GroupInfoCache(GroupBackend groupBackend) {
     this.groupBackend = groupBackend;
     this.out = new HashMap<>();
   }

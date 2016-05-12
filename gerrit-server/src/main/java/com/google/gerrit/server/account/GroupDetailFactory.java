@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.GroupInfoCacheFactory;
+import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -44,7 +44,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private final GroupCache groupCache;
   private final GroupBackend groupBackend;
   private final AccountInfoCacheFactory aic;
-  private final GroupInfoCacheFactory gic;
+  private final GroupInfoCache gic;
 
   private final AccountGroup.Id groupId;
   private GroupControl control;
@@ -54,7 +54,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       final GroupControl.Factory groupControl, final GroupCache groupCache,
       final GroupBackend groupBackend,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final GroupInfoCacheFactory.Factory groupInfoCacheFactory,
+      final GroupInfoCache.Factory groupInfoCacheFactory,
       @Assisted final AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;

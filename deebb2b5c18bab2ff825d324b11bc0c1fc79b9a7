@@ -70,6 +70,30 @@
       "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97874ad1_e16d0625",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-05-12T11:21:34Z",
+      "side": 1,
+      "message": "http://imgur.com/hDKo6Od",
+      "parentUuid": "523080cd_a72d8af1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

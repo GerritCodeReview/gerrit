@@ -49,7 +49,6 @@ import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.HashtagsChangedEvent;
-import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
@@ -169,9 +168,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
     /** Path of the change merged hook. */
     private final Optional<Path> changeMergedHook;
 
-    /** Path of the merge failed hook. */
-    private final Optional<Path> mergeFailedHook;
-
     /** Path of the change abandoned hook. */
     private final Optional<Path> changeAbandonedHook;
 
@@ -268,7 +264,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
         draftPublishedHook = hook(config, hooksPath, "draft-published");
         commentAddedHook = hook(config, hooksPath, "comment-added");
         changeMergedHook = hook(config, hooksPath, "change-merged");
-        mergeFailedHook = hook(config, hooksPath, "merge-failed");
         changeAbandonedHook = hook(config, hooksPath, "change-abandoned");
         changeRestoredHook = hook(config, hooksPath, "change-restored");
         refUpdatedHook = hook(config, hooksPath, "ref-updated");
@@ -526,41 +521,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       addArg(args, "--newrev", mergeResultRev);
 
       runHook(change.getProject(), changeMergedHook, args);
-    }
-
-    @Override
-    public void doMergeFailedHook(Change change, Account account,
-          PatchSet patchSet, String reason,
-          ReviewDb db) throws OrmException {
-      MergeFailedEvent event = new MergeFailedEvent(change);
-      Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.submitter = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.reason = reason;
-
-      dispatcher.get().postEvent(change, event, db);
-
-      if (!mergeFailedHook.isPresent()) {
-        return;
-      }
-
-      List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
-
-      addArg(args, "--change", c.id);
-      addArg(args, "--change-url", c.url);
-      addArg(args, "--change-owner", getDisplayName(owner.get().getAccount()));
-      addArg(args, "--project", c.project);
-      addArg(args, "--branch", c.branch);
-      addArg(args, "--topic", c.topic);
-      addArg(args, "--submitter", getDisplayName(account));
-      addArg(args, "--commit", ps.revision);
-      addArg(args, "--reason",  reason == null ? "" : reason);
-
-      runHook(change.getProject(), mergeFailedHook, args);
     }
 
     @Override

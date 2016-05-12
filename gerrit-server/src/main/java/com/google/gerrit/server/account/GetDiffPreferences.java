@@ -66,12 +66,20 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       DiffPreferencesInfo in)
       throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
+      // Load all users prefs.
+      VersionedAccountPreferences dp =
+          VersionedAccountPreferences.forDefault();
+      dp.load(git);
+      DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
+      loadSection(dp.getConfig(), UserConfigSections.DIFF, null, allUserPrefs,
+          DiffPreferencesInfo.defaults(), in);
+      // Load user prefs
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forUser(id);
       p.load(git);
       DiffPreferencesInfo prefs = new DiffPreferencesInfo();
       loadSection(p.getConfig(), UserConfigSections.DIFF, null, prefs,
-          DiffPreferencesInfo.defaults(), in);
+          allUserPrefs, in);
       return prefs;
     }
   }

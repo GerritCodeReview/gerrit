@@ -369,10 +369,6 @@ public class Unified extends DiffScreen {
     return new CodeMirror[] {cm};
   }
 
-  CodeMirror getCm() {
-    return cm;
-  }
-
   @Override
   UnifiedTable getDiffTable() {
     return diffTable;

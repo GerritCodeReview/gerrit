@@ -77,6 +77,8 @@ public class WebModule extends LifecycleModule {
     bind(ProxyProperties.class).toProvider(ProxyPropertiesProvider.class);
 
     listener().toInstance(registerInParentInjectors());
+
+    install(UniversalWebLoginFilter.module());
   }
 
   private void installAuthModule() {

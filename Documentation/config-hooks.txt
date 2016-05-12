@@ -78,14 +78,6 @@ Called whenever a change has been merged.
   change-merged --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --newrev <sha1>
 ====
 
-=== merge-failed
-
-Called whenever a change has failed to merge.
-
-====
-  merge-failed --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --reason <reason>
-====
-
 === change-abandoned
 
 Called whenever a change has been abandoned.

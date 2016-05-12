@@ -181,23 +181,6 @@ projectHead:: The created project head name
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-=== Merge Failed
-
-Sent when a change has failed to be merged into the git repository.
-
-type:: "merge-failed"
-
-change:: link:json.html#change[change attribute]
-
-patchSet:: link:json.html#patchSet[patchSet attribute]
-
-submitter:: link:json.html#account[account attribute]
-
-reason:: Reason that the merge failed.
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
 === Patchset Created
 
 Sent when a new change has been uploaded, or a new patch set has been uploaded

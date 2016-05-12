@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97874ad1_01f82a87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-12T08:18:24Z",
+      "side": 1,
+      "message": "Is this a bug that we want to fix?",
+      "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97874ad1_c142429e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-12T08:31:54Z",
+      "side": 1,
+      "message": "Could be, but I would prefer if Dave could comment on this before submit. Maybe this change could be moved to the end of the series so that the other changes can be merged already now?",
+      "parentUuid": "523080cd_8705e66d",
+      "revId": "0f60114c543a1c942c2d1d70dbd7b0a33fb9d1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -265,12 +265,4 @@ public class Hashtags extends Composite {
     protected PostInput() {
     }
   }
-
-  public static class Result extends JavaScriptObject {
-    public final native JsArrayString hashtags() /*-{ return this.hashtags; }-*/;
-    public final native String error() /*-{ return this.error; }-*/;
-
-    protected Result() {
-    }
-  }
 }

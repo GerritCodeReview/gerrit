@@ -103,12 +103,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   // SearchSuggestOracle up to date.
 
   public static final String FIELD_ADDED = "added";
-  public static final String FIELD_AFTER = "after";
   public static final String FIELD_AGE = "age";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_BEFORE = "before";
-  public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
+  public static final String FIELD_CHANGE_ID = "change_id";
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
@@ -119,14 +118,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_DESTINATION = "destination";
   public static final String FIELD_DRAFTBY = "draftby";
   public static final String FIELD_EDITBY = "editby";
+  public static final String FIELD_EXACTCOMMIT = "exactcommit";
   public static final String FIELD_FILE = "file";
-  public static final String FIELD_IS = "is";
-  public static final String FIELD_HAS = "has";
+  public static final String FIELD_FILEPART = "filepart";
+  public static final String FIELD_GROUP = "group";
   public static final String FIELD_HASHTAG = "hashtag";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_MERGE = "merge";
-  public static final String FIELD_MERGEABLE = "mergeable";
+  public static final String FIELD_MERGEABLE = "mergeable2";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
@@ -134,7 +134,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_PATH = "path";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
-  public static final String FIELD_QUERY = "query";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWEDBY = "reviewedby";
   public static final String FIELD_REVIEWER = "reviewer";
@@ -143,7 +142,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STARBY = "starby";
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
-  public static final String FIELD_TOPIC = "topic";
+  public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";

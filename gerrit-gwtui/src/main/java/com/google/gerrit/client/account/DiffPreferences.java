@@ -106,7 +106,7 @@ public class DiffPreferences extends JavaScriptObject {
   }
 
   public final int lineLength() {
-    return get("line_length", 100);
+    return get("line_length", 80);
   }
 
   public final int cursorBlinkRate() {

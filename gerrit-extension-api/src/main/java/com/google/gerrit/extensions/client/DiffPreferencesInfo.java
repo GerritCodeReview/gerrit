@@ -23,7 +23,7 @@ public class DiffPreferencesInfo {
   public static final int DEFAULT_TAB_SIZE = 8;
 
   /** Default line length. */
-  public static final int DEFAULT_LINE_LENGTH = 100;
+  public static final int DEFAULT_LINE_LENGTH = 80;
 
   /** Context setting to display the entire file. */
   public static final short WHOLE_FILE_CONTEXT = -1;

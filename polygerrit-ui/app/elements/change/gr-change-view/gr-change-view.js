@@ -171,7 +171,7 @@
     },
 
     _paramsChanged: function(value) {
-      if (value.view != this.tagName.toLowerCase()) { return; }
+      if (value.view !== this.tagName.toLowerCase()) { return; }
 
       this._changeNum = value.changeNum;
       this._patchRange = {
@@ -188,34 +188,39 @@
         this._resetFileListViewState();
       }
 
-      if (!this._changeNum) {
-        return;
-      }
       this._reload().then(function() {
         this.$.messageList.topMargin = this._headerEl.offsetHeight;
 
         // Allow the message list to render before scrolling.
         this.async(function() {
-          var msgPrefix = '#message-';
-          var hash = window.location.hash;
-          if (hash.indexOf(msgPrefix) == 0) {
-            this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
-          }
+          this._maybeScrollToMessage();
         }.bind(this), 1);
 
-        this._getLoggedIn().then(function(loggedIn) {
-          if (!loggedIn) { return; }
-
-          if (this.viewState.showReplyDialog) {
-            this.$.replyOverlay.open();
-            this.set('viewState.showReplyDialog', false);
-          }
-        }.bind(this));
+        this._maybeShowReplyDialog();
 
         this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
           change: this._change,
           patchNum: this._patchRange.patchNum,
         });
+      }.bind(this));
+    },
+
+    _maybeScrollToMessage: function() {
+      var msgPrefix = '#message-';
+      var hash = window.location.hash;
+      if (hash.indexOf(msgPrefix) === 0) {
+        this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
+      }
+    },
+
+    _maybeShowReplyDialog: function() {
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        if (this.viewState.showReplyDialog) {
+          this.$.replyOverlay.open();
+          this.set('viewState.showReplyDialog', false);
+        }
       }.bind(this));
     },
 

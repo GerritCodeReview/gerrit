@@ -172,15 +172,16 @@ limitations under the License.
             available-patches="[[_computeAvailablePatches(_change.revisions)]]">
         </gr-patch-range-select>
         <div>
-          <gr-button link
-              class="prefsButton"
-              on-tap="_handlePrefsTap"
-              hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
-              hidden>Diff View Preferences</gr-button>
           <select id="modeSelect" on-change="_handleModeChange">
             <option value="SIDE_BY_SIDE">Side By Side</option>
             <option value="UNIFIED_DIFF">Unified</option>
           </select>
+          <span hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]">
+            /
+            <gr-button link
+                class="prefsButton"
+                on-tap="_handlePrefsTap">Preferences</gr-button>
+          </span>
         </div>
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>

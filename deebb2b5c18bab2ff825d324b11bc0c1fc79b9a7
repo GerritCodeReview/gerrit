@@ -118,6 +118,30 @@
       "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "778e56f1_20b9aa87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-05-12T17:25:06Z",
+      "side": 1,
+      "message": "It doesn\u0027t always appear. Only when there are changes that are submitted together (due to project policy and dependencies or to Submit Whole Topic being enabled and the changes having a common topic).",
+      "parentUuid": "523080cd_e7606227",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "deebb2b5c18bab2ff825d324b11bc0c1fc79b9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

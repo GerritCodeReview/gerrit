@@ -81,7 +81,7 @@ public class ChangeField {
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
-      new FieldDef.Single<ChangeData, String>("change_id",
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_CHANGE_ID,
           FieldType.PREFIX, false) {
         @Override
         public String get(ChangeData input, FillArgs args)
@@ -179,7 +179,7 @@ public class ChangeField {
   /** Submission id assigned by MergeOp. */
   public static final FieldDef<ChangeData, String> SUBMISSIONID =
       new FieldDef.Single<ChangeData, String>(
-          "submissionid", FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_SUBMISSIONID, FieldType.EXACT, false) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -210,7 +210,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> PATH =
       new FieldDef.Repeatable<ChangeData, String>(
           // Named for backwards compatibility.
-          "file", FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_FILE, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -237,7 +237,7 @@ public class ChangeField {
   /** Hashtags tied to a change */
   public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
       new FieldDef.Repeatable<ChangeData, String>(
-          "hashtag", FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_HASHTAG, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -271,7 +271,7 @@ public class ChangeField {
   /** Components of each file path modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
       new FieldDef.Repeatable<ChangeData, String>(
-          "filepart", FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_FILEPART, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -330,7 +330,7 @@ public class ChangeField {
   /** Commit ID of any patch set on the change, using exact match. */
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       new FieldDef.Repeatable<ChangeData, String>(
-          "exactcommit", FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_EXACTCOMMIT, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -522,7 +522,7 @@ public class ChangeField {
   /** Whether the change is mergeable. */
   public static final FieldDef<ChangeData, String> MERGEABLE =
       new FieldDef.Single<ChangeData, String>(
-          "mergeable2", FieldType.EXACT, true) {
+          ChangeQueryBuilder.FIELD_MERGEABLE, FieldType.EXACT, true) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -648,7 +648,7 @@ public class ChangeField {
   /** Opaque group identifiers for this change's patch sets. */
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       new FieldDef.Repeatable<ChangeData, String>(
-          "group", FieldType.EXACT, false) {
+          ChangeQueryBuilder.FIELD_GROUP, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {

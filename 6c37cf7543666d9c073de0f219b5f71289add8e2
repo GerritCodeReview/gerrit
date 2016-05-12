@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2337cd6_8abdeb78",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-12T21:14:39Z",
+      "side": 1,
+      "message": "this is crazy",
+      "revId": "6c37cf7543666d9c073de0f219b5f71289add8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_aac2aff9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-12T21:14:39Z",
+      "side": 1,
+      "message": "but here\u0027s my number",
+      "revId": "6c37cf7543666d9c073de0f219b5f71289add8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_cab7e392",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-12T21:14:39Z",
+      "side": 1,
+      "message": "so call me maybe?",
+      "revId": "6c37cf7543666d9c073de0f219b5f71289add8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_e7d302e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-12T21:14:39Z",
+      "side": 1,
+      "message": "for all of these maybe methods... perhaps put a comment in the header around what makes them not show or show.",
+      "revId": "6c37cf7543666d9c073de0f219b5f71289add8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

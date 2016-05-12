@@ -550,7 +550,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config rc, Map<String, GroupReference> groupsByName) {
     accessSections = new HashMap<>();
     for (String refName : rc.getSubsections(ACCESS)) {
-      if (RefConfigSection.isValid(refName) & isValidRegex(refName)) {
+      if (RefConfigSection.isValid(refName) && isValidRegex(refName)) {
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {

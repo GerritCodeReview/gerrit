@@ -108,10 +108,6 @@ public class ServerPlugin extends Plugin {
     return (Class<? extends Module>) clazz;
   }
 
-  Path getSrcJar() {
-    return getSrcFile();
-  }
-
   Path getDataDir() {
     return dataDir;
   }

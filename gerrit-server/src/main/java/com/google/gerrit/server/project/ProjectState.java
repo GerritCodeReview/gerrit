@@ -27,8 +27,10 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.rules.PrologEnvironment;
@@ -473,6 +475,15 @@ public class ProjectState {
       }
     }
     return null;
+  }
+
+  public Collection<SubscribeSection> getInheritedSubscribeSections(
+      Branch.NameKey branch) {
+    Collection<SubscribeSection> ret = new ArrayList<>();
+    for (ProjectState s : tree()) {
+      ret .addAll(s.getConfig().getSubscribeSections(branch));
+    }
+    return ret;
   }
 
   public ThemeInfo getTheme() {

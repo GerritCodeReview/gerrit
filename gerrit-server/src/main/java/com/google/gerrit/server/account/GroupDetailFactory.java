@@ -50,12 +50,13 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private GroupControl control;
 
   @Inject
-  GroupDetailFactory(final ReviewDb db,
-      final GroupControl.Factory groupControl, final GroupCache groupCache,
-      final GroupBackend groupBackend,
-      final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final GroupInfoCache.Factory groupInfoCacheFactory,
-      @Assisted final AccountGroup.Id groupId) {
+  GroupDetailFactory(ReviewDb db,
+      GroupControl.Factory groupControl,
+      GroupCache groupCache,
+      GroupBackend groupBackend,
+      AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      GroupInfoCache.Factory groupInfoCacheFactory,
+      @Assisted AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
     this.groupCache = groupCache;
@@ -69,8 +70,8 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupId);
-    final AccountGroup group = groupCache.get(groupId);
-    final GroupDetail detail = new GroupDetail();
+    AccountGroup group = groupCache.get(groupId);
+    GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
     GroupDescription.Basic ownerGroup = groupBackend.get(group.getOwnerGroupUUID());
     if (ownerGroup != null) {
@@ -85,7 +86,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
   private List<AccountGroupMember> loadMembers() throws OrmException {
     List<AccountGroupMember> members = new ArrayList<>();
-    for (final AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
+    for (AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
       if (control.canSeeMember(m.getAccountId())) {
         aic.want(m.getAccountId());
         members.add(m);
@@ -94,10 +95,9 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
     Collections.sort(members, new Comparator<AccountGroupMember>() {
       @Override
-      public int compare(final AccountGroupMember o1,
-          final AccountGroupMember o2) {
-        final Account a = aic.get(o1.getAccountId());
-        final Account b = aic.get(o2.getAccountId());
+      public int compare(AccountGroupMember o1, AccountGroupMember o2) {
+        Account a = aic.get(o1.getAccountId());
+        Account b = aic.get(o2.getAccountId());
         return n(a).compareTo(n(b));
       }
 
@@ -121,7 +121,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private List<AccountGroupById> loadIncludes() throws OrmException {
     List<AccountGroupById> groups = new ArrayList<>();
 
-    for (final AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
+    for (AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
       if (control.canSeeGroup()) {
         gic.want(m.getIncludeUUID());
         groups.add(m);
@@ -130,8 +130,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
     Collections.sort(groups, new Comparator<AccountGroupById>() {
       @Override
-      public int compare(final AccountGroupById o1,
-          final AccountGroupById o2) {
+      public int compare(AccountGroupById o1, AccountGroupById o2) {
         GroupDescription.Basic a = gic.get(o1.getIncludeUUID());
         GroupDescription.Basic b = gic.get(o2.getIncludeUUID());
         return n(a).compareTo(n(b));

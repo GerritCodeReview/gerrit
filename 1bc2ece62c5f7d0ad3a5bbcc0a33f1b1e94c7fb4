@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1462919983 -0700\npushee rpc://gerrit/gerrit\nnonce AD0XjTWOma+sTSCF/P+CFlh9rgX4AbaFP5evMg2vOAxrdnvGWoBuaB7apviR1GRiAFhXFMEieWzP\n\n0000000000000000000000000000000000000000 535d6afda53f3502150a2206b5aec7e8520dc8e2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXMmMvAAoJELOGKwXbr+wPX/0P+wYrH35+GOI4znn2ww8Qu+Wt\nNmycWRqmtnv3U7cy6V1jcVxSrG89VosJgL4+jkJLojerPqwBuNQZoLocVZzbob6k\nihSAulSAlIt6/jd9C3lZqlrhpi4C06HtZZslMlEmD92gbPQN6bSemqxLQfeJV62s\n/xvZkXCKpWVcDrkFSKn+UomdEsmfHSAo2UtrEpuIYML/eu/0eK1sYWjqQey5a5fe\nGmcdX7ISAWkYARpi470vubMHIB0UbF9zmIRl+4P2cvnJBOG8FIB9TXFNMgiUEL+w\nN8hRpIyQTnYkK6zDvyQ8azfP3LcIzpgMhKX2LLLsp2w6xJFK+QnEx+EP0aHnj84F\nEPkPx1otHjtgHqJR13WumuEFVAwd2TaOuMt4q5oJLAXDLmTBNWHumzrbbpgTKWil\nc2zyllWTvC5lXqt1CdoKOeoIPz/3RuZlI6G28Y9riXFmIngXpMYvWhml26ADZs18\nroKMpbCWUqYr5Heb0JDaUPlJotd8oJt8KisAXNchhR33SP5YLkuRwDuNf4VwvpBC\nR5RilO1DR7WCCABpPZr6Qis3DyVmjAqGgdTnOvh+GSWMxgfGzfO/Z0UCxRbGb3Kr\nHCvsSkEz3hHErqPXvCMvQHolid+YuCJM3YLox0+Y6eogQla22FgWsGQHiZw6QChF\nk4CAkYYoZeUGRUuPePpR\n\u003dVvH5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "778e56f1_e0d1820b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-12T07:05:53Z",
+      "side": 1,
+      "message": "important",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "1bc2ece62c5f7d0ad3a5bbcc0a33f1b1e94c7fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

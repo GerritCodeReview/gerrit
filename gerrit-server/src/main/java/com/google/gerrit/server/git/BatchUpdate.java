@@ -233,7 +233,6 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public static class Op {
-    @SuppressWarnings("unused")
     public void updateRepo(RepoContext ctx) throws Exception {
     }
 
@@ -243,13 +242,11 @@ public class BatchUpdate implements AutoCloseable {
      * @return whether anything was changed that might require a write to
      * the metadata storage.
      */
-    @SuppressWarnings("unused")
     public boolean updateChange(ChangeContext ctx) throws Exception {
       return false;
     }
 
     // TODO(dborowitz): Support async operations?
-    @SuppressWarnings("unused")
     public void postUpdate(Context ctx) throws Exception {
     }
   }

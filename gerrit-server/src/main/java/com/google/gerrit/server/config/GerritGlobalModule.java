@@ -115,7 +115,6 @@ import com.google.gerrit.server.mail.DeleteReviewerSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
-import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -221,7 +220,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GroupMembers.Factory.class);
     factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);
-    factory(MergeFailSender.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PluginUser.Factory.class);

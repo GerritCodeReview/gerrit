@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "523080cd_27219aef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-12T15:21:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778e56f1_809bd624",
+      "range": {
+        "startLine": 223,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 41
+      },
+      "revId": "a129fd4896da57637ee1e8ec44a64fed7bc01806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "523080cd_27d0ba04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 9

@@ -83,7 +83,10 @@ limitations under the License.
 
     test('patch num change', function(done) {
       element._changeNum = '42';
-      element._patchNum = 2;
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -133,7 +136,10 @@ limitations under the License.
 
     test('change status new', function() {
       element._changeNum = '1';
-      element._patchNum = 1;
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -149,7 +155,10 @@ limitations under the License.
 
     test('change status draft', function() {
       element._changeNum = '1';
-      element._patchNum = 1;
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -165,7 +174,10 @@ limitations under the License.
 
     test('revision status draft', function() {
       element._changeNum = '1';
-      element._patchNum = 2;
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {

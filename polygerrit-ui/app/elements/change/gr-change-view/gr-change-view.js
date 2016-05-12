@@ -56,7 +56,7 @@
       _commitInfo: Object,
       _changeNum: String,
       _diffDrafts: Object,
-      _patchNum: String,
+      _patchRange: Object,
       _allPatchSets: {
         type: Array,
         computed: '_computeAllPatchSets(_change)',
@@ -174,13 +174,20 @@
       if (value.view != this.tagName.toLowerCase()) { return; }
 
       this._changeNum = value.changeNum;
-      this._patchNum = value.patchNum;
-      if (this.viewState.changeNum != this._changeNum ||
-          this.viewState.patchNum != this._patchNum) {
-        this.set('viewState.selectedFileIndex', 0);
-        this.set('viewState.changeNum', this._changeNum);
-        this.set('viewState.patchNum', this._patchNum);
+      this._patchRange = {
+        patchNum: value.patchNum,
+        basePatchNum: value.basePatchNum || 'PARENT',
+      };
+
+      // If the change number or patch range is different, then reset the
+      // selected file index.
+      var patchRangeState = this.viewState.patchRange;
+      if (this.viewState.changeNum !== this._changeNum ||
+          patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
+          patchRangeState.patchNum !== this._patchRange.patchNum) {
+        this._resetFileListViewState();
       }
+
       if (!this._changeNum) {
         return;
       }
@@ -207,15 +214,24 @@
 
         this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
           change: this._change,
-          patchNum: this._patchNum,
+          patchNum: this._patchRange.patchNum,
         });
       }.bind(this));
     },
 
+    _resetFileListViewState: function() {
+      this.set('viewState.selectedFileIndex', 0);
+      this.set('viewState.changeNum', this._changeNum);
+      this.set('viewState.patchRange', this._patchRange);
+    },
+
     _changeChanged: function(change) {
       if (!change) { return; }
-      this._patchNum = this._patchNum ||
-          change.revisions[change.current_revision]._number;
+      this.set('_patchRange.basePatchNum',
+          this._patchRange.basePatchNum || 'PARENT');
+      this.set('_patchRange.patchNum',
+          this._patchRange.patchNum ||
+              change.revisions[change.current_revision]._number);
 
       var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title: title});
@@ -368,7 +384,7 @@
 
     _getCommitInfo: function() {
       return this.$.restAPI.getChangeCommitInfo(
-          this._changeNum, this._patchNum).then(
+          this._changeNum, this._patchRange.patchNum).then(
               function(commitInfo) {
                 this._commitInfo = commitInfo;
               }.bind(this));
@@ -415,7 +431,7 @@
 
       this._resetHeaderEl();
 
-      if (this._patchNum) {
+      if (this._patchRange.patchNum) {
         return reloadPatchNumDependentResources().then(function() {
           return detailCompletes;
         }).then(reloadDetailDependentResources);

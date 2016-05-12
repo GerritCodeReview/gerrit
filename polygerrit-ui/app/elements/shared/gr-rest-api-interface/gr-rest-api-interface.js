@@ -315,18 +315,22 @@
           this.getChangeActionURL(changeNum, patchNum, '/commit?links'));
     },
 
-    getChangeFiles: function(changeNum, patchNum) {
+    getChangeFiles: function(changeNum, patchRange) {
+      var endpoint = '/files';
+      if (patchRange.basePatchNum !== 'PARENT') {
+        endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
+      }
       return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchNum, '/files'));
+          this.getChangeActionURL(changeNum, patchRange.patchNum, endpoint));
     },
 
-    getChangeFilesAsSpeciallySortedArray: function(changeNum, patchNum) {
-      return this.getChangeFiles(changeNum, patchNum).then(
+    getChangeFilesAsSpeciallySortedArray: function(changeNum, patchRange) {
+      return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
     },
 
-    getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchNum) {
-      return this.getChangeFiles(changeNum, patchNum).then(function(files) {
+    getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchRange) {
+      return this.getChangeFiles(changeNum, patchRange).then(function(files) {
         return Object.keys(files).sort(this._specialFilePathCompare.bind(this));
       }.bind(this));
     },

@@ -20,10 +20,12 @@
     is: 'gr-file-list',
 
     properties: {
+      patchRange: Object,
       patchNum: String,
       changeNum: String,
       comments: Object,
       drafts: Object,
+      revisions: Object,
       selectedIndex: {
         type: Number,
         notify: true,
@@ -49,7 +51,7 @@
     ],
 
     reload: function() {
-      if (!this.changeNum || !this.patchNum) {
+      if (!this.changeNum || !this.patchRange.patchNum) {
         return Promise.resolve();
       }
 
@@ -70,6 +72,28 @@
       }));
 
       return Promise.all(promises);
+    },
+
+    _computePatchSets: function(revisions) {
+      var patchNums = [];
+      for (var commit in revisions) {
+        patchNums.push(revisions[commit]._number);
+      }
+      return patchNums.sort(function(a, b) { return a - b; });
+    },
+
+    _computePatchSetDisabled: function(patchNum, currentPatchNum) {
+      return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
+    },
+
+    _computePatchSetSelected: function(patchNum, basePatchNum) {
+      return parseInt(patchNum, 10) === parseInt(basePatchNum, 10);
+    },
+
+    _handlePatchChange: function(e) {
+      this.set('patchRange.basePatchNum', Polymer.dom(e).rootTarget.value);
+      page.show('/c/' + encodeURIComponent(this.changeNum) + '/' +
+          encodeURIComponent(this._patchRangeStr(this.patchRange)));
     },
 
     _computeCommentsString: function(comments, patchNum, path) {
@@ -113,8 +137,8 @@
     },
 
     _saveReviewedState: function(path, reviewed) {
-      return this.$.restAPI.saveFileReviewed(this.changeNum, this.patchNum,
-          path, reviewed);
+      return this.$.restAPI.saveFileReviewed(this.changeNum,
+          this.patchRange.patchNum, path, reviewed);
     },
 
     _getLoggedIn: function() {
@@ -122,12 +146,13 @@
     },
 
     _getReviewedFiles: function() {
-      return this.$.restAPI.getReviewedFiles(this.changeNum, this.patchNum);
+      return this.$.restAPI.getReviewedFiles(this.changeNum,
+          this.patchRange.patchNum);
     },
 
     _getFiles: function() {
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
-          this.changeNum, this.patchNum);
+          this.changeNum, this.patchRange);
     },
 
     _handleKey: function(e) {
@@ -163,7 +188,7 @@
       if (opt_index != null) {
         this.selectedIndex = opt_index;
       }
-      page.show(this._computeDiffURL(this.changeNum, this.patchNum,
+      page.show(this._computeDiffURL(this.changeNum, this.patchRange,
           this._files[this.selectedIndex].__path));
     },
 
@@ -175,8 +200,19 @@
       return status || 'M';
     },
 
-    _computeDiffURL: function(changeNum, patchNum, path) {
-      return '/c/' + changeNum + '/' + patchNum + '/' + path;
+    _computeDiffURL: function(changeNum, patchRange, path) {
+      return '/c/' +
+          encodeURIComponent(changeNum) +
+          '/' +
+          encodeURIComponent(this._patchRangeStr(patchRange)) +
+          '/' +
+          path;
+    },
+
+    _patchRangeStr: function(patchRange) {
+      return patchRange.basePatchNum !== 'PARENT' ?
+          patchRange.basePatchNum + '..' + patchRange.patchNum :
+          patchRange.patchNum + '';
     },
 
     _computeFileDisplayName: function(path) {

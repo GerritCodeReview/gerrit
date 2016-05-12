@@ -28,8 +28,14 @@ limitations under the License.
         display: flex;
         padding: .1em .25em;
       }
-      .header {
+      header {
+        display: flex;
         font-weight: bold;
+        justify-content: space-between;
+        margin-bottom: .5em;
+      }
+      .diffAgainst {
+        font-weight: normal;
       }
       .positionIndicator,
       .reviewed,
@@ -59,19 +65,20 @@ limitations under the License.
       }
       .path {
         flex: 1;
-        overflow: hidden;
         padding-left: .35em;
         text-decoration: none;
-        text-overflow: ellipsis;
         white-space: nowrap;
       }
       .path:hover :first-child {
         text-decoration: underline;
       }
-      .oldPath {
-        color: #999;
+      .path,
+      .path div {
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .oldPath {
+        color: #999;
       }
       .comments,
       .stats {
@@ -116,15 +123,24 @@ limitations under the License.
         }
       }
     </style>
-    <div class="row header">
-      <div class="positionIndicator"></div>
-      <div class="reviewed" hidden$="[[!_loggedIn]]" hidden></div>
-      <div class="status"></div>
-      <div class="path">Path</div>
-      <div class="comments">Comments</div>
-      <div class="stats">Stats</div>
-    </div>
-    <template is="dom-repeat" items="{{_files}}" as="file">
+    <header>
+      <div>Files</div>
+      <div class="diffAgainst">
+        <label>
+          Diff against
+          <select on-change="_handlePatchChange">
+            <option value="PARENT">Base</option>
+            <template is="dom-repeat" items="[[_computePatchSets(revisions, patchRange.*)]]" as="patchNum">
+              <option
+                  value$="[[patchNum]]"
+                  selected$="[[_computePatchSetSelected(patchNum, patchRange.basePatchNum)]]"
+                  disabled$="[[_computePatchSetDisabled(patchNum, patchRange.patchNum)]]">[[patchNum]]</option>
+            </template>
+          </select>
+        </label>
+      </div>
+    </header>
+    <template is="dom-repeat" items="[[_files]]" as="file">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
         <div class="positionIndicator">&#x25b6;</div>
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
@@ -134,7 +150,7 @@ limitations under the License.
         <div class$="[[_computeClass('status', file.__path)]]">
           [[_computeFileStatus(file.status)]]
         </div>
-        <a class="path" href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">
+        <a class="path" href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
           <div title$="[[_computeFileDisplayName(file.__path)]]">
             [[_computeFileDisplayName(file.__path)]]
           </div>
@@ -144,8 +160,8 @@ limitations under the License.
           </div>
         </a>
         <div class="comments">
-          <span class="drafts">[[_computeDraftsString(drafts, patchNum, file.__path)]]</span>
-          [[_computeCommentsString(comments, patchNum, file.__path)]]
+          <span class="drafts">[[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]</span>
+          [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
         </div>
         <div class$="[[_computeClass('stats', file.__path)]]">
           <span class="added">+[[file.lines_inserted]]</span>

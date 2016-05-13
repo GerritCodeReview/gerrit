@@ -89,6 +89,10 @@
       if (total > 1) { return total + ' Drafts'; }
     },
 
+    _computeLabelValueTitle: function(labels, label, value) {
+      return labels[label].values[value];
+    },
+
     _computeLabelArray: function(labelsObj) {
       return Object.keys(labelsObj).sort();
     },

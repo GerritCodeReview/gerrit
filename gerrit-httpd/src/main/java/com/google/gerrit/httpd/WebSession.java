@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
@@ -35,4 +36,5 @@ public interface WebSession {
 
   void logout();
   String getSessionId();
+  Id getAccountId();
 }

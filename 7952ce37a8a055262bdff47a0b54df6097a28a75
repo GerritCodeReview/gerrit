@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "97874ad1_01682aa9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentManager.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-05-13T15:02:42Z",
+      "side": 1,
+      "message": "I remember several cases when Shawn actually asked me to use \"else\" in cases like this one. Therefore, I think it is OK to keep it like it is :-)\n\nsame for the two other comments below.",
+      "parentUuid": "778e56f1_6077b290",
+      "range": {
+        "startLine": 134,
+        "startChar": 5,
+        "endLine": 134,
+        "endChar": 12
+      },
+      "revId": "7952ce37a8a055262bdff47a0b54df6097a28a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "778e56f1_807c3672",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentManager.java",
         "patchSetId": 29
@@ -140,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "778e56f1_e0abc2e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeDrafts.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-05-13T15:02:42Z",
+      "side": 1,
+      "message": "this looks like a mistake",
+      "parentUuid": "778e56f1_e06ae2a3",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "7952ce37a8a055262bdff47a0b54df6097a28a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97874ad1_0136ead6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 29
@@ -174,6 +222,30 @@
       "writtenOn": "2016-05-13T10:45:19Z",
       "side": 1,
       "message": "why we should now validate `psa` only when parentNo is negative?",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 5
+      },
+      "revId": "7952ce37a8a055262bdff47a0b54df6097a28a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97874ad1_619816da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-05-13T15:02:42Z",
+      "side": 1,
+      "message": "This is because parentNo \u003d -1 (line 142) means that parent is not given i.e. this is the old behavior like before this change.\n\nWhen the parentNo is given (it is \u003e\u003d 0, see line 180) then psa is not used (it is null, line 174).",
+      "parentUuid": "97874ad1_a1329edf",
       "range": {
         "startLine": 195,
         "startChar": 4,

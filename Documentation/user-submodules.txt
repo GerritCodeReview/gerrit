@@ -99,6 +99,15 @@ submit the change:
   git push <remote> HEAD:refs/for/refs/meta/config
 ====
 After the change is integrated a superproject subscription is possible.
+====
+The configuration is inherited from parent projects, such that you can have
+a configuration in the "All-Projects" project like
+====
+    [allowSuperproject "my-only-superproject"]
+        refs = refs/heads/*:
+====
+and then you don't have to worry about configuring the individual projects
+any more. Child projects cannot negate the parents configuration.
 
 === Defining the submodule branch
 

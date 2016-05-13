@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "523080cd_87608601",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3004,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-13T18:28:49Z",
+      "side": 1,
+      "message": "Can we also have an example like this. (As you are modifying an existing end point, add a second example there?)",
+      "range": {
+        "startLine": 2998,
+        "startChar": 0,
+        "endLine": 3004,
+        "endChar": 69
+      },
+      "revId": "22dc6dd84aa433509deee5a1baeb55cf36e8af85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_4a569319",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-13T18:28:49Z",
+      "side": 1,
+      "message": "How does the return look like when I give an unsupported merge strategy?",
+      "range": {
+        "startLine": 1229,
+        "startChar": 0,
+        "endLine": 1230,
+        "endChar": 80
+      },
+      "revId": "22dc6dd84aa433509deee5a1baeb55cf36e8af85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_a7658a10",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-13T18:28:49Z",
+      "side": 1,
+      "message": "This is testing the modified endpoint of /changes\n\nWe\u0027d also need to test the new /mergeable endpoint.",
+      "range": {
+        "startLine": 204,
+        "startChar": 14,
+        "endLine": 204,
+        "endChar": 38
+      },
+      "revId": "22dc6dd84aa433509deee5a1baeb55cf36e8af85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_6a535728",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/MergeabilityCheck.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-13T18:28:49Z",
+      "side": 1,
+      "message": "When finding this class I\u0027d be able to look this information up in the git log, so it\u0027s redundant/not needed IMHO.\n\nWhat I\u0027d rather be interested in in this comment is a description of what the class does, if there are any pit falls to avoid, etc.\n\nHow do I specify the source-ref (which format does it take? Can I do something like [\u003cprojectname\u003e:]\u003cref\u003e or \u003csha1\u003e. can I use short branches \"master\" isntead of refs/heads/master)",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "22dc6dd84aa433509deee5a1baeb55cf36e8af85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

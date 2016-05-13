@@ -125,7 +125,8 @@ limitations under the License.
                 <template is="dom-repeat"
                     items="[[_computePermittedLabelValues(permittedLabels, label)]]"
                     as="value">
-                  <gr-button data-value$="[[value]]">[[value]]</gr-button>
+                  <gr-button has-tooltip data-value$="[[value]]"
+                      title$="[[_computeLabelValueTitle(labels, label, value)]]">[[value]]</gr-button>
                 </template>
               </iron-selector>
             </div>

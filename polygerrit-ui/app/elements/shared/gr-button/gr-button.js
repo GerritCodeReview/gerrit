@@ -31,6 +31,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.TooltipBehavior,
     ],
 
     hostAttributes: {

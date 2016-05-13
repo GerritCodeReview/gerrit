@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "523080cd_077576b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-13T19:54:56Z",
+      "side": 1,
+      "message": "Of course. :)",
+      "parentUuid": "97874ad1_618c9640",
+      "revId": "46be425173d8d4b2f7539c1888b7f06464f37d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97874ad1_81919a57",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2016-05-12T06:07:35Z",
       "side": 1,
       "message": "It might be worth to mention whether child projects can overwrite the inherited configuration.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "46be425173d8d4b2f7539c1888b7f06464f37d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_e76f82ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-13T19:54:56Z",
+      "side": 1,
+      "message": "I mentioned that in the documentation as well.",
+      "parentUuid": "97874ad1_81919a57",
       "range": {
         "startLine": 9,
         "startChar": 0,

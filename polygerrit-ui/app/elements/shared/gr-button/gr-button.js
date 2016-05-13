@@ -30,6 +30,7 @@
     },
 
     behaviors: [
+      Gerrit.TooltipBehavior,
       Gerrit.KeyboardShortcutBehavior,
     ],
 

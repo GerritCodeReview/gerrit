@@ -1,0 +1,51 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-tooltip">
+  <template>
+    <style>
+      :host {
+        --gr-tooltip-arrow-size: .6em;
+
+        background-color: #333;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        color: #fff;
+        font-size: .75rem;
+        left: 400px;
+        top: 0;
+        padding: .5em .85em;
+        position: absolute;
+        z-index: 1000;
+      }
+      .arrow {
+        border-left: var(--gr-tooltip-arrow-size) solid transparent;
+        border-right: var(--gr-tooltip-arrow-size) solid transparent;
+        border-top: var(--gr-tooltip-arrow-size) solid #333;
+        bottom: -var(--gr-tooltip-arrow-size);
+        height: 0;
+        position: absolute;
+        left: calc(50% - var(--gr-tooltip-arrow-size));
+        width: 0;
+      }
+    </style>
+    [[text]]
+    <i class="arrow"></i>
+  </template>
+  <script src="gr-tooltip.js"></script>
+</dom-module>
+

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b2337cd6_0a5c9b39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-05-13T16:06:46Z",
+      "side": 1,
+      "message": "After thinking about it, I believe that that\u0027s what \"create\" does. \n\nChange change \u003d unwrap(db).changes().get(changeId);\n\nTo avoid doing the same operation twice, I used a similar approach to the other \"createChecked\" method. The \u0027better\u0027 solution could be to throw a NoSuchChangeException (as mentioned in the todo), but that requires a lot of code change related to exception handling.",
+      "parentUuid": "523080cd_a7c90a3a",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 71
+      },
+      "revId": "a5527de7462547d4f6294edea7296ccbe2347b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97874ad1_61ed769f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 4

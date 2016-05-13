@@ -46,9 +46,9 @@ Also consider 'sub' available in a running Gerrit instance on "server".
 With this feature, one could attach 'sub' inside of 'super' repository
 at path 'sub' by executing the following command when being inside
 'super':
-=====
+====
 git submodule add ssh://server/sub sub
-=====
+====
 
 Still considering the above example, after its execution notice that
 inside the local repository 'super' the 'sub' folder is considered a

@@ -32,6 +32,7 @@
     properties: {
       changeNum: String,
       patchNum: String,
+      revisions: Object,
       disabled: {
         type: Boolean,
         value: false,
@@ -62,6 +63,16 @@
       this.async(function() {
         this.$.textarea.textarea.focus();
       }.bind(this));
+    },
+
+    _computeShowLabels: function(patchNum, revisions) {
+      var num = parseInt(patchNum, 10);
+      for (var rev in revisions) {
+        if (revisions[rev]._number > num) {
+          return false;
+        }
+      }
+      return true;
     },
 
     _computeHideDraftList: function(drafts) {

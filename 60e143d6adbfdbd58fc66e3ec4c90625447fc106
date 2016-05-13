@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2337cd6_6a2ef797",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-13T22:15:34Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_8a196b79",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-13T22:15:34Z",
+      "side": 1,
+      "message": "Should there be a trailing comma in such a small object literal?",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_aa1e2f5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-13T22:15:34Z",
+      "side": 1,
+      "message": "Is there a rule for rem vs em?",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_e7186272",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-13T22:15:34Z",
+      "side": 1,
+      "message": "Should this be rem or em?",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

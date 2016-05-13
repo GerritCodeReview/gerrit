@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2337cd6_ca136353",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-13T22:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2337cd6_6a2ef797",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2337cd6_8a196b79",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-13T22:15:34Z",
       "side": 1,
       "message": "Should there be a trailing comma in such a small object literal?",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_ea182772",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-13T22:27:50Z",
+      "side": 1,
+      "message": "Nope.",
+      "parentUuid": "b2337cd6_8a196b79",
       "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b2337cd6_0a0e5b2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-13T22:27:50Z",
+      "side": 1,
+      "message": "rem if you always want it relative to the body font size. em if it’s contained within another element and changing its parent’s sizing alone should also alter its own.",
+      "parentUuid": "b2337cd6_aa1e2f5c",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "523080cd_e7186272",
         "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-05-13T22:15:34Z",
       "side": 1,
       "message": "Should this be rem or em?",
+      "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_270b5a1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-13T22:27:50Z",
+      "side": 1,
+      "message": "this actually shouldn’t be here. it was for testing. removed.",
+      "parentUuid": "523080cd_e7186272",
       "revId": "60e143d6adbfdbd58fc66e3ec4c90625447fc106",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

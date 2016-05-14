@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b2337cd6_ca1d2352",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-14T04:32:41Z",
+      "side": 1,
+      "message": "I have several issues with this approach:\n\nscalability:  The browser cannot handle an infinite number of style injections. Over time the style sheets are going to grow based on the number of files viewed and the number of commits that modified those files. If a file has 1000 commits in its blame, we added 1000 style sheet injections. Much of this is identical text over and over.\n\ninjection attack:  If shortMsg contains \u0027 and it may commonly do so if the developer used a contraction (\"Don\u0027t allow XSS injection in CSS\") the stylesheet breaks. Once its known that you can insert a commit message into a file history that uses a \u0027 to break the string quoting for content, its easy to insert something else. E.g. make a commit with subject:\n\n  A\u0027; font-weight: bold; content:\u0027\n\nAs a result we have this feature disabled on gerrit-review, and we will not be be able to turn it on.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "b72d4c6d8f5df501d568d9fb4dcdb6d1185b4add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82e7d90_4b176594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 53

@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "523080cd_87eb268d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "yes, just support two heads merge together at this moment.",
+      "parentUuid": "ed7a73a9_14ff1478",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_8adc0b2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -77,6 +101,30 @@
       "writtenOn": "2016-05-03T06:36:23Z",
       "side": 1,
       "message": "\"an empty\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_0ab2dba2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83309d6_8adc0b2a",
       "range": {
         "startLine": 11,
         "startChar": 60,
@@ -130,6 +178,48 @@
     },
     {
       "key": {
+        "uuid": "523080cd_e70b0215",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "add23be5_92c47c52",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_0711f641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6daf6390_7812c1a3",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "add23be5_5205b469",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -141,6 +231,24 @@
       "writtenOn": "2016-05-03T21:36:09Z",
       "side": 1,
       "message": "What is the HTTP response code if\n* the change is already merged\n* the merge produced conflicts\n? Please add that information to the documentation + tests.",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523080cd_471bee61",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "1. If change is already merged, will throw MergeIdenticalTreeException\n2. If there are conflicts, will throw MergeConflictException\n\nAll of these will become a RestApiException, in the RestApiServlet, catch in the last general Exception clause,  it will give 500 error code.",
+      "parentUuid": "add23be5_5205b469",
       "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -164,6 +272,24 @@
     },
     {
       "key": {
+        "uuid": "8d9bb78c_c1fe227a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4203,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "since its final goal is to create a change of a potential merge instead of actually merging the two branches, put it in the POST /changes endpoint make sense to me. \n\nHowever, I do have a new endpoint to check the mergeability at this endpoint:\n\nGET /projects/{project-name}/branches/{branch}/mergeable?source-ref\u003dbranchA",
+      "parentUuid": "ed7a73a9_f4f5b894",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_aae1cfe2",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -175,6 +301,24 @@
       "writtenOn": "2016-05-03T06:36:23Z",
       "side": 1,
       "message": "What about tags?",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad987b90_022acad6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4204,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "Done, any reference that could be resolved to a commit is accepted.",
+      "parentUuid": "a83309d6_aae1cfe2",
       "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -198,6 +342,24 @@
     },
     {
       "key": {
+        "uuid": "523080cd_270efa24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4830cdcd_e7eb02bf",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7a73a9_14e634fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 3
@@ -215,6 +377,24 @@
     },
     {
       "key": {
+        "uuid": "b2337cd6_8afc0b1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "1. Added a separate catch for MergeConflictException\n2. Added a new endpoint for mergeability of a branch, hope that is what you need.",
+      "parentUuid": "ed7a73a9_14e634fa",
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83309d6_cae603f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 3
@@ -226,6 +406,30 @@
       "writtenOn": "2016-05-03T06:36:23Z",
       "side": 1,
       "message": "unnecessary final",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 9
+      },
+      "revId": "078cb88f5cf6322317d9ab0de55ffcbd61baf6ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_6a051704",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-14T00:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83309d6_cae603f8",
       "range": {
         "startLine": 212,
         "startChar": 4,

@@ -45,6 +45,30 @@
       "revId": "b89515870d3dd24993b672a6e4046ba249cc0cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_2a0ebf24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-14T01:40:58Z",
+      "side": 1,
+      "message": "FYI ChangeQueryBuilder has PAT_CHANGE_ID which is a compiled pattern:\n\n Pattern.compile(\"^[iI][0-9a-f]{4,}.*$\");\n\nIt\u0027s a private member though.  It might be worth refactoring out to a common location.",
+      "parentUuid": "ee7a6832_6b996146",
+      "range": {
+        "startLine": 188,
+        "startChar": 59,
+        "endLine": 188,
+        "endChar": 60
+      },
+      "revId": "b89515870d3dd24993b672a6e4046ba249cc0cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

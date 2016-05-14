@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2337cd6_0a381bc2",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-05-14T04:55:47Z",
+      "side": 1,
+      "message": "The use of StyleInjector is a hack due to the limitation of CodeMirror\u0027s lint addon. I\u0027m working on a version that does not use the lint addon, but it\u0027s not ready yet.",
+      "parentUuid": "b2337cd6_ca1d2352",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "b72d4c6d8f5df501d568d9fb4dcdb6d1185b4add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82e7d90_4b176594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 53

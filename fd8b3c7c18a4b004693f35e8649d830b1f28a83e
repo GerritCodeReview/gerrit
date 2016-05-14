@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "523080cd_a7282a79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-14T01:40:45Z",
+      "side": 1,
+      "message": "Without more information... I\u0027m not sold this is better than using Provider\u003cCurrentUser\u003e.",
+      "revId": "fd8b3c7c18a4b004693f35e8649d830b1f28a83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

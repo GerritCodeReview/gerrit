@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2337cd6_8a75eb87",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-15T19:14:41Z",
+      "side": 1,
+      "message": "Stray console log",
+      "revId": "9e5efbdf5ffdae57c01eb3275a3066f243760682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

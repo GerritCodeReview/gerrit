@@ -138,11 +138,6 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   @Override
-  public Account.Id getAccountId() {
-    return val != null ? val.getAccountId() : null;
-  }
-
-  @Override
   public CurrentUser getUser() {
     if (user == null) {
       if (isSignedIn()) {

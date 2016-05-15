@@ -39,7 +39,6 @@ limitations under the License.
       .rightControls {
         font-weight: normal;
       }
-      .positionIndicator,
       .reviewed,
       .status {
         align-items: center;
@@ -51,19 +50,11 @@ limitations under the License.
         text-align: center;
         width: 1.5em;
       }
-      .positionIndicator {
-        justify-content: flex-start;
-        visibility: hidden;
-        width: 1.25em;
-      }
       .row:not(.header):hover {
         background-color: #f5fafd;
       }
       .row[selected] {
         background-color: #ebf5fb;
-      }
-      .row[selected] .positionIndicator {
-        visibility: visible;
       }
       .path {
         flex: 1;
@@ -117,7 +108,6 @@ limitations under the License.
         .row[selected] {
           background-color: transparent;
         }
-        .positionIndicator,
         .stats {
           display: none;
         }
@@ -153,7 +143,6 @@ limitations under the License.
     </header>
     <template is="dom-repeat" items="[[_files]]" as="file">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
-        <div class="positionIndicator">&#x25b6;</div>
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
               data-path$="[[file.__path]]" on-change="_handleReviewedChange">

@@ -35,17 +35,12 @@ limitations under the License.
 <script>
   suite('gr-file-list tests', function() {
     var element;
-    var getLoggedInStub;
 
     setup(function() {
-      element = fixture('basic');
-      getLoggedInStub = sinon.stub(element, '_getLoggedIn', function() {
-        return Promise.resolve(true);
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(true); },
       });
-    });
-
-    teardown(function() {
-      getLoggedInStub.restore();
+      element = fixture('basic');
     });
 
     test('get file list', function(done) {
@@ -83,6 +78,11 @@ limitations under the License.
     });
 
     test('keyboard shortcuts', function() {
+      var toggleInlineDiffsStub = sinon.stub(element, '_toggleInlineDiffs');
+      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'
+      assert.isTrue(toggleInlineDiffsStub.calledOnce);
+      toggleInlineDiffsStub.restore();
+
       element._files = [
         {__path: '/COMMIT_MSG'},
         {__path: 'file_added_in_rev2.txt'},

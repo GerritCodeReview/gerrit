@@ -220,6 +220,7 @@
 
         return Promise.resolve({
           changes_per_page: 25,
+          diff_view: 'SIDE_BY_SIDE',
         });
       }.bind(this));
     },

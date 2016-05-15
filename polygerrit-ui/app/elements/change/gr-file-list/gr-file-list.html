@@ -16,6 +16,8 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../diff/gr-diff/gr-diff.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-file-list">
@@ -34,7 +36,7 @@ limitations under the License.
         justify-content: space-between;
         margin-bottom: .5em;
       }
-      .diffAgainst {
+      .rightControls {
         font-weight: normal;
       }
       .positionIndicator,
@@ -106,6 +108,11 @@ limitations under the License.
         color: #C62828;
         font-weight: bold;
       }
+      gr-diff {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        display: block;
+        margin: .25em 0 1em;
+      }
       @media screen and (max-width: 50em) {
         .row[selected] {
           background-color: transparent;
@@ -125,7 +132,11 @@ limitations under the License.
     </style>
     <header>
       <div>Files</div>
-      <div class="diffAgainst">
+      <div class="rightControls">
+        <gr-button link on-tap="_handleExpandAllDiffs">Show diffs</gr-button>
+        /
+        <gr-button link on-tap="_handleCollapseAllDiffs">Hide diffs</gr-button>
+        /
         <label>
           Diff against
           <select on-change="_handlePatchChange">
@@ -168,6 +179,13 @@ limitations under the License.
           <span class="removed">-[[file.lines_deleted]]</span>
         </div>
       </div>
+      <gr-diff id="diff" hidden
+          change-num="[[changeNum]]"
+          patch-range="[[patchRange]]"
+          path="[[file.__path]]"
+          prefs="[[_diffPrefs]]"
+          project-config="[[projectConfig]]"
+          view-mode="[[_userPrefs.diff_view]]"></gr-diff>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

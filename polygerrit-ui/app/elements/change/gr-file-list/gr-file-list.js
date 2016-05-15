@@ -26,6 +26,7 @@
       comments: Object,
       drafts: Object,
       revisions: Object,
+      projectConfig: Object,
       selectedIndex: {
         type: Number,
         notify: true,
@@ -44,6 +45,8 @@
         type: Array,
         value: function() { return []; },
       },
+      _diffPrefs: Object,
+      _userPrefs: Object,
     },
 
     behaviors: [
@@ -71,7 +74,21 @@
         });
       }));
 
-      return Promise.all(promises);
+      promises.push(this._getDiffPreferences().then(function(prefs) {
+        this._diffPrefs = prefs;
+      }.bind(this)));
+
+      promises.push(this._getPreferences().then(function(prefs) {
+        this._userPrefs = prefs;
+      }.bind(this)));
+    },
+
+    _getDiffPreferences: function() {
+      return this.$.restAPI.getDiffPreferences();
+    },
+
+    _getPreferences: function() {
+      return this.$.restAPI.getPreferences();
     },
 
     _computePatchSets: function(revisions) {
@@ -94,6 +111,28 @@
       this.set('patchRange.basePatchNum', Polymer.dom(e).rootTarget.value);
       page.show('/c/' + encodeURIComponent(this.changeNum) + '/' +
           encodeURIComponent(this._patchRangeStr(this.patchRange)));
+    },
+
+    _forEachDiff: function(fn) {
+      var diffs = Polymer.dom(this.root).querySelectorAll('gr-diff');
+      for (var i = 0; i < diffs.length; i++) {
+        fn(diffs[i]);
+      }
+    },
+
+    _handleExpandAllDiffs: function(e) {
+      e.preventDefault();
+      this._forEachDiff(function(diff) {
+        diff.hidden = false;
+        diff.reload();
+      });
+    },
+
+    _handleCollapseAllDiffs: function(e) {
+      e.preventDefault();
+      this._forEachDiff(function(diff) {
+        diff.hidden = true;
+      });
     },
 
     _computeCommentsString: function(comments, patchNum, path) {

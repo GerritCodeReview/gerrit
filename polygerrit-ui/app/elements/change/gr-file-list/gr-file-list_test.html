@@ -35,17 +35,12 @@ limitations under the License.
 <script>
   suite('gr-file-list tests', function() {
     var element;
-    var getLoggedInStub;
 
     setup(function() {
-      element = fixture('basic');
-      getLoggedInStub = sinon.stub(element, '_getLoggedIn', function() {
-        return Promise.resolve(true);
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(true); },
       });
-    });
-
-    teardown(function() {
-      getLoggedInStub.restore();
+      element = fixture('basic');
     });
 
     test('get file list', function(done) {

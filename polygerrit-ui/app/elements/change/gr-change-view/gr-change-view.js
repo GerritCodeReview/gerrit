@@ -190,6 +190,7 @@
 
       this._reload().then(function() {
         this.$.messageList.topMargin = this._headerEl.offsetHeight;
+        this.$.fileList.topMargin = this._headerEl.offsetHeight;
 
         // Allow the message list to render before scrolling.
         this.async(function() {

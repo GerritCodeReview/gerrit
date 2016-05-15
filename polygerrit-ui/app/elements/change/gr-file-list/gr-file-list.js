@@ -27,6 +27,7 @@
       drafts: Object,
       revisions: Object,
       projectConfig: Object,
+      topMargin: Number,
       selectedIndex: {
         type: Number,
         notify: true,
@@ -202,10 +203,12 @@
           e.preventDefault();
           this.selectedIndex =
               Math.min(this._files.length - 1, this.selectedIndex + 1);
+          this._scrollToSelectedFile();
           break;
         case 75:  // 'k'
           e.preventDefault();
           this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+          this._scrollToSelectedFile();
           break;
         case 219:  // '['
           e.preventDefault();
@@ -229,6 +232,16 @@
       }
       page.show(this._computeDiffURL(this.changeNum, this.patchRange,
           this._files[this.selectedIndex].__path));
+    },
+
+    _scrollToSelectedFile: function() {
+      var el = this.$$('.row[selected]');
+      var top = 0;
+      for (var node = el; node; node = node.offsetParent) {
+        top += node.offsetTop;
+      }
+      window.scrollTo(0, top - this.topMargin);
+      console.log(el)
     },
 
     _computeFileSelected: function(index, selectedIndex) {

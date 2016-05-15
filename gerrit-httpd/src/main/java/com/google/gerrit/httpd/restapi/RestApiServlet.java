@@ -32,6 +32,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -130,7 +131,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletException;
@@ -1039,9 +1039,8 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static final Pattern IS_HTML = Pattern.compile("[<&]");
   private static boolean isMaybeHTML(String text) {
-    return IS_HTML.matcher(text).find();
+    return CharMatcher.anyOf("<&").matchesAnyOf(text);
   }
 
   private static boolean acceptsJson(HttpServletRequest req) {

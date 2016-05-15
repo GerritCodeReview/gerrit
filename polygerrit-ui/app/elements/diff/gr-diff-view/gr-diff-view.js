@@ -99,14 +99,11 @@
         this.fire('title-change',
             {title: this._computeFileDisplayName(this._path)});
       }
-      window.addEventListener('resize', this._boundWindowResizeHandler);
     },
 
     detached: function() {
       // Reset the diff mode to null so that it reverts to the user preference.
       this.changeViewState.diffMode = null;
-
-      window.removeEventListener('resize', this._boundWindowResizeHandler);
     },
 
     _getLoggedIn: function() {
@@ -205,7 +202,7 @@
           break;
         case 188:  // ','
           e.preventDefault();
-          this.$.diff.showDiffPreferences();
+          this.$.prefsOverlay.open();
           break;
       }
     },

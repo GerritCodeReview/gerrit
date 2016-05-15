@@ -103,10 +103,6 @@
       }.bind(this));
     },
 
-    showDiffPreferences: function() {
-      this.$.prefsOverlay.open();
-    },
-
     scrollToLine: function(lineNum) {
       if (isNaN(lineNum) || lineNum < 1) { return; }
 

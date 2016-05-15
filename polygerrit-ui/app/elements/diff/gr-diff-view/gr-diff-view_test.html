@@ -90,7 +90,7 @@ limitations under the License.
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
-      var showPrefsStub = sinon.stub(element.$.diff, 'showDiffPreferences');
+      var showPrefsStub = sinon.stub(element.$.prefsOverlay, 'open');
       MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
       assert(showPrefsStub.calledOnce);
 

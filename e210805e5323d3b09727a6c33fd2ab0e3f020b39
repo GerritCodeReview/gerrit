@@ -16,6 +16,24 @@
       "revId": "e210805e5323d3b09727a6c33fd2ab0e3f020b39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2337cd6_0a6adba5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-15T19:37:53Z",
+      "side": 1,
+      "message": "Good question. I don’t want the offset or blur to change with the font size.",
+      "parentUuid": "523080cd_674ab248",
+      "revId": "e210805e5323d3b09727a6c33fd2ab0e3f020b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

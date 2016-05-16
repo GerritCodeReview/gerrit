@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-cursor</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../gr-diff/gr-diff.html">
+<link rel="import" href="./gr-diff-cursor.html">
+<link rel="import" href="./mock-diff-response_test.html">
+
+<test-fixture id="basic">
+  <template>
+    <mock-diff-response></mock-diff-response>
+    <gr-diff></gr-diff>
+    <gr-diff-cursor></gr-diff-cursor>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-cursor tests', function() {
+    var cursorElement;
+    var diffElement;
+    var mockDiffResponse;
+
+    setup(function(done) {
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(false); },
+      });
+
+      var fixtureElems = fixture('basic');
+      mockDiffResponse = fixtureElems[0];
+      diffElement = fixtureElems[1];
+      cursorElement = fixtureElems[2];
+
+      // Register the diff with the cursor.
+      cursorElement.push('diffs', diffElement);
+
+      diffElement.prefs = {
+        auto_hide_diff_table_header: true,
+        context: 10,
+        cursor_blink_rate: 0,
+        ignore_whitespace: "IGNORE_NONE",
+        intraline_difference: true,
+        line_length: 100,
+        show_line_endings: true,
+        show_tabs: true,
+        show_whitespace_errors: true,
+        syntax_highlighting: true,
+        tab_size: 8,
+        theme: "DEFAULT",
+      };
+
+      sinon.stub(diffElement, '_getDiff', function() {
+        return Promise.resolve(mockDiffResponse.diffResponse);
+      });
+
+      sinon.stub(diffElement, '_getDiffComments', function() {
+        return Promise.resolve({baseComments: [], comments: []});
+      });
+
+      sinon.stub(diffElement, '_getDiffDrafts', function() {
+        return Promise.resolve({baseComments: [], comments: []});
+      });
+
+      var setupDone = function() {
+        cursorElement.moveToFirstChunk();
+        done();
+        diffElement.removeEventListener('render', setupDone);
+      };
+      diffElement.addEventListener('render', setupDone);
+
+      diffElement.reload();
+    });
+
+    test('diff cursor functionality (side-by-side)', function() {
+      // The cursor has been initialized to the first delta.
+      assert.isOk(cursorElement.diffRow);
+
+      var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+
+      cursorElement.moveDown()
+
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);
+
+      cursorElement.moveUp();
+
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow.nextSibling);
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+    });
+
+    test('diff cursor functionality (unified)', function() {
+      diffElement.viewMode = 'UNIFIED_DIFF';
+      cursorElement.reInitCursor();
+
+      // The cursor has been initialized to the first delta.
+      assert.isOk(cursorElement.diffRow);
+
+      var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+
+      firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+
+      cursorElement.moveDown();
+
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);
+
+      cursorElement.moveUp();
+
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow.nextSibling);
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+    });
+
+
+    test('test cursor side functionality', function() {
+      // The side only applies to side-by-side mode, which should be the default
+      // mode.
+      assert.equal(diffElement.viewMode, 'SIDE_BY_SIDE');
+
+      var firstDeltaSection = diffElement.$$('.section.delta');
+      var firstDeltaRow = firstDeltaSection.querySelector('.diff-row');
+
+      // Because the first delta in this diff is on the right, it should be set
+      // to the right side.
+      assert.equal(cursorElement.side, 'right');
+      assert.equal(cursorElement.diffRow, firstDeltaRow);
+      var firstIndex = cursorElement.$.cursorManager.index;
+
+      // Move the side to the left. Because this delta only has a right side, we
+      // should be moved up to the previous line where there is content on the
+      // right. The previous row is part of the previous section.
+      cursorElement.moveLeft();
+
+      assert.equal(cursorElement.side, 'left');
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.equal(cursorElement.$.cursorManager.index, firstIndex - 1);
+      assert.equal(cursorElement.diffRow.parentElement,
+          firstDeltaSection.previousSibling);
+
+      // If we move down, we should skip everything in the first delta because
+      // we are on the left side and the first delta has no content on the left.
+      cursorElement.moveDown();
+
+      assert.equal(cursorElement.side, 'left');
+      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+      assert.isTrue(cursorElement.$.cursorManager.index > firstIndex);
+      assert.equal(cursorElement.diffRow.parentElement,
+          firstDeltaSection.nextSibling);
+    });
+
+    test('test chunk skip functionality', function() {
+      var chunks = Polymer.dom(diffElement.root).querySelectorAll(
+          '.section.delta');
+      var indexOfChunk = function(chunk) {
+        return Array.prototype.indexOf.call(chunks, chunk);
+      };
+
+      // We should be initialized to the first chunk. Since this chunk only has
+      // content on the right side, our side should be right.
+      var currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
+      assert.equal(currentIndex, 0);
+      assert.equal(cursorElement.side, 'right');
+
+      // Move to the next chunk.
+      cursorElement.moveToNextChunk();
+
+      // Since this chunk only has content on the left side. we should have been
+      // automatically mvoed over.
+      var previousIndex = currentIndex;
+      currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
+      assert.equal(currentIndex, previousIndex + 1);
+      assert.equal(cursorElement.side, 'left');
+    });
+  });
+</script>

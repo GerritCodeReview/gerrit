@@ -45,6 +45,29 @@
       "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_3662582f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:44:33Z",
+      "side": 1,
+      "message": "What do you mean by \"missing dependencies\" here? In particular, in your test, you trigger this case by deleting the target branch to which a dependent change belongs. That doesn\u0027t really sound like the dependency is \"missing\"",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 70
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

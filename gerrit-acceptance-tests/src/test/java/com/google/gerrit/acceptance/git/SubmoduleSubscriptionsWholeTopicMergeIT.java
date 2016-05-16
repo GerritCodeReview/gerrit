@@ -93,6 +93,71 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
+  public void testSubscriptionUpdateIncludingChangeInSuperproject() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+
+    ObjectId subHEAD = subRepo.branch("HEAD").commit().insertChangeId()
+        .message("some change")
+        .add("a.txt", "a contents ")
+        .create();
+    subRepo.git().push().setRemote("origin").setRefSpecs(
+          new RefSpec("HEAD:refs/heads/master")).call();
+
+    RevCommit c = subRepo.getRevWalk().parseCommit(subHEAD);
+
+    RevCommit c1 = subRepo.branch("HEAD").commit().insertChangeId()
+      .message("first change")
+      .add("asdf", "asdf\n")
+      .create();
+    subRepo.git().push().setRemote("origin")
+      .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+      .call();
+
+    subRepo.reset(c.getId());
+    RevCommit c2 = subRepo.branch("HEAD").commit().insertChangeId()
+      .message("qwerty")
+      .add("qwerty", "qwerty")
+      .create();
+
+    RevCommit c3 = subRepo.branch("HEAD").commit().insertChangeId()
+      .message("qwerty followup")
+      .add("qwerty", "qwerty\nqwerty\n")
+      .create();
+    subRepo.git().push().setRemote("origin")
+      .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+      .call();
+
+    RevCommit c4 = superRepo.branch("HEAD").commit().insertChangeId()
+        .message("new change on superproject")
+        .add("foo", "bar")
+        .create();
+    superRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .call();
+
+    String id1 = getChangeId(subRepo, c1).get();
+    String id2 = getChangeId(subRepo, c2).get();
+    String id3 = getChangeId(subRepo, c3).get();
+    String id4 = getChangeId(superRepo, c4).get();
+    gApi.changes().id(id1).current().review(ReviewInput.approve());
+    gApi.changes().id(id2).current().review(ReviewInput.approve());
+    gApi.changes().id(id3).current().review(ReviewInput.approve());
+    gApi.changes().id(id4).current().review(ReviewInput.approve());
+
+    gApi.changes().id(id1).current().submit();
+    ObjectId subRepoId = subRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subRepoId);
+  }
+
+  @Test
   public void testUpdateManySubmodules() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub1 = createProjectWithPush("sub1");

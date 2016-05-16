@@ -32,6 +32,9 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.SubmoduleSectionParser;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -71,7 +74,6 @@ public class SubmoduleOp {
   private final PersonIdent myIdent;
   private final GitReferenceUpdated gitRefUpdated;
   private final ProjectCache projectCache;
-  private final Set<Branch.NameKey> updatedSubscribers;
   private final Account account;
   private final ChangeHooks changeHooks;
   private final boolean verboseSuperProject;
@@ -97,7 +99,6 @@ public class SubmoduleOp {
         "verboseSuperprojectUpdate", true);
     this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
         "enableSuperProjectSubscriptions", true);
-    updatedSubscribers = new HashSet<>();
   }
 
   public Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
@@ -157,40 +158,58 @@ public class SubmoduleOp {
   }
 
   protected void updateSuperProjects(ReviewDb db,
-      Collection<Branch.NameKey> updatedBranches, String updateId,
-      MergeOpRepoManager orm) throws SubmoduleException {
+            Collection<Branch.NameKey> updatedBranches, String updateId,
+            MergeOpRepoManager orm) throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {
       logDebug("Updating superprojects disabled");
       return;
     }
     this.updateId = updateId;
     logDebug("Updating superprojects");
-    // These (repo/branch) will be updated later with all the given
-    // individual submodule subscriptions
+
     Multimap<Branch.NameKey, SubmoduleSubscription> targets =
         HashMultimap.create();
 
-    try {
-      for (Branch.NameKey updatedBranch : updatedBranches) {
-        for (SubmoduleSubscription sub :
-          superProjectSubscriptionsForSubmoduleBranch(updatedBranch, orm)) {
-          targets.put(sub.getSuperProject(), sub);
+    for (Branch.NameKey updatedBranch : updatedBranches) {
+      logDebug("Now processing " + updatedBranch);
+      Set<Branch.NameKey> checkedTargets = new HashSet<>();
+      Set<Branch.NameKey> targetsToProcess = new HashSet<>();
+      targetsToProcess.add(updatedBranch);
+
+      while (!targetsToProcess.isEmpty()) {
+        Set<Branch.NameKey> newTargets = new HashSet<>();
+        for (Branch.NameKey b : targetsToProcess) {
+          try {
+            Collection<SubmoduleSubscription> subs =
+                superProjectSubscriptionsForSubmoduleBranch(b, orm);
+            for (SubmoduleSubscription sub : subs) {
+              Branch.NameKey dst = sub.getSuperProject();
+              targets.put(dst, sub);
+              newTargets.add(dst);
+            }
+          } catch (IOException e) {
+            throw new SubmoduleException("Cannot find superprojects for" + b, e);
+          }
         }
+        logDebug("adding to done " + targetsToProcess);
+        checkedTargets.addAll(targetsToProcess);
+        logDebug("completely done with " + checkedTargets);
+
+        Set<Branch.NameKey> intersection = new HashSet<>(checkedTargets);
+        intersection.retainAll(newTargets);
+        if (!intersection.isEmpty()) {
+          throw new SubmoduleException("Possible circular subscription involving " + updatedBranch);
+        }
+
+        targetsToProcess = newTargets;
       }
-    } catch (IOException e) {
-      throw new SubmoduleException("Could not calculate all superprojects");
     }
-    updatedSubscribers.addAll(updatedBranches);
-    // Update subscribers.
-    for (Branch.NameKey dest : targets.keySet()) {
+
+    for (Branch.NameKey dst : targets.keySet()) {
       try {
-        if (!updatedSubscribers.add(dest)) {
-          log.error("Possible circular subscription involving " + dest);
-        } else {
-          updateGitlinks(db, dest, targets.get(dest), orm);
-        }
+        updateGitlinks(dst, targets.get(dst), orm);
       } catch (SubmoduleException e) {
-        log.warn("Cannot update gitlinks for " + dest, e);
+        throw new SubmoduleException("Cannot update gitlinks for " + dst, e);
       }
     }
   }
@@ -202,7 +221,7 @@ public class SubmoduleOp {
    * @param updates submodule updates which should be updated to.
    * @throws SubmoduleException
    */
-  private void updateGitlinks(ReviewDb db, Branch.NameKey subscriber,
+  private void updateGitlinks(Branch.NameKey subscriber,
       Collection<SubmoduleSubscription> updates, MergeOpRepoManager orm)
           throws SubmoduleException {
     PersonIdent author = null;
@@ -340,8 +359,6 @@ public class SubmoduleOp {
         default:
           throw new IOException(rfu.getResult().name());
       }
-      // Recursive call: update subscribers of the subscriber
-      updateSuperProjects(db, Sets.newHashSet(subscriber), updateId, orm);
     } catch (IOException e) {
       throw new SubmoduleException("Cannot update gitlinks for "
           + subscriber.get(), e);

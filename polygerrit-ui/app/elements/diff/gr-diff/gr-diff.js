@@ -134,6 +134,10 @@
           this._getCommentThreads(), this._focusedThread, -1);
     },
 
+    getCursorStops: function() {
+      return Polymer.dom(this.root).querySelectorAll('.diff-row');
+    },
+
     _advanceElementWithinNodeList: function(els, curIndex, direction) {
       var idx = Math.max(0, Math.min(els.length - 1, curIndex + direction));
       if (curIndex !== idx) {
@@ -338,6 +342,10 @@
     _showContext: function(group, sectionEl) {
       this._builder.emitGroup(group, sectionEl);
       sectionEl.parentNode.removeChild(sectionEl);
+
+      this.async(function() {
+        this.fire('render', null, {bubbles: false});
+      }.bind(this), 1);
     },
 
     _prefsChanged: function(prefsChangeRecord) {

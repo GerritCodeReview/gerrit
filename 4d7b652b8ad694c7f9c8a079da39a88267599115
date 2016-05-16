@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_d4c8bc69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-16T05:12:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_14af1490",
+      "revId": "4d7b652b8ad694c7f9c8a079da39a88267599115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_76e3f0ec",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 30,
         "endChar": 3
       },
+      "revId": "4d7b652b8ad694c7f9c8a079da39a88267599115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_f4c5b850",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-16T05:12:03Z",
+      "side": 1,
+      "message": "Eh; I\u0027m not going to at this point in time. Its in the commit message. I think its going to be useful, but I want to hold off on documenting until its proven its actually useful.",
+      "parentUuid": "37813ec9_76e3f0ec",
       "revId": "4d7b652b8ad694c7f9c8a079da39a88267599115",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

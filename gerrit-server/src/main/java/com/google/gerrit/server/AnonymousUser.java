@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
@@ -22,7 +21,6 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -40,11 +38,6 @@ public class AnonymousUser extends CurrentUser {
 
   @Override
   public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
-  }
-
-  @Override
-  public Collection<AccountProjectWatch> getNotificationFilters() {
     return Collections.emptySet();
   }
 

@@ -74,12 +74,22 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
       .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
       .call();
 
+    RevCommit c4 = superRepo.branch("HEAD").commit().insertChangeId()
+        .message("new change on superproject")
+        .add("foo", "bar")
+        .create();
+    superRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .call();
+
     String id1 = getChangeId(subRepo, c1).get();
     String id2 = getChangeId(subRepo, c2).get();
     String id3 = getChangeId(subRepo, c3).get();
+    String id4 = getChangeId(superRepo, c4).get();
     gApi.changes().id(id1).current().review(ReviewInput.approve());
     gApi.changes().id(id2).current().review(ReviewInput.approve());
     gApi.changes().id(id3).current().review(ReviewInput.approve());
+    gApi.changes().id(id4).current().review(ReviewInput.approve());
 
     gApi.changes().id(id1).current().submit();
     ObjectId subRepoId = subRepo.git().fetch().setRemote("origin").call()

@@ -1,0 +1,266 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f77a46a9_d4243c03",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Ok for now since this test already does it and this change is already pretty big, but in new code I recommend using the extension API rather than the REST API for tests.",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_5611149d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank comment lines.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_160b9c6f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "If that\u0027s the case, it\u0027s confusing to call it \"ref\", which implies that only ref names are valid. The technical term for the input here is a \"commit-ish\". I think \"source\" or \"commit\" would be ok alternatives.",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_944564a9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Not necessary to repeat \"merge strategy\" twice here.",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_36101897",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Maybe just \"strategy\" since merge is implied by the enclosing type?",
+      "range": {
+        "startLine": 26,
+        "startChar": 16,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_b442e09c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeableInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Same comment as in MergeInput",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_f42138f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "I think Merge{Conflict,IdenticalTree}Exception are supposed to have human-readable error messages, so you can probably pass e.getMessage() here.",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_54110c9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "The only place where you call this, you do:\n\n if (use default) {\n   mergeUtil.createMergeCommit(long list of args);\n } else {\n   MergeUtil.createMergeCommit(mergeUtil.mergeStrategyName(), other long list of args);\n }\n\nGiven that, I don\u0027t think it\u0027s actually making the code clearer to provide this as a separate non-static public method on MergeUtil.\n\nI think it would be less code overall to omit this method and just make one call at the call site:\n\n MergeUtil.createMergeCommit(mergeUtil.mergeStrategyName(), other long list of args);",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_f62140f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "I might use the merge(false, ...) form of this method to make it clear that you don\u0027t intend to flush.\n\n(newMerger actually uses a wrapped inserter that completely disables flushing, so this is already behaving correctly. It would just be a little easier to read.)",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_74168898",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Not necessary for v1 of this change, but it would be nice if you could include the failed paths. Users hate it when they get a merge conflict but don\u0027t know how the merge failed.\n\nThe JGit interface is not great here, I think you can only get the paths if m instanceof ResolveMerger.",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_b61bc8b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/MergeabilityCheck.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Most REST API handler names are of the form VerbNoun.",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_140b946f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/MergeabilityCheck.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Seems like these should all be private?",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_961ecca7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/MergeabilityCheck.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "Nit: Can be on same line",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_34101097",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/MergeabilityCheck.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:10:51Z",
+      "side": 1,
+      "message": "As with my comments in MergeUtil, it would be nice to eventually include failed paths here.",
+      "revId": "1c29b9005377f01ccdc5b5128a5e82467eba3612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

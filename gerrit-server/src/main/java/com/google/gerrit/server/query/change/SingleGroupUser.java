@@ -15,14 +15,12 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -47,11 +45,6 @@ public final class SingleGroupUser extends CurrentUser {
 
   @Override
   public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
-  }
-
-  @Override
-  public Collection<AccountProjectWatch> getNotificationFilters() {
     return Collections.emptySet();
   }
 }

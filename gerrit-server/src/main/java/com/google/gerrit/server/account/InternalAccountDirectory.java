@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
@@ -32,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
@@ -123,17 +122,34 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {
-        info.avatars = Lists.newArrayListWithCapacity(1);
-        String u = ap.getUrl(
-            userFactory.create(account.getId()),
-            AvatarInfo.DEFAULT_SIZE);
-        if (u != null) {
-          AvatarInfo a = new AvatarInfo();
-          a.url = u;
-          a.height = AvatarInfo.DEFAULT_SIZE;
-          info.avatars.add(a);
+        info.avatars = new ArrayList<>(2);
+        IdentifiedUser user = userFactory.create(account.getId());
+
+        // GWT UI uses the DEFAULT_SIZE (26).
+        addAvatar(ap, info, user, AvatarInfo.DEFAULT_SIZE);
+
+        // PolyGerrit UI prefers 32 and 100.
+        if (!info.avatars.isEmpty() && 32 != AvatarInfo.DEFAULT_SIZE) {
+          addAvatar(ap, info, user, 32);
+        }
+        if (!info.avatars.isEmpty() && 100 != AvatarInfo.DEFAULT_SIZE) {
+          addAvatar(ap, info, user, 100);
         }
       }
+    }
+  }
+
+  private static void addAvatar(
+      AvatarProvider provider,
+      AccountInfo info,
+      IdentifiedUser user,
+      int size) {
+    String url = provider.getUrl(user, size);
+    if (url != null) {
+      AvatarInfo a = new AvatarInfo();
+      a.url = url;
+      a.height = size;
+      info.avatars.add(a);
     }
   }
 }

@@ -199,9 +199,6 @@ public class IdentifiedUser extends CurrentUser {
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
 
-  @Nullable
-  private final Provider<ReviewDb> dbProvider;
-
   private final Account.Id accountId;
 
   private AccountState state;
@@ -237,7 +234,6 @@ public class IdentifiedUser extends CurrentUser {
     this.anonymousCowardName = anonymousCowardName;
     this.disableReverseDnsLookup = disableReverseDnsLookup;
     this.remotePeerProvider = remotePeerProvider;
-    this.dbProvider = dbProvider;
     this.accountId = id;
     this.realUser = realUser != null ? realUser : this;
   }

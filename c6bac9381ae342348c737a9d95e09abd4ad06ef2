@@ -16,6 +16,24 @@
       "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576a32da_f7f70099",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-16T08:05:15Z",
+      "side": 1,
+      "message": "Actually this test checks if you can push dependent changes when setCreateNewChangeForAllNotInTarget \u003d true, which was the reason why the old fix was reverted.\nIt\u0027s not my test actually, I stole it from Edwin who added it when he reverted an old fix on master in I0d6163ca4c656254a2c3dcdae6f996b1bf61b4a3 (should probably credit him...). It\u0027s a little bit of a mess since this revert was only done on master.",
+      "parentUuid": "37813ec9_3606d877",
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
@@ -32,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
@@ -123,17 +122,36 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {
-        info.avatars = Lists.newArrayListWithCapacity(1);
-        String u = ap.getUrl(
-            userFactory.create(account.getId()),
-            AvatarInfo.DEFAULT_SIZE);
-        if (u != null) {
-          AvatarInfo a = new AvatarInfo();
-          a.url = u;
-          a.height = AvatarInfo.DEFAULT_SIZE;
-          info.avatars.add(a);
+        info.avatars = new ArrayList<>(3);
+        IdentifiedUser user = userFactory.create(account.getId());
+
+        // GWT UI uses DEFAULT_SIZE (26px).
+        addAvatar(ap, info, user, AvatarInfo.DEFAULT_SIZE);
+
+        // PolyGerrit UI prefers 32px and 100px.
+        if (!info.avatars.isEmpty()) {
+          if (32 != AvatarInfo.DEFAULT_SIZE) {
+            addAvatar(ap, info, user, 32);
+          }
+          if (100 != AvatarInfo.DEFAULT_SIZE) {
+            addAvatar(ap, info, user, 100);
+          }
         }
       }
+    }
+  }
+
+  private static void addAvatar(
+      AvatarProvider provider,
+      AccountInfo account,
+      IdentifiedUser user,
+      int size) {
+    String url = provider.getUrl(user, size);
+    if (url != null) {
+      AvatarInfo avatar = new AvatarInfo();
+      avatar.url = url;
+      avatar.height = size;
+      account.avatars.add(avatar);
     }
   }
 }

@@ -57,6 +57,12 @@
 
     _buildAvatarURL: function(account) {
       if (!account) { return ''; }
+      var avatars = account.avatars || [];
+      for (var i = 0; i < avatars.length; i++) {
+        if (avatars[i].height === this.imageSize) {
+          return avatars[i].url;
+        }
+      }
       return '/accounts/' + account._account_id + '/avatar?s=' + this.imageSize;
     },
   });

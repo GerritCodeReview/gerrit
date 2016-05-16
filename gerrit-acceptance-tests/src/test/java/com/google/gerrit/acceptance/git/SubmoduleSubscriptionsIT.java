@@ -254,16 +254,15 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "subscribed-to-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
+    pushChangeTo(superRepo, "master");
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
     createSubmoduleSubscription(subRepo, "master", "super-project", "master");
 
-    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    pushChangeTo(subRepo, "master");
     pushChangeTo(superRepo, "master");
 
-    expectToHaveSubmoduleState(superRepo, "master",
-        "subscribed-to-project", subHEAD);
-
     assertThat(hasSubmodule(subRepo, "master", "super-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
   }
 
 

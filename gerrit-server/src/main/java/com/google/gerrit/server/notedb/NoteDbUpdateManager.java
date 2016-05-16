@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -33,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -82,8 +82,8 @@ public class NoteDbUpdateManager {
       this.close = close;
     }
 
-    ObjectId getObjectId(String refName) throws IOException {
-      return cmds.getObjectId(repo, refName);
+    Optional<ObjectId> getObjectId(String refName) throws IOException {
+      return cmds.get(refName);
     }
 
     @Override
@@ -107,6 +107,7 @@ public class NoteDbUpdateManager {
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private Map<Change.Id, NoteDbChangeState.Delta> staged;
+  private boolean checkExpectedState;
 
   @AssistedInject
   NoteDbUpdateManager(GitRepositoryManager repoManager,
@@ -137,6 +138,11 @@ public class NoteDbUpdateManager {
     return this;
   }
 
+  NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
+    this.checkExpectedState = checkExpectedState;
+    return this;
+  }
+
   OpenRepo getChangeRepo() throws IOException {
     initChangeRepo();
     return changeRepo;
@@ -163,7 +169,7 @@ public class NoteDbUpdateManager {
     Repository repo = repoManager.openRepository(p);
     ObjectInserter ins = repo.newObjectInserter();
     return new OpenRepo(repo, new RevWalk(ins.newReader()), ins,
-        new ChainedReceiveCommands(), true);
+        new ChainedReceiveCommands(repo), true);
   }
 
   private boolean isEmpty() {
@@ -222,6 +228,7 @@ public class NoteDbUpdateManager {
       if (!draftUpdates.isEmpty()) {
         initAllUsersRepo();
       }
+      checkExpectedState();
       addCommands();
 
       Table<Change.Id, Account.Id, ObjectId> allDraftIds = getDraftIds();
@@ -323,6 +330,62 @@ public class NoteDbUpdateManager {
     if (!draftUpdates.isEmpty()) {
       addUpdates(draftUpdates, allUsersRepo);
     }
+    checkExpectedState();
+  }
+
+  private void checkExpectedState() throws OrmException, IOException {
+    if (!checkExpectedState) {
+      return;
+    }
+
+    // Refuse to apply an update unless the state in NoteDb matches the state
+    // claimed in the ref. This means we may have failed a NoteDb ref update,
+    // and it would be incorrect to claim that the ref is up to date after this
+    // pipeline.
+    //
+    // Generally speaking, this case should be rare; in most cases, we should
+    // have detected and auto-fixed the stale state when creating ChangeNotes
+    // that got passed into the ChangeUpdate.
+    for (Collection<ChangeUpdate> us : changeUpdates.asMap().values()) {
+      ChangeUpdate u = us.iterator().next();
+      NoteDbChangeState expectedState = NoteDbChangeState.parse(u.getChange());
+
+      if (expectedState == null) {
+        // No previous state means we haven't previously written NoteDb graphs
+        // for this change yet. This means either:
+        //  - The change is new, and we'll be creating its ref.
+        //  - We short-circuited before adding any commands that update this
+        //    ref, and we won't stage a delta for this change either.
+        // Either way, it is safe to proceed here rather than throwing
+        // OrmConcurrencyException.
+        continue;
+      }
+
+      if (!expectedState.isChangeUpToDate(changeRepo.cmds)) {
+        throw new OrmConcurrencyException(String.format(
+            "cannot apply NoteDb updates for change %s;"
+            + " change meta ref does not match %s",
+            u.getId(), expectedState.getChangeMetaId().name()));
+      }
+    }
+
+    for (Collection<ChangeDraftUpdate> us : draftUpdates.asMap().values()) {
+      ChangeDraftUpdate u = us.iterator().next();
+      NoteDbChangeState expectedState = NoteDbChangeState.parse(u.getChange());
+
+      if (expectedState == null) {
+        continue; // See above.
+      }
+
+      Account.Id accountId = u.getAccountId();
+      if (!expectedState.areDraftsUpToDate(
+          allUsersRepo.cmds, accountId)) {
+        throw new OrmConcurrencyException(String.format(
+            "cannot apply NoteDb updates for change %s;"
+            + " draft ref for account %s does not match %s",
+            u.getId(), accountId, expectedState.getChangeMetaId().name()));
+      }
+    }
   }
 
   private static <U extends AbstractChangeUpdate> void addUpdates(
@@ -331,8 +394,7 @@ public class NoteDbUpdateManager {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
-      ObjectId old = firstNonNull(
-          or.cmds.getObjectId(or.repo, refName), ObjectId.zeroId());
+      ObjectId old = or.cmds.get(refName).or(ObjectId.zeroId());
       // Only actually write to the ref if one of the updates explicitly allows
       // us to do so, i.e. it is known to represent a new change. This avoids
       // writing partial change meta if the change hasn't been backfilled yet.

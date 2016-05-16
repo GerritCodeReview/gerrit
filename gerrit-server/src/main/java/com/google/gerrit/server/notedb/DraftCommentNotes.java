@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -51,7 +52,6 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   private final Change change;
   private final Account.Id author;
-  private final boolean autoRebuild;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private RevisionNoteMap revisionNoteMap;
@@ -69,10 +69,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Args args,
       @Assisted Change.Id changeId,
       @Assisted Account.Id author) {
-    super(args, changeId);
+    super(args, changeId, true);
     this.change = null;
     this.author = author;
-    this.autoRebuild = true;
   }
 
   DraftCommentNotes(
@@ -80,10 +79,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Change change,
       Account.Id author,
       boolean autoRebuild) {
-    super(args, change.getId());
+    super(args, change.getId(), autoRebuild);
     this.change = change;
     this.author = author;
-    this.autoRebuild = autoRebuild;
   }
 
   RevisionNoteMap getRevisionNoteMap() {
@@ -152,7 +150,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       // Only check if this particular user's drafts are up to date, to avoid
       // reading unnecessary refs.
-      if (state == null || !state.areDraftsUpToDate(repo, author)) {
+      if (!NoteDbChangeState.areDraftsUpToDate(
+          state, new RepoRefCache(repo), getChangeId(), author)) {
         return rebuildAndOpen(repo);
       }
     }

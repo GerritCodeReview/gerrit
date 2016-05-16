@@ -32,6 +32,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -71,6 +72,7 @@ public class SubmoduleOp {
   private final PersonIdent myIdent;
   private final GitReferenceUpdated gitRefUpdated;
   private final ProjectCache projectCache;
+  private final ProjectState.Factory projectStateFactory;
   private final Set<Branch.NameKey> updatedSubscribers;
   private final Account account;
   private final ChangeHooks changeHooks;
@@ -85,12 +87,14 @@ public class SubmoduleOp {
       @GerritServerConfig Config cfg,
       GitReferenceUpdated gitRefUpdated,
       ProjectCache projectCache,
+      ProjectState.Factory projectStateFactory,
       @Nullable Account account,
       ChangeHooks changeHooks) {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.gitRefUpdated = gitRefUpdated;
     this.projectCache = projectCache;
+    this.projectStateFactory = projectStateFactory;
     this.account = account;
     this.changeHooks = changeHooks;
     this.verboseSuperProject = cfg.getBoolean("submodule",
@@ -143,7 +147,8 @@ public class SubmoduleOp {
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey project = branch.getParentKey();
     ProjectConfig cfg = projectCache.get(project).getConfig();
-    for (SubscribeSection s : cfg.getSubscribeSections(branch)) {
+    ProjectState state = projectStateFactory.create(cfg);
+    for (SubscribeSection s : state.getSubscribeSections(branch)) {
       Collection<Branch.NameKey> branches =
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {

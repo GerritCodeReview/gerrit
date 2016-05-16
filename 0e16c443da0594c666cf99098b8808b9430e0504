@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "523080cd_c796fe4b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-16T17:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9bb78c_e117e692",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 432,
+        "endChar": 71
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad987b90_e27c86dc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_f4d4d8cb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-16T17:37:21Z",
+      "side": 1,
+      "message": "Nice suggestion! This will indeed trigger the IndexOutOfBoundary Exception too!\n\nI changed the test case to this situation since it is a much more common situation.",
+      "parentUuid": "ad987b90_e27c86dc",
+      "range": {
+        "startLine": 434,
+        "startChar": 3,
+        "endLine": 438,
+        "endChar": 17
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_3662582f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2016-05-16T16:44:33Z",
       "side": 1,
       "message": "What do you mean by \"missing dependencies\" here? In particular, in your test, you trigger this case by deleting the target branch to which a dependent change belongs. That doesn\u0027t really sound like the dependency is \"missing\"",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 70
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_d6d764ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-16T17:37:21Z",
+      "side": 1,
+      "message": "The reason I called it \"missing dependencies\" is because the root cause  is in the MergeSorter.sort() function the commit status is MISSING_DEPENDENCY. \n\nAnd deleting the target branch is one of the situation I encountered to reproduce this bug. IMO deleted dependency is a special case of missing dependency. As David P. suggested:push a draft change, then push a open change, delete the draft change, try to submit the open change will also produce this bug. I\u0027ve added the test case to this in the latest patch set.",
+      "parentUuid": "37813ec9_3662582f",
       "range": {
         "startLine": 41,
         "startChar": 31,

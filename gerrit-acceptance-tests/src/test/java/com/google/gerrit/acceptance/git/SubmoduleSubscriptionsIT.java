@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -296,6 +297,21 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
     allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/wrong-branch");
+
+    pushChangeTo(subRepo, "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    pushChangeTo(subRepo, "master");
+    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+  }
+
+  @Test
+  public void testSubscriptionInheritACL() throws Exception {
+    createProjectWithPush("config-repo");
+    TestRepository<?> superRepo = createProjectWithPush("super-project",
+        new Project.NameKey(name("config-repo")));
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("config-repo", "refs/heads/master",
         "super-project", "refs/heads/wrong-branch");
 
     pushChangeTo(subRepo, "master");

@@ -161,6 +161,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity, null, null);
     saveCookie();
+    user = identified.create(val.getAccountId());
   }
 
   /** Set the user account for this current request only. */
@@ -178,6 +179,7 @@ public abstract class CacheBasedWebSession implements WebSession {
       key = null;
       val = null;
       saveCookie();
+      user = anonymousProvider.get();
     }
   }
 

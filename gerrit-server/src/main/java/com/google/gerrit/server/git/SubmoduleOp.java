@@ -183,8 +183,9 @@ public class SubmoduleOp {
     }
   }
 
-  protected void updateSuperProjects(ReviewDb db,
-      Collection<Branch.NameKey> updatedBranches) throws SubmoduleException {
+  private void updateSuperProjects(ReviewDb db,
+      Collection<Branch.NameKey> updatedBranches, boolean firstcall)
+          throws SubmoduleException {
     try {
       // These (repo/branch) will be updated later with all the given
       // individual submodule subscriptions
@@ -197,12 +198,15 @@ public class SubmoduleOp {
           targets.put(sub.getSuperProject(), sub);
         }
       }
-      updatedSubscribers.addAll(updatedBranches);
       // Update subscribers.
       for (Branch.NameKey dest : targets.keySet()) {
         try {
           if (!updatedSubscribers.add(dest)) {
-            log.error("Possible circular subscription involving " + dest);
+            if (firstcall) {
+              updateGitlinks(db, dest, targets.get(dest));
+            } else {
+              log.error("Possible circular subscription involving " + dest);
+            }
           } else {
             updateGitlinks(db, dest, targets.get(dest));
           }
@@ -213,6 +217,11 @@ public class SubmoduleOp {
     } catch (OrmException e) {
       logAndThrowSubmoduleException("Cannot read subscription records", e);
     }
+  }
+
+  protected void updateSuperProjects(ReviewDb db,
+      Collection<Branch.NameKey> updatedBranches) throws SubmoduleException {
+    updateSuperProjects(db, updatedBranches, true);
   }
 
   /**
@@ -340,7 +349,7 @@ public class SubmoduleOp {
           throw new IOException(rfu.getResult().name());
       }
       // Recursive call: update subscribers of the subscriber
-      updateSuperProjects(db, Sets.newHashSet(subscriber));
+      updateSuperProjects(db, Sets.newHashSet(subscriber), false);
     } catch (IOException e) {
       throw new SubmoduleException("Cannot update gitlinks for "
           + subscriber.get(), e);

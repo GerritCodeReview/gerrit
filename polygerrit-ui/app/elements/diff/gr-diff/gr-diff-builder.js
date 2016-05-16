@@ -401,8 +401,12 @@
     return threadEl;
   };
 
-  GrDiffBuilder.prototype._createLineEl = function(line, number, type) {
+  GrDiffBuilder.prototype._createLineEl = function(line, number, type,
+      opt_side) {
     var td = this._createElement('td');
+    if (opt_side) {
+      td.classList.add(opt_side);
+    }
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {

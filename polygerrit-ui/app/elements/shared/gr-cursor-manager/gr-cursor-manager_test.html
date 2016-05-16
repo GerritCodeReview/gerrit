@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-cursor-manager</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-cursor-manager.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-cursor-manager
+        cursor-stop-selector="li"
+        cursor-target-class="targeted"></gr-cursor-manager>
+    <ul>
+      <li>A</li>
+      <li>B</li>
+      <li>C</li>
+      <li>D</li>
+    </ul>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-cursor-manager tests', function() {
+    var element;
+    var list;
+
+    setup(function() {
+      var fixtureElements = fixture('basic');
+      element = fixtureElements[0];
+      list = fixtureElements[1];
+    });
+
+    test('core cursor functionality', function() {
+      // The element is initialized into the proper state.
+      assert.isArray(element.stops);
+      assert.equal(element.stops.length, 0);
+      assert.equal(element.index, -1);
+      assert.isNotOk(element.target);
+
+      // Initialize the cursor with its stops.
+      element.stops = list.querySelectorAll('li');
+
+      // It should have the stops but it should not be targeting any of them.
+      assert.isNotNull(element.stops);
+      assert.equal(element.stops.length, 4);
+      assert.equal(element.index, -1);
+      assert.isNotOk(element.target);
+
+      // Select the third stop.
+      element.setCursor(list.children[2]);
+
+      // It should update its internal state and update the element's class.
+      assert.equal(element.index, 2);
+      assert.equal(element.target, list.children[2]);
+      assert.isTrue(list.children[2].classList.contains('targeted'));
+      assert.isFalse(element.isAtStart());
+      assert.isFalse(element.isAtEnd());
+
+      // Progress the cursor.
+      element.next();
+
+      // Confirm that the next stop is selected and that the previous stop is
+      // unselected.
+      assert.equal(element.index, 3);
+      assert.equal(element.target, list.children[3]);
+      assert.isTrue(element.isAtEnd());
+      assert.isFalse(list.children[2].classList.contains('targeted'));
+      assert.isTrue(list.children[3].classList.contains('targeted'));
+
+      // Progress the cursor.
+      element.next();
+
+      // We should still be at the end.
+      assert.equal(element.index, 3);
+      assert.equal(element.target, list.children[3]);
+      assert.isTrue(element.isAtEnd());
+
+      // Wind the cursor all the way back to the first stop.
+      element.previous();
+      element.previous();
+      element.previous();
+
+      // The element state should reflect the end of the list.
+      assert.equal(element.index, 0);
+      assert.equal(element.target, list.children[0]);
+      assert.isTrue(element.isAtStart());
+      assert.isTrue(list.children[0].classList.contains('targeted'));
+
+      var newLi = document.createElement('li');
+      newLi.textContent = 'Z';
+      list.insertBefore(newLi, list.children[0]);
+      element.stops = list.querySelectorAll('li');
+
+      assert.equal(element.index, 1);
+
+      // De-select all targets.
+      element.unsetCursor();
+
+      // There should now be no cursor target.
+      assert.isFalse(list.children[1].classList.contains('targeted'));
+      assert.isNotOk(element.target);
+      assert.equal(element.index, -1);
+    });
+  });
+</script>

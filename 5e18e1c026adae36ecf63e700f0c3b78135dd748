@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f77a46a9_f49cd86a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-16T03:18:35Z",
+      "side": 1,
+      "message": "You’re not getting much from putting this in a var.",
+      "revId": "5e18e1c026adae36ecf63e700f0c3b78135dd748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_16af1c90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-16T03:18:35Z",
+      "side": 1,
+      "message": "var avatars \u003d account.avatars || [];\nfor (var i \u003d 0; i \u003c avatars.length; i++) {\n  if (avatars[i].height \u003d\u003d\u003d this.imageSize) {\n    return avatars[i].url;\n  }\n}",
+      "revId": "5e18e1c026adae36ecf63e700f0c3b78135dd748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_b4a660bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-16T03:18:35Z",
+      "side": 1,
+      "message": "Iterating over arrays using `in` is bad because it iterates over every property in the prototype. So if an ES6 polyfill added something like Array.prototype.map, then you’re gonna have a bad time. (https://google.github.io/styleguide/javascriptguide.xml?showone\u003dfor-in_loop#for-in_loop)",
+      "revId": "5e18e1c026adae36ecf63e700f0c3b78135dd748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

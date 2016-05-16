@@ -11,6 +11,7 @@ Version 2.12.x
 [[2_11]]
 Version 2.11.x
 --------------
+* link:ReleaseNotes-2.11.9.html[2.11.9]
 * link:ReleaseNotes-2.11.8.html[2.11.8]
 * link:ReleaseNotes-2.11.7.html[2.11.7]
 * link:ReleaseNotes-2.11.6.html[2.11.6]

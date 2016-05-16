@@ -1,0 +1,51 @@
+Release notes for Gerrit 2.11.9
+===============================
+
+Gerrit 2.11.9 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.9.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.9.war]
+
+There are no schema changes from link:ReleaseNotes-2.11.8.html[2.11.8].
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=4070[Issue 4070]:
+Don't return current patch set in queries if the current patch set is not
+visible.
++
+When querying changes with the `gerrit query` ssh command, and passing the
+`--current-patch-set` option, the current patch set was included even when
+it is not visible to the caller (for example when the patch set is a draft,
+and the caller cannot see drafts).
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3970[Issue 3970]:
+Fix keyboard shortcuts for special processing of CTRL and META.
++
+The processing of CTRL and META was incorrectly removed in Gerrit version
+2.11.8, resulting in shortcuts like 'STRG+T' being interpreted as 'T'.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=4056[Issue 4056]:
+Fix download URLs for BouncyCastle libraries.
++
+The location of the libraries was moved, so the download URLs are updated
+accordingly.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=4055[Issue 4055]:
+Fix subject for 'Updated Changes' lines on push.
++
+When a change was updated it showed the subject from the previous patch set
+instead of the subject from the new current patch set.
+
+* Fix incorrect loading of access sections in `project.config` files.
+
+* Fix internal server error when `auth.userNameToLowerCase` is enabled
+and the auth backend does not provide the username.
+
+* Fix error reindexing changes when a change no longer exists.
+
+* Fix internal server error when loading submit rules.
+
+* Fix internal server error when parsing tracking footers from commit
+messages.

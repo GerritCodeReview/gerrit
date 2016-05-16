@@ -34,6 +34,86 @@
       "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_f6538058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:52:51Z",
+      "side": 1,
+      "message": "Nit: space after ;",
+      "range": {
+        "startLine": 1605,
+        "startChar": 58,
+        "endLine": 1605,
+        "endChar": 60
+      },
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_96500c4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1629,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:52:51Z",
+      "side": 1,
+      "message": "Long line. Maybe factor out a RevId variable or something?",
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_56c4b420",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1631,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:52:51Z",
+      "side": 1,
+      "message": "It is extremely non-obvious what this case means, we need some more documentation here. How did we get here? What does this mean?\n\nSomething about how itr.remove() was called N-1 times...but then I had to go back and see what the original order of the pending list was.",
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_76c9b035",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1632,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:52:51Z",
+      "side": 1,
+      "message": "In the bug reports we got where push broke due to the regression, people were very confused by the text of this message. There is already Documentation/error-commit-already-exists.txt, but it does not mention the createNewChange option nor %base.",
+      "range": {
+        "startLine": 1632,
+        "startChar": 39,
+        "endLine": 1632,
+        "endChar": 84
+      },
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

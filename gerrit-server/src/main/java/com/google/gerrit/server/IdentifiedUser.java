@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
@@ -34,28 +33,23 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -184,9 +178,6 @@ public class IdentifiedUser extends CurrentUser {
     }
   }
 
-  private static final Logger log =
-      LoggerFactory.getLogger(IdentifiedUser.class);
-
   private static final GroupMembership registeredGroups =
       new ListGroupMembership(ImmutableSet.of(
           SystemGroupBackend.ANONYMOUS_USERS,
@@ -219,8 +210,8 @@ public class IdentifiedUser extends CurrentUser {
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
   private ResultSet<Change.Id> starredQuery;
-  private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
+  private Map<PropertyKey<Object>, Object> properties;
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
@@ -256,7 +247,6 @@ public class IdentifiedUser extends CurrentUser {
     return realUser;
   }
 
-  // TODO(cranger): maybe get the state through the accountCache instead.
   public AccountState state() {
     if (state == null) {
       state = accountCache.get(getAccountId());
@@ -374,29 +364,6 @@ public class IdentifiedUser extends CurrentUser {
     }
   }
 
-  private void checkRequestScope() {
-    if (dbProvider == null) {
-      throw new OutOfScopeException("Not in request scoped user");
-    }
-  }
-
-  @Override
-  public Collection<AccountProjectWatch> getNotificationFilters() {
-    if (notificationFilters == null) {
-      checkRequestScope();
-      List<AccountProjectWatch> r;
-      try {
-        r = dbProvider.get().accountProjectWatches() //
-            .byAccount(getAccountId()).toList();
-      } catch (OrmException e) {
-        log.warn("Cannot query notification filters of a user", e);
-        r = Collections.emptyList();
-      }
-      notificationFilters = Collections.unmodifiableList(r);
-    }
-    return notificationFilters;
-  }
-
   public PersonIdent newRefLogIdent() {
     return newRefLogIdent(new Date(), TimeZone.getDefault());
   }
@@ -485,6 +452,41 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public boolean isIdentifiedUser() {
     return true;
+  }
+
+  @Override
+  @Nullable
+  public synchronized <T> T get(PropertyKey<T> key) {
+    if (properties != null) {
+      @SuppressWarnings("unchecked")
+      T value = (T) properties.get(key);
+      return value;
+    }
+    return null;
+  }
+
+  /**
+   * Store a property for later retrieval.
+   *
+   * @param key unique property key.
+   * @param value value to store; or {@code null} to clear the value.
+   */
+  @Override
+  public synchronized <T> void put(PropertyKey<T> key, @Nullable T value) {
+    if (properties == null) {
+      if (value == null) {
+        return;
+      }
+      properties = new HashMap<>();
+    }
+
+    @SuppressWarnings("unchecked")
+    PropertyKey<Object> k = (PropertyKey<Object>) key;
+    if (value != null) {
+      properties.put(k, value);
+    } else {
+      properties.remove(k);
+    }
   }
 
   private String getHost(final InetAddress in) {

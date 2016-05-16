@@ -17,6 +17,24 @@
       "revId": "9e6f1319b29719bb03709c585bfec9e98f7a37ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_94932409",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-16T19:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7d28ee5_7291d854",
+      "revId": "9e6f1319b29719bb03709c585bfec9e98f7a37ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

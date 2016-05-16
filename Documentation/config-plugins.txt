@@ -122,8 +122,6 @@ there are some public services that offer the download of pre-built
 plugin jars:
 
 * link:https://gerrit-ci.gerritforge.com[CI Server from GerritForge]
-* link:http://builds.quelltextlich.at/gerrit/nightly/index.html[
-  CI Server from Quelltextlich]
 
 The following list gives an overview about available plugins, but the
 list may not be complete. You may discover more plugins on

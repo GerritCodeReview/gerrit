@@ -124,7 +124,7 @@ public abstract class AbstractChangeNotes<T> {
     }
     boolean read = args.migration.readChanges();
     boolean readOrWrite = read || args.migration.writeChanges();
-    if (!readOrWrite || !autoRebuild) {
+    if (!readOrWrite && !autoRebuild) {
       loadDefaults();
       return self();
     }

@@ -579,6 +579,30 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(notes.getChange().getSubject()).isEqualTo(PushOneCommit.SUBJECT);
   }
 
+  @Test
+  public void createWithAutoRebuildingDisabled() throws Exception {
+    ReviewDb oldDb = db;
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    ChangeNotes oldNotes = notesFactory.create(db, project, id);
+
+    // Make a ReviewDb change behind NoteDb's back.
+    Change c = oldDb.changes().get(id);
+    assertThat(c.getTopic()).isNull();
+    String topic = name("a-topic");
+    c.setTopic(topic);
+    oldDb.changes().update(Collections.singleton(c));
+
+    c = oldDb.changes().get(c.getId());
+    ChangeNotes newNotes =
+        notesFactory.createWithAutoRebuildingDisabled(c, null);
+    assertThat(newNotes.getChange().getTopic()).isNotEqualTo(topic);
+    assertThat(newNotes.getChange().getTopic())
+        .isEqualTo(oldNotes.getChange().getTopic());
+  }
+
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
     ReviewDb db = unwrapDb();
     Change c = db.changes().get(id);

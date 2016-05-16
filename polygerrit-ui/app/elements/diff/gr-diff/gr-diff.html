@@ -43,6 +43,14 @@ limitations under the License.
       .section {
         background-color: #eee;
       }
+      .diff-row.target-row {
+        outline: .2em solid #ddd;
+      }
+      .diff-row.target-row.target-side-left .lineNum.left,
+      .diff-row.target-row.target-side-right .lineNum.right,
+      .diff-row.target-row.unified .lineNum {
+        background-color: #ccc;
+      }
       .blank,
       .content {
         background-color: #fff;

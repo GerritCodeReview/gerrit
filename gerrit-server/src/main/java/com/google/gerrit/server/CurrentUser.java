@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -33,6 +32,16 @@ import java.util.Set;
  * @see IdentifiedUser
  */
 public abstract class CurrentUser {
+  /** Unique key for plugin/extension specific data on a CurrentUser. */
+  public static final class PropertyKey<T> {
+    public static <T> PropertyKey<T> create() {
+      return new PropertyKey<>();
+    }
+
+    private PropertyKey() {
+    }
+  }
+
   private final CapabilityControl.Factory capabilityControlFactory;
   private AccessPath accessPath = AccessPath.UNKNOWN;
 
@@ -82,9 +91,6 @@ public abstract class CurrentUser {
   @Deprecated
   public abstract Set<Change.Id> getStarredChanges();
 
-  /** Filters selecting changes the user wants to monitor. */
-  public abstract Collection<AccountProjectWatch> getNotificationFilters();
-
   /** Unique name of the user on this server, if one has been assigned. */
   public String getUserName() {
     return null;
@@ -118,5 +124,25 @@ public abstract class CurrentUser {
   /** Check if the CurrentUser is an InternalUser. */
   public boolean isInternalUser() {
     return false;
+  }
+
+  /**
+   * Lookup a previously stored property.
+   *
+   * @param key unique property key.
+   * @return previously stored value, or {@code null}.
+   */
+  @Nullable
+  public <T> T get(PropertyKey<T> key) {
+    return null;
+  }
+
+  /**
+   * Store a property for later retrieval.
+   *
+   * @param key unique property key.
+   * @param value value to store; or {@code null} to clear the value.
+   */
+  public <T> void put(PropertyKey<T> key, @Nullable T value) {
   }
 }

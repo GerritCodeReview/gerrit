@@ -41,7 +41,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -76,7 +75,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -912,11 +910,6 @@ public class RefControlTest {
 
     @Override
     public Set<Change.Id> getStarredChanges() {
-      return Collections.emptySet();
-    }
-
-    @Override
-    public Collection<AccountProjectWatch> getNotificationFilters() {
       return Collections.emptySet();
     }
   }

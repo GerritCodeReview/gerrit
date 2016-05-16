@@ -90,7 +90,7 @@
     },
 
     _computeLabelValueTitle: function(labels, label, value) {
-      return labels[label].values[value];
+      return labels[label] && labels[label].values[value];
     },
 
     _computeLabelArray: function(labelsObj) {

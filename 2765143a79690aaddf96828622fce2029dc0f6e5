@@ -1,0 +1,294 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37813ec9_7668d00e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: space after +",
+      "range": {
+        "startLine": 162,
+        "startChar": 45,
+        "endLine": 162,
+        "endChar": 46
+      },
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_1484f4e5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/ProjectAccessInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Maybe \"add\" and \"remove\"?",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_3689f8fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_3489f0fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: space before (",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 301,
+        "endChar": 7
+      },
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_d46d1c25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: start the block on a new line, even for one line blocks.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_f46a980a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: newlines",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_9477a4f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_7468c80e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "As a general guideline on structure of this method, I would recommend doing all validation first, then doing all update operations.\n\nThe main reason for this is we don\u0027t want to partially apply an update and then later on find that there was something wrong with an input. In this particular case, it looks like there are no side effects interspersed with the validation, so I don\u0027t think there\u0027s a risk of partial updates. However, I had to read through 100 lines of code to verify that that was the case.\n\nAnother side benefit is doing validation first may make it easier to refactor this method into some smaller parts.\n\nThe main downside is with this nested input structure, you will have to repeat some iteration logic. But I don\u0027t think it\u0027ll be that bad.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_b47420ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Use a descriptive message.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_d66d2425",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Include the name so they know which one is wrong.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_54634c35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Missing a space here",
+      "range": {
+        "startLine": 174,
+        "startChar": 18,
+        "endLine": 174,
+        "endChar": 20
+      },
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_f66aa00a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: Indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_145dd467",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Move this before the allocation",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_3462502f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: Indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_9677acf1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "Nit: Indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37813ec9_56635435",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-16T16:41:06Z",
+      "side": 1,
+      "message": "You wan to do the cache eviction before firing the hooks, as hook code might want to read the project from the cache.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
